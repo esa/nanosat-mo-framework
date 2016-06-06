@@ -153,10 +153,14 @@ e.	The capability for maintaining the list of nearby position events.
 			<mal:capabilitySet comment="" number="1">
 				<mal:requestIP comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS." name="getNMEASentence" number="1" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment=""/>
+						<mal:request comment="">
+							<mal:field comment="" name="sentenceIdentifier">
+								<mal:type area="MAL" list="false" name="String"/>
+							</mal:field>
+						</mal:request>
 						<mal:response comment="">
-							<mal:field canBeNull="true" comment="The gpsSatellitesInfo field shall hold the information of the satellites." name="getNMEASentence">
-								<mal:type area="Platform" list="true" name="SatelliteInfo" service="GPS"/>
+							<mal:field comment="" name="sentence">
+								<mal:type area="MAL" list="false" name="String"/>
 							</mal:field>
 						</mal:response>
 					</mal:messages>
@@ -373,7 +377,7 @@ e.	The capability for maintaining the list of nearby position events.
 							<mal:field canBeNull="true" comment="" name="streamingRate">
 								<mal:type area="MAL" list="false" name="Duration"/>
 							</mal:field>
-							<mal:field comment="" name="referenceFrame">
+							<mal:field canBeNull="true" comment="" name="referenceFrame">
 								<mal:type area="Platform" list="false" name="ReferenceFrame" service="FineADCS"/>
 							</mal:field>
 						</mal:submit>
@@ -590,27 +594,6 @@ e.	The capability for maintaining the list of nearby position events.
 					</mal:field>
 				</mal:composite>
 			</mal:dataTypes>
-		</mal:service>
-		<mal:service comment="The Heartbeat service publishes a heart beat message periodically. Additionally it is possible to get the implementation-specific period." name="Heartbeat" number="8" xsi:type="com:ExtendedServiceType">
-			<mal:capabilitySet comment="" number="1">
-				<mal:pubsubIP comment="" name="publishedHeartbeat" number="1" supportInReplay="false">
-					<mal:messages>
-						<mal:publishNotify comment=""/>
-					</mal:messages>
-				</mal:pubsubIP>
-			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="2">
-				<mal:requestIP comment="" name="getPeriod" number="2" supportInReplay="false">
-					<mal:messages>
-						<mal:request comment=""/>
-						<mal:response comment="">
-							<mal:field canBeNull="true" comment="" name="period">
-								<mal:type area="MAL" list="false" name="Duration"/>
-							</mal:field>
-						</mal:response>
-					</mal:messages>
-				</mal:requestIP>
-			</mal:capabilitySet>
 		</mal:service>
 		<mal:dataTypes>
 		</mal:dataTypes>
