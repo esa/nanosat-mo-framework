@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.dlr.de/gsoc/mo/malspp">
+	<app apidQualifier="247" apid="1">
+		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+		<!--
+		<authenticationId>0001</authenticationId>
+		<domain />
+		<networkZone />
+		<priority />
+		<sessionName />
+		-->
+	</app>
+
+	<app apidQualifier="248" apid="2">
+		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+		<authenticationId>0A0B0C</authenticationId>
+		<domain>malspp.test.domain</domain>
+		<networkZone>malsppTestNw</networkZone>
+		<priority>4294967295</priority>
+		<sessionName>malsppTestSession</sessionName>
+	</app>
+	
+	<app apidQualifier="347" apid="3">
+		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+		<authenticationId>0A0B0C</authenticationId>
+		<domain>malspp.test.domain</domain>
+		<networkZone>malsppTestNw</networkZone>
+		<priority>4294967295</priority>
+		<sessionName>malsppTestSession</sessionName>
+	</app>
+
+	<app apidQualifier="447" apid="5">
+		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+		<authenticationId>0A0B0C</authenticationId>
+		<domain>malspp.test.domain</domain>
+		<networkZone>malsppTestNw</networkZone>
+		<priority>4294967295</priority>
+		<sessionName>malsppTestSession</sessionName>
+	</app>
+
+	<app apidQualifier="547" apid="7">
+		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+		<authenticationId>0A0B0C</authenticationId>
+		<domain>malspp.test.domain</domain>
+		<networkZone>malsppTestNw</networkZone>
+		<priority>4294967295</priority>
+		<sessionName>malsppTestSession</sessionName>
+	</app>
+
+	<app apidQualifier="348" apid="4">
+		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
+		<varintSupported>false</varintSupported>
+		<time>
+			<format unit="second">01001110</format>
+			<epoch scale="UTC">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">01001110</format>
+			<epoch scale="UTC">2012-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011111</format>
+		</duration>
+		<authenticationId>0A0B0C</authenticationId>
+		<domain>malspp.test.domain</domain>
+		<networkZone>malsppTestNw</networkZone>
+		<priority>4294967295</priority>
+		<sessionName>malsppTestSession</sessionName>
+	</app>
+	
+	<app apidQualifier="647" apid="1">
+		<packetDataFieldSizeLimit>27</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+	</app>
+
+	<app apidQualifier="648" apid="2">
+		<packetDataFieldSizeLimit>27</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+	</app>
+
+	<app apidQualifier="647" apid="3">
+		<packetDataFieldSizeLimit>200</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+	</app>
+	
+	<app apidQualifier="648" apid="4">
+		<packetDataFieldSizeLimit>200</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+	</app>
+
+	<app apidQualifier="123" apid="123">
+		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
+		<varintSupported>true</varintSupported>
+		<time>
+			<format unit="second">00011111</format>
+			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">1010111100001000</format>
+			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00011100</format>
+		</duration>
+		<authenticationId>0A0B0C</authenticationId>
+		<domain>malspp.test.domain</domain>
+		<networkZone>malsppTestNw</networkZone>
+		<priority>4294967295</priority>
+		<sessionName>malsppTestSession</sessionName>
+	</app>
+</config>

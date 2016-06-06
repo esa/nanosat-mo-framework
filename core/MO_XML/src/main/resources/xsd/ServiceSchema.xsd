@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ccsds.org/schema/ServiceSchema"
+            xmlns:mal="http://www.ccsds.org/schema/ServiceSchema"
+            elementFormDefault="qualified">
+
+  <xsd:element name="specification" type="mal:SpecificationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Root node of the document.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:unique name="areaNameCheck">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">Ensures that Area names are unique.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:selector xpath="mal:area"/>
+      <xsd:field    xpath="@name"/>
+    </xsd:unique>
+    <xsd:unique name="areaNumberCheck">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">Ensures that Area numbers are unique.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:selector xpath="mal:area"/>
+      <xsd:field    xpath="@number"/>
+    </xsd:unique>
+    <xsd:unique name="typeName">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">Ensures that Type names are unique.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:selector xpath=".//mal:fundamental|.//mal:composite|.//mal:attribute|.//mal:enumeration"/>
+      <xsd:field    xpath="@name"/>
+    </xsd:unique>
+    <xsd:unique name="errorName">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">Ensures that error names are unique.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:selector xpath=".//mal:error"/>
+      <xsd:field    xpath="@name"/>
+    </xsd:unique>
+    <xsd:unique name="errorNumberCheck">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">Ensures that Error numbers are unique.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:selector xpath=".//mal:error"/>
+      <xsd:field    xpath="@number"/>
+    </xsd:unique>
+  </xsd:element>
+
+  <xsd:complexType name="SpecificationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Top level element that contains one or more Area specifications.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="area" type="mal:AreaType" minOccurs="0" maxOccurs="unbounded">
+        <xsd:unique name="serviceName">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">Ensures that Service names are unique to an Area.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:selector xpath="mal:service"/>
+          <xsd:field    xpath="@name"/>
+        </xsd:unique>
+        <xsd:unique name="serviceNumber">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">Ensures that Service numbers are unique to an Area.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:selector xpath="mal:service"/>
+          <xsd:field    xpath="@number"/>
+        </xsd:unique>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="AreaType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element that represents an Area, contains one or more Service specifications and optionally data type and error definitions.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:DocumentationBaseType">
+        <xsd:sequence>
+          <xsd:element name="service" type="mal:ServiceType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:unique name="capabilityNumber">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="en">Capability numbers inside a service should be unique.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:selector xpath="mal:capabilitySet"/>
+              <xsd:field    xpath="@number"/>
+            </xsd:unique>
+            <xsd:unique name="operationName">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="en">Operation names inside a service should be unique.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:selector xpath="mal:capabilitySet/*"/>
+              <xsd:field    xpath="@name"/>
+            </xsd:unique>
+            <xsd:unique name="operationNumber">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="en">Operation numbers inside a service should be unique.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:selector xpath="mal:capabilitySet/*"/>
+              <xsd:field    xpath="@number"/>
+            </xsd:unique>
+          </xsd:element>
+          <xsd:element name="dataTypes" type="mal:AreaDataTypeList" maxOccurs="1" minOccurs="0">
+            <xsd:unique name="areaTypeShortFormCheck">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="en">Ensures that type short forms are unique.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:selector xpath=".//mal:composite|.//mal:attribute|.//mal:enumeration"/>
+              <xsd:field    xpath="@shortFormPart"/>
+            </xsd:unique>
+          </xsd:element>
+          <xsd:element name="errors" type="mal:ErrorDefinitionList" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+        <xsd:attribute name="number" type="mal:ServiceNumber" use="required"/>
+        <xsd:attribute name="version" type="mal:VersionNumber" use="required"/>
+        <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ServiceType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element represents a Service specification inside an Area. May also optionally include data type and error definitions.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:DocumentationBaseType">
+        <xsd:sequence>
+          <xsd:element name="capabilitySet" type="mal:CapabilitySetType" maxOccurs="unbounded" minOccurs="0"/>
+          <xsd:element name="dataTypes" type="mal:DataTypeList" maxOccurs="1" minOccurs="0">
+            <xsd:unique name="serviceTypeShortFormCheck">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="en">Ensures that type short forms are unique.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:selector xpath=".//mal:composite|.//mal:enumeration"/>
+              <xsd:field    xpath="@shortFormPart"/>
+            </xsd:unique>
+          </xsd:element>
+          <xsd:element name="errors" type="mal:ErrorDefinitionList" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+        <xsd:attribute name="number" type="mal:ServiceNumber" use="required"/>
+        <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="CapabilitySetType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element that represents a Capability set, contains one or more operation specification.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:choice minOccurs="0" maxOccurs="unbounded">
+        <xsd:element name="sendIP" type="mal:SendOperationType"/>
+        <xsd:element name="submitIP" type="mal:SubmitOperationType"/>
+        <xsd:element name="requestIP" type="mal:RequestOperationType"/>
+        <xsd:element name="invokeIP" type="mal:InvokeOperationType"/>
+        <xsd:element name="progressIP" type="mal:ProgressOperationType"/>
+        <xsd:element name="pubsubIP" type="mal:PubSubOperationType"/>
+      </xsd:choice>
+    </xsd:sequence>
+    <xsd:attribute name="number" type="xsd:unsignedShort" use="required"/>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="SendOperationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element represents a SEND operation.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:OperationType">
+        <xsd:sequence>
+          <xsd:element name="messages">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="send" type="mal:AnyTypeReference"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="SubmitOperationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element represents a SUBMIT operation.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:OperationType">
+        <xsd:sequence>
+          <xsd:element name="messages">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="submit" type="mal:AnyTypeReference"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="errors" type="mal:OperationErrorList" minOccurs="0"></xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RequestOperationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element represents a REQUEST operation.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:OperationType">
+        <xsd:sequence>
+          <xsd:element name="messages">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="request" type="mal:AnyTypeReference"/>
+                <xsd:element name="response" type="mal:AnyTypeReference"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="errors" type="mal:OperationErrorList" minOccurs="0"></xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="InvokeOperationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element represents a INVOKE operation.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:OperationType">
+        <xsd:sequence>
+          <xsd:element name="messages">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="invoke" type="mal:AnyTypeReference"/>
+                <xsd:element name="acknowledgement" type="mal:AnyTypeReference"/>
+                <xsd:element name="response" type="mal:AnyTypeReference"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="errors" type="mal:OperationErrorList" minOccurs="0"></xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ProgressOperationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element represents a PROGRESS operation.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:OperationType">
+        <xsd:sequence>
+          <xsd:element name="messages">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="progress" type="mal:AnyTypeReference"/>
+                <xsd:element name="acknowledgement" type="mal:AnyTypeReference"/>
+                <xsd:element name="update" type="mal:AnyTypeReference"/>
+                <xsd:element name="response" type="mal:AnyTypeReference"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="errors" type="mal:OperationErrorList" minOccurs="0"></xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PubSubOperationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element represents a PUBSUB operation.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:OperationType">
+        <xsd:sequence>
+          <xsd:element name="messages">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="publishNotify" type="mal:AnyTypeReference"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="errors" type="mal:OperationErrorList" minOccurs="0"></xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="OperationType" abstract="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Base type that the operations extend, defines the common aspects of all operations.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="number" type="xsd:unsignedShort" use="required"/>
+    <xsd:attribute name="supportInReplay" type="xsd:boolean" use="required"/>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="AreaDataTypeList">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">List that contains one or more data type definitions including those only allowed in the MAL Area.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="fundamental" type="mal:FundamentalType">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="en">Only to be used for Element, Attribute, and Composite. Shall only be present in the MAL Area type definitions.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="attribute" type="mal:AttributeType">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="en">Shall only be present in the MAL Area type definitions.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="composite" type="mal:CompositeType">
+        <xsd:unique name="areaFieldName">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">Field names inside a Composite must be unique.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:selector xpath="mal:field"/>
+          <xsd:field    xpath="@name"/>
+        </xsd:unique>
+      </xsd:element>
+      <xsd:element name="enumeration" type="mal:EnumerationType">
+        <xsd:unique name="areaEnumerationItemNumber">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">Item value numbers inside an Enumeration must be unique.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:selector xpath="mal:item"/>
+          <xsd:field    xpath="@nvalue"/>
+        </xsd:unique>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="DataTypeList">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">List that contains one or more data type definitions.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="composite" type="mal:CompositeType">
+        <xsd:unique name="fieldName">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">Field names inside a Composite must be unique.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:selector xpath="mal:field"/>
+          <xsd:field    xpath="@name"/>
+        </xsd:unique>
+      </xsd:element>
+      <xsd:element name="enumeration" type="mal:EnumerationType">
+        <xsd:unique name="enumerationItemNumber">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">Item value numbers inside an Enumeration must be unique.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:selector xpath="mal:item"/>
+          <xsd:field    xpath="@nvalue"/>
+        </xsd:unique>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="OperationErrorList">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Represents that list of Errors that an operation may raise, these may reference existing error definitions or define new ones.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="error" type="mal:ErrorDefinitionType"/>
+      <xsd:element name="errorRef" type="mal:ErrorReferenceType"/>
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="ErrorDefinitionList">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Represents a list of Error definitions.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="error" type="mal:ErrorDefinitionType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ErrorDefinitionType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Used to define a new Error condition</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="extraInformation" type="mal:ElementReferenceWithCommentType" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="en">Optional element that is used to define the type of extra information that is returned with an error.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="number" type="xsd:unsignedInt" use="required"/>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="ErrorReferenceType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Used to reference an existing Error condition</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:ElementReferenceWithCommentType">
+        <xsd:sequence>
+          <xsd:element name="extraInformation" type="mal:ElementReferenceWithCommentType" minOccurs="0" maxOccurs="1">
+            <xsd:annotation>
+              <xsd:documentation xml:lang="en">Optional element that is used to define the type of extra information that is returned with an error, replaces any type defined in the referenced error.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FundamentalType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Represents one of the three fundamental types, element, attribute, or composite.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="extends" type="mal:ElementReferenceType" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="en">use to show the relationship between attribute/composite and element.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="AttributeType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Defines a new attribute type. Shall only be present in the MAL Area.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="shortFormPart" type="mal:ShortFormPart" use="required"/>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="CompositeType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Represents a composite type.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="extends" type="mal:ElementReferenceType" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="en">Which Composite this type extends, if this is not present then the base Composite is implied.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="field" type="mal:NamedElementReferenceWithCommentType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="shortFormPart" type="mal:ShortFormPart" use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">If no short form part is provided then this is an Abstract composite type.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="EnumerationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Represents an Enumeration type. By definition an Enumeration extends Element and therefore this aspect cannot be set.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="item" minOccurs="1" maxOccurs="unbounded">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="xsd:NCName" use="required"/>
+          <xsd:attribute name="nvalue" type="xsd:unsignedInt" use="required"/>
+          <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="shortFormPart" type="mal:ShortFormPart" use="required"/>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="NamedElementReferenceWithCommentType">
+    <xsd:complexContent>
+      <xsd:extension base="mal:ElementReferenceWithCommentType">
+        <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+        <xsd:attribute name="canBeNull" type="xsd:boolean" default="true"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ElementReferenceWithCommentType">
+    <xsd:complexContent>
+      <xsd:extension base="mal:ElementReferenceType">
+        <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ElementReferenceType">
+    <xsd:sequence>
+      <xsd:element name="type" type="mal:TypeReference"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="TypeReference">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Allows another element in the specification to be referenced, if the area or the service attributes are missing then the area and/or service of the refering element shall be assumed.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="list" type="xsd:boolean" use="optional" default="false"/>
+    <xsd:attribute name="area" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="service" type="xsd:NCName" use="optional"/>
+    <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="DocumentationBaseType">
+    <xsd:sequence>
+      <xsd:element name="documentation" type="mal:DocumentationType" maxOccurs="unbounded" minOccurs="0"/>
+      <xsd:element name="diagram" type="mal:AnyTypeReferenceWithId" maxOccurs="unbounded" minOccurs="0"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="DocumentationType" mixed="true">
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <xsd:attribute name="order" type="xsd:unsignedInt" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="AnyTypeReferenceWithId">
+    <xsd:complexContent>
+      <xsd:extension base="mal:AnyTypeReference">
+        <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AnyTypeReference">
+    <xsd:sequence>
+      <xsd:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:simpleType name="ServiceNumber">
+    <xsd:restriction base="xsd:unsignedShort">
+      <xsd:minInclusive value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="VersionNumber">
+    <xsd:restriction base="xsd:unsignedByte">
+      <xsd:minInclusive value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="ShortFormPart">
+    <xsd:restriction base="xsd:unsignedInt">
+      <xsd:minInclusive value="1"/>
+      <xsd:maxInclusive value="8388607"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:element name="field" type="mal:NamedElementReferenceWithCommentType"/>
+  <xsd:element name="type" type="mal:TypeReference"/>
+</xsd:schema>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!--
+    Licensed under the European Space Agency Public License, Version 2.0
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+ 
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>int.esa.ccsds.mo</groupId>
+    <artifactId>POM</artifactId>
+    <version>5</version>
+    <relativePath/>
+  </parent>
+  
+  <artifactId>NMF_CORE</artifactId>
+  <name>NanoSat MO Framework - Core</name>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <organization>
+    <name>ESA</name>
+    <url>http://www.esa.int</url>
+  </organization>
+  
+  <licenses>
+    <license>
+      <name>The European Space Agency Public License, Version 2.0</name>
+      <url>https://raw.github.com/esa/CCSDS_MO_APPS/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:esa/CCSDS_MO_APPS.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/CCSDS_MO_APPS.git</developerConnection>
+    <url>https://github.com/esa/CCSDS_MO_APPS</url>
+  </scm>
+  
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/esa/CCSDS_MO_APPS/issues</url>
+  </issueManagement>
+  
+  <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <email>Cesar.Coelho@esa.int</email>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+  </developers>
+
+  <modules>
+    <module>NMF_POM</module>
+    <module>MO_XML</module>
+    <module>CCSDS_MO_APIS</module>
+    <module>NMF_HELPER_TOOLS</module>
+    <module>MO_SERVICES_LAYER</module>
+    <module>HIGH_LEVEL_COMPONENTS</module>
+    <module>GPS_SIMULATOR</module>
+    <module>APPS</module>
+    <module>CCSDS_MO_TOOLS_WINDOW</module>
+    <module>CONFIGURATION_MANAGER</module>
+  </modules>
+  
+</project>

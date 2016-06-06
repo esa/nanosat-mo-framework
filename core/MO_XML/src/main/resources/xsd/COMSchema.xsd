@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ccsds.org/schema/COMSchema"
+            xmlns:mal="http://www.ccsds.org/schema/ServiceSchema"
+            xmlns:com="http://www.ccsds.org/schema/COMSchema"
+            elementFormDefault="qualified">
+
+  <xsd:import namespace="http://www.ccsds.org/schema/ServiceSchema" schemaLocation="ServiceSchema.xsd"/>
+
+  <xsd:complexType name="ExtendedServiceType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Element represents a Service specification inside an Area. May optionally extend the COM capability sets and include Capability set. May also optionally include data type and error definitions.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="mal:ServiceType">
+        <xsd:sequence>
+          <xsd:element name="features" type="com:SupportedFeatures" minOccurs="0" maxOccurs="1">
+            <xsd:unique name="serviceObjectShortFormCheck">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="en">Ensures that object short forms are unique.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:selector xpath=".//com:object|.//com:event"/>
+              <xsd:field    xpath="@number"/>
+            </xsd:unique>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="SupportedFeatures">
+    <xsd:complexContent>
+      <xsd:extension base="mal:DocumentationBaseType">
+        <xsd:sequence>
+          <xsd:element name="objects" type="com:ModelObjectTypeList" minOccurs="0" maxOccurs="1">
+            <xsd:annotation>
+              <xsd:documentation xml:lang="en">If this node is present then this service defines some service specific objects.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="events" type="com:ModelEventTypeList" minOccurs="0" maxOccurs="1">
+            <xsd:annotation>
+              <xsd:documentation xml:lang="en"></xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="archiveUsage" type="com:CommentType" minOccurs="0" maxOccurs="1">
+            <xsd:annotation>
+              <xsd:documentation xml:lang="en"></xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="activityUsage" type="com:CommentType" minOccurs="0" maxOccurs="1">
+            <xsd:annotation>
+              <xsd:documentation xml:lang="en"></xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ModelObjectTypeList">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en"></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="object" type="com:ModelObjectType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="ModelObjectType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">Defines how a service represents an aspect of the COM.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="objectType" type="mal:AnyTypeReference" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="relatedObject" type="com:OptionalObjectReference" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="sourceObject" type="com:OptionalObjectReference" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="number" type="mal:ShortFormPart" use="required"/>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="ModelEventTypeList">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en"></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="event" type="com:ModelObjectType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="OptionalObjectReference">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en"></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="objectType" type="com:ObjectReference" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="ObjectReference">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en"></xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="area" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="service" type="xsd:NCName" use="required"/>
+    <xsd:attribute name="number" type="mal:ShortFormPart" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="CommentType">
+    <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+</xsd:schema>

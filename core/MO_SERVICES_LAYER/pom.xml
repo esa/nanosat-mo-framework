@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!--
+    Licensed under the European Space Agency Public License, Version 2.0
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+ 
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>int.esa.ccsds.mo</groupId>
+    <artifactId>POM</artifactId>
+    <version>5</version>
+    <relativePath/>
+  </parent>
+  
+  <artifactId>MO_SERVICES_LAYER_REACTOR</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>MO services Layer</name>
+
+  <organization>
+    <name>ESA</name>
+    <url>http://www.esa.int</url>
+  </organization>
+  
+  <licenses>
+    <license>
+      <name>The European Space Agency Public License, Version 2.0</name>
+      <url>https://raw.github.com/esa/CCSDS_MO_APPS/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
+  </issueManagement>
+  
+  <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <email>Cesar.Coelho@esa.int</email>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+  </developers>
+
+  <modules>
+    <module>CCSDS_COM_IMPL_CC</module>
+    <module>RECONFIGURABLE_MO</module>
+    <module>CCSDS_MC_IMPL_CC</module>
+    <module>CCSDS_COMMON_IMPL_CC</module>
+    <module>CCSDS_SM_IMPL_CC</module>
+    <module>PLATFORM_GENERIC_IMPL</module>
+  </modules>
+   
+</project>

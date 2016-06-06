@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<mal:area comment="Provides a set of services for software management onboard of a spacecraft.&#10;The Memory Management service is a low-level service intended to be used to load, dump and check memory addresses.&#10;The Software Images service is intended to manage Software Images and Software Patches by allowing the generation of new Software Images from a patch.&#10;The Package Management service allows the management of software packages on modern operating systems using the concept of packages.&#10;The Apps Launcher service allows the management of runnable applications in a system." name="SoftwareManagement" number="7" version="1">
+		<mal:service comment="The Memory Management service provides the ability to load, dump and check binary data blocks in known memory addresses from/to a certain memory device." name="MemoryManagement" number="1" xsi:type="com:ExtendedServiceType">
+			<mal:capabilitySet comment="" number="1">
+				<mal:submitIP comment="The loadMemory operation allows a consumer to submit a block of data to a provider for loading the memory of the selected device. The operation shall use the Activity Tracking to report on the progress of the activity." name="loadMemory" number="1" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+							<mal:field canBeNull="true" comment="The deviceName field shall contain the name of the destination device. The interpretation of the value is implementation-specific." name="deviceName">
+								<mal:type area="MAL" list="false" name="Identifier"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The base field shall contain the base reference of the memory within the memory block." name="base">
+								<mal:type area="MAL" list="false" name="UInteger"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The dataBlocks field shall contain the memory block data to be loaded." name="dataBlocks">
+								<mal:type area="SoftwareManagement" list="true" name="DataBlock" service="MemoryManagement"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
+				
+					<mal:errors>
+						<mal:errorRef comment="">
+							<mal:type area="SoftwareManagement" list="false" name="UNKNOWN_DEVICE" service="MemoryManagement"/>
+						</mal:errorRef>
+						<mal:errorRef comment="">
+							<mal:type area="SoftwareManagement" list="false" name="INVALID_ADDRESS" service="MemoryManagement"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="2">
+				<mal:progressIP comment="The dumpMemory operation allows a consumer to dump memory areas of a selected device from a provider. The dumping process can be aborted by using the identifier provided in the acknowledge phase." name="dumpMemory" number="2" supportInReplay="false">
+					<mal:messages>
+						<mal:progress comment="">
+							<mal:field canBeNull="true" comment="The deviceName field shall contain the name of the destination device. The interpretation of the value is implementation-specific." name="deviceName">
+								<mal:type area="MAL" list="false" name="Identifier"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The base field shall contain the base reference of the memory within the memory block." name="base">
+								<mal:type area="MAL" list="false" name="UInteger"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The memoryAreas field shall contain the memory areas to be dumped." name="memoryAreas">
+								<mal:type area="SoftwareManagement" list="true" name="MemoryArea" service="MemoryManagement"/>
+							</mal:field>
+						</mal:progress>
+						<mal:acknowledgement comment="">
+							<mal:field canBeNull="true" comment="The requestId field shall contain the id of the request." name="requestId">
+								<mal:type area="MAL" list="false" name="Long"/>
+							</mal:field>
+						</mal:acknowledgement>
+						<mal:update comment="">
+							<mal:field canBeNull="true" comment="The dataBlock field shall contain the memory block data being dumped." name="dataBlock">
+								<mal:type area="SoftwareManagement" list="false" name="DataBlock" service="MemoryManagement"/>
+							</mal:field>
+						</mal:update>
+						<mal:response comment="">
+						</mal:response>
+					</mal:messages>
+					<mal:errors>
+						<mal:errorRef comment="">
+							<mal:type area="SoftwareManagement" list="false" name="UNKNOWN_DEVICE" service="MemoryManagement"/>
+						</mal:errorRef>
+						<mal:errorRef comment="">
+							<mal:type area="SoftwareManagement" list="false" name="INVALID_ADDRESS" service="MemoryManagement"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:progressIP>
+				<mal:submitIP comment="The abortMemoryDump operation allows a consumer to abort on-going dumping processes." name="abortMemoryDump" number="4" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+							<mal:field canBeNull="true" comment="The requestIds field shall contain the request ids to be aborted." name="requestIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="3">
+				<mal:invokeIP comment="The checkMemory operation allows a consumer to check memory areas of a selected device. The response contains the checksum for the selected checksum algorithm." name="checkMemory" number="3" supportInReplay="false">
+					<mal:messages>
+						<mal:invoke comment="">
+							<mal:field canBeNull="true" comment="The deviceName field shall contain the name of the destination device. The interpretation of the value is implementation-specific." name="deviceName">
+								<mal:type area="MAL" list="false" name="Identifier"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The memoryAreas field shall contain the memory areas to be dumped." name="base">
+								<mal:type area="MAL" list="false" name="UInteger"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The checkAreas field shall contain the memory areas to be checked." name="checkAreas">
+								<mal:type area="SoftwareManagement" list="true" name="MemoryArea" service="MemoryManagement"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The checksumAlgorithm field shall contain the checksum algorithm to be used." name="checksumAlgorithm">
+								<mal:type area="MAL" list="false" name="String"/>
+							</mal:field>
+						</mal:invoke>
+						<mal:acknowledgement comment=""/>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="The checksums field shall contain the generated checksums for the selected memory areas." name="checksums">
+								<mal:type area="MAL" list="false" name="Blob"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+					<mal:errors>
+						<mal:errorRef comment="">
+							<mal:type area="SoftwareManagement" list="false" name="UNKNOWN_DEVICE" service="MemoryManagement"/>
+						</mal:errorRef>
+						<mal:errorRef comment="">
+							<mal:type area="SoftwareManagement" list="false" name="INVALID_ADDRESS" service="MemoryManagement"/>
+						</mal:errorRef>
+						<mal:errorRef comment="">
+							<mal:type area="SoftwareManagement" list="false" name="UNSUPPORTED_CHECKSUM"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:invokeIP>
+			</mal:capabilitySet>
+			<mal:dataTypes>
+				<mal:composite comment="The DataBlock structure holds a block of data." name="DataBlock" shortFormPart="1">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="false" comment="The memory address." name="address">
+						<mal:type area="MAL" list="false" name="UInteger"/>
+					</mal:field>
+					<mal:field canBeNull="false" comment="The data of the block." name="data">
+						<mal:type area="MAL" list="false" name="Blob"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="A checksum for the data field. The checksum algorithm is implementation-specific." name="checksum">
+						<mal:type area="MAL" list="false" name="Blob"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="The MemoryArea structure holds the description of a memory area." name="MemoryArea" shortFormPart="2">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="false" comment="The address of the Memory." name="address">
+						<mal:type area="MAL" list="false" name="UInteger"/>
+					</mal:field>
+					<mal:field canBeNull="false" comment="The length of the block area." name="length">
+						<mal:type area="MAL" list="false" name="UInteger"/>
+					</mal:field>
+				</mal:composite>
+			</mal:dataTypes>
+			<mal:errors>
+				<mal:error comment="" name="UNKNOWN_DEVICE" number="11"/>
+				<mal:error comment="" name="INVALID_ADDRESS" number="12"/>
+			</mal:errors>
+			<com:features/>
+		</mal:service>		
+		<mal:service comment="The Software Image service provides the ability to deploy, list, generate, delete, clone and check the integrity of Software Images.&#10;This service can be used to manage Software Images on-board of a spacecraft or to manage Software Images in virtual machines that might run on-board of a spacecraft.&#10;The service supports the generation of a new Image from a previous baseline Image with an additional delta. This allows patching software Images without the need to transfer the complete new Image." name="SoftwareImage" number="2" xsi:type="com:ExtendedServiceType">
+			<mal:documentation name="High-level requirements" order="1">All on-board application software shall be updatable by the Ground at any time during the mission.
+On-board application software images shall be stored on-board in non-volatile memory.
+It shall be possible to add or remove patches to on-board software images stored on-board without the need to reload the entire original image.
+In presence of any single failure, the remaining non-volatile memory used to store on-board software images shall have enough space to store at least two different versions of the same software.
+Ground shall be provided with the capability to define in non-volatile memory for each on-board processor the main and redundant location of the software image to be used at the next processor reset / reconfiguration.
+The process of loading a software image from non-volatile memory to RAM upon boot shall be robust to data corruptions in various parts of the stored image.
+			</mal:documentation>
+			<mal:capabilitySet comment="" number="1">
+				<mal:submitIP comment="" name="deployImage" number="1" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+							<mal:field canBeNull="true" comment="" name="imageInstId">
+								<mal:type area="MAL" list="false" name="Long"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="2">
+				<mal:invokeIP comment="The checkImageIntegrity operation allows a consumer to check the integrity of a software image on the provider. The checksum shall be generated from the checksum algorithm selected by the consumer." name="checkImageIntegrity" number="2" supportInReplay="true">
+					<mal:messages>
+						<mal:invoke comment="">
+							<mal:field canBeNull="true" comment="The imageInstIds shall contain the object instance identifier of the image to be checked." name="imageInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="checksumAlgorithm">
+								<mal:type area="MAL" list="false" name="String"/>
+							</mal:field>
+						</mal:invoke>
+						<mal:acknowledgement comment=""/>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="checksums">
+								<mal:type area="MAL" list="true" name="Blob"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+					<mal:errors>
+						<mal:errorRef comment="">
+							<mal:type area="SoftwareManagement" list="false" name="UNSUPPORTED_CHECKSUM"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:invokeIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="3">
+				<mal:invokeIP comment="The cloneImage operation allows a consumer to clone a software image on the provider." name="cloneImage" number="3" supportInReplay="false">
+					<mal:messages>
+						<mal:invoke comment="">
+							<mal:field canBeNull="true" comment="" name="imageInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="newNames">
+								<mal:type area="MAL" list="true" name="Identifier"/>
+							</mal:field>
+						</mal:invoke>
+						<mal:acknowledgement comment=""/>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="cloneImageInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:invokeIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="4">
+				<mal:requestIP comment="The listImage operation allows a consumer to request the object instance identifiers of the SoftwareImage objects for the existing Images available on the provider." name="listImage" number="4" supportInReplay="true">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="" name="imageNames">
+								<mal:type area="MAL" list="true" name="Identifier"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="imageInstId">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="5">
+				<mal:invokeIP comment="The patchImage operation allows a consumer to generate a new software image on the provider from a previous baseline Image. The operation can use the Activity Tracking service to report the progress of the generation." name="patchImage" number="5" supportInReplay="false">
+					<mal:messages>
+						<mal:invoke comment="">
+							<mal:field canBeNull="true" comment="" name="baselineImage">
+								<mal:type area="MAL" list="false" name="Long"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="patchObjId">
+								<mal:type area="MAL" list="false" name="Long"/>
+							</mal:field>
+						</mal:invoke>
+						<mal:acknowledgement comment="">
+							<mal:field canBeNull="true" comment="" name="estimateDuration">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:field>
+						</mal:acknowledgement>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="newImageInstId">
+								<mal:type area="MAL" list="false" name="Long"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				
+				</mal:invokeIP>
+				<mal:requestIP comment="" name="addImage" number="6" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="" name="files">
+								<mal:type area="MAL" list="true" name="File"/>
+							</mal:field>
+						
+							<mal:field canBeNull="true" comment="" name="imageDefs">
+								<mal:type area="SoftwareManagement" list="true" name="ImageDefinition" service="SoftwareImage"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="imageObjIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+				<mal:submitIP comment="The deleteImage operation allows a consumer to delete software images from the provider." name="deleteImage" number="7" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+							<mal:field canBeNull="true" comment="" name="ImageInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="6">
+				<mal:requestIP comment="" name="listPatch" number="8" supportInReplay="true">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="" name="patchName">
+								<mal:type area="MAL" list="true" name="Identifier"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="patchObjIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="7">
+				<mal:requestIP comment="" name="addPatch" number="9" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="" name="relatedImageObjIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						
+							<mal:field canBeNull="true" comment="" name="files">
+								<mal:type area="MAL" list="true" name="File"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="patchDefs">
+								<mal:type area="SoftwareManagement" list="false" name="PatchDefinition" service="SoftwareImage"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="patchObjIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+				<mal:submitIP comment="" name="deletePatch" number="10" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+							<mal:field canBeNull="true" comment="" name="patchObjIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:dataTypes>
+				<mal:composite comment="" name="ImageDefinition" shortFormPart="3">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="" name="name">
+						<mal:type area="MAL" list="false" name="Identifier"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="description">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="PatchDefinition" shortFormPart="5">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="" name="name">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="description">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+				</mal:composite>
+			</mal:dataTypes>
+			<mal:errors>
+				<mal:error comment="The software image cannot be deleted" name="DELETION_FAILED" number="21"/>
+			</mal:errors>
+			<com:features>
+				<com:objects comment="">
+					<com:object comment="" name="SoftwareImage" number="1">
+						<com:objectType>
+							<mal:type area="SoftwareManagement" list="false" name="ImageDefinition" service="SoftwareImage"/>
+						</com:objectType>
+						<com:relatedObject comment="">
+						</com:relatedObject>
+						<com:sourceObject comment="">
+						</com:sourceObject>
+					</com:object>
+					<com:object comment="" name="Patch" number="2">
+						<com:objectType>
+							<mal:type area="SoftwareManagement" list="false" name="PatchDefinition" service="SoftwareImage"/>
+						</com:objectType>
+						<com:relatedObject comment="">
+						</com:relatedObject>
+						<com:sourceObject comment=""/>
+					</com:object>
+				</com:objects>
+			</com:features>
+		</mal:service>
+		
+		<mal:service comment="The Package Management service provides the ability to install, uninstall, upgrade, list, check packages. The service shall optionally support verification of packages, verification of digital signatures, upgrade software, manage dependencies.&#10;Packages can be organized in different categories in order to facilitate the management of software." name="PackageManagement" number="3" xsi:type="com:ExtendedServiceType">
+			<mal:capabilitySet comment="" number="1">
+				<mal:requestIP comment="The listPackage operation allows a consumer to list the available packages on the provider." name="listPackage" number="1" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="" name="names">
+								<mal:type area="MAL" list="true" name="Identifier"/>
+							</mal:field>
+						
+							<mal:field canBeNull="true" comment="" name="category">
+								<mal:type area="MAL" list="false" name="Identifier"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="instIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="installed">
+								<mal:type area="MAL" list="true" name="Boolean"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+				<mal:submitIP comment="The install operation allows a consumer to install an application from a package on the provider." name="install" number="2" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+							<mal:field canBeNull="true" comment="" name="packageObjInstId">
+								<mal:type area="MAL" list="false" name="Long"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
+				</mal:submitIP>
+				<mal:invokeIP comment="The uninstall operation allows a consumer to uninstall an application on the provider." name="uninstall" number="3" supportInReplay="false">
+					<mal:messages>
+						<mal:invoke comment="">
+							<mal:field canBeNull="true" comment="" name="instId">
+								<mal:type area="MAL" list="false" name="Long"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="leaveConfigurationsIntact">
+								<mal:type area="MAL" list="false" name="Boolean"/>
+							</mal:field>
+						</mal:invoke>
+						<mal:acknowledgement comment=""/>
+						<mal:response comment=""/>
+					</mal:messages>
+				</mal:invokeIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="2">
+				<mal:submitIP comment="The install operation allows a consumer to upgrade an application from a package on the provider." name="upgrade" number="4" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+						
+							<mal:field canBeNull="true" comment="" name="packageObjInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="versions">
+								<mal:type area="MAL" list="true" name="String"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="3">
+				<mal:requestIP comment="The checkPackage operation allows a consumer to check if a certain package on the provider is installed." name="checkPackage" number="5" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="" name="names">
+								<mal:type area="MAL" list="true" name="Identifier"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="category">
+								<mal:type area="MAL" list="false" name="Identifier"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="instIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="installed">
+								<mal:type area="MAL" list="true" name="Boolean"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="4">
+				<mal:requestIP comment="The listCategories operation allows a consumer to request the existing application categories from the provider." name="listCategories" number="6" supportInReplay="true">
+					<mal:messages>
+						<mal:request comment=""/>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="categories">
+								<mal:type area="MAL" list="true" name="Identifier"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:errors>
+				<mal:error comment="" name="DEPENDENCY_NOT_FOUND" number="31"/>
+			</mal:errors>
+			<com:features>
+				<com:objects comment="">
+					<com:object comment="" name="Package" number="1">
+						<com:relatedObject comment=""/>
+						<com:sourceObject comment=""/>
+					</com:object>
+				</com:objects>
+				<com:events comment="">
+				</com:events>
+				<com:activityUsage comment="Add the activity tracking for the progress of installation. Also for the Software Image service"/>
+			</com:features>
+		</mal:service>
+		<mal:service comment="The Processes service provides the ability to monitor and manage processes running on-board." name="Processes" number="4" xsi:type="com:ExtendedServiceType">
+			<mal:capabilitySet comment="" number="1">
+				<mal:pubsubIP comment="" name="monitorProcess" number="1" supportInReplay="false">
+					<mal:messages>
+						<mal:publishNotify comment="">
+							<mal:field canBeNull="true" comment="Add that the PID and the user name shall be passed on the UpdateHeader field." name="processInfo">
+								<mal:type area="SoftwareManagement" list="false" name="ProcessInformation" service="Processes"/>
+							</mal:field>
+						</mal:publishNotify>
+					</mal:messages>
+				
+				</mal:pubsubIP>
+				<mal:submitIP comment="" name="setRate" number="2" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+							<mal:field canBeNull="true" comment="" name="rate">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="2">
+				<mal:submitIP comment="" name="startTask" number="5" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment=""/>
+					</mal:messages>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="3">
+				<mal:submitIP comment="" name="endProcess" number="6" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment=""/>
+					</mal:messages>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="4">
+				<mal:requestIP comment="" name="getStats" number="7" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment=""/>
+						<mal:response comment=""/>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:dataTypes>
+				<mal:composite comment="It holds the information of a certain process." name="ProcessInformation" shortFormPart="6">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="Percentage of CPU time." name="cpuPercentage">
+						<mal:type area="MAL" list="false" name="Float"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Percentage of Memory used." name="memoryPercentage">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The priority of the process." name="priority">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Virtual memory used." name="virt">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Physical memory used." name="res">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Shared memory used." name="shr">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="There are five types:&#10;          'D' = uninterruptible sleep&#10;          'R' = running&#10;          'S' = sleeping&#10;          'T' = traced or stopped&#10;          'Z' = zombie" name="status">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Total CPU Time." name="timeCPU">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Command name." name="command">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+				</mal:composite>
+			</mal:dataTypes>
+		</mal:service>		
+		<mal:service comment="The Apps Launcher service provides the ability to monitor the execution, run, stop, kill and list applications software on-board of a spacecraft. The apps can be organized in categories. " name="AppsLauncher" number="5" xsi:type="com:ExtendedServiceType">
+			<mal:capabilitySet comment="" number="1">
+				<mal:pubsubIP comment="The monitorExecution operation allows a consumer to subscribe for the application execution output stream." name="monitorExecution" number="1" supportInReplay="false">
+					<mal:messages>
+						<mal:publishNotify comment="">
+							<mal:field canBeNull="true" comment="The outputStream field shall contain a stream of characters corresponding to the output stream of the application." name="outputStream">
+								<mal:type area="MAL" list="false" name="String"/>
+							</mal:field>
+						</mal:publishNotify>
+					</mal:messages>
+				</mal:pubsubIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="2">
+				<mal:requestIP comment="The runApp operation allows a consumer to run an application on the provider.  An object instance identifier is returned for further monitoring of the application execution in the monitorExecution operation." name="runApp" number="2" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to run." name="appInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+						
+						
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+				<mal:requestIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="3" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						
+						</mal:request>
+						<mal:response comment=""/>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="3">
+				<mal:requestIP comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive." name="killApp" number="4" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to kill." name="appInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment=""/>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="4">
+				<mal:requestIP comment="The listApp operation allows a consumer to request the object instance identifiers of the Apps objects and running status for an app name or for a certain app category." name="listApp" number="5" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="The appNames field contains a list of application names." name="appNames">
+								<mal:type area="MAL" list="true" name="Identifier"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The category field contains the category identifier to filter on." name="category">
+								<mal:type area="MAL" list="false" name="Identifier"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="The appInstIds field contains a list of apps." name="appInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The running field contains a list of boolean values with the information about thte running status of requested apps." name="running">
+								<mal:type area="MAL" list="true" name="Boolean"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="5">
+				<mal:requestIP comment="" name="getAppDetails" number="6" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to get the details." name="appInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="The appDetails field contains the list of details for the requested apps." name="appDetails">
+								<mal:type area="SoftwareManagement" list="true" name="AppDetails" service="AppsLauncher"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:dataTypes>
+				<mal:composite comment="" name="AppDetails" shortFormPart="4">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="" name="name">
+						<mal:type area="MAL" list="false" name="Identifier"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="category">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+				</mal:composite>
+			</mal:dataTypes>
+			<com:features>
+				<com:objects comment="">
+					<com:object comment="" name="App" number="1">
+						<com:relatedObject comment=""/>
+						<com:sourceObject comment=""/>
+					</com:object>
+				</com:objects>
+				<com:events comment="">
+					<com:event comment="" name="CloseApp" number="2">
+						<com:relatedObject comment="">
+							<com:objectType area="SoftwareManagement" number="1" service="AppsLauncher"/>
+						</com:relatedObject>
+						<com:sourceObject comment=""/>
+					</com:event>
+				</com:events>
+			</com:features>
+		</mal:service>
+		<mal:service comment="The Heartbeat service publishes a heart beat message periodically. Additionally it is possible to get the period of the beat." name="Heartbeat" number="6" xsi:type="com:ExtendedServiceType">
+			<mal:capabilitySet comment="" number="1">
+				<mal:pubsubIP comment="The beat operation allows a provider to periodically send a heartbeat to the consumers." name="beat" number="1" supportInReplay="false">
+					<mal:messages>
+						<mal:publishNotify comment=""/>
+					</mal:messages>
+				</mal:pubsubIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="2">
+				<mal:requestIP comment="The getPeriod operation allows a consumer to get the period of the provider's heartbeat." name="getPeriod" number="2" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment=""/>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="The period field shall hold period of the heartbeat message." name="period">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+		</mal:service>
+
+		<mal:dataTypes>
+			<mal:enumeration comment="" name="CHECKSUM" shortFormPart="1">
+				<mal:item comment="" nvalue="1" value="MD5"/>
+				<mal:item comment="" nvalue="2" value="SHA1"/>
+				<mal:item comment="" nvalue="3" value="SHA256"/>
+				<mal:item comment="" nvalue="4" value="CRC"/>
+			</mal:enumeration>
+		</mal:dataTypes>
+		<mal:errors>
+			<mal:error comment="" name="UNSUPPORTED_CHECKSUM" number="1"/>
+		</mal:errors>
+	</mal:area>
+</mal:specification>

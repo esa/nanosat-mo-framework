@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!--
+    Licensed under the European Space Agency Public License, Version 2.0
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+ 
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+  
+    <parent>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>POM</artifactId>
+        <version>5</version>
+        <relativePath/>
+    </parent>
+  
+    <artifactId>NMF_POM</artifactId>
+    <packaging>pom</packaging>
+    <version>1-SNAPSHOT</version>
+    <name>NanoSat MO Framework Core POM</name>
+
+    <organization>
+        <name>CCSDS</name>
+        <url>http://www.ccsds.org</url>
+    </organization>
+  
+    <licenses>
+        <license>
+            <name>The European Space Agency Public License, Version 2.0</name>
+            <url>https://raw.github.com/esa/CCSDS_MO_TESTBEDS/master/LICENCE_ESA.md</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>CeCILL-C FREE SOFTWARE LICENSE AGREEMENT</name>
+            <url>https://raw.github.com/esa/CCSDS_MO_TESTBEDS/master/LICENCE_CNES.md</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>GNU Lesser General Public License (LGPL), Version 2.1</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
+    </issueManagement>
+  
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <email>Cesar.Coelho@esa.int</email>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
+  
+    <properties>
+        <esa.nmf.helper.version>1.0-SNAPSHOT</esa.nmf.helper.version>
+
+        <esa.ccsds.api.mc.version>1.0-SNAPSHOT</esa.ccsds.api.mc.version>
+        <esa.ccsds.api.common.version>1.0-SNAPSHOT</esa.ccsds.api.common.version>
+        <esa.ccsds.api.sm.version>1.0-SNAPSHOT</esa.ccsds.api.sm.version>
+        <esa.ccsds.api.platform.version>1.0-SNAPSHOT</esa.ccsds.api.platform.version>
+
+        <esa.ccsds.impl.com.version>1.2-SNAPSHOT</esa.ccsds.impl.com.version>
+        <esa.ccsds.impl.mc.version>1.1-SNAPSHOT</esa.ccsds.impl.mc.version>
+        <esa.ccsds.impl.common.version>1.0-SNAPSHOT</esa.ccsds.impl.common.version>
+        <esa.ccsds.impl.sm.version>1.0-SNAPSHOT</esa.ccsds.impl.sm.version>
+        <esa.nmf.impl.platform.version>1.0-SNAPSHOT</esa.nmf.impl.platform.version>
+
+        <esa.nmf.components.nmf.version>1.0-SNAPSHOT</esa.nmf.components.nmf.version>
+        <esa.nmf.components.gma.version>1.0-SNAPSHOT</esa.nmf.components.gma.version>
+        <esa.nmf.components.gmp.version>1.0-SNAPSHOT</esa.nmf.components.gmp.version>
+
+        <esa.nmf.components.nmc.version>1.0-SNAPSHOT</esa.nmf.components.nmc.version>
+
+        <esa.ccsds.trans.http.version>1.0.1-SNAPSHOT</esa.ccsds.trans.http.version>
+
+
+    </properties>
+  
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>NMF_HELPER_TOOLS</artifactId>
+                <version>${esa.nmf.helper.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>API_MC</artifactId>
+                <version>${esa.ccsds.api.mc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>API_COMMON</artifactId>
+                <version>${esa.ccsds.api.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>API_PLATFORM</artifactId>
+                <version>${esa.ccsds.api.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>API_SM</artifactId>
+                <version>${esa.ccsds.api.sm.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>TRANSPORT_HTTP_TP</artifactId>
+                <version>${esa.nmf.components.gma.version}</version>
+            </dependency>
+            
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>CCSDS_COM_IMPL</artifactId>
+                <version>${esa.ccsds.impl.com.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>CCSDS_MC_IMPL</artifactId>
+                <version>${esa.ccsds.impl.mc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>CCSDS_COMMON_IMPL</artifactId>
+                <version>${esa.ccsds.impl.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>CCSDS_SM_IMPL</artifactId>
+                <version>${esa.ccsds.impl.sm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
+                <version>${esa.nmf.impl.platform.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>NANOSAT_MO_FRAMEWORK_GENERIC</artifactId>
+                <version>${esa.nmf.components.nmf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>GROUND_MO_ADAPTER</artifactId>
+                <version>${esa.nmf.components.gma.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>GROUND_MO_PROXY</artifactId>
+                <version>${esa.nmf.components.gmp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
+                <version>${esa.nmf.components.nmc.version}</version>
+            </dependency>
+
+
+
+
+        </dependencies>
+    </dependencyManagement>
+  
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/..</directory>
+                <includes>
+                    <include>LICENCE_ESA.md</include>
+                    <include>LICENCE_CNES.md</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>
+

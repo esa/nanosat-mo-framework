@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!--
+    Licensed under the European Space Agency Public License, Version 2.0
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+ 
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+  
+    <parent>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>NMF_POM</artifactId>
+        <version>1-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+  
+    <artifactId>NANOSAT_MO_SUPERVISOR</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>NanoSat MO Supervisor: Generic</name>
+    <description>NanoSat MO Supervisor</description>
+    <url>http://www.esa.int</url>
+  
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>The European Space Agency Public License, Version 2.0</name>
+            <url>https://raw.github.com/esa/CCSDS_APPS/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+  
+    <scm>
+        <connection>scm:git:git@github.com:esa/CCSDS_APPS.git</connection>
+        <developerConnection>scm:git:git@github.com:esa/CCSDS_APPS.git</developerConnection>
+        <url>https://github.com/esa/CCSDS_APPS</url>
+    </scm>
+  
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
+    </issueManagement>
+  
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <email>Cesar.Coelho@esa.int</email>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>NANOSAT_MO_FRAMEWORK_GENERIC</artifactId>
+        </dependency>
+    </dependencies>
+    
+    
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/..</directory>
+                <includes>
+                    <include>LICENCE.md</include>
+                </includes>
+            </resource>
+        </resources>
+    
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <repositories>
+        <repository>
+            <id>unknown-jars-temp-repo</id>
+            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+            <url>file:${project.basedir}/lib</url>
+        </repository>
+        <repository>
+            <id>swt-repo</id>
+            <url>https://swt-repo.googlecode.com/svn/repo/</url>
+        </repository>
+    </repositories>    
+    
+</project>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!--
+    Licensed under the European Space Agency Public License, Version 2.0
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+ 
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>int.esa.ccsds.mo</groupId>
+    <artifactId>POM</artifactId>
+    <version>5</version>
+    <relativePath/>
+  </parent>
+
+  <artifactId>API_COMMON</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>ESA Common Java API</name>
+  <description>The CCSDS Common API for Java</description>
+  <url>http://www.esa.int</url>
+  
+  <organization>
+    <name>ESA</name>
+    <url>http://www.esa.int</url>
+  </organization>
+  
+  <licenses>
+    <license>
+      <name>The European Space Agency Public License, Version 2.0</name>
+      <url>https://raw.github.com/esa/CCSDS_MO_APIS/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:esa/CCSDS_MO_APIS.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/CCSDS_MO_APIS.git</developerConnection>
+    <url>https://github.com/esa/CCSDS_MO_APIS</url>
+  </scm>
+  
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/esa/CCSDS_MO_APIS/issues</url>
+  </issueManagement>
+  
+  <developers>
+    <developer>
+      <id>SamCooper</id>
+      <name>Sam Cooper</name>
+      <email>sam.cooper@scisys.co.uk</email>
+      <url>https://github.com/SamCooper</url>
+    </developer>
+  </developers>
+
+  <properties>
+    <ccsds.specification.version>1.1-SNAPSHOT</ccsds.specification.version>
+    <ccsds.specification.download.skip>false</ccsds.specification.download.skip>
+    <ccsds.specification.download.directory>${project.build.directory}</ccsds.specification.download.directory>
+    <ccsds.specification.download.filter>**/ServiceDefCommon.xml</ccsds.specification.download.filter>
+    <ccsds.specification.download.ref-skip>false</ccsds.specification.download.ref-skip>
+    <ccsds.specification.download.ref-filter>**/ServiceDefMAL.xml, **/ServiceDefCOM.xml</ccsds.specification.download.ref-filter>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>int.esa.ccsds.mo</groupId>
+      <artifactId>API_MAL</artifactId>
+    </dependency>
+    <dependency> 
+      <groupId>int.esa.ccsds.mo</groupId>
+      <artifactId>API_COM</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/..</directory>
+        <includes>
+          <include>LICENCE.md</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>StubGenerator</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

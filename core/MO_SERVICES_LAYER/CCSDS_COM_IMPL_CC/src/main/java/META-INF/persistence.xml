@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="ArchivePersistenceUnit" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>esa.mo.com.impl.provider.ArchivePersistenceObject</class>
+    <class>esa.mo.com.impl.entities.ObjectBodyHolder</class>
+    <class>esa.mo.com.impl.entities.DomainHolderEntity</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/sample"/>
+      <!--      
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+      -->
+      <property name="javax.persistence.jdbc.user" value="app"/>
+      <property name="javax.persistence.jdbc.password" value="app"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <!--      
+      <property name="eclipselink.platform.class.name" value="SQLite3"/>
+      <property name="eclipselink.target-database" value=""/>
+      <property name="eclipselink.logging.level" value="FINE"/>
+      -->
+    </properties>
+  </persistence-unit>
+</persistence>

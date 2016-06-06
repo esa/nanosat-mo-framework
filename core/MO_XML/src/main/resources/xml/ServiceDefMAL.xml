@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema">
+  <mal:area name="MAL" number="1" version="1">
+    <mal:dataTypes>
+      <mal:fundamental name="Attribute"
+                       comment="Attribute is the base type of all attributes of the MAL data model. Attributes are contained within Composites and are used to build complex structures that make the data model.">
+        <mal:extends>
+          <mal:type name="Element" area="MAL"/>
+        </mal:extends>
+      </mal:fundamental>
+      <mal:fundamental name="Composite"
+                       comment="Composite is the base structure for composite structures that contain a set of elements.">
+        <mal:extends>
+          <mal:type name="Element" area="MAL"/>
+        </mal:extends>
+      </mal:fundamental>
+      <mal:fundamental name="Element"
+                       comment="Element is the base type of all data constructs. All types that make up the MAL data model are derived from it."/>
+      <mal:attribute name="Blob" shortFormPart="1"
+                     comment="The Blob structure is used to store binary object attributes. It is a variable-length, unbounded, octet array. The distinction between this type and a list of Octet attributes is that this type may allow language mappings and encodings to use more efficient or appropriate representations."/>
+      <mal:attribute name="Boolean" shortFormPart="2"
+                     comment="The Boolean structure is used to store Boolean attributes. Possible values are 'True' or 'False'."/>
+      <mal:attribute name="Duration" shortFormPart="3"
+                     comment="The Duration structure is used to store Duration attributes. It represents a length of time in seconds. It may contain a fractional component."/>
+      <mal:attribute name="Float" shortFormPart="4"
+                     comment="The Float structure is used to store floating point attributes using the IEEE 754 32-bit range.&#xA;Three special values exist for this type: POSITIVE_INFINITY, NEGATIVE_INFINITY, and NaN (Not A Number)."/>
+      <mal:attribute name="Double" shortFormPart="5"
+                     comment="The Double structure is used to store floating point attributes using the IEEE 754 64-bit range.&#xA;Three special values exist for this type: POSITIVE_INFINITY, NEGATIVE_INFINITY, and NaN (Not A Number)."/>
+      <mal:attribute name="Identifier" shortFormPart="6"
+                     comment="The Identifier structure is used to store an identifier and can be used for indexing. It is a variable-length, unbounded, Unicode string."/>
+      <mal:attribute name="Octet" shortFormPart="7"
+                     comment="The Octet structure is used to store 8-bit signed attributes. The permitted range is -128 to 127."/>
+      <mal:attribute name="UOctet" shortFormPart="8"
+                     comment="The UOctet structure is used to store 8-bit unsigned attributes. The permitted range is 0 to 255."/>
+      <mal:attribute name="Short" shortFormPart="9"
+                     comment="The Short structure is used to store 16-bit signed attributes. The permitted range is -32768 to 32767."/>
+      <mal:attribute name="UShort" shortFormPart="10"
+                     comment="The UShort structure is used to store 16-bit unsigned attributes. The permitted range is 0 to 65535."/>
+      <mal:attribute name="Integer" shortFormPart="11"
+                     comment="The Integer structure is used to store 32-bit signed attributes. The permitted range is -2147483648 to 2147483647."/>
+      <mal:attribute name="UInteger" shortFormPart="12"
+                     comment="The UInteger structure is used to store 32-bit unsigned attributes. The permitted range is 0 to 4294967295."/>
+      <mal:attribute name="Long" shortFormPart="13"
+                     comment="The Long structure is used to store 64-bit signed attributes. The permitted range is -9223372036854775808 to 9223372036854775807."/>
+      <mal:attribute name="ULong" shortFormPart="14"
+                     comment="The ULong structure is used to store 64-bit unsigned attributes. The permitted range is 0 to 18446744073709551615."/>
+      <mal:attribute name="String" shortFormPart="15"
+                     comment="The String structure is used to store String attributes. It is a variable-length, unbounded, Unicode string."/>
+      <mal:attribute name="Time" shortFormPart="16"
+                     comment="The Time structure is used to store absolute time attributes. It represents an absolute date and time to millisecond resolution."/>
+      <mal:attribute name="FineTime" shortFormPart="17"
+                     comment="The FineTime structure is used to store high-resolution absolute time attributes. It represents an absolute date and time to picosecond resolution."/>
+      <mal:attribute name="URI" shortFormPart="18"
+                     comment="The URI structure is used to store URI addresses. It is a variable-length, unbounded, Unicode string."/>
+      <mal:enumeration name="InteractionType" shortFormPart="19"
+                       comment="InteractionType is an enumeration holding the possible interaction pattern types.">
+        <mal:item value="SEND" nvalue="1" comment="Used for Send interactions."/>
+        <mal:item value="SUBMIT" nvalue="2" comment="Used for Submit interactions."/>
+        <mal:item value="REQUEST" nvalue="3" comment="Used for Request interactions."/>
+        <mal:item value="INVOKE" nvalue="4" comment="Used for Invoke interactions."/>
+        <mal:item value="PROGRESS" nvalue="5" comment="Used for Progress interactions."/>
+        <mal:item value="PUBSUB" nvalue="6" comment="Used for Publish/Subscribe interactions."/>
+      </mal:enumeration>
+      <mal:enumeration name="SessionType" shortFormPart="20"
+                       comment="SessionType is an enumeration holding the session types.">
+        <mal:item value="LIVE" nvalue="1" comment="Used for Live sessions."/>
+        <mal:item value="SIMULATION" nvalue="2" comment="Used for Simulation sessions."/>
+        <mal:item value="REPLAY" nvalue="3" comment="Used for Replay sessions."/>
+      </mal:enumeration>
+      <mal:enumeration name="QoSLevel" shortFormPart="21"
+                       comment="QoSLevel is an enumeration holding the possible QoS levels.">
+        <mal:item value="BESTEFFORT" nvalue="1" comment="Used for Best Effort QoS Level."/>
+        <mal:item value="ASSURED" nvalue="2" comment="Used for Assured QoS Level."/>
+        <mal:item value="QUEUED" nvalue="3" comment="Used for Queued QoS Level."/>
+        <mal:item value="TIMELY" nvalue="4" comment="Used for Timely QoS Level."/>
+      </mal:enumeration>
+      <mal:enumeration name="UpdateType" shortFormPart="22"
+                       comment="UpdateType is an enumeration holding the possible Update types.">
+        <mal:item value="CREATION" nvalue="1"
+                  comment="Update is notification of the creation of the item."/>
+        <mal:item value="UPDATE" nvalue="2"
+                  comment="Update is just a periodic update of the item and has not changed its value."/>
+        <mal:item value="MODIFICATION" nvalue="3"
+                  comment="Update is for a changed value or modification of the item."/>
+        <mal:item value="DELETION" nvalue="4"
+                  comment="Update is notification of the removal of the item."/>
+      </mal:enumeration>
+      <mal:composite name="Subscription" shortFormPart="23"
+                     comment="The Subscription structure is used when subscribing for updates using the PUBSUB interaction pattern. It contains a single identifier that identifies the subscription being defined and a set of entities being requested.">
+        <mal:extends>
+          <mal:type name="Composite" area="MAL"/>
+        </mal:extends>
+        <mal:field name="subscriptionId" canBeNull="false"
+                   comment="The identifier of this subscription.">
+          <mal:type name="Identifier" area="MAL"/>
+        </mal:field>
+        <mal:field name="entities" canBeNull="false"
+                   comment="The list of entities that are being subscribed for by this identified subscription.">
+          <mal:type list="true" name="EntityRequest" area="MAL"/>
+        </mal:field>
+      </mal:composite>
+      <mal:composite name="EntityRequest" shortFormPart="24"
+                     comment="The EntityRequest structure is used when subscribing for updates using the PUBSUB interaction pattern.">
+        <mal:extends>
+          <mal:type name="Composite" area="MAL"/>
+        </mal:extends>
+        <mal:field name="subDomain"
+                   comment="Optional subdomain identifier that is appended to the Message Header domain identifier when requesting entities in a subdomain of this domain.">
+          <mal:type list="true" name="Identifier" area="MAL"/>
+        </mal:field>
+        <mal:field name="allAreas" canBeNull="false"
+                   comment="If set to True, then all updates regardless of Area shall be sent.">
+          <mal:type name="Boolean" area="MAL"/>
+        </mal:field>
+        <mal:field name="allServices" canBeNull="false"
+                   comment="If set to True, then all updates regardless of Service shall be sent.">
+          <mal:type name="Boolean" area="MAL"/>
+        </mal:field>
+        <mal:field name="allOperations" canBeNull="false"
+                   comment="If set to True, then all updates regardless of Operation shall be sent.">
+          <mal:type name="Boolean" area="MAL"/>
+        </mal:field>
+        <mal:field name="onlyOnChange" canBeNull="false"
+                   comment="The Boolean denotes that only change updates are to be sent rather than all updates.">
+          <mal:type name="Boolean" area="MAL"/>
+        </mal:field>
+        <mal:field name="entityKeys" canBeNull="false"
+                   comment="The list of entities to be monitored.">
+          <mal:type list="true" name="EntityKey" area="MAL"/>
+        </mal:field>
+      </mal:composite>
+      <mal:composite name="EntityKey" shortFormPart="25"
+                     comment="The EntityKey structure is used to identify an entity in the PUBSUB interaction pattern.">
+        <mal:extends>
+          <mal:type name="Composite" area="MAL"/>
+        </mal:extends>
+        <mal:field name="firstSubKey" comment="The first sub-key of the key.">
+          <mal:type name="Identifier" area="MAL"/>
+        </mal:field>
+        <mal:field name="secondSubKey" comment="The second sub-key of the key.">
+          <mal:type name="Long" area="MAL"/>
+        </mal:field>
+        <mal:field name="thirdSubKey" comment="The third sub-key of the key.">
+          <mal:type name="Long" area="MAL"/>
+        </mal:field>
+        <mal:field name="fourthSubKey" comment="The fourth sub-key of the key.">
+          <mal:type name="Long" area="MAL"/>
+        </mal:field>
+      </mal:composite>
+      <mal:composite name="UpdateHeader" shortFormPart="26"
+                     comment="The UpdateHeader structure is used by updates using the PUBSUB interaction pattern. It holds information that identifies a single update.">
+        <mal:extends>
+          <mal:type name="Composite" area="MAL"/>
+        </mal:extends>
+        <mal:field name="timestamp" canBeNull="false" comment="Creation timestamp of the update.">
+          <mal:type name="Time" area="MAL"/>
+        </mal:field>
+        <mal:field name="sourceURI" canBeNull="false"
+                   comment="URI of the source of the update, usually a PUBSUB provider.">
+          <mal:type name="URI" area="MAL"/>
+        </mal:field>
+        <mal:field name="updateType" canBeNull="false" comment="Type of update being reported.">
+          <mal:type name="UpdateType" area="MAL"/>
+        </mal:field>
+        <mal:field name="key" canBeNull="false"
+                   comment="The key of the entity; shall not contain the wildcard value.">
+          <mal:type name="EntityKey" area="MAL"/>
+        </mal:field>
+      </mal:composite>
+      <mal:composite name="IdBooleanPair" shortFormPart="27"
+                     comment="IdBooleanPair is a simple pair type of an identifier and Boolean value.">
+        <mal:extends>
+          <mal:type name="Composite" area="MAL"/>
+        </mal:extends>
+        <mal:field name="id" comment="The Identifier value.">
+          <mal:type name="Identifier" area="MAL"/>
+        </mal:field>
+        <mal:field name="value" comment="The Boolean value.">
+          <mal:type name="Boolean" area="MAL"/>
+        </mal:field>
+      </mal:composite>
+      <mal:composite name="Pair" shortFormPart="28"
+                     comment="Pair is a simple composite structure for holding pairs. The pairs can be user-defined attributes.">
+        <mal:extends>
+          <mal:type name="Composite" area="MAL"/>
+        </mal:extends>
+        <mal:field name="first" comment="The attribute value for the first element of this pair.">
+          <mal:type name="Attribute" area="MAL"/>
+        </mal:field>
+        <mal:field name="second"
+                   comment="The attribute value for the second element of this pair.">
+          <mal:type name="Attribute" area="MAL"/>
+        </mal:field>
+      </mal:composite>
+      <mal:composite name="NamedValue" shortFormPart="29"
+                     comment="The NamedValue structure represents a simple pair type of an identifier and abstract attribute value.">
+        <mal:extends>
+          <mal:type name="Composite" area="MAL"/>
+        </mal:extends>
+        <mal:field name="name" comment="The Identifier value.">
+          <mal:type name="Identifier" area="MAL"/>
+        </mal:field>
+        <mal:field name="value" comment="The Attribute value.">
+          <mal:type name="Attribute" area="MAL"/>
+        </mal:field>
+      </mal:composite>
+      <mal:composite name="File" shortFormPart="30"
+                     comment="The File structure represents a File and holds details about a File. It can also, optionally, hold a BLOB of the file data. The file type is denoted using the internet MIME media types, the list of official MIME types is held at http://www.iana.org/assignments/media-types/index.html.">
+        <mal:extends>
+          <mal:type name="Composite" area="MAL"/>
+        </mal:extends>
+        <mal:field name="name" canBeNull="false" comment="The file name.">
+          <mal:type name="Identifier" area="MAL"/>
+        </mal:field>
+        <mal:field name="mimeType" comment="The MIME type of the file, NULL if not known.">
+          <mal:type name="String" area="MAL"/>
+        </mal:field>
+        <mal:field name="creationDate"
+                   comment="The creation timestamp of the file, NULL if not known.">
+          <mal:type name="Time" area="MAL"/>
+        </mal:field>
+        <mal:field name="modificationDate"
+                   comment="The last modification timestamp of the file, NULL if not known.">
+          <mal:type name="Time" area="MAL"/>
+        </mal:field>
+        <mal:field name="size" comment="The size of the file in Octets, NULL if not known.">
+          <mal:type name="ULong" area="MAL"/>
+        </mal:field>
+        <mal:field name="content" comment="The contents of the file, NULL if not supplied.">
+          <mal:type name="Blob" area="MAL"/>
+        </mal:field>
+        <mal:field name="metaData" comment="A list of extra metadata for the file.">
+          <mal:type list="true" name="NamedValue" area="MAL"/>
+        </mal:field>
+      </mal:composite>
+    </mal:dataTypes>
+    <mal:errors>
+      <mal:error name="DELIVERY_FAILED" number="65536" comment="Confirmed communication error."/>
+      <mal:error name="DELIVERY_TIMEDOUT" number="65537"
+                 comment="Unconfirmed communication error."/>
+      <mal:error name="DELIVERY_DELAYED" number="65538"
+                 comment="Message queued somewhere awaiting contact."/>
+      <mal:error name="DESTINATION_UNKNOWN" number="65539"
+                 comment="Destination cannot be contacted."/>
+      <mal:error name="DESTINATION_TRANSIENT" number="65540"
+                 comment="Destination middleware reports destination application does not exist."/>
+      <mal:error name="DESTINATION_LOST" number="65541"
+                 comment="Destination lost halfway through conversation."/>
+      <mal:error name="AUTHENTICATION_FAIL" number="65542"
+                 comment="A failure to authenticate the message correctly."/>
+      <mal:error name="AUTHORISATION_FAIL" number="65543"
+                 comment="A failure in the MAL to authorise the message."/>
+      <mal:error name="ENCRYPTION_FAIL" number="65544"
+                 comment="A failure in the MAL to encrypt/decrypt the message."/>
+      <mal:error name="UNSUPPORTED_AREA" number="65545"
+                 comment="The destination does not support the service area."/>
+      <mal:error name="UNSUPPORTED_OPERATION" number="65546"
+                 comment="The destination does not support the operation."/>
+      <mal:error name="UNSUPPORTED_VERSION" number="65547"
+                 comment="The destination does not support the service version."/>
+      <mal:error name="BAD_ENCODING" number="65548"
+                 comment="The destination was unable to decode the message."/>
+      <mal:error name="INTERNAL" number="65549" comment="An internal error has occurred."/>
+      <mal:error name="UNKNOWN" number="65550" comment="Operation specific."/>
+      <mal:error name="INCORRECT_STATE" number="65551"
+                 comment="The destination was not in the correct state for the received message."/>
+      <mal:error name="TOO_MANY" number="65552"
+                 comment="Maximum number of subscriptions or providers of a broker has been exceeded."/>
+      <mal:error name="SHUTDOWN" number="65553" comment="The component is being shutdown."/>
+    </mal:errors>
+  </mal:area>
+</mal:specification>
