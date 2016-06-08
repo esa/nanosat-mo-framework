@@ -21,6 +21,7 @@
 package esa.mo.platform.impl.util;
 
 import org.ccsds.moims.mo.platform.gps.structures.Position;
+import org.ccsds.moims.mo.platform.gps.structures.PositionExtraDetails;
 
 
 /**
@@ -29,6 +30,11 @@ import org.ccsds.moims.mo.platform.gps.structures.Position;
  */
 public class HelperGPS {
 
+    
+    public static double DDMMpMMMM2degrees(String DDMMpMMMM)
+    {
+        return Double.parseDouble(DDMMpMMMM.substring(0, 1))+Double.parseDouble(DDMMpMMMM.substring(2, 3))/60+Double.parseDouble(DDMMpMMMM.substring(5, 8))/3600;
+    }
     /**
      * Converts a GPGGA NMEA sentence into a partial Position object.
      *
@@ -36,12 +42,11 @@ public class HelperGPS {
      * @return Position object
      */
     public static Position gpgga2partialPosition(String gpgga){
-
         Position pos = new Position();
-        pos.setAltitude(Double.MIN_VALUE);
-        pos.setLatitude(Double.MIN_VALUE);
-        // To be done
-
+        String [] items = gpgga.split(",");
+        pos.setAltitude(Double.parseDouble(items[8]));
+        pos.setLatitude(DDMMpMMMM2degrees(items[1]));
+        pos.setLongitude(DDMMpMMMM2degrees(items[3]));
         return pos;
     }
 
@@ -54,11 +59,9 @@ public class HelperGPS {
      */
     public static Position gpgga2fullPosition(String gpgga, String smth){
 
-        Position pos = new Position();
-        pos.setAltitude(Double.MIN_VALUE);
-        pos.setLatitude(Double.MIN_VALUE);
-        
-
+        Position pos = gpgga2partialPosition(gpgga);
+        PositionExtraDetails posExtraDetails=new PositionExtraDetails();
+        pos.setExtraDetails(posExtraDetails);
         return pos;
     }
     
