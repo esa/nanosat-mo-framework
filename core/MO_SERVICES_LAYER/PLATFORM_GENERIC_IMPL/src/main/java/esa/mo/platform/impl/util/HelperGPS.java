@@ -33,7 +33,15 @@ public class HelperGPS {
     
     public static double DDMMpMMMM2degrees(String DDMMpMMMM)
     {
-        return Double.parseDouble(DDMMpMMMM.substring(0, 1))+Double.parseDouble(DDMMpMMMM.substring(2, 3))/60+Double.parseDouble(DDMMpMMMM.substring(5, 8))/3600;
+        System.out.println("DDMMpMMMM2degrees ["+DDMMpMMMM+"]" );
+        if (DDMMpMMMM.length()==9)
+        {
+            return Double.parseDouble(DDMMpMMMM.substring(0, 1))+Double.parseDouble(DDMMpMMMM.substring(2, 3))/60+Double.parseDouble(DDMMpMMMM.substring(5, 8))/3600;
+        }
+        else
+        {
+            return 0;
+        }
     }
     /**
      * Converts a GPGGA NMEA sentence into a partial Position object.
