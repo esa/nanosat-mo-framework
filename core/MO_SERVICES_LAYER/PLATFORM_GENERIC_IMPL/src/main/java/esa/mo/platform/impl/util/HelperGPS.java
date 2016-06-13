@@ -30,13 +30,30 @@ import org.ccsds.moims.mo.platform.gps.structures.PositionExtraDetails;
  */
 public class HelperGPS {
 
+    public final static int GPGGA_HEADER_COL            =0;
+    public final static int GPGGA_UTC_COL               =1;
+    public final static int GPGGA_LAT_COL               =2;
+    public final static int GPGGA_LAT_DIR_COL           =3;
+    public final static int GPGGA_LONG_COL              =4;
+    public final static int GPGGA_LONG_DIR_COL          =5;
+    public final static int GPGGA_QUAL_COL              =6;
+    public final static int GPGGA_SATS_IN_USE_COL       =7;
+    public final static int GPGGA_HDOP_COL              =8;
+    public final static int GPGGA_ALTITUDE_COL          =9;
+    public final static int GPGGA_ALTITUDE_UNITS_COL    =10;
+    public final static int GPGGA_UNDULATION_COL        =11;
+    public final static int GPGGA_UNDULATION_UNITS_COL  =12;
+    public final static int GPGGA_AGE_CORR_DATA_COL     =13;
+    public final static int GPGGA_DIFF_BASESID_COL      =14;
+    public final static int GPGGA_CHECKSUM_COL          =15;
     
     public static double DDMMpMMMM2degrees(String DDMMpMMMM)
-    {
-        System.out.println("DDMMpMMMM2degrees ["+DDMMpMMMM+"]" );
+    { 
         if (DDMMpMMMM.length()==9)
         {
-            return Double.parseDouble(DDMMpMMMM.substring(0, 1))+Double.parseDouble(DDMMpMMMM.substring(2, 3))/60+Double.parseDouble(DDMMpMMMM.substring(5, 8))/3600;
+            //System.out.println("DDMMpMMMM["+DDMMpMMMM+"]");
+            //System.out.println(Double.parseDouble(DDMMpMMMM.substring(5, 9))/3600);
+            return Double.parseDouble(DDMMpMMMM.substring(0, 2))+(Double.parseDouble(DDMMpMMMM.substring(2, 4))+Double.parseDouble(DDMMpMMMM.substring(5, 9))/1000)/60;
         }
         else
         {
@@ -52,9 +69,9 @@ public class HelperGPS {
     public static Position gpgga2partialPosition(String gpgga){
         Position pos = new Position();
         String [] items = gpgga.split(",");
-        pos.setAltitude(Double.parseDouble(items[8]));
-        pos.setLatitude(DDMMpMMMM2degrees(items[1]));
-        pos.setLongitude(DDMMpMMMM2degrees(items[3]));
+        pos.setAltitude(Double.parseDouble(items[GPGGA_ALTITUDE_COL]));
+        pos.setLatitude(DDMMpMMMM2degrees(items[GPGGA_LAT_COL])*((items[GPGGA_LAT_DIR_COL]).equals("S")?-1:1));
+        pos.setLongitude(DDMMpMMMM2degrees(items[GPGGA_LONG_COL])*((items[GPGGA_LONG_DIR_COL]).equals("W")?-1:1));
         return pos;
     }
 
