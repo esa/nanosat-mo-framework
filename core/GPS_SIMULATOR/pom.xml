@@ -62,6 +62,12 @@
             <email>Cesar.Coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
+        <developer>
+            <id>CezarSuteu</id>
+            <name>Cezar Suteu</name>
+            <email>Cezar.Suteu@esa.int</email>
+            <url>https://github.com/CezarSuteu</url>
+        </developer>
     </developers>
             
     <build>
