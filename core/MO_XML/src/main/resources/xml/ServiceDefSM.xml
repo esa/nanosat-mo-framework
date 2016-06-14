@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<mal:area comment="Provides a set of services for software management onboard of a spacecraft.&#10;The Memory Management service is a low-level service intended to be used to load, dump and check memory addresses.&#10;The Software Images service is intended to manage Software Images and Software Patches by allowing the generation of new Software Images from a patch.&#10;The Package Management service allows the management of software packages on modern operating systems using the concept of packages.&#10;The Apps Launcher service allows the management of runnable applications in a system." name="SoftwareManagement" number="7" version="1">
 		<mal:service comment="The Memory Management service provides the ability to load, dump and check binary data blocks in known memory addresses from/to a certain memory device." name="MemoryManagement" number="1" xsi:type="com:ExtendedServiceType">
 			<mal:capabilitySet comment="" number="1">
@@ -595,7 +596,6 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
-						
 						</mal:request>
 						<mal:response comment=""/>
 					</mal:messages>
@@ -659,17 +659,30 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 					<mal:field canBeNull="true" comment="" name="name">
 						<mal:type area="MAL" list="false" name="Identifier"/>
 					</mal:field>
+        <mal:field canBeNull="true" comment="" name="description">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
 					<mal:field canBeNull="true" comment="" name="category">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
-				</mal:composite>
+					<mal:type area="MAL" list="false" name="Identifier"/>
+          </mal:field>
+        <mal:field canBeNull="true" comment="" name="runAtStartup">
+          <mal:type area="MAL" list="false" name="Boolean"/>
+          </mal:field>
+				<mal:field canBeNull="true" comment="" name="running">
+          <mal:type area="MAL" list="false" name="Boolean"/>
+          </mal:field>
+        </mal:composite>
 			</mal:dataTypes>
 			<com:features>
 				<com:objects comment="">
 					<com:object comment="" name="App" number="1">
+            <com:objectType>
+              <mal:type area="SoftwareManagement" list="false" name="AppDetails" service="AppsLauncher"/>
+            </com:objectType>
 						<com:relatedObject comment=""/>
 						<com:sourceObject comment=""/>
 					</com:object>
+				
 				</com:objects>
 				<com:events comment="">
 					<com:event comment="" name="CloseApp" number="2">
@@ -678,14 +691,18 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 						</com:relatedObject>
 						<com:sourceObject comment=""/>
 					</com:event>
+				
 				</com:events>
 			</com:features>
 		</mal:service>
 		<mal:service comment="The Heartbeat service publishes a heart beat message periodically. Additionally it is possible to get the period of the beat." name="Heartbeat" number="6" xsi:type="com:ExtendedServiceType">
+			<mal:documentation name="High Level Requirements" order="1">//Mention that the first heartbeat will be after the period set and not right upon startup.
+			</mal:documentation>
 			<mal:capabilitySet comment="" number="1">
 				<mal:pubsubIP comment="The beat operation allows a provider to periodically send a heartbeat to the consumers." name="beat" number="1" supportInReplay="false">
 					<mal:messages>
-						<mal:publishNotify comment=""/>
+						<mal:publishNotify comment="">
+						</mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
 			</mal:capabilitySet>

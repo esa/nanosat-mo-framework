@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
  */
 public interface PlatformServicesProviderInterface {
 
-    public void init(COMServicesProvider comServices) throws MALException;
+//    public void init(COMServicesProvider comServices) throws MALException;
 
     public abstract CameraInheritanceSkeleton getCameraService();
 

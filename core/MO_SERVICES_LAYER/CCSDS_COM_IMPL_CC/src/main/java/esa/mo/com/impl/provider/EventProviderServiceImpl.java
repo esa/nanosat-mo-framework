@@ -324,7 +324,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             final Long related, final ObjectIdList sources, ElementList eventBodies) {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         try {
-
             if (!isRegistered) {
                 final EntityKeyList lst = new EntityKeyList();
                 lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -332,8 +331,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 isRegistered = true;
             }
 
-//            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.FINE,
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO,
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.FINE,
+//            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO,
                     "Publishing Event for the Event objIds: {0}; with Event Object Numbers: {1}",
                     new Object[]{objIds, objType.getNumber()});
 

@@ -49,7 +49,7 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
-    public AppsLauncherStub getApplicationsManagerStub() {
+    public AppsLauncherStub getAppsLauncherStub() {
         return this.applicationsManagerService;
     }
 

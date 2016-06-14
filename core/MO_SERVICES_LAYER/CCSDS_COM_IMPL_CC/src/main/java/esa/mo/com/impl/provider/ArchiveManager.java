@@ -1087,14 +1087,14 @@ public class ArchiveManager {
             return;
         }
 
-        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "\nobjType: " + objType.toString() + "\nDomain: " + configuration.getDomain().toString() + "\nSourceList: " + sourceList.toString());
+        Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "\nobjType: " + objType.toString() + "\nDomain: " + configuration.getDomain().toString() + "\nSourceList: " + sourceList.toString());
 //        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "\nDomain: " + configuration.getDomain().toString());
 //        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "\nSourceList: " + sourceList.toString());
 
         // requirement: 3.4.2.4
         final LongList eventObjIds = eventService.generateAndStoreEvents(objType, configuration.getDomain(), null, sourceList, interaction);
 
-        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "The eventObjIds are: " + eventObjIds.toString());
+        Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
         
         URI sourceURI = new URI("");
 

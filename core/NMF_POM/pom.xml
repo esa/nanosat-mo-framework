@@ -175,9 +175,6 @@
                 <version>${esa.nmf.components.nmc.version}</version>
             </dependency>
 
-
-
-
         </dependencies>
     </dependencyManagement>
   

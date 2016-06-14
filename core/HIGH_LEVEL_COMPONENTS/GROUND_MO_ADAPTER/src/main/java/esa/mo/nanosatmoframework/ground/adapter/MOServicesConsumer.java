@@ -29,6 +29,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
+import esa.mo.sm.impl.util.SMServicesConsumer;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -54,6 +55,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
 /**
  * MOServicesConsumer connects to the NanoSat MO Framework and provides the
@@ -69,6 +71,7 @@ public class MOServicesConsumer {
     private final MCServicesConsumer mcServices;
     private final PlatformServicesConsumer platformServices;
     private final CommonServicesConsumer commonServices;
+    private final SMServicesConsumer smServices;
 
     /**
      * The constructor of this class
@@ -81,6 +84,7 @@ public class MOServicesConsumer {
         this.mcServices = new MCServicesConsumer();
         this.platformServices = new PlatformServicesConsumer();
         this.commonServices = new CommonServicesConsumer();
+        this.smServices = new SMServicesConsumer();
 
         this.initHelpers();
         this.init();
@@ -100,6 +104,7 @@ public class MOServicesConsumer {
         this.mcServices = new MCServicesConsumer();
         this.platformServices = new PlatformServicesConsumer();
         this.commonServices = new CommonServicesConsumer();
+        this.smServices = new SMServicesConsumer();
 
         this.initHelpers();
 
@@ -152,7 +157,8 @@ public class MOServicesConsumer {
         initMCServices();
         initPlatformServices();
         initCommonServices();
-
+        initSMServices();
+       
     }
 
     private void initHelpers() {
@@ -177,6 +183,10 @@ public class MOServicesConsumer {
                 CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
 
+            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            }
+
         } catch (MALException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -197,6 +207,10 @@ public class MOServicesConsumer {
 
     private void initCommonServices() {
         commonServices.init(connection, comServices);
+    }
+
+    private void initSMServices() {
+        smServices.init(connection, comServices);
     }
 
     /**
@@ -233,6 +247,15 @@ public class MOServicesConsumer {
      */
     public CommonServicesConsumer getCommonServices() {
         return commonServices;
+    }
+
+    /**
+     * Requests the Software Management services.
+     *
+     * @return The Software Management services
+     */
+    public SMServicesConsumer getSMServices() {
+        return smServices;
     }
 
     public ConnectionConsumer getConnectionConsumer() {
@@ -293,6 +316,10 @@ public class MOServicesConsumer {
         
         if(this.platformServices != null){
             this.platformServices.closeConnections();
+        }
+                
+        if(this.smServices != null){
+            this.smServices.closeConnections();
         }
                 
     }

@@ -18,23 +18,22 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.fw.configurationtool.services.mc;
+package esa.mo.fw.configurationtool.services.sm;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.fw.configurationtool.stuff.SharedTablePanel;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class AggregationTablePanel extends SharedTablePanel {
+public class AppsLauncherTablePanel extends SharedTablePanel {
 
-    public AggregationTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public AppsLauncherTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
@@ -52,17 +51,15 @@ public class AggregationTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
             
-        AggregationDefinitionDetails pDef = (AggregationDefinitionDetails) comObject.getObject();
+        AppDetails appDetails = (AppDetails) comObject.getObject();
         
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
-            pDef.getName(),
-            pDef.getDescription(),
-            pDef.getCategory().toString(),
-            pDef.getGenerationEnabled(),
-            pDef.getUpdateInterval().toString(),
-            pDef.getFilterEnabled(),
-            pDef.getFilteredTimeout().getValue()
+            appDetails.getName(),
+            appDetails.getDescription(),
+            appDetails.getCategory().toString(),
+            appDetails.getRunAtStartup(),
+            appDetails.getRunning()
         });
 
         comObjects.add(comObject);
@@ -79,8 +76,8 @@ public class AggregationTablePanel extends SharedTablePanel {
         }
 
         // 4 because it is where generationEnabled is!
-        tableData.setValueAt(status, this.getSelectedRow(), 4);
-        ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        tableData.setValueAt(status, this.getSelectedRow(), 5);
+        ((AppDetails) this.getSelectedCOMObject().getObject()).setRunning(status);
         
         semaphore.release();
         
@@ -98,15 +95,15 @@ public class AggregationTablePanel extends SharedTablePanel {
         
         
         for (int i = 0; i < this.getTable().getRowCount() ; i++){
-            tableData.setValueAt(status, i, 4);
-            ((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            tableData.setValueAt(status, i, 5);
+            ((AppDetails) this.getCOMObjects().get(i).getObject()).setRunning(status);
         }
         
         semaphore.release();
         
     }
 
-    
+/*    
     public void switchFilterEnabledstatus(boolean status){
         
         try {
@@ -140,18 +137,19 @@ public class AggregationTablePanel extends SharedTablePanel {
         semaphore.release();
         
     }
-    
+*/  
+
     @Override
     public void defineTableContent() {
     
         String[] tableCol = new String[]{
-            "Obj Inst Id", "name", "description", "category", "generationEnabled", "updateInterval", "filterEnabled" };
+            "Obj Inst Id", "name", "description", "category", "runAtStartup", "running" };
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {
                     Class[] types = new Class[]{
-                        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                        java.lang.Boolean.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Double.class
+                        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, 
+                        java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
                     };
 
                     @Override               //all cells false

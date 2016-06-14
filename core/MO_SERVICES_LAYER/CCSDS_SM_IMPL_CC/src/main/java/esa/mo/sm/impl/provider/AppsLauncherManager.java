@@ -168,6 +168,8 @@ public class AppsLauncherManager extends DefinitionsManager {
     protected void refreshAvailableAppsList() {
 
         // Go to all the "apps folder" and check if there are new folders
+        
+        
     }
 
     protected boolean isAppRunning(Long appId) {

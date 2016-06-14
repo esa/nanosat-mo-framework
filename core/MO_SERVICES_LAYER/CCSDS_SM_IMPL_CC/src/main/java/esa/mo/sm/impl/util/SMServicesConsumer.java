@@ -77,7 +77,7 @@ public class SMServicesConsumer {
         return this.packageManagementService;
     }
 
-    public AppsLauncherConsumerServiceImpl getApplicationsManagerService() {
+    public AppsLauncherConsumerServiceImpl getAppsLauncherService() {
         return this.appsLauncherService;
     }
 

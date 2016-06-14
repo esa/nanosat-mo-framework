@@ -99,6 +99,10 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>CCSDS_SM_IMPL</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
         </dependency>
 

@@ -33,32 +33,15 @@ import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.com.impl.util.EventReceivedListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
-import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
  *
@@ -69,7 +52,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
     private EventConsumerServiceImpl serviceCOMEvent;
     private List<ArchivePersistenceObject> comObjects;
     private DefaultTableModel eventTableData;
-    private ConnectionConsumer connection = new ConnectionConsumer();
 
     /**
      * Creates new form ArchiveConsumerPanel

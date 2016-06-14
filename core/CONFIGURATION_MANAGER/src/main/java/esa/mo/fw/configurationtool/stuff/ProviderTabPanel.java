@@ -30,6 +30,7 @@ import esa.mo.fw.configurationtool.services.mc.CheckConsumerPanel;
 import esa.mo.fw.configurationtool.services.mc.ParameterConsumerPanel;
 import esa.mo.fw.configurationtool.services.mc.ParameterPublishedValues;
 import esa.mo.fw.configurationtool.services.mc.StatisticConsumerPanel;
+import esa.mo.fw.configurationtool.services.sm.AppsLauncherConsumerPanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import esa.mo.nanosatmoframework.ground.adapter.MOServicesConsumer;
@@ -108,6 +109,16 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 }
 
             }
+            
+            // Software Management
+            if(services.getSMServices()!= null){
+
+                if(services.getSMServices().getAppsLauncherService() != null){
+                    this.serviceTabs.insertTab("Apps Launcher service", null, new AppsLauncherConsumerPanel(services.getSMServices().getAppsLauncherService()), "Software Management Tab", serviceTabs.getTabCount());
+                }
+
+            }
+   
         } catch (MALInteractionException ex) {
             Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
