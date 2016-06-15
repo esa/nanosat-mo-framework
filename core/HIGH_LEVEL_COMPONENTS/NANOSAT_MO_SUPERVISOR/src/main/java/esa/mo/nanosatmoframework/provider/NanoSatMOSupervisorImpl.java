@@ -62,13 +62,13 @@ import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
  *
  * @author Cesar Coelho
  */
-public class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInterface {
+public abstract class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInterface {
 
     private final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     private final static String PROVIDER_NAME = "NanoSat MO Supervisor";
     private final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
     private final ConfigurationProvider configuration = new ConfigurationProvider();
-    private final COMServicesProvider comServices = new COMServicesProvider();
+    protected final COMServicesProvider comServices = new COMServicesProvider();
     private final MCServicesProvider mcServices = new MCServicesProvider();
     private final PlatformServicesProviderInterface platformServices;
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
@@ -103,14 +103,14 @@ public class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInterface {
                     null
             );
 
-            platformServices.init(comServices);
+            this.initPlatformServices();
             this.directoryService.init(comServices);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.SEVERE, 
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
-
+    
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.INFO, "Populating Directory service...");
         this.directoryService.autoLoadURIsFile(PROVIDER_NAME);
@@ -148,6 +148,8 @@ public class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInterface {
         Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.INFO, "NanoSat MO Framework initialized! URI: " + uri + "\n");
 
     }
+    
+    public abstract void initPlatformServices();
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary

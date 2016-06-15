@@ -63,7 +63,7 @@ import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
  *
  * @author Cesar Coelho
  */
-public class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface {
+public abstract class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface {
 
     private final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Monolithic";
@@ -230,10 +230,12 @@ public class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface {
         mcServices.getAlertService().init(comServices);
         mcServices.getAggregationService().init(comServices, parameterManager);
 
-        platformServices.init(comServices);
+        this.initPlatformServices();
         directoryService.init(comServices);
 
     }
+    
+    public abstract void initPlatformServices();
 
     private void loadConfigurations() {
             // Activate the previous configuration
