@@ -96,7 +96,6 @@ public class NanoSatMOConnectorImpl implements NanoSatMOFrameworkInterface {
         // Connect to the Central Directory service
         // Lookup for the Platform services
         platformServices = null;
-        vsfvsfvfsvsvdf
 
         try {
             comServices.init();
