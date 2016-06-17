@@ -62,12 +62,6 @@
             <email>Cesar.Coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
-        <developer>
-            <id>SamCooper</id>
-            <name>Sam Cooper</name>
-            <email>sam.cooper@scisys.co.uk</email>
-            <url>https://github.com/SamCooper</url>
-        </developer>
     </developers>
 
     <dependencies>
@@ -81,6 +75,7 @@
         </dependency>
         
         <!-- The COM Impl dependency should be completly removed in the future! -->
+        <!-- Refactoring of the other layers must be done in order to remove it -->
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>CCSDS_COM_IMPL</artifactId>
@@ -102,10 +97,7 @@
                     <artifactId>derbynet</artifactId> 
                 </exclusion> 
             </exclusions> 
-                
         </dependency>
-        
-        
     </dependencies>
         
     <build>
@@ -151,7 +143,6 @@
             </plugin>
         </plugins>
     </build>
-
 
     <repositories>
         <repository>

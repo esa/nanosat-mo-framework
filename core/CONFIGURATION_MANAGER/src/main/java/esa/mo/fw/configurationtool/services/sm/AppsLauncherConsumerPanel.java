@@ -25,8 +25,6 @@ import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -34,7 +32,6 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
@@ -275,7 +272,6 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_runAppButtonActionPerformed
-
     
     public class AppsLauncherConsumerAdapter extends AppsLauncherAdapter {
 
@@ -296,10 +292,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 //                comObjects.add(comObject);
             }
         }
-
-        
-    }
-    
+    }    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable actionDefinitionsTable;
