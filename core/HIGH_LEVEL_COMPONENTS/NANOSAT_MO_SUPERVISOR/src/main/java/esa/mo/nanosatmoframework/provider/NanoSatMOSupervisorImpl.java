@@ -72,7 +72,6 @@ public abstract class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInter
     private final MCServicesProvider mcServices = new MCServicesProvider();
     private final PlatformServicesProviderInterface platformServices;
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
-//    private final CommonServicesProvider commonServices = new CommonServicesProvider();
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary

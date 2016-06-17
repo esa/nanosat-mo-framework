@@ -20,34 +20,26 @@
  */
 package esa.mo.nanosatmoframework.ground.adapter;
 
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nanosatmoframework.ground.listeners.CompleteDataReceivedListener;
-import esa.mo.com.impl.util.EventCOMObject;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import esa.mo.nanosatmoframework.ground.interfaces.DataReceivedListener;
-import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.nanosatmoframework.ground.interfaces.SimpleCommandingInterface;
 import esa.mo.nanosatmoframework.ground.listeners.SimpleDataReceivedListener;
-import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
-import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;

@@ -55,13 +55,17 @@ public class SMServicesConsumer {
         SingleConnectionDetails details;
 
         try {
-            // Initialize the Archive service
-            details = connectionConsumer.getServicesDetails().get(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME);
-            packageManagementService = new PackageManagementConsumerServiceImpl(details, comServices);
-
-            // Initialize the Event service (without an Archive)
+            // Initialize the Apps Launcher service
             details = connectionConsumer.getServicesDetails().get(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME);
-            appsLauncherService = new AppsLauncherConsumerServiceImpl(details, comServices);
+            if(details != null){
+                appsLauncherService = new AppsLauncherConsumerServiceImpl(details, comServices);                
+            }
+
+            // Initialize the Package Management service
+            details = connectionConsumer.getServicesDetails().get(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME);
+            if(details != null){
+                packageManagementService = new PackageManagementConsumerServiceImpl(details, comServices);
+            }
 
         } catch (MALException ex) {
             Logger.getLogger(SMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);

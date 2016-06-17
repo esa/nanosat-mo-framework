@@ -55,6 +55,13 @@ public class MCServicesConsumer {
     private AggregationConsumerServiceImpl aggregationService;
 
 
+    /**
+     * Initializes the Monitor and Control services
+     * service
+     *
+     * @param connectionConsumer Connection details
+     * @param comServices COM services
+     */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices){
     
         SingleConnectionDetails details;
