@@ -74,6 +74,7 @@ public abstract class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface
     private ParameterManager parameterManager;
     private PlatformServicesProviderInterface platformServices;
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
+    private CloseAppListener closeAppAdapter = null;
     private final String providerName;
 
     /**
@@ -267,7 +268,23 @@ public abstract class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface
     
     @Override
     public void addCloseAppListener(CloseAppListener closeAppAdapter) {
-        // To be done...
+        this.closeAppAdapter = closeAppAdapter;
     }
 
+
+    
+    // Event adapter listenning for Close App events
+    
+    // Event to Close received!
+    // Acknowledge the reception of the request to close (Closing...)
+        
+    // Notify the upper layer that it is time to sleep...
+//    closeAppAdapter.onClose();
+    
+    // Close connections
+        
+     
+    
+    
+    
 }
