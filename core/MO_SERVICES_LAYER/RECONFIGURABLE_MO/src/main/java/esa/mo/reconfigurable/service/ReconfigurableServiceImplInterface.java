@@ -20,8 +20,8 @@
  */
 package esa.mo.reconfigurable.service;
 
+import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
-import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
 
 /**
  * An interface to make a service provider implementation reconfigurable
@@ -52,8 +52,13 @@ public interface ReconfigurableServiceImplInterface {
      * Retrieves the service key for the reconfigurable service
      * @return The service key
      */
-    public ServiceKey getServiceKey();
+//    public ServiceKey getServiceKey();
     
+    /**
+     * Retrieves the COMService object
+     * @return The service key
+     */
+    public COMService getCOMService();
     
     
 }

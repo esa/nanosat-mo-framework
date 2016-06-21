@@ -22,15 +22,11 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProvider;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.mc.impl.interfaces.ConfigurationNotificationInterface;
-import esa.mo.mc.impl.util.ConfigurationEventAdapter;
-import esa.mo.mc.impl.util.ReconfigurableServiceImplInterface;
-import java.net.MalformedURLException;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
+import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +35,11 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
@@ -67,7 +63,6 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
-import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
@@ -612,6 +607,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
     }
+
+    @Override
+    public COMService getCOMService() {
+        return ParameterHelper.PARAMETER_SERVICE;
+    }    
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 

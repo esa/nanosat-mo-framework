@@ -23,11 +23,11 @@
         <relativePath/>
     </parent>
   
-    <artifactId>NANOSAT_MO_FRAMEWORK_GENERIC</artifactId>
+    <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>NanoSat MO Framework: Generic</name>
+    <name>NanoSat MO Monolithic: Generic</name>
     <description>NanoSat MO Framework</description>
     <url>http://www.esa.int</url>
   

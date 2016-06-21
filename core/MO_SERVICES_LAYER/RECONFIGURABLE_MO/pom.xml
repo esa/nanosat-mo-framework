@@ -76,6 +76,7 @@
         
         <!-- The COM Impl dependency should be completly removed in the future! -->
         <!-- Refactoring of the other layers must be done in order to remove it -->
+        
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>CCSDS_COM_IMPL</artifactId>
@@ -98,6 +99,7 @@
                 </exclusion> 
             </exclusions> 
         </dependency>
+        
     </dependencies>
         
     <build>

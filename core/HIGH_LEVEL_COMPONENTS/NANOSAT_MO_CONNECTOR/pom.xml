@@ -67,7 +67,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>NANOSAT_MO_FRAMEWORK_GENERIC</artifactId>
+            <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
         </dependency>
     </dependencies>
     

@@ -24,14 +24,15 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProvider;
-import esa.mo.mc.impl.interfaces.ConfigurationNotificationInterface;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
+import esa.mo.mc.impl.provider.CheckProviderServiceImpl;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import esa.mo.mc.impl.provider.StatisticProviderServiceImpl;
-import esa.mo.mc.impl.util.ReconfigurableServiceImplInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithic;
+import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
+import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -56,6 +57,7 @@ import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
+import org.ccsds.moims.mo.mc.check.CheckHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.statistic.StatisticHelper;
 
@@ -63,7 +65,7 @@ import org.ccsds.moims.mo.mc.statistic.StatisticHelper;
  *
  * @author Cesar Coelho
  */
-public class StoreLastConfigurationAdapter implements ConfigurationNotificationInterface {
+public class MCStoreLastConfigurationAdapter implements ConfigurationNotificationInterface {
 
     public static Long DEFAULT_OBJID_ACTION_SERVICE = (long) 1;
     public static Long DEFAULT_OBJID_PARAMETER_SERVICE = (long) 2;
@@ -75,18 +77,18 @@ public class StoreLastConfigurationAdapter implements ConfigurationNotificationI
     private ConfigurationProvider configuration = new ConfigurationProvider();
     private final COMServicesProvider comServices;
 
-    public StoreLastConfigurationAdapter(NanoSatMOMonolithic provider, ObjectId confId, Identifier providerName) {
+    public MCStoreLastConfigurationAdapter(NanoSatMOFrameworkInterface provider, ObjectId confId, Identifier providerName) {
 
         try {
             ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
         } catch (MALException ex) {
-            // nothing to be done..
+            // if it was already initialized, then.. cool bro!
         }
 
         try {
             DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
         } catch (MALException ex) {
-            // nothing to be done..
+            // if it was already initialized, then.. cool bro!
         }
 
         this.comServices = provider.getCOMServices();
@@ -98,81 +100,82 @@ public class StoreLastConfigurationAdapter implements ConfigurationNotificationI
                 confId.getKey().getInstId());
 
         // Does the providerConfiguration object exists?
-        if (comObject == null) {
-            // It doesn't exist... create all the necessary objects...
-            try {
+        if (comObject != null) {
+            return;
+        }
+        
+        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "There were no previous configurations stored in the Archive. Creating configurations...");
 
-                // Store the Default Service Configuration objects
-                Long objIdAction = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_ACTION_SERVICE,
-                        ActionHelper.ACTION_SERVICE_NUMBER, provider.getMCServices().getAlertService());
+        // It doesn't exist... create all the necessary objects...
+        try {
+            // Store the Default Service Configuration objects
+            Long objIdAction = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_ACTION_SERVICE,
+                    ActionHelper.ACTION_SERVICE_NUMBER, provider.getMCServices().getAlertService());
 
-                Long objIdParameter = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_PARAMETER_SERVICE,
-                        ParameterHelper.PARAMETER_SERVICE_NUMBER, provider.getMCServices().getParameterService());
+            Long objIdParameter = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_PARAMETER_SERVICE,
+                    ParameterHelper.PARAMETER_SERVICE_NUMBER, provider.getMCServices().getParameterService());
 
-                Long objIdAlert = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_ALERT_SERVICE,
-                        AlertHelper.ALERT_SERVICE_NUMBER, provider.getMCServices().getAlertService());
-                /*
-                 Long objIdCheck = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_CHECK_SERVICE, 
-                 CheckHelper.CHECK_SERVICE_NUMBER, provider.getMCServices().getCheckService());
-                 */
+            Long objIdAlert = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_ALERT_SERVICE,
+                    AlertHelper.ALERT_SERVICE_NUMBER, provider.getMCServices().getAlertService());
+/*
+            Long objIdCheck = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_CHECK_SERVICE,
+                    CheckHelper.CHECK_SERVICE_NUMBER, provider.getMCServices().getCheckService());
 
-                 Long objIdStatistic = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_STATISTIC_SERVICE, 
-                 StatisticHelper.STATISTIC_SERVICE_NUMBER, provider.getMCServices().getStatisticService());
+            Long objIdStatistic = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_STATISTIC_SERVICE,
+                    StatisticHelper.STATISTIC_SERVICE_NUMBER, provider.getMCServices().getStatisticService());
+*/
+            Long objIdAggregation = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_AGGREGATION_SERVICE,
+                    AggregationHelper.AGGREGATION_SERVICE_NUMBER, provider.getMCServices().getAggregationService());
 
-                Long objIdAggregation = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_AGGREGATION_SERVICE,
-                        AggregationHelper.AGGREGATION_SERVICE_NUMBER, provider.getMCServices().getAggregationService());
+            // Store the provider configuration objects
+            ConfigurationObjectDetailsList archObj = new ConfigurationObjectDetailsList();
+            ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails();
+            ConfigurationObjectSetList setList = new ConfigurationObjectSetList();
+            ConfigurationObjectSet set = new ConfigurationObjectSet();
 
-                // Store the provider configuration objects
-                ConfigurationObjectDetailsList archObj = new ConfigurationObjectDetailsList();
-                ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails();
-                ConfigurationObjectSetList setList = new ConfigurationObjectSetList();
-                ConfigurationObjectSet set = new ConfigurationObjectSet();
+            LongList objIds = new LongList();
+            objIds.add(objIdAction);
+            objIds.add(objIdParameter);
+            objIds.add(objIdAlert);
+//            objIds.add(objIdCheck);
+//            objIds.add(objIdStatistic);
+            objIds.add(objIdAggregation);
 
-                LongList objIds = new LongList();
-                objIds.add(objIdAction);
-                objIds.add(objIdParameter);
-                objIds.add(objIdAlert);
-//                objIds.add(objIdCheck);
-                objIds.add(objIdStatistic);
-                objIds.add(objIdAggregation);
+            set.setDomain(configuration.getDomain());
+            set.setObjType(ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE);
+            set.setObjInstIds(objIds);
 
-                set.setDomain(configuration.getDomain());
-                set.setObjType(ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE);
-                set.setObjInstIds(objIds);
+            setList.add(set);
+            providerObjects.setConfigObjects(setList);
+            archObj.add(providerObjects);
 
-                setList.add(set);
-                providerObjects.setConfigObjects(setList);
-                archObj.add(providerObjects);
-
-                LongList objIds3 = comServices.getArchiveService().store(
-                        true,
-                        ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                        configuration.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI("")),
-                        archObj,
-                        null);
+            LongList objIds3 = comServices.getArchiveService().store(
+                    true,
+                    ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                    configuration.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI("")),
+                    archObj,
+                    null);
 
                 // Store the provider configuration
-                // Related points to the Provider's Configuration Objects
-                ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), null, configuration.getNetwork(), new URI(""));
-                details.get(0).setInstId(confId.getKey().getInstId());
-                IdentifierList providerNameList = new IdentifierList();
-                providerNameList.add(providerName);
+            // Related points to the Provider's Configuration Objects
+            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), null, configuration.getNetwork(), new URI(""));
+            details.get(0).setInstId(confId.getKey().getInstId());
+            IdentifierList providerNameList = new IdentifierList();
+            providerNameList.add(providerName);
 
-                comServices.getArchiveService().store(
-                        false,
-                        ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
-                        configuration.getDomain(),
-                        details,
-                        providerNameList,
-                        null);
+            comServices.getArchiveService().store(
+                    false,
+                    ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                    configuration.getDomain(),
+                    details,
+                    providerNameList,
+                    null);
 
-            } catch (MALException ex) {
-                Logger.getLogger(StoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(StoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+        } catch (MALException ex) {
+            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // If not, then create it and all of the configuration objects for each service
@@ -192,15 +195,14 @@ public class StoreLastConfigurationAdapter implements ConfigurationNotificationI
         if (serviceImpl instanceof AlertProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_ALERT_SERVICE);
         }
-        /*
-         if (serviceImpl instanceof CheckProviderServiceImpl) {
-         this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_CHECK_SERVICE);
-         }
-         */
-                
-         if (serviceImpl instanceof StatisticProviderServiceImpl) {
-         this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_STATISTIC_SERVICE);
-         }
+
+        if (serviceImpl instanceof CheckProviderServiceImpl) {
+            this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_CHECK_SERVICE);
+        }
+
+        if (serviceImpl instanceof StatisticProviderServiceImpl) {
+            this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_STATISTIC_SERVICE);
+        }
 
         if (serviceImpl instanceof AggregationProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_AGGREGATION_SERVICE);
@@ -225,9 +227,9 @@ public class StoreLastConfigurationAdapter implements ConfigurationNotificationI
                     confObjsList,
                     null);
         } catch (MALException ex) {
-            Logger.getLogger(StoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(StoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -262,13 +264,12 @@ public class StoreLastConfigurationAdapter implements ConfigurationNotificationI
             return objIds2.get(0);
 
         } catch (MALException ex) {
-            Logger.getLogger(StoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(StoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
-
     }
 
 }

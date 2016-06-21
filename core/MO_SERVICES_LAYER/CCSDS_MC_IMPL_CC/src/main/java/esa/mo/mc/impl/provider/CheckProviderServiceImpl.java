@@ -25,8 +25,8 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.mc.impl.interfaces.ConfigurationNotificationInterface;
-import esa.mo.mc.impl.util.ReconfigurableServiceImplInterface;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
+import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +35,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
@@ -624,7 +625,12 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
         }
 
     }
-    
+
+    @Override
+    public COMService getCOMService() {
+        return CheckHelper.CHECK_SERVICE;
+    }        
+        
     private class PeriodicCheckingManager { // requirement: 3.7.2.1a
 
         private HashMap<Long, Timer> sampleTimerList; // Timers list

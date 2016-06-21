@@ -30,6 +30,7 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetailsList;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
+import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
 import org.ccsds.moims.mo.common.directory.structures.ServiceKeyList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -117,7 +118,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
 
             // Store the Service Configuration
             ServiceKeyList serviceKeyList = new ServiceKeyList();
-            serviceKeyList.add(service.getServiceKey());
+            serviceKeyList.add(new ServiceKey(service.getCOMService().getArea().getNumber(), service.getCOMService().getNumber(), service.getCOMService().getArea().getVersion()));
 
             LongList objIds2 = archiveService.store(
                     true,

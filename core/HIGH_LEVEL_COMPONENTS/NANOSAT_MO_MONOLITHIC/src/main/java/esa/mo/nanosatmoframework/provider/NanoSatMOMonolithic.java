@@ -32,14 +32,18 @@ import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.mc.impl.util.MCServicesProvider;
-import esa.mo.mc.impl.util.ReconfigurableServiceImplInterface;
 import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
 import esa.mo.nanosatmoframework.adapters.MCStoreLastConfigurationAdapter;
 import esa.mo.nanosatmoframework.interfaces.CloseAppListener;
 import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
+import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
+import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
+import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -63,7 +67,7 @@ import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
  *
  * @author Cesar Coelho
  */
-public abstract class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface {
+public abstract class NanoSatMOMonolithic implements ReconfigurableProviderImplInterface, NanoSatMOFrameworkInterface {
 
     private final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Monolithic";
@@ -75,6 +79,7 @@ public abstract class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface
     private PlatformServicesProviderInterface platformServices;
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     private CloseAppListener closeAppAdapter = null;
+    private ConfigurationNotificationInterface providerConfigurationAdapter = null;
     private final String providerName;
 
     /**
@@ -112,7 +117,7 @@ public abstract class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface
 
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading NanoSat MO Framework previous configurations...");
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
             this.loadConfigurations();
         }
 
@@ -192,6 +197,7 @@ public abstract class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface
         return this.getMCServices().getParameterService().pushSingleParameterValueAttribute(new Identifier(name), (Attribute) obj, null, null);
     }
 
+    
     private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) {
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
@@ -211,7 +217,7 @@ public abstract class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface
         // Reload the previous Configuration
         service.reloadConfiguration(configurationObjectDetails);
     }
-
+    
     private void servicesInit(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter) throws MALException {
         comServices.init();
@@ -264,6 +270,42 @@ public abstract class NanoSatMOMonolithic implements NanoSatMOFrameworkInterface
 //            mcServices.getStatisticService().setConfigurationAdapter(confAdapter);
             mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
 
+    }
+    
+    @Override
+    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+        this.providerConfigurationAdapter = configurationAdapter;
+    }
+
+    @Override
+    public ArrayList<ReconfigurableServiceImplInterface> getServices() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+//        you need a list of services here...
+        
+    }
+
+    @Override
+    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+//        you also need to plug the current configuration here...
+//        for our case, we have only a single configuration that never changes...
+        
+    }
+
+    @Override
+    public ConfigurationObjectDetails getCurrentConfiguration() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+//        you need to implement the getter for the current configuration
+//        Also, you will also retrieve the same because we have a single one
+        
+    }
+
+    @Override
+    public Identifier getProviderName() {
+        return new Identifier(this.providerName);
     }
     
     @Override

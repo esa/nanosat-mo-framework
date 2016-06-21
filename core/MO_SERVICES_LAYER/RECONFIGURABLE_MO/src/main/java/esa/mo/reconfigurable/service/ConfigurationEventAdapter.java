@@ -103,8 +103,8 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                 }
 
                 // Check if it is a Configuration event for this particular service (based on the service type, domain ?)
-                if (obj.getType().getArea().equals(serviceImpl.getServiceKey().getArea())
-                        && obj.getType().getNumber().equals(serviceImpl.getServiceKey().getService())
+                if (obj.getType().getArea().equals(serviceImpl.getCOMService().getArea().getNumber())
+                        && obj.getType().getNumber().equals(serviceImpl.getCOMService().getNumber())
                         && obj.getKey().getDomain().equals(providerDomain)) {
 
                     // Retrieve it from the Archive

@@ -25,9 +25,9 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.mc.impl.interfaces.ConfigurationNotificationInterface;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
-import esa.mo.mc.impl.util.ReconfigurableServiceImplInterface;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
+import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -35,6 +35,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -662,6 +663,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton i
     
     }
 
+    @Override
+    public COMService getCOMService() {
+        return StatisticHelper.STATISTIC_SERVICE;
+    }    
+    
     private static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override

@@ -56,7 +56,7 @@
   </developers>
 
   <modules>
-    <module>NANOSAT_MO_FRAMEWORK_GENERIC</module>
+    <module>NANOSAT_MO_MONOLITHIC</module>
     <module>NANOSAT_MO_CONNECTOR</module>
     <module>NANOSAT_MO_SUPERVISOR</module>
     <module>GROUND_MO_ADAPTER</module>

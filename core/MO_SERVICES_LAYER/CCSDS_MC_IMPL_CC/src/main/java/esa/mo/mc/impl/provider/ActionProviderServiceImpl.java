@@ -24,12 +24,13 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.mc.impl.interfaces.ConfigurationNotificationInterface;
-import esa.mo.mc.impl.util.ReconfigurableServiceImplInterface;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
+import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
@@ -37,6 +38,7 @@ import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
+import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -145,10 +147,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter){
+    public void setConfigurationAdapter(esa.mo.reconfigurable.service.ConfigurationNotificationInterface configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
-
+        
     @Override
     public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails, MALInteraction interaction) throws MALInteractionException, MALException {
 
@@ -497,6 +499,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         return set;
     }
-    
-    
+
+    @Override
+    public COMService getCOMService() {
+        return ActionHelper.ACTION_SERVICE;
+    }
+
+
 }
