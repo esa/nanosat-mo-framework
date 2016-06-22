@@ -21,8 +21,6 @@
 package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.sm.impl.util.OSValidator;
-import esa.mo.sm.impl.util.ShellCommander;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import java.util.logging.Level;

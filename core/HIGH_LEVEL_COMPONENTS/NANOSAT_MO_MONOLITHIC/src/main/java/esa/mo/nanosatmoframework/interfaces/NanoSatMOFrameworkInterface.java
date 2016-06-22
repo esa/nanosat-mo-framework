@@ -52,7 +52,6 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      * @return The Platform services
      */
     public PlatformServicesProviderInterface getPlatformServices();
-
     
     /**
      * Adds a listener for when the app is requested to be closed.

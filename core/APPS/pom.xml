@@ -62,7 +62,9 @@
   </developers>
 
   <modules>
+<!--      
     <module>APPS_MANAGER</module>
+-->    
   </modules>
   
   
