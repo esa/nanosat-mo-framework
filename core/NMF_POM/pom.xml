@@ -82,7 +82,7 @@
         <esa.ccsds.impl.mc.version>1.1-SNAPSHOT</esa.ccsds.impl.mc.version>
         <esa.ccsds.impl.common.version>1.0-SNAPSHOT</esa.ccsds.impl.common.version>
         <esa.ccsds.impl.sm.version>1.0-SNAPSHOT</esa.ccsds.impl.sm.version>
-        <esa.nmf.impl.platform.version>1.0-SNAPSHOT</esa.nmf.impl.platform.version>
+        <esa.ccsds.impl.plat.version>1.0-SNAPSHOT</esa.ccsds.impl.plat.version>
 
         <!-- High-level Components -->
         <esa.nmf.components.nmm.version>1.0-SNAPSHOT</esa.nmf.components.nmm.version>
@@ -154,7 +154,7 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
-                <version>${esa.nmf.impl.platform.version}</version>
+                <version>${esa.ccsds.impl.plat.version}</version>
             </dependency>
 
             <!-- High-level Components -->

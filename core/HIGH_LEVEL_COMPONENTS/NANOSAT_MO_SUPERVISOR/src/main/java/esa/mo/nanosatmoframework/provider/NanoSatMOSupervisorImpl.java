@@ -37,6 +37,7 @@ import esa.mo.nanosatmoframework.interfaces.CloseAppListener;
 import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import esa.mo.sm.impl.util.SMServicesProvider;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -70,6 +71,7 @@ public abstract class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInter
     private final ConfigurationProvider configuration = new ConfigurationProvider();
     protected final COMServicesProvider comServices = new COMServicesProvider();
     private final MCServicesProvider mcServices = new MCServicesProvider();
+    private final SMServicesProvider smServices = new SMServicesProvider();
     private final PlatformServicesProviderInterface platformServices;
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
 
@@ -102,6 +104,7 @@ public abstract class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInter
                     null
             );
 
+            smServices.init(comServices);
             this.initPlatformServices();
             this.directoryService.init(comServices);
         } catch (MALException ex) {

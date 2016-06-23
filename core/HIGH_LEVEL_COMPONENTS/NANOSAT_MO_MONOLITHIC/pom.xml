@@ -77,20 +77,14 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>CCSDS_MC_IMPL</artifactId>
         </dependency>
-
-<!--        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CCSDS_SM_IMPL</artifactId>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
         </dependency>
--->
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>CCSDS_COMMON_IMPL</artifactId>
@@ -118,9 +112,6 @@
             <artifactId>ENCODING_BINARY_SPLIT</artifactId>
         </dependency>
 
-<!--        
--->
-            
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>TRANSPORT_RMI</artifactId>

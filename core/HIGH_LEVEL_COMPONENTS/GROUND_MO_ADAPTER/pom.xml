@@ -68,7 +68,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>CCSDS_COM_IMPL</artifactId>
+            <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
             <exclusions>
                 <exclusion> 
                     <groupId>org.eclipse.persistence</groupId> 
@@ -85,80 +85,9 @@
                 <exclusion> 
                     <groupId>org.apache.derby</groupId> 
                     <artifactId>derbynet</artifactId> 
-                </exclusion> 
+                </exclusion>
             </exclusions> 
         </dependency>
-        
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CCSDS_MC_IMPL</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CCSDS_COMMON_IMPL</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CCSDS_SM_IMPL</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>MAL_IMPL</artifactId>
-        </dependency>
-    
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>ENCODING_STRING</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>ENCODING_BINARY</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>ENCODING_BINARY_FIXED</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>ENCODING_BINARY_SPLIT</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>TRANSPORT_RMI</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>TRANSPORT_TCPIP</artifactId>
-        </dependency>
-
-        
-<!--        
-        <dependency>
-            <groupId>de.dlr.gsoc</groupId>
-            <artifactId>MO_MALSPP_TRANSPORT</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>TRANSPORT_SPP</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>TRANSPORT_HTTP_TP</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
--->
-            
-        
     </dependencies>
   
     <build>

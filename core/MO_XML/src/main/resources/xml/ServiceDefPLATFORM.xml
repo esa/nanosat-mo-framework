@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" comment="">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" comment="">
 	<mal:area comment="This section details the Platform services; the structures used by the service are&#10;detailed in section 4. The area and structures are defined in terms of the MO Message&#10;Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and&#10;message transport." name="Platform" number="105" version="1">
 		<mal:documentation name="Requirements" order="1">1235
 		</mal:documentation>
@@ -17,11 +18,8 @@ d.	the capability for checking the camera-specific properties
 							<mal:field canBeNull="true" comment="The MAL EntityKey.firstSubKey shall be null.&#10;The MAL EntityKey.secondSubKey shall be null.&#10;The MAL EntityKey.thirdSubKey shall be null.&#10;The MAL EntityKey.fourthSubKey shall be null.&#10;The timestamp of the update shall be the time of when the picture was taken.&#10;The picture in streaming mode." name="picture">
 								<mal:type area="Platform" list="false" name="Picture" service="Camera"/>
 							</mal:field>
-						
 						</mal:publishNotify>
 					</mal:messages>
-				
-				
 				</mal:pubsubIP>
 				<mal:submitIP comment="The setStreaming operation allows a consumer to set the rate, dimension and format of the Pictures being streamed." name="setStreaming" number="2" supportInReplay="false">
 					<mal:messages>
@@ -81,7 +79,7 @@ d.	the capability for checking the camera-specific properties
 					<mal:messages>
 						<mal:request comment=""/>
 						<mal:response comment="">
-							<mal:field canBeNull="true" comment="The properties field shall hold the properties of the camera." name="info">
+							<mal:field canBeNull="true" comment="The info field shall hold the properties of the camera." name="info">
 								<mal:type area="MAL" list="false" name="String"/>
 							</mal:field>
 						</mal:response>
@@ -103,7 +101,6 @@ d.	the capability for checking the camera-specific properties
 						<mal:type area="Platform" list="false" name="PixelResolution" service="Camera"/>
 					</mal:field>
 					<mal:field canBeNull="true" comment="The bit depth or color depth of the picture." name="bitDepth">
-					
 						<mal:type area="MAL" list="false" name="UInteger"/>
 					</mal:field>
 					<mal:field canBeNull="false" comment="The format of the picture." name="format">
@@ -115,7 +112,6 @@ d.	the capability for checking the camera-specific properties
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
 					<mal:field canBeNull="false" comment="The width of the picture." name="width">
-					
 						<mal:type area="MAL" list="false" name="UInteger"/>
 					</mal:field>
 					<mal:field canBeNull="false" comment="The height of the picture." name="height">
@@ -125,15 +121,12 @@ d.	the capability for checking the camera-specific properties
 						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
 				</mal:composite>
-			
 				<mal:enumeration comment="PictureFormat is an enumeration definition holding the format of the picture." name="PictureFormat" shortFormPart="3">
 					<mal:item comment="RAW format." nvalue="1" value="RAW"/>
 					<mal:item comment="Bitmap format." nvalue="2" value="BMP"/>
 					<mal:item comment="PNG format." nvalue="3" value="PNG"/>
 					<mal:item comment="JPG format." nvalue="4" value="JPG"/>
 				</mal:enumeration>
-			
-			
 			</mal:dataTypes>
 			<mal:errors>
 				<mal:error comment="" name="UNSUPPORTED_STREAMING_RATE" number="4"/>
@@ -147,19 +140,18 @@ b.	the capability for enabling/disabling the streaming of NMEA messages.
 c.	the capability for having getting the last known position from the GPS.
 d.	the capability for getting the satellites GPS information.
 e.	The capability for maintaining the list of nearby position events.
-
 			</mal:documentation>
 			<mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:requestIP comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS." name="getNMEASentence" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
-							<mal:field comment="" name="sentenceIdentifier">
+							<mal:field canBeNull="true" comment="" name="sentenceIdentifier">
 								<mal:type area="MAL" list="false" name="String"/>
 							</mal:field>
 						</mal:request>
 						<mal:response comment="">
-							<mal:field comment="" name="sentence">
+							<mal:field canBeNull="true" comment="" name="sentence">
 								<mal:type area="MAL" list="false" name="String"/>
 							</mal:field>
 						</mal:response>
@@ -169,7 +161,11 @@ e.	The capability for maintaining the list of nearby position events.
 			<mal:capabilitySet comment="" number="2">
 				<mal:requestIP comment="The operation getLastKnownPosition allows a consumer to retrieve the last known position that was provided by the GPS." name="getLastKnownPosition" number="2" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment=""/>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="" name="higherPrecision">
+								<mal:type area="MAL" list="false" name="Boolean"/>
+							</mal:field>
+						</mal:request>
 						<mal:response comment="">
 							<mal:field canBeNull="true" comment="The position field shall contain the last known position." name="position">
 								<mal:type area="Platform" list="false" name="Position" service="GPS"/>
@@ -292,7 +288,6 @@ e.	The capability for maintaining the list of nearby position events.
 					<mal:field canBeNull="true" comment="The time of the fix." name="recentFix">
 						<mal:type area="MAL" list="false" name="Time"/>
 					</mal:field>
-				
 					<mal:field canBeNull="true" comment="Space vehicle number." name="svn">
 						<mal:type area="MAL" list="false" name="UInteger"/>
 					</mal:field>
@@ -328,7 +323,6 @@ e.	The capability for maintaining the list of nearby position events.
 						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
 				</mal:composite>
-			
 			</mal:dataTypes>
 			<com:features>
 				<com:objects comment="">
@@ -358,61 +352,107 @@ e.	The capability for maintaining the list of nearby position events.
 				<com:archiveUsage comment="NearbyPosition objects should be stored in the COM archive.&#10;When a nearby event is published, the NearbyPosition object should be stored in the COM archive by the publisher."/>
 			</com:features>
 		</mal:service>
-		<mal:service comment="The ADCS service provides an interface to control a standard ADCS device." name="FineADCS" number="3" xsi:type="com:ExtendedServiceType">
+		<mal:service comment="The ADCS service provides an interface to control a standard ADCS device." name="AutonomousADCS" number="3" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1"/>
 			<mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
-				<mal:pubsubIP comment="The monitorPointing operation allows a consumer to subscribe for the satellite's pointing position." name="monitorPointing" number="1" supportInReplay="false">
+				<mal:pubsubIP comment="The monitorAttitude operation allows a consumer to subscribe for the satellite's current attitude." name="monitorAttitude" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-							<mal:field canBeNull="true" comment="The pointingTo field shall contain the pointing status in the selected reference frame." name="pointingTo">
-								<mal:type area="Platform" list="false" name="AttitudeInstance" service="FineADCS"/>
+							<mal:field canBeNull="true" comment="The pointingTo field shall contain the attitude instance in a reference frame." name="pointingTo">
+								<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
 							</mal:field>
 						</mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
-				<mal:submitIP comment="" name="configureMonitoring" number="2" supportInReplay="false">
+				<mal:submitIP comment="The configureMonitoring operation allows a consumer to configure the monitoring of the satellite's current attitude." name="configureMonitoring" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="" name="streamingRate">
 								<mal:type area="MAL" list="false" name="Duration"/>
 							</mal:field>
 							<mal:field canBeNull="true" comment="" name="referenceFrame">
-								<mal:type area="Platform" list="false" name="ReferenceFrame" service="FineADCS"/>
+								<mal:type area="Platform" list="false" name="ReferenceFrame" service="AutonomousADCS"/>
 							</mal:field>
 						</mal:submit>
 					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:submitIP comment="" name="setAttitude" number="3" supportInReplay="false">
+				<mal:submitIP comment="The setAttitude operation allows a consumer to set the attitute of the spacecraft from an attitude definition." name="setDesiredAttitude" number="3" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="The object instance identifier of the Attitude definition." name="objInstId">
 								<mal:type area="MAL" list="false" name="Long"/>
 							</mal:field>
+							<mal:field canBeNull="true" comment="The autoUnset field holds the duration after which the attitude definition shall be automatically unset. If the field is null, then attitude definition won't be automatically unset and the manual unsetAttitude operation must be used to disengage it." name="autoUnset">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
+					<mal:errors>
+						<mal:errorRef comment="The ADCS unit is not available.">
+							<mal:type area="Platform" list="false" name="ADCS_NOT_AVAILABLE" service="AutonomousADCS"/>
+						</mal:errorRef>
+						<mal:error comment="The ADCS is currently being used." name="ADCS_IN_USE" number="11">
+							<mal:extraInformation comment="The service shall automatically unset the attitude definition in the duration provided in the body field. If the body field is set to null, then the attitude definition shall not be automatically unset. The consumer should use the unsetAttitude operation to manually disengage it.">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:extraInformation>
+						</mal:error>
+            <mal:errorRef comment="The submited object instance identifier is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+            </mal:errorRef>
+          </mal:errors>
+				</mal:submitIP>
+				<mal:submitIP comment="The unsetAttitude operation allows a consumer to unset the attitute of the spacecraft from the current selected attitude definition. This operation is expected to be used after a certain attitude definition is set by the setAttitude operation." name="unsetAttitude" number="4" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment=""/>
+					</mal:messages>
+					<mal:errors>
+						<mal:errorRef comment="">
+							<mal:type area="Platform" list="false" name="ADCS_NOT_AVAILABLE" service="AutonomousADCS"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="3">
+				<mal:requestIP comment="" name="addAttitudeDefinition" number="5" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="The attitudeDefinition field holds the attitude definition." name="attitudeDefinitions">
+								<mal:type area="Platform" list="true" name="AttitudeDefinition" service="AutonomousADCS"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="The " name="objIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+				<mal:submitIP comment="" name="removeAttitudeDefinition" number="6" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+							<mal:field canBeNull="true" comment="The object instance identifiers of the attitude definition to be removed." name="objIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
 						</mal:submit>
 					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="3">
-				<mal:requestIP comment="" name="addAttitudeDefinition" number="4" supportInReplay="false">
-					<mal:messages>
-						<mal:request comment=""/>
-						<mal:response comment=""/>
-					</mal:messages>
-				</mal:requestIP>
-				<mal:submitIP comment="" name="removeAttitudeDefinition" number="5" supportInReplay="false">
-					<mal:messages>
-						<mal:submit comment=""/>
-					</mal:messages>
-				</mal:submitIP>
-			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
-				<mal:requestIP comment="" name="listAttitudeDefinition" number="6" supportInReplay="false">
+				<mal:requestIP comment="" name="listAttitudeDefinition" number="7" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment=""/>
-						<mal:response comment=""/>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="The names of the Attitude definitions to be listed." name="names">
+								<mal:type area="MAL" list="true" name="Identifier"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="The objIds field holds the object instance identifiers of the Attitude definitions." name="objIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:response>
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>
@@ -422,48 +462,123 @@ e.	The capability for maintaining the list of nearby position events.
 					<mal:item comment="Nadir Pointing mode." nvalue="2" value="NADIRPOINTING"/>
 					<mal:item comment="Sun Pointing mode." nvalue="3" value="SUNPOINTING"/>
 					<mal:item comment="Spin mode." nvalue="4" value="SPINMODE"/>
-					<mal:item comment="Detumble mode." nvalue="5" value="DETUMBLEMODE"/>
+					<mal:item comment="B dot mode. Can also be used for detumbling and momentum unloading." nvalue="5" value="BDOTMODE"/>
 				</mal:enumeration>
-			
-			
 				<mal:enumeration comment="ReferenceFrame is an enumeration definition holding the frames of reference." name="ReferenceFrame" shortFormPart="5">
 					<mal:item comment="Euler angles reference frame." nvalue="1" value="EULER_ANGLES"/>
 					<mal:item comment="Quaternions reference frame." nvalue="2" value="UNIT_QUATERNIONS"/>
 					<mal:item comment="Rotation Matrix reference frame." nvalue="3" value="ROTATION_MATRIX"/>
 				</mal:enumeration>
-				<mal:composite comment="The Attitude structure holds the attitude of the spacecraft." name="AttitudeInstance" shortFormPart="1">
+				<mal:composite comment="The Attitude structure holds the attitude of the spacecraft." name="AttitudeInstance">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="true" comment="The attitude vector for the corresponding reference frame." name="vector">
-						<mal:type area="MAL" list="true" name="Double"/>
-					</mal:field>
 					<mal:field canBeNull="true" comment="The attitude reference frame." name="referenceFrame">
-						<mal:type area="Platform" list="false" name="ReferenceFrame" service="FineADCS"/>
+						<mal:type area="Platform" list="false" name="ReferenceFrame" service="AutonomousADCS"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="The WheelSpeed holds the " name="WheelSpeed" shortFormPart="2">
+				<mal:composite comment="" name="AttitudeInstanceQuaternion" shortFormPart="11">
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="The quaternions of the attitude instance." name="quaternions">
+						<mal:type area="Platform" list="false" name="Quaternions"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="AttitudeInstanceVector3D" shortFormPart="12">
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="The 3D vector of the attitude instance." name="vector3D">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+				</mal:composite>		
+				<mal:composite comment="" name="AttitudeDefinition">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="true" comment="Velocity of the wheels. &lt;Units must be defined here&gt;" name="velocity">
-					
-					
-					
-						<mal:type area="MAL" list="true" name="Double"/>
+					<mal:field canBeNull="true" comment="" name="name">
+						<mal:type area="MAL" list="false" name="Identifier"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="description">
+						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
 				</mal:composite>
-			
-				<mal:composite comment="" name="AttitudeDefinition" shortFormPart="3">
+				<mal:composite comment="" name="AttitudeDefinitionBDot" shortFormPart="21">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="true" comment="" name="attitudeMode">
-						<mal:type area="Platform" list="false" name="AttitudeMode" service="FineADCS"/>
+				</mal:composite>
+				<mal:composite comment="" name="AttitudeDefinitionSingleSpinning" shortFormPart="22">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="false" comment="The axis defined in the body reference frame for spinning." name="bodyAxis">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="false" comment="The magnitude of the angular velocity of the spinning. The right-hand rule shall be followed to indicate the positive direction of the angular velocity." name="angularVelocity">
+						<mal:type area="MAL" list="false" name="Float"/>
 					</mal:field>
 				</mal:composite>
-			
+				<mal:composite comment="" name="AttitudeDefinitionSunPointing" shortFormPart="23">
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
+					</mal:extends>
+				</mal:composite>
+				<mal:composite comment="" name="AttitudeDefinitionTargetTracking" shortFormPart="24">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="false" comment="The latitude of the target to be tracked." name="latitude">
+						<mal:type area="MAL" list="false" name="Float"/>
+					</mal:field>
+					<mal:field canBeNull="false" comment="The longitude of the target to be tracked." name="longitude">
+						<mal:type area="MAL" list="false" name="Float"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="AttitudeDefinitionNadirPointing" shortFormPart="25">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+				</mal:composite>
 			</mal:dataTypes>
+			<mal:errors>
+				<mal:error comment="The ADCS is not available." name="ADCS_NOT_AVAILABLE" number="10"/>
+			</mal:errors>
+			<com:features>
+				<mal:diagram name="AutonomousADCSObjects">
+					<svg:svg height="500" version="1.1" width="500">
+						<svg:defs>
+							<svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
+								<svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
+								<svg:stop offset="100%" style="stop-color:rgb(249,239,224);stop-opacity:1"/>
+							</svg:linearGradient>
+							<svg:marker id="sourceArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+								<svg:path d="M0,0 V10 L15,5 Z" fill="rgb(255,0,0)"/>
+							</svg:marker>
+							<svg:marker id="relatedArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+								<svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
+							</svg:marker>
+						</svg:defs>
+						<svg:g id="ADCS_ERROR_DETECTED" transform="translate(197,135)">
+							<svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="175" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="175"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="87" y="25">ADCS_ERROR_DETECTED</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="87" y="45">1</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="87" y="65">MAL::Blob</svg:text>
+						</svg:g>
+					</svg:svg>
+				</mal:diagram>
+				<com:events comment="">
+					<com:event comment="The Event body is implementation-specific" name="ADCS_ERROR_DETECTED" number="1">
+						<com:objectType>
+							<mal:type area="MAL" list="false" name="Blob"/>
+						</com:objectType>
+						<com:relatedObject comment=""/>
+						<com:sourceObject comment=""/>
+					</com:event>
+				</com:events>
+			</com:features>
 		</mal:service>
 		<mal:service comment="The Software-defined Radio provides an generic interface to set, configure and receive data from a Software-defined Radio device.  " name="SoftwareDefinedRadio" number="4" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1"/>
@@ -507,7 +622,7 @@ e.	The capability for maintaining the list of nearby position events.
 					<mal:field canBeNull="true" comment="Local Oscillator Frequency" name="LOFrequency">
 						<mal:type area="MAL" list="false" name="Double"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="Low-noise Amplifer Gain" name="LNA">
+					<mal:field canBeNull="true" comment="Low-noise Amplifier Gain" name="LNA">
 						<mal:type area="MAL" list="false" name="Integer"/>
 					</mal:field>
 					<mal:field canBeNull="true" comment="Variable Gain Amplifier 1" name="VGA1">
@@ -524,6 +639,7 @@ e.	The capability for maintaining the list of nearby position events.
 					</mal:field>
 				</mal:composite>
 			</mal:dataTypes>
+			<com:features/>
 		</mal:service>
 		<mal:service comment="The Optical Data Receiver service provides an interface to receive messages from an Optical Data Receiver device." name="OpticalDataReceiver" number="5" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1"/>
@@ -539,6 +655,7 @@ e.	The capability for maintaining the list of nearby position events.
 					</mal:messages>
 				</mal:pubsubIP>
 			</mal:capabilitySet>
+			<com:features/>
 		</mal:service>
 		<mal:service comment="The Generic Device service provides a generic interface to interact with any possible device. The service achieves this by providing two simple operations, one to receive data and other to send data." name="GenericDevice" number="6" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1"/>
@@ -594,9 +711,226 @@ e.	The capability for maintaining the list of nearby position events.
 					</mal:field>
 				</mal:composite>
 			</mal:dataTypes>
+			<com:features/>
+		</mal:service>
+		<mal:service comment="" name="ManualADCS" number="8" xsi:type="com:ExtendedServiceType">
+			<mal:capabilitySet comment="" number="5">
+				<mal:requestIP comment="" name="getStandardTM" number="7" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment=""/>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="temperatureStatus">
+								<mal:type area="Platform" list="false" name="TemperatureStatus" service="ManualADCS"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="powerStatus">
+								<mal:type area="Platform" list="false" name="PowerStatus" service="ManualADCS"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+					<mal:errors>
+						<mal:errorRef comment="">
+              				<mal:type area="Platform" list="false" name="READOUT_RW" service="ManualADCS"/>
+						</mal:errorRef>
+						<mal:errorRef comment="">
+							<mal:type area="Platform" list="false" name="READOUT_MTQ" service="ManualADCS"/>
+						</mal:errorRef>
+						<mal:errorRef comment="">
+							<mal:type area="Platform" list="false" name="READOUT_GYRO" service="ManualADCS"/>
+						</mal:errorRef>
+						<mal:errorRef comment="">
+							<mal:type area="Platform" list="false" name="READOUT_SS" service="ManualADCS"/>
+						</mal:errorRef>
+						<mal:errorRef comment="">
+							<mal:type area="Platform" list="false" name="READOUT_OTHER" service="ManualADCS"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="6">
+				<mal:requestIP comment="" name="getPowerStatus" number="8" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment=""/>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="powerStatusTelemetry">
+								<mal:type area="Platform" list="false" name="PowerStatus" service="ManualADCS"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="7">
+				<mal:requestIP comment="" name="getSensorTM" number="10" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+						</mal:request>
+						<mal:response comment=""/>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:dataTypes>
+				<mal:composite comment="" name="ADCSStatus" shortFormPart="12">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="[default state] all control off" name="HighLevelOperationIdleStatus">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="= IDLE (can be defined by customer)" name="HighLevelOperationSaveStatus">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="HighLevelOperationControlStatus">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Set by Valid SET_DATIME cmd" name="DateTimeValid">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Kalman Filter 2 Status" name="hlOpValid">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Gyro 1 - Filter 1 Status" name="gyro1Filter1">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Gyro 2 - Filter 1 Status" name="gyro2Filter1">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Gyro 1 - Bias Remove Status" name="gyro1RemoveBias">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Gyro 2 - Bias Remove Status" name="gyro2RemoveBias">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Gyro 1 - Start Calibration" name="gyro1Calibrate">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Gyro 2 - Start Calibration" name="gyro2Calibrate">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="PowerStatus" shortFormPart="10">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="Magnetorquers Power Status" name="magnetorquers">
+						<mal:type area="Platform" list="false" name="PowerStatusContainer" service="ManualADCS"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Camera Power Status. The power of the ManualADCS Camera and not to of any other camera." name="camera">
+						<mal:type area="Platform" list="false" name="PowerStatusContainer" service="ManualADCS"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="ManualADCS Power Status" name="adcs">
+						<mal:type area="Platform" list="false" name="PowerStatusContainer" service="ManualADCS"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Reaction Wheels Power Status" name="reactionWheels">
+						<mal:type area="Platform" list="false" name="PowerStatusContainer" service="ManualADCS"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="PowerStatusContainer" shortFormPart="11">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="Current Consumption [mA]" name="currentConsumption">
+						<mal:type area="MAL" list="false" name="UInteger"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Power Consumption [mW]" name="powerConsumption">
+						<mal:type area="MAL" list="false" name="UInteger"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Supply Voltage [mV]" name="supplyVoltage">
+						<mal:type area="MAL" list="false" name="UInteger"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="TemperatureStatus" shortFormPart="13">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="The Gyro temperature. The sorting shall be ascending. Example 1, 2, 3." name="gyroTemperature">
+						<mal:type area="MAL" list="true" name="Integer"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The Magnetorquers temperature. The sorting shall be ascending. Example X, Y, Z." name="mtqTemperature">
+						<mal:type area="MAL" list="true" name="Integer"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The Control Processor temperature. The sorting shall be ascending. Example 1, 2, 3." name="ctrlProcesorTemperature">
+						<mal:type area="MAL" list="true" name="Integer"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The Reaction Wheel temperature. The sorting shall be ascending. Example X, Y, Z." name="rwTemperature">
+						<mal:type area="MAL" list="true" name="Integer"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The Star Tracker temperature. The sorting shall be ascending. Example 1, 2, 3." name="starTrackerTemperature">
+						<mal:type area="MAL" list="true" name="Integer"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="SensorsInformation" shortFormPart="14">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="Magnetic Field [uT]" name="magneticField">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Accelerometer [m/s^2]" name="accelerometer">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="List of Gyros [mdps]. Ascending sorted." name="gyros">
+						<mal:type area="Platform" list="true" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Time [sec]" name="starTrackerTimeSec">
+						<mal:type area="MAL" list="false" name="ULong"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Time [m sec]" name="starTrackerMilliSec">
+						<mal:type area="MAL" list="false" name="Integer"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="Quaternions" name="quaternions">
+						<mal:type area="Platform" list="false" name="Quaternions"/>
+					</mal:field>
+				</mal:composite>
+			</mal:dataTypes>
+      <mal:errors>
+				<mal:error comment="" name="READOUT_RW" number="5"/>
+				<mal:error comment="" name="READOUT_MTQ" number="6"/>
+				<mal:error comment="" name="READOUT_GYRO" number="7"/>
+				<mal:error comment="" name="READOUT_SS" number="8"/>
+				<mal:error comment="" name="READOUT_OTHER" number="9"/>
+      <mal:error comment="" name="lalala2" number="12"/>
+      </mal:errors>
+			<com:features/>
 		</mal:service>
 		<mal:dataTypes>
+			<mal:composite comment="" name="Vector3D" shortFormPart="17">
+				<mal:extends>
+					<mal:type area="MAL" list="false" name="Composite"/>
+				</mal:extends>
+				<mal:field canBeNull="true" comment="The x component of the Vector. The unit shall be defined by each specific case." name="x">
+					<mal:type area="MAL" list="false" name="Double"/>
+				</mal:field>
+				<mal:field canBeNull="true" comment="The y component of the Vector. The unit shall be defined by each specific case." name="y">
+					<mal:type area="MAL" list="false" name="Double"/>
+				</mal:field>
+				<mal:field canBeNull="true" comment="The z component of the Vector. The unit shall be defined by each specific case." name="z">
+					<mal:type area="MAL" list="false" name="Double"/>
+				</mal:field>
+			</mal:composite>
+			<mal:composite comment="The WheelSpeed holds the speed of the wheels." name="WheelSpeed" shortFormPart="2">
+				<mal:extends>
+					<mal:type area="MAL" list="false" name="Composite"/>
+				</mal:extends>
+				<mal:field canBeNull="true" comment="Velocity of the wheels. &lt;Units must be defined here&gt;" name="velocity">
+					<mal:type area="Platform" list="false" name="Vector3D"/>
+				</mal:field>
+			</mal:composite>
+			<mal:composite comment="" name="Quaternions" shortFormPart="16">
+				<mal:extends>
+					<mal:type area="MAL" list="false" name="Composite"/>
+				</mal:extends>
+				<mal:field canBeNull="true" comment="Quaternion component 1. Equivalent to the i component." name="q1">
+					<mal:type area="MAL" list="false" name="Float"/>
+				</mal:field>
+				<mal:field canBeNull="true" comment="Quaternion component 2. Equivalent to the j component." name="q2">
+					<mal:type area="MAL" list="false" name="Float"/>
+				</mal:field>
+				<mal:field canBeNull="true" comment="Quaternion component 3. Equivalent to the k component." name="q3">
+					<mal:type area="MAL" list="false" name="Float"/>
+				</mal:field>
+				<mal:field canBeNull="true" comment="Quaternion component 4. Equivalent to the l component." name="q4">
+					<mal:type area="MAL" list="false" name="Float"/>
+				</mal:field>
+			</mal:composite>
 		</mal:dataTypes>
 	</mal:area>
-
 </mal:specification>
