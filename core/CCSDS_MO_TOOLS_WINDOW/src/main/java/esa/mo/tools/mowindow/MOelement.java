@@ -68,7 +68,13 @@ public abstract class MOelement extends javax.swing.JPanel {
                 Integer typeShortForm = (Integer) fieldTypeShortForm.get(obj);
                 className = HelperAttributes.typeShortForm2attributeName(typeShortForm);
 
-            } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {
+            } catch (IllegalArgumentException ex) {
+                Logger.getLogger(MOelement.class.getName()).log(Level.SEVERE, null, ex);
+            } catch ( IllegalAccessException ex) {
+                Logger.getLogger(MOelement.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchFieldException ex) {
+                Logger.getLogger(MOelement.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SecurityException ex) {
                 Logger.getLogger(MOelement.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

@@ -224,7 +224,9 @@ public final class MOWindow extends javax.swing.JDialog {
         try {
             field.setAccessible(true);
             objectWithValue = field.get(obj);
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
+        } catch (IllegalArgumentException ex) {
+            return true;
+        } catch (IllegalAccessException ex) {
             return true;
         }
 
@@ -243,7 +245,9 @@ public final class MOWindow extends javax.swing.JDialog {
             if (objectWithValue1 != null) {
                 return objectWithValue1;
             }
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
+        } catch (IllegalArgumentException ex) {
+            // Ja.. just continue the rest of the tests...
+        } catch (IllegalAccessException ex) {
             // Ja.. just continue the rest of the tests...
         }
 
@@ -252,7 +256,18 @@ public final class MOWindow extends javax.swing.JDialog {
             rawObj = field.getType().newInstance();
             secondObj = (Attribute) rawObj;
             return secondObj;
-        } catch (ClassCastException | InstantiationException | IllegalAccessException ex0) {
+        } catch (ClassCastException ex0) {
+            this.generateFieldObjectFromField(rawObj, field);
+        } catch (InstantiationException ex0) {
+            this.generateFieldObjectFromField(rawObj, field);
+        } catch (IllegalAccessException ex0) {
+            this.generateFieldObjectFromField(rawObj, field);
+        }
+
+        return null;
+    }
+    
+    private Object generateFieldObjectFromField(Object rawObj, Field field){
             if (rawObj != null) {
                 return this.filterRawObject(rawObj);
             } else {
@@ -268,7 +283,13 @@ public final class MOWindow extends javax.swing.JDialog {
                     try {
                         Enumeration ctor = (Enumeration) constructor.newInstance(0);
                         return ctor;
-                    } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    } catch (InstantiationException ex) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalAccessException ex) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalArgumentException ex) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InvocationTargetException ex) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -292,16 +313,21 @@ public final class MOWindow extends javax.swing.JDialog {
                         }
 
                         return HelperAttributes.javaType2Attribute(constructor.newInstance(1));
-                    } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    } catch (InstantiationException ex) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalAccessException ex) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalArgumentException ex) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InvocationTargetException ex) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
             }
-        }
-
         return null;
     }
+    
 
     public void refreshVerticalSize() {
         this.setSize(this.getWidth(), componentsPanel.getComponentCount() * 23 + 110);
@@ -512,13 +538,21 @@ public final class MOWindow extends javax.swing.JDialog {
                             fields[i + 6].set(this.receivedObj, fieldUnion.get(object));
                         }
 
-                    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex1) {
+                    } catch (NoSuchFieldException ex1) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
+                    } catch (SecurityException ex1) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
+                    } catch (IllegalArgumentException ex1) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
+                    } catch (IllegalAccessException ex1) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
                     }
                 } else {
                     try {
                         fields[i + 6].set(this.receivedObj, object);
-                    } catch (IllegalArgumentException | IllegalAccessException ex) {
+                    } catch (IllegalArgumentException ex) {
+                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalAccessException ex) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }

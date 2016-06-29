@@ -34,7 +34,7 @@ public class MOelementList extends MOelement{
     private javax.swing.JToggleButton buttonRemove;
     private javax.swing.JTextField fieldValue;
     
-    public MOelementList(MOWindow previousWindow, String fieldNameIn, Object obj, boolean editable, boolean objIsNull) {
+    public MOelementList(final MOWindow previousWindow, String fieldNameIn, Object obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, true, objIsNull);
         
         this.editable = editable;
@@ -42,7 +42,7 @@ public class MOelementList extends MOelement{
         // Make the remove button
         buttonRemove = new javax.swing.JToggleButton();
         buttonRemove.setText("Remove");
-        MOelementList temp = this;
+        final MOelementList temp = this;
         java.awt.event.ActionListener actionListenerRemove = new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
