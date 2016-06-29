@@ -28,11 +28,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
@@ -47,6 +47,7 @@ import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.structures.UpdateType;
@@ -93,7 +94,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
-            
+
             try {
                 AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
             } catch (MALException ex) {
@@ -113,15 +114,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         if (null != appsLauncherServiceProvider) {
             connection.close();
         }
-        
+
         this.comServices = comServices;
         manager = new AppsLauncherManager(comServices);
         appsLauncherServiceProvider = connection.startService(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME.toString(), AppsLauncherHelper.APPSLAUNCHER_SERVICE, this);
+        manager.refreshAvailableAppsList(connection.getConnectionDetails());
         running = true;
         initialiased = true;
         Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Apps Launcher service: READY");
     }
-    
+
     private void publishExecutionMonitoring(final Long appObjId, final String outputText) {
         try {
             if (!isRegistered) {
@@ -140,10 +142,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
 //            final ParameterValue parameterValue = manager.getParameterValue(objId);
             final StringList outputList = new StringList();
-            
+
             // Should not be store in the Archive... it's too much stuff
 //            final Long pValObjId = manager.storeAndGeneratePValobjId(parameterValue, appObjId, connection.getConnectionDetails());
-
             final EntityKey ekey = new EntityKey(new Identifier(manager.get(appObjId).getName().toString()), appObjId, null, null);
             final Time timestamp = HelperTime.getTimestampMillis();
 
@@ -152,7 +153,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
             hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
 //            pVallst.add(parameterValue); // requirement: 3.3.5.2.8
-            
+
             outputList.add(outputText);
             publisher.publish(hdrlst, outputList);
 
@@ -164,9 +165,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         }
     }
-    
-    
-    
 
     public ConnectionProvider getConnectionProvider() {
         return this.connection;
@@ -176,9 +174,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     public void stopApp(LongList appInstIds, MALInteraction interaction) throws MALInteractionException, MALException {
 
         // Is the app still running?
-        
-        
-        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -189,7 +184,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public ListAppResponse listApp(IdentifierList appNames, Identifier category, MALInteraction interaction) throws MALInteractionException, MALException {
-
+        UIntegerList unkIndexList = new UIntegerList();
         ListAppResponse outList = new ListAppResponse();
 
         if (null == appNames) { // Is the input null?
@@ -201,27 +196,26 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         LongList ids = new LongList();
         BooleanList runningApps = new BooleanList();
 
-        for (Identifier appName : appNames) {
-            if ("*".equals(appName.getValue())) {
+//        for (Identifier appName : appNames) {
+        for (int index = 0; index < appNames.size(); index++) {
+            if ("*".equals(appNames.get(index).getValue())) {
                 ids.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
                 ids.addAll(manager.listAll());
-                
-                for (Long id : ids){
-                    runningApps.add(manager.isAppRunning(id));
-                }
-                
                 break;
             }
 
-            Long id = manager.list(appName);
-
-            if (id != null) {
-                runningApps.add(manager.isAppRunning(id));
-            } else {
-                runningApps.add(false);
-
-                // Throw an error
+            if (manager.list(appNames.get(index)) == null) {
+                // The app does not exist...
+                unkIndexList.add(new UInteger(index)); // Throw an UNKNOWN error
             }
+        }
+
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+
+        for (Long id : ids) { // Is the app running?
+            runningApps.add(manager.isAppRunning(id));
         }
         
         outList.setBodyElement0(ids);
@@ -232,32 +226,48 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void runApp(LongList appInstIds, MALInteraction interaction) throws MALInteractionException, MALException {
+        UIntegerList unkIndexList = new UIntegerList();
+        UIntegerList invIndexList = new UIntegerList();
+
+        if (null == appInstIds){ // Is the input null?
+            throw new IllegalArgumentException("appInstIds argument must not be null");
+        }
+
         // Refresh the list of available Apps
         this.manager.refreshAvailableAppsList(connection.getConnectionDetails());
 
-        for (Long appInstId : appInstIds) {
-            AppDetails app = (AppDetails) this.manager.getDefs().get(appInstId); // get it from the list of available apps
+        for (int index = 0; index < appInstIds.size(); index++) {
+            AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index)); // get it from the list of available apps
 
             // The app id could not be identified?
             if (app == null) {
-
+                unkIndexList.add(new UInteger(index)); // Throw an UNKNOWN error
+                continue;
             }
 
             // Is the app already running?
-            if (manager.isAppRunning(appInstId)){
-                // Throw an error!
-                // To be done...
-                
+            if (manager.isAppRunning(appInstIds.get(index))) {
+                invIndexList.add(new UInteger(index)); // Throw an INVALID error
                 continue;
             }
-            
-            // Run the app!
-            manager.runApp(appInstId);
+        }
+
+        // Errors
+        if (!invIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        }
+
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+
+        // Run the apps!
+        for (int i = 0; i < appInstIds.size(); i++) {
+            manager.runApp(appInstIds.get(i), connection.getConnectionDetails(), interaction);
         }
 
     }
-    
-    
+
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
@@ -275,8 +285,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         @Override
         public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {
-//            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterAckReceived");
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterAckReceived");
+//            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
         }
 
         @Override
@@ -287,6 +297,5 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
-    
 
 }

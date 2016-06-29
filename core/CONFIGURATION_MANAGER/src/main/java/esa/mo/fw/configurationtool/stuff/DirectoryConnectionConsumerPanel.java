@@ -133,7 +133,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                         serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(), service.getServiceKey().getVersion(), service.getServiceKey().getService());
                     } catch (MALException ex) {
                         serviceName = "<Unknown service>";
-                        
 //                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
 

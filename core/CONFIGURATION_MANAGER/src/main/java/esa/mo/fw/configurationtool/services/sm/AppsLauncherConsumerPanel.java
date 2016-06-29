@@ -232,7 +232,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         LongList ids = new LongList();
-        ids.add(new Long(appsTable.getSelectedRow()));
+        Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        ids.add(objId);
 
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().killApp(ids);
@@ -252,7 +253,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         LongList ids = new LongList();
-        ids.add(new Long(appsTable.getSelectedRow()));
+        Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        ids.add(objId);
 
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids);
@@ -272,7 +274,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         LongList ids = new LongList();
-        ids.add(new Long(appsTable.getSelectedRow()));
+        Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        ids.add(objId);
 
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);

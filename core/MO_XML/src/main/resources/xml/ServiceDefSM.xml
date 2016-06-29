@@ -577,41 +577,49 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:pubsubIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:requestIP comment="The runApp operation allows a consumer to run an application on the provider.  An object instance identifier is returned for further monitoring of the application execution in the monitorExecution operation." name="runApp" number="2" supportInReplay="false">
+				<mal:submitIP comment="The runApp operation allows a consumer to run an application on the provider.  An object instance identifier is returned for further monitoring of the application execution in the monitorExecution operation." name="runApp" number="2" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment="">
+						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to run." name="appInstIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
-						</mal:request>
-						<mal:response comment="">
-						
-						
-						</mal:response>
+						</mal:submit>
 					</mal:messages>
-				</mal:requestIP>
-				<mal:requestIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="3" supportInReplay="false">
+				<mal:errors>
+            <mal:errorRef comment="One or more of the requested apps to run is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          <mal:errorRef comment="One or more of the requested apps is already running.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
+				<mal:submitIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="3" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment="">
+						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
-						</mal:request>
-						<mal:response comment=""/>
+						</mal:submit>
 					</mal:messages>
-				</mal:requestIP>
+				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:requestIP comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive." name="killApp" number="4" supportInReplay="false">
+				<mal:submitIP comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive." name="killApp" number="4" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment="">
+						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to kill." name="appInstIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
-						</mal:request>
-						<mal:response comment=""/>
+						</mal:submit>
 					</mal:messages>
-				</mal:requestIP>
+				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
 				<mal:requestIP comment="The listApp operation allows a consumer to request the object instance identifiers of the Apps objects and running status for an app name or for a certain app category." name="listApp" number="5" supportInReplay="false">
@@ -646,14 +654,20 @@ The process of loading a software image from non-volatile memory to RAM upon boo
         <mal:field canBeNull="true" comment="" name="description">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
-					<mal:field canBeNull="true" comment="" name="category">
-					<mal:type area="MAL" list="false" name="Identifier"/>
+        <mal:field canBeNull="true" comment="" name="version">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
+		<mal:field canBeNull="true" comment="" name="category">
+			<mal:type area="MAL" list="false" name="Identifier"/>
           </mal:field>
         <mal:field canBeNull="true" comment="" name="runAtStartup">
           <mal:type area="MAL" list="false" name="Boolean"/>
           </mal:field>
 				<mal:field canBeNull="true" comment="" name="running">
           <mal:type area="MAL" list="false" name="Boolean"/>
+          </mal:field>
+        <mal:field canBeNull="true" comment="This field can be used to store additional information that might be implementation-specific." name="extraInfo">
+            <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
         </mal:composite>
 			</mal:dataTypes>
@@ -702,7 +716,8 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>
-		</mal:service>
+		<com:features/>
+    </mal:service>
 
 		<mal:dataTypes>
 			<mal:enumeration comment="" name="CHECKSUM" shortFormPart="1">

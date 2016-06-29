@@ -22,6 +22,7 @@
 package esa.mo.sm.impl.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,14 +42,18 @@ public class ShellCommander {
     }
 
     public boolean runCommand(String cmd) {
+        return this.runCommand(cmd, null);
+    }
+    
+    public boolean runCommand(String cmd, File dirPath) {
 
         try {
             Process proc;
 
             if (osValidator.isUnix()) {
-                proc = Runtime.getRuntime().exec(new String[]{"bash", "-c", cmd});
+                proc = Runtime.getRuntime().exec(new String[]{"bash", "-c", cmd}, null, dirPath);
             } else if (osValidator.isWindows()) {
-                proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd});
+                proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
                 Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, "Unknown OS");
                 return false;
