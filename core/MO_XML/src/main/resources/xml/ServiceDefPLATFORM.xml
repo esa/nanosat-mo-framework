@@ -20,7 +20,7 @@ d.	the capability for checking the camera-specific properties
 							</mal:field>
 						</mal:publishNotify>
 					</mal:messages>
-				</mal:pubsubIP>
+        </mal:pubsubIP>
 				<mal:submitIP comment="The setStreaming operation allows a consumer to set the rate, dimension and format of the Pictures being streamed." name="setStreaming" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
@@ -130,7 +130,7 @@ d.	the capability for checking the camera-specific properties
 			</mal:dataTypes>
 			<mal:errors>
 				<mal:error comment="" name="UNSUPPORTED_STREAMING_RATE" number="4"/>
-			</mal:errors>
+      </mal:errors>
 			<com:features/>
 		</mal:service>
 		<mal:service comment="The GPS service provides an interface to receive a geographical location provided by a navigation device receiver in a Platform." name="GPS" number="2" xsi:type="com:ExtendedServiceType">
@@ -882,12 +882,11 @@ e.	The capability for maintaining the list of nearby position events.
 				</mal:composite>
 			</mal:dataTypes>
       <mal:errors>
-				<mal:error comment="" name="READOUT_RW" number="5"/>
-				<mal:error comment="" name="READOUT_MTQ" number="6"/>
-				<mal:error comment="" name="READOUT_GYRO" number="7"/>
-				<mal:error comment="" name="READOUT_SS" number="8"/>
+				<mal:error comment="" name="READOUT_RW" number="10505"/>
+				<mal:error comment="" name="READOUT_MTQ" number="10506"/>
+				<mal:error comment="" name="READOUT_GYRO" number="10507"/>
+				<mal:error comment="" name="READOUT_SS" number="10508"/>
 				<mal:error comment="" name="READOUT_OTHER" number="9"/>
-      <mal:error comment="" name="lalala2" number="12"/>
       </mal:errors>
 			<com:features/>
 		</mal:service>

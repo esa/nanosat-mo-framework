@@ -382,7 +382,9 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
           LongList outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList);
           Long received = outObjId.get(0);
           TBoxStore.setText(received.toString());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+          Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
           Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -397,7 +399,9 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
             
         try {
             serviceCOMArchive.getArchiveStub().retrieve(objType, serviceCOMArchive.getConnectionDetails().getDomain(), objIds, adapter);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -422,7 +426,9 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
 
         try {
             serviceCOMArchive.getArchiveStub().query(true, objType, archiveQueryList, compositeFilterSetList, adapter);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (MALException ex) {
+            Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
             Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -436,7 +442,9 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
         objIds.add(Long.parseLong(TBoxDelete.getText()));
         try {
           serviceCOMArchive.getArchiveStub().delete(objType, serviceCOMArchive.getConnectionDetails().getDomain(), objIds);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (MALException ex) {
+          Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
           Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -458,7 +466,9 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
 
         try {
             serviceCOMArchive.getArchiveStub().count(objType, archiveQueryList, compositeFilterSetList, adapter);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (MALException ex) {
+            Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
             Logger.getLogger(ArchiveConsumerTesterPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         

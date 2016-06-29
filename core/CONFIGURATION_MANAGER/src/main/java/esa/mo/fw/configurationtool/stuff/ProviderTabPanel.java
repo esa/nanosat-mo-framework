@@ -31,6 +31,7 @@ import esa.mo.fw.configurationtool.services.mc.ParameterConsumerPanel;
 import esa.mo.fw.configurationtool.services.mc.ParameterPublishedValues;
 import esa.mo.fw.configurationtool.services.mc.StatisticConsumerPanel;
 import esa.mo.fw.configurationtool.services.sm.AppsLauncherConsumerPanel;
+import esa.mo.nanosatmoframework.ground.adapter.GroundMOAdapter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import esa.mo.nanosatmoframework.ground.adapter.MOServicesConsumer;
@@ -44,7 +45,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
  */
 public class ProviderTabPanel extends javax.swing.JPanel {
     
-    private final MOServicesConsumer services;
+    private final GroundMOAdapter services;
 
     /**
      * Creates new form ObjectsDisplay
@@ -52,7 +53,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
      * @param provider
      */
     public ProviderTabPanel(final ProviderSummary provider) {
-            services = new MOServicesConsumer(provider);
+            services = new GroundMOAdapter(provider);
 
             try {
             initComponents();
@@ -127,7 +128,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
     }
     
-    public MOServicesConsumer getServices(){
+    public GroundMOAdapter getServices(){
         return this.services;
     }
 

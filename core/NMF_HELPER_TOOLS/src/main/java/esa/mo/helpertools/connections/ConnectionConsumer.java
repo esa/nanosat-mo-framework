@@ -21,6 +21,7 @@
 package esa.mo.helpertools.connections;
 
 import java.net.MalformedURLException;
+import java.util.Random;
 import org.ccsds.moims.mo.mal.MALContext;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -225,6 +226,18 @@ public class ConnectionConsumer {
         return ConnectionConsumer.subscriptionWildcard(subscriptionId);
     }
 
+    /**
+     * Returns a subscription object with wildcards in all four fields of the
+     * entity keys field
+     *
+     * @return The subscription object
+     */
+    public static Subscription subscriptionWildcardRandom() {
+        final Random random = new Random();
+        final Identifier subscriptionId = new Identifier("SUB" + Integer.toString(random.nextInt()));
+        return ConnectionConsumer.subscriptionWildcard(subscriptionId);
+    }
+    
     /**
      * Returns a subscription object with the entity keys field set as the 
      * provided keys

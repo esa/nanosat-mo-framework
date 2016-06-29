@@ -50,11 +50,25 @@ public class AppsLauncherManager extends DefinitionsManager {
     private final ShellCommander shell = new ShellCommander();
     private final OSValidator osValidator = new OSValidator();
 
+    private static final String RUN_LIN_FILENAME = "runAppLin.sh";
+    private static final String RUN_WIN_FILENAME = "runAppWin.bat";
+    private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.nanosatmoframework.provider.FolderLocation";
+    private static final String APPS_DIRECTORY_NAME = "apps";  // dir name
+    private File folder_location = new File(".." + File.separator + APPS_DIRECTORY_NAME);  // Location of the folder
+    private final String runnable_filename;
+    
+    
     private Long uniqueObjIdDef; // Counter (different for every Definition)
     private Long uniqueObjIdPVal;
 
     public AppsLauncherManager(COMServicesProvider comServices) {
         super(comServices);
+
+        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) { // If there is a property for that, then use it!! 
+            folder_location = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
+        }
+        
+        runnable_filename = osValidator.isWindows() ? RUN_WIN_FILENAME : RUN_LIN_FILENAME;
 
         try {
             AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -68,6 +82,11 @@ public class AppsLauncherManager extends DefinitionsManager {
         } else {
             // With Archive...
         }
+
+        this.refreshAvailableAppsList(null);
+
+
+
     }
 
     protected AppDetailsList getAll() {
@@ -165,15 +184,76 @@ public class AppsLauncherManager extends DefinitionsManager {
         return true;
     }
 
-    protected void refreshAvailableAppsList() {
+    protected void refreshAvailableAppsList(SingleConnectionDetails connectionDetails) {
 
         // Go to all the "apps folder" and check if there are new folders
+        
+        // get all the files from a directory
+        File[] fList = folder_location.listFiles();
+
+        if (fList == null) {
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "The directory could not be found: {0}", folder_location.toString());
+            
+            // Create?
+            // ????
+            
+            return;
+        }
+        
+        AppDetailsList apps = new AppDetailsList();
+        
+
+        for (File app_folder : fList) { // Roll all the apps inside the apps folder
+            if (app_folder.isDirectory()) {
+                // Add app by app
+                
+                // Check if the folder contains the executable
+                for (File file : app_folder.listFiles()) { // Roll all the files inside each app folder
+                    if (runnable_filename.equals(file.getName())) {
+                        // Found!
+                        AppDetails app = new AppDetails();
+                        app.setCategory(new Identifier("MyFirstCategory"));
+                        app.setDescription("Just a simple description");
+                        app.setName(new Identifier(file.getName()));
+                        app.setRunAtStartup(false);
+                        app.setRunning(false);
+                        apps.add(app);
+                    }
+                }
+            }
+        }
+        
+        // Compare with the defs list!
+        // Are there any differences?
+        
+        for (AppDetails single_app : apps){
+            Long id = super.list(single_app.getName());
+            
+            AppDetails previousAppDetails = (AppDetails) super.getDefs().get(id);
+            
+            if (previousAppDetails == null){
+                // It didn't exist...
+                
+                // Either is the first time running or it is a newly installed app!
+                
+            }
+            
+            // It does exist. Are there any differences?
+            if (!previousAppDetails.equals(single_app)){
+                // Then we have to update it...
+                
+                this.update(id, single_app, connectionDetails);
+                
+            }
+            
+        }
+        
         
         
     }
 
     protected boolean isAppRunning(Long appId) {
-        return true;
+        return this.get(appId).getRunning();
     }
 
     void runApp(final Long appInstId) {
@@ -184,14 +264,9 @@ public class AppsLauncherManager extends DefinitionsManager {
         final File current_location = new File("..");  // Location of the folder
         String cmd = current_location.getAbsolutePath() + File.separator + app_folder;
 
-        // Run: runAppLin.sh or runAppWin.bat
-        if (osValidator.getOS().equals("win")) {
-            cmd += "runAppWin.bat";
-        } else {
-            cmd += "runAppLin.sh";
-        }
-
+        cmd += runnable_filename; // Run: runAppLin.sh or runAppWin.bat
+        
         shell.runCommand(cmd);
     }
-
+      
 }

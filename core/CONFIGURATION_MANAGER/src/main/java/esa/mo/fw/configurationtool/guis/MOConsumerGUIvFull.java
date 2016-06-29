@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
 /**
  * This class provides a simple form for the control of the consumer.
@@ -54,7 +55,10 @@ public class MOConsumerGUIvFull extends javax.swing.JFrame {
         try {
             // Set cross-platform Java L&F (also called "Metal")
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+        } catch (UnsupportedLookAndFeelException e) {
+        } catch (ClassNotFoundException e) {
+        } catch (InstantiationException e) {
+        } catch (IllegalAccessException e) {
             // handle exception
         }
 
@@ -89,8 +93,9 @@ public class MOConsumerGUIvFull extends javax.swing.JFrame {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
         } catch (MALException ex) {
             Logger.getLogger(MOConsumerGUIvFull.class.getName()).log(Level.SEVERE, null, ex);
         }

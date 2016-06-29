@@ -67,6 +67,10 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>API_MAL</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>API_COM</artifactId>
         </dependency>
         <dependency>

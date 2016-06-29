@@ -25,7 +25,6 @@ import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.fw.configurationtool.services.com.ArchiveConsumerManagerPanel;
 import esa.mo.fw.configurationtool.services.com.EventConsumerPanel;
-import esa.mo.fw.configurationtool.services.common.ConfigurationConsumerPanel;
 import esa.mo.fw.configurationtool.services.mc.ActionConsumerPanel;
 import esa.mo.fw.configurationtool.services.mc.AggregationConsumerPanel;
 import esa.mo.fw.configurationtool.services.mc.AlertConsumerPanel;
@@ -37,8 +36,6 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
-import esa.mo.common.impl.consumer.ConfigurationConsumerServiceImpl;
-import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.StatisticConsumerServiceImpl;
 import java.net.MalformedURLException;
@@ -48,18 +45,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.event.EventHelper;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
-import org.ccsds.moims.mo.common.directory.DirectoryHelper;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
@@ -549,7 +536,10 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
 
                 ArchiveConsumerManagerPanel panel2 = new ArchiveConsumerManagerPanel(archiveService);
                 this.tabs.insertTab("Archive Manager", null, panel2, "Archive Tab", tabs.getTabCount());
-            } catch (MALException | MalformedURLException ex) {
+            } catch (MALException ex) {
+                errorConnectionProvider("Archive");
+                return;
+            } catch (MalformedURLException ex) {
                 errorConnectionProvider("Archive");
                 return;
             }
@@ -561,7 +551,13 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
                 details = connectionConsumer.getServicesDetails().get(EventHelper.EVENT_SERVICE_NAME);
                 eventService = new EventConsumerServiceImpl(details);
                 this.tabs.insertTab("Event service", null, new EventConsumerPanel(eventService, archiveService), "Event Tab", tabs.getTabCount());
-            } catch (MALInteractionException | MALException | MalformedURLException ex) {
+            } catch (MALInteractionException ex) {
+                errorConnectionProvider("Event");
+                return;
+            } catch (MALException ex) {
+                errorConnectionProvider("Event");
+                return;
+            } catch (MalformedURLException ex) {
                 errorConnectionProvider("Event");
                 return;
             }
@@ -579,7 +575,13 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
                 ActionConsumerServiceImpl actionService = new ActionConsumerServiceImpl(details, comServices);
 
                 this.tabs.insertTab("Action service", null, new ActionConsumerPanel(actionService), "Action Tab", tabs.getTabCount());
-            } catch (MALInteractionException | MALException | MalformedURLException ex) {
+            } catch (MALInteractionException ex) {
+                errorConnectionProvider("Action");
+                return;
+            } catch (MALException ex) {
+                errorConnectionProvider("Action");
+                return;
+            } catch (MalformedURLException ex) {
                 errorConnectionProvider("Action");
                 return;
             }
@@ -592,7 +594,13 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
 
                 this.tabs.insertTab("Parameter service", null, new ParameterConsumerPanel(parameterService), "Parameter Tab", tabs.getTabCount());
                 this.tabs.insertTab("Published Parameter Service", null, new ParameterPublishedValues(parameterService), "Published Parameters Tab", tabs.getTabCount());
-            } catch (MALException | MALInteractionException | MalformedURLException ex) {
+            } catch (MALException ex) {
+                errorConnectionProvider("Parameter");
+                return;
+            } catch (MALInteractionException ex) {
+                errorConnectionProvider("Parameter");
+                return;
+            } catch (MalformedURLException ex) {
                 errorConnectionProvider("Parameter");
                 return;
             }
@@ -604,7 +612,13 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
                 AggregationConsumerServiceImpl aggregationService = new AggregationConsumerServiceImpl(details, comServices);
 
                 this.tabs.insertTab("Aggregation service", null, new AggregationConsumerPanel(aggregationService), "Aggregation Tab", tabs.getTabCount());
-            } catch (MALInteractionException | MALException | MalformedURLException ex) {
+            } catch (MALInteractionException ex) {
+                errorConnectionProvider("Aggregation");
+                return;
+            } catch (MALException ex) {
+                errorConnectionProvider("Aggregation");
+                return;
+            } catch (MalformedURLException ex) {
                 errorConnectionProvider("Aggregation");
                 return;
             }
@@ -616,7 +630,13 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
                 AlertConsumerServiceImpl alertService = new AlertConsumerServiceImpl(details, comServices);
 
                 this.tabs.insertTab("Alert service", null, new AlertConsumerPanel(alertService), "Alert Tab", tabs.getTabCount());
-            } catch (MALInteractionException | MALException | MalformedURLException ex) {
+            } catch (MALInteractionException ex) {
+                errorConnectionProvider("Alert");
+                return;
+            } catch (MALException ex) {
+                errorConnectionProvider("Alert");
+                return;
+            } catch (MalformedURLException ex) {
                 errorConnectionProvider("Alert");
                 return;
             }
@@ -642,7 +662,13 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
                 StatisticConsumerServiceImpl statisticService = new StatisticConsumerServiceImpl(details, comServices);
 
                 this.tabs.insertTab("Statistic service", null, new StatisticConsumerPanel(statisticService, parameterService), "Statistic Tab", tabs.getTabCount());
-            } catch (MALInteractionException | MALException | MalformedURLException ex) {
+            } catch (MALInteractionException ex) {
+                errorConnectionProvider("Statistic");
+                return;
+            } catch (MALException ex) {
+                errorConnectionProvider("Statistic");
+                return;
+            } catch (MalformedURLException ex) {
                 errorConnectionProvider("Statistic");
                 return;
             }

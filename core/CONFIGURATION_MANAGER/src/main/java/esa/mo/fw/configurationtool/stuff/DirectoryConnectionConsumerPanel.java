@@ -107,6 +107,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         jTable1.setModel(tableData);
 
         ListSelectionListener listSelectionListener = new ListSelectionListener() {
+            @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
 
                 // Update the jTable according to the selection of the index
@@ -126,7 +127,16 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 // And then add the new stuff
                 for (int i = 0; i < services.size(); i++) {
                     ServiceCapability service = services.get(i);
-                    String serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(), service.getServiceKey().getVersion(), service.getServiceKey().getService());
+
+                    String serviceName;
+                    try {
+                        serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(), service.getServiceKey().getVersion(), service.getServiceKey().getService());
+                    } catch (MALException ex) {
+                        serviceName = "<Unknown service>";
+                        
+//                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                     String serviceURI = "";
                     String brokerURI = "";
 

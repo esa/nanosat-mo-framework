@@ -54,10 +54,10 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
      * @param archiveObjectOutput
      * @param archiveService
      */
-    public ArchiveTablePanel(ArchiveCOMObjectsOutput archiveObjectOutput, ArchiveConsumerServiceImpl archiveService) {
+    public ArchiveTablePanel(ArchiveCOMObjectsOutput archiveObjectOutput, final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         
-        comObjects = new ArrayList<>();
+        comObjects = new ArrayList<ArchivePersistenceObject>();
 
         String[] archiveTableCol = new String[]{
             "Domain", "Object Type", "Object Instance Identifier",

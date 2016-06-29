@@ -75,6 +75,8 @@ import org.ccsds.moims.mo.mc.structures.Severity;
  */
 public class GroundMOAdapter extends MOServicesConsumer implements SimpleCommandingInterface {
 
+    private Subscription subscription = null;
+    
     /**
      * The constructor of this class
      *
@@ -232,11 +234,11 @@ public class GroundMOAdapter extends MOServicesConsumer implements SimpleCommand
         }
 
         // Subscribes to ALL Parameters
-        Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+        this.subscription = ConnectionConsumer.subscriptionWildcardRandom();
 
         try {
             // Register for pub-sub of all parameters
-            super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(subscription, new DataReceivedParameterAdapter());
+            super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(this.subscription, new DataReceivedParameterAdapter());
 
         } catch (MALInteractionException ex) {
             Logger.getLogger(GroundMOAdapter.class.getName()).log(Level.SEVERE, null, ex);
@@ -363,6 +365,48 @@ public class GroundMOAdapter extends MOServicesConsumer implements SimpleCommand
 
     }
 
-
+    /**
+     * Closes the service consumer connections
+     *
+     */
+    public void closeConnections() {
+        
+        // Unregister the consumer from the broker
+        if (this.subscription != null){
+            IdentifierList idList = new IdentifierList();
+            idList.add(this.subscription.getSubscriptionId());
+            
+            try {
+                super.getMCServices().getParameterService().getParameterStub().monitorValueDeregister(idList);
+                this.subscription = null;
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(GroundMOAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(GroundMOAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        if(this.comServices != null){
+            this.comServices.closeConnections();
+        }
+        
+        if(this.mcServices != null){
+            this.mcServices.closeConnections();
+        }
+        
+        if(this.commonServices != null){
+            this.commonServices.closeConnections();
+        }
+        
+        if(this.platformServices != null){
+            this.platformServices.closeConnections();
+        }
+                
+        if(this.smServices != null){
+            this.smServices.closeConnections();
+        }
+                
+    }
+    
     
 }

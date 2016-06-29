@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.CheckPackageResponse;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.ListPackageResponse;
@@ -70,6 +71,10 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
             if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             try {
@@ -110,7 +115,10 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public ListPackageResponse listPackage(IdentifierList names, Identifier category, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        return new ListPackageResponse();
+
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

@@ -67,11 +67,11 @@ public class MOServicesConsumer {
 
     private final ConnectionConsumer connection;
 
-    private final COMServicesConsumer comServices;
-    private final MCServicesConsumer mcServices;
-    private final PlatformServicesConsumer platformServices;
-    private final CommonServicesConsumer commonServices;
-    private final SMServicesConsumer smServices;
+    protected final COMServicesConsumer comServices;
+    protected final MCServicesConsumer mcServices;
+    protected final PlatformServicesConsumer platformServices;
+    protected final CommonServicesConsumer commonServices;
+    protected final SMServicesConsumer smServices;
 
     /**
      * The constructor of this class
@@ -155,9 +155,9 @@ public class MOServicesConsumer {
 
         initCOMServices();
         initMCServices();
+        initSMServices();
         initPlatformServices();
         initCommonServices();
-        initSMServices();
        
     }
 
@@ -175,16 +175,16 @@ public class MOServicesConsumer {
                 MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) == null) {
-                PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
             if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
                 CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) == null) {
+                PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
 
         } catch (MALException ex) {
@@ -296,33 +296,5 @@ public class MOServicesConsumer {
         return summaryList;
 
     }
-
-    /**
-     * Closes the service consumer connections
-     *
-     */
-    public void closeConnections() {
-        if(this.comServices != null){
-            this.comServices.closeConnections();
-        }
-        
-        if(this.mcServices != null){
-            this.mcServices.closeConnections();
-        }
-        
-        if(this.commonServices != null){
-            this.commonServices.closeConnections();
-        }
-        
-        if(this.platformServices != null){
-            this.platformServices.closeConnections();
-        }
-                
-        if(this.smServices != null){
-            this.smServices.closeConnections();
-        }
-                
-    }
-    
-    
+  
 }

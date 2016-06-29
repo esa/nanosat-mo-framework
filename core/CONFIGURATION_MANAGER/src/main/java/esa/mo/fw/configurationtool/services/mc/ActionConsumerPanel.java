@@ -327,7 +327,9 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(null, str, "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
         
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -373,7 +375,10 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             // Add the Action Definition to the table
             actionTable.addEntry(comObject);
             
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -405,7 +410,9 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAction.getActionStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -425,7 +432,9 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             this.serviceMCAction.getActionStub().removeDefinition(longlist);
             
             actionTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -440,7 +449,11 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             output = this.serviceMCAction.getActionStub().listDefinition(idList);
             actionTable.refreshTableWithIds(output, serviceMCAction.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        } catch (MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -459,7 +472,9 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAction.getActionStub().removeDefinition(longlist);
             actionTable.removeAllEntries();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -482,7 +497,10 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         
         try {
             this.serviceMCAction.getActionStub().preCheckAction(actionInstanceDetails);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

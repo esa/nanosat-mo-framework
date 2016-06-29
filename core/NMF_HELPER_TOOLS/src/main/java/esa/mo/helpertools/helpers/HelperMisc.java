@@ -28,8 +28,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALElementFactory;
+import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALService;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -259,6 +261,7 @@ public class HelperMisc {
      *
      * @param obj The MAL Element
      * @return The MAL Element List
+     * @throws java.lang.Exception
      */
     public static ElementList element2elementList(Object obj) throws Exception {
         if (obj == null) {
@@ -287,6 +290,7 @@ public class HelperMisc {
      *
      * @param obj The MAL Element List
      * @return The MAL Element
+     * @throws java.lang.Exception
      */
     public static Element elementList2element(ElementList obj) throws Exception {
         if (obj == null) {
@@ -355,13 +359,22 @@ public class HelperMisc {
      * @param areaVersion Area version of the service
      * @param service Service number
      * @return The name of the service
+     * @throws org.ccsds.moims.mo.mal.MALException The area/service is Unknown
      */
-    public static String serviceKey2name(UShort area, UOctet areaVersion, UShort service) {
-        MALService malSer = MALContextFactory.lookupArea(
-                area,
-                areaVersion
-        ).getServiceByNumber(service);
+    public static String serviceKey2name(UShort area, UOctet areaVersion, UShort service)  throws MALException {
 
+        MALArea malArea = MALContextFactory.lookupArea(area, areaVersion);
+        
+        if (malArea == null){
+            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," + service.getValue() + ") " + "Unknown area to the MAL! Maybe the API was not initialized.");
+        }
+        
+        MALService malSer = malArea.getServiceByNumber(service);
+
+        if (malSer == null){
+            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," + service.getValue() + ") " + "Unknown service to the MAL! Maybe the API was not initialized.");
+        }
+        
         return malSer.getName().toString();
     }
 

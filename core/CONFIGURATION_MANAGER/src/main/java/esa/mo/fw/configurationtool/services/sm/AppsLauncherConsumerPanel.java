@@ -62,7 +62,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         Subscription subscription = ConnectionConsumer.subscriptionWildcard();
         try {
             serviceSMAppsLauncher.getAppsLauncherStub().monitorExecutionRegister(subscription, new AppsLauncherConsumerAdapter());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     
@@ -207,7 +209,11 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             appsTable.refreshTableWithIds(output.getBodyElement0(), serviceSMAppsLauncher.getConnectionDetails().getDomain(), AppsLauncherHelper.APP_OBJECT_TYPE);
 
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.getBodyElement0().size());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+            Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        } catch (MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -231,7 +237,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().killApp(ids);
             appsTable.switchEnabledstatus(false);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -249,7 +257,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids);
             appsTable.switchEnabledstatus(false);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -267,7 +277,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
             appsTable.switchEnabledstatus(true);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
