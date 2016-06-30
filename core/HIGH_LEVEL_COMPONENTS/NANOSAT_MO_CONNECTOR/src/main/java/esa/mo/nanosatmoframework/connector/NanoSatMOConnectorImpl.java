@@ -20,36 +20,17 @@
  */
 package esa.mo.nanosatmoframework.connector;
 
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.common.impl.util.CommonServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.adapters.MCStoreLastConfigurationAdapter;
-import esa.mo.nanosatmoframework.interfaces.CloseAppListener;
-import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
-import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
-import java.io.IOException;
-import java.io.Serializable;
+import esa.mo.nanosatmoframework.provider.NanoSatMOFrameworkProvider;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
 
 /**
  * A Provider of MO services composed by COM, M&C and Platform services. Selects
@@ -62,17 +43,10 @@ import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
  *
  * @author Cesar Coelho
  */
-public class NanoSatMOConnectorImpl implements NanoSatMOFrameworkInterface {
+public class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
-    private final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Framework";
-    private final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
-    private final COMServicesProvider comServices = new COMServicesProvider();
-    private final MCServicesProvider mcServices = new MCServicesProvider();
     private final CommonServicesProvider commonServices = new CommonServicesProvider();
-    private final PlatformServicesProviderInterface platformServices;
-    private final String providerName;
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -90,7 +64,6 @@ public class NanoSatMOConnectorImpl implements NanoSatMOFrameworkInterface {
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
 
         this.providerName = System.getProperty(ConfigurationProvider.MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
-    
         
         // Connect to the Central Directory service
         // Lookup for the Platform services
@@ -113,40 +86,18 @@ public class NanoSatMOConnectorImpl implements NanoSatMOFrameworkInterface {
             return;
         }
 
-        // Automatically populate the Directory service with the entries from the URIs File
+        // Populate the Directory service with the entries from the URIs File
+        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating Directory service...");
         commonServices.getDirectoryService().autoLoadURIsFile(this.providerName);
 
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-            // Activate the previous configuration
-            ObjectId confId = new ObjectId();  // Select the default configuration
-            confId.setKey(new ObjectKey(configuration.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
-            confId.setType(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE);
-
-            /*---------------------------------------------------*/
-            // Create the adapter that stores the configurations "onChange"
-            MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
-
-            // Reload the previous Configurations
-            this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getParameterService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_PARAMETER_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getAlertService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ALERT_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getCheckService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_CHECK_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getStatisticService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_STATISTIC_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getAggregationService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_AGGREGATION_SERVICE);
-
-            // Send the adapter into each service to save configuration changes when they happen
-            mcServices.getActionService().setConfigurationAdapter(confAdapter);
-            mcServices.getParameterService().setConfigurationAdapter(confAdapter);
-            mcServices.getAlertService().setConfigurationAdapter(confAdapter);
-            mcServices.getCheckService().setConfigurationAdapter(confAdapter);
-            mcServices.getStatisticService().setConfigurationAdapter(confAdapter);
-            mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
-
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Loading previous configurations...");
+            this.loadConfigurations();
         }
 
-        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "NanoSat MO Framework initialized!\n");
-
+        final String uri = commonServices.getDirectoryService().getConnection().getConnectionDetails().getProviderURI().toString();
+        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "NanoSat MO Connector initialized! URI: " + uri + "\n");
     }
 
     /**
@@ -164,72 +115,11 @@ public class NanoSatMOConnectorImpl implements NanoSatMOFrameworkInterface {
     }
 
     @Override
-    public COMServicesProvider getCOMServices() {
-        return comServices;
+    public void initPlatformServices() {
+        // Connect to the Platform services...
+        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public MCServicesProvider getMCServices() {
-        return mcServices;
-    }
-
-    @Override
-    public PlatformServicesProviderInterface getPlatformServices() {
-        return platformServices;
-    }
-
-    @Override
-    public void reportActionExecutionProgress(final boolean success, final int errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) {
-        this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
-    }
-
-    @Override
-    public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) {
-        return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName), argumentValues, null, null);
-    }
-
-    @Override
-    public Boolean pushParameterValue(final String name, final Serializable content) {
-
-        // Convert to MAL type if possible
-        Object obj = HelperAttributes.javaType2Attribute(content);
-
-        // If it is not a MAL type, then try to convert it into a Blob container
-        if (!(obj instanceof Attribute)) {
-            try {
-                obj = HelperAttributes.serialObject2blobAttribute((Serializable) obj);
-            } catch (IOException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        return this.getMCServices().getParameterService().pushSingleParameterValueAttribute(new Identifier(name), (Attribute) obj, null, null);
-    }
-
-    private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) {
-        // Retrieve the COM object of the service
-        ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
-                ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), serviceObjId);
-
-        if (comObject == null) { // Could not be found, return
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, service.toString() + " service: The configuration object does not exist on the Archive.");
-            return;
-        }
-
-        // Retrieve it from the Archive
-        ConfigurationObjectDetails configurationObjectDetails = (ConfigurationObjectDetails) HelperArchive.getObjectBodyFromArchive(
-                comServices.getArchiveService(), ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                configuration.getDomain(), comObject.getArchiveDetails().getDetails().getRelated());
-
-        // Reload the previous Configuration
-        service.reloadConfiguration(configurationObjectDetails);
-    }
-
-    @Override
-    public void addCloseAppListener(CloseAppListener closeAppAdapter){
-        // To be done...
-    }
-    
-    
+   
 }

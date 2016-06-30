@@ -21,36 +21,21 @@
 package esa.mo.nanosatmoframework.provider;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.adapters.MCStoreLastConfigurationAdapter;
 import esa.mo.nanosatmoframework.interfaces.CloseAppListener;
-import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import esa.mo.sm.impl.util.SMServicesProvider;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
 
 /**
  * A Provider of MO services composed by COM, M&C and Platform services. Selects
@@ -63,17 +48,10 @@ import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
  *
  * @author Cesar Coelho
  */
-public abstract class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInterface {
+public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider {
 
-    private final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     private final static String PROVIDER_NAME = "NanoSat MO Supervisor";
-    private final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
-    protected final COMServicesProvider comServices = new COMServicesProvider();
-    private final MCServicesProvider mcServices = new MCServicesProvider();
     private final SMServicesProvider smServices = new SMServicesProvider();
-    private final PlatformServicesProviderInterface platformServices;
-    private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -119,40 +97,16 @@ public abstract class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInter
 
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-            // Activate the previous configuration
-            ObjectId confId = new ObjectId();  // Select the default configuration
-            confId.setKey(new ObjectKey(configuration.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
-            confId.setType(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE);
-
-            /*---------------------------------------------------*/
-            // Create the adapter that stores the configurations "onChange"
-            MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(PROVIDER_NAME));
-
-            // Reload the previous Configurations
-            this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getParameterService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_PARAMETER_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getAlertService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ALERT_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getCheckService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_CHECK_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getStatisticService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_STATISTIC_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getAggregationService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_AGGREGATION_SERVICE);
-
-            // Send the adapter into each service to save configuration changes when they happen
-            mcServices.getActionService().setConfigurationAdapter(confAdapter);
-            mcServices.getParameterService().setConfigurationAdapter(confAdapter);
-            mcServices.getAlertService().setConfigurationAdapter(confAdapter);
-            mcServices.getCheckService().setConfigurationAdapter(confAdapter);
-            mcServices.getStatisticService().setConfigurationAdapter(confAdapter);
-            mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
+            this.loadConfigurations();
 
         }
 
         final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
-        Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.INFO, "NanoSat MO Framework initialized! URI: " + uri + "\n");
+        Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + uri + "\n");
 
     }
     
-    public abstract void initPlatformServices();
-
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
      * to extend the MonitorAndControlAdapter adapter class. The
@@ -167,50 +121,6 @@ public abstract class NanoSatMOSupervisorImpl implements NanoSatMOFrameworkInter
     public NanoSatMOSupervisorImpl(MonitorAndControlAdapter mcAdapter, 
             PlatformServicesProviderInterface platformServices) {
         this(mcAdapter, mcAdapter, platformServices);
-    }
-
-    @Override
-    public COMServicesProvider getCOMServices() {
-        return comServices;
-    }
-
-    @Override
-    public MCServicesProvider getMCServices() {
-        return mcServices;
-    }
-
-    @Override
-    public PlatformServicesProviderInterface getPlatformServices() {
-        return platformServices;
-    }
-
-    @Override
-    public void reportActionExecutionProgress(final boolean success, final int errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) {
-        this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
-    }
-
-    @Override
-    public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) {
-        return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName), argumentValues, null, null);
-    }
-
-    @Override
-    public Boolean pushParameterValue(final String name, final Serializable content) {
-
-        // Convert to MAL type if possible
-        Object obj = HelperAttributes.javaType2Attribute(content);
-
-        // If it is not a MAL type, then try to convert it into a Blob container
-        if (!(obj instanceof Attribute)) {
-            try {
-                obj = HelperAttributes.serialObject2blobAttribute((Serializable) obj);
-            } catch (IOException ex) {
-                Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        return this.getMCServices().getParameterService().pushSingleParameterValueAttribute(new Identifier(name), (Attribute) obj, null, null);
     }
 
     private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) {
