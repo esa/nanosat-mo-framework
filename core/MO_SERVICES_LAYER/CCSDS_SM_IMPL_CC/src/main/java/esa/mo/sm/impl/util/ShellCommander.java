@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 public class ShellCommander {
 
     private final OSValidator osValidator = new OSValidator();
-    private final static int DEATH_TIMEOUT = 3000;
+    private final static int DEATH_TIMEOUT = 2000;
     
     public ShellCommander(){
     }
@@ -46,7 +46,6 @@ public class ShellCommander {
     }
     
     public Process runCommand(String cmd, File dirPath) {
-
         try {
             Process proc;
 
@@ -59,26 +58,24 @@ public class ShellCommander {
                 return null;
             }
 
-            StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
-            StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
-            int exitVal = 0;
+//            StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
+//            StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
+//            int exitVal = 0;
 
-            error.start();
-            output.start();
+//            error.start();
+//            output.start();
+            
+//            System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
 
-            System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
-
-            error.join(DEATH_TIMEOUT);
-            output.join(DEATH_TIMEOUT);
-            proc.destroy();
+//            error.join(DEATH_TIMEOUT);
+//            output.join(DEATH_TIMEOUT);
+//            proc.destroy();
 //            exitVal = proc.waitFor();
 
-            System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
+//            System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
             
             return proc;
         } catch (IOException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -89,7 +86,7 @@ public class ShellCommander {
 
         private InputStream is = null;
         private String type = null;
-        private String message = null;
+        private String message = "<Nothing>";
 
         public String getMessage() {
             return message;

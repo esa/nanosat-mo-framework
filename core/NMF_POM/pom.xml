@@ -29,8 +29,8 @@
     <name>NanoSat MO Framework Core POM</name>
 
     <organization>
-        <name>CCSDS</name>
-        <url>http://www.ccsds.org</url>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
     </organization>
   
     <licenses>

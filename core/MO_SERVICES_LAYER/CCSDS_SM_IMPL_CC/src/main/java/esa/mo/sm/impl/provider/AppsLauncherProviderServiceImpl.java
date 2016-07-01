@@ -23,8 +23,14 @@ package esa.mo.sm.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -179,7 +185,46 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void killApp(LongList appInstIds, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UIntegerList unkIndexList = new UIntegerList();
+        UIntegerList invIndexList = new UIntegerList();
+
+        if (null == appInstIds) { // Is the input null?
+            throw new IllegalArgumentException("appInstIds argument must not be null");
+        }
+
+        // Refresh the list of available Apps
+        this.manager.refreshAvailableAppsList(connection.getConnectionDetails());
+
+        for (int index = 0; index < appInstIds.size(); index++) {
+            AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index)); // get it from the list of available apps
+
+            // The app id could not be identified?
+            if (app == null) {
+                unkIndexList.add(new UInteger(index)); // Throw an UNKNOWN error
+                continue;
+            }
+
+            // Is the app the app not running?
+            if (!manager.isAppRunning(appInstIds.get(index))) {
+                invIndexList.add(new UInteger(index)); // Throw an INVALID error
+                continue;
+            }
+        }
+
+        // Errors
+        if (!invIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        }
+
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+
+        // Run the apps!
+        for (int i = 0; i < appInstIds.size(); i++) {
+            manager.killAppProcess(appInstIds.get(i), connection.getConnectionDetails(), interaction);
+        }
+
     }
 
     @Override
@@ -217,7 +262,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         for (Long id : ids) { // Is the app running?
             runningApps.add(manager.isAppRunning(id));
         }
-        
+
         outList.setBodyElement0(ids);
         outList.setBodyElement1(runningApps);
 
@@ -229,7 +274,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (null == appInstIds){ // Is the input null?
+        if (null == appInstIds) { // Is the input null?
             throw new IllegalArgumentException("appInstIds argument must not be null");
         }
 
@@ -263,7 +308,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Run the apps!
         for (int i = 0; i < appInstIds.size(); i++) {
-            manager.startAppProcess(appInstIds.get(i), connection.getConnectionDetails(), interaction);
+            manager.startAppProcess(new ProcessExecutionHandler(appInstIds.get(i)), interaction);
         }
 
     }
@@ -298,11 +343,67 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
     }
 
-    
-    private class PublishExecutionUpdates{
-        
-        
+    public class ProcessExecutionHandler {
+
+        private final Timer timer = new Timer();
+        private final static int PERIOD_PUB = 5 * 1000; // Publish every 5 seconds
+        private final Long appId;
+        private Process process = null;
+
+        public ProcessExecutionHandler(Long appId) {
+            this.appId = appId;
+        }
+
+        /*
+        public void sendData(String output){
+            publishExecutionMonitoring(appId, output);
+        }
+         */
+        public SingleConnectionDetails getSingleConnectionDetails() {
+            return connection.getConnectionDetails();
+        }
+
+        public Long getAppInstId() {
+            return appId;
+        }
+
+        public Process getProcess() {
+            return process;
+        }
+
+        public void startPublishing(final Process process) {
+            this.process = process;
+
+//            final BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            final BufferedReader br = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            final StringBuilder buffer = new StringBuilder();
+
+            // Every 5 seconds, publish the String data
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    // Publish what's on the buffer every 5 seconds
+                    String output = buffer.toString();
+                    Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, output);
+
+                    publishExecutionMonitoring(appId, output);
+
+                }
+            }, 0, PERIOD_PUB);
+
+            try {
+                String line = null;
+
+                while ((line = br.readLine()) != null) {
+                    buffer.append(line);
+                    buffer.append("\n");
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
     }
-    
-    
+
 }

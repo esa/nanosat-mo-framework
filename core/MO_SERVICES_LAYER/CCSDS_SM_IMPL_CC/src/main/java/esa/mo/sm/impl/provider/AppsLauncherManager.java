@@ -23,6 +23,7 @@ package esa.mo.sm.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
 import esa.mo.sm.impl.util.ShellCommander;
 import java.io.File;
@@ -58,7 +59,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     private static final String APPS_DIRECTORY_NAME = "apps";  // dir name
     private File apps_folder_path = new File(".." + File.separator + ".." + File.separator + APPS_DIRECTORY_NAME);  // Location of the folder
     private final String runnable_filename;
-    private final HashMap<Long, Process> processes = new HashMap<Long, Process>();
+    private final HashMap<Long, ProcessExecutionHandler> handlers = new HashMap<Long, ProcessExecutionHandler>();
     
     
     private Long uniqueObjIdDef; // Counter (different for every Definition)
@@ -212,8 +213,8 @@ public class AppsLauncherManager extends DefinitionsManager {
                     if (runnable_filename.equals(file.getName())) {
                         // Found!
                         AppDetails app = new AppDetails();
-                        app.setCategory(new Identifier("MyFirstCategory"));
-                        app.setDescription("Just a simple description");
+                        app.setCategory(new Identifier("MyCategory"));
+                        app.setDescription("A simple description");
                         app.setName(new Identifier(app_folder.getName()));
                         app.setRunAtStartup(false);
                         app.setRunning(false);
@@ -243,12 +244,19 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
             
             // It does exist. Are there any differences?
+            /*  The codde below is weird...
             if (!previousAppDetails.equals(single_app)){
                 // Then we have to update it...
+                
+                // Is it a difference just on the Running status?
+                if(previousAppDetails.getRunning() == single_app.getRunning()){
+                    continue;
+                }
                 
                 this.update(id, single_app, connectionDetails, null);
                 
             }
+            */
             
         }
         
@@ -256,52 +264,59 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     protected boolean isAppRunning(final Long appId) {
         AppDetails app = (AppDetails) this.getDefs().get(appId); // get it from the list of available apps
-        Process proc = processes.get(appId);
+        ProcessExecutionHandler handler = handlers.get(appId);
         
-        if (proc == null){
+        if (handler == null){
             app.setRunning(false);
             return false;
         }
         
-        this.get(appId).setRunning(proc.isAlive());
+        this.get(appId).setRunning(handler.getProcess().isAlive());
                 
         return this.get(appId).getRunning();
     }
 
-    protected void startAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
-        AppDetails app = (AppDetails) this.getDefs().get(appInstId); // get it from the list of available apps
+    protected void startAppProcess(ProcessExecutionHandler handler, MALInteraction interaction) {
+        AppDetails app = (AppDetails) this.getDefs().get(handler.getAppInstId()); // get it from the list of available apps
 
         // Go to the folder where the app are installed
         final String app_folder = apps_folder_path + File.separator + app.getName().getValue();
         final String full_path = app_folder  + File.separator + runnable_filename;
-        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Initializing app on path: {0}", full_path);
+        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Initializing '" + app.getName().getValue() + "' app on path: " + full_path);
 
         Process proc = shell.runCommand(full_path, new File(app_folder));
+        handler.startPublishing(proc);
 
         if (proc.isAlive()){
-            processes.put(appInstId, proc);
+            handlers.put(handler.getAppInstId(), handler);
             app.setRunning(true);
-            this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
+            this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
         }
         
     }
 
-    protected void killAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
+    protected boolean killAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
         AppDetails app = (AppDetails) this.getDefs().get(appInstId); // get it from the list of available apps
 
-        Process proc = processes.get(appInstId);
+        ProcessExecutionHandler handler = handlers.get(appInstId);
 
-        if (proc != null){
-            proc.destroy();
+        if (handler == null){
             app.setRunning(false);
+            return false;
+        }
+
+        if (handler.getProcess() == null){
+            app.setRunning(false);
+            return true;
         }
         
-        if (proc.isAlive()){
-            app.setRunning(true);
+        if (handler.getProcess().isAlive()){
+            handler.getProcess().destroy();
+            app.setRunning(false);
             this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
         }
         
-        
+        return true;
         
     }
     
