@@ -41,11 +41,11 @@ public class ShellCommander {
     public ShellCommander(){
     }
 
-    public boolean runCommand(String cmd) {
+    public Process runCommand(String cmd) {
         return this.runCommand(cmd, null);
     }
     
-    public boolean runCommand(String cmd, File dirPath) {
+    public Process runCommand(String cmd, File dirPath) {
 
         try {
             Process proc;
@@ -56,7 +56,7 @@ public class ShellCommander {
                 proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
                 Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, "Unknown OS");
-                return false;
+                return null;
             }
 
             StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
@@ -65,19 +65,24 @@ public class ShellCommander {
 
             error.start();
             output.start();
+
+            System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
+
             error.join(DEATH_TIMEOUT);
             output.join(DEATH_TIMEOUT);
-            exitVal = proc.waitFor();
+            proc.destroy();
+//            exitVal = proc.waitFor();
+
             System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
+            
+            return proc;
         } catch (IOException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         } catch (InterruptedException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     private class StreamWrapper extends Thread {

@@ -46,7 +46,6 @@ import org.ccsds.moims.mo.mal.MALException;
 public class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
     private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Framework";
-    private final CommonServicesProvider commonServices = new CommonServicesProvider();
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -79,7 +78,7 @@ public class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     null
             );
 
-            commonServices.init(comServices);
+            directoryService.init(comServices);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, 
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
@@ -88,7 +87,7 @@ public class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating Directory service...");
-        commonServices.getDirectoryService().autoLoadURIsFile(this.providerName);
+        directoryService.autoLoadURIsFile(this.providerName);
 
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
@@ -96,7 +95,7 @@ public class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             this.loadConfigurations();
         }
 
-        final String uri = commonServices.getDirectoryService().getConnection().getConnectionDetails().getProviderURI().toString();
+        final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "NanoSat MO Connector initialized! URI: " + uri + "\n");
     }
 

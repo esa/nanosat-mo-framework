@@ -26,6 +26,7 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.sm.impl.util.OSValidator;
 import esa.mo.sm.impl.util.ShellCommander;
 import java.io.File;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -57,6 +58,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     private static final String APPS_DIRECTORY_NAME = "apps";  // dir name
     private File apps_folder_path = new File(".." + File.separator + ".." + File.separator + APPS_DIRECTORY_NAME);  // Location of the folder
     private final String runnable_filename;
+    private final HashMap<Long, Process> processes = new HashMap<Long, Process>();
     
     
     private Long uniqueObjIdDef; // Counter (different for every Definition)
@@ -252,11 +254,21 @@ public class AppsLauncherManager extends DefinitionsManager {
         
     }
 
-    protected boolean isAppRunning(Long appId) {
+    protected boolean isAppRunning(final Long appId) {
+        AppDetails app = (AppDetails) this.getDefs().get(appId); // get it from the list of available apps
+        Process proc = processes.get(appId);
+        
+        if (proc == null){
+            app.setRunning(false);
+            return false;
+        }
+        
+        this.get(appId).setRunning(proc.isAlive());
+                
         return this.get(appId).getRunning();
     }
 
-    protected void runApp(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
+    protected void startAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
         AppDetails app = (AppDetails) this.getDefs().get(appInstId); // get it from the list of available apps
 
         // Go to the folder where the app are installed
@@ -264,13 +276,33 @@ public class AppsLauncherManager extends DefinitionsManager {
         final String full_path = app_folder  + File.separator + runnable_filename;
         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Initializing app on path: {0}", full_path);
 
-        boolean running = shell.runCommand(full_path, new File(app_folder));
-        
-        if (running){
+        Process proc = shell.runCommand(full_path, new File(app_folder));
+
+        if (proc.isAlive()){
+            processes.put(appInstId, proc);
             app.setRunning(true);
             this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
         }
         
     }
-      
+
+    protected void killAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
+        AppDetails app = (AppDetails) this.getDefs().get(appInstId); // get it from the list of available apps
+
+        Process proc = processes.get(appInstId);
+
+        if (proc != null){
+            proc.destroy();
+            app.setRunning(false);
+        }
+        
+        if (proc.isAlive()){
+            app.setRunning(true);
+            this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
+        }
+        
+        
+        
+    }
+    
 }

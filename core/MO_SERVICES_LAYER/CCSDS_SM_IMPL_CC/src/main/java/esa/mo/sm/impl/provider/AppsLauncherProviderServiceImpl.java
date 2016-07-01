@@ -263,7 +263,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Run the apps!
         for (int i = 0; i < appInstIds.size(); i++) {
-            manager.runApp(appInstIds.get(i), connection.getConnectionDetails(), interaction);
+            manager.startAppProcess(appInstIds.get(i), connection.getConnectionDetails(), interaction);
         }
 
     }
@@ -298,4 +298,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
     }
 
+    
+    private class PublishExecutionUpdates{
+        
+        
+    }
+    
+    
 }
