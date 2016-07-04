@@ -27,6 +27,11 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionH
 import esa.mo.sm.impl.util.OSValidator;
 import esa.mo.sm.impl.util.ShellCommander;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,8 +65,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     private File apps_folder_path = new File(".." + File.separator + ".." + File.separator + APPS_DIRECTORY_NAME);  // Location of the folder
     private final String runnable_filename;
     private final HashMap<Long, ProcessExecutionHandler> handlers = new HashMap<Long, ProcessExecutionHandler>();
-    
-    
+
     private Long uniqueObjIdDef; // Counter (different for every Definition)
     private Long uniqueObjIdPVal;
 
@@ -71,7 +75,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) { // If there is a property for that, then use it!! 
             apps_folder_path = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
         }
-        
+
         runnable_filename = osValidator.isWindows() ? RUN_WIN_FILENAME : RUN_LIN_FILENAME;
 
         try {
@@ -187,27 +191,24 @@ public class AppsLauncherManager extends DefinitionsManager {
     protected void refreshAvailableAppsList(SingleConnectionDetails connectionDetails) {
 
         // Go to all the "apps folder" and check if there are new folders
-        
         // get all the files from a directory
         File[] fList = apps_folder_path.listFiles();
 
         if (fList == null) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "The directory could not be found: {0}", apps_folder_path.toString());
-            
+
             // Create?
             // ????
-            
             return;
         }
-        
+
         AppDetailsList apps = new AppDetailsList();
-        
 
         for (File app_folder : fList) { // Roll all the apps inside the apps folder
-            
+
             if (app_folder.isDirectory()) {
                 // Add app by app
-                
+
                 // Check if the folder contains the executable
                 for (File file : app_folder.listFiles()) { // Roll all the files inside each app folder
                     if (runnable_filename.equals(file.getName())) {
@@ -223,26 +224,25 @@ public class AppsLauncherManager extends DefinitionsManager {
                 }
             }
         }
-        
+
         // Compare with the defs list!
         // Are there any differences?
-        
-        for (AppDetails single_app : apps){
+        for (AppDetails single_app : apps) {
             Long id = super.list(single_app.getName());
-            
+
             AppDetails previousAppDetails = (AppDetails) super.getDefs().get(id);
-            
-            if (previousAppDetails == null){
+
+            if (previousAppDetails == null) {
                 // It didn't exist...
-                
+
                 // Either is the first time running or it is a newly installed app!
                 ObjectId source = null;
-                
+
                 this.add(single_app, source, connectionDetails);
-                
+
                 continue; // Check the next one...
             }
-            
+
             // It does exist. Are there any differences?
             /*  The codde below is weird...
             if (!previousAppDetails.equals(single_app)){
@@ -256,43 +256,68 @@ public class AppsLauncherManager extends DefinitionsManager {
                 this.update(id, single_app, connectionDetails, null);
                 
             }
-            */
-            
+             */
         }
-        
+
     }
 
     protected boolean isAppRunning(final Long appId) {
         AppDetails app = (AppDetails) this.getDefs().get(appId); // get it from the list of available apps
         ProcessExecutionHandler handler = handlers.get(appId);
-        
-        if (handler == null){
+
+        if (handler == null) {
             app.setRunning(false);
             return false;
         }
-        
+
         this.get(appId).setRunning(handler.getProcess().isAlive());
-                
+
         return this.get(appId).getRunning();
     }
 
     protected void startAppProcess(ProcessExecutionHandler handler, MALInteraction interaction) {
-        AppDetails app = (AppDetails) this.getDefs().get(handler.getAppInstId()); // get it from the list of available apps
 
-        // Go to the folder where the app are installed
-        final String app_folder = apps_folder_path + File.separator + app.getName().getValue();
-        final String full_path = app_folder  + File.separator + runnable_filename;
-        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Initializing '" + app.getName().getValue() + "' app on path: " + full_path);
+        try {
+            AppDetails app = (AppDetails) this.getDefs().get(handler.getAppInstId()); // get it from the list of available apps
+            
+            // Go to the folder where the app are installed
+            final String app_folder = apps_folder_path + File.separator + app.getName().getValue();
+            final String full_path = app_folder + File.separator + runnable_filename;
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Reading and initializing '" + app.getName().getValue() + "' app on path: " + full_path);
+            
+            
+            
+            byte[] encoded = Files.readAllBytes(Paths.get(full_path));
+            String input = new String(encoded, StandardCharsets.UTF_8);
 
-        Process proc = shell.runCommand(full_path, new File(app_folder));
-        handler.startPublishing(proc);
+            String[] parts = input.split(" ");
 
-        if (proc.isAlive()){
-            handlers.put(handler.getAppInstId(), handler);
-            app.setRunning(true);
-            this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
+//            input.replaceAll("\\\"", "\"");
+//            String input = String.valueOf(encoded);
+//            int i = input.indexOf(' ');
+//            String first = input.substring(0, i);
+//            String rest = input.substring(i);
+
+// Command line Process (the actual program is running in another Process!)
+//        Process proc = shell.runCommand(full_path, new File(app_folder));
+//            Process proc = shell.runCommand(new String(encoded, StandardCharsets.UTF_8), new File(app_folder));
+
+//            Process proc = Runtime.getRuntime().exec(new String[]{new String(encoded, StandardCharsets.UTF_8)}, null, new File(app_folder));
+//Process proc = Runtime.getRuntime().exec(new String[]{"java", "-classpath", "Demo_GPS_data-jar-with-dependencies.jar", "esa.mo.nanosatmoframework.apps.DemoGPSData"}, null, new File(app_folder));
+Process proc = Runtime.getRuntime().exec(parts, null, new File(app_folder));
+//Process proc = Runtime.getRuntime().exec(new String[]{"java -v"}, null, new File(app_folder));
+
+handler.startPublishing(proc);
+
+if (proc.isAlive()) {
+    handlers.put(handler.getAppInstId(), handler);
+    app.setRunning(true);
+    this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
+}
+        } catch (IOException ex) {
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     protected boolean killAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
@@ -300,24 +325,24 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         ProcessExecutionHandler handler = handlers.get(appInstId);
 
-        if (handler == null){
+        if (handler == null) {
             app.setRunning(false);
             return false;
         }
 
-        if (handler.getProcess() == null){
+        if (handler.getProcess() == null) {
             app.setRunning(false);
             return true;
         }
-        
-        if (handler.getProcess().isAlive()){
-            handler.getProcess().destroy();
+
+        if (handler.getProcess().isAlive()) {
+            handler.close();
             app.setRunning(false);
             this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
         }
-        
+
         return true;
-        
+
     }
-    
+
 }

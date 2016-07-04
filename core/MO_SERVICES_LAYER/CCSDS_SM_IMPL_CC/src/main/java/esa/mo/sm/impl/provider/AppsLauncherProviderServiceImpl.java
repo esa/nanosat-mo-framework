@@ -26,8 +26,10 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -348,6 +350,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         private final Timer timer = new Timer();
         private final static int PERIOD_PUB = 5 * 1000; // Publish every 5 seconds
         private final Long appId;
+        private Thread collectStream1;
+        private Thread collectStream2;
+        private BufferedReader br1;
+        private BufferedReader br2;
         private Process process = null;
 
         public ProcessExecutionHandler(Long appId) {
@@ -371,38 +377,95 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             return process;
         }
 
+        public void close() {
+
+            timer.cancel();
+//                OutputStreamWriter osw = new OutputStreamWriter(process.getOutputStream());
+//                BufferedWriter out = new BufferedWriter (osw);
+//            BufferedReader input =  new BufferedReader (new  InputStreamReader(process.getInputStream()));
+
+//int ctrlBreak = 0x03;
+//osw.write(ctrlBreak);
+//osw.flush();
+
+            /*
+//Different testing way to send the ctrlBreak;
+out.write(ctrlBreak);
+out.flush();
+out.write(ctrlBreak+"\n");
+out.flush();
+             */
+            try {
+
+                process.destroy();
+
+                br1.close();
+                br2.close();
+            } catch (IOException ex) {
+                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         public void startPublishing(final Process process) {
             this.process = process;
 
-//            final BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            final BufferedReader br = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            br1 = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            br2 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             final StringBuilder buffer = new StringBuilder();
 
             // Every 5 seconds, publish the String data
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    // Publish what's on the buffer every 5 seconds
-                    String output = buffer.toString();
-                    Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, output);
+                    // Change the buffer position
+                    int size = buffer.length();
+                    if (size != 0) {
+                        String output = buffer.substring(0, size);
+                        buffer.delete(0, size);
 
-                    publishExecutionMonitoring(appId, output);
-
+                        // Publish what's on the buffer every 5 seconds
+                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, output);
+                        publishExecutionMonitoring(appId, output);
+                    }
                 }
             }, 0, PERIOD_PUB);
 
-            try {
-                String line = null;
+            collectStream1 = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        String line = null;
 
-                while ((line = br.readLine()) != null) {
-                    buffer.append(line);
-                    buffer.append("\n");
+                        while ((line = br1.readLine()) != null) {
+                            buffer.append("\t");
+                            buffer.append(line);
+                            buffer.append("\t" + "\n");
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+            };
 
-            } catch (IOException ex) {
-                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            collectStream2 = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        String line = null;
 
+                        while ((line = br2.readLine()) != null) {
+                            buffer.append("\t");
+                            buffer.append(line);
+                            buffer.append("\t" + "\n");
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+
+            collectStream1.start();
+            collectStream2.start();
         }
     }
 
