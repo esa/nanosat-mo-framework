@@ -58,7 +58,6 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         this.archiveService = archiveService;
         
         comObjects = new ArrayList<ArchivePersistenceObject>();
-        
         this.defineTableContent();
         
         table.addMouseListener(new MouseAdapter() {

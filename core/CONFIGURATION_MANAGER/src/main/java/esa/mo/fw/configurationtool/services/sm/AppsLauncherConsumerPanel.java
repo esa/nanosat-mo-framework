@@ -22,9 +22,19 @@ package esa.mo.fw.configurationtool.services.sm;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -44,6 +54,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
     private AppsLauncherConsumerServiceImpl serviceSMAppsLauncher;
     private AppsLauncherTablePanel appsTable;
+    private final HashMap<Long, JTextArea> textAreas = new HashMap<Long, JTextArea>();
 
     /**
      *
@@ -53,6 +64,35 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         initComponents();
 
         appsTable = new AppsLauncherTablePanel(serviceSMAppsLauncher.getCOMServices().getArchiveService());
+
+        appsTable.getTable().addMouseListener(new MouseListener() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                // If there is a concrete row selected...
+                if (appsTable.getSelectedRow() != -1) {
+                    Long objId = appsTable.getCOMObjects().get(appsTable.getSelectedRow()).getArchiveDetails().getInstId();
+                    javax.swing.JTextArea textArea = textAreas.get(objId);
+                    jScrollPane1.setViewportView(textArea);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+
         jScrollPane2.setViewportView(appsTable);
 
         this.serviceSMAppsLauncher = serviceSMAppsLauncher;
@@ -67,7 +107,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
 
     /**
@@ -81,9 +121,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        appVerboseTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        actionDefinitionsTable = new javax.swing.JTable();
+        defaultTable = new javax.swing.JTable();
         parameterTab = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         runAppButton = new javax.swing.JButton();
@@ -96,15 +136,16 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         jLabel6.setText("Apps Launcher Service");
         jLabel6.setToolTipText("");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        appVerboseTextArea.setColumns(20);
+        appVerboseTextArea.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
+        appVerboseTextArea.setRows(5);
+        jScrollPane1.setViewportView(appVerboseTextArea);
 
         jScrollPane2.setHorizontalScrollBar(null);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(796, 380));
         jScrollPane2.setRequestFocusEnabled(false);
 
-        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
+        defaultTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null,  new Boolean(true), null},
                 {null, null, null, null, null, null, null}
@@ -121,18 +162,18 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        actionDefinitionsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        actionDefinitionsTable.setAutoscrolls(false);
-        actionDefinitionsTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        actionDefinitionsTable.setMaximumSize(null);
-        actionDefinitionsTable.setMinimumSize(null);
-        actionDefinitionsTable.setPreferredSize(null);
-        actionDefinitionsTable.addContainerListener(new java.awt.event.ContainerAdapter() {
+        defaultTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        defaultTable.setAutoscrolls(false);
+        defaultTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        defaultTable.setMaximumSize(null);
+        defaultTable.setMinimumSize(null);
+        defaultTable.setPreferredSize(null);
+        defaultTable.addContainerListener(new java.awt.event.ContainerAdapter() {
             public void componentAdded(java.awt.event.ContainerEvent evt) {
-                actionDefinitionsTableComponentAdded(evt);
+                defaultTableComponentAdded(evt);
             }
         });
-        jScrollPane2.setViewportView(actionDefinitionsTable);
+        jScrollPane2.setViewportView(defaultTable);
 
         parameterTab.setLayout(new javax.swing.BoxLayout(parameterTab, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -177,12 +218,10 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(parameterTab, javax.swing.GroupLayout.DEFAULT_SIZE, 985, Short.MAX_VALUE)
+            .addComponent(parameterTab, javax.swing.GroupLayout.DEFAULT_SIZE, 902, Short.MAX_VALUE)
             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,9 +229,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -208,6 +247,18 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             output = this.serviceSMAppsLauncher.getAppsLauncherStub().listApp(idList, new Identifier("*"));
             appsTable.refreshTableWithIds(output.getBodyElement0(), serviceSMAppsLauncher.getConnectionDetails().getDomain(), AppsLauncherHelper.APP_OBJECT_TYPE);
 
+            for (int i = 0; i < output.getBodyElement0().size(); i++){
+                Long objId = output.getBodyElement0().get(i);
+
+                if (textAreas.get(objId) == null){
+                    javax.swing.JTextArea textArea = new javax.swing.JTextArea();
+                    textAreas.put(objId, textArea);
+                    textArea.setColumns(20);
+                    textArea.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
+                    textArea.setRows(5);
+                }
+            }
+            
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.getBodyElement0().size());
         } catch (MALInteractionException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
@@ -220,10 +271,6 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_listAppAllButtonActionPerformed
-
-    private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_actionDefinitionsTableComponentAdded
 
     private void killAppButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_killAppButtonActionPerformed
 
@@ -287,35 +334,38 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_runAppButtonActionPerformed
-    
+
+    private void defaultTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_defaultTableComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_defaultTableComponentAdded
+
     public class AppsLauncherConsumerAdapter extends AppsLauncherAdapter {
 
         @Override
-        public void monitorExecutionNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
-          org.ccsds.moims.mo.mal.structures.Identifier _Identifier0, 
-          org.ccsds.moims.mo.mal.structures.UpdateHeaderList updateHeaderList, 
-          org.ccsds.moims.mo.mal.structures.StringList outputStream, java.util.Map qosProperties){
+        public void monitorExecutionNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+                org.ccsds.moims.mo.mal.structures.UpdateHeaderList updateHeaderList,
+                org.ccsds.moims.mo.mal.structures.StringList outputStream, java.util.Map qosProperties) {
 
-          
             for (int i = 0; i < updateHeaderList.size(); i++) {
-
+                final String out = outputStream.get(i);
                 final UpdateHeader updateHeader = updateHeaderList.get(i);
 
-
-
-                // Add to the table
-//                comObjects.add(comObject);
+                javax.swing.JTextArea textArea = textAreas.get(updateHeader.getKey().getSecondSubKey());
+                textArea.append(out);
+                textArea.setCaretPosition(textArea.getDocument().getLength());
             }
         }
-    }    
-    
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable actionDefinitionsTable;
+    private javax.swing.JTextArea appVerboseTextArea;
+    private javax.swing.JTable defaultTable;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton killAppButton;
     private javax.swing.JButton listAppAllButton;
     private javax.swing.JPanel parameterTab;

@@ -25,6 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.fw.configurationtool.stuff.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 
 /**
@@ -84,60 +85,20 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     }
 
     public void switchEnabledstatusAll(boolean status){
-        
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
-        
-        
+        // 5 because it is where the flag is!
         for (int i = 0; i < this.getTable().getRowCount() ; i++){
             tableData.setValueAt(status, i, 5);
             ((AppDetails) this.getCOMObjects().get(i).getObject()).setRunning(status);
         }
         
         semaphore.release();
-        
     }
-
-/*    
-    public void switchFilterEnabledstatus(boolean status){
-        
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // 6 because it is where filter is!
-        tableData.setValueAt(status, this.getSelectedRow(), 6);
-        ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
-        
-        semaphore.release();
-        
-    }
-
-    public void switchFilterEnabledstatusAll(boolean status){
-        
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // 6 because it is where filter is!
-        for (int i = 0; i < this.getTable().getRowCount() ; i++){
-            tableData.setValueAt(status, i, 6);
-            ((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setFilterEnabled(status);
-        }
-        
-        semaphore.release();
-        
-    }
-*/  
 
     @Override
     public void defineTableContent() {
@@ -165,6 +126,10 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
         super.getTable().setModel(tableData);
 
+    }
+    
+    public DefaultTableModel getTableData(){
+        return tableData;
     }
     
 }

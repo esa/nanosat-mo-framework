@@ -58,6 +58,14 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             try {
             initComponents();
 
+            // Software Management
+            if(services.getSMServices()!= null){
+
+                if(services.getSMServices().getAppsLauncherService() != null){
+                    this.serviceTabs.insertTab("Apps Launcher service", null, new AppsLauncherConsumerPanel(services.getSMServices().getAppsLauncherService()), "Software Management Tab", serviceTabs.getTabCount());
+                }
+
+            }
             
             // COM
             if(services.getCOMServices() != null){
@@ -111,14 +119,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
             }
             
-            // Software Management
-            if(services.getSMServices()!= null){
-
-                if(services.getSMServices().getAppsLauncherService() != null){
-                    this.serviceTabs.insertTab("Apps Launcher service", null, new AppsLauncherConsumerPanel(services.getSMServices().getAppsLauncherService()), "Software Management Tab", serviceTabs.getTabCount());
-                }
-
-            }
    
         } catch (MALInteractionException ex) {
             Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);

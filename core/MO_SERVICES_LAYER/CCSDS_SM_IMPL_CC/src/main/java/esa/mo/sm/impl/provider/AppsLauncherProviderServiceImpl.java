@@ -21,21 +21,27 @@
 package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
+import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -45,6 +51,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
+import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.EntityKey;
 import org.ccsds.moims.mo.mal.structures.EntityKeyList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -67,11 +74,12 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.AppsLauncherInheritanceSkeleton;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.MonitorExecutionPublisher;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
 
 /**
  *
  */
-public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton {
+public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements ReconfigurableServiceImplInterface {
 
     private MALProvider appsLauncherServiceProvider;
     private MonitorExecutionPublisher publisher;
@@ -82,6 +90,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final ConnectionProvider connection = new ConnectionProvider();
     private COMServicesProvider comServices;
+    private ConfigurationNotificationInterface configurationAdapter;
 
     /**
      * Initializes the Event service provider
@@ -148,19 +157,15 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         appObjId, new Identifier(manager.get(appObjId).getName().toString())
                     });
 
-//            final ParameterValue parameterValue = manager.getParameterValue(objId);
             final StringList outputList = new StringList();
 
             // Should not be store in the Archive... it's too much stuff
-//            final Long pValObjId = manager.storeAndGeneratePValobjId(parameterValue, appObjId, connection.getConnectionDetails());
             final EntityKey ekey = new EntityKey(new Identifier(manager.get(appObjId).getName().toString()), appObjId, null, null);
             final Time timestamp = HelperTime.getTimestampMillis();
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
-//            final ParameterValueList pVallst = new ParameterValueList();
 
             hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
-//            pVallst.add(parameterValue); // requirement: 3.3.5.2.8
 
             outputList.add(outputText);
             publisher.publish(hdrlst, outputList);
@@ -183,6 +188,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Is the app still running?
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
+        
+        
+        
     }
 
     @Override
@@ -243,7 +253,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         LongList ids = new LongList();
         BooleanList runningApps = new BooleanList();
 
-//        for (Identifier appName : appNames) {
         for (int index = 0; index < appNames.size(); index++) {
             if ("*".equals(appNames.get(index).getValue())) {
                 ids.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
@@ -315,6 +324,86 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     }
 
+    @Override
+    public void setConfigurationAdapter(esa.mo.reconfigurable.service.ConfigurationNotificationInterface configurationAdapter) {
+        this.configurationAdapter = configurationAdapter;
+    }
+
+    @Override
+    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+        // Validate the configuration...
+        if(configurationObjectDetails == null){
+            return false;
+        }
+
+        if(configurationObjectDetails.getConfigObjects() == null){
+            return false;
+        }
+
+        // Is the size 1?
+        if (configurationObjectDetails.getConfigObjects().size() != 1) {  // 1 because we just have Apps as configuration objects in this service
+            return false;
+        }
+
+        ConfigurationObjectSet confSet = configurationObjectDetails.getConfigObjects().get(0);
+
+        // Confirm the objType
+        if (!confSet.getObjType().equals(AppsLauncherHelper.APP_OBJECT_TYPE)) {
+            return false;
+        }
+
+        // Confirm the domain
+        if (!confSet.getDomain().equals(connection.getConnectionDetails().getDomain())) {
+            return false;
+        }
+
+        // If the list is empty, reconfigure the service with nothing...
+        if(confSet.getObjInstIds().isEmpty()){
+            manager.reconfigureDefinitions(new LongList(), new AppDetailsList());   // Reconfigures the Manager
+            return true;
+        }
+
+        // ok, we're good to go...
+        // Load the App Details from this configuration...
+        AppDetailsList pDefs = (AppDetailsList) HelperArchive.getObjectBodyListFromArchive(
+                manager.getArchiveService(),
+                AppsLauncherHelper.APP_OBJECT_TYPE,
+                connection.getConnectionDetails().getDomain(),
+                confSet.getObjInstIds());
+
+        manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
+
+        return true;    
+    }
+
+    @Override
+    public ConfigurationObjectDetails getCurrentConfiguration() {
+        // Get all the current objIds in the serviceImpl
+        // Create a Configuration Object with all the objs of the provider
+        HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
+
+        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
+        objsSet.setDomain(connection.getConnectionDetails().getDomain());
+        LongList currentObjIds = new LongList();
+        currentObjIds.addAll(defObjs.keySet());
+        objsSet.setObjInstIds(currentObjIds);
+        objsSet.setObjType(AppsLauncherHelper.APP_OBJECT_TYPE);
+
+        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
+        list.add(objsSet);
+
+        // Needs the Common API here!
+        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
+        set.setConfigObjects(list);
+
+        return set;
+    }
+
+    @Override
+    public COMService getCOMService() {
+        return AppsLauncherHelper.APPSLAUNCHER_SERVICE;
+    }
+
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
@@ -337,10 +426,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header,
-                final MALErrorBody body,
-                final Map qosProperties)
-                throws MALException {
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
@@ -360,11 +446,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             this.appId = appId;
         }
 
-        /*
-        public void sendData(String output){
-            publishExecutionMonitoring(appId, output);
-        }
-         */
         public SingleConnectionDetails getSingleConnectionDetails() {
             return connection.getConnectionDetails();
         }
@@ -378,27 +459,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         public void close() {
-
             timer.cancel();
-//                OutputStreamWriter osw = new OutputStreamWriter(process.getOutputStream());
-//                BufferedWriter out = new BufferedWriter (osw);
-//            BufferedReader input =  new BufferedReader (new  InputStreamReader(process.getInputStream()));
 
-//int ctrlBreak = 0x03;
-//osw.write(ctrlBreak);
-//osw.flush();
-
-            /*
-//Different testing way to send the ctrlBreak;
-out.write(ctrlBreak);
-out.flush();
-out.write(ctrlBreak+"\n");
-out.flush();
-             */
             try {
-
                 process.destroy();
-
                 br1.close();
                 br2.close();
             } catch (IOException ex) {
@@ -413,7 +477,7 @@ out.flush();
             br2 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             final StringBuilder buffer = new StringBuilder();
 
-            // Every 5 seconds, publish the String data
+            // Every PERIOD_PUB seconds, publish the String data
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
@@ -423,50 +487,40 @@ out.flush();
                         String output = buffer.substring(0, size);
                         buffer.delete(0, size);
 
-                        // Publish what's on the buffer every 5 seconds
-                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, output);
+                        // Publish what's on the buffer every PERIOD_PUB milliseconds
+                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE, output);
                         publishExecutionMonitoring(appId, output);
                     }
                 }
             }, 0, PERIOD_PUB);
 
-            collectStream1 = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        String line = null;
-
-                        while ((line = br1.readLine()) != null) {
-                            buffer.append("\t");
-                            buffer.append(line);
-                            buffer.append("\t" + "\n");
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            };
-
-            collectStream2 = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        String line = null;
-
-                        while ((line = br2.readLine()) != null) {
-                            buffer.append("\t");
-                            buffer.append(line);
-                            buffer.append("\t" + "\n");
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            };
+            collectStream1 = createThreadReader(buffer, br1);
+            collectStream2 = createThreadReader(buffer, br2);
 
             collectStream1.start();
             collectStream2.start();
         }
+
+        private Thread createThreadReader(final StringBuilder buf, final BufferedReader br) {
+            return new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        String line = null;
+
+                        while ((line = br.readLine()) != null) {
+//                            buf.append("\t");
+                            buf.append(line);
+//                            buf.append("\t");
+                            buf.append("\n");
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+        }
+        
     }
 
 }

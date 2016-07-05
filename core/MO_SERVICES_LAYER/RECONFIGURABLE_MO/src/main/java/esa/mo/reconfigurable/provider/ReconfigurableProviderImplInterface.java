@@ -43,7 +43,7 @@ public interface ReconfigurableProviderImplInterface {
      * Getter for COM services 
      * @return COM services provider
      */
-    public COMServicesProvider getCOMServices();
+//    public COMServicesProvider getCOMServices();
 
     /**
      * Get list of services available

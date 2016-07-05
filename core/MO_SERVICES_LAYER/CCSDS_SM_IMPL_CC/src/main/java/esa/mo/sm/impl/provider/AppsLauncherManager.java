@@ -214,9 +214,10 @@ public class AppsLauncherManager extends DefinitionsManager {
                     if (runnable_filename.equals(file.getName())) {
                         // Found!
                         AppDetails app = new AppDetails();
-                        app.setCategory(new Identifier("MyCategory"));
-                        app.setDescription("A simple description");
                         app.setName(new Identifier(app_folder.getName()));
+                        app.setDescription("A simple description");
+                        app.setVersion("1.0");
+                        app.setCategory(new Identifier("MyCategory"));
                         app.setRunAtStartup(false);
                         app.setRunning(false);
                         apps.add(app);
@@ -279,41 +280,34 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         try {
             AppDetails app = (AppDetails) this.getDefs().get(handler.getAppInstId()); // get it from the list of available apps
-            
+
             // Go to the folder where the app are installed
             final String app_folder = apps_folder_path + File.separator + app.getName().getValue();
             final String full_path = app_folder + File.separator + runnable_filename;
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Reading and initializing '" + app.getName().getValue() + "' app on path: " + full_path);
-            
-            
-            
+
             byte[] encoded = Files.readAllBytes(Paths.get(full_path));
             String input = new String(encoded, StandardCharsets.UTF_8);
-
-            String[] parts = input.split(" ");
+            Process proc = Runtime.getRuntime().exec(input.split(" "), null, new File(app_folder));
+            handler.startPublishing(proc);
 
 //            input.replaceAll("\\\"", "\"");
 //            String input = String.valueOf(encoded);
 //            int i = input.indexOf(' ');
 //            String first = input.substring(0, i);
 //            String rest = input.substring(i);
-
 // Command line Process (the actual program is running in another Process!)
 //        Process proc = shell.runCommand(full_path, new File(app_folder));
 //            Process proc = shell.runCommand(new String(encoded, StandardCharsets.UTF_8), new File(app_folder));
-
 //            Process proc = Runtime.getRuntime().exec(new String[]{new String(encoded, StandardCharsets.UTF_8)}, null, new File(app_folder));
 //Process proc = Runtime.getRuntime().exec(new String[]{"java", "-classpath", "Demo_GPS_data-jar-with-dependencies.jar", "esa.mo.nanosatmoframework.apps.DemoGPSData"}, null, new File(app_folder));
-Process proc = Runtime.getRuntime().exec(parts, null, new File(app_folder));
 //Process proc = Runtime.getRuntime().exec(new String[]{"java -v"}, null, new File(app_folder));
-
-handler.startPublishing(proc);
-
-if (proc.isAlive()) {
-    handlers.put(handler.getAppInstId(), handler);
-    app.setRunning(true);
-    this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
-}
+            if (proc.isAlive()) {
+                handlers.put(handler.getAppInstId(), handler);
+                app.setRunning(true);
+                this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
         }
