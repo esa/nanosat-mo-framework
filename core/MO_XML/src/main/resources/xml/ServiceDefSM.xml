@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<mal:area comment="Provides a set of services for software management onboard of a spacecraft.&#10;The Memory Management service is a low-level service intended to be used to load, dump and check memory addresses.&#10;The Software Images service is intended to manage Software Images and Software Patches by allowing the generation of new Software Images from a patch.&#10;The Package Management service allows the management of software packages on modern operating systems using the concept of packages.&#10;The Apps Launcher service allows the management of runnable applications in a system." name="SoftwareManagement" number="7" version="1">
 		<mal:service comment="The Memory Management service provides the ability to load, dump and check binary data blocks in known memory addresses from/to a certain memory device." name="MemoryManagement" number="1" xsi:type="com:ExtendedServiceType">
+      <mal:documentation name="High Level Requirements" order="1"/>
+      <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:submitIP comment="The loadMemory operation allows a consumer to submit a block of data to a provider for loading the memory of the selected device. The operation shall use the Activity Tracking to report on the progress of the activity." name="loadMemory" number="1" supportInReplay="false">
 					<mal:messages>
@@ -145,13 +147,14 @@
 			<com:features/>
 		</mal:service>		
 		<mal:service comment="The Software Image service provides the ability to deploy, list, generate, delete, clone and check the integrity of Software Images.&#10;This service can be used to manage Software Images on-board of a spacecraft or to manage Software Images in virtual machines that might run on-board of a spacecraft.&#10;The service supports the generation of a new Image from a previous baseline Image with an additional delta. This allows patching software Images without the need to transfer the complete new Image." name="SoftwareImage" number="2" xsi:type="com:ExtendedServiceType">
-			<mal:documentation name="High-level requirements" order="1">All on-board application software shall be updatable by the Ground at any time during the mission.
+			<mal:documentation name="High Level Requirements" order="1">All on-board application software shall be updatable by the Ground at any time during the mission.
 On-board application software images shall be stored on-board in non-volatile memory.
 It shall be possible to add or remove patches to on-board software images stored on-board without the need to reload the entire original image.
 In presence of any single failure, the remaining non-volatile memory used to store on-board software images shall have enough space to store at least two different versions of the same software.
 Ground shall be provided with the capability to define in non-volatile memory for each on-board processor the main and redundant location of the software image to be used at the next processor reset / reconfiguration.
 The process of loading a software image from non-volatile memory to RAM upon boot shall be robust to data corruptions in various parts of the stored image.
 			</mal:documentation>
+      <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:submitIP comment="" name="deployImage" number="1" supportInReplay="false">
 					<mal:messages>
@@ -341,8 +344,8 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
 					<mal:field canBeNull="true" comment="" name="name">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
+					<mal:type area="MAL" list="false" name="Identifier"/>
+          </mal:field>
 					<mal:field canBeNull="true" comment="" name="description">
 						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
@@ -352,6 +355,40 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				<mal:error comment="The software image cannot be deleted" name="DELETION_FAILED" number="21"/>
 			</mal:errors>
 			<com:features>
+        <mal:diagram name="SoftwareImageObjects">
+          <svg:svg height="100" version="1.1" width="700">
+            <svg:defs>
+              <svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
+                <svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
+                <svg:stop offset="100%" style="stop-color:rgb(249,239,224);stop-opacity:1"/>
+              </svg:linearGradient>
+              <svg:marker id="sourceArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(255,0,0)"/>
+              </svg:marker>
+              <svg:marker id="relatedArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
+              </svg:marker>
+            </svg:defs>
+            
+            
+          <svg:path d="M460,50 L335,50 L210,50" end="Patch" fill="none" marker-mid="url(#sourceArrow)" start="SoftwareImage" stroke="rgb(255,0,0)" stroke-width="1"/>
+            <svg:path d="M210,50 L335,50 L460,50" end="SoftwareImage" fill="none" marker-mid="url(#relatedArrow)" start="Patch" stroke="rgb(0,0,0)" stroke-width="1"/>
+            <svg:g id="SoftwareImage" transform="translate(400,10)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="120" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="120"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="60" y="25">SoftwareImage</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="60" y="45">1</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="60" y="65">ImageDefinition</svg:text>
+            </svg:g>
+            <svg:g id="Patch" transform="translate(150,10)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="120" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="120"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="60" y="25">Patch</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="60" y="45">2</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="60" y="65">PatchDefinition</svg:text>
+            </svg:g>
+          </svg:svg>
+        </mal:diagram>
 				<com:objects comment="">
 					<com:object comment="" name="SoftwareImage" number="1">
 						<com:objectType>
@@ -359,15 +396,17 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 						</com:objectType>
 						<com:relatedObject comment="">
 						</com:relatedObject>
-						<com:sourceObject comment="">
-						</com:sourceObject>
+						<com:sourceObject comment="If the Software Image was generated from a patch, then the source object field points to the Patch COM object.">
+						<com:objectType area="SoftwareManagement" number="2" service="SoftwareImage"/>
+            </com:sourceObject>
 					</com:object>
 					<com:object comment="" name="Patch" number="2">
 						<com:objectType>
 							<mal:type area="SoftwareManagement" list="false" name="PatchDefinition" service="SoftwareImage"/>
 						</com:objectType>
 						<com:relatedObject comment="">
-						</com:relatedObject>
+						<com:objectType area="SoftwareManagement" number="1" service="SoftwareImage"/>
+            </com:relatedObject>
 						<com:sourceObject comment=""/>
 					</com:object>
 				</com:objects>
@@ -375,6 +414,8 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 		</mal:service>
 		
 		<mal:service comment="The Package Management service provides the ability to install, uninstall, upgrade, list, check packages. The service shall optionally support verification of packages, verification of digital signatures, upgrade software, manage dependencies.&#10;Packages can be organized in different categories in order to facilitate the management of software." name="PackageManagement" number="3" xsi:type="com:ExtendedServiceType">
+      <mal:documentation name="High Level Requirements" order="1"/>
+      <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:requestIP comment="The listPackage operation allows a consumer to list the available packages on the provider." name="listPackage" number="1" supportInReplay="false">
 					<mal:messages>
@@ -397,15 +438,17 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 						</mal:response>
 					</mal:messages>
 				</mal:requestIP>
-				<mal:submitIP comment="The install operation allows a consumer to install an application from a package on the provider." name="install" number="2" supportInReplay="false">
+				<mal:invokeIP comment="The install operation allows a consumer to install an application from a package on the provider." name="install" number="2" supportInReplay="false">
 					<mal:messages>
-						<mal:submit comment="">
+						<mal:invoke comment="">
 							<mal:field canBeNull="true" comment="" name="packageObjInstId">
 								<mal:type area="MAL" list="false" name="Long"/>
 							</mal:field>
-						</mal:submit>
+						</mal:invoke>
+						<mal:acknowledgement comment=""/>
+						<mal:response comment=""/>
 					</mal:messages>
-				</mal:submitIP>
+				</mal:invokeIP>
 				<mal:invokeIP comment="The uninstall operation allows a consumer to uninstall an application on the provider." name="uninstall" number="3" supportInReplay="false">
 					<mal:messages>
 						<mal:invoke comment="">
@@ -422,39 +465,31 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:submitIP comment="The install operation allows a consumer to upgrade an application from a package on the provider." name="upgrade" number="4" supportInReplay="false">
+				<mal:invokeIP comment="The upgrade operation allows a consumer to upgrade an application from a package on the provider." name="upgrade" number="4" supportInReplay="false">
 					<mal:messages>
-						<mal:submit comment="">
-						
+						<mal:invoke comment="">
 							<mal:field canBeNull="true" comment="" name="packageObjInstIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
-							<mal:field canBeNull="true" comment="" name="versions">
-								<mal:type area="MAL" list="true" name="String"/>
-							</mal:field>
-						</mal:submit>
+						</mal:invoke>
+						<mal:acknowledgement comment=""/>
+						<mal:response comment=""/>
 					</mal:messages>
-				</mal:submitIP>
+				</mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:requestIP comment="The checkPackage operation allows a consumer to check if a certain package on the provider is installed." name="checkPackage" number="5" supportInReplay="false">
+				<mal:requestIP comment="The checkPackageIntegrity operation allows a consumer to check the integrity of a certain package on the provider." name="checkPackageIntegrity" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
-							<mal:field canBeNull="true" comment="" name="names">
-								<mal:type area="MAL" list="true" name="Identifier"/>
-							</mal:field>
-							<mal:field canBeNull="true" comment="" name="category">
-								<mal:type area="MAL" list="false" name="Identifier"/>
-							</mal:field>
-						</mal:request>
+              <mal:field canBeNull="true" comment="" name="packageIds">
+                <mal:type area="MAL" list="true" name="Long"/>
+              </mal:field>
+            </mal:request>
 						<mal:response comment="">
-							<mal:field canBeNull="true" comment="" name="instIds">
-								<mal:type area="MAL" list="true" name="Long"/>
-							</mal:field>
-							<mal:field canBeNull="true" comment="" name="installed">
-								<mal:type area="MAL" list="true" name="Boolean"/>
-							</mal:field>
-						</mal:response>
+              <mal:field comment="" name="valid">
+                <mal:type area="MAL" list="true" name="Boolean"/>
+              </mal:field>
+            </mal:response>
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>
@@ -470,28 +505,102 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>
+      <mal:dataTypes>
+        <mal:composite comment="The package definition structure." name="PackageDefinition" shortFormPart="7">
+          <mal:extends>
+            <mal:type area="MAL" list="false" name="Composite"/>
+          </mal:extends>
+        <mal:field canBeNull="false" comment="" name="name">
+            <mal:type area="MAL" list="false" name="Identifier"/>
+          </mal:field>
+          <mal:field canBeNull="false" comment="" name="category">
+            <mal:type area="MAL" list="false" name="Identifier"/>
+          </mal:field>
+          <mal:field canBeNull="false" comment="" name="path">
+            <mal:type area="MAL" list="false" name="File"/>
+          </mal:field>
+        <mal:field canBeNull="true" comment="" name="publisher">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
+        </mal:composite>
+      <mal:composite comment="" name="InstallationDetails" shortFormPart="8">
+          <mal:extends>
+            <mal:type area="MAL" list="false" name="Composite"/>
+          </mal:extends>
+          <mal:field canBeNull="true" comment="" name="installed">
+            <mal:type area="MAL" list="false" name="Boolean"/>
+          </mal:field>
+          <mal:field canBeNull="true" comment="" name="folderLocation">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
+        </mal:composite>
+      </mal:dataTypes>
 			<mal:errors>
 				<mal:error comment="" name="DEPENDENCY_NOT_FOUND" number="31"/>
 			</mal:errors>
 			<com:features>
+        <mal:diagram name="PackageManagementObjects">
+          <svg:svg height="200" version="1.1" width="700">
+            <svg:defs>
+              <svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
+                <svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
+                <svg:stop offset="100%" style="stop-color:rgb(249,239,224);stop-opacity:1"/>
+              </svg:linearGradient>
+              <svg:marker id="sourceArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(255,0,0)"/>
+              </svg:marker>
+              <svg:marker id="relatedArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
+              </svg:marker>
+            </svg:defs>
+            <svg:path d="M135,90 L240,90 L345,90" end="Package" fill="none" marker-mid="url(#relatedArrow)" start="Installation" stroke="rgb(0,0,0)" stroke-width="1"/>
+            <svg:g id="Package" transform="translate(280,50)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="130" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="130"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="65" y="25">Package</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="65" y="45">1</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="65" y="65">PackageDefinition</svg:text>
+            </svg:g>
+            <svg:g id="Installation" transform="translate(70,50)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="130" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="130"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="65" y="25">Installation</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="65" y="45">2</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="65" y="65">MAL::Identifier</svg:text>
+            </svg:g>
+          </svg:svg>
+        </mal:diagram>
 				<com:objects comment="">
 					<com:object comment="" name="Package" number="1">
+            <com:objectType>
+              <mal:type area="SoftwareManagement" list="false" name="PackageDefinition" service="PackageManagement"/>
+            </com:objectType>
 						<com:relatedObject comment=""/>
 						<com:sourceObject comment=""/>
 					</com:object>
-				</com:objects>
-				<com:events comment="">
-				</com:events>
+				<com:object comment="" name="Installation" number="2">
+            <com:objectType>
+              <mal:type area="MAL" list="false" name="Identifier"/>
+            </com:objectType>
+            <com:relatedObject comment="">
+              <com:objectType area="SoftwareManagement" number="1" service="PackageManagement"/>
+            </com:relatedObject>
+            <com:sourceObject comment=""/>
+          </com:object>
+        </com:objects>
+				<com:events comment=""/>
 				<com:activityUsage comment="Add the activity tracking for the progress of installation. Also for the Software Image service"/>
 			</com:features>
 		</mal:service>
-		<mal:service comment="The Processes service provides the ability to monitor and manage processes running on-board." name="Processes" number="4" xsi:type="com:ExtendedServiceType">
+		<mal:service comment="The Processes service provides the ability to monitor and manage processes running on-board." name="ProcessManagement" number="4" xsi:type="com:ExtendedServiceType">
+      <mal:documentation name="High Level Requirements" order="1"/>
+      <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:pubsubIP comment="" name="monitorProcess" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
 							<mal:field canBeNull="true" comment="Add that the PID and the user name shall be passed on the UpdateHeader field." name="processInfo">
-								<mal:type area="SoftwareManagement" list="false" name="ProcessInformation" service="Processes"/>
+								<mal:type area="SoftwareManagement" list="false" name="ProcessInformation" service="ProcessManagement"/>
 							</mal:field>
 						</mal:publishNotify>
 					</mal:messages>
@@ -500,7 +609,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				<mal:submitIP comment="" name="setRate" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="" name="rate">
+							<mal:field canBeNull="true" comment="Setting it to zero stops the publishing of the stats." name="rate">
 								<mal:type area="MAL" list="false" name="Duration"/>
 							</mal:field>
 						</mal:submit>
@@ -508,7 +617,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:submitIP comment="" name="startTask" number="5" supportInReplay="false">
+				<mal:submitIP comment="" name="startProcess" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment=""/>
 					</mal:messages>
@@ -522,9 +631,13 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
-				<mal:requestIP comment="" name="getStats" number="7" supportInReplay="false">
+				<mal:requestIP comment="" name="getProcessSummary" number="7" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment=""/>
+						<mal:request comment="">
+              <mal:field canBeNull="true" comment="" name="processesInfo">
+                <mal:type area="SoftwareManagement" list="false" name="ProcessInformation" service="ProcessManagement"/>
+              </mal:field>
+            </mal:request>
 						<mal:response comment=""/>
 					</mal:messages>
 				</mal:requestIP>
@@ -538,26 +651,26 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 						<mal:type area="MAL" list="false" name="Float"/>
 					</mal:field>
 					<mal:field canBeNull="true" comment="Percentage of Memory used." name="memoryPercentage">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
+					<mal:type area="MAL" list="false" name="Float"/>
+          </mal:field>
 					<mal:field canBeNull="true" comment="The priority of the process." name="priority">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
+					<mal:type area="MAL" list="false" name="Integer"/>
+          </mal:field>
 					<mal:field canBeNull="true" comment="Virtual memory used." name="virt">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
+            <mal:type area="MAL" list="false" name="Float"/>
+          </mal:field>
 					<mal:field canBeNull="true" comment="Physical memory used." name="res">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
+            <mal:type area="MAL" list="false" name="Float"/>
+          </mal:field>
 					<mal:field canBeNull="true" comment="Shared memory used." name="shr">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
+					<mal:type area="MAL" list="false" name="Float"/>
+          </mal:field>
 					<mal:field canBeNull="true" comment="There are five types:&#10;          'D' = uninterruptible sleep&#10;          'R' = running&#10;          'S' = sleeping&#10;          'T' = traced or stopped&#10;          'Z' = zombie" name="status">
 						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
 					<mal:field canBeNull="true" comment="Total CPU Time." name="timeCPU">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
+					<mal:type area="MAL" list="false" name="Duration"/>
+          </mal:field>
 					<mal:field canBeNull="true" comment="Command name." name="command">
 						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
@@ -566,6 +679,8 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 		<com:features/>
     </mal:service>		
 		<mal:service comment="The Apps Launcher service provides the ability to monitor the execution, run, stop, kill and list applications software on-board of a spacecraft. The apps can be organized in categories. " name="AppsLauncher" number="5" xsi:type="com:ExtendedServiceType">
+      <mal:documentation name="High Level Requirements" order="1"/>
+      <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:pubsubIP comment="The monitorExecution operation allows a consumer to subscribe for the application execution output stream." name="monitorExecution" number="1" supportInReplay="false">
 					<mal:messages>
@@ -601,21 +716,10 @@ The process of loading a software image from non-volatile memory to RAM upon boo
             </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
-				<mal:submitIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="3" supportInReplay="false">
-					<mal:messages>
-						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
-								<mal:type area="MAL" list="true" name="Long"/>
-							</mal:field>
-						</mal:submit>
-					</mal:messages>
-				</mal:submitIP>
-			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="3">
 				<mal:submitIP comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive." name="killApp" number="4" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to kill." name="appInstIds">
+							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to be killed." name="appInstIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
 						</mal:submit>
@@ -634,6 +738,17 @@ The process of loading a software image from non-volatile memory to RAM upon boo
               </mal:extraInformation>
             </mal:errorRef>
           </mal:errors>
+				</mal:submitIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="3">
+				<mal:submitIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="3" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment="">
+							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:submit>
+					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
@@ -667,35 +782,94 @@ The process of loading a software image from non-volatile memory to RAM upon boo
         </mal:requestIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
-				<mal:composite comment="" name="AppDetails" shortFormPart="4">
+				<mal:composite comment="The AppDetails structure holds the details of an instance of an app." name="AppDetails" shortFormPart="1">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="true" comment="" name="name">
+					<mal:field canBeNull="false" comment="App name. Must not be empty or wildcard value." name="name">
 						<mal:type area="MAL" list="false" name="Identifier"/>
 					</mal:field>
-        <mal:field canBeNull="true" comment="" name="description">
+        <mal:field canBeNull="false" comment="The description of the app." name="description">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
-        <mal:field canBeNull="true" comment="" name="version">
+        <mal:field canBeNull="false" comment="The version of the app." name="version">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
-		<mal:field canBeNull="true" comment="" name="category">
+		<mal:field canBeNull="false" comment="The category of the app." name="category">
 			<mal:type area="MAL" list="false" name="Identifier"/>
           </mal:field>
-        <mal:field canBeNull="true" comment="" name="runAtStartup">
+        <mal:field canBeNull="false" comment="Controls whether the app runs at startup." name="runAtStartup">
           <mal:type area="MAL" list="false" name="Boolean"/>
           </mal:field>
-				<mal:field canBeNull="true" comment="" name="running">
+				<mal:field canBeNull="false" comment="Current app running state." name="running">
           <mal:type area="MAL" list="false" name="Boolean"/>
           </mal:field>
-        <mal:field canBeNull="true" comment="This field can be used to store additional information that might be implementation-specific." name="extraInfo">
+        <mal:field canBeNull="true" comment="Additional information that might be implementation-specific." name="extraInfo">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
         </mal:composite>
 			</mal:dataTypes>
 			<com:features>
-				<com:objects comment="">
+        <mal:diagram name="AppsLauncherObjects">
+          <svg:svg height="220" version="1.1" width="700">
+            <svg:defs>
+              <svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
+                <svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
+                <svg:stop offset="100%" style="stop-color:rgb(249,239,224);stop-opacity:1"/>
+              </svg:linearGradient>
+              <svg:marker id="sourceArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(255,0,0)"/>
+              </svg:marker>
+              <svg:marker id="relatedArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
+              </svg:marker>
+            </svg:defs>
+            
+            
+            
+          
+            
+            
+            
+          
+            
+            
+            
+            
+          <svg:path d="M335,170 L437,170 L540,170" end="App" fill="none" marker-mid="url(#relatedArrow)" start="StopApp" stroke="rgb(0,0,0)" stroke-width="1"/>
+            <svg:path d="M335,170 L334,110 L333,50" end="COM::ActivityTracking::OperationActivity" fill="none" marker-mid="url(#sourceArrow)" start="StopApp" stroke="rgb(255,0,0)" stroke-width="1"/>
+            <svg:path d="M120,170 L227,170 L335,170" end="StopApp" fill="none" marker-mid="url(#sourceArrow)" start="Stopping" stroke="rgb(255,0,0)" stroke-width="1"/>
+            <svg:g id="COM::ActivityTracking::OperationActivity" transform="translate(198,10)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="270" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="270"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="135" y="25">COM::ActivityTracking::OperationActivity</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="135" y="45">6</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="135" y="65">COM::ActivityTracking::OperationActivity</svg:text>
+            </svg:g>
+            <svg:g id="StopApp" transform="translate(285,130)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="100" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="100"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="35">StopApp</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="55">2</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="75"/>
+            </svg:g>
+            <svg:g id="Stopping" transform="translate(70,130)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="100" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="100"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="35">Stopping</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="55">3</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="75"/>
+            </svg:g>
+            <svg:g id="App" transform="translate(490,130)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="100" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="100"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="25">App</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="45">1</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="65">AppDetails</svg:text>
+            </svg:g>
+          </svg:svg>
+        </mal:diagram>
+				<com:objects comment="An App COM object represents an on-board application. The COM object body shall hold the details of the application.">
 					<com:object comment="" name="App" number="1">
             <com:objectType>
               <mal:type area="SoftwareManagement" list="false" name="AppDetails" service="AppsLauncher"/>
@@ -705,20 +879,29 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 					</com:object>
 				
 				</com:objects>
-				<com:events comment="">
-					<com:event comment="" name="CloseApp" number="2">
+				<com:events comment="A StopApp COM event represents a request to stop a certain application.&#10;&#9;The StopApp COM event related link shall point to the App COM object.&#10;&#9;The StopApp COM event source link should point to the object that caused it to be created, most likely a COM OperationActivity object.&#10;&#9;The StopApp COM event shall be generated by the stopApp operation.&#10;A Stopping COM event represents an acknowledgement that the application is stopping its execution.&#10;&#9;The Stopping COM event source link shall point to the StopApp COM event that requested the application to stop or to null if there was no request.&#10;&#9;The Stopping COM event shall be generated by the application when it is stopping its execution.">
+					<com:event comment="This event is generated upon a request to stop a certain app." name="StopApp" number="2">
 						<com:relatedObject comment="">
 							<com:objectType area="SoftwareManagement" number="1" service="AppsLauncher"/>
 						</com:relatedObject>
-						<com:sourceObject comment=""/>
+						<com:sourceObject comment="">
+              <com:objectType area="COM" number="6" service="ActivityTracking"/>
+            </com:sourceObject>
 					</com:event>
 				
-				</com:events>
+				<com:event comment="" name="Stopping" number="3">
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment="The source object shall be the CloseApp event.">
+              <com:objectType area="SoftwareManagement" number="2" service="AppsLauncher"/>
+            </com:sourceObject>
+          </com:event>
+        </com:events>
 			</com:features>
 		</mal:service>
-		<mal:service comment="The Heartbeat service publishes a heart beat message periodically. Additionally it is possible to get the period of the beat." name="Heartbeat" number="6" xsi:type="com:ExtendedServiceType">
+		<mal:service comment="The Heartbeat service provides the ability to periodically publish a heartbeat message. Additionally it is possible to get the period of the beat." name="Heartbeat" number="6" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1">//Mention that the first heartbeat will be after the period set and not right upon startup.
 			</mal:documentation>
+      <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:pubsubIP comment="The beat operation allows a provider to periodically send a heartbeat to the consumers." name="beat" number="1" supportInReplay="false">
 					<mal:messages>
