@@ -316,12 +316,12 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param sourceURI Source URI
      * @param objIds Object instance identifier
      * @param objType Object type
-     * @param related Related link
-     * @param sources Source link
+     * @param relateds Related links
+     * @param sources Source links
      * @param eventBodies Bodies of the event
      */
     public void publishEvents(final URI sourceURI, final LongList objIds, final ObjectType objType,
-            final Long related, final ObjectIdList sources, ElementList eventBodies) {
+            final LongList relateds, final ObjectIdList sources, ElementList eventBodies) {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         try {
             if (!isRegistered) {
@@ -339,8 +339,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             final ObjectDetailsList objectDetailsList = new ObjectDetailsList();
 
-            for (int i = 0; i < objIds.size(); i++) {
-
+            for (int i = 0; i < objIds.size(); i++){
                 // 0xFFFF FFFF FF00 0000
                 final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
 
@@ -353,6 +352,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                         subKey);
 
                 final Time timestamp = HelperTime.getTimestampMillis(); //  requirement: 3.3.4.2.7
+                final Long related = (relateds == null) ? null : relateds.get(i);
 
                 hdrlst.add(new UpdateHeader(timestamp, sourceURI, UpdateType.DELETION, ekey));
                 objectDetailsList.add(new ObjectDetails(related, sources.get(i))); // requirement: 3.3.4.2.5

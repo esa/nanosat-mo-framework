@@ -20,8 +20,6 @@
  */
 package esa.mo.com.impl.util;
 
-import esa.mo.com.impl.util.EventCOMObject;
-
 /**
  * An interface to receive events from the Event service via the monitorEvent
  * operation

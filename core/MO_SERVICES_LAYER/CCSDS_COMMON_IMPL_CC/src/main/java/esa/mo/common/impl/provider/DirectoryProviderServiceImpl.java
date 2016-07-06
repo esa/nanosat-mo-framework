@@ -102,7 +102,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
             } catch (MALException ex) { // nothing to be done..
             }
-
         }
 
         this.comServices = comServices;
@@ -369,7 +368,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     }
 
-    public void autoLoadURIsFile(String providerName) {
+    public PublishDetails autoLoadURIsFile(String providerName) {
         ServicesConnectionDetails servicesOnFile = new ServicesConnectionDetails();
 
         try {
@@ -432,12 +431,14 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         try {
             this.publishProvider(newProviderDetails, null);
+            return newProviderDetails;
         } catch (MALInteractionException ex) {
             Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        return null;
     }
 
 }

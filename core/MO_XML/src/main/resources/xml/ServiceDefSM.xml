@@ -486,7 +486,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
               </mal:field>
             </mal:request>
 						<mal:response comment="">
-              <mal:field comment="" name="valid">
+              <mal:field canBeNull="true" comment="" name="valid">
                 <mal:type area="MAL" list="true" name="Boolean"/>
               </mal:field>
             </mal:response>
@@ -685,7 +685,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				<mal:pubsubIP comment="The monitorExecution operation allows a consumer to subscribe for the application execution output stream." name="monitorExecution" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-							<mal:field canBeNull="true" comment="The outputStream field shall contain a stream of characters corresponding to the output stream of the application." name="outputStream">
+							<mal:field canBeNull="true" comment="The outputStream field shall contain a stream of characters corresponding to the output stream of the application.&#10;The MAL EntityKey.firstSubKey shall contain the App name.&#10;The MAL EntityKey.secondSubKey shall contain the AppDetails object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall be NULL.&#10;The MAL EntityKey.fourthSubKey shall be NULL.&#10;The timestamp of the update shall be the on-board time when the update was published.&#10;The publish message shall include the ObjectId of the source link of the update.&#10;If no source link is needed then the ObjectId shall be replaced with a NULL." name="outputStream">
 								<mal:type area="MAL" list="false" name="String"/>
 							</mal:field>
 						</mal:publishNotify>
@@ -741,15 +741,18 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:submitIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="3" supportInReplay="false">
+				<mal:invokeIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="3" supportInReplay="false">
 					<mal:messages>
-						<mal:submit comment="">
+						<mal:invoke comment="">
 							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
-						</mal:submit>
+						</mal:invoke>
+						<mal:acknowledgement comment=""/>
+						<mal:response comment="">
+						</mal:response>
 					</mal:messages>
-				</mal:submitIP>
+				</mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
 				<mal:requestIP comment="The listApp operation allows a consumer to request the object instance identifiers of the Apps objects and running status for an app name or for a certain app category." name="listApp" number="5" supportInReplay="false">

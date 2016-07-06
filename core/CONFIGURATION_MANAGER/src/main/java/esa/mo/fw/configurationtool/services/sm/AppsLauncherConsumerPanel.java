@@ -247,10 +247,10 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             output = this.serviceSMAppsLauncher.getAppsLauncherStub().listApp(idList, new Identifier("*"));
             appsTable.refreshTableWithIds(output.getBodyElement0(), serviceSMAppsLauncher.getConnectionDetails().getDomain(), AppsLauncherHelper.APP_OBJECT_TYPE);
 
-            for (int i = 0; i < output.getBodyElement0().size(); i++){
+            for (int i = 0; i < output.getBodyElement0().size(); i++) {
                 Long objId = output.getBodyElement0().get(i);
 
-                if (textAreas.get(objId) == null){
+                if (textAreas.get(objId) == null) {
                     javax.swing.JTextArea textArea = new javax.swing.JTextArea();
                     textAreas.put(objId, textArea);
                     textArea.setColumns(20);
@@ -258,7 +258,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                     textArea.setRows(5);
                 }
             }
-            
+
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.getBodyElement0().size());
         } catch (MALInteractionException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
@@ -304,7 +304,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         ids.add(objId);
 
         try {
-            this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids);
+            this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, new StopAdapter());
             appsTable.switchEnabledstatus(false);
         } catch (MALInteractionException ex) {
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -358,6 +358,25 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
     }
 
+    public class StopAdapter extends AppsLauncherAdapter {
+
+        @Override
+        public void stopAppAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+            appsTable.reportStatus("Stopping...");
+        }
+
+        @Override
+        public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties){
+            appsTable.reportStatus("Unable to stop");
+
+        }
+
+        @Override
+        public void stopAppResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+            appsTable.reportStatus("Successfully Closed!");
+        }
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea appVerboseTextArea;

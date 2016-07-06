@@ -20,7 +20,6 @@
  */
 package esa.mo.nanosatmoframework.connector;
 
-import esa.mo.common.impl.util.CommonServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -45,7 +44,7 @@ import org.ccsds.moims.mo.mal.MALException;
  */
 public class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
-    private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Framework";
+    private final static String PROVIDER_PREFIX_NAME = "App: ";
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -62,7 +61,7 @@ public class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
 
-        this.providerName = System.getProperty(ConfigurationProvider.MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
+        this.providerName = PROVIDER_PREFIX_NAME + System.getProperty(ConfigurationProvider.MO_APP_NAME);
         
         // Connect to the Central Directory service
         // Lookup for the Platform services
@@ -95,6 +94,24 @@ public class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             this.loadConfigurations();
         }
 
+/*        
+        try {
+            // Connect to the Central Directory service...
+            URI centralDirectoryURI = new URI("1234"); vfdb fgb 
+            DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+            
+            // Register the services there...
+            
+            
+        } catch (MALException ex) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+*/        
+        
         final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "NanoSat MO Connector initialized! URI: " + uri + "\n");
     }

@@ -294,7 +294,6 @@ public class MOServicesConsumer {
         directoryService.closeConnection();  // close the connection
 
         return summaryList;
-
     }
   
 }

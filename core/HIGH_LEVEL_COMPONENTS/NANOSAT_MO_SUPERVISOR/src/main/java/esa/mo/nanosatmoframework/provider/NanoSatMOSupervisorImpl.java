@@ -73,18 +73,18 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
         this.platformServices = platformServices;
         
         try {
-            comServices.init();
+            this.comServices.init();
 
-            mcServices.init(
+            this.mcServices.init(
                     comServices,
                     actionAdapter,
                     parameterAdapter,
                     null
             );
 
-            smServices.init(comServices);
             this.initPlatformServices();
             this.directoryService.init(comServices);
+            smServices.init(comServices, this.directoryService);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.SEVERE, 
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
@@ -102,7 +102,7 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
 
         }
 
-        final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
+        final String uri = this.directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + uri + "\n");
 
     }
@@ -123,6 +123,7 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
         this(mcAdapter, mcAdapter, platformServices);
     }
 
+    /*
     private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) {
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
@@ -141,6 +142,7 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
         // Reload the previous Configuration
         service.reloadConfiguration(configurationObjectDetails);
     }
+    */
 
     @Override
     public void addCloseAppListener(CloseAppListener closeAppAdapter){

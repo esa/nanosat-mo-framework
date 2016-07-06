@@ -25,6 +25,7 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
@@ -36,10 +37,10 @@ public class SMServicesProvider {
     private final PackageManagementProviderServiceImpl packageManagementService = new PackageManagementProviderServiceImpl();
     private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
 
-    public void init(COMServicesProvider comServices) {
+    public void init(COMServicesProvider comServices, DirectoryInheritanceSkeleton directoryService) {
         try {
             packageManagementService.init(comServices);
-            applicationsManagerService.init(comServices);
+            applicationsManagerService.init(comServices, directoryService);
         } catch (MALException ex) {
             Logger.getLogger(SMServicesProvider.class.getName()).log(Level.SEVERE, null, ex);
         }

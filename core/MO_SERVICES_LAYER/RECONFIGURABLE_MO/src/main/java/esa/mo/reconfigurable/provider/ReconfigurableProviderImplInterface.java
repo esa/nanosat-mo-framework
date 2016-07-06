@@ -20,7 +20,6 @@
  */
 package esa.mo.reconfigurable.provider;
 
-import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.ArrayList;

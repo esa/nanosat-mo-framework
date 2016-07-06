@@ -60,7 +60,8 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
             appDetails.getDescription(),
             appDetails.getCategory().toString(),
             appDetails.getRunAtStartup(),
-            appDetails.getRunning()
+            appDetails.getRunning(),
+            ""
         });
 
         comObjects.add(comObject);
@@ -100,17 +101,31 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    public void reportStatus(String text){
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // 6 because it is where the status field is!
+        tableData.setValueAt(text, this.getSelectedRow(), 6);
+        
+        semaphore.release();
+    }
+    
     @Override
     public void defineTableContent() {
     
         String[] tableCol = new String[]{
-            "Obj Inst Id", "name", "description", "category", "runAtStartup", "running" };
+            "Obj Inst Id", "name", "description", "category", "runAtStartup", "running", "Status" };
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {
                     Class[] types = new Class[]{
                         java.lang.Integer.class, java.lang.String.class, java.lang.String.class, 
-                        java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
+                        java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class,
+                        java.lang.String.class
                     };
 
                     @Override               //all cells false
