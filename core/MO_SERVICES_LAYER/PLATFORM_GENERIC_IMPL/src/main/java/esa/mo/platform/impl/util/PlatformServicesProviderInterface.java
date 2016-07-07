@@ -20,8 +20,6 @@
  */
 package esa.mo.platform.impl.util;
 
-import esa.mo.com.impl.util.COMServicesProvider;
-import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
 

@@ -446,16 +446,19 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             errorConnectionProvider("Directory");
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         } catch (MalformedURLException ex) {
             errorConnectionProvider("Directory");
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         } catch (MALInteractionException ex) {
             errorConnectionProvider("Directory");
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
 
