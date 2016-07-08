@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.mc.impl.provider;
+package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ActivityTrackingProviderServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
@@ -44,7 +44,7 @@ public abstract class DefinitionsManager {
     private final ActivityTrackingProviderServiceImpl activityTrackingService;
     private final COMServicesProvider comServices;
 
-    protected DefinitionsManager(COMServicesProvider comServices) {
+    public DefinitionsManager(COMServicesProvider comServices) {
         this.defs = new HashMap<Long, Element>();
 
         if (comServices != null) {
@@ -83,7 +83,7 @@ public abstract class DefinitionsManager {
      * @param input The object instance identifier of the definition
      * @return True if exists. False otherwise.
      */
-    protected boolean exists(Long input) {
+    public boolean exists(Long input) {
         return defs.containsKey(input);
     }
 
@@ -94,7 +94,7 @@ public abstract class DefinitionsManager {
      * @return The object instance identifier of the Definition. Null if not
      * found.
      */
-    protected Long list(Identifier input) {
+    public Long list(Identifier input) {
         final LongList objIds = this.listAll();
         for (Long objId : objIds) {
             if (compareName(objId, input)) {
@@ -109,7 +109,7 @@ public abstract class DefinitionsManager {
      *
      * @return The object instance identifiers of the Definitions.
      */
-    protected LongList listAll() {
+    public LongList listAll() {
         LongList list = new LongList();
         list.addAll(defs.keySet());
         return list;
@@ -122,12 +122,12 @@ public abstract class DefinitionsManager {
      *
      * @return The HashMap of the Definitions.
      */
-    protected HashMap<Long, Element> getDefs() {
+    public HashMap<Long, Element> getDefs() {
         return this.defs;
     }
 
     @SuppressWarnings("unchecked")
-    protected ElementList getAllDefs() {
+    public ElementList getAllDefs() {
         ElementList list = this.newDefinitionList();
         list.addAll(defs.values());
         return list;
@@ -140,7 +140,7 @@ public abstract class DefinitionsManager {
      * @param definition The object body of the definition
      * @return True if successful.
      */
-    protected Boolean addDef(Long objId, Element definition) {
+    public Boolean addDef(Long objId, Element definition) {
         defs.put(objId, definition);
         return true;
     }
@@ -153,7 +153,7 @@ public abstract class DefinitionsManager {
      * @return True if successful. False if the object instance identifier does
      * not exist in the manager, in this case, the definition is not added.
      */
-    protected boolean updateDef(Long objId, Element definition) {
+    public boolean updateDef(Long objId, Element definition) {
 //        return (defs.replace(objId, definition) != null);
 /*
          boolean deleted = this.deleteDef(objId);
@@ -175,7 +175,7 @@ public abstract class DefinitionsManager {
      * @return True if successful. False if the object instance identifier does
      * not exist in the manager.
      */
-    protected boolean deleteDef(Long objId) {
+    public boolean deleteDef(Long objId) {
         return (defs.remove(objId) != null);
     }
 
@@ -221,7 +221,7 @@ public abstract class DefinitionsManager {
      * @return The link to the stored COM Operation Activity. Null if not
      * stored.
      */
-    protected ObjectId storeCOMOperationActivity(final MALInteraction interaction) {
+    public ObjectId storeCOMOperationActivity(final MALInteraction interaction) {
         if (getActivityTrackingService() != null) {
             return getActivityTrackingService().storeCOMOperationActivity(interaction, null);
         } else {
@@ -238,13 +238,13 @@ public abstract class DefinitionsManager {
      * @return True if the objId contains the same name identifier, false
      * otherwise
      */
-    protected abstract Boolean compareName(Long objId, Identifier name);
+    public abstract Boolean compareName(Long objId, Identifier name);
 
     /**
      * Generates a list for a certain type of definitions
      *
      * @return The list of the same definition type
      */
-    protected abstract ElementList newDefinitionList();
+    public abstract ElementList newDefinitionList();
 
 }

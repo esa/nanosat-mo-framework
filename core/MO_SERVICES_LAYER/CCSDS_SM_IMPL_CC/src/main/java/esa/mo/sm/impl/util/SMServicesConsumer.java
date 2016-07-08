@@ -66,7 +66,6 @@ public class SMServicesConsumer {
             if(details != null){
                 packageManagementService = new PackageManagementConsumerServiceImpl(details, comServices);
             }
-
         } catch (MALException ex) {
             Logger.getLogger(SMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -74,7 +73,6 @@ public class SMServicesConsumer {
         } catch (MALInteractionException ex) {
             Logger.getLogger(SMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public PackageManagementConsumerServiceImpl getPackageManagementService() {
@@ -109,6 +107,5 @@ public class SMServicesConsumer {
             this.appsLauncherService.closeConnection();
         }
     }
-    
     
 }

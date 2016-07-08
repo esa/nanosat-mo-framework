@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.impl.provider;
 
+import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
@@ -95,12 +96,12 @@ public class ParameterManager extends DefinitionsManager {
     }
 
     @Override
-    protected Boolean compareName(Long objId, Identifier name) {
+    public Boolean compareName(Long objId, Identifier name) {
         return this.get(objId).getName().equals(name);
     }
 
     @Override
-    protected ElementList newDefinitionList() {
+    public ElementList newDefinitionList() {
         return new ParameterDefinitionDetailsList();
     }
 

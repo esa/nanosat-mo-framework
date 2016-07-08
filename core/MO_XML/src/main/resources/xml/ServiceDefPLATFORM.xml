@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" comment="">
 	<mal:area comment="This section details the Platform services; the structures used by the service are&#10;detailed in section 4. The area and structures are defined in terms of the MO Message&#10;Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and&#10;message transport." name="Platform" number="105" version="1">
-		<mal:documentation name="Requirements" order="1">1235
-		</mal:documentation>
 		<mal:service comment="The Camera service provides a generic interface to acquire pictures and control a standard camera from a Platform. The service is responsible for providing pictures to the consumer. The consumer can select the desired format in which the pictures shall be returned." name="Camera" number="1" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1">The Camera service shall provide:
-a.	the capability for streaming pictures
-b.	the capability for previewing pictures
-c.	the capability for taking pictures
-d.	the capability for checking the camera-specific properties
+&lt;ol&gt;
+ &lt;li&gt;the capability for streaming pictures;&lt;/li&gt;
+ &lt;li&gt;the capability for previewing pictures;&lt;/li&gt;
+ &lt;li&gt;the capability for taking pictures;&lt;/li&gt;
+ &lt;li&gt;the capability for checking the camera-specific properties.&lt;/li&gt;
+&lt;/ol&gt;
 			</mal:documentation>
 			<mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
@@ -134,12 +134,14 @@ d.	the capability for checking the camera-specific properties
 			<com:features/>
 		</mal:service>
 		<mal:service comment="The GPS service provides an interface to receive a geographical location provided by a navigation device receiver in a Platform." name="GPS" number="2" xsi:type="com:ExtendedServiceType">
-			<mal:documentation name="High Level Requirements" order="1">a)	The GPS service shall provide:
-a.	the capability for streaming GPS NMEA messages.
-b.	the capability for enabling/disabling the streaming of NMEA messages.
-c.	the capability for having getting the last known position from the GPS.
-d.	the capability for getting the satellites GPS information.
-e.	The capability for maintaining the list of nearby position events.
+			<mal:documentation name="High Level Requirements" order="1">The GPS service shall provide:
+&lt;ol&gt;
+ &lt;li&gt;the capability for streaming GPS NMEA messages;&lt;/li&gt;
+ &lt;li&gt;the capability for enabling/disabling the streaming of NMEA messages;&lt;/li&gt;
+ &lt;li&gt;the capability for having getting the last known position from the GPS;&lt;/li&gt;
+ &lt;li&gt;the capability for getting the satellites GPS information;&lt;/li&gt;
+ &lt;li&gt;The capability for maintaining the list of nearby position events.&lt;/li&gt;
+&lt;/ol&gt;
 			</mal:documentation>
 			<mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
@@ -325,6 +327,45 @@ e.	The capability for maintaining the list of nearby position events.
 				</mal:composite>
 			</mal:dataTypes>
 			<com:features>
+        <mal:diagram name="GPSObjects">
+          <svg:svg height="100" version="1.1" width="700">
+            <svg:defs>
+              <svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
+                <svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
+                <svg:stop offset="100%" style="stop-color:rgb(249,239,224);stop-opacity:1"/>
+              </svg:linearGradient>
+              <svg:marker id="sourceArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(255,0,0)"/>
+              </svg:marker>
+              <svg:marker id="relatedArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
+              </svg:marker>
+            </svg:defs>
+            <svg:path d="M130,50 L242,50 L355,50" end="NearbyPosition" fill="none" marker-mid="url(#relatedArrow)" start="NearbyPositionEntered" stroke="rgb(0,0,0)" stroke-width="1"/>
+            <svg:path d="M570,50 L463,50 L355,50" end="NearbyPosition" fill="none" marker-mid="url(#relatedArrow)" start="NearbyPositionExited" stroke="rgb(0,0,0)" stroke-width="1"/>
+            <svg:g id="NearbyPositionEntered" transform="translate(50,20)">
+              <svg:rect fill="rgb(190,190,190)" height="60" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="60" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">NearbyPositionEntered</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">2</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65"/>
+            </svg:g>
+            <svg:g id="NearbyPosition" transform="translate(300,10)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="110" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="110"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="55" y="25">NearbyPosition</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="55" y="45">1</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="55" y="65">MAL::Identifier</svg:text>
+            </svg:g>
+            <svg:g id="NearbyPositionExited" transform="translate(490,20)">
+              <svg:rect fill="rgb(190,190,190)" height="60" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="60" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">NearbyPositionExited</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">3</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65"/>
+            </svg:g>
+          </svg:svg>
+        </mal:diagram>
 				<com:objects comment="">
 					<com:object comment="The positions markers for the events shall be represented as NearbyPosition COM objects. " name="NearbyPosition" number="1">
 						<com:objectType>
@@ -353,13 +394,21 @@ e.	The capability for maintaining the list of nearby position events.
 			</com:features>
 		</mal:service>
 		<mal:service comment="The ADCS service provides an interface to control a standard ADCS device." name="AutonomousADCS" number="3" xsi:type="com:ExtendedServiceType">
-			<mal:documentation name="High Level Requirements" order="1"/>
-			<mal:documentation name="Functional Requirements" order="2"/>
+			<mal:documentation name="High Level Requirements" order="1">The Autonomous ADCS service shall provide:
+&lt;ol&gt;
+&lt;li&gt;the capability for periodic monitoring of the spacecraft's attitude;&lt;/li&gt;
+&lt;li&gt;the capability for setting and unsetting the spacecraft's desired attitude;&lt;/li&gt;
+&lt;li&gt;the capability for maintaining the list of attitude definitions;&lt;/li&gt;
+&lt;li&gt;the capability for listing the object instance identifiers for the attitude definitions.&lt;/li&gt;
+&lt;/ol&gt;
+			</mal:documentation>
+			<mal:documentation name="Functional Requirements" order="2">// Add the validation checks criteria
+			</mal:documentation>
 			<mal:capabilitySet comment="" number="1">
 				<mal:pubsubIP comment="The monitorAttitude operation allows a consumer to subscribe for the satellite's current attitude." name="monitorAttitude" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-							<mal:field canBeNull="true" comment="The pointingTo field shall contain the attitude instance in a reference frame." name="pointingTo">
+							<mal:field canBeNull="true" comment="The pointingTo field shall contain the attitude instance in a reference frame.&#10;The MAL EntityKey.firstSubKey shall contain the AttitudeDefinition name.&#10;The MAL EntityKey.secondSubKey shall contain the AttitudeDefinition object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall contain the numeric value of the AttitudeMode of the AttitudeDefinition.&#10;The MAL EntityKey.fourthSubKey shall be NULL.&#10;The timestamp of the update shall be on-board clock at the time of the sampling.&#10;The ObjectId shall be set to NULL." name="pointingTo">
 								<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
 							</mal:field>
 						</mal:publishNotify>
@@ -368,24 +417,32 @@ e.	The capability for maintaining the list of nearby position events.
 				<mal:submitIP comment="The configureMonitoring operation allows a consumer to configure the monitoring of the satellite's current attitude." name="configureMonitoring" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="" name="streamingRate">
+							<mal:field canBeNull="true" comment="The streamingRate field shall contain the publishing frequency. " name="streamingRate">
 								<mal:type area="MAL" list="false" name="Duration"/>
 							</mal:field>
-							<mal:field canBeNull="true" comment="" name="referenceFrame">
+							<mal:field canBeNull="true" comment="The referenceFrame field shall contain the desired reference frame of the published attitude instances. " name="referenceFrame">
 								<mal:type area="Platform" list="false" name="ReferenceFrame" service="AutonomousADCS"/>
 							</mal:field>
 						</mal:submit>
 					</mal:messages>
-				</mal:submitIP>
+          <mal:errors>
+            <mal:errorRef comment="The streamingRate is out of limits.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:extraInformation comment="The minimum valid streamingRate.">
+                <mal:type area="MAL" list="false" name="Duration"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:submitIP comment="The setAttitude operation allows a consumer to set the attitute of the spacecraft from an attitude definition." name="setDesiredAttitude" number="3" supportInReplay="false">
+				<mal:submitIP comment="The setDesiredAttitude operation allows a consumer to set the spacecraft's attitude from an attitude definition." name="setDesiredAttitude" number="3" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="The object instance identifier of the Attitude definition." name="objInstId">
+							<mal:field canBeNull="true" comment="The object instance identifier of the attitude definition to be set." name="objInstId">
 								<mal:type area="MAL" list="false" name="Long"/>
 							</mal:field>
-							<mal:field canBeNull="true" comment="The autoUnset field holds the duration after which the attitude definition shall be automatically unset. If the field is null, then attitude definition won't be automatically unset and the manual unsetAttitude operation must be used to disengage it." name="autoUnset">
+							<mal:field canBeNull="true" comment="The autoUnset field holds the duration after which the attitude definition shall be automatically unset.&#10;If the field is null, then the attitude definition won't be automatically unset, in this case the manual unsetAttitude operation must be used to disengage it." name="autoUnset">
 								<mal:type area="MAL" list="false" name="Duration"/>
 							</mal:field>
 						</mal:submit>
@@ -402,34 +459,60 @@ e.	The capability for maintaining the list of nearby position events.
             <mal:errorRef comment="The submited object instance identifier is unknown.">
               <mal:type area="MAL" list="false" name="UNKNOWN"/>
             </mal:errorRef>
+          <mal:errorRef comment="The selected attitude definition contains an invalid argument.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+              <mal:extraInformation comment="Contains the field name of the first field that did not pass the validation checks of the attitude definition.">
+                <mal:type area="MAL" list="false" name="String"/>
+              </mal:extraInformation>
+            </mal:errorRef>
           </mal:errors>
 				</mal:submitIP>
-				<mal:submitIP comment="The unsetAttitude operation allows a consumer to unset the attitute of the spacecraft from the current selected attitude definition. This operation is expected to be used after a certain attitude definition is set by the setAttitude operation." name="unsetAttitude" number="4" supportInReplay="false">
+				<mal:submitIP comment="The unsetAttitude operation allows a consumer to unset the spacecraft's attitude from the current selected attitude definition. This operation is expected to be used after a certain attitude definition is set by the setDesiredAttitude operation." name="unsetAttitude" number="4" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment=""/>
 					</mal:messages>
 					<mal:errors>
-						<mal:errorRef comment="">
+						<mal:errorRef comment="The ADCS unit is not available.">
 							<mal:type area="Platform" list="false" name="ADCS_NOT_AVAILABLE" service="AutonomousADCS"/>
 						</mal:errorRef>
 					</mal:errors>
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:requestIP comment="" name="addAttitudeDefinition" number="5" supportInReplay="false">
+				<mal:requestIP comment="The addAttitudeDefinition operation allows a consumer to define one or more attitudes that do not currently exist. The new AttitudeDefinition object is expected to be stored in the COM archive by the provider of the AutonomousADCS service." name="addAttitudeDefinition" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
-							<mal:field canBeNull="true" comment="The attitudeDefinition field holds the attitude definition." name="attitudeDefinitions">
+							<mal:field canBeNull="true" comment="The attitudeDefinitions field holds the attitude definitions.&#10;The name field of the supplied AttitudeDefinition structures must not be NULL, the wildcard '*', or empty. An INVALID error shall be returned in this case.&#10;The supplied name must be unique among all AttitudeDefinition objects for the domain of the provider otherwise a DUPLICATE error shall be returned.&#10;If an error is returned then no new attitude definitions shall be added as a result of this operation call." name="attitudeDefinitions">
 								<mal:type area="Platform" list="true" name="AttitudeDefinition" service="AutonomousADCS"/>
 							</mal:field>
 						</mal:request>
 						<mal:response comment="">
-							<mal:field canBeNull="true" comment="The " name="objIds">
+							<mal:field canBeNull="true" comment="The objIds field holds the object instance identifiers of the attitude definitions.&#10;The returned list shall maintain the same order as the submitted definitions." name="objIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				</mal:requestIP>
+				<mal:errors>
+            <mal:errorRef comment="One of the supplied attitudeDefinitions objects contains an invalid name.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+            <mal:errorRef comment="One or more of the attitudeDefinitions objects being added has supplied a parameter name that is already in use in the domain.">
+              <mal:type area="COM" list="false" name="DUPLICATE"/>
+              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating request list.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+            <mal:errorRef comment="The selected attitude definition contains an invalid argument.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:extraInformation comment="Contains the field name of the first field that did not pass the validation checks of the attitude definition.">
+                <mal:type area="MAL" list="false" name="String"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
 				<mal:submitIP comment="" name="removeAttitudeDefinition" number="6" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
@@ -438,7 +521,15 @@ e.	The capability for maintaining the list of nearby position events.
 							</mal:field>
 						</mal:submit>
 					</mal:messages>
-				</mal:submitIP>
+				<mal:errors>
+            <mal:errorRef comment="One of the supplied AttitudeDefinition object instance identifiers is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
 				<mal:requestIP comment="" name="listAttitudeDefinition" number="7" supportInReplay="false">
@@ -449,12 +540,20 @@ e.	The capability for maintaining the list of nearby position events.
 							</mal:field>
 						</mal:request>
 						<mal:response comment="">
-							<mal:field canBeNull="true" comment="The objIds field holds the object instance identifiers of the Attitude definitions." name="objIds">
+							<mal:field canBeNull="true" comment="The objIds field holds the object instance identifiers of the Attitude definitions.&#10;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request." name="objIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				</mal:requestIP>
+				<mal:errors>
+            <mal:errorRef comment="One of the supplied AttitudeDefinition object instance identifiers is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
 				<mal:enumeration comment="AttitudeMode is an enumeration definition holding the attitude modes." name="AttitudeMode" shortFormPart="4">
@@ -476,7 +575,7 @@ e.	The capability for maintaining the list of nearby position events.
 					<mal:field canBeNull="true" comment="The attitude reference frame." name="referenceFrame">
 						<mal:type area="Platform" list="false" name="ReferenceFrame" service="AutonomousADCS"/>
 					</mal:field>
-				</mal:composite>
+        </mal:composite>
 				<mal:composite comment="" name="AttitudeInstanceQuaternion" shortFormPart="11">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
@@ -505,14 +604,14 @@ e.	The capability for maintaining the list of nearby position events.
 					</mal:field>
 				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinitionBDot" shortFormPart="21">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
+          <mal:extends>
+            <mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
+          </mal:extends>
 				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinitionSingleSpinning" shortFormPart="22">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
+          <mal:extends>
+            <mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
+          </mal:extends>
 					<mal:field canBeNull="false" comment="The axis defined in the body reference frame for spinning." name="bodyAxis">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
@@ -526,9 +625,9 @@ e.	The capability for maintaining the list of nearby position events.
 					</mal:extends>
 				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinitionTargetTracking" shortFormPart="24">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
+          <mal:extends>
+            <mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
+          </mal:extends>
 					<mal:field canBeNull="false" comment="The latitude of the target to be tracked." name="latitude">
 						<mal:type area="MAL" list="false" name="Float"/>
 					</mal:field>
@@ -537,17 +636,17 @@ e.	The capability for maintaining the list of nearby position events.
 					</mal:field>
 				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinitionNadirPointing" shortFormPart="25">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
+          <mal:extends>
+            <mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
+          </mal:extends>
 				</mal:composite>
-			</mal:dataTypes>
+      </mal:dataTypes>
 			<mal:errors>
 				<mal:error comment="The ADCS is not available." name="ADCS_NOT_AVAILABLE" number="10"/>
 			</mal:errors>
 			<com:features>
 				<mal:diagram name="AutonomousADCSObjects">
-					<svg:svg height="500" version="1.1" width="500">
+					<svg:svg height="300" version="1.1" width="700">
 						<svg:defs>
 							<svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
 								<svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
@@ -560,17 +659,90 @@ e.	The capability for maintaining the list of nearby position events.
 								<svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
 							</svg:marker>
 						</svg:defs>
-						<svg:g id="ADCS_ERROR_DETECTED" transform="translate(197,135)">
-							<svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="175" x="4" y="4"/>
-							<svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="175"/>
-							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="87" y="25">ADCS_ERROR_DETECTED</svg:text>
-							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="87" y="45">1</svg:text>
-							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="87" y="65">MAL::Blob</svg:text>
-						</svg:g>
-					</svg:svg>
+            <svg:g id="AttitudeDefinitionNadirPointing" transform="translate(96,108)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="205" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="205"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="102" y="25">AttitudeDefinitionNadirPointing</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="102" y="45">6</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="102" y="65">AttitudeDefinitionNadirPointing</svg:text>
+            </svg:g>
+            <svg:g id="AttitudeDefinitionSunPointing" transform="translate(410,110)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="200" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="200"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="100" y="25">AttitudeDefinitionSunPointing</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="100" y="45">4</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="100" y="65">AttitudeDefinitionSunPointing</svg:text>
+            </svg:g>
+            <svg:g id="AttitudeDefinitionBDot" transform="translate(431,9)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="155" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="155"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="77" y="25">AttitudeDefinitionBDot</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="77" y="45">2</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="77" y="65">AttitudeDefinitionBDot</svg:text>
+            </svg:g>
+            <svg:g id="ADCSProblemDetected" transform="translate(118,7)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">ADCSProblemDetected</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">1</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65">MAL::Blob</svg:text>
+            </svg:g>
+            <svg:g id="AttitudeDefinitionTargetTracking" transform="translate(93,205)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="215" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="215"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="107" y="25">AttitudeDefinitionTargetTracking</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="107" y="45">5</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="107" y="65">AttitudeDefinitionTargetTracking</svg:text>
+            </svg:g>
+            <svg:g id="AttitudeDefinitionSingleSpinning" transform="translate(407,206)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="215" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="215"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="107" y="25">AttitudeDefinitionSingleSpinning</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="107" y="45">3</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="107" y="65">AttitudeDefinitionSingleSpinning</svg:text>
+            </svg:g>
+          </svg:svg>
 				</mal:diagram>
-				<com:events comment="">
-					<com:event comment="The Event body is implementation-specific" name="ADCS_ERROR_DETECTED" number="1">
+        <com:objects comment="An AttitudeDefinitionBDot COM object represents the definition of a BDot attitude. The object body shall hold an AttitudeDefinitionBDot structure.&#10;&#9;The AttitudeDefinitionBDot COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&#10;An AttitudeDefinitionSingleSpinning COM object represents the definition of a Single Spinning attitude. The object body shall hold an AttitudeDefinitionSingleSpinning structure.&#10;&#9;The AttitudeDefinitionSingleSpinning COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&#10;An AttitudeDefinitionSunPointing COM object represents the definition of a Sun Pointing attitude. The object body shall hold an AttitudeDefinitionSunPointing structure.&#10;&#9;The AttitudeDefinitionSunPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&#10;An AttitudeDefinitionTargetTracking COM object represents the definition of a Target Tracking attitude. The object body shall hold an AttitudeDefinitionTargetTracking structure.&#10;&#9;The AttitudeDefinitionTargetTracking COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&#10;An AttitudeDefinitionNadirPointing COM object represents the definition of a Nadir Pointing attitude. The object body shall hold an AttitudeDefinitionNadirPointing structure.&#10;&#9;The AttitudeDefinitionNadirPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.">
+          <com:object comment="" name="AttitudeDefinitionBDot" number="2">
+            <com:objectType>
+              <mal:type area="Platform" list="false" name="AttitudeDefinitionBDot" service="AutonomousADCS"/>
+            </com:objectType>
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment="">
+            </com:sourceObject>
+          </com:object>
+        <com:object comment="" name="AttitudeDefinitionSingleSpinning" number="3">
+            <com:objectType>
+              <mal:type area="Platform" list="false" name="AttitudeDefinitionSingleSpinning" service="AutonomousADCS"/>
+            </com:objectType>
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment=""/>
+          </com:object>
+          <com:object comment="" name="AttitudeDefinitionSunPointing" number="4">
+            <com:objectType>
+              <mal:type area="Platform" list="false" name="AttitudeDefinitionSunPointing" service="AutonomousADCS"/>
+            </com:objectType>
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment=""/>
+          </com:object>
+          <com:object comment="" name="AttitudeDefinitionTargetTracking" number="5">
+            <com:objectType>
+              <mal:type area="Platform" list="false" name="AttitudeDefinitionTargetTracking" service="AutonomousADCS"/>
+            </com:objectType>
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment=""/>
+          </com:object>
+          <com:object comment="" name="AttitudeDefinitionNadirPointing" number="6">
+            <com:objectType>
+              <mal:type area="Platform" list="false" name="AttitudeDefinitionNadirPointing" service="AutonomousADCS"/>
+            </com:objectType>
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment=""/>
+          </com:object>
+        </com:objects>
+				<com:events comment="An ADCSProblemDetected COM event represents the detection of a problem on the ADCS. The object body can hold a blob of data containing implementation-specific data.&#10;&#9;The ADCSProblemDetected COM event shall be generated upon the detection of a problem with the ADCS.">
+					<com:event comment="The Event body is implementation-specific." name="ADCSProblemDetected" number="1">
 						<com:objectType>
 							<mal:type area="MAL" list="false" name="Blob"/>
 						</com:objectType>
@@ -578,6 +750,7 @@ e.	The capability for maintaining the list of nearby position events.
 						<com:sourceObject comment=""/>
 					</com:event>
 				</com:events>
+        <com:archiveUsage comment="AttitudeDefinitionBDot COM objects should be stored in the COM archive.&#10;AttitudeDefinitionSingleSpinning COM objects should be stored in the COM archive.&#10;AttitudeDefinitionSunPointing COM objects should be stored in the COM archive.&#10;AttitudeDefinitionTargetTracking COM objects should be stored in the COM archive.&#10;AttitudeDefinitionNadirPointing COM objects should be stored in the COM archive."/>
 			</com:features>
 		</mal:service>
 		<mal:service comment="The Software-defined Radio provides an generic interface to set, configure and receive data from a Software-defined Radio device.  " name="SoftwareDefinedRadio" number="4" xsi:type="com:ExtendedServiceType">

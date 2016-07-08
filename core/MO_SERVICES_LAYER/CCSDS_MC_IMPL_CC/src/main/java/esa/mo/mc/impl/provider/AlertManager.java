@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.impl.provider;
 
+import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.SingleConnectionDetails;

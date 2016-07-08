@@ -2,7 +2,13 @@
 <mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<mal:area comment="Provides a set of services for software management onboard of a spacecraft.&#10;The Memory Management service is a low-level service intended to be used to load, dump and check memory addresses.&#10;The Software Images service is intended to manage Software Images and Software Patches by allowing the generation of new Software Images from a patch.&#10;The Package Management service allows the management of software packages on modern operating systems using the concept of packages.&#10;The Apps Launcher service allows the management of runnable applications in a system." name="SoftwareManagement" number="7" version="1">
 		<mal:service comment="The Memory Management service provides the ability to load, dump and check binary data blocks in known memory addresses from/to a certain memory device." name="MemoryManagement" number="1" xsi:type="com:ExtendedServiceType">
-      <mal:documentation name="High Level Requirements" order="1"/>
+      <mal:documentation name="High Level Requirements" order="1">The Memory Management service shall provide:
+&lt;ol&gt;
+&lt;li&gt;the capability for loading an on-board's memory device;&lt;/li&gt;
+&lt;li&gt;the capability for dumping data from an on-board's memory device and aborting it;&lt;/li&gt;
+&lt;li&gt;the capability for checking an on-board's memory device.&lt;/li&gt;
+&lt;/ol&gt;
+			</mal:documentation>
       <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:submitIP comment="The loadMemory operation allows a consumer to submit a block of data to a provider for loading the memory of the selected device. The operation shall use the Activity Tracking to report on the progress of the activity." name="loadMemory" number="1" supportInReplay="false">
@@ -167,7 +173,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:invokeIP comment="The checkImageIntegrity operation allows a consumer to check the integrity of a software image on the provider. The checksum shall be generated from the checksum algorithm selected by the consumer." name="checkImageIntegrity" number="2" supportInReplay="true">
+				<mal:invokeIP comment="The checkImageIntegrity operation allows a consumer to check the integrity of a software image on the provider. The checksum shall be generated from the checksum algorithm selected by the consumer." name="checkImageIntegrity" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:invoke comment="">
 							<mal:field canBeNull="true" comment="The imageInstIds shall contain the object instance identifier of the image to be checked." name="imageInstIds">
@@ -417,7 +423,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
       <mal:documentation name="High Level Requirements" order="1"/>
       <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
-				<mal:requestIP comment="The listPackage operation allows a consumer to list the available packages on the provider." name="listPackage" number="1" supportInReplay="false">
+				<mal:requestIP comment="The listPackage operation allows a consumer to list the available packages on the provider." name="listPackage" number="1" supportInReplay="true">
 					<mal:messages>
 						<mal:request comment="">
 							<mal:field canBeNull="true" comment="" name="names">
@@ -679,7 +685,14 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 		<com:features/>
     </mal:service>		
 		<mal:service comment="The Apps Launcher service provides the ability to monitor the execution, run, stop, kill and list applications software on-board of a spacecraft. The apps can be organized in categories. " name="AppsLauncher" number="5" xsi:type="com:ExtendedServiceType">
-      <mal:documentation name="High Level Requirements" order="1"/>
+      <mal:documentation name="High Level Requirements" order="1">The Apps Launcher service shall provide:
+&lt;ol&gt;
+&lt;li&gt;the capability for periodic monitoring of the applications output;&lt;/li&gt;
+&lt;li&gt;the capability for starting and killing applications;&lt;/li&gt;
+&lt;li&gt;the capability for stopping applications;&lt;/li&gt;
+&lt;li&gt;the capability for listing the object instance identifiers for the available apps.&lt;/li&gt;
+&lt;/ol&gt;
+			</mal:documentation>
       <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:pubsubIP comment="The monitorExecution operation allows a consumer to subscribe for the application execution output stream." name="monitorExecution" number="1" supportInReplay="false">
@@ -752,10 +765,24 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 						<mal:response comment="">
 						</mal:response>
 					</mal:messages>
+				<mal:errors>
+            <mal:errorRef comment="One or more of the requested apps to be killed is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          <mal:errorRef comment="One or more of the requested apps is not running.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
 				</mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
-				<mal:requestIP comment="The listApp operation allows a consumer to request the object instance identifiers of the Apps objects and running status for an app name or for a certain app category." name="listApp" number="5" supportInReplay="false">
+				<mal:requestIP comment="The listApp operation allows a consumer to request the object instance identifiers of the Apps objects and running status for an app name or for a certain app category." name="listApp" number="5" supportInReplay="true">
 					<mal:messages>
 						<mal:request comment="">
 							<mal:field canBeNull="true" comment="The appNames field contains a list of application names." name="appNames">
@@ -769,7 +796,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 							<mal:field canBeNull="true" comment="The appInstIds field contains a list of apps." name="appInstIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
-							<mal:field canBeNull="true" comment="The running field contains a list of boolean values with the information about thte running status of requested apps." name="running">
+							<mal:field canBeNull="true" comment="The running field contains a list of boolean values with the information about thte running status of requested apps.&#10;The returned lists shall maintain the same order as the submitted list unless the wildcard value was included in the appNames field request." name="running">
 								<mal:type area="MAL" list="true" name="Boolean"/>
 							</mal:field>
 						</mal:response>
@@ -878,7 +905,9 @@ The process of loading a software image from non-volatile memory to RAM upon boo
               <mal:type area="SoftwareManagement" list="false" name="AppDetails" service="AppsLauncher"/>
             </com:objectType>
 						<com:relatedObject comment=""/>
-						<com:sourceObject comment=""/>
+						<com:sourceObject comment="">
+              <com:objectType area="SoftwareManagement" number="2" service="PackageManagement"/>
+            </com:sourceObject>
 					</com:object>
 				
 				</com:objects>
@@ -914,7 +943,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:pubsubIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:requestIP comment="The getPeriod operation allows a consumer to get the period of the provider's heartbeat." name="getPeriod" number="2" supportInReplay="false">
+				<mal:requestIP comment="The getPeriod operation allows a consumer to get the period of the provider's heartbeat." name="getPeriod" number="2" supportInReplay="true">
 					<mal:messages>
 						<mal:request comment=""/>
 						<mal:response comment="">
