@@ -955,6 +955,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         // Archive details
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        archiveDetailsList.add(archiveDetailsList.get(0));
         MOWindow genArchiveDetailsList = new MOWindow(archiveDetailsList, true);
         try {
             archiveDetailsList = (ArchiveDetailsList) genArchiveDetailsList.getObject();
@@ -977,6 +978,25 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         actionDefinition.setArguments(arguments);
         actionDefinition.setArgumentIds(null);
 
+        
+        
+        ActionDefinitionDetails actionDefinition1 = new ActionDefinitionDetails();
+        actionDefinition1.setName(new Identifier("Take_Picture"));
+        actionDefinition1.setDescription("The action takes a picture and stores it in a the 'picture' parameter.");
+        actionDefinition1.setSeverity(Severity.INFORMATIONAL);
+        actionDefinition1.setProgressStepCount(new UShort(1));
+
+        ArgumentDefinitionDetails argument1 = new ArgumentDefinitionDetails();
+        argument1.setRawType(Duration.DURATION_TYPE_SHORT_FORM.byteValue());
+
+        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+        arguments1.add(argument1);
+
+        actionDefinition1.setArguments(arguments1);
+        actionDefinition1.setArgumentIds(null);
+
+        
+        
         MOWindow genActionDefinition = new MOWindow(actionDefinition, true);
         try {
             actionDefinition = (ActionDefinitionDetails) genActionDefinition.getObject();
@@ -986,6 +1006,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         ActionDefinitionDetailsList actionDefinitionList = new ActionDefinitionDetailsList();
         actionDefinitionList.add(actionDefinition);
+        actionDefinitionList.add(actionDefinition1);
 
         // Actually you have to use the Action service to store the definiton
 

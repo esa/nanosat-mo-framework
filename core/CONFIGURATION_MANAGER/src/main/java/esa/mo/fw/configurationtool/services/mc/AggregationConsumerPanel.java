@@ -340,7 +340,6 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 return;
             }
 
-            Thread.sleep(500);
             // Get the stored Parameter Definition from the Archive
             ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAggregation.getCOMServices().getArchiveService().getArchiveStub(),
                     AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, serviceMCAggregation.getConnectionDetails().getDomain(), objIds.get(0));

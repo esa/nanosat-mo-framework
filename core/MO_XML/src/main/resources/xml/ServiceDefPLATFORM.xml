@@ -451,11 +451,6 @@
 						<mal:errorRef comment="The ADCS unit is not available.">
 							<mal:type area="Platform" list="false" name="ADCS_NOT_AVAILABLE" service="AutonomousADCS"/>
 						</mal:errorRef>
-						<mal:error comment="The ADCS is currently being used." name="ADCS_IN_USE" number="11">
-							<mal:extraInformation comment="The service shall automatically unset the attitude definition in the duration provided in the body field. If the body field is set to null, then the attitude definition shall not be automatically unset. The consumer should use the unsetAttitude operation to manually disengage it.">
-								<mal:type area="MAL" list="false" name="Duration"/>
-							</mal:extraInformation>
-						</mal:error>
             <mal:errorRef comment="The submited object instance identifier is unknown.">
               <mal:type area="MAL" list="false" name="UNKNOWN"/>
             </mal:errorRef>
@@ -463,6 +458,12 @@
               <mal:type area="COM" list="false" name="INVALID"/>
               <mal:extraInformation comment="Contains the field name of the first field that did not pass the validation checks of the attitude definition.">
                 <mal:type area="MAL" list="false" name="String"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          <mal:errorRef comment="The ADCS is currently being used.">
+              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+              <mal:extraInformation comment="The service will unset the current selected attitude definition in the duration provided in the extra information field. If the extra information field is set to null, then the attitude definition shall not be automatically unset. The consumer should use the unsetAttitude operation to manually disengage it.">
+                <mal:type area="MAL" list="false" name="Duration"/>
               </mal:extraInformation>
             </mal:errorRef>
           </mal:errors>
@@ -1104,5 +1105,8 @@
 				</mal:field>
 			</mal:composite>
 		</mal:dataTypes>
+    <mal:errors>
+      <mal:error comment="The device is currently in use." name="DEVICE_IN_USE" number="10509"/>
+    </mal:errors>
 	</mal:area>
 </mal:specification>

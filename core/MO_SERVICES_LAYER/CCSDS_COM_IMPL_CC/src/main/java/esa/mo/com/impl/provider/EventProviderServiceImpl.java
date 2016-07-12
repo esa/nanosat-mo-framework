@@ -143,6 +143,10 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     public ConnectionProvider getConnectionProvider() {
         return this.connection;
     }
+    
+    public MonitorEventPublisher getPublisher(){
+        return publisher;
+    }
 
     /**
      * Generates the Event and stores it on the archive

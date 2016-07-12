@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns="http://www.dlr.de/gsoc/mo/malspp">
-	<app apidQualifier="247" apid="1">
+	<app apidQualifier="247" apid="100">
 		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
 		<varintSupported>true</varintSupported>
 		<time>
