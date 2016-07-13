@@ -65,6 +65,7 @@ public class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         
         // Connect to the Central Directory service
         // Lookup for the Platform services
+        // Connect to them...
         platformServices = null;
 
         try {

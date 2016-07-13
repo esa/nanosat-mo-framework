@@ -44,9 +44,10 @@ public interface SimpleMonitoringInterface {
      * @param totalNumberOfProgressStages The total number of progress stages.
      * @param actionInstId The action instance identifier. This value allows
      * the consumer to match the action instance that initiated the action.
+     * @throws java.io.IOException
      */
     public void reportActionExecutionProgress(final boolean success, final int errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages, final long actionInstId)  throws IOException;
+            final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws IOException;
     
     /**
      * The publishAlertEvent operation allows an external software entity to
@@ -57,6 +58,7 @@ public interface SimpleMonitoringInterface {
      * list can be replaced with a null.
      * @return Returns the object instance identifier of the published event.
      * If there is any error, then a null shall be returned instead
+     * @throws java.io.IOException
      */
     public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) throws IOException;
     
@@ -70,6 +72,7 @@ public interface SimpleMonitoringInterface {
      * @param name The name of the Parameter as set in the parameter definition
      * @param content The value of the parameter to be pushed 
      * @return Returns the flag reporting if the push was successful
+     * @throws java.io.IOException
      */
     public Boolean pushParameterValue(final String name, final Serializable content) throws IOException;
     

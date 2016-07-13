@@ -21,20 +21,31 @@
 package opssat.simulator;
 
 /**
- *
+ * The FineADCS class includes the simulation of a Magnetometer on a selected
+ * orbit.
  * 
  */
 public class FineADCS {
     
-    private Orbit orbit;
-    private Magnetometer magnetometer;
+    private final Orbit orbit;
+    private final Magnetometer magnetometer;
             
-        public FineADCS(Orbit orbit) {
+    /**
+     * The FineADCS class constructor
+     * 
+     * @param orbit
+     */
+    public FineADCS(Orbit orbit) {
                this.orbit = orbit;
                magnetometer = new Magnetometer(orbit);
         }
         
-        public Magnetometer getMagnetometer(){
+    /**
+     * A getter for the Magnetometer class
+     *
+     * @return
+     */
+    public Magnetometer getMagnetometer(){
             return this.magnetometer;
         }
         

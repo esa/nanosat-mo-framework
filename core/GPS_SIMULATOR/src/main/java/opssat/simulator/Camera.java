@@ -29,7 +29,9 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * The Camera class simulates a picture taken by a real camera by providing a
+ * byte array of data. The picture is not realistic.
+ * 
  * @author Cesar Coelho
  */
 public class Camera {
@@ -44,6 +46,18 @@ public class Camera {
 
         BufferedImage imgIn;
         byte[] imgOut = null;
+
+/*
+        try {
+            imgIn = ImageIO.read(new File("earth.jpg"));
+            ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+            ImageIO.write(imgIn, "jpg", byteArray);
+            byteArray.flush();
+            imgOut = byteArray.toByteArray();
+        } catch (IOException ex) {
+            Logger.getLogger(Camera.class.getName()).log(Level.SEVERE, null, ex);
+        }
+*/
 
 
         return imgOut;
