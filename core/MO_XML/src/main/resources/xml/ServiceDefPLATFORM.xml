@@ -4,10 +4,10 @@
 		<mal:service comment="The Camera service provides a generic interface to acquire pictures and control a standard camera from a Platform. The service is responsible for providing pictures to the consumer. The consumer can select the desired format in which the pictures shall be returned." name="Camera" number="1" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1">The Camera service shall provide:
 &lt;ol&gt;
- &lt;li&gt;the capability for streaming pictures;&lt;/li&gt;
- &lt;li&gt;the capability for previewing pictures;&lt;/li&gt;
- &lt;li&gt;the capability for taking pictures;&lt;/li&gt;
- &lt;li&gt;the capability for checking the camera-specific properties.&lt;/li&gt;
+&lt;li&gt;the capability for streaming pictures;&lt;/li&gt;
+&lt;li&gt;the capability for previewing pictures;&lt;/li&gt;
+&lt;li&gt;the capability for taking pictures;&lt;/li&gt;
+&lt;li&gt;the capability for requesting the service and camera properties.&lt;/li&gt;
 &lt;/ol&gt;
 			</mal:documentation>
 			<mal:documentation name="Functional Requirements" order="2"/>
@@ -15,7 +15,7 @@
 				<mal:pubsubIP comment="The streamPictures operation allows a consumer to subscribe for picture updates." name="streamPictures" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-							<mal:field canBeNull="true" comment="The MAL EntityKey.firstSubKey shall be null.&#10;The MAL EntityKey.secondSubKey shall be null.&#10;The MAL EntityKey.thirdSubKey shall be null.&#10;The MAL EntityKey.fourthSubKey shall be null.&#10;The timestamp of the update shall be the time of when the picture was taken.&#10;The picture in streaming mode." name="picture">
+							<mal:field canBeNull="true" comment="The picture in streaming mode.&#10;The MAL EntityKey.firstSubKey shall be the value provided by the consumer during the setStreaming operation.&#10;The MAL EntityKey.secondSubKey shall hold the width value of the dimension object provided by the consumer during the setStreaming operation.&#10;The MAL EntityKey.thirdSubKey shall hold the height value of the dimension object provided by the consumer during the setStreaming operation.&#10;The MAL EntityKey.fourthSubKey shall hold the numeric value of the format enumeration provided by the consumer during the setStreaming operation.&#10;The timestamp of the update shall be the time of when the picture was taken." name="picture">
 								<mal:type area="Platform" list="false" name="Picture" service="Camera"/>
 							</mal:field>
 						</mal:publishNotify>
@@ -33,17 +33,40 @@
 							<mal:field canBeNull="true" comment="The format field shall hold the desired streaming picture format." name="format">
 								<mal:type area="Platform" list="false" name="PictureFormat" service="Camera"/>
 							</mal:field>
-						</mal:submit>
+						<mal:field canBeNull="true" comment="The firstEntityKey field holds the first entity key that will be present during the broadcast of the streamPictures operation.&#10;The firstEntityKey field must not be NULL nor the wildcard '*'. An INVALID error shall be returned in this case." name="firstEntityKey">
+                <mal:type area="MAL" list="false" name="Identifier"/>
+              </mal:field>
+            </mal:submit>
 					</mal:messages>
 					<mal:errors>
-						<mal:errorRef comment="">
-							<mal:type area="Platform" list="false" name="UNSUPPORTED_STREAMING_RATE" service="Camera"/>
-						</mal:errorRef>
-					</mal:errors>
+					<mal:errorRef comment="The requested streaming rate is not supported.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:extraInformation comment="The extra information fied shall hold the minimum duration that can be selected.">
+                <mal:type area="MAL" list="false" name="Duration"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          <mal:errorRef comment="The requested resolution is not supported.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            </mal:errorRef>
+            <mal:errorRef comment="The requested format is not supported.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            </mal:errorRef>
+          <mal:errorRef comment="The firstEntityKey field cannot be a null nor a wildcard.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            </mal:errorRef>
+          <mal:errorRef comment="The Camera is currently being used.">
+              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+            </mal:errorRef>
+          </mal:errors>
 				</mal:submitIP>
-			</mal:capabilitySet>
+			<mal:submitIP comment="" name="unsetStreaming" number="3" supportInReplay="false">
+          <mal:messages>
+            <mal:submit comment=""/>
+          </mal:messages>
+        </mal:submitIP>
+      </mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:requestIP comment="The previewPicture operation allows a consumer to quickly get a raw picture from the camera with a lower quality. This operation intendes to  provide a quick snap of what the camera is observing." name="previewPicture" number="3" supportInReplay="false">
+				<mal:requestIP comment="The previewPicture operation allows a consumer to quickly get a raw picture from the camera with a lower quality. This operation intendes to  provide a quick snap of what the camera is observing." name="previewPicture" number="4" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment=""/>
 						<mal:response comment="">
@@ -52,10 +75,15 @@
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				</mal:requestIP>
+				<mal:errors>
+            <mal:errorRef comment="The Camera is currently being used.">
+              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:invokeIP comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected." name="takePicture" number="4" supportInReplay="false">
+				<mal:invokeIP comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected." name="takePicture" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:invoke comment="">
 							<mal:field canBeNull="true" comment="The dimension field shall hold the desired streaming pictures resolution." name="dimension">
@@ -72,17 +100,34 @@
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				</mal:invokeIP>
+				<mal:errors>
+            <mal:errorRef comment="The Camera is currently being used.">
+              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+            </mal:errorRef>
+          <mal:errorRef comment="The requested resolution is not supported.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            </mal:errorRef>
+            <mal:errorRef comment="The requested format is not supported.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
-				<mal:requestIP comment="" name="getCameraProperties" number="5" supportInReplay="true">
+				<mal:requestIP comment="The getProperties operation allows a consumer to request the properties of the service and camera. The service shall provide information about the available resolutions, formats and some extra information." name="getProperties" number="6" supportInReplay="true">
 					<mal:messages>
 						<mal:request comment=""/>
 						<mal:response comment="">
-							<mal:field canBeNull="true" comment="The info field shall hold the properties of the camera." name="info">
+						<mal:field canBeNull="true" comment="The availableResolutions field shall hold the list of the available resolutions by the camera." name="availableResolutions">
+                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
+              </mal:field>
+              <mal:field canBeNull="true" comment="The availableFormats field shall hold a list of available formats by the service." name="availableFormats">
+                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
+              </mal:field>
+							<mal:field canBeNull="true" comment="The info field shall hold additional properties of the camera. The actual content is undefined." name="extraInfo">
 								<mal:type area="MAL" list="false" name="String"/>
 							</mal:field>
-						</mal:response>
+            </mal:response>
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>
@@ -128,9 +173,6 @@
 					<mal:item comment="JPG format." nvalue="4" value="JPG"/>
 				</mal:enumeration>
 			</mal:dataTypes>
-			<mal:errors>
-				<mal:error comment="" name="UNSUPPORTED_STREAMING_RATE" number="4"/>
-      </mal:errors>
 			<com:features/>
 		</mal:service>
 		<mal:service comment="The GPS service provides an interface to receive a geographical location provided by a navigation device receiver in a Platform." name="GPS" number="2" xsi:type="com:ExtendedServiceType">
@@ -145,54 +187,93 @@
 			</mal:documentation>
 			<mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
-				<mal:requestIP comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS." name="getNMEASentence" number="1" supportInReplay="false">
+				<mal:invokeIP comment="The getNMEASentence operation allows a consumer to request a NMEA sentence from a sentence identifier." name="getNMEASentence" number="1" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment="">
-							<mal:field canBeNull="true" comment="" name="sentenceIdentifier">
+						<mal:invoke comment="">
+							<mal:field canBeNull="true" comment="The sentenceIdentifier field shall hold the sentence identifier of the request." name="sentenceIdentifier">
 								<mal:type area="MAL" list="false" name="String"/>
 							</mal:field>
-						</mal:request>
+						</mal:invoke>
+						<mal:acknowledgement comment=""/>
 						<mal:response comment="">
-							<mal:field canBeNull="true" comment="" name="sentence">
+							<mal:field canBeNull="true" comment="The sentence field shall hold the NMEA sentence." name="sentence">
 								<mal:type area="MAL" list="false" name="String"/>
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				</mal:requestIP>
+				<mal:errors>
+            <mal:errorRef comment="The requested sentence identifier is invalid.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            </mal:errorRef>
+            <mal:errorRef comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:requestIP comment="The operation getLastKnownPosition allows a consumer to retrieve the last known position that was provided by the GPS." name="getLastKnownPosition" number="2" supportInReplay="false">
+				<mal:requestIP comment="The getLastKnownPosition operation allows a consumer to retrieve the last known position that was provided by the GPS unit." name="getLastKnownPosition" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
-							<mal:field canBeNull="true" comment="" name="higherPrecision">
+							<mal:field canBeNull="true" comment="The highPrecision field shall hold a boolean flag to select a higher precision." name="highPrecision">
 								<mal:type area="MAL" list="false" name="Boolean"/>
 							</mal:field>
 						</mal:request>
 						<mal:response comment="">
-							<mal:field canBeNull="true" comment="The position field shall contain the last known position." name="position">
+							<mal:field canBeNull="true" comment="The position field shall hold the last known position." name="position">
 								<mal:type area="Platform" list="false" name="Position" service="GPS"/>
 							</mal:field>
-							<mal:field canBeNull="true" comment="The elapsedTime field shall hold the elapsed time since the position's fix time." name="elapsedTime">
+							<mal:field canBeNull="true" comment="The elapsedTime field shall hold the elapsed time since the position's determination." name="elapsedTime">
 								<mal:type area="MAL" list="false" name="Duration"/>
 							</mal:field>
 						</mal:response>
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="3">
-				<mal:requestIP comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS." name="getSatellitesInfo" number="3" supportInReplay="false">
+      <mal:capabilitySet comment="" number="3">
+        <mal:invokeIP comment="The getPosition operation allows a consumer to obtain a position from the GPS unit." name="getPosition" number="3" supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="">
+              <mal:field canBeNull="true" comment="The highPrecision field shall hold a boolean flag to select a higher precision." name="higherPrecision">
+                <mal:type area="MAL" list="false" name="Boolean"/>
+              </mal:field>
+            </mal:invoke>
+            <mal:acknowledgement comment=""/>
+            <mal:response comment="">
+              <mal:field canBeNull="true" comment="The position field shall hold the current position." name="position">
+                <mal:type area="Platform" list="false" name="Position" service="GPS"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+        <mal:errors>
+            <mal:errorRef comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
+			<mal:capabilitySet comment="" number="4">
+				<mal:invokeIP comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS." name="getSatellitesInfo" number="4" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment=""/>
+						<mal:invoke comment=""/>
+						<mal:acknowledgement comment=""/>
 						<mal:response comment="">
 							<mal:field canBeNull="true" comment="The gpsSatellitesInfo field shall hold the information of the satellites." name="gpsSatellitesInfo">
 								<mal:type area="Platform" list="true" name="SatelliteInfo" service="GPS"/>
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				</mal:requestIP>
+				<mal:errors>
+            <mal:errorRef comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
 			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="4">
-				<mal:requestIP comment="The listNearbyPositionEvent operation allows a consumer to request the object instance identifiers of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive which holds the actual nearby position objects." name="listNearbyPosition" number="4" supportInReplay="false">
+			
+			
+			<mal:capabilitySet comment="" number="9">
+				<mal:requestIP comment="The listNearbyPositionEvent operation allows a consumer to request the object instance identifiers of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive which holds the actual nearby position objects." name="listNearbyPosition" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
 							<mal:field canBeNull="true" comment="The names field shall hold a list of NearbyPositionEvent names." name="names">
@@ -206,7 +287,11 @@
 						</mal:response>
 					</mal:messages>
 				</mal:requestIP>
-				<mal:requestIP comment="The addNearbyPositionEvent operation allows a consumer to define a list of nearby position events in the service.The new NearbyPosition objects are expected to be stored in the COM Archive by the provider of the GPS service." name="addNearbyPosition" number="5" supportInReplay="false">
+			</mal:capabilitySet>			
+			
+			
+			<mal:capabilitySet comment="" number="5">
+				<mal:requestIP comment="The addNearbyPositionEvent operation allows a consumer to define a list of nearby position events in the service.The new NearbyPosition objects are expected to be stored in the COM Archive by the provider of the GPS service." name="addNearbyPosition" number="6" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
 							<mal:field canBeNull="true" comment="The nearbyPosition field shall hold a list of positions." name="nearbyPosition">
@@ -223,7 +308,7 @@
 						</mal:response>
 					</mal:messages>
 				</mal:requestIP>
-				<mal:submitIP comment="The removeNearbyPositionEvent operation allows a consumer to remove a list of nearby position events set in the service." name="removeNearbyPosition" number="6" supportInReplay="false">
+				<mal:submitIP comment="The removeNearbyPositionEvent operation allows a consumer to remove a list of nearby position events set in the service." name="removeNearbyPosition" number="7" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="The objInstIds field shall hold a list of the corresponding object instance identifiers of the NearbyPosition objects." name="objInstIds">
@@ -233,8 +318,8 @@
 					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="5">
-				<mal:pubsubIP comment="" name="nearbyPosition" number="7" supportInReplay="false">
+			<mal:capabilitySet comment="" number="6">
+				<mal:pubsubIP comment="" name="nearbyPosition" number="8" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
 							<mal:field canBeNull="true" comment="" name="uniqueId">
@@ -368,28 +453,14 @@
         </mal:diagram>
 				<com:objects comment="">
 					<com:object comment="The positions markers for the events shall be represented as NearbyPosition COM objects. " name="NearbyPosition" number="1">
-						<com:objectType>
-							<mal:type area="MAL" list="false" name="Identifier"/>
-						</com:objectType>
+            <com:objectType>
+              <mal:type area="Platform" list="false" name="Position" service="GPS"/>
+            </com:objectType>
 						<com:relatedObject comment=""/>
 						<com:sourceObject comment="The source link of the NearbyPosition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
 						</com:sourceObject>
 					</com:object>
 				</com:objects>
-				<com:events comment="">
-					<com:event comment="" name="NearbyPositionEntered" number="2">
-						<com:relatedObject comment="">
-							<com:objectType area="Platform" number="1" service="GPS"/>
-						</com:relatedObject>
-						<com:sourceObject comment=""/>
-					</com:event>
-					<com:event comment="" name="NearbyPositionExited" number="3">
-						<com:relatedObject comment="">
-							<com:objectType area="Platform" number="1" service="GPS"/>
-						</com:relatedObject>
-						<com:sourceObject comment=""/>
-					</com:event>
-				</com:events>
 				<com:archiveUsage comment="NearbyPosition objects should be stored in the COM archive.&#10;When a nearby event is published, the NearbyPosition object should be stored in the COM archive by the publisher."/>
 			</com:features>
 		</mal:service>
@@ -466,6 +537,9 @@
                 <mal:type area="MAL" list="false" name="Duration"/>
               </mal:extraInformation>
             </mal:errorRef>
+          <mal:errorRef comment="The selected attitude definition is unsupported by the current implementation of the service.">
+              <mal:type area="MAL" list="false" name="UNSUPPORTED_OPERATION"/>
+            </mal:errorRef>
           </mal:errors>
 				</mal:submitIP>
 				<mal:submitIP comment="The unsetAttitude operation allows a consumer to unset the spacecraft's attitude from the current selected attitude definition. This operation is expected to be used after a certain attitude definition is set by the setDesiredAttitude operation." name="unsetAttitude" number="4" supportInReplay="false">
@@ -480,7 +554,31 @@
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:requestIP comment="The addAttitudeDefinition operation allows a consumer to define one or more attitudes that do not currently exist. The new AttitudeDefinition object is expected to be stored in the COM archive by the provider of the AutonomousADCS service." name="addAttitudeDefinition" number="5" supportInReplay="false">
+				<mal:requestIP comment="The listAttitudeDefinition operation allows a consumer to request the object instance identifiers of the attitude definition objects for the supported parameters of the provider. The operation is expected to be used in conjunction with the COM archive which holds the actual ParameterDefinition objects." name="listAttitudeDefinition" number="7" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="The names of the Attitude definitions to be listed.&#10;The names field may contain the wildcard value of '*' to return all supported ParameterDefinition objects." name="names">
+								<mal:type area="MAL" list="true" name="Identifier"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="The objIds field holds the object instance identifiers of the Attitude definitions.&#10;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request." name="objIds">
+								<mal:type area="MAL" list="true" name="Long"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				<mal:errors>
+            <mal:errorRef comment="One of the supplied AttitudeDefinition object instance identifiers is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="4">
+				<mal:requestIP comment="The addAttitudeDefinition operation allows a consumer to define one or more attitude definitions that do not currently exist. The new AttitudeDefinition object is expected to be stored in the COM archive by the provider of the AutonomousADCS service." name="addAttitudeDefinition" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
 							<mal:field canBeNull="true" comment="The attitudeDefinitions field holds the attitude definitions.&#10;The name field of the supplied AttitudeDefinition structures must not be NULL, the wildcard '*', or empty. An INVALID error shall be returned in this case.&#10;The supplied name must be unique among all AttitudeDefinition objects for the domain of the provider otherwise a DUPLICATE error shall be returned.&#10;If an error is returned then no new attitude definitions shall be added as a result of this operation call." name="attitudeDefinitions">
@@ -514,10 +612,10 @@
             </mal:errorRef>
           </mal:errors>
         </mal:requestIP>
-				<mal:submitIP comment="" name="removeAttitudeDefinition" number="6" supportInReplay="false">
+				<mal:submitIP comment="The removeAttitudeDefinition operation allows a consumer to remove one or more attitude definitions from the list of attitudes supported by the service.&#10;The operation does not remove the attitude definitions object from the COM archive, merely removes the object from the provider." name="removeAttitudeDefinition" number="6" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="The object instance identifiers of the attitude definition to be removed." name="objIds">
+							<mal:field canBeNull="true" comment="The object instance identifiers of the attitude definition to be removed.&#10;The list may contain the wildcard value of '0'.&#10;If a provided ParameterDefinition object instance identifier does not include a wildcard and does not match an existing definition then this operation shall fail with an UNKNOWN error.&#10;Matched attitude definition objects shall not be removed from the COM archive only from the list of attitude definitions objects in the provider.&#10;If an error is raised then no definitions shall be removed as a result of this operation call.&#10;If the operation succeeds then the provider shall no longer be able to set the removed attitude definitions." name="objIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
 						</mal:submit>
@@ -531,30 +629,6 @@
             </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
-			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="4">
-				<mal:requestIP comment="" name="listAttitudeDefinition" number="7" supportInReplay="false">
-					<mal:messages>
-						<mal:request comment="">
-							<mal:field canBeNull="true" comment="The names of the Attitude definitions to be listed." name="names">
-								<mal:type area="MAL" list="true" name="Identifier"/>
-							</mal:field>
-						</mal:request>
-						<mal:response comment="">
-							<mal:field canBeNull="true" comment="The objIds field holds the object instance identifiers of the Attitude definitions.&#10;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request." name="objIds">
-								<mal:type area="MAL" list="true" name="Long"/>
-							</mal:field>
-						</mal:response>
-					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="One of the supplied AttitudeDefinition object instance identifiers is unknown.">
-              <mal:type area="MAL" list="false" name="UNKNOWN"/>
-            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:requestIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
 				<mal:enumeration comment="AttitudeMode is an enumeration definition holding the attitude modes." name="AttitudeMode" shortFormPart="4">
@@ -856,7 +930,8 @@
 					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
-		</mal:service>
+		<com:features/>
+    </mal:service>
 		<mal:service comment="" name="Magnetometer" number="7" xsi:type="com:ExtendedServiceType">
 			<mal:capabilitySet comment="" number="1">
 				<mal:submitIP comment="" name="getMagneticField" number="1" supportInReplay="false">
@@ -1107,6 +1182,7 @@
 		</mal:dataTypes>
     <mal:errors>
       <mal:error comment="The device is currently in use." name="DEVICE_IN_USE" number="10509"/>
+    <mal:error comment="The device is currently not available." name="DEVICE_NOT_AVAILABLE" number="10510"/>
     </mal:errors>
 	</mal:area>
 </mal:specification>
