@@ -63,6 +63,7 @@ import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
 public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProviderImplInterface, NanoSatMOFrameworkInterface {
 
     public final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
+    public final static String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
     public final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
     public final ConfigurationProvider configuration = new ConfigurationProvider();
     public final COMServicesProvider comServices = new COMServicesProvider();
@@ -152,7 +153,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         
     public abstract void initPlatformServices();
 
-    public void loadConfigurations() {
+    public final void loadConfigurations() {
             // Activate the previous configuration
             ObjectId confId = new ObjectId();  // Select the default configuration
             confId.setKey(new ObjectKey(configuration.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
