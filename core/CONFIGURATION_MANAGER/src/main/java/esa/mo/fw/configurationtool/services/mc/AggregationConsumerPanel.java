@@ -76,9 +76,9 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             serviceMCAggregation.getAggregationStub().monitorValueRegister(subscription, new AggregationConsumerAdapter());
         } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel_old.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            Logger.getLogger(AggregationConsumerPanel_old.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     
     }

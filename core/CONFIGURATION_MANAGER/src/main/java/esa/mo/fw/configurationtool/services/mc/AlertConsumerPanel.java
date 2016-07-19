@@ -242,7 +242,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(null, str, "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
 
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -288,7 +290,10 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             // Add the Action Definition to the table
             alertTable.addEntry(comObject);
 
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted alert instance.", "Error", JOptionPane.PLAIN_MESSAGE);
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted alert instance.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -320,7 +325,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -339,7 +346,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().removeDefinition(longlist);
             alertTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -354,7 +363,11 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             output = this.serviceMCAlert.getAlertStub().listDefinition(idList);
             alertTable.refreshTableWithIds(output, serviceMCAlert.getConnectionDetails().getDomain(), AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        } catch (MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -373,7 +386,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().removeDefinition(longlist);
             alertTable.removeAllEntries();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -405,7 +420,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().enableGeneration(false, BoolPairList);
             alertTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -428,7 +445,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().enableGeneration(false, BoolPairList);
             alertTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 

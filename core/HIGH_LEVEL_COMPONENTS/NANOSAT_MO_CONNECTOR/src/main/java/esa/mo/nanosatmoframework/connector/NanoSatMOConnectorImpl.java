@@ -56,6 +56,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
     private final static String PROVIDER_PREFIX_NAME = "App: ";
+    public final static String NANOSAT_MO_SUPERVISOR_FOLDER_NAME = "NanoSat_MO_Supervisor";
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -151,7 +152,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
     public final URI readCentralDirectoryServiceURI() {
         // Read from the file
-        String path = ".." + File.separator + ".." + File.separator + "libs" + File.separator + "NanoSat_MO_Framework" + File.separator + FILENAME_CENTRAL_DIRECTORY_SERVICE;
+        String path = ".." + File.separator + NANOSAT_MO_SUPERVISOR_FOLDER_NAME + File.separator + FILENAME_CENTRAL_DIRECTORY_SERVICE;
         File file = new File(path);
 
         // Get the text out of it...

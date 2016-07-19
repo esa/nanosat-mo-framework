@@ -457,7 +457,9 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeDefinition(longlist);
             checkDefsTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -472,7 +474,11 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             output = this.serviceMCCheck.getCheckStub().listDefinition(idList);
             checkDefsTable.refreshTableWithIds(output, serviceMCCheck.getConnectionDetails().getDomain(), objTypeCheckDefinition);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        } catch (MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -491,7 +497,9 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeDefinition(longlist);
             checkDefsTable.removeAllEntries();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -535,7 +543,9 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -562,7 +572,9 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -641,7 +653,9 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeParameterCheck(longlist);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
