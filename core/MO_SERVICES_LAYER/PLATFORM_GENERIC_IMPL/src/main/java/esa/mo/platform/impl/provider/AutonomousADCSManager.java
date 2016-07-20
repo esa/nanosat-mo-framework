@@ -177,6 +177,8 @@ public final class AutonomousADCSManager {
 
         // Add the validation conditions below
         
+        // Example: longitude or latitude out of boundaries
+        
         
         return null;
         

@@ -23,10 +23,10 @@
     <relativePath/>
   </parent>
   
-  <artifactId>NMF_CORE</artifactId>
-  <name>NanoSat MO Framework - Core</name>
+  <artifactId>TRANSPORT_LAYER</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <name>MO Transport Layer</name>
 
   <organization>
     <name>ESA</name>
@@ -41,15 +41,9 @@
     </license>
   </licenses>
 
-  <scm>
-    <connection>scm:git:git@github.com:esa/CCSDS_MO_APPS.git</connection>
-    <developerConnection>scm:git:git@github.com:esa/CCSDS_MO_APPS.git</developerConnection>
-    <url>https://github.com/esa/CCSDS_MO_APPS</url>
-  </scm>
-  
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/esa/CCSDS_MO_APPS/issues</url>
+    <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
   </issueManagement>
   
   <developers>
@@ -62,17 +56,7 @@
   </developers>
 
   <modules>
-    <module>NMF_POM</module>
-    <module>MO_XML</module>
-    <module>CCSDS_MO_APIS</module>
-    <module>NMF_HELPER_TOOLS</module>
-    <module>TRANSPORT_LAYER</module>
-    <module>MO_SERVICES_LAYER</module>
-    <module>HIGH_LEVEL_COMPONENTS</module>
-    <module>GPS_SIMULATOR</module>
-    <module>APPS</module>
-    <module>CCSDS_MO_TOOLS_WINDOW</module>
-    <module>CONFIGURATION_MANAGER</module>
+    <module>CCSDS_MAL_TRANSPORT_TCPIP</module>
   </modules>
-  
+   
 </project>

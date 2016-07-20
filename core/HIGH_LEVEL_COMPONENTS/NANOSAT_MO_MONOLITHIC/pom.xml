@@ -118,10 +118,19 @@
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>TRANSPORT_TCPIP_TP</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+                
+        
+<!--        
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>TRANSPORT_TCPIP</artifactId>
         </dependency>
         
-<!--        
+        
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>SPP_TRANSPORT_CFP_TCP</artifactId>
