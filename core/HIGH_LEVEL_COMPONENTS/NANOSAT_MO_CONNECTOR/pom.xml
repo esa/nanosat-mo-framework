@@ -70,8 +70,7 @@
             <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
         </dependency>
     </dependencies>
-    
-    
+       
     <build>
         <resources>
             <resource>
@@ -115,7 +114,6 @@
             </plugin>
         </plugins>
     </build>
-
 
     <repositories>
         <repository>

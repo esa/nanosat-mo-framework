@@ -272,7 +272,7 @@ public final class ActionManager extends DefinitionsManager {
     
     }
 
-    protected boolean checkActionInstanceDetails(ActionInstanceDetails actionDetails, UIntegerList errorList) {
+    public boolean checkActionInstanceDetails(ActionInstanceDetails actionDetails, UIntegerList errorList) {
         
         ActionDefinitionDetails actionDef = this.get(actionDetails.getDefInstId());
         

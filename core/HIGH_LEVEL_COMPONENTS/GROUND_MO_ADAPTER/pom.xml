@@ -44,12 +44,6 @@
         </license>
     </licenses>
   
-    <scm>
-        <connection>scm:git:git@github.com:esa/CCSDS_APPS.git</connection>
-        <developerConnection>scm:git:git@github.com:esa/CCSDS_APPS.git</developerConnection>
-        <url>https://github.com/esa/CCSDS_APPS</url>
-    </scm>
-  
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
@@ -65,7 +59,6 @@
     </developers>
 
     <dependencies>
-
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
@@ -131,12 +124,13 @@
             </plugin>
         </plugins>
     </build>
+    
     <repositories>
         <repository>
             <id>AGSA-GITLAB</id>
             <name>The GitLab repository from the AGSA server.</name>
             <url>http://agsacloud01:8081/plugin/repository/everything/</url>
         </repository>
-    </repositories>    
+    </repositories>
     
 </project>

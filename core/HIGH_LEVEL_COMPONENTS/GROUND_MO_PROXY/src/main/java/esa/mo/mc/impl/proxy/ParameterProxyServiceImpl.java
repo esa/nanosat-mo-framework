@@ -20,7 +20,9 @@
  */
 package esa.mo.mc.impl.proxy;
 
+import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
+import esa.mo.nanosatmoframework.ground.adapter.GroundMOAdapter;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
@@ -33,6 +35,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -57,6 +60,12 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     private ParameterConsumerServiceImpl consumer;
     private final Semaphore queueSemaphore = new Semaphore(1, true);
+    
+    private MALProvider parameterServiceProvider;
+    private boolean initialiased = false;
+    private boolean running = false;
+    private boolean isRegistered = false;
+    private final ConnectionProvider connection = new ConnectionProvider();
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -94,8 +103,9 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
         // One should initialize the Consumer first...
         // Maybe we can use the Ground MO Adapter and pass it during initialization... ;)
-        this.consumer = consumer;
-
+        this.consumer = adaptersList.get("lalalalla").getMCServices().getParameterService();
+        
+/*
         publisher = createMonitorValuePublisher(configuration.getDomain(),
                 configuration.getNetwork(),
                 SessionType.LIVE,
@@ -103,7 +113,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));
-
+*/
         // shut down old service transport
         if (null != parameterServiceProvider) {
             connection.close();
@@ -177,7 +187,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 // Publish FORWARD Event back to the consumer (runs inside a thread)
                 
                 // Makes a call to the provider on Space
-                GetValueResponse response = this.consumer.getParameterService().getValue(lLongList);
+                GetValueResponse response = this.consumer.getParameterStub().getValue(lLongList);
 
                 // returns the answer to the connected consumer
                 return response;

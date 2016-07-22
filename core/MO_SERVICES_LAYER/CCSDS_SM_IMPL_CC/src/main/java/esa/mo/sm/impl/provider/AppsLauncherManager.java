@@ -238,9 +238,7 @@ public class AppsLauncherManager extends DefinitionsManager {
 
             AppDetails previousAppDetails = (AppDetails) super.getDefs().get(id);
 
-            if (previousAppDetails == null) {
-                // It didn't exist...
-
+            if (previousAppDetails == null) { // It didn't exist...
                 // Either is the first time running or it is a newly installed app!
                 ObjectId source = null;
 
@@ -250,19 +248,17 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
 
             // It does exist. Are there any differences?
-            /*  The code below is weird...
             if (!previousAppDetails.equals(single_app)){
                 // Then we have to update it...
                 
                 // Is it a difference just on the Running status?
-                if(previousAppDetails.getRunning() == single_app.getRunning()){
+                if(previousAppDetails.getRunning().equals(single_app.getRunning())){
                     continue;
                 }
                 
                 this.update(id, single_app, connectionDetails, null);
                 
             }
-             */
         }
 
     }
@@ -290,82 +286,32 @@ public class AppsLauncherManager extends DefinitionsManager {
         final String full_path = app_folder + File.separator + runnable_filename;
         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Reading and initializing '" + app.getName().getValue() + "' app on path: " + full_path);
 
-        String currentDir = System.getProperty("user.dir");
-        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Working Directory = " + currentDir);
-
-        File outDir = new File(app_folder);
-        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Out Directory = " + outDir.getAbsolutePath() + " - " + outDir.getAbsolutePath());
-        
-//        Process proc = Runtime.getRuntime().exec(input.split(" "), null, new File(app_folder));
-
-
-//        Process proc = Runtime.getRuntime().exec(input, null, new File("/home/root/software/apps/GPS_Data")); Doesn't work either...
-//        Process proc = Runtime.getRuntime().exec(input.split(" "), getEnv(), new File(app_folder));
-
-//        Process proc = Runtime.getRuntime().exec(input, null, new File("/home/root/software/apps/GPS_Data/"));
-
-
-
-BufferedReader brTest = new BufferedReader(new FileReader(new File(full_path)));
-   String text = brTest.readLine();
-
-   String splitted[] = text.split(" ");
+        BufferedReader brTest = new BufferedReader(new FileReader(new File(full_path)));
+        String text = brTest.readLine();
+        String splitted[] = text.split(" ");
 
         Process proc = Runtime.getRuntime().exec(splitted, null, new File(app_folder));
+        handler.startPublishing(proc);
 
         /*
-ArrayList<String> args = new ArrayList<String>();
-
-
-for(int i = 0; i < splitted.length; i++){
-    args.add(splitted[i]);
-}
-
-/*
-args.add("java");
-//args.add("-cp");
-args.add("-classpath");
-args.add("/home/root/software/apps/GPS_Data/Demo_GPS_data-1.0-SNAPSHOT.jar:/home/root/software/libs/NanoSat_MO_Framework/LIB_NANOSAT_MO_FRAMEWORK_OPS_SAT-jar-with-dependencies.jar");
-args.add("esa.mo.nanosatmoframework.apps.DemoGPSData");
+        ArrayList<String> args = new ArrayList<String>();
+        args.add("java");
+        args.add("-classpath");
+        args.add("/home/root/software/apps/GPS_Data/Demo_GPS_data-1.0-SNAPSHOT.jar:/home/root/software/libs/NanoSat_MO_Framework/LIB_NANOSAT_MO_FRAMEWORK_OPS_SAT-jar-with-dependencies.jar");
+        args.add("esa.mo.nanosatmoframework.apps.DemoGPSData");
 
         ProcessBuilder dfdfdf = new ProcessBuilder(args);
         dfdfdf.directory(outDir);
         Process proc = dfdfdf.start();
-*/
-
-
-//            input.replaceAll("\\\"", "\"");
-//            String input = String.valueOf(encoded);
-//            int i = input.indexOf(' ');
-//            String first = input.substring(0, i);
-//            String rest = input.substring(i);
-// Command line Process (the actual program is running in another Process!)
-//        Process proc = shell.runCommand(full_path, new File(app_folder));
-//            Process proc = shell.runCommand(new String(encoded, StandardCharsets.UTF_8), new File(app_folder));
-//            Process proc = Runtime.getRuntime().exec(new String[]{new String(encoded, StandardCharsets.UTF_8)}, null, new File(app_folder));
-//Process proc = Runtime.getRuntime().exec(new String[]{"java", "-classpath", "'/home/root/software/apps/GPS_Data/Demo_GPS_data-1.0-SNAPSHOT.jar:/home/root/software/libs/NanoSat_MO_Framework/LIB_NANOSAT_MO_FRAMEWORK_OPS_SAT-jar-with-dependencies.jar'", "esa.mo.nanosatmoframework.apps.DemoGPSData"}, null, null);
-
-//Process proc = Runtime.getRuntime().exec(new String[]{"java", "-v"}, null, new File(app_folder));
-
-        handler.startPublishing(proc);
-
-if (proc.isAlive()) {
+         */
+        
+        if (proc.isAlive()) {
             handlers.put(handler.getAppInstId(), handler);
             app.setRunning(true);
             this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
         }
 
     }
-    
-private static String[] getEnv() {
-    Map<String, String> env = System.getenv();
-    String[] envp = new String[env.size()];
-    int i = 0;
-    for (Map.Entry<String, String> e : env.entrySet()) {
-        envp[i++] = e.getKey() + "=" + e.getValue();
-    }
-    return envp;
-}    
 
     protected boolean killAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
         AppDetails app = (AppDetails) this.getDefs().get(appInstId); // get it from the list of available apps

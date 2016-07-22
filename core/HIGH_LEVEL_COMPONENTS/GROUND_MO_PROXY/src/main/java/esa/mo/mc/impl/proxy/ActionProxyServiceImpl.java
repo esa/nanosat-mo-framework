@@ -24,8 +24,8 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.mc.impl.interfaces.ConfigurationNotificationInterface;
-import esa.mo.mc.impl.util.ReconfigurableServiceImplInterface;
+import esa.mo.mc.impl.provider.ActionManager;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +60,7 @@ import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 /**
  *
  */
-public class ActionProxyServiceImpl implements ActionInheritanceSkeleton {
+public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
     private final static String IS_INTERMEDIATE_RELAY_PROPERTY = "esa.mo.mc.impl.provider.ActionProviderServiceImpl.isIntermediateRelay";
     private MALProvider actionServiceProvider;
@@ -179,14 +179,14 @@ public class ActionProxyServiceImpl implements ActionInheritanceSkeleton {
 
         // Errors
         // The operation does not return any errors.
-        return actionDefInstIds;
+        return new LongList();
     }
 
     @Override
     public LongList addDefinition(ActionDefinitionDetailsList actionDefDetails, MALInteraction interaction) throws MALInteractionException, MALException {
 
         // requirement: 3.2.12.2.d
-        return newObjInstIds; // requirement: 3.2.12.2.e
+        return new LongList(); // requirement: 3.2.12.2.e
     }
 
     @Override

@@ -23,7 +23,6 @@ package esa.mo.com.impl.util;
 import esa.mo.com.impl.provider.ActivityTrackingProviderServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
-import esa.mo.com.impl.util.COMServicesProvider;
 import java.util.HashMap;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;

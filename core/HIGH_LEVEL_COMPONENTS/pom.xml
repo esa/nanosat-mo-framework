@@ -60,5 +60,6 @@
     <module>NANOSAT_MO_CONNECTOR</module>
     <module>NANOSAT_MO_SUPERVISOR</module>
     <module>GROUND_MO_ADAPTER</module>
+    <module>GROUND_MO_PROXY</module>
   </modules>
 </project>
