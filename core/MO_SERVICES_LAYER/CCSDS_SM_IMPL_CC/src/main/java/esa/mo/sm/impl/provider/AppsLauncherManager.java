@@ -26,13 +26,18 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
 import esa.mo.sm.impl.util.ShellCommander;
+import static java.awt.SystemColor.text;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -245,7 +250,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
 
             // It does exist. Are there any differences?
-            /*  The codde below is weird...
+            /*  The code below is weird...
             if (!previousAppDetails.equals(single_app)){
                 // Then we have to update it...
                 
@@ -276,20 +281,58 @@ public class AppsLauncherManager extends DefinitionsManager {
         return this.get(appId).getRunning();
     }
 
-    protected void startAppProcess(ProcessExecutionHandler handler, MALInteraction interaction) {
+    protected void startAppProcess(ProcessExecutionHandler handler, MALInteraction interaction) throws IOException {
 
-        try {
-            AppDetails app = (AppDetails) this.getDefs().get(handler.getAppInstId()); // get it from the list of available apps
+        AppDetails app = (AppDetails) this.getDefs().get(handler.getAppInstId()); // get it from the list of available apps
 
-            // Go to the folder where the app are installed
-            final String app_folder = apps_folder_path + File.separator + app.getName().getValue();
-            final String full_path = app_folder + File.separator + runnable_filename;
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Reading and initializing '" + app.getName().getValue() + "' app on path: " + full_path);
+        // Go to the folder where the app are installed
+        String app_folder = apps_folder_path + File.separator + app.getName().getValue();
+        final String full_path = app_folder + File.separator + runnable_filename;
+        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Reading and initializing '" + app.getName().getValue() + "' app on path: " + full_path);
 
-            byte[] encoded = Files.readAllBytes(Paths.get(full_path));
-            String input = new String(encoded, StandardCharsets.UTF_8);
-            Process proc = Runtime.getRuntime().exec(input.split(" "), null, new File(app_folder));
-            handler.startPublishing(proc);
+        String currentDir = System.getProperty("user.dir");
+        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Working Directory = " + currentDir);
+
+        File outDir = new File(app_folder);
+        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Out Directory = " + outDir.getAbsolutePath() + " - " + outDir.getAbsolutePath());
+        
+//        Process proc = Runtime.getRuntime().exec(input.split(" "), null, new File(app_folder));
+
+
+//        Process proc = Runtime.getRuntime().exec(input, null, new File("/home/root/software/apps/GPS_Data")); Doesn't work either...
+//        Process proc = Runtime.getRuntime().exec(input.split(" "), getEnv(), new File(app_folder));
+
+//        Process proc = Runtime.getRuntime().exec(input, null, new File("/home/root/software/apps/GPS_Data/"));
+
+
+
+BufferedReader brTest = new BufferedReader(new FileReader(new File(full_path)));
+   String text = brTest.readLine();
+
+   String splitted[] = text.split(" ");
+
+        Process proc = Runtime.getRuntime().exec(splitted, null, new File(app_folder));
+
+        /*
+ArrayList<String> args = new ArrayList<String>();
+
+
+for(int i = 0; i < splitted.length; i++){
+    args.add(splitted[i]);
+}
+
+/*
+args.add("java");
+//args.add("-cp");
+args.add("-classpath");
+args.add("/home/root/software/apps/GPS_Data/Demo_GPS_data-1.0-SNAPSHOT.jar:/home/root/software/libs/NanoSat_MO_Framework/LIB_NANOSAT_MO_FRAMEWORK_OPS_SAT-jar-with-dependencies.jar");
+args.add("esa.mo.nanosatmoframework.apps.DemoGPSData");
+
+        ProcessBuilder dfdfdf = new ProcessBuilder(args);
+        dfdfdf.directory(outDir);
+        Process proc = dfdfdf.start();
+*/
+
 
 //            input.replaceAll("\\\"", "\"");
 //            String input = String.valueOf(encoded);
@@ -300,19 +343,29 @@ public class AppsLauncherManager extends DefinitionsManager {
 //        Process proc = shell.runCommand(full_path, new File(app_folder));
 //            Process proc = shell.runCommand(new String(encoded, StandardCharsets.UTF_8), new File(app_folder));
 //            Process proc = Runtime.getRuntime().exec(new String[]{new String(encoded, StandardCharsets.UTF_8)}, null, new File(app_folder));
-//Process proc = Runtime.getRuntime().exec(new String[]{"java", "-classpath", "Demo_GPS_data-jar-with-dependencies.jar", "esa.mo.nanosatmoframework.apps.DemoGPSData"}, null, new File(app_folder));
-//Process proc = Runtime.getRuntime().exec(new String[]{"java -v"}, null, new File(app_folder));
-            if (proc.isAlive()) {
-                handlers.put(handler.getAppInstId(), handler);
-                app.setRunning(true);
-                this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
+//Process proc = Runtime.getRuntime().exec(new String[]{"java", "-classpath", "'/home/root/software/apps/GPS_Data/Demo_GPS_data-1.0-SNAPSHOT.jar:/home/root/software/libs/NanoSat_MO_Framework/LIB_NANOSAT_MO_FRAMEWORK_OPS_SAT-jar-with-dependencies.jar'", "esa.mo.nanosatmoframework.apps.DemoGPSData"}, null, null);
+
+//Process proc = Runtime.getRuntime().exec(new String[]{"java", "-v"}, null, new File(app_folder));
+
+        handler.startPublishing(proc);
+
+if (proc.isAlive()) {
+            handlers.put(handler.getAppInstId(), handler);
+            app.setRunning(true);
+            this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
         }
 
     }
+    
+private static String[] getEnv() {
+    Map<String, String> env = System.getenv();
+    String[] envp = new String[env.size()];
+    int i = 0;
+    for (Map.Entry<String, String> e : env.entrySet()) {
+        envp[i++] = e.getKey() + "=" + e.getValue();
+    }
+    return envp;
+}    
 
     protected boolean killAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
         AppDetails app = (AppDetails) this.getDefs().get(appInstId); // get it from the list of available apps

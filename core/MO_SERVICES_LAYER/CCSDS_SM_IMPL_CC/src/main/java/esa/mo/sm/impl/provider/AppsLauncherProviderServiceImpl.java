@@ -245,7 +245,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Run the apps!
         for (int i = 0; i < appInstIds.size(); i++) {
-            manager.startAppProcess(new ProcessExecutionHandler(appInstIds.get(i)), interaction);
+            try {
+                manager.startAppProcess(new ProcessExecutionHandler(appInstIds.get(i)), interaction);
+            } catch (IOException ex) {
+                invIndexList.add(new UInteger(i));
+                throw new MALInteractionException(new MALStandardError(MALHelper.INTERNAL_ERROR_NUMBER, invIndexList));
+            }
         }
 
     }

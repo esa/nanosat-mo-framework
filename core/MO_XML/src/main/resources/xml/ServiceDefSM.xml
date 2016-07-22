@@ -727,6 +727,12 @@ The process of loading a software image from non-volatile memory to RAM upon boo
                 <mal:type area="MAL" list="true" name="UInteger"/>
               </mal:extraInformation>
             </mal:errorRef>
+          <mal:errorRef comment="The process of the app could not be started.">
+              <mal:type area="MAL" list="false" name="INTERNAL"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:extraInformation>
+            </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
 				<mal:submitIP comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive." name="killApp" number="4" supportInReplay="false">

@@ -44,12 +44,6 @@
         </license>
     </licenses>
   
-    <scm>
-        <connection>scm:git:git@github.com:esa/CCSDS_APPS.git</connection>
-        <developerConnection>scm:git:git@github.com:esa/CCSDS_APPS.git</developerConnection>
-        <url>https://github.com/esa/CCSDS_APPS</url>
-    </scm>
-  
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
@@ -58,7 +52,7 @@
     <developers>
         <developer>
             <id>CesarCoelho</id>
-            <name>C�sar Coelho</name>
+            <name>César Coelho</name>
             <email>Cesar.Coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
@@ -112,18 +106,6 @@
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>
-
-    <repositories>
-        <repository>
-            <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <url>file:${project.basedir}/lib</url>
-        </repository>
-        <repository>
-            <id>swt-repo</id>
-            <url>https://swt-repo.googlecode.com/svn/repo/</url>
-        </repository>
-    </repositories>    
+    </build> 
     
 </project>

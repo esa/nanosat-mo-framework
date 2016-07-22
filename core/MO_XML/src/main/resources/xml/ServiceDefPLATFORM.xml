@@ -272,7 +272,7 @@
 			</mal:capabilitySet>
 			
 			
-			<mal:capabilitySet comment="" number="9">
+			<mal:capabilitySet comment="" number="5">
 				<mal:requestIP comment="The listNearbyPositionEvent operation allows a consumer to request the object instance identifiers of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive which holds the actual nearby position objects." name="listNearbyPosition" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
@@ -290,7 +290,7 @@
 			</mal:capabilitySet>			
 			
 			
-			<mal:capabilitySet comment="" number="5">
+			<mal:capabilitySet comment="" number="6">
 				<mal:requestIP comment="The addNearbyPositionEvent operation allows a consumer to define a list of nearby position events in the service.The new NearbyPosition objects are expected to be stored in the COM Archive by the provider of the GPS service." name="addNearbyPosition" number="6" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
@@ -318,7 +318,7 @@
 					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="6">
+			<mal:capabilitySet comment="" number="7">
 				<mal:pubsubIP comment="" name="nearbyPosition" number="8" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
@@ -460,7 +460,13 @@
 						<com:sourceObject comment="The source link of the NearbyPosition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
 						</com:sourceObject>
 					</com:object>
-				</com:objects>
+				<com:object comment="" name="NearbyPositionAlert" number="2">
+            <com:relatedObject comment="">
+              <com:objectType area="Platform" number="2" service="GPS"/>
+            </com:relatedObject>
+            <com:sourceObject comment=""/>
+          </com:object>
+        </com:objects>
 				<com:archiveUsage comment="NearbyPosition objects should be stored in the COM archive.&#10;When a nearby event is published, the NearbyPosition object should be stored in the COM archive by the publisher."/>
 			</com:features>
 		</mal:service>

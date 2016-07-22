@@ -62,12 +62,6 @@
             <email>Cesar.Coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
-        <developer>
-            <id>SamCooper</id>
-            <name>Sam Cooper</name>
-            <email>sam.cooper@scisys.co.uk</email>
-            <url>https://github.com/SamCooper</url>
-        </developer>
     </developers>
 
     <dependencies>
@@ -80,7 +74,7 @@
             <artifactId>API_COM</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NMF_HELPER_TOOLS</artifactId>
         </dependency>
     </dependencies>
@@ -128,13 +122,9 @@
     </build>
     <repositories>
         <repository>
-            <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <url>file:${project.basedir}/lib</url>
-        </repository>
-        <repository>
-            <id>swt-repo</id>
-            <url>https://swt-repo.googlecode.com/svn/repo/</url>
+            <id>AGSA-GITLAB</id>
+            <name>The GitLab repository from the AGSA server.</name>
+            <url>http://agsacloud01:8081/plugin/repository/everything/</url>
         </repository>
     </repositories>    
     

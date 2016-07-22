@@ -201,8 +201,8 @@
     
     <repositories>
         <repository>
-            <id>AGSA-GITLAB</id>
-            <name>The GitLab repository from the AGSA server.</name>
+            <id>AGSA-Maven-Repository</id>
+            <name>The Maven repository from the AGSA server.</name>
             <url>http://agsacloud01:8081/plugin/repository/everything/</url>
         </repository>
     </repositories>    
