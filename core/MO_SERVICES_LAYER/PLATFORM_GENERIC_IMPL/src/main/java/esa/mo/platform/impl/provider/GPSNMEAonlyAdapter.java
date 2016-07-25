@@ -43,6 +43,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
     @Override
     public SatelliteInfoList getSatelliteInfoList(){
         SatelliteInfoList satelitesInView = new SatelliteInfoList();
+        String fdfddf = this.getNMEASentence("fbfggbf");
         
         return satelitesInView;
     }

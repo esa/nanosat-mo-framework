@@ -223,19 +223,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     }
 
 
-    
-    // Event adapter listenning for Close App events
-    
-    // Event to Close received!
-    // Acknowledge the reception of the request to close (Closing...)
-        
-    // Notify the upper layer that it is time to sleep...
-//    closeAppAdapter.onClose();
-    
-    // Close connections
-        
-     
-    
-    
+    public CloseAppListener getCloseAppListener() {
+        return this.closeAppAdapter;
+    }
     
 }

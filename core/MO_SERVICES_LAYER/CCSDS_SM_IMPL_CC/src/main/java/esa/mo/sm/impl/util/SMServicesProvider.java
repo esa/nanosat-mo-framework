@@ -22,6 +22,7 @@ package esa.mo.sm.impl.util;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
+import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,11 +37,13 @@ public class SMServicesProvider {
 
     private final PackageManagementProviderServiceImpl packageManagementService = new PackageManagementProviderServiceImpl();
     private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
+    private final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
 
     public void init(COMServicesProvider comServices, DirectoryInheritanceSkeleton directoryService) {
         try {
             packageManagementService.init(comServices);
             applicationsManagerService.init(comServices, directoryService);
+            heartbeatService.init();
         } catch (MALException ex) {
             Logger.getLogger(SMServicesProvider.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -52,6 +55,10 @@ public class SMServicesProvider {
 
     public AppsLauncherProviderServiceImpl getApplicationsManagerService() {
         return this.applicationsManagerService;
+    }
+    
+    public HeartbeatProviderServiceImpl getHeartbeatService() {
+        return this.heartbeatService;
     }
     
 }

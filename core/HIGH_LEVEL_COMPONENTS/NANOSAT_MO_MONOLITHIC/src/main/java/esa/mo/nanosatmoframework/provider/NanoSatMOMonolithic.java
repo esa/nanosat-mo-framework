@@ -59,11 +59,11 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
      * @param platformServices
      */
     public NanoSatMOMonolithic(ActionInvocationListener actionAdapter,
-            ParameterStatusListener parameterAdapter, 
+            ParameterStatusListener parameterAdapter,
             PlatformServicesProviderInterface platformServices) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-      
+
         this.platformServices = platformServices;
         this.providerName = System.getProperty(ConfigurationProvider.MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
 
@@ -102,16 +102,15 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
      * corresponding methods and variables of a specific entity.
      * @param platformServices Platform Services
      */
-    public NanoSatMOMonolithic(MonitorAndControlAdapter mcAdapter, 
+    public NanoSatMOMonolithic(MonitorAndControlAdapter mcAdapter,
             PlatformServicesProviderInterface platformServices) {
         this(mcAdapter, mcAdapter, platformServices);
     }
 
-
     private void servicesInit(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter) throws MALException {
         comServices.init();
-        
+
         /*
             mcServices.init(
                     comServices,
@@ -120,12 +119,16 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
                     null
             );
          */
-        parameterManager = new ParameterManager(comServices, parameterAdapter);
-        mcServices.getParameterService().init(parameterManager);
+        
+        if (actionAdapter == null && parameterAdapter == null) {
+            parameterManager = new ParameterManager(comServices, parameterAdapter);
+            mcServices.getParameterService().init(parameterManager);
 
-        mcServices.getActionService().init(comServices, actionAdapter);
-        mcServices.getAlertService().init(comServices);
-        mcServices.getAggregationService().init(comServices, parameterManager);
+            mcServices.getActionService().init(comServices, actionAdapter);
+            mcServices.getAlertService().init(comServices);
+            mcServices.getAggregationService().init(comServices, parameterManager);
+
+        }
 
         this.initPlatformServices();
         directoryService.init(comServices);

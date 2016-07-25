@@ -57,6 +57,8 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
     private final static String PROVIDER_PREFIX_NAME = "App: ";
     public final static String NANOSAT_MO_SUPERVISOR_FOLDER_NAME = "NanoSat_MO_Supervisor";
+    private Long appObjInstId = new Long(0);
+    private Long appDirectoryServiceId;
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -83,12 +85,14 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         try {
             comServices.init();
 
-            mcServices.init(
-                    comServices,
-                    actionAdapter,
-                    parameterAdapter,
-                    null
-            );
+            if (actionAdapter == null && parameterAdapter == null) {
+                mcServices.init(
+                        comServices,
+                        actionAdapter,
+                        parameterAdapter,
+                        null
+                );
+            }
 
             directoryService.init(comServices);
         } catch (MALException ex) {
@@ -114,7 +118,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
             // Register the services in the Central Directory service...
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating Central Directory service on URI: " + centralDirectoryURI.getValue());
-            directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
+            this.appDirectoryServiceId = directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
             directoryServiceConsumer.closeConnection();
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populated! And the connection to the Directory service has been successfully closed!");
         } catch (MALException ex) {
@@ -150,6 +154,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        
     }
 
     public final URI readCentralDirectoryServiceURI() {
@@ -172,6 +177,14 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         }
 
         return null;
+    }
+    
+    public final Long getAppObjInstId() {
+        return this.appObjInstId;
+    }
+
+    public final Long getAppDirectoryId() {
+        return this.appObjInstId;
     }
 
 }

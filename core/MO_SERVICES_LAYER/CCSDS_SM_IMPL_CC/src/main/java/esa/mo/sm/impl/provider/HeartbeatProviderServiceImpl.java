@@ -75,7 +75,6 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
      */
     public synchronized void init() throws MALException {
         if (!initialiased) {
-
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
@@ -114,7 +113,6 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
                     }
                 }
             }, period, period);
-        
     }
 
     /**

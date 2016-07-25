@@ -73,12 +73,14 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
         try {
             this.comServices.init();
 
-            this.mcServices.init(
-                    comServices,
-                    actionAdapter,
-                    parameterAdapter,
-                    null
-            );
+            if (actionAdapter == null && parameterAdapter == null) {
+                this.mcServices.init(
+                        comServices,
+                        actionAdapter,
+                        parameterAdapter,
+                        null
+                );
+            }
 
             this.initPlatformServices();
             this.directoryService.init(comServices);

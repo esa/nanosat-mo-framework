@@ -185,7 +185,6 @@
         </plugins>
     </build>
 
-
     <repositories>
         <repository>
             <id>AGSA-GITLAB</id>
