@@ -104,7 +104,7 @@ public class StoreLastConfigurationAdapter implements ConfigurationNotificationI
 
                 // Store the Default Service Configuration objects
                 Long objIdAction = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_ACTION_SERVICE,
-                        ActionHelper.ACTION_SERVICE_NUMBER, provider.getMCServices().getAlertService());
+                        ActionHelper.ACTION_SERVICE_NUMBER, provider.getMCServices().getActionService());
 
                 Long objIdParameter = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_PARAMETER_SERVICE,
                         ParameterHelper.PARAMETER_SERVICE_NUMBER, provider.getMCServices().getParameterService());

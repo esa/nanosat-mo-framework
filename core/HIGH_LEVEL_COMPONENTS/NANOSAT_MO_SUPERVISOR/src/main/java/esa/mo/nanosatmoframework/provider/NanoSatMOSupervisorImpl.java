@@ -73,7 +73,7 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
         try {
             this.comServices.init();
 
-            if (actionAdapter == null && parameterAdapter == null) {
+            if (actionAdapter != null || parameterAdapter != null) {
                 this.mcServices.init(
                         comServices,
                         actionAdapter,
@@ -98,8 +98,9 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
-            this.loadConfigurations();
-
+            if (actionAdapter != null || parameterAdapter != null) {
+                this.loadConfigurations();
+            }
         }
 
         final String uri = this.directoryService.getConnection().getConnectionDetails().getProviderURI().toString();

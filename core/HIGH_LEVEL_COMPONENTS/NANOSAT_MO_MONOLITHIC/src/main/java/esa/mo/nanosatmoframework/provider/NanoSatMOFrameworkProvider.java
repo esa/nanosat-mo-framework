@@ -222,7 +222,6 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         this.closeAppAdapter = closeAppAdapter;
     }
 
-
     public CloseAppListener getCloseAppListener() {
         return this.closeAppAdapter;
     }

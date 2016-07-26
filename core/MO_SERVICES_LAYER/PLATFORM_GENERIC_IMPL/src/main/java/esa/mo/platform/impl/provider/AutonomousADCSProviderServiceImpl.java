@@ -189,7 +189,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public void setDesiredAttitude(final Long objInstId, final Duration autoUnset, final MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void setDesiredAttitude(final Long objInstId, final Duration autoUnset, final MALInteraction interaction) throws MALInteractionException, MALException {
         if (null == objInstId) { // Is the input null?
             throw new IllegalArgumentException("objInstId argument must not be null");
         }
@@ -253,10 +253,15 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public void unsetAttitude(MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void unsetAttitude(MALInteraction interaction) throws MALInteractionException, MALException {
+
+        try {
+            adapter.unset();
+        } catch (IOException ex) {
+            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
-        
         
     }
 
@@ -306,7 +311,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public void removeAttitudeDefinition(LongList objIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void removeAttitudeDefinition(LongList objIds, MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Long tempLong;
         LongList tempLongLst = new LongList();
@@ -391,7 +396,6 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
-
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {
@@ -411,13 +415,9 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header,
-                final MALErrorBody body,
-                final Map qosProperties)
-                throws MALException {
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
-    
     
 }

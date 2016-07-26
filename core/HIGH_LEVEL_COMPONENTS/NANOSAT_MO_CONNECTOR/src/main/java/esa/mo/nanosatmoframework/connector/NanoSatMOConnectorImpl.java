@@ -76,58 +76,71 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
 
         this.providerName = PROVIDER_PREFIX_NAME + System.getProperty(ConfigurationProvider.MO_APP_NAME);
-
-        // Connect to the Central Directory service
-        // Lookup for the Platform services
-        // Connect to them...
-        platformServices = null;
-
-        try {
-            comServices.init();
-
-            if (actionAdapter == null && parameterAdapter == null) {
-                mcServices.init(
-                        comServices,
-                        actionAdapter,
-                        parameterAdapter,
-                        null
-                );
-            }
-
-            directoryService.init(comServices);
-        } catch (MALException ex) {
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
-                    "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
-            return;
-        }
-
-        // Populate the Directory service with the entries from the URIs File
-        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating local Directory service...");
-        PublishDetails publishDetails = directoryService.autoLoadURIsFile(this.providerName);
-
-        // Are the dynamic changes enabled?
-        if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Loading previous configurations...");
-            this.loadConfigurations();
-        }
-
+        URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
+        DirectoryConsumerServiceImpl directoryServiceConsumer = null;
+        
         try {
             // Connect to the Central Directory service...
-            URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
-            DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+            directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
 
-            // Register the services in the Central Directory service...
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating Central Directory service on URI: " + centralDirectoryURI.getValue());
-            this.appDirectoryServiceId = directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
-            directoryServiceConsumer.closeConnection();
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populated! And the connection to the Directory service has been successfully closed!");
+                // Register for CloseApp Events...
+                //        new CloseAppEventListener();
+
+                // Lookup for the Platform services
+                // Connect to them...
+                platformServices = null;
+
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
-//            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+                comServices.init();
+
+                if (actionAdapter == null && parameterAdapter == null) {
+                    mcServices.init(
+                            comServices,
+                            actionAdapter,
+                            parameterAdapter,
+                            null
+                    );
+                }
+
+                directoryService.init(comServices);
+            } catch (MALException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
+                        "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
+                return;
+            }
+
+            // Populate the Directory service with the entries from the URIs File
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating local Directory service...");
+            PublishDetails publishDetails = directoryService.autoLoadURIsFile(this.providerName);
+
+            // Are the dynamic changes enabled?
+            if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Loading previous configurations...");
+                this.loadConfigurations();
+            }
+
+
+        try {
+            // Register the services in the Central Directory service...
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating Central Directory service on URI: " + centralDirectoryURI.getValue());
+
+            if (directoryServiceConsumer != null){
+                this.appDirectoryServiceId = directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
+                directoryServiceConsumer.closeConnection(); // Close the connection to the Directory service
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populated! And the connection to the Directory service has been successfully closed!");
+            }
+        } catch (MALException ex) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
         }
 
         final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
@@ -158,13 +171,11 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
     }
 
     public final URI readCentralDirectoryServiceURI() {
-        // Read from the file
         String path = ".." + File.separator + NANOSAT_MO_SUPERVISOR_FOLDER_NAME + File.separator + FILENAME_CENTRAL_DIRECTORY_SERVICE;
-        File file = new File(path);
+        File file = new File(path); // Select the file that we want to read from
 
-        // Get the text out of it...
         String line;
-        try {
+        try { // Get the text out of that file...
             InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
             BufferedReader br = new BufferedReader(isr);
 

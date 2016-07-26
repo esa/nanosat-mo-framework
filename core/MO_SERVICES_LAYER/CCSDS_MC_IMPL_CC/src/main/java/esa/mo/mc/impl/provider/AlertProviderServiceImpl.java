@@ -120,11 +120,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             connection.close();
         }
 
+        manager = new AlertManager(comServices);
+
         alertServiceProvider = connection.startService(AlertHelper.ALERT_SERVICE_NAME.toString(), AlertHelper.ALERT_SERVICE, false, this);
 
         running = true;
-        manager = new AlertManager(comServices);
-
         initialiased = true;
         Logger.getLogger(AlertProviderServiceImpl.class.getName()).info("Alert service READY");
     }

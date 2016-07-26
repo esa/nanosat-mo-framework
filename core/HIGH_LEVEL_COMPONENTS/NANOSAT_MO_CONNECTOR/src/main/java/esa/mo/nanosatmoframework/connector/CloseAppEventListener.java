@@ -52,13 +52,14 @@ public class CloseAppEventListener extends EventReceivedListener {
 
         // Acknowledge the reception of the request to close (Closing...)
         
-       
+//        Long eventId = provider.getCOMServices().getEventService().generateAndStoreEvent(objType, domain, eventObjBody, Long.MIN_VALUE, source, interaction);
+//        provider.getCOMServices().getEventService().publishEvent(interaction, Long.MIN_VALUE, objType, Long.MIN_VALUE, source, eventBodies);
         
         // Close the app...
 
         // Make a call on the app layer to close nicely...
         if(provider.closeAppAdapter != null){
-            provider.closeAppAdapter.onClose(); // Time to sleep boy!
+            provider.closeAppAdapter.onClose(); // Time to sleep, boy!
         }
         
         // Unregister the provider from the Central Directory service...
