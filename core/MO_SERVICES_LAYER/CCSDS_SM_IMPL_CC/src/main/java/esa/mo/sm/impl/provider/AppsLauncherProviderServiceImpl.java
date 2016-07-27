@@ -338,19 +338,21 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
             // Do a lookup on the Central Drectory service for the app that we want
             ProviderSummaryList providersList = this.directoryService.lookupProvider(sf, interaction.getInteraction());
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "Size " + providersList.size());
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "providersList " + providersList.toString());
 
             if (providersList.isEmpty()) {
                 // The app could not be found in the Directory service...
                 // Possible reasons: Not a NMF app, if so, one needs to use killApp!
                 // Throw error!
-                intIndexList.add(new UInteger(i)); // Throw an INVALID error
+                intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
                 continue;
             }
 
             if (providersList.size() != 1) {
                 // Why do we have a bunch of registrations from the same App? Weirddddd...
                 // Throw error!
-                intIndexList.add(new UInteger(i)); // Throw an INVALID error
+                intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
                 continue;
             }
 
@@ -360,7 +362,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             // How many addresses do we have?
             if (addresses.isEmpty()) {
                 // Throw an error
-                intIndexList.add(new UInteger(i)); // Throw an INVALID error
+                intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
                 continue;
             }
 
