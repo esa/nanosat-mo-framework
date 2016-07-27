@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
  *
@@ -48,6 +49,10 @@ public class CloseAppEventListener extends EventReceivedListener {
         // Make sure that it is indeed a Close App event for us!
         // Even thought the subscription will guarantee that...
 
+        // We need to check if it really is a Close App Event request...
+        if (!eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPAPP_OBJECT_TYPE)){
+            return; // If not, get out..
+        }
 
 
         // Acknowledge the reception of the request to close (Closing...)

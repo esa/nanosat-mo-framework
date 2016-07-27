@@ -122,7 +122,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
     public void addEventReceivedListener(final Subscription subscription, final EventReceivedListener eventReceivedListener) {
 
         // Make the event adapter to call the eventReceivedListener when there's a new object available
-        class DataReceivedParameterAdapter extends EventAdapter {
+        class EventReceivedAdapter extends EventAdapter {
 
             @Override
             public void monitorEventNotifyReceived(final MALMessageHeader msgHeader, 
@@ -169,7 +169,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
         try {
             // Register with the subscription key provided
-            this.getEventStub().monitorEventRegister(subscription, new DataReceivedParameterAdapter());
+            this.getEventStub().monitorEventRegister(subscription, new EventReceivedAdapter());
             subs.add(subscription);
         } catch (MALInteractionException ex) {
             Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

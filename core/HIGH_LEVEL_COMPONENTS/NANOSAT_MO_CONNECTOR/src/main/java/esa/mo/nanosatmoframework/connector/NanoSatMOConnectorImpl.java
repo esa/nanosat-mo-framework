@@ -20,9 +20,13 @@
  */
 package esa.mo.nanosatmoframework.connector;
 
+import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
+import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
@@ -35,12 +39,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.nio.charset.Charset;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
+import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
  * A Provider of MO services composed by COM, M&C and Platform services. Selects
@@ -59,6 +69,8 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
     public final static String NANOSAT_MO_SUPERVISOR_FOLDER_NAME = "NanoSat_MO_Supervisor";
     private Long appObjInstId = new Long(0);
     private Long appDirectoryServiceId;
+    private EventConsumerServiceImpl serviceCOMEvent;
+    private Subscription subscription;
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -82,9 +94,25 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         try {
             // Connect to the Central Directory service...
             directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+            
+            ServiceFilter filter = new ServiceFilter();
+            // To do, add the filtering conditions...
+            ProviderSummaryList supervisorConnectionDetails = directoryServiceConsumer.getDirectoryStub().lookupProvider(filter);
 
-                // Register for CloseApp Events...
-                //        new CloseAppEventListener();
+            // Register for CloseApp Events...
+            SingleConnectionDetails connectionDetails = null;
+            // To do, convert provider to connectionDetails...
+            serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
+                
+                // Subscribe to all Events
+            // Select all object numbers from the Apps Launcher service Events
+            final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
+            final Random random = new Random();
+            subscription = ConnectionConsumer.subscriptionKeys(new Identifier("CloseAppEventListener" + random.nextInt()), new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
+                
+            // Register with the subscription key provided
+            serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
+                
 
                 // Lookup for the Platform services
                 // Connect to them...
@@ -101,7 +129,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         try {
                 comServices.init();
 
-                if (actionAdapter == null && parameterAdapter == null) {
+            if (actionAdapter != null || parameterAdapter != null) {
                     mcServices.init(
                             comServices,
                             actionAdapter,
@@ -124,7 +152,9 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             // Are the dynamic changes enabled?
             if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Loading previous configurations...");
-                this.loadConfigurations();
+                if (actionAdapter != null || parameterAdapter != null) {
+                    this.loadConfigurations();
+                }
             }
 
 

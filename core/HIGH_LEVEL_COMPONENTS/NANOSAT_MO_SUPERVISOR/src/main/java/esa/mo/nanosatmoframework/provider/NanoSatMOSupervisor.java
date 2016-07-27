@@ -20,6 +20,7 @@
  */
 package esa.mo.nanosatmoframework.provider;
 
+import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
@@ -46,7 +47,7 @@ import org.ccsds.moims.mo.mal.MALException;
  *
  * @author Cesar Coelho
  */
-public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider {
+public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
     private final static String PROVIDER_NAME = "NanoSat MO Supervisor";
     private final SMServicesProvider smServices = new SMServicesProvider();
@@ -62,7 +63,7 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
      * corresponding variable of a specific entity.
      * @param platformServices
      */
-    public NanoSatMOSupervisorImpl(ActionInvocationListener actionAdapter,
+    public NanoSatMOSupervisor(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter,
             PlatformServicesProviderInterface platformServices) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
@@ -86,13 +87,13 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
             this.directoryService.init(comServices);
             smServices.init(comServices, this.directoryService);
         } catch (MALException ex) {
-            Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
 
         // Populate the Directory service with the entries from the URIs File
-        Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.INFO, "Populating Directory service...");
+        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
         this.directoryService.autoLoadURIsFile(PROVIDER_NAME);
 
         // Are the dynamic changes enabled?
@@ -105,7 +106,7 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
 
         final String uri = this.directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         this.writeCentralDirectoryServiceURI(uri);
-        Logger.getLogger(NanoSatMOSupervisorImpl.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + uri + "\n");
+        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + uri + "\n");
 
     }
 
@@ -120,7 +121,7 @@ public abstract class NanoSatMOSupervisorImpl extends NanoSatMOFrameworkProvider
      * corresponding methods and variables of a specific entity.
      * @param platformServices
      */
-    public NanoSatMOSupervisorImpl(MonitorAndControlAdapter mcAdapter,
+    public NanoSatMOSupervisor(MonitorAndControlAdapter mcAdapter,
             PlatformServicesProviderInterface platformServices) {
         this(mcAdapter, mcAdapter, platformServices);
     }

@@ -303,6 +303,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     public void stopApp(LongList appInstIds, StopAppInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
+        UIntegerList intIndexList = new UIntegerList();
         URIList uris = new URIList();
 
         if (null == appInstIds) { // Is the input null?
@@ -327,7 +328,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 continue;
             }
 
-            // Define filter in order to get the Event service URI of the app
+            // Define the filter in order to get the Event service URI of the app
             Identifier serviceProviderName = new Identifier("App: " + app.getName());
             IdentifierList domain = new IdentifierList();
             domain.add(new Identifier("*"));
@@ -342,11 +343,15 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 // The app could not be found in the Directory service...
                 // Possible reasons: Not a NMF app, if so, one needs to use killApp!
                 // Throw error!
+                intIndexList.add(new UInteger(i)); // Throw an INVALID error
+                continue;
             }
 
             if (providersList.size() != 1) {
                 // Why do we have a bunch of registrations from the same App? Weirddddd...
                 // Throw error!
+                intIndexList.add(new UInteger(i)); // Throw an INVALID error
+                continue;
             }
 
             // Get the service address details lists
@@ -355,6 +360,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             // How many addresses do we have?
             if (addresses.isEmpty()) {
                 // Throw an error
+                intIndexList.add(new UInteger(i)); // Throw an INVALID error
+                continue;
             }
 
             if (addresses.size() == 1) {
@@ -366,12 +373,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Errors
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+
         if (!invIndexList.isEmpty()) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        if (!intIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.INTERNAL_ERROR_NUMBER, intIndexList));
         }
 
         interaction.sendAcknowledgement();
@@ -379,13 +390,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         Random random = new Random();
 
         // Register on the Event service with the Adapter
-        for (URI uri : uris){
+        for (URI uri : uris) {
             // Subscribe to events
             // Select all object numbers from the Apps Launcher service Events
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
             Subscription eventSub = ConnectionConsumer.subscriptionKeys(new Identifier("AppClosingEvent" + random.nextInt()), new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
 
             SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
+            connectionDetails.setProviderURI(uri);
+            connectionDetails.setBrokerURI((URI) null);
+            
             try {
                 EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(connectionDetails);
                 eventServiceConsumer.addEventReceivedListener(eventSub, new ClosingAppListener(interaction, eventServiceConsumer));
@@ -393,9 +407,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 //  Could not connect to the app!
                 Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-                       
+
         }
-        
+
         // Stop the apps...
         ObjectType objType = AppsLauncherHelper.STOPAPP_OBJECT_TYPE;
         ObjectIdList sourceList = new ObjectIdList();
@@ -432,40 +446,45 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     private URI getSingleURIfromList(AddressDetailsList addresses) {
-            // Well, if there are more than one, then it means we can pick...
-            // My preference would be, in order: tcp/ip, rmi, other, spp
-            // SPP is in last because usually this is the transport supposed
-            // to be used on the ground-to-space link and not internally.
-            StringList availableTransports = this.getAvailableTransports(addresses);
 
-            int index = this.getTransportIndex(availableTransports, "tcpip");
-            if (index != -1) {
-                return addresses.get(index).getServiceURI();
-            }
+        if (addresses.isEmpty()) {
+            return null;
+        }
+        // Well, if there are more than one, then it means we can pick...
+        // My preference would be, in order: tcp/ip, rmi, other, spp
+        // SPP is in last because usually this is the transport supposed
+        // to be used on the ground-to-space link and not internally.
+        StringList availableTransports = this.getAvailableTransports(addresses);
 
-            index = this.getTransportIndex(availableTransports, "rmi");
-            if (index != -1) {
-                return  addresses.get(index).getServiceURI();
-            }
+        int index = this.getTransportIndex(availableTransports, "tcpip");
+        if (index != -1) {
+            return addresses.get(index).getServiceURI();
+        }
 
-            index = this.getTransportIndex(availableTransports, "malspp");
+        index = this.getTransportIndex(availableTransports, "rmi");
+        if (index != -1) {
+            return addresses.get(index).getServiceURI();
+        }
 
-            // If could not be found nor it is not the first one
-            if (index == -1 || index != 0) { // Then let's pick the first one
-                return  addresses.get(0).getServiceURI();
-            } else {
-                // It was found and it is the first one (0)
-                // Then let's select the second (index == 1) transport available...
-                return  addresses.get(1).getServiceURI();
-            }
+        index = this.getTransportIndex(availableTransports, "malspp");
+
+        // If could not be found nor it is not the first one
+        if (index == -1 || index != 0) { // Then let's pick the first one
+            return addresses.get(0).getServiceURI();
+        } else {
+            // It was found and it is the first one (0)
+            // Then let's select the second (index == 1) transport available...
+            return addresses.get(1).getServiceURI();
+        }
     }
 
     // Create the listeners for the returned events
-    private class ClosingAppListener extends EventReceivedListener{
+    private class ClosingAppListener extends EventReceivedListener {
+
         private final StopAppInteraction interaction;
         private final EventConsumerServiceImpl eventService;
 
-        public ClosingAppListener(StopAppInteraction interaction, EventConsumerServiceImpl eventService){
+        public ClosingAppListener(StopAppInteraction interaction, EventConsumerServiceImpl eventService) {
             this.interaction = interaction;
             this.eventService = eventService;
         }
@@ -473,10 +492,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         @Override
         public void onDataReceived(EventCOMObject eventCOMObject) {
             // Is it the ack from the app?
-            
+
             // If so, then close the connection to the service
             eventService.closeConnection();
-            
+
             try { // Send response to consumer stating that the app is closing...
                 interaction.sendResponse();
             } catch (MALInteractionException ex) {
@@ -485,7 +504,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
 
     @Override
