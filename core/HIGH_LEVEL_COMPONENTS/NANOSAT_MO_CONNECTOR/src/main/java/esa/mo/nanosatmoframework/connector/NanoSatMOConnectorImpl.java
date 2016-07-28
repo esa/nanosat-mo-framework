@@ -30,8 +30,11 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
 import esa.mo.nanosatmoframework.provider.NanoSatMOFrameworkProvider;
+import esa.mo.sm.impl.provider.AppsLauncherManager;
+import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,13 +45,19 @@ import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
+import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
@@ -65,9 +74,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  */
 public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
-    private final static String PROVIDER_PREFIX_NAME = "App: ";
-    public final static String NANOSAT_MO_SUPERVISOR_FOLDER_NAME = "NanoSat_MO_Supervisor";
-    private Long appObjInstId = new Long(0);
+//    private Long appObjInstId = new Long(0);
     private Long appDirectoryServiceId;
     private EventConsumerServiceImpl serviceCOMEvent;
     private Subscription subscription;
@@ -87,7 +94,8 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
 
-        this.providerName = PROVIDER_PREFIX_NAME + System.getProperty(ConfigurationProvider.MO_APP_NAME);
+        // Create provider name to be registerd on the Directory service...
+        this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + System.getProperty(ConfigurationProvider.MO_APP_NAME);
         URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
         DirectoryConsumerServiceImpl directoryServiceConsumer = null;
         
@@ -95,16 +103,23 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             // Connect to the Central Directory service...
             directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
             
-            ServiceFilter filter = new ServiceFilter();
-            // To do, add the filtering conditions...
-            ProviderSummaryList supervisorConnectionDetails = directoryServiceConsumer.getDirectoryStub().lookupProvider(filter);
+            IdentifierList domain = new IdentifierList();
+            domain.add(new Identifier("*"));
+            COMService eventCOM = EventHelper.EVENT_SERVICE; // Filter for the Event service of the Supervisor
+            ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(), eventCOM.getNumber(), eventCOM.getArea().getVersion());
+            ServiceFilter sf = new ServiceFilter(new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME), domain, new Identifier("*"), null, new Identifier("*"), serviceKey, new UIntegerList());
+            ProviderSummaryList supervisorConnectionDetails = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf);
 
             // Register for CloseApp Events...
-            SingleConnectionDetails connectionDetails = null;
-            // To do, convert provider to connectionDetails...
-            serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
+            try {
+                // To do, convert provider to connectionDetails...
+                SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorConnectionDetails);
+                serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Something went wrong...");
+            }
                 
-                // Subscribe to all Events
+            // Subscribe to all Events
             // Select all object numbers from the Apps Launcher service Events
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
             final Random random = new Random();
@@ -128,16 +143,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
         try {
                 comServices.init();
-
-            if (actionAdapter != null || parameterAdapter != null) {
-                    mcServices.init(
-                            comServices,
-                            actionAdapter,
-                            parameterAdapter,
-                            null
-                    );
-                }
-
+                this.startMCServices(actionAdapter, parameterAdapter);
                 directoryService.init(comServices);
             } catch (MALException ex) {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
@@ -201,7 +207,10 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
     }
 
     public final URI readCentralDirectoryServiceURI() {
-        String path = ".." + File.separator + NANOSAT_MO_SUPERVISOR_FOLDER_NAME + File.separator + FILENAME_CENTRAL_DIRECTORY_SERVICE;
+        String path = ".." + File.separator + 
+                NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME + File.separator + 
+                FILENAME_CENTRAL_DIRECTORY_SERVICE;
+        
         File file = new File(path); // Select the file that we want to read from
 
         String line;
@@ -219,13 +228,9 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
         return null;
     }
-    
-    public final Long getAppObjInstId() {
-        return this.appObjInstId;
-    }
 
     public final Long getAppDirectoryId() {
-        return this.appObjInstId;
+        return this.appDirectoryServiceId;
     }
 
 }

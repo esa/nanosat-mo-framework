@@ -36,6 +36,10 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
+import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -43,6 +47,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
@@ -241,16 +246,16 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
 
             // It does exist. Are there any differences?
-            if (!previousAppDetails.equals(single_app)){
+            if (!previousAppDetails.equals(single_app)) {
                 // Then we have to update it...
-                
+
                 // Is it a difference just on the Running status?
-                if(previousAppDetails.getRunning().equals(single_app.getRunning())){
+                if (previousAppDetails.getRunning().equals(single_app.getRunning())) {
                     continue;
                 }
-                
+
                 this.update(id, single_app, connectionDetails, null);
-                
+
             }
         }
 
@@ -297,7 +302,6 @@ public class AppsLauncherManager extends DefinitionsManager {
         dfdfdf.directory(outDir);
         Process proc = dfdfdf.start();
          */
-        
         if (proc.isAlive()) {
             handlers.put(handler.getAppInstId(), handler);
             app.setRunning(true);
@@ -329,6 +333,107 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         return true;
 
+    }
+
+    public static SingleConnectionDetails getSingleConnectionDetailsFromProviderSummaryList(ProviderSummaryList providersList) throws IOException {
+
+        if (providersList.isEmpty()) { // Throw error!
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "The app could not be found in the Directory service... Possible reasons: Not a NMF app, if so, one needs to use killApp!");
+            throw new IOException();
+        }
+
+        if (providersList.size() != 1) { // Throw error!
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "Why do we have a bunch of registrations from the same App? Weirddddd...");
+            throw new IOException();
+        }
+
+        // Get the service address details lists
+        ServiceCapabilityList capabilities = providersList.get(0).getProviderDetails().getServiceCapabilities();
+
+        // How many addresses do we have?
+        if (capabilities.isEmpty()) { // Throw an error
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "We don't have any services...");
+            throw new IOException();
+        }
+
+        if (capabilities.size() != 1) {
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "We have more than 1 service...");
+            throw new IOException();
+        }
+
+        AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
+
+        try {
+            int bestIndex = AppsLauncherManager.getBestServiceAddressIndex(addresses);
+            SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
+            connectionDetails.setProviderURI(addresses.get(bestIndex).getServiceURI());
+            connectionDetails.setBrokerURI(addresses.get(bestIndex).getBrokerURI());
+            connectionDetails.setDomain(providersList.get(0).getProviderKey().getDomain());
+            return connectionDetails;
+        } catch (IOException ex) {
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        throw new IOException();
+    }
+
+    private static int getBestServiceAddressIndex(AddressDetailsList addresses) throws IOException {
+
+        if (addresses.isEmpty()) {
+            throw new IOException();
+        }
+
+        if (addresses.size() == 1) { // Well, there is only one...
+            return 0;
+        }
+
+        // Well, if there are more than one, then it means we can pick...
+        // My preference would be, in order: tcp/ip, rmi, other, spp
+        // SPP is in last because usually this is the transport supposed
+        // to be used on the ground-to-space link and not internally.
+        StringList availableTransports = AppsLauncherManager.getAvailableTransports(addresses);
+
+        int index = AppsLauncherManager.getTransportIndex(availableTransports, "tcpip");
+        if (index != -1) {
+            return index;
+        }
+
+        index = AppsLauncherManager.getTransportIndex(availableTransports, "rmi");
+        if (index != -1) {
+            return index;
+        }
+
+        index = AppsLauncherManager.getTransportIndex(availableTransports, "malspp");
+
+        // If could not be found nor it is not the first one
+        if (index == -1 || index != 0) { // Then let's pick the first one
+            return 0;
+        } else {
+            // It was found and it is the first one (0)
+            // Then let's select the second (index == 1) transport available...
+            return 1;
+        }
+    }
+
+    private static StringList getAvailableTransports(AddressDetailsList addresses) {
+        StringList transports = new StringList(); // List of transport names
+
+        for (AddressDetails address : addresses) {
+            // The name of the transport is always before ":"
+            String[] parts = address.getServiceURI().toString().split(":");
+            transports.add(parts[0]);
+        }
+
+        return transports;
+    }
+
+    private static int getTransportIndex(StringList transports, String findString) {
+        for (int i = 0; i < transports.size(); i++) {
+            if (findString.equals(transports.get(i))) {
+                return i;  // match
+            }
+        }
+        return -1;
     }
 
 }

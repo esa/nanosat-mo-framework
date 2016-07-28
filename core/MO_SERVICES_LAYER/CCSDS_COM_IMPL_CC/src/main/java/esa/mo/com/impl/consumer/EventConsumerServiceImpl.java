@@ -167,8 +167,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        try {
-            // Register with the subscription key provided
+        try {  // Register with the subscription key provided
             this.getEventStub().monitorEventRegister(subscription, new EventReceivedAdapter());
             subs.add(subscription);
         } catch (MALInteractionException ex) {

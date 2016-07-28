@@ -26,6 +26,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.mc.impl.provider.ParameterManager;
+import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import java.util.logging.Level;
@@ -69,7 +70,11 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
 
         try {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.FINE, "Initializing services...");
-            this.servicesInit(actionAdapter, parameterAdapter);
+
+            comServices.init();
+            this.startMCServices(actionAdapter, parameterAdapter);
+            this.initPlatformServices();
+            directoryService.init(comServices);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE,
                     "The services could not be initialized. Perhaps there's something wrong with the selected Transport Layer.", ex);
@@ -83,7 +88,9 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
-            this.loadConfigurations();
+            if (actionAdapter != null || parameterAdapter != null) {
+                this.loadConfigurations();
+            }
         }
 
         final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
@@ -105,34 +112,6 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
     public NanoSatMOMonolithic(MonitorAndControlAdapter mcAdapter,
             PlatformServicesProviderInterface platformServices) {
         this(mcAdapter, mcAdapter, platformServices);
-    }
-
-    private void servicesInit(ActionInvocationListener actionAdapter,
-            ParameterStatusListener parameterAdapter) throws MALException {
-        comServices.init();
-
-        /*
-            mcServices.init(
-                    comServices,
-                    actionAdapter,
-                    parameterAdapter,
-                    null
-            );
-         */
-        
-        if (actionAdapter == null && parameterAdapter == null) {
-            parameterManager = new ParameterManager(comServices, parameterAdapter);
-            mcServices.getParameterService().init(parameterManager);
-
-            mcServices.getActionService().init(comServices, actionAdapter);
-            mcServices.getAlertService().init(comServices);
-            mcServices.getAggregationService().init(comServices, parameterManager);
-
-        }
-
-        this.initPlatformServices();
-        directoryService.init(comServices);
-
     }
 
 }

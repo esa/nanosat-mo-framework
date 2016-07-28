@@ -25,6 +25,7 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
 import esa.mo.nanosatmoframework.interfaces.CloseAppListener;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
@@ -49,7 +50,6 @@ import org.ccsds.moims.mo.mal.MALException;
  */
 public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
-    private final static String PROVIDER_NAME = "NanoSat MO Supervisor";
     private final SMServicesProvider smServices = new SMServicesProvider();
 
     /**
@@ -73,16 +73,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
         try {
             this.comServices.init();
-
-            if (actionAdapter != null || parameterAdapter != null) {
-                this.mcServices.init(
-                        comServices,
-                        actionAdapter,
-                        parameterAdapter,
-                        null
-                );
-            }
-
+            this.startMCServices(actionAdapter, parameterAdapter);
             this.initPlatformServices();
             this.directoryService.init(comServices);
             smServices.init(comServices, this.directoryService);
@@ -94,7 +85,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
-        this.directoryService.autoLoadURIsFile(PROVIDER_NAME);
+        this.directoryService.autoLoadURIsFile(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME);
 
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {

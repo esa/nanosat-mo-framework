@@ -26,6 +26,8 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.mc.impl.interfaces.ActionInvocationListener;
+import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.nanosatmoframework.adapters.MCStoreLastConfigurationAdapter;
@@ -44,6 +46,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -64,17 +67,17 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     public final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     public final static String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
+    public final static String NANOSAT_MO_SUPERVISOR_NAME = "NanoSat_MO_Supervisor";
     public final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
     public final ConfigurationProvider configuration = new ConfigurationProvider();
     public final COMServicesProvider comServices = new COMServicesProvider();
-    public final MCServicesProvider mcServices = new MCServicesProvider();
+    public MCServicesProvider mcServices;
     public ParameterManager parameterManager;
     public PlatformServicesProviderInterface platformServices;
     public final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     public CloseAppListener closeAppAdapter = null;
     public ConfigurationNotificationInterface providerConfigurationAdapter = null;
     public String providerName;
-
 
     @Override
     public COMServicesProvider getCOMServices() {
@@ -94,8 +97,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     @Override
     public void reportActionExecutionProgress(final boolean success, final int errorNumber,
             final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws IOException {
-        if (this.getMCServices().getActionService() == null){  // BUG: the object exists but the init was not done!!! The comparison cannot be with null!
-            throw new IOException("The Action service was not initialized!");
+        if (this.getMCServices() == null) {
+            throw new IOException("The M&C services were not initialized!");
         }
 
         this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
@@ -103,17 +106,17 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     @Override
     public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) throws IOException {
-        if (this.getMCServices().getAlertService() == null){  // BUG: the object exists but the init was not done!!! The comparison cannot be with null!
-            throw new IOException("The Alert service was not initialized!");
+        if (this.getMCServices() == null) {
+            throw new IOException("The M&C services were not initialized!");
         }
-        
+
         return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName), argumentValues, null, null);
     }
 
     @Override
     public Boolean pushParameterValue(final String name, final Serializable content) throws IOException {
-        if (this.getMCServices().getParameterService() == null){  // BUG: the object exists but the init was not done!!! The comparison cannot be with null!
-            throw new IOException("The Parameter service was not initialized!");
+        if (this.getMCServices() == null) {
+            throw new IOException("The M&C services were not initialized!");
         }
 
         // Convert to MAL type if possible
@@ -130,7 +133,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
         return this.getMCServices().getParameterService().pushSingleParameterValueAttribute(new Identifier(name), (Attribute) obj, null, null);
     }
-    
+
     private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) {
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
@@ -150,37 +153,52 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         // Reload the previous Configuration
         service.reloadConfiguration(configurationObjectDetails);
     }
-        
+
     public abstract void initPlatformServices();
 
     public final void loadConfigurations() {
-            // Activate the previous configuration
-            ObjectId confId = new ObjectId();  // Select the default configuration
-            confId.setKey(new ObjectKey(configuration.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
-            confId.setType(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE);
+        // Activate the previous configuration
+        ObjectId confId = new ObjectId();  // Select the default configuration
+        confId.setKey(new ObjectKey(configuration.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+        confId.setType(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE);
 
-            /*---------------------------------------------------*/
-            // Create the adapter that stores the configurations "onChange"
-            MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
+        /*---------------------------------------------------*/
+        // Create the adapter that stores the configurations "onChange"
+        MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
 
-            // Reload the previous Configurations
-            this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getParameterService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_PARAMETER_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getAlertService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ALERT_SERVICE);
+        // Reload the previous Configurations
+        this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
+        this.reloadServiceConfiguration(mcServices.getParameterService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_PARAMETER_SERVICE);
+        this.reloadServiceConfiguration(mcServices.getAlertService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ALERT_SERVICE);
 //            this.reloadServiceConfiguration(mcServices.getCheckService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_CHECK_SERVICE);
 //            this.reloadServiceConfiguration(mcServices.getStatisticService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_STATISTIC_SERVICE);
-            this.reloadServiceConfiguration(mcServices.getAggregationService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_AGGREGATION_SERVICE);
+        this.reloadServiceConfiguration(mcServices.getAggregationService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_AGGREGATION_SERVICE);
 
-            // Send the adapter into each service to save configuration changes when they happen
-            mcServices.getActionService().setConfigurationAdapter(confAdapter);
-            mcServices.getParameterService().setConfigurationAdapter(confAdapter);
-            mcServices.getAlertService().setConfigurationAdapter(confAdapter);
+        // Send the adapter into each service to save configuration changes when they happen
+        mcServices.getActionService().setConfigurationAdapter(confAdapter);
+        mcServices.getParameterService().setConfigurationAdapter(confAdapter);
+        mcServices.getAlertService().setConfigurationAdapter(confAdapter);
 //            mcServices.getCheckService().setConfigurationAdapter(confAdapter);
 //            mcServices.getStatisticService().setConfigurationAdapter(confAdapter);
-            mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
+        mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
 
     }
-    
+
+    public final void startMCServices(ActionInvocationListener actionAdapter,
+            ParameterStatusListener parameterAdapter) throws MALException {
+        if (actionAdapter != null || parameterAdapter != null) {
+            mcServices = new MCServicesProvider();
+
+            parameterManager = new ParameterManager(comServices, parameterAdapter);
+            mcServices.getParameterService().init(parameterManager);
+
+            mcServices.getActionService().init(comServices, actionAdapter);
+            mcServices.getAlertService().init(comServices);
+            mcServices.getAggregationService().init(comServices, parameterManager);
+        }
+
+    }
+
     @Override
     public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
         this.providerConfigurationAdapter = configurationAdapter;
@@ -189,34 +207,31 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     @Override
     public ArrayList<ReconfigurableServiceImplInterface> getServices() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+
 //        you need a list of services here...
-        
     }
 
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+
 //        you also need to plug the current configuration here...
 //        for our case, we have only a single configuration that never changes...
-        
     }
 
     @Override
     public ConfigurationObjectDetails getCurrentConfiguration() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+
 //        you need to implement the getter for the current configuration
 //        Also, you will also retrieve the same because we have a single one
-        
     }
 
     @Override
     public Identifier getProviderName() {
         return new Identifier(this.providerName);
     }
-    
+
     @Override
     public void addCloseAppListener(CloseAppListener closeAppAdapter) {
         this.closeAppAdapter = closeAppAdapter;
@@ -225,5 +240,5 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public CloseAppListener getCloseAppListener() {
         return this.closeAppAdapter;
     }
-    
+
 }

@@ -73,7 +73,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     private boolean initialiased = false;
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private Long uniqueObjIdKey = (long) 0;
     private final HashMap<Long, PublishDetails> providersAvailable = new HashMap<Long, PublishDetails>();
     private COMServicesProvider comServices;
 
@@ -156,11 +155,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             }
         }
-
-/*
-        PublishDetailsList allProviders = new PublishDetailsList();
-        allProviders.addAll(providersAvailable.values());
-*/
         
         LongList keys = new LongList();
         keys.addAll(providersAvailable.keySet());
@@ -169,7 +163,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         ProviderSummaryList outputList = new ProviderSummaryList();
 
         // Filter...
-//        for (PublishDetails provider : allProviders) { // Filter through all providers
         for (int i = 0; i < keys.size() ; i++) { // Filter through all providers
 
             PublishDetails provider = providersAvailable.get(keys.get(i));
@@ -214,7 +207,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             outProvDetails.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
             
             ServiceCapabilityList outCap = new ServiceCapabilityList();
-            
+
             // Check each service
             for (int j = 0; j < provider.getProviderDetails().getServiceCapabilities().size(); j++) { // Go through all the services
 
@@ -237,7 +230,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
                 // Check service key - version field
                 if (filter.getServiceKey().getVersion().getValue() != 0) {
-                    if (!serviceCapability.getServiceKey().getVersion().equals(filter.getServiceKey().getVersion().getValue())) {
+                    if (!serviceCapability.getServiceKey().getVersion().equals(filter.getServiceKey().getVersion())) {
                         continue;
                     }
                 }
@@ -262,7 +255,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 
                 // Add the service to the list of matching services
                 outCap.add(serviceCapability);
-                
             }
 
             // It passed all the tests!
@@ -319,7 +311,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 null
         );
 
-        Long servProvObjId = (long) 0;
+        Long servProvObjId;
 
         if (!returnedServProvObjIds.isEmpty()) {
             servProvObjId = returnedServProvObjIds.get(0);
@@ -327,13 +319,10 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
-        ArchiveDetailsList archDetails1;
-
-        if (interaction == null) {  // related contains the objId of the ServiceProvider object
-            archDetails1 = HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getConnectionDetails());
-        } else {
-            archDetails1 = HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
-        }
+        // related contains the objId of the ServiceProvider object
+        ArchiveDetailsList archDetails1 = (interaction == null) ? 
+                HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getConnectionDetails()) : 
+                HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
 
         ProviderDetailsList capabilities = new ProviderDetailsList();
         capabilities.add(newProviderDetails.getProviderDetails());
@@ -351,13 +340,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         this.providersAvailable.put(servProvObjId, newProviderDetails);
 
         return servProvObjId;
-
     }
 
     @Override
     public void withdrawProvider(Long providerObjectKey, MALInteraction interaction) throws MALInteractionException, MALException {
 
-        PublishDetails details = providersAvailable.get(providerObjectKey);
+        PublishDetails details = this.providersAvailable.get(providerObjectKey);
 
         if (details == null) { // The requested provider does not exist
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));

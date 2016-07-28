@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -56,6 +57,7 @@ import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
@@ -80,7 +82,6 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.URIList;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
@@ -101,6 +102,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsL
  */
 public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements ReconfigurableServiceImplInterface {
 
+    public final static String PROVIDER_PREFIX_NAME = "App: ";
     private MALProvider appsLauncherServiceProvider;
     private MonitorExecutionPublisher publisher;
     private boolean initialiased = false;
@@ -304,7 +306,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList intIndexList = new UIntegerList();
-        URIList uris = new URIList();
+        ArrayList<SingleConnectionDetails> appConnections = new ArrayList<SingleConnectionDetails>();
 
         if (null == appInstIds) { // Is the input null?
             throw new IllegalArgumentException("appInstIds argument must not be null");
@@ -329,7 +331,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             }
 
             // Define the filter in order to get the Event service URI of the app
-            Identifier serviceProviderName = new Identifier("App: " + app.getName());
+            Identifier serviceProviderName = new Identifier(PROVIDER_PREFIX_NAME + app.getName());
             IdentifierList domain = new IdentifierList();
             domain.add(new Identifier("*"));
             COMService eventCOM = EventHelper.EVENT_SERVICE;
@@ -338,40 +340,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
             // Do a lookup on the Central Drectory service for the app that we want
             ProviderSummaryList providersList = this.directoryService.lookupProvider(sf, interaction.getInteraction());
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "Size " + providersList.size());
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "providersList " + providersList.toString());
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER, "providersList object: " + providersList.toString());
 
-            if (providersList.isEmpty()) {
-                // The app could not be found in the Directory service...
-                // Possible reasons: Not a NMF app, if so, one needs to use killApp!
-                // Throw error!
+            try {
+                SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
+                appConnections.add(connectionDetails);
+            } catch (IOException ex) {
                 intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
-                continue;
             }
-
-            if (providersList.size() != 1) {
-                // Why do we have a bunch of registrations from the same App? Weirddddd...
-                // Throw error!
-                intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
-                continue;
-            }
-
-            // Get the service address details lists
-            AddressDetailsList addresses = providersList.get(0).getProviderDetails().getProviderAddresses();
-
-            // How many addresses do we have?
-            if (addresses.isEmpty()) {
-                // Throw an error
-                intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
-                continue;
-            }
-
-            if (addresses.size() == 1) {
-                uris.add(addresses.get(0).getServiceURI()); // Direct match!
-                continue;
-            }
-
-            uris.add(this.getSingleURIfromList(addresses)); // If we have multiple ones...
         }
 
         // Errors
@@ -392,24 +368,18 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         Random random = new Random();
 
         // Register on the Event service with the Adapter
-        for (URI uri : uris) {
+        for (SingleConnectionDetails appConnection : appConnections) {
             // Subscribe to events
             // Select all object numbers from the Apps Launcher service Events
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
             Subscription eventSub = ConnectionConsumer.subscriptionKeys(new Identifier("AppClosingEvent" + random.nextInt()), new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
 
-            SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
-            connectionDetails.setProviderURI(uri);
-            connectionDetails.setBrokerURI((URI) null);
-            
             try {
-                EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(connectionDetails);
+                EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnection);
                 eventServiceConsumer.addEventReceivedListener(eventSub, new ClosingAppListener(interaction, eventServiceConsumer));
             } catch (MalformedURLException ex) {
-                //  Could not connect to the app!
-                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, "Could not connect to the app!");
             }
-
         }
 
         // Stop the apps...
@@ -424,60 +394,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         LongList objIds = comServices.getEventService().generateAndStoreEvents(objType, connection.getConnectionDetails().getDomain(), appInstIds, sourceList, interaction.getInteraction());
         comServices.getEventService().publishEvents(connection.getConnectionDetails().getProviderURI(), objIds, objType, appInstIds, sourceList, null);
 
-    }
-
-    private StringList getAvailableTransports(AddressDetailsList addresses) {
-        StringList transports = new StringList(); // List of transport names
-
-        for (AddressDetails address : addresses) {
-            // The name of the transport is always before ":"
-            String[] parts = address.getServiceURI().toString().split(":");
-            transports.add(parts[0]);
-        }
-
-        return transports;
-    }
-
-    private int getTransportIndex(StringList transports, String findString) {
-        for (int i = 0; i < transports.size(); i++) {
-            if (findString.equals(transports.get(i))) {
-                return i;  // match
-            }
-        }
-        return -1;
-    }
-
-    private URI getSingleURIfromList(AddressDetailsList addresses) {
-
-        if (addresses.isEmpty()) {
-            return null;
-        }
-        // Well, if there are more than one, then it means we can pick...
-        // My preference would be, in order: tcp/ip, rmi, other, spp
-        // SPP is in last because usually this is the transport supposed
-        // to be used on the ground-to-space link and not internally.
-        StringList availableTransports = this.getAvailableTransports(addresses);
-
-        int index = this.getTransportIndex(availableTransports, "tcpip");
-        if (index != -1) {
-            return addresses.get(index).getServiceURI();
-        }
-
-        index = this.getTransportIndex(availableTransports, "rmi");
-        if (index != -1) {
-            return addresses.get(index).getServiceURI();
-        }
-
-        index = this.getTransportIndex(availableTransports, "malspp");
-
-        // If could not be found nor it is not the first one
-        if (index == -1 || index != 0) { // Then let's pick the first one
-            return addresses.get(0).getServiceURI();
-        } else {
-            // It was found and it is the first one (0)
-            // Then let's select the second (index == 1) transport available...
-            return addresses.get(1).getServiceURI();
-        }
     }
 
     // Create the listeners for the returned events

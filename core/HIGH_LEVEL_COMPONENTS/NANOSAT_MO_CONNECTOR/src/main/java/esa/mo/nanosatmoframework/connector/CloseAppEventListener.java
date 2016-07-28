@@ -46,6 +46,8 @@ public class CloseAppEventListener extends EventReceivedListener {
     @Override
     public void onDataReceived(EventCOMObject eventCOMObject) {
         
+        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "New Close Event Received!");
+
         // Make sure that it is indeed a Close App event for us!
         // Even thought the subscription will guarantee that...
 
@@ -64,6 +66,7 @@ public class CloseAppEventListener extends EventReceivedListener {
 
         // Make a call on the app layer to close nicely...
         if(provider.closeAppAdapter != null){
+            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "Sending event to app business-logic layer...");
             provider.closeAppAdapter.onClose(); // Time to sleep, boy!
         }
         
@@ -78,7 +81,7 @@ public class CloseAppEventListener extends EventReceivedListener {
         } catch (MalformedURLException ex) {
             Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Could not connect to the Central Directory service on URI: " + centralDirectoryURI.getValue() + "\n" + ex);
         }
         
         // Should close them safely as well...
@@ -86,8 +89,8 @@ public class CloseAppEventListener extends EventReceivedListener {
 //        provider.getMCServices().closeServices();
 
         // Exit the Java application
+        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "Success! The currently running Java Virtual Machine will now terminate.");
         System.exit(0);
-        
 
     }
     
