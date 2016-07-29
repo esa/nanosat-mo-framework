@@ -208,11 +208,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         return this.connection;
     }
 
-    @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
-        this.configurationAdapter = configurationAdapter;
-    }
-
     private void publishParameterUpdate(final Long objId) {
         try {
             if (!isRegistered) {
@@ -614,38 +609,30 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }    
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
-
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties) throws MALException {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
-        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties)
-                throws MALException {
+        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
-//            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterAckReceived");
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties) throws MALException {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header,
-                final MALErrorBody body,
-                final Map qosProperties)
-                throws MALException {
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 
     private class PeriodicReportingManager { // requirement: 3.3.2.1a
 
-        private HashMap<Long, Timer> timerList; // Timers list
+        private final HashMap<Long, Timer> timerList; // Timers list
         boolean active = false; // Flag that determines if the Manager publishes or not
 
         public PeriodicReportingManager() {
@@ -977,6 +964,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     }
     
+    @Override
+    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+        this.configurationAdapter = configurationAdapter;
+    }
+
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
         // Validate the returned configuration...

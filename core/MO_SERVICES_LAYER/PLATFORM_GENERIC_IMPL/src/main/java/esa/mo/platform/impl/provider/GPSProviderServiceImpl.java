@@ -21,11 +21,27 @@
 package esa.mo.platform.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
-
+import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.platform.impl.util.PositionsCalculator;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
+import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -33,9 +49,26 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.DurationList;
+import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.EntityKey;
+import org.ccsds.moims.mo.mal.structures.EntityKeyList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.QoSLevel;
+import org.ccsds.moims.mo.mal.structures.SessionType;
+import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.UpdateType;
+import org.ccsds.moims.mo.mal.transport.MALErrorBody;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
@@ -43,19 +76,28 @@ import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.gps.provider.GetNMEASentenceInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.GetPositionInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.GetSatellitesInfoInteraction;
+import org.ccsds.moims.mo.platform.gps.provider.NearbyPositionPublisher;
+import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinition;
+import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.PositionList;
 
 /**
  *
  */
-public class GPSProviderServiceImpl extends GPSInheritanceSkeleton {
+public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements ReconfigurableServiceImplInterface{
 
     private MALProvider gpsServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
+    private NearbyPositionPublisher publisher;
+    private boolean isRegistered = false;
+    private GPSManager manager;
+    private PeriodicReportingManager periodicReporting;
     private final ConnectionProvider connection = new ConnectionProvider();
+    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private GPSAdapterInterface adapter;
+    private ConfigurationNotificationInterface configurationAdapter;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -86,14 +128,24 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton {
             }
         }
 
+        publisher = createNearbyPositionPublisher(configuration.getDomain(),
+                configuration.getNetwork(),
+                SessionType.LIVE,
+                new Identifier("LIVE"),
+                QoSLevel.BESTEFFORT,
+                null,
+                new UInteger(0));
+       
         // Shut down old service transport
         if (null != gpsServiceProvider) {
             connection.close();
         }
 
         this.adapter = adapter;
-        gpsServiceProvider = connection.startService(GPSHelper.GPS_SERVICE_NAME.toString(), GPSHelper.GPS_SERVICE, false, this);
+        gpsServiceProvider = connection.startService(GPSHelper.GPS_SERVICE_NAME.toString(), GPSHelper.GPS_SERVICE, this);
 
+        periodicReporting = new PeriodicReportingManager();
+        periodicReporting.init();
         running = true;
         initialiased = true;
         Logger.getLogger(GPSProviderServiceImpl.class.getName()).info("GPS service READY");
@@ -115,6 +167,48 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton {
         }
     }
 
+    private void publishNearbyPositionUpdate(final Long objId, final Boolean isInside) {
+        try {
+            if (!isRegistered) {
+                final EntityKeyList lst = new EntityKeyList();
+                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                publisher.register(lst, new PublishInteractionListener());
+
+                isRegistered = true;
+            }
+
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.FINER,
+                    "Generating GPS Nearby Position update for: {0} (Identifier: {1})",
+                    new Object[]{
+                        objId, new Identifier(manager.get(objId).getName().toString())
+                    });
+
+//            final Long pValObjId = manager.storeAndGeneratePValobjId(parameterValue, objId, connection.getConnectionDetails());
+
+            final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, null, null);
+            final Time timestamp = HelperTime.getTimestampMillis();
+
+            final UpdateHeaderList hdrlst = new UpdateHeaderList();
+            hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
+
+            DurationList durationList = new DurationList();
+            durationList.add(new Duration(0));
+            IdentifierList idList = new IdentifierList();
+            idList.add(manager.get(objId).getName());
+            BooleanList bools = new BooleanList();
+            bools.add(isInside);
+            
+            publisher.publish(hdrlst, idList, bools, durationList);
+
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+        } catch (MALException ex) {
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+        }
+    }    
+    
     @Override
     public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction) throws MALInteractionException, MALException {
 
@@ -134,7 +228,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton {
         Position position = new Position();  // Get it from the position that is being polled
 
         
-        //<<<<<<<<<<<<<<<<<<<<<
+        // <<<<<<<<<<<<<<<<<<<<<
         response.setBodyElement0(position);      
         //Measuring time for command
         double elapsedTime = (System.currentTimeMillis() - startTime) * 1000;
@@ -158,17 +252,282 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton {
 
     @Override
     public LongList listNearbyPosition(IdentifierList names, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new MALInteractionException(new MALStandardError(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));
+        LongList outLongLst = new LongList();
+
+        if (null == names) { // Is the input null?
+            throw new IllegalArgumentException("names argument must not be null");
+        }
+
+        for (Identifier attitudeName : names) {
+            // Check for the wildcard
+            if (attitudeName.toString().equals("*")) {
+                outLongLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
+                outLongLst.addAll(manager.listAll()); // ... add all in a row
+                break;
+            }
+
+            outLongLst.add(manager.list(attitudeName));
+        }
+
+        // Errors
+        // The operation does not return any errors.
+        return outLongLst; 
     }
 
     @Override
-    public LongList addNearbyPosition(PositionList nearbyPosition, IdentifierList names, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new MALInteractionException(new MALStandardError(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));
+    public LongList addNearbyPosition(NearbyPositionDefinitionList nearbyPositionDefinitions, MALInteraction interaction) throws MALInteractionException, MALException {
+        LongList outLongLst = new LongList();
+        UIntegerList invIndexList = new UIntegerList();
+        UIntegerList dupIndexList = new UIntegerList();
+        NearbyPositionDefinition def;
+
+        if (null == nearbyPositionDefinitions) { // Is the input null?
+            throw new IllegalArgumentException("v argument must not be null");
+        }
+
+        for (int index = 0; index < nearbyPositionDefinitions.size(); index++) {
+            def = nearbyPositionDefinitions.get(index);
+            Identifier name = def.getName();
+
+            // Check if the name field of the AttitudeDefinition is invalid.
+            if (name == null
+                    || name.equals(new Identifier("*"))
+                    || name.equals(new Identifier(""))) {
+                invIndexList.add(new UInteger(index));
+            }
+
+            if (manager.list(name) == null) { // Is the supplied name unique?
+                ObjectId source = manager.storeCOMOperationActivity(interaction);
+                outLongLst.add(manager.add(def, source, connection.getConnectionDetails()));
+            } else {
+                dupIndexList.add(new UInteger(index)); //  requirement: 3.4.10.2.c
+            }
+        }
+
+        // Errors
+        if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
+            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+        }
+
+        if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        }
+
+        if (configurationAdapter != null){
+            configurationAdapter.configurationChanged(this);
+        }
+
+        return outLongLst;    
     }
 
     @Override
     public void removeNearbyPosition(LongList objInstIds, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new MALInteractionException(new MALStandardError(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));
+        UIntegerList unkIndexList = new UIntegerList();
+        Long tempLong;
+        LongList tempLongLst = new LongList();
+
+        if (null == objInstIds) { // Is the input null?
+            throw new IllegalArgumentException("objInstIds argument must not be null");
+        }
+
+        for (int index = 0; index < objInstIds.size(); index++) {
+            tempLong = objInstIds.get(index);
+
+            if (tempLong == 0) {  // Is it the wildcard '0'?
+                tempLongLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
+                tempLongLst.addAll(manager.listAll()); // ... add all in a row
+                break;
+            }
+
+            if (manager.exists(tempLong)) { // Does it match an existing definition?
+                tempLongLst.add(tempLong);
+            } else {
+                unkIndexList.add(new UInteger(index));
+            }
+        }
+
+        // Errors
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+
+        for (Long tempLong2 : tempLongLst) {
+            manager.delete(tempLong2);  // COM archive is left untouched.
+        }
+
+        if (configurationAdapter != null){
+            configurationAdapter.configurationChanged(this);
+        }
     }
+
+    public static final class PublishInteractionListener implements MALPublishInteractionListener {
+        @Override
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishDeregisterAckReceived");
+        }
+
+        @Override
+        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
+        }
+
+        @Override
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
+        }
+
+        @Override
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
+        }
+    }    
+    
+    @Override
+    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+        this.configurationAdapter = configurationAdapter;
+    }
+
+    @Override
+    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+        // Validate the returned configuration...
+        if(configurationObjectDetails == null){
+            return false;
+        }
+
+        if(configurationObjectDetails.getConfigObjects() == null){
+            return false;
+        }
+
+        // Is the size 1?
+        if (configurationObjectDetails.getConfigObjects().size() != 1) {  // 1 because we just have NearbyPosition as configuration objects in this service
+            return false;
+        }
+
+        ConfigurationObjectSet confSet = configurationObjectDetails.getConfigObjects().get(0);
+
+        // Confirm the objType
+        if (!confSet.getObjType().equals(GPSHelper.NEARBYPOSITION_OBJECT_TYPE)) {
+            return false;
+        }
+
+        // Confirm the domain
+        if (!confSet.getDomain().equals(configuration.getDomain())) {
+            return false;
+        }
+        
+        // If the list is empty, reconfigure the service with nothing...
+        if(confSet.getObjInstIds().isEmpty()){
+            manager.reconfigureDefinitions(new LongList(), new PositionList());   // Reconfigures the Manager
+            return true;
+        }
+
+        // ok, we're good to go...
+        // Load the Parameter Definitions from this configuration...
+        PositionList pDefs = (PositionList) HelperArchive.getObjectBodyListFromArchive(
+                manager.getArchiveService(),
+                GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
+                configuration.getDomain(),
+                confSet.getObjInstIds());
+
+        manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
+
+        return true;
+    }
+
+    @Override
+    public ConfigurationObjectDetails getCurrentConfiguration() {
+        // Get all the current objIds in the serviceImpl
+        // Create a Configuration Object with all the objs of the provider
+        HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
+
+        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
+        objsSet.setDomain(configuration.getDomain());
+        LongList currentObjIds = new LongList();
+        currentObjIds.addAll(defObjs.keySet());
+        objsSet.setObjInstIds(currentObjIds);
+        objsSet.setObjType(GPSHelper.NEARBYPOSITION_OBJECT_TYPE);
+
+        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
+        list.add(objsSet);
+
+        // Needs the Common API here!
+        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
+        set.setConfigObjects(list);
+
+        return set;    
+    }
+
+    @Override
+    public COMService getCOMService() {
+        return GPSHelper.GPS_SERVICE;
+    }
+    
+    
+    private class PeriodicReportingManager {
+
+        private final Timer timer;
+        boolean active = false; // Flag that determines if publishes or not
+        private static final int PERIOD = 5000; // 5 Seconds
+
+        public PeriodicReportingManager() {
+            timer = new Timer();
+        }
+
+        public void start() {
+            active = true;
+        }
+
+        public void pause() {
+            active = false;
+        }
+
+        public void init() {  
+            active = true; // set active flag to true
+            
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    if (active) {
+                        // Do: get the current value from the GPS unit
+                        Position currentPos = adapter.getCurrentPosition();
+                        
+                        // Compare with all the available definitions and raise 
+                        // NearbyPositionAlerts in case something has changed
+                        LongList ids = manager.listAll();
+                        
+                        for (int i = 0; i < ids.size(); i++){
+                            Long objId = ids.get(i);
+                            NearbyPositionDefinition def = manager.get(objId);
+                            Boolean previousState = manager.getPreviousStatus(objId);
+
+                            try {
+                                double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(), currentPos);
+                                boolean isInside = (distance < def.getDistanceBoundary());
+                            
+                                if (previousState == null){ // Maybe it's the first run...
+                                    manager.setPreviousStatus(objId, isInside);
+                                    continue;
+                                }
+                                
+                                // If the status changed, then publish a Nearby Event
+                                if (previousState != isInside){
+                                    publishNearbyPositionUpdate(objId, isInside);
+                                    manager.setPreviousStatus(objId, isInside);
+                                }
+                            } catch (IOException ex) {
+                                Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
+            }, PERIOD, PERIOD);
+        }
+
+
+    }
+    
 
 }

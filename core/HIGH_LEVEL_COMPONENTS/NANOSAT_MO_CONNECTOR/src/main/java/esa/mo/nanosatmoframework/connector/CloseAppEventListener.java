@@ -56,8 +56,8 @@ public class CloseAppEventListener extends EventReceivedListener {
             return; // If not, get out..
         }
 
-
         // Acknowledge the reception of the request to close (Closing...)
+        // To be done...
         
 //        Long eventId = provider.getCOMServices().getEventService().generateAndStoreEvent(objType, domain, eventObjBody, Long.MIN_VALUE, source, interaction);
 //        provider.getCOMServices().getEventService().publishEvent(interaction, Long.MIN_VALUE, objType, Long.MIN_VALUE, source, eventBodies);
@@ -66,7 +66,7 @@ public class CloseAppEventListener extends EventReceivedListener {
 
         // Make a call on the app layer to close nicely...
         if(provider.closeAppAdapter != null){
-            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "Sending event to app business-logic layer...");
+            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "Triggering the closeAppAdapter of the app business logic...");
             provider.closeAppAdapter.onClose(); // Time to sleep, boy!
         }
         
@@ -81,7 +81,7 @@ public class CloseAppEventListener extends EventReceivedListener {
         } catch (MalformedURLException ex) {
             Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Could not connect to the Central Directory service on URI: " + centralDirectoryURI.getValue() + "\n" + ex);
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "There was a problem while connectin to the Central Directory service on URI: " + centralDirectoryURI.getValue() + "\nException: " + ex);
         }
         
         // Should close them safely as well...
