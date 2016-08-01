@@ -195,7 +195,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         if (serviceImpl instanceof AlertProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_ALERT_SERVICE);
         }
-
+/*
         if (serviceImpl instanceof CheckProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_CHECK_SERVICE);
         }
@@ -203,21 +203,28 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         if (serviceImpl instanceof StatisticProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_STATISTIC_SERVICE);
         }
-
+*/
         if (serviceImpl instanceof AggregationProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_AGGREGATION_SERVICE);
         }
     }
 
     private void updateConfigurationInArchive(ReconfigurableServiceImplInterface serviceImpl, Long objId) {
+        
+        long startTime = System.currentTimeMillis();
+        
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
                 ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), objId);
+
+        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Time 1: " + (System.currentTimeMillis() - startTime) );
 
         // Stuff to feed the update operation from the Archive...
         ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
         ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
         confObjsList.add(serviceImpl.getCurrentConfiguration());
+
+        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Time 2: " + (System.currentTimeMillis() - startTime) );
 
         try {
             this.comServices.getArchiveService().update(
@@ -232,6 +239,8 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Duration of the update: " + (System.currentTimeMillis() - startTime) );
+        
     }
 
     private Long storeDefaultServiceConfiguration(final Long defaultObjId, final UShort serviceNumber, ReconfigurableServiceImplInterface service) {

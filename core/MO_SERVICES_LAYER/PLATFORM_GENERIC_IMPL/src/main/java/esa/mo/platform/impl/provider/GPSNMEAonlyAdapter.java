@@ -23,7 +23,6 @@ package esa.mo.platform.impl.provider;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
-
 /**
  *
  * @author Cesar Coelho
@@ -35,6 +34,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
         Position position = new Position();
         
         this.getNMEASentence("Something here...");
+
         // Use the Helper
 
         return position;

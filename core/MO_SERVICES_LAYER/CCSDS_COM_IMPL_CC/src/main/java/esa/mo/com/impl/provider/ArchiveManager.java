@@ -377,12 +377,6 @@ public class ArchiveManager {
 
                 closeEntityManager(); // 0.410 ms
 
-/*                
-                for (int j = 0; j < perObjs.size(); j++) {
-                    // Generate and Publish the Event - requirement: 3.4.2.1
-                    generateAndPublishEvent(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, null, ArchiveManager.archivePerObj2source(perObjs.get(j)), interaction);
-                }
-*/                
                 // Generate and Publish the Events - requirement: 3.4.2.1
                 generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, perObjs, interaction);
 
@@ -396,15 +390,6 @@ public class ArchiveManager {
 
     protected void updateEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
-        /*
-         ArchivePersistenceObject perObj;
-         for (int i = 0; i < lArchiveDetails.size(); i++) {
-         perObj = this.updateEntry(objType, domain, lArchiveDetails.get(i), (Element) objects.get(i));
-
-         // Generate and Publish the Event - requirement: 3.4.2.2
-         this.generateAndPublishEvent(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, null, this.archivePerObj2source(perObj), interaction);
-         }
-         */
 
         final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
 
@@ -412,40 +397,22 @@ public class ArchiveManager {
             perObjs.add(this.updateEntry(objType, domain, lArchiveDetails.get(i), (Element) objects.get(i)));
         }
 
-        // Generate and Publish the Events - requirement: 3.4.2.2
-        generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, perObjs, interaction);
-
         // Thread to generate the Events
         Thread t1 = new Thread() {
             @Override
             public void run() {
-
-/*                
-                for (int i = 0; i < perObjs.size(); i++) {  // Let's publish the Events only after all the storing is done
-                    // Generate and Publish the Event - requirement: 3.4.2.2
-                    generateAndPublishEvent(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, null, ArchiveManager.archivePerObj2source(perObjs.get(i)), interaction);
-                }
-*/
-                
-                
-                
+                // Generate and Publish the Events - requirement: 3.4.2.2
+                generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, perObjs, interaction);
             }
         };
 
         t1.start();
 
-        
     }
 
     private ArchivePersistenceObject updateEntry(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetails lArchiveDetails, final Element object) {
-        /*
-         ArchivePersistenceObject perObj = this.removeEntry(objType, domain, lArchiveDetails.getInstId());
 
-         if (perObj != null) { // Was it removed?
-         this.insertEntry(objType, domain, lArchiveDetails, object);
-         }
-         */
         this.createEntityManager();
 
         final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, lArchiveDetails.getInstId());
@@ -476,8 +443,47 @@ public class ArchiveManager {
         return perObj;
     }
 
-    protected LongList removeEntries(final ObjectType objectType, final IdentifierList domain,
+    protected LongList removeEntries(final ObjectType objType, final IdentifierList domain,
             final LongList objIds, final MALInteraction interaction) {
+        
+        final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
+
+        createEntityManager();  // 0.166 ms
+
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+                // Generate the object Ids if needed and the persistence objects to be stored
+                for (int i = 0; i < objIds.size(); i++) {
+                    COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
+                    ArchivePersistenceObject perObj = em.find(ArchivePersistenceObject.class, id);
+        
+                    perObjs.add(perObj);
+                }
+
+                for (int i = 0; i < objIds.size(); i++) { // 6.510 ms per cycle
+                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "Bamm!" );
+                        COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
+                        ArchivePersistenceObject perObj = em.find(ArchivePersistenceObject.class, id);
+                        em.getTransaction().begin();
+                        em.remove(perObj);
+                        em.getTransaction().commit();
+                }
+
+                fastObjId.lock();
+                fastObjId.delete(objType, domain);
+                fastObjId.unlock();
+
+                closeEntityManager(); // 0.410 ms
+        
+                // Generate and Publish the Events - requirement: 3.4.2.1
+                generateAndPublishEvents(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, perObjs, interaction);
+            }
+        };
+
+        t1.start(); // Total time thread: ~1.485 ms
+
+        
         /*
          LongList deletedObjects = new LongList();
          for (Long objId : objIds) {
@@ -492,11 +498,13 @@ public class ArchiveManager {
          }
          }
          */
+        
+/*        
         final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
         LongList deletedObjects = new LongList();
 
         for (Long objId : objIds) {
-            ArchivePersistenceObject perObj = this.removeEntry(objectType, domain, objId);
+            ArchivePersistenceObject perObj = this.removeEntry(objType, domain, objId);
             if (perObj != null) {
                 deletedObjects.add(objId);
                 perObjs.add(perObj);
@@ -506,32 +514,28 @@ public class ArchiveManager {
         }
 
         this.fastObjId.lock();
-        this.fastObjId.delete(objectType, domain);
+        this.fastObjId.delete(objType, domain);
         this.fastObjId.unlock();
 
         // Thread to generate the Events
         Thread t1 = new Thread() {
             @Override
             public void run() {
-
-/*                
-                for (int i = 0; i < perObjs.size(); i++) {
-                    // Generate and Publish the Event - requirement: 3.4.2.3
-                    generateAndPublishEvent(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, null, ArchiveManager.archivePerObj2source(perObjs.get(i)), interaction);
-                }
-*/
-                
                 // Generate and Publish the Events - requirement: 3.4.2.3
                 generateAndPublishEvents(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, perObjs, interaction);                
-                
             }
         };
 
         t1.start();
-
+        
         return deletedObjects;
+*/        
+        
+        return objIds;
+
     }
 
+    @Deprecated
     private ArchivePersistenceObject removeEntry(final ObjectType objectType,
             final IdentifierList domain, final Long objId) {
 

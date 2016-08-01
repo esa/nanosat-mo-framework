@@ -190,8 +190,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             mcServices = new MCServicesProvider();
 
             parameterManager = new ParameterManager(comServices, parameterAdapter);
-            mcServices.getParameterService().init(parameterManager);
 
+            mcServices.getParameterService().init(parameterManager);
             mcServices.getActionService().init(comServices, actionAdapter);
             mcServices.getAlertService().init(comServices);
             mcServices.getAggregationService().init(comServices, parameterManager);

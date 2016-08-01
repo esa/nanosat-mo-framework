@@ -215,9 +215,6 @@
 				<mal:requestIP comment="The getLastKnownPosition operation allows a consumer to retrieve the last known position that was provided by the GPS unit." name="getLastKnownPosition" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
-							<mal:field canBeNull="true" comment="The highPrecision field shall hold a boolean flag to select a higher precision." name="highPrecision">
-								<mal:type area="MAL" list="false" name="Boolean"/>
-							</mal:field>
 						</mal:request>
 						<mal:response comment="">
 							<mal:field canBeNull="true" comment="The position field shall hold the last known position." name="position">
@@ -234,9 +231,6 @@
         <mal:invokeIP comment="The getPosition operation allows a consumer to obtain a position from the GPS unit." name="getPosition" number="3" supportInReplay="false">
           <mal:messages>
             <mal:invoke comment="">
-              <mal:field canBeNull="true" comment="The highPrecision field shall hold a boolean flag to select a higher precision." name="higherPrecision">
-                <mal:type area="MAL" list="false" name="Boolean"/>
-              </mal:field>
             </mal:invoke>
             <mal:acknowledgement comment=""/>
             <mal:response comment="">
@@ -294,7 +288,7 @@
 				<mal:requestIP comment="The addNearbyPositionEvent operation allows a consumer to define a list of nearby position events in the service.The new NearbyPosition objects are expected to be stored in the COM Archive by the provider of the GPS service." name="addNearbyPosition" number="6" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
-            <mal:field comment="The nearbyPosition field shall hold the definition of a position." name="nearbyPositionDefinitions">
+            <mal:field canBeNull="true" comment="The nearbyPosition field shall hold the definition of a position." name="nearbyPositionDefinitions">
                 <mal:type area="Platform" list="true" name="NearbyPositionDefinition" service="GPS"/>
               </mal:field>
             </mal:request>
@@ -347,9 +341,6 @@
 							<mal:field canBeNull="true" comment="" name="isEntering">
 								<mal:type area="MAL" list="false" name="Boolean"/>
 							</mal:field>
-							<mal:field canBeNull="true" comment="The estimate duration of the time near this position" name="durationEstimate">
-								<mal:type area="MAL" list="false" name="Duration"/>
-							</mal:field>
 						</mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
@@ -398,37 +389,26 @@
 						<mal:type area="MAL" list="false" name="UInteger"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="The Velocity structure holds the velocity vector of the spacecraft." name="Velocity" shortFormPart="3">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
-					<mal:field canBeNull="true" comment="&lt;The reference must be defined&gt;" name="x">
-						<mal:type area="MAL" list="false" name="Double"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="&lt;The reference must be defined&gt;" name="y">
-						<mal:type area="MAL" list="false" name="Double"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="&lt;The reference must be defined&gt;" name="z">
-						<mal:type area="MAL" list="false" name="Double"/>
-					</mal:field>
-				</mal:composite>
 				<mal:composite comment="The PositionExtraDetails structure holds extra information that can be provided by a GPS unit." name="PositionExtraDetails" shortFormPart="4">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="false" comment="meters?" name="accuracy">
-						<mal:type area="MAL" list="false" name="Float"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="The velocity of the spacecraft." name="velocity">
-						<mal:type area="Platform" list="false" name="Velocity" service="GPS"/>
-					</mal:field>
-					<mal:field canBeNull="false" comment="The time of the fix for the given position." name="utcTime">
-						<mal:type area="MAL" list="false" name="Time"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="The elapsed time since the fixTime." name="elapsedTime">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
-				</mal:composite>
+				<mal:field canBeNull="true" comment="UTC time status of position." name="utc">
+            <mal:type area="MAL" list="false" name="Time"/>
+          </mal:field>
+					<mal:field canBeNull="true" comment="Fix Quality:&#10;0 = Invalid; &#10;1 = GPS fix;&#10;2 = DGPS fix." name="fixQuality">
+					<mal:type area="MAL" list="false" name="Integer"/>
+          </mal:field>
+					<mal:field canBeNull="true" comment="The number of satellites in view for this position." name="numberOfSatellites">
+					<mal:type area="MAL" list="false" name="Integer"/>
+          </mal:field>
+					<mal:field canBeNull="true" comment="Horizontal Dilution of Precision. The relative accuracy of horizontal position." name="hdop">
+					<mal:type area="MAL" list="false" name="Float"/>
+          </mal:field>
+					<mal:field canBeNull="true" comment="The relationship between the geoid and the WGS84 ellipsoid." name="undulation">
+					<mal:type area="MAL" list="false" name="Float"/>
+          </mal:field>
+        </mal:composite>
 			<mal:composite comment="The NearbyPositionDefinition structure holds a definition of a certain Position." name="NearbyPositionDefinition" shortFormPart="26">
           <mal:extends>
             <mal:type area="MAL" list="false" name="Composite"/>

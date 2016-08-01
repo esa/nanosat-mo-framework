@@ -38,7 +38,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
@@ -98,6 +97,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     private final ConfigurationProvider configuration = new ConfigurationProvider();
     private GPSAdapterInterface adapter;
     private ConfigurationNotificationInterface configurationAdapter;
+    
+    private final Object MUTEX = new Object();
+    private Position currentPosition;
+    private long timeOfCurrentPosition;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -141,6 +144,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             connection.close();
         }
 
+        manager = new GPSManager(comServices);
         this.adapter = adapter;
         gpsServiceProvider = connection.startService(GPSHelper.GPS_SERVICE_NAME.toString(), GPSHelper.GPS_SERVICE, this);
 
@@ -191,14 +195,12 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
 
-            DurationList durationList = new DurationList();
-            durationList.add(new Duration(0));
             IdentifierList idList = new IdentifierList();
             idList.add(manager.get(objId).getName());
             BooleanList bools = new BooleanList();
             bools.add(isInside);
             
-            publisher.publish(hdrlst, idList, bools, durationList);
+            publisher.publish(hdrlst, idList, bools);
 
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
@@ -218,26 +220,29 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public GetLastKnownPositionResponse getLastKnownPosition(Boolean higherPrecision, MALInteraction interaction) throws MALInteractionException, MALException {
+    public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction) throws MALInteractionException, MALException {
 
-        long startTime = System.currentTimeMillis();
-        GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
-        //Simulator interaction
-//        Position position =  PGPS.FirmwareReferenceOEM16.gpggartk2partialPosition(instrumentsSimulator.getpGPS().getNMEASentence("GPGGARTK"));
-
-        Position position = new Position();  // Get it from the position that is being polled
-
+        Position pos;
+        Long startTime;
         
-        // <<<<<<<<<<<<<<<<<<<<<
-        response.setBodyElement0(position);      
-        //Measuring time for command
+        synchronized (MUTEX){
+            pos = currentPosition;
+            startTime = timeOfCurrentPosition;
+        }
+
+        GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
+        response.setBodyElement0(pos);
+        // Measuring time for command
+        
+        // To be fixed... the time is not correct
+        
         double elapsedTime = (System.currentTimeMillis() - startTime) * 1000;
         response.setBodyElement1(new Duration(elapsedTime));
         return response;
     }
 
     @Override
-    public void getPosition(Boolean higherPrecision, GetPositionInteraction interaction) throws MALInteractionException, MALException {
+    public void getPosition(GetPositionInteraction interaction) throws MALInteractionException, MALException {
 
         Position position =  adapter.getCurrentPosition();
 
@@ -465,9 +470,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         return GPSHelper.GPS_SERVICE;
     }
     
-    
     private class PeriodicReportingManager {
-
         private final Timer timer;
         boolean active = false; // Flag that determines if publishes or not
         private static final int PERIOD = 5000; // 5 Seconds
@@ -492,7 +495,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                 public void run() {
                     if (active) {
                         // Do: get the current value from the GPS unit
-                        Position currentPos = adapter.getCurrentPosition();
+                        synchronized(MUTEX){
+                            currentPosition = adapter.getCurrentPosition();
+                            timeOfCurrentPosition = System.currentTimeMillis();
+                        }
                         
                         // Compare with all the available definitions and raise 
                         // NearbyPositionAlerts in case something has changed
@@ -504,7 +510,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                             Boolean previousState = manager.getPreviousStatus(objId);
 
                             try {
-                                double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(), currentPos);
+                                double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(), currentPosition);
                                 boolean isInside = (distance < def.getDistanceBoundary());
                             
                                 if (previousState == null){ // Maybe it's the first run...
@@ -524,10 +530,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                     }
                 }
             }, PERIOD, PERIOD);
+            
         }
 
-
     }
-    
 
 }
