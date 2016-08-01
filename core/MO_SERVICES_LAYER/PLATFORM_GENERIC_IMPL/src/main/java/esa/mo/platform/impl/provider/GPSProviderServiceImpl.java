@@ -99,7 +99,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     private ConfigurationNotificationInterface configurationAdapter;
     
     private final Object MUTEX = new Object();
-    private Position currentPosition;
+    private Position currentPosition = null;
     private long timeOfCurrentPosition;
 
     /**
@@ -529,7 +529,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                         }
                     }
                 }
-            }, PERIOD, PERIOD);
+            }, 0, PERIOD);
             
         }
 

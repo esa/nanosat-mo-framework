@@ -407,7 +407,6 @@ public class ArchiveManager {
         };
 
         t1.start();
-
     }
 
     private ArchivePersistenceObject updateEntry(final ObjectType objType, final IdentifierList domain,

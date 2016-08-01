@@ -103,7 +103,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         if (comObject != null) {
             return;
         }
-        
+
         Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "There were no previous configurations stored in the Archive. Creating configurations...");
 
         // It doesn't exist... create all the necessary objects...
@@ -117,13 +117,13 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
 
             Long objIdAlert = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_ALERT_SERVICE,
                     AlertHelper.ALERT_SERVICE_NUMBER, provider.getMCServices().getAlertService());
-/*
+            /*
             Long objIdCheck = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_CHECK_SERVICE,
                     CheckHelper.CHECK_SERVICE_NUMBER, provider.getMCServices().getCheckService());
 
             Long objIdStatistic = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_STATISTIC_SERVICE,
                     StatisticHelper.STATISTIC_SERVICE_NUMBER, provider.getMCServices().getStatisticService());
-*/
+             */
             Long objIdAggregation = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_AGGREGATION_SERVICE,
                     AggregationHelper.AGGREGATION_SERVICE_NUMBER, provider.getMCServices().getAggregationService());
 
@@ -157,7 +157,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
                     archObj,
                     null);
 
-                // Store the provider configuration
+            // Store the provider configuration
             // Related points to the Provider's Configuration Objects
             ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), null, configuration.getNetwork(), new URI(""));
             details.get(0).setInstId(confId.getKey().getInstId());
@@ -195,7 +195,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         if (serviceImpl instanceof AlertProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_ALERT_SERVICE);
         }
-/*
+        /*
         if (serviceImpl instanceof CheckProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_CHECK_SERVICE);
         }
@@ -203,44 +203,51 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         if (serviceImpl instanceof StatisticProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_STATISTIC_SERVICE);
         }
-*/
+         */
         if (serviceImpl instanceof AggregationProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_AGGREGATION_SERVICE);
         }
     }
 
-    private void updateConfigurationInArchive(ReconfigurableServiceImplInterface serviceImpl, Long objId) {
-        
-        long startTime = System.currentTimeMillis();
-        
-        // Retrieve the COM object of the service
-        ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
-                ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), objId);
+    private void updateConfigurationInArchive(final ReconfigurableServiceImplInterface serviceImpl, final Long objId) {
 
-        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Time 1: " + (System.currentTimeMillis() - startTime) );
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+                long startTime = System.currentTimeMillis();
 
-        // Stuff to feed the update operation from the Archive...
-        ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
-        ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
-        confObjsList.add(serviceImpl.getCurrentConfiguration());
+                // Retrieve the COM object of the service
+                ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
+                        ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), objId);
 
-        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Time 2: " + (System.currentTimeMillis() - startTime) );
+                Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Time 1: " + (System.currentTimeMillis() - startTime));
 
-        try {
-            this.comServices.getArchiveService().update(
-                    ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                    configuration.getDomain(),
-                    details,
-                    confObjsList,
-                    null);
-        } catch (MALException ex) {
-            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                // Stuff to feed the update operation from the Archive...
+                ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
+                ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
+                confObjsList.add(serviceImpl.getCurrentConfiguration());
 
-        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Duration of the update: " + (System.currentTimeMillis() - startTime) );
-        
+                Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Time 2: " + (System.currentTimeMillis() - startTime));
+
+                try {
+                    comServices.getArchiveService().update(
+                            ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                            configuration.getDomain(),
+                            details,
+                            confObjsList,
+                            null);
+                } catch (MALException ex) {
+                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Duration of the update: " + (System.currentTimeMillis() - startTime));
+            }
+        };
+
+        t1.start(); // Total time thread: ~1.485 ms
+
     }
 
     private Long storeDefaultServiceConfiguration(final Long defaultObjId, final UShort serviceNumber, ReconfigurableServiceImplInterface service) {
