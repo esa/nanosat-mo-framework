@@ -20,16 +20,17 @@
  */
 package opssat.simulator;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  *
  * @author Cesar Coelho
  */
 public class TestClass {
-    
-    
-        public final InstrumentsSimulator app = new InstrumentsSimulator();
 
-        
+    public final InstrumentsSimulator app = new InstrumentsSimulator();
+
     /**
      * Main command line entry point.
      *
@@ -37,10 +38,20 @@ public class TestClass {
      */
     public static void main(final String args[]) {
         TestClass demo = new TestClass();
-        
-        byte[] dfdsfdf = demo.app.getPicture();
     }
 
-        
-        
+    public TestClass() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.printf("\nLatitude, Longitude: %f, %f\nAltitude: %f\nTime: %s\n",
+                        app.getGPSlatitude(), app.getGPSlongitude(), app.getGPSaltitude(), app.getGPStime().toString());
+
+            }
+        }, 0, 3000);
+
+//        byte[] dfdsfdf = demo.app.getPicture();
+    }
+
 }
