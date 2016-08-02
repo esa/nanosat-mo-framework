@@ -27,10 +27,10 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 
 public class ArchiveCOMObjectsOutput {
     
-    private IdentifierList domain;
-    private ObjectType objType;
-    private ArchiveDetailsList archiveDetailsList;
-    private ElementList objects;
+    private final IdentifierList domain;
+    private final ObjectType objType;
+    private final ArchiveDetailsList archiveDetailsList;
+    private final ElementList objects;
 
     public ArchiveCOMObjectsOutput (IdentifierList domain, ObjectType objType, ArchiveDetailsList archiveDetailsList, ElementList objects){
         this.domain = domain;

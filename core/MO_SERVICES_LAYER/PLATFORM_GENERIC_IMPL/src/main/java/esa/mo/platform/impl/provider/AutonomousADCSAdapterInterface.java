@@ -34,7 +34,7 @@ public interface AutonomousADCSAdapterInterface {
      *
      * @return
      */
-    public boolean isADCSAvailable();
+    public boolean isUnitAvailable();
 
     /**
      * The setAttitudeDefinition operation shall set a certain attitude based

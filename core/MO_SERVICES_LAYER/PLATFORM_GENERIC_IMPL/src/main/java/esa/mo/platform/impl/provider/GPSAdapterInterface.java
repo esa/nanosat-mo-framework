@@ -20,6 +20,7 @@
  */
 package esa.mo.platform.impl.provider;
 
+import java.io.IOException;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
@@ -31,12 +32,20 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 public interface GPSAdapterInterface {
     
     /**
+     * The isADCSAvailable operation checks if the ADCS unit.
+     *
+     * @return
+     */
+    public boolean isUnitAvailable();
+    
+    /**
      * Request a NMEA sentence from a GPS unit.
      *
      * @param identifier The NMEA Identifier
      * @return
+     * @throws java.io.IOException
      */
-    public String getNMEASentence(final String identifier);
+    public String getNMEASentence(final String identifier) throws IOException;
     
     /**
      * Request the current position from the GPS
@@ -51,5 +60,7 @@ public interface GPSAdapterInterface {
      * @return The list of Satellites Information
      */
     public SatelliteInfoList getSatelliteInfoList();
+    
+
     
 }

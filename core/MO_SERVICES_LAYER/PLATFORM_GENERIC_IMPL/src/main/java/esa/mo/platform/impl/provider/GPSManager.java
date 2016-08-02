@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -131,6 +132,36 @@ public final class GPSManager extends DefinitionsManager {
 //            this.save();
     
         return true;
+    }
+
+    protected Long storeAndGenerateNearbyPositionAlertId(Boolean inside, Long objId, SingleConnectionDetails connectionDetails) {
+        if (super.getArchiveService() != null) {
+            BooleanList isEnteringList = new BooleanList();
+            isEnteringList.add(inside);
+
+            try {  // requirement: 3.3.4.2
+                LongList objIds = super.getArchiveService().store(
+                        true,
+                        GPSHelper.NEARBYPOSITIONALERT_OBJECT_TYPE,
+                        connectionDetails.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(objId, null, connectionDetails),
+                        isEnteringList,
+                        null);
+
+                if (objIds.size() == 1) {
+                    return objIds.get(0);
+                }
+
+            } catch (MALException ex) {
+                Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            return null;
+        }
+        
+        return new Long(0);
     }
 
  

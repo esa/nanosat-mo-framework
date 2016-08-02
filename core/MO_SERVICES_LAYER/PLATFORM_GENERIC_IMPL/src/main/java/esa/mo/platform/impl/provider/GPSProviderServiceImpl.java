@@ -80,6 +80,7 @@ import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinition;
 import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.PositionList;
+import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
 /**
  *
@@ -187,20 +188,18 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                         objId, new Identifier(manager.get(objId).getName().toString())
                     });
 
-//            final Long pValObjId = manager.storeAndGeneratePValobjId(parameterValue, objId, connection.getConnectionDetails());
+            final Long pValObjId = manager.storeAndGenerateNearbyPositionAlertId(isInside, objId, connection.getConnectionDetails());
 
-            final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, null, null);
+            final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, pValObjId, null);
             final Time timestamp = HelperTime.getTimestampMillis();
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
 
-            IdentifierList idList = new IdentifierList();
-            idList.add(manager.get(objId).getName());
             BooleanList bools = new BooleanList();
             bools.add(isInside);
             
-            publisher.publish(hdrlst, idList, bools);
+            publisher.publish(hdrlst, bools);
 
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
@@ -214,29 +213,35 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     @Override
     public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction) throws MALInteractionException, MALException {
 
+        if (!adapter.isUnitAvailable()){ // Is the unit available?
+            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+        }
         
-        interaction.sendResponse(adapter.getNMEASentence(sentenceIdentifier));
+        interaction.sendAcknowledgement();
 
+        try {
+            String nmeaSentence = adapter.getNMEASentence(sentenceIdentifier);
+            interaction.sendResponse(nmeaSentence);
+        } catch (IOException ex) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+        }
+        
     }
 
     @Override
     public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction) throws MALInteractionException, MALException {
 
+        GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
         Position pos;
-        Long startTime;
+        long startTime;
         
         synchronized (MUTEX){
             pos = currentPosition;
             startTime = timeOfCurrentPosition;
         }
 
-        GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
         response.setBodyElement0(pos);
-        // Measuring time for command
-        
-        // To be fixed... the time is not correct
-        
-        double elapsedTime = (System.currentTimeMillis() - startTime) * 1000;
+        double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to sec
         response.setBodyElement1(new Duration(elapsedTime));
         return response;
     }
@@ -244,15 +249,34 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     @Override
     public void getPosition(GetPositionInteraction interaction) throws MALInteractionException, MALException {
 
-        Position position =  adapter.getCurrentPosition();
+        if (!adapter.isUnitAvailable()){ // Is the unit available?
+            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+        }
+        
+        interaction.sendAcknowledgement();
 
+        Position position =  adapter.getCurrentPosition();
         interaction.sendResponse(position);
 
+        synchronized(MUTEX){ // Store the latest Position
+            currentPosition = position;
+            timeOfCurrentPosition = System.currentTimeMillis();
+        }
+        
     }
 
     @Override
     public void getSatellitesInfo(GetSatellitesInfoInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (!adapter.isUnitAvailable()){ // Is the unit available?
+            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+        }
+        
+        interaction.sendAcknowledgement();
+
+        SatelliteInfoList sats =  adapter.getSatelliteInfoList();
+        interaction.sendResponse(sats);
+
     }
 
     @Override
@@ -287,7 +311,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         NearbyPositionDefinition def;
 
         if (null == nearbyPositionDefinitions) { // Is the input null?
-            throw new IllegalArgumentException("v argument must not be null");
+            throw new IllegalArgumentException("nearbyPositionDefinitions argument must not be null");
         }
 
         for (int index = 0; index < nearbyPositionDefinitions.size(); index++) {
@@ -530,6 +554,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                     }
                 }
             }, 0, PERIOD);
+
             
         }
 

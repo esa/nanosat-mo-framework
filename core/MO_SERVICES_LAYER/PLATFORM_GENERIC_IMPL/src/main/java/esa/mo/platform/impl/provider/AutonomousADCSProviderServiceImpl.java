@@ -194,7 +194,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             throw new IllegalArgumentException("objInstId argument must not be null");
         }
         
-        if (adapter.isADCSAvailable()) { // Is the ADCS unit available?
+        if (adapter.isUnitAvailable()) { // Is the ADCS unit available?
             throw new MALInteractionException(new MALStandardError(AutonomousADCSHelper.ADCS_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
 

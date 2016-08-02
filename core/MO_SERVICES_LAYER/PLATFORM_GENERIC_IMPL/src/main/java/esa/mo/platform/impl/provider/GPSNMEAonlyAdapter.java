@@ -20,6 +20,9 @@
  */
 package esa.mo.platform.impl.provider;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
@@ -33,7 +36,11 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
     public Position getCurrentPosition(){
         Position position = new Position();
         
-        this.getNMEASentence("Something here...");
+        try {
+            this.getNMEASentence("Something here...");
+        } catch (IOException ex) {
+            Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // Use the Helper
 
@@ -43,7 +50,11 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
     @Override
     public SatelliteInfoList getSatelliteInfoList(){
         SatelliteInfoList satelitesInView = new SatelliteInfoList();
-        String fdfddf = this.getNMEASentence("fbfggbf");
+        try {
+            String fdfddf = this.getNMEASentence("fbfggbf");
+        } catch (IOException ex) {
+            Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return satelitesInView;
     }

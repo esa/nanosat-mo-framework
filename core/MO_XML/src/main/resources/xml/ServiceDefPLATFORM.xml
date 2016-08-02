@@ -332,13 +332,10 @@
         </mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="7">
-				<mal:pubsubIP comment="" name="nearbyPosition" number="8" supportInReplay="false">
+				<mal:pubsubIP comment="The nearbyPosition allows a consumer to subscribe to nearby position notifications. The notifications shall be generated upon entering or exiting a nearby position." name="nearbyPosition" number="8" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-							<mal:field canBeNull="true" comment="" name="uniqueId">
-								<mal:type area="MAL" list="false" name="Identifier"/>
-							</mal:field>
-							<mal:field canBeNull="true" comment="" name="isEntering">
+							<mal:field canBeNull="true" comment="The isEntering field shall contain the status of the notification.&#10;The MAL EntityKey.firstSubKey shall contain the NearbyPosition name.&#10;The MAL EntityKey.secondSubKey shall contain the NearbyPosition object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall contain the NearbyPositionAlert object instance identifier.&#10;The MAL EntityKey.fourthSubKey shall be NULL.&#10;The timestamp of the update shall be on-board clock at the time of the notification.&#10;The ObjectId shall be set to NULL." name="isEntering">
 								<mal:type area="MAL" list="false" name="Boolean"/>
 							</mal:field>
 						</mal:publishNotify>
@@ -405,7 +402,7 @@
 					<mal:field canBeNull="true" comment="Horizontal Dilution of Precision. The relative accuracy of horizontal position." name="hdop">
 					<mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
-					<mal:field canBeNull="true" comment="The relationship between the geoid and the WGS84 ellipsoid." name="undulation">
+					<mal:field canBeNull="true" comment="The relationship between the geoid and the WGS84 ellipsoid. The unit is meters." name="undulation">
 					<mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
         </mal:composite>
@@ -419,7 +416,7 @@
           <mal:field canBeNull="true" comment="A textual description of the definition." name="description">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
-        <mal:field canBeNull="true" comment="The distance boundary of this definition." name="distanceBoundary">
+        <mal:field canBeNull="true" comment="The distance boundary of this definition. The distance boundary shall define a spherical zone around the position. The unit is meters." name="distanceBoundary">
             <mal:type area="MAL" list="false" name="Double"/>
           </mal:field>
         <mal:field canBeNull="true" comment="The position of the definition." name="position">

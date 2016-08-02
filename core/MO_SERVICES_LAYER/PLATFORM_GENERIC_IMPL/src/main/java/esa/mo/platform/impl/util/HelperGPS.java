@@ -23,6 +23,8 @@ package esa.mo.platform.impl.util;
 import java.io.IOException;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.PositionExtraDetails;
+import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfo;
+import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
 /**
  *
@@ -75,6 +77,23 @@ public class HelperGPS {
         return pos;
     }
 
+    /**
+     * Converts a GPALM NMEA sentence into a SatelliteInfoList object.
+     *
+     * @param gpalm GPALM NMEA sentence
+     * @return SatelliteInfoList object
+     * @throws java.io.IOException
+     */
+    public static SatelliteInfoList gpalm2SatelliteInfoList(final String gpalm) throws IOException {
+
+        SatelliteInfoList sats = new SatelliteInfoList();
+        sats.add(new SatelliteInfo());
+        sats.add(new SatelliteInfo());
+        sats.add(new SatelliteInfo());
+        
+        return sats;
+    }
+    
     public static double DDMMpMMMMMMM2degrees(String DDMMpMMMMMMM) throws IOException {
         if (DDMMpMMMMMMM.length() == 12) {
             return Double.parseDouble(DDMMpMMMMMMM.substring(0, 2))
