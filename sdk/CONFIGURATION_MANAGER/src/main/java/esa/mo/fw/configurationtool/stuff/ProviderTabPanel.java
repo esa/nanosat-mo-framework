@@ -31,10 +31,10 @@ import esa.mo.fw.configurationtool.services.mc.ParameterConsumerPanel;
 import esa.mo.fw.configurationtool.services.mc.ParameterPublishedValues;
 import esa.mo.fw.configurationtool.services.mc.StatisticConsumerPanel;
 import esa.mo.fw.configurationtool.services.sm.AppsLauncherConsumerPanel;
+import esa.mo.fw.configurationtool.services.sm.PackageManagementConsumerPanel;
 import esa.mo.nanosatmoframework.ground.adapter.GroundMOAdapter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import esa.mo.nanosatmoframework.ground.adapter.MOServicesConsumer;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -44,7 +44,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
  * @author Cesar Coelho
  */
 public class ProviderTabPanel extends javax.swing.JPanel {
-    
+
     private final GroundMOAdapter services;
 
     /**
@@ -53,83 +53,99 @@ public class ProviderTabPanel extends javax.swing.JPanel {
      * @param provider
      */
     public ProviderTabPanel(final ProviderSummary provider) {
-            services = new GroundMOAdapter(provider);
+        services = new GroundMOAdapter(provider);
 
-            try {
-            initComponents();
-
-            // Software Management
-            if(services.getSMServices()!= null){
-
-                if(services.getSMServices().getAppsLauncherService() != null){
-                    this.serviceTabs.insertTab("Apps Launcher service", null, new AppsLauncherConsumerPanel(services.getSMServices().getAppsLauncherService()), "Software Management Tab", serviceTabs.getTabCount());
-                }
-
-            }
-            
-            // COM
-            if(services.getCOMServices() != null){
-
-                if(services.getCOMServices().getArchiveService() != null){
-                    this.serviceTabs.insertTab("Archive Manager", null, new ArchiveConsumerManagerPanel(services.getCOMServices().getArchiveService()), "Archive Tab", serviceTabs.getTabCount());
-                }
-                
-                if(services.getCOMServices().getEventService() != null){
-                    this.serviceTabs.insertTab("Event service", null, new EventConsumerPanel(services.getCOMServices().getEventService(), services.getCOMServices().getArchiveService()), "Event Tab", serviceTabs.getTabCount());
-                }
-
-            }
-            
-            // MC
-            if(services.getMCServices() != null){
-
-                if(services.getMCServices().getActionService() != null){
-                    this.serviceTabs.insertTab("Action service", null, new ActionConsumerPanel(services.getMCServices().getActionService()), "Action Tab", serviceTabs.getTabCount());
-                }
-
-                if(services.getMCServices().getParameterService() != null){
-                    this.serviceTabs.insertTab("Parameter service", null, new ParameterConsumerPanel(services.getMCServices().getParameterService()), "Parameter Tab", serviceTabs.getTabCount());
-                    this.serviceTabs.insertTab("Published Parameter Values", null, new ParameterPublishedValues(services.getMCServices().getParameterService()), "Published Parameters Tab", serviceTabs.getTabCount());
-                }
-
-                if(services.getMCServices().getAggregationService() != null){
-                    this.serviceTabs.insertTab("Aggregation service", null, new AggregationConsumerPanel(services.getMCServices().getAggregationService()), "Aggregation Tab", serviceTabs.getTabCount());
-                }
-
-                if(services.getMCServices().getAlertService() != null){
-                    this.serviceTabs.insertTab("Alert service", null, new AlertConsumerPanel(services.getMCServices().getAlertService()), "Alert Tab", serviceTabs.getTabCount());
-                }
-
-                if(services.getMCServices().getCheckService() != null){
-                    this.serviceTabs.insertTab("Check service", null, new CheckConsumerPanel(services.getMCServices().getCheckService()), "Check Tab", serviceTabs.getTabCount());
-                }
-
-                if(services.getMCServices().getStatisticService() != null){
-                    this.serviceTabs.insertTab("Statistic service", null, new StatisticConsumerPanel(services.getMCServices().getStatisticService(), services.getMCServices().getParameterService()), "Statistic Tab", serviceTabs.getTabCount());
-                }
-                
-            }
-            
-            // Common
-            if(services.getCommonServices() != null){
-
-                if(services.getCommonServices().getConfigurationService() != null){
-                    this.serviceTabs.insertTab("Configuration service", null, new ConfigurationConsumerPanel(services.getCommonServices().getConfigurationService()), "Configuration Tab", serviceTabs.getTabCount());
-                }
-
-            }
-            
-   
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        this.insertTabs(); // Insert all the tabs
     }
-    
-    public GroundMOAdapter getServices(){
+
+    public GroundMOAdapter getServices() {
         return this.services;
+    }
+
+    public final void insertTabs() {
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+                initComponents();
+
+                try {
+                    // Software Management
+                    if (services.getSMServices() != null) {
+
+                        if (services.getSMServices().getAppsLauncherService() != null) {
+                            serviceTabs.insertTab("Apps Launcher service", null, new AppsLauncherConsumerPanel(services.getSMServices().getAppsLauncherService()), "Apps Launcher Tab", serviceTabs.getTabCount());
+                        }
+
+                        if (services.getSMServices().getPackageManagementService() != null) {
+                            serviceTabs.insertTab("Package Management service", null, new PackageManagementConsumerPanel(services.getSMServices().getPackageManagementService()), "Package Management Tab", serviceTabs.getTabCount());
+                        }
+
+                    }
+
+                    // COM
+                    if (services.getCOMServices() != null) {
+
+                        if (services.getCOMServices().getArchiveService() != null) {
+                            serviceTabs.insertTab("Archive Manager", null, new ArchiveConsumerManagerPanel(services.getCOMServices().getArchiveService()), "Archive Tab", serviceTabs.getTabCount());
+                        }
+
+                        if (services.getCOMServices().getEventService() != null) {
+                            serviceTabs.insertTab("Event service", null, new EventConsumerPanel(services.getCOMServices().getEventService(), services.getCOMServices().getArchiveService()), "Event Tab", serviceTabs.getTabCount());
+                        }
+
+                    }
+
+                    // MC
+                    if (services.getMCServices() != null) {
+
+                        if (services.getMCServices().getActionService() != null) {
+                            serviceTabs.insertTab("Action service", null, new ActionConsumerPanel(services.getMCServices().getActionService()), "Action Tab", serviceTabs.getTabCount());
+                        }
+
+                        if (services.getMCServices().getParameterService() != null) {
+                            serviceTabs.insertTab("Parameter service", null, new ParameterConsumerPanel(services.getMCServices().getParameterService()), "Parameter Tab", serviceTabs.getTabCount());
+                            serviceTabs.insertTab("Published Parameter Values", null, new ParameterPublishedValues(services.getMCServices().getParameterService()), "Published Parameters Tab", serviceTabs.getTabCount());
+                        }
+
+                        if (services.getMCServices().getAggregationService() != null) {
+                            serviceTabs.insertTab("Aggregation service", null, new AggregationConsumerPanel(services.getMCServices().getAggregationService()), "Aggregation Tab", serviceTabs.getTabCount());
+                        }
+
+                        if (services.getMCServices().getAlertService() != null) {
+                            serviceTabs.insertTab("Alert service", null, new AlertConsumerPanel(services.getMCServices().getAlertService()), "Alert Tab", serviceTabs.getTabCount());
+                        }
+
+                        if (services.getMCServices().getCheckService() != null) {
+                            serviceTabs.insertTab("Check service", null, new CheckConsumerPanel(services.getMCServices().getCheckService()), "Check Tab", serviceTabs.getTabCount());
+                        }
+
+                        if (services.getMCServices().getStatisticService() != null) {
+                            serviceTabs.insertTab("Statistic service", null, new StatisticConsumerPanel(services.getMCServices().getStatisticService(), services.getMCServices().getParameterService()), "Statistic Tab", serviceTabs.getTabCount());
+                        }
+
+                    }
+
+                    // Common
+                    if (services.getCommonServices() != null) {
+
+                        if (services.getCommonServices().getConfigurationService() != null) {
+                            serviceTabs.insertTab("Configuration service", null, new ConfigurationConsumerPanel(services.getCommonServices().getConfigurationService()), "Configuration Tab", serviceTabs.getTabCount());
+                        }
+
+                    }
+
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALException ex) {
+                    Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
+        };
+
+        t1.start();
+
     }
 
     /**
