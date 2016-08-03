@@ -24,7 +24,7 @@
   </parent>
   
   <artifactId>NMF_CORE</artifactId>
-  <name>NanoSat MO Framework - Core</name>
+  <name>NMF: Core</name>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
