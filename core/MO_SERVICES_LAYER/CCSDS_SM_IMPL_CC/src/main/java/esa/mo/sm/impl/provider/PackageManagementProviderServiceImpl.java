@@ -43,7 +43,6 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.InstallI
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.PackageManagementInheritanceSkeleton;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UninstallInteraction;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UpgradeInteraction;
-import org.ccsds.moims.mo.softwaremanagement.structures.CHECKSUM;
 
 /**
  *

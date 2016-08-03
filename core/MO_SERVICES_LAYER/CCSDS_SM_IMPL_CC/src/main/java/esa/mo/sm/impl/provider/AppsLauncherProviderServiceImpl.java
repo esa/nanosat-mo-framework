@@ -54,10 +54,7 @@ import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDet
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton;
-import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
-import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
@@ -82,7 +79,6 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.URIList;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.structures.UpdateType;
