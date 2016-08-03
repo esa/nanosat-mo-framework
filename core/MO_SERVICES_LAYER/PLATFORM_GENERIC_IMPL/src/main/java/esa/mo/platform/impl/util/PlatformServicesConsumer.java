@@ -66,7 +66,6 @@ public class PlatformServicesConsumer {
         } catch (MALInteractionException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public CameraConsumerServiceImpl getCameraService() {
@@ -104,7 +103,6 @@ public class PlatformServicesConsumer {
         if(this.gpsService != null){
             this.gpsService.closeConnection();
         }
-    }
-    
+    }    
     
 }
