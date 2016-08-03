@@ -25,48 +25,57 @@ package opssat.simulator;
  * @author Cesar Coelho
  */
 public class Vector {
-  private final double x;
-  private final double y;
-  private final double z;
 
-  public Vector(double x, double y, double z) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
-  }
+    private final double x;
+    private final double y;
+    private final double z;
 
-  // Add
-  public Vector add(Vector addend) {
-    return new Vector(x + addend.x, y + addend.y, z + addend.z);
-  }
+    public Vector(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    // Add
+    public Vector add(Vector addend) {
+        return new Vector(x + addend.x, y + addend.y, z + addend.z);
+    }
 
     // Cross Product
-  public Vector crossProduct(Vector b) {
-    return new Vector( (y*b.z - b.y*z) , (z*b.x - b.z*x) , (x*b.y - b.x*y) );
-  }
+    public Vector crossProduct(Vector b) {
+        return new Vector((y * b.z - b.y * z), (z * b.x - b.z * x), (x * b.y - b.x * y));
+    }
 
-      // Dot Product
-  public Vector dotProduct(Vector b) {
-    return new Vector(x * b.x, y * b.y, z * b.z);
-  }
+    // Dot Product
+    public Vector dotProduct(Vector b) {
+        return new Vector(x * b.x, y * b.y, z * b.z);
+    }
 
-  // times
-  public Vector times(double constant) {
-    return new Vector(x * constant, y * constant, z * constant);
-  }
+    // times
+    public Vector times(double constant) {
+        return new Vector(x * constant, y * constant, z * constant);
+    }
 
-  // Lenght
-  public double length() {
-    return Math.sqrt( x*x +y*y + z*z );
-  }
+    // Lenght
+    public double length() {
+        return Math.sqrt(x * x + y * y + z * z);
+    }
 
-  // Print Vector
-  public void printVector() {
-    System.out.printf("Vector:\n%f, %f, %f, %f\n", x, y, z, this.length()); 
-  }
+    // Print Vector
+    public void printVector() {
+        System.out.printf("Vector:\n%f, %f, %f, %f\n", x, y, z, this.length());
+    }
 
-  public double x() {   return this.x; }
-  public double y() {   return this.y; }
-  public double z() {   return this.z; }
+    public double x() {
+        return this.x;
+    }
+
+    public double y() {
+        return this.y;
+    }
+
+    public double z() {
+        return this.z;
+    }
 
 }

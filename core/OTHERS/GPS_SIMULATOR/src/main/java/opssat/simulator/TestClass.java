@@ -51,7 +51,6 @@ public class TestClass {
             }
         }, 0, 3000);
 
-//        byte[] dfdsfdf = demo.app.getPicture();
     }
 
 }

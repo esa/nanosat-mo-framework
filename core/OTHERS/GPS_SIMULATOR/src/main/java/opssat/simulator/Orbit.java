@@ -66,7 +66,7 @@ public class Orbit {
 //Earth Radius (units: km)
     private static final double R_e = 6371;
 //1 solar day = 1.00273(...) sideral days
-    private static final double sol_day = 1.002737909350795;
+    private static final double SOLAR_DAY = 1.002737909350795;
 
 //Epoch time: '2003 June 01 - 00:00:00'
     public static String DATEFORMATSTRING = "yyyy:MM:dd HH:mm:ss z";
@@ -75,12 +75,20 @@ public class Orbit {
 
     public static class OrbitParameters {
 
-        private double longitude;
-        private double latitude;
-        private double a;
-        private Date time;
-        private Vector velocity;
+        private final double longitude;
+        private final double latitude;
+        private final double a;
+        private final Date time;
+        private final Vector velocity;
 
+        /**
+         *
+         * @param latitude
+         * @param longitude
+         * @param a Semi-major axis in Km
+         * @param velocity
+         * @param time
+         */
         public OrbitParameters(double latitude, double longitude, double a, Vector velocity, Date time) {
             this.latitude = latitude;
             this.longitude = longitude;
@@ -165,7 +173,7 @@ public class Orbit {
         // Local Sideral Time during Epoch (16:36:17) from: http://www.jgiesen.de/astro/astroJS/siderealClock/
         double lst_epoch = (16 * 3600 + 36 * 60 + 17) * 2 * Math.PI / (3600 * 24);
         // Compute the Local Sideral Time
-        double delta_lst = lst_epoch + sol_day * 2 * Math.PI * (time_int) / (24 * 3600);
+        double delta_lst = lst_epoch + SOLAR_DAY * 2 * Math.PI * (time_int) / (24 * 3600);
 
         //System.out.printf("RAAN: %f\nPeriod: %f\nTime int: %f\n\n", this.RAAN, Period, time_int );
         // Generate vectors

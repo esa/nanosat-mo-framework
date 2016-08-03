@@ -28,10 +28,10 @@ import java.util.Date;
  */
 public class InstrumentsSimulator {
 
-    private Orbit darkDusk;
-    private GPS gps;
-    private FineADCS fineADCS;
-    private Camera camera;
+    private final Orbit darkDusk;
+    private final GPS gps;
+    private final FineADCS fineADCS;
+    private final Camera camera;
     private int mode = 0;
     private double temperature = 0;
     private byte[] picture = null;

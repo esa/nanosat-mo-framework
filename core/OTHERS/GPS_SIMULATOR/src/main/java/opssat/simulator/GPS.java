@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *
@@ -55,29 +54,12 @@ public class GPS {
 
         Position = orbit.getParameters();
 
-        // Generate a (10 meters) PositionError
+        // Generate a POSITION_ERROR position error
         positionError = GPS.this.generateError(POSITION_ERROR, Position);
 
-        // Generate a numericalError
+        // Generate a NUMERICAL_ERROR numerical error
         numericalError = GPS.this.generateError(NUMERICAL_ERROR, Position);
 
-        // Schedule the GPS updates to a constant frequency
-        /*
-        timer.scheduleAtFixedRate(new TimerTask() {
-          @Override
-          public void run() {
-            // Get the parameters from the orbit
-            Position = orbit.getParameters();
-            
-            // Change the numericalError every: this.SampleFrequency
-            numericalError = GPS.this.generateError(NUMERICAL_ERROR, Position);
-            
-//            OrbitParameters test =  getPosition();
-//            System.out.printf("\nLatitude, Longitude: %f, %f\nAltitude: %f\nTime: %s\n", test.getlatitude(), test.getlongitude(), test.getGPSaltitude(), test.gettime().toString());
-                       
-          }
-            }, 0, this.SampleFrequency);
-         */
     }
 
     public OrbitParameters getPosition() {
@@ -125,7 +107,7 @@ public class GPS {
         }
     }
 
-    private double fixBoundaries(double input, double low_limit, double top_limit) {
+    private static double fixBoundaries(double input, double low_limit, double top_limit) {
         if (input < low_limit) {
             return low_limit;
         }
@@ -147,10 +129,11 @@ public class GPS {
         double factor = 360 / (2 * Math.PI * param.geta());
 
         // The values are divided by 3 to represent a 3 sigma confidence interval
+        // The meters need to be converted to kilometers ("/ 1000")
         OrbitParameters error = new OrbitParameters(
                 factor * k / 3 * randomno.nextGaussian(),
                 factor * k / 3 * randomno.nextGaussian(),
-                k / 3 * randomno.nextGaussian(),
+                k / 1000 / 3 * randomno.nextGaussian(),
                 new Vector(0, 0, 0),
                 this.Position.gettime());
 
