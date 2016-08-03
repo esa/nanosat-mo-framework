@@ -56,7 +56,6 @@ public final class AutonomousADCSManager {
     private final HashMap<Long, AttitudeDefinition> attitudeDefs;
     private final COMServicesProvider comServices;
     private long availableTime = 0;
-    private final Object MUTEX = new Object();
 
     public AutonomousADCSManager(COMServicesProvider comServices) {
 
@@ -117,7 +116,7 @@ public final class AutonomousADCSManager {
     public boolean delete(Long objId) {
         return (this.attitudeDefs.remove(objId) != null);
     }
-    
+
     protected Long list(Identifier input) {
         final LongList objIds = this.listAll();
         for (Long objId : objIds) {
@@ -177,34 +176,31 @@ public final class AutonomousADCSManager {
     public String invalidField(AttitudeDefinition attitude) {
 
         // Add the validation conditions below
-        
         // Example: longitude or latitude out of boundaries
-        
-        
         return null;
-        
+
     }
 
-    public void markAvailableTime(final Duration time) {
-        if(time == null){
-            this.availableTime = 0;
-            return;
-        }
-        
-        if(time.getValue() == 0){
+    public synchronized void markAvailableTime(final Duration time) {
+        if (time == null) {
             this.availableTime = 0;
             return;
         }
 
-        this.availableTime = System.currentTimeMillis() + (long) (time.getValue()*1000);
+        if (time.getValue() == 0) {
+            this.availableTime = 0;
+            return;
+        }
+
+        this.availableTime = System.currentTimeMillis() + (long) (time.getValue() * 1000);
     }
 
-    public Duration getTimeLeft() {
-        if (this.availableTime == 0){
+    public synchronized Duration getTimeLeft() {
+        if (this.availableTime == 0) {
             return null; // Return null if the time left is unknown...
         }
-        
-        return ( (this.availableTime == 0) ? null : new Duration((this.availableTime - System.currentTimeMillis()) * 1000));
+
+        return ((this.availableTime == 0) ? null : new Duration((this.availableTime - System.currentTimeMillis()) * 1000));
     }
 
 }
