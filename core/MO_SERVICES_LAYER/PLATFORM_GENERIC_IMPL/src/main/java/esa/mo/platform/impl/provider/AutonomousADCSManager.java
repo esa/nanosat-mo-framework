@@ -56,6 +56,7 @@ public final class AutonomousADCSManager {
     private final HashMap<Long, AttitudeDefinition> attitudeDefs;
     private final COMServicesProvider comServices;
     private long availableTime = 0;
+    private final Object MUTEX = new Object();
 
     public AutonomousADCSManager(COMServicesProvider comServices) {
 

@@ -59,6 +59,4 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
         return satelitesInView;
     }
     
-    
-    
 }

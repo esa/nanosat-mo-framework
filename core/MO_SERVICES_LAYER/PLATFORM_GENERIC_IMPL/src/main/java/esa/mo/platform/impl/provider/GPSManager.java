@@ -164,6 +164,4 @@ public final class GPSManager extends DefinitionsManager {
         return new Long(0);
     }
 
- 
-
 }

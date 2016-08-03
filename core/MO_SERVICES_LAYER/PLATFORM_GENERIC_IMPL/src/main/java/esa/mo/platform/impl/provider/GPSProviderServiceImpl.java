@@ -51,7 +51,6 @@ import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.DurationList;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.EntityKey;
 import org.ccsds.moims.mo.mal.structures.EntityKeyList;
@@ -518,6 +517,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                 @Override
                 public void run() {
                     if (active) {
+                        if (!adapter.isUnitAvailable()){ // Is the unit available?
+                            return;
+                        }
+                        
                         // Do: get the current value from the GPS unit
                         synchronized(MUTEX){
                             currentPosition = adapter.getCurrentPosition();
