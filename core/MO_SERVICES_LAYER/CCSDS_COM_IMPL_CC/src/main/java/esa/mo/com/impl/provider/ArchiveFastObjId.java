@@ -71,8 +71,6 @@ public class ArchiveFastObjId {
         final Key key = new Key(objectTypeId, domain);
         final Long currentObjId = this.getCurrentID(objectTypeId, domain);
 
-//        if (currentObjId == null) return; // There's no current objId object
-
         if (currentObjId == null){
             this.fastID.put(key, objId);
             return;
@@ -103,10 +101,12 @@ public class ArchiveFastObjId {
         return objId;
     }
 
+    /*
     private boolean exists(final ObjectType objectTypeId, final IdentifierList domain) {
         Key key = new Key(objectTypeId, domain);
         return (this.fastID.get(key) != null);
     }
+    */
 
     protected class Key {
 

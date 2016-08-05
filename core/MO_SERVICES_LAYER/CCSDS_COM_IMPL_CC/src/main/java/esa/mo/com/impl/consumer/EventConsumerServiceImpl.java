@@ -207,5 +207,4 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         }
     }
     
-    
 }

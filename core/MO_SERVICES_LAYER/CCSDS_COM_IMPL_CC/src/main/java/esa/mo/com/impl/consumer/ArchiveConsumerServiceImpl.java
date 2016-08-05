@@ -31,15 +31,11 @@ import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.archive.structures.CompositeFilter;
-import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 
 /**
  *
@@ -48,23 +44,11 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
 
     private ArchiveStub archiveService = null;
-    private String retrieveTBox = "";
-    private String countTBox = "";
     private ConfigurationConsumer configuration = new ConfigurationConsumer();
 
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
         return new ArchiveStub(tmConsumer);
-    }
-
-    @Deprecated
-    protected String getRetrieveTBox() {
-        return retrieveTBox;
-    }
-
-    @Deprecated
-    protected String getCountTBox() {
-        return countTBox;
     }
 
     public ArchiveStub getArchiveStub() {
@@ -106,7 +90,7 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         this.archiveService = new ArchiveStub(tmConsumer);
 
     }
-
+/*
     @Deprecated
     public ArchiveDetails generateArchiveDetails(Long objId) {
         // ArchiveDetails
@@ -118,32 +102,5 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         archiveDetails.setProvider(connectionDetails.getProviderURI());
         return archiveDetails;
     }
-
-    @Deprecated
-    public static ArchiveQuery generateArchiveQuery() {
-        // ArchiveDetails
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(new Long(0));
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(null);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortOrder(null);
-        archiveQuery.setSortFieldName(null);
-
-        return archiveQuery;
-    }
-
-    @Deprecated
-    public static CompositeFilter generateCompositeFilter() {
-        CompositeFilter compositeFilter = new CompositeFilter();
-        compositeFilter.setFieldName("name");
-        compositeFilter.setType(ExpressionOperator.fromNumericValue(ExpressionOperator.EQUAL_NUM_VALUE));
-        compositeFilter.setFieldValue(new Identifier("AggregationUpdate"));
-
-        return compositeFilter;
-    }
-
+  */  
 }

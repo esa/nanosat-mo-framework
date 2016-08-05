@@ -29,7 +29,7 @@ import org.ccsds.moims.mo.mal.structures.Element;
  */
 public class MOcomposite extends MOelement{
     
-    private javax.swing.JToggleButton button;
+    private final javax.swing.JToggleButton button;
 
     public MOcomposite(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, editable, objIsNull);
@@ -74,10 +74,6 @@ public class MOcomposite extends MOelement{
         MOWindow genericObj = new MOWindow(object, this.editable);
 
         try {
-/*            
-            Object obj = genericObj.getObject();
-            this.object = obj;
-*/
             this.object = genericObj.getObject();
         } catch (InterruptedIOException ex) {
             return;

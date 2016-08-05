@@ -98,7 +98,6 @@ public class HelperMisc {
         } else {
             Logger.getLogger(HelperMisc.class.getName()).log(Level.INFO,
                     "The file " + file.getName() + " does not exist.");
-
         }
 
         System.setProperties(sysProps);

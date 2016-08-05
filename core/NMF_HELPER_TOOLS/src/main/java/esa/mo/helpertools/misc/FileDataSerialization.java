@@ -58,7 +58,6 @@ public class FileDataSerialization {
      * @throws java.lang.ClassNotFoundException
      */
     public static Object serializeDataIn(String filename) throws FileNotFoundException, IOException, ClassNotFoundException {
-
         try {
             FileInputStream fin = new FileInputStream(filename);
             ObjectInputStream ois = new ObjectInputStream(fin);
@@ -71,7 +70,6 @@ public class FileDataSerialization {
         } catch (IOException e) {
             throw new IOException();
         }
-
     }
 
 }

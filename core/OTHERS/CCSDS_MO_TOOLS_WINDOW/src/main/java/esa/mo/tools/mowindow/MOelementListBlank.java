@@ -26,7 +26,7 @@ package esa.mo.tools.mowindow;
  */
 public class MOelementListBlank extends MOelement{
     
-    private javax.swing.JToggleButton buttonAdd;
+    private final javax.swing.JToggleButton buttonAdd;
 
     public MOelementListBlank(java.awt.event.ActionListener actionListener, boolean editable) {
         super("", null, editable, false);

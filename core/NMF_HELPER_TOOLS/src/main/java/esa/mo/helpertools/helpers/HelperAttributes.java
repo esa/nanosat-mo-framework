@@ -595,7 +595,6 @@ public class HelperAttributes {
             if (typeShortForm.intValue() == Attribute.SHORT_TYPE_SHORT_FORM.intValue()) {
                 return (short) ((Union) obj).getShortValue();
             }
-        
         }
 
         return obj;
@@ -711,7 +710,6 @@ public class HelperAttributes {
         }
 
         return "";
-
     }
 
     /**
@@ -781,7 +779,6 @@ public class HelperAttributes {
         }
 
         return null;
-
     }
     
     /**

@@ -30,13 +30,13 @@ import org.ccsds.moims.mo.mal.structures.Enumeration;
  *
  * @author Cesar Coelho
  */
-public class MOenumeration extends MOelement{
-    
+public class MOenumeration extends MOelement {
+
     private javax.swing.JComboBox comboBox;
 
     public MOenumeration(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, editable, objIsNull);
-        
+
         comboBox = new javax.swing.JComboBox();
         super.middlePanel.add(comboBox);
         this.comboBox.setEnabled(editable);
@@ -50,21 +50,20 @@ public class MOenumeration extends MOelement{
         try {
             String[] enumerationStrings = (String[]) field.get(enumeration);
 
-            for (int i = 0; i < enumerationStrings.length; i++){
-                // Set the text
-                this.comboBox.addItem(enumerationStrings[i]);
+            for (String enumerationString : enumerationStrings) {
+                this.comboBox.addItem(enumerationString); // Set the text
             }
-            
+
             // Set the selected index;
             this.comboBox.setSelectedItem(enumeration.toString());
-            
+
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (objIsNull){
+        if (objIsNull) {
             super.makeFieldNull();
         }
 
@@ -73,18 +72,18 @@ public class MOenumeration extends MOelement{
 
     @Override
     public Object getObject() {
-        if (nullCB.isSelected()){
+        if (nullCB.isSelected()) {
             return null;
         }
-        
+
         Enumeration enumeration = (Enumeration) object;
         Field[] fields = enumeration.getClass().getDeclaredFields();
 
         int index = this.comboBox.getSelectedIndex();
-        
-        Field field = fields[8 + index*3];  // Calculation to get the correct enumeration
+
+        Field field = fields[8 + index * 3];  // Calculation to get the correct enumeration
         field.setAccessible(true);
-        
+
         try {
             return field.get(object);
         } catch (IllegalArgumentException ex) {
@@ -92,19 +91,8 @@ public class MOenumeration extends MOelement{
         } catch (IllegalAccessException ex) {
             Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return null;
     }
-/*
-    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        MOWindow genericObj = new MOWindow(object, this.editable);
-        object = genericObj.getObject();
 
-        // Set text
-        if (editable == true){
-//            this.button.setText("Edit");
-        }
-    }                                      
-*/        
-    
 }

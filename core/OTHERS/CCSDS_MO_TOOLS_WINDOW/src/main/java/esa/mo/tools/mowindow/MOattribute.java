@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.mal.structures.Element;
  */
 public class MOattribute extends MOelement {
 
-    private javax.swing.JTextField fieldValue;
+    private final javax.swing.JTextField fieldValue;
 
     public MOattribute(String fieldName, Object obj, boolean editable, boolean objIsNull) {
         super(fieldName, obj, editable, objIsNull);

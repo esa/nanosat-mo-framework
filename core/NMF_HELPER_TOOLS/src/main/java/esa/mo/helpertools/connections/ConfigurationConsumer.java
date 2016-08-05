@@ -132,12 +132,8 @@ public class ConfigurationConsumer {
         // -----------------------------------------------------------
 
         this.session = SessionType.LIVE;
-
         this.sessionName = new Identifier("LIVE");
 
-        /*        
-         this.network = new Identifier("GROUND");
-         */
     }
 
 }

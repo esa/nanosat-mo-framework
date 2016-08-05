@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.util;
 
-import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.lang.reflect.Field;

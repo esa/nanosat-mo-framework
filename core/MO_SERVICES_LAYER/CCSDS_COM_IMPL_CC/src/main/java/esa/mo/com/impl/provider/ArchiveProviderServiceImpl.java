@@ -302,7 +302,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // Sort the objects
             if (tmpArchiveQuery.getSortOrder() != null) {
                 try { // requirement: 3.4.4.2.26
-                    perObjs = manager.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(), tmpArchiveQuery.getSortOrder());
+                    perObjs = SortByField.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(), tmpArchiveQuery.getSortOrder());
                 } catch (NoSuchFieldException ex) {
                     // requirement: 3.4.4.2.14
                     throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
@@ -474,7 +474,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // Sort the objects  (just to be sure there are no errors...
             if (tmpArchiveQuery.getSortOrder() != null) {
                 try { // requirement: 3.4.4.2.26
-                    perObjs = manager.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(), tmpArchiveQuery.getSortOrder());
+                    perObjs = SortByField.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(), tmpArchiveQuery.getSortOrder());
                 } catch (NoSuchFieldException ex) {
                     // requirement: 3.4.4.2.14
                     throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
@@ -533,7 +533,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         // Do we have Duplicates in the objId array?
-        dupIndexList = manager.checkForDuplicates(lArchiveDetailsList);
+        dupIndexList = ArchiveManager.checkForDuplicates(lArchiveDetailsList);
 
         if (!dupIndexList.isEmpty()) {
             throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));

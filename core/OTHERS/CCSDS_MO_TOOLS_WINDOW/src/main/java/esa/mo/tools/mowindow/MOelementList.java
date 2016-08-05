@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
 public class MOelementList extends MOelement{
     
     private javax.swing.JToggleButton buttonEdit;
-    private javax.swing.JToggleButton buttonRemove;
+    private final javax.swing.JToggleButton buttonRemove;
     private javax.swing.JTextField fieldValue;
     
     public MOelementList(final MOWindow previousWindow, String fieldNameIn, Object obj, boolean editable, boolean objIsNull) {

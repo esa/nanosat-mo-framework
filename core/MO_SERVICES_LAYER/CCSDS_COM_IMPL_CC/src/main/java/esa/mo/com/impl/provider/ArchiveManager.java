@@ -112,7 +112,11 @@ public class ArchiveManager {
 
         // Create unique URL that identifies the connection
         this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
-        
+        this.startBackendDatabase();
+
+    }
+
+    private void startBackendDatabase() {
         Thread startDatabase = new Thread() {
             @Override
             public void run() {
@@ -131,9 +135,8 @@ public class ArchiveManager {
         };
 
         startDatabase.start();
-
     }
-
+    
     private void startServer() {
 
 //        System.setProperty("derby.drda.startNetworkServer", "true");
@@ -454,15 +457,14 @@ public class ArchiveManager {
             public void run() {
                 // Generate the object Ids if needed and the persistence objects to be stored
                 for (int i = 0; i < objIds.size(); i++) {
-                    COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
+                    final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
                     ArchivePersistenceObject perObj = em.find(ArchivePersistenceObject.class, id);
         
                     perObjs.add(perObj);
                 }
 
-                for (int i = 0; i < objIds.size(); i++) { // 6.510 ms per cycle
-                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "Bamm!" );
-                        COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
+                for (int i = 0; i < objIds.size(); i++) {
+                        final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
                         ArchivePersistenceObject perObj = em.find(ArchivePersistenceObject.class, id);
                         em.getTransaction().begin();
                         em.remove(perObj);
@@ -882,7 +884,7 @@ public class ArchiveManager {
                 obj = outPerObj.getObject();
 
                 // Check if Composite Filter is valid
-                if (!this.isCompositeFilterValid(compositeFilter, obj)) {
+                if (!ArchiveManager.isCompositeFilterValid(compositeFilter, obj)) {
                     throw new IllegalArgumentException();
                 }
 
@@ -914,78 +916,11 @@ public class ArchiveManager {
         return outPerObjs;
     }
 
-    protected ArrayList<ArchivePersistenceObject> sortPersistenceObjects(
-            final ArrayList<ArchivePersistenceObject> perObjs, final String fieldString,
-            final Boolean ascending) throws NoSuchFieldException {
-
-        IdentifierList tmpDomain;
-        ObjectType tmpObjType;
-        ArrayList<ArchivePersistenceObject> stackA = perObjs;
-        ArrayList<ArchivePersistenceObject> stackB;
-        ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<ArchivePersistenceObject>();
-
-        // Requirement 3.4.4.2.27: 
-        // "Each domain/object type pair shall be sorted separately from other domain/object type 
-        //  pairs; there is no requirement for sorting to be applied across domain/object type pairs"
-        while (!stackA.isEmpty()) { // We will sweep stackA
-            // What is the current zeroth pair?
-            tmpDomain = stackA.get(0).getDomain();
-            tmpObjType = stackA.get(0).getObjectType();
-            stackB = new ArrayList<ArchivePersistenceObject>();
-
-            // Make a stack B with all the equal pairs domain+objType
-            for (int index = 0; index < stackA.size(); index++) { // Let's cycle the complete stack A
-                if (stackA.get(index).getDomain().equals(tmpDomain)
-                        && stackA.get(index).getObjectType().equals(tmpObjType)) { // if the pair is the same...
-                    stackB.add(stackA.get(index));
-                    stackA.remove(index);
-                    index--; // index has to be the same on next iteration; counter the index++
-                }
-            }
-
-            stackB = this.sortStack(stackB, fieldString, ascending); // sort stack B
-            stackOut.addAll(stackB); // and add all the stack to the output
-        }
-
-        return stackOut;
-    }
-
     protected static ObjectId archivePerObj2source(final ArchivePersistenceObject obj) {
         return new ObjectId(obj.getObjectType(), new ObjectKey(obj.getDomain(), obj.getObjectId()));
     }
 
-    @SuppressWarnings("unchecked")
-    private ArrayList<ArchivePersistenceObject> sortStack(ArrayList<ArchivePersistenceObject> stack,
-            final String fieldString, final Boolean ascending) throws NoSuchFieldException {
 
-        if (stack == null) {
-            return null;
-        }
-
-        if (stack.isEmpty()) {
-            return stack;
-        }
-
-        Class aClass;
-
-        // Requirement 3.4.4.2.26: 
-        // "The returned lists shall be sorted based on the sorting options specified in ArchiveQuery"
-        // Is it a timestamp sorting?
-        if (fieldString == null) {
-            aClass = stack.get(0).getArchiveDetails().getClass();
-        } else if (stack.get(0).getObject() != null) {
-            aClass = stack.get(0).getObject().getClass();
-        } else {
-            return stack;
-        }
-
-        SortByField comparator = new SortByField(aClass, fieldString, ascending);
-        // stack.sort(comparator);
-        // Changed to be compatible with java 6:
-        java.util.Collections.sort(stack, comparator);
-
-        return stack;
-    }
 
     protected Boolean objectTypeContainsWildcard(final ObjectType objType) {
         return (objType.getArea().getValue() == 0
@@ -1110,7 +1045,7 @@ public class ArchiveManager {
         eventService.publishEvents(sourceURI, eventObjIds, objType, null, sourceList, null);
     }
     
-    protected boolean isObjectTypeLikeDeclaredServiceType(ObjectType objType, Element element) {
+    public static boolean isObjectTypeLikeDeclaredServiceType(ObjectType objType, Element element) {
         if (element == null) {
             return false;
         }
@@ -1128,7 +1063,7 @@ public class ArchiveManager {
         return true;
     }
 
-    protected UIntegerList checkForDuplicates(ArchiveDetailsList archiveDetailsList) {
+    public static UIntegerList checkForDuplicates(ArchiveDetailsList archiveDetailsList) {
         UIntegerList dupList = new UIntegerList();
 
         for (int i = 0; i < archiveDetailsList.size() - 1; i++) {
@@ -1146,7 +1081,7 @@ public class ArchiveManager {
         return dupList;
     }
 
-    private boolean isCompositeFilterValid(CompositeFilter compositeFilter, Object obj) {
+    public static boolean isCompositeFilterValid(CompositeFilter compositeFilter, Object obj) {
 
         if (compositeFilter.getFieldName().contains("\\.")) {  // Looking into a nested field?
             if (!(obj instanceof Composite)) {

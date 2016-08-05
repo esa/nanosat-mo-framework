@@ -20,12 +20,9 @@
  */
 package esa.mo.tools.mowindow;
 
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.InterruptedIOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
@@ -45,8 +42,8 @@ import org.ccsds.moims.mo.mal.structures.Union;
  */
 public final class MOWindow extends javax.swing.JDialog {
 
-    private Object receivedObj;
-    private boolean editable;
+    private final Object receivedObj;
+    private final boolean editable;
     private boolean closeButtonPressed = false;
 
     /**
@@ -120,7 +117,7 @@ public final class MOWindow extends javax.swing.JDialog {
                         }
 
                     } else {
-                        MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel.getComponentCount()), this.filterRawObject(list.get(i)), editable, (list.get(i) == null));
+                        MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel.getComponentCount()), FieldsHandler.filterRawObject(list.get(i)), editable, (list.get(i) == null));
                         componentsPanel.add(moElementList);
                     }
                 } else {
@@ -145,16 +142,16 @@ public final class MOWindow extends javax.swing.JDialog {
 
         // Is the object a composite?
         if (obj instanceof Composite) { // Is Composite...
-            
-            Field[] fields = this.getDeclaredFields(obj);
-            
+
+            Field[] fields = FieldsHandler.getDeclaredFields(obj);
+
             if (fields.length < 6) {
                 return;
             }
 
             for (int i = 6; i < fields.length; i++) {
-                boolean fieldObjectIsNull = this.isFieldNull(fields[i], obj);
-                Object fieldObject = this.generateFieldObject(fields[i], obj);
+                boolean fieldObjectIsNull = FieldsHandler.isFieldNull(fields[i], obj);
+                Object fieldObject = FieldsHandler.generateFieldObject(fields[i], obj);
 
                 // If another Composite add a button to create another MOWindow
                 if (fieldObject instanceof Composite) {
@@ -182,7 +179,7 @@ public final class MOWindow extends javax.swing.JDialog {
                 }
 
                 if (!(fieldObject instanceof Element)) {
-                    MOattribute moField = new MOattribute(fields[i].getName(), this.filterRawObject(fieldObject), editable, fieldObjectIsNull);
+                    MOattribute moField = new MOattribute(fields[i].getName(), FieldsHandler.filterRawObject(fieldObject), editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
@@ -195,139 +192,6 @@ public final class MOWindow extends javax.swing.JDialog {
         componentsPanel.add(field);
 
     }
-    
-    private Field[] getDeclaredFields(Object obj){
-        
-            Field[] fields = obj.getClass().getDeclaredFields();
-        
-            // Does it have a super class?
-            if (!obj.getClass().getSuperclass().getSimpleName().equals("Composite")){
-                Field[] superFields = obj.getClass().getSuperclass().getDeclaredFields();
-                Field[] newFields = new Field[fields.length + superFields.length];
-                
-                for(int i = 0 ; i < newFields.length ; i++){
-                    if (i < fields.length){
-                        newFields[i] = fields[i];
-                    }else{
-                        newFields[i] = superFields[i-fields.length];
-                    }
-                }
-    
-                fields = newFields;
-            }
-
-            return fields;
-    }
-
-    private boolean isFieldNull(Field field, Object obj) {
-        Object objectWithValue;
-        try {
-            field.setAccessible(true);
-            objectWithValue = field.get(obj);
-        } catch (IllegalArgumentException ex) {
-            return true;
-        } catch (IllegalAccessException ex) {
-            return true;
-        }
-
-        return (objectWithValue == null);
-    }
-
-    private Object generateFieldObject(Field field, Object obj) {
-
-        Object rawObj = null;
-        Attribute secondObj = null;
-        field.setAccessible(true);
-
-        // First try if we can grab it immediately
-        try {
-            Object objectWithValue1 = field.get(obj);
-            if (objectWithValue1 != null) {
-                return objectWithValue1;
-            }
-        } catch (IllegalArgumentException ex) {
-            // Ja.. just continue the rest of the tests...
-        } catch (IllegalAccessException ex) {
-            // Ja.. just continue the rest of the tests...
-        }
-
-        // The object is not generated, let's generate it from the field...
-        try {
-            rawObj = field.getType().newInstance();
-            secondObj = (Attribute) rawObj;
-            return secondObj;
-        } catch (ClassCastException ex0) {
-            this.generateFieldObjectFromField(rawObj, field);
-        } catch (InstantiationException ex0) {
-            this.generateFieldObjectFromField(rawObj, field);
-        } catch (IllegalAccessException ex0) {
-            this.generateFieldObjectFromField(rawObj, field);
-        }
-
-        return null;
-    }
-    
-    private Object generateFieldObjectFromField(Object rawObj, Field field){
-            if (rawObj != null) {
-                return this.filterRawObject(rawObj);
-            } else {
-                Constructor[] constructors = field.getType().getDeclaredConstructors();
-                if (constructors.length == 0) {
-                    return null;
-                }
-
-                // Enumeration case...
-                if (constructors.length == 1) {
-                    Constructor constructor = constructors[0];  // Use the first constructor
-                    constructor.setAccessible(true);
-                    try {
-                        Enumeration ctor = (Enumeration) constructor.newInstance(0);
-                        return ctor;
-                    } catch (InstantiationException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InvocationTargetException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-                // Octet case...
-                if (constructors.length == 2) {
-                    Constructor constructor = constructors[0];  // Use the first constructor
-                    constructor.setAccessible(true);
-                    String name = constructor.getName();
-                    try {
-                        if (name.equals("java.lang.Boolean")) {
-                            return HelperAttributes.javaType2Attribute((Boolean) constructor.newInstance(true));
-                        }
-
-                        if (name.equals("java.lang.String")) {
-                            return HelperAttributes.javaType2Attribute((String) constructor.newInstance(""));
-                        }
-
-                        if (name.equals("java.lang.Byte")) {
-                            return HelperAttributes.javaType2Attribute(constructor.newInstance((byte) 1));
-                        }
-
-                        return HelperAttributes.javaType2Attribute(constructor.newInstance(1));
-                    } catch (InstantiationException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InvocationTargetException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            }
-        return null;
-    }
-    
 
     public void refreshVerticalSize() {
         this.setSize(this.getWidth(), componentsPanel.getComponentCount() * 23 + 110);
@@ -470,19 +334,10 @@ public final class MOWindow extends javax.swing.JDialog {
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
 
-    private Object filterRawObject(Object obj) {
-        try {
-            return HelperAttributes.javaType2Attribute(obj);
-        } catch (IllegalArgumentException ex) {
-        }
-
-        return null;
-    }
-
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             Element element = HelperMisc.elementList2element((ElementList) this.receivedObj);
-            
+
             MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel.getComponentCount() - 1), element, this.editable, (this.receivedObj == null));
             componentsPanel.add(moElementList, componentsPanel.getComponentCount() - 1);
             this.refreshVerticalSize();
@@ -493,9 +348,9 @@ public final class MOWindow extends javax.swing.JDialog {
 
     @SuppressWarnings({"unchecked", "unchecked"})
     public Object getObject() throws InterruptedIOException {
-        
-        if(closeButtonPressed){
-            throw new java.io.InterruptedIOException(); 
+
+        if (closeButtonPressed) {
+            throw new java.io.InterruptedIOException();
         }
 
         if (!editable) {
@@ -515,7 +370,7 @@ public final class MOWindow extends javax.swing.JDialog {
         // Composite not list
         if (this.receivedObj instanceof Composite && !(this.receivedObj instanceof ElementList)) {
 
-            Field[] fields = this.getDeclaredFields(this.receivedObj);
+            Field[] fields = FieldsHandler.getDeclaredFields(this.receivedObj);
 
             if (fields.length < 6) {
                 return null;

@@ -29,6 +29,7 @@ import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
+ * Holds all the fields of a COM Event.
  *
  * @author Cesar Coelho
  */

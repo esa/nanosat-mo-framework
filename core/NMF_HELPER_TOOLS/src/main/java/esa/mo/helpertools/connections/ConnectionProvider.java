@@ -50,7 +50,7 @@ public class ConnectionProvider {
     private MALProviderManager providerMgr;
     private static final String FILENAME_DEMO_SERVICE_URIS = "providerURIs.properties";
     private static final String PROPERTY_SHARED_BROKER_URI = "esa.mo.helpertools.connections.SharedBrokerURI";
-    private SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
+    private final SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
 
     public SingleConnectionDetails getConnectionDetails() {
         return connectionDetails;

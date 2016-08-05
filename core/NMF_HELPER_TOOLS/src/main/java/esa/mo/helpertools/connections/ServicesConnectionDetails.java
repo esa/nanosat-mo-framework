@@ -121,7 +121,6 @@ public class ServicesConnectionDetails {
                 // Put it in the Hash Map
                 services.put(serviceName, details);
             }
-
         }
 
         return this;
