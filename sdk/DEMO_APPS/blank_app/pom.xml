@@ -58,6 +58,10 @@
         </developer>
     </developers>
 
+    <properties>
+        <assembly.mainClass>esa.mo.nanosatmoframework.apps.BlankApp</assembly.mainClass>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
