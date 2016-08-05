@@ -42,20 +42,20 @@ public class CommonServicesConsumer {
     private DirectoryConsumerServiceImpl directoryService;
     private ConfigurationConsumerServiceImpl configurationService;
 
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices){
-    
+    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
+
         SingleConnectionDetails details;
 
         try {
             // Initialize the Directory service
             details = connectionConsumer.getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI());
             }
 
             // Initialize the Configuration service
             details = connectionConsumer.getServicesDetails().get(ConfigurationHelper.CONFIGURATION_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 configurationService = new ConfigurationConsumerServiceImpl(details, comServices);
             }
 
@@ -66,36 +66,44 @@ public class CommonServicesConsumer {
         } catch (MALInteractionException ex) {
             Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+
     }
-  
-    public DirectoryConsumerServiceImpl getDirectoryService(){ return this.directoryService; }
-    public ConfigurationConsumerServiceImpl getConfigurationService(){ return this.configurationService; }
-    
+
+    public DirectoryConsumerServiceImpl getDirectoryService() {
+        return this.directoryService;
+    }
+
+    public ConfigurationConsumerServiceImpl getConfigurationService() {
+        return this.configurationService;
+    }
+
     public void setServices(
             DirectoryConsumerServiceImpl directoryService,
-            ConfigurationConsumerServiceImpl configurationService
-    ){
+            ConfigurationConsumerServiceImpl configurationService) {
         this.directoryService = directoryService;
         this.configurationService = configurationService;
     }
 
-    public void setDirectoryService(DirectoryConsumerServiceImpl directoryService){ this.directoryService = directoryService; }
-    public void setConfigurationService(ConfigurationConsumerServiceImpl configurationService){ this.configurationService = configurationService; }
+    public void setDirectoryService(DirectoryConsumerServiceImpl directoryService) {
+        this.directoryService = directoryService;
+    }
 
-    
+    public void setConfigurationService(ConfigurationConsumerServiceImpl configurationService) {
+        this.configurationService = configurationService;
+    }
+
     /**
      * Closes the service consumer connections
      *
      */
     public void closeConnections() {
-        if(this.directoryService != null){
+        if (this.directoryService != null) {
             this.directoryService.closeConnection();
         }
-        
-        if(this.configurationService != null){
+
+        if (this.configurationService != null) {
             this.configurationService.closeConnection();
         }
     }
-    
+
 }

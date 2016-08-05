@@ -106,7 +106,7 @@ public class ParameterManager extends DefinitionsManager {
     }
 
     protected ParameterDefinitionDetails get(Long input) {
-        return (ParameterDefinitionDetails) this.getDefs().get(input);
+        return (ParameterDefinitionDetails) this.getDef(input);
     }
 
     /**
@@ -480,7 +480,7 @@ public class ParameterManager extends DefinitionsManager {
     }
 
     protected boolean setGenerationEnabled(Long objId, Boolean bool, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
-        ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getDefs().get(objId);
+        ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getDef(objId);
         
         if (def == null){
             return false;
@@ -495,8 +495,9 @@ public class ParameterManager extends DefinitionsManager {
     }
 
     protected void setGenerationEnabledAll(Boolean bool, SingleConnectionDetails connectionDetails) {
-        LongList objIds = new LongList(); 
-        objIds.addAll(this.getDefs().keySet());
+//        LongList objIds = new LongList(); 
+//        objIds.addAll(this.getDefs().keySet());
+        LongList objIds = this.listAll(); 
         
         for (Long objId : objIds) {
             ParameterDefinitionDetails def = this.get(objId);

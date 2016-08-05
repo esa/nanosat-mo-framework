@@ -72,7 +72,7 @@ public final class GPSManager extends DefinitionsManager {
     }
 
     public NearbyPositionDefinition get(Long input) {
-        return (NearbyPositionDefinition) this.getDefs().get(input);
+        return (NearbyPositionDefinition) this.getDef(input);
     }
 
     public Boolean getPreviousStatus(Long input) {

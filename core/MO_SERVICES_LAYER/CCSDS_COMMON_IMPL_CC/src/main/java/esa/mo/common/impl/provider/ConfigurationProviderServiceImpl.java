@@ -363,7 +363,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     public class EventConsumerConfigurationCallbackAdapter extends EventAdapter {
 
         private final Long originalObjId;
-        private int timeout = 15; // (seconds) Default timeout for the waiting of a response from the service
+        private final int timeout = 15; // (seconds) Default timeout for the waiting of a response from the service
         private ObjectId objectId = null;
         private boolean available = false;
 

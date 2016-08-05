@@ -87,8 +87,9 @@ public final class AggregationManager extends DefinitionsManager {
             
         }
 
-        LongList objIds = new LongList();
-        objIds.addAll(this.getDefs().keySet());
+//        LongList objIds = new LongList();
+//        objIds.addAll(this.getDefs().keySet());
+        LongList objIds = this.listAll(); 
         this.createAggregationValuesList(objIds);
         
     }
@@ -104,7 +105,7 @@ public final class AggregationManager extends DefinitionsManager {
     }
 
     public AggregationDefinitionDetails get(Long input) {
-        return (AggregationDefinitionDetails) this.getDefs().get(input);
+        return (AggregationDefinitionDetails) this.getDef(input);
     }
 
     protected void createAggregationValuesList (LongList objIds){
@@ -417,8 +418,9 @@ public final class AggregationManager extends DefinitionsManager {
     }
 
     public void setGenerationEnabledAll(Boolean bool, SingleConnectionDetails connectionDetails){ 
-        LongList objIds = new LongList(); 
-        objIds.addAll(this.getDefs().keySet());
+//        LongList objIds = new LongList(); 
+//        objIds.addAll(this.getDefs().keySet());
+        LongList objIds = this.listAll(); 
         
         for (Long objId : objIds) {
             AggregationDefinitionDetails def = this.get(objId);

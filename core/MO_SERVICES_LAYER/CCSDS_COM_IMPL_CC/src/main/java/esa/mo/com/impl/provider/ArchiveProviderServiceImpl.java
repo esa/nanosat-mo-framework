@@ -215,10 +215,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         // requirement: 3.4.3.2.13 and requirement: 3.4.3.2.14: ordering of objects is not specified
-        
-        if (outArchiveDetailsList.isEmpty()){
+        if (outArchiveDetailsList.isEmpty()) {
             interaction.sendResponse(null, null);  // requirement: 3.4.3.2.12
-        }else{
+        } else {
             interaction.sendResponse(outArchiveDetailsList, outMatchedObjects); // requirement: 3.4.3.2.8
         }
 
@@ -257,7 +256,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             }
         }
-        
+
         ArchiveQuery tmpArchiveQuery;
         CompositeFilterSet tmpQueryFilter;
         final int sizeArchiveQueryList = lArchiveQueryList.size();
@@ -314,23 +313,23 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // Errors
             if (!invIndexList.isEmpty()) { // requirement: 3.4.4.3 (error: a, b)
 //                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-                if(index == (sizeArchiveQueryList - 1) ){ // Is it the last query?
+                if (index == (sizeArchiveQueryList - 1)) { // Is it the last query?
                     throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-                }else{
+                } else {
                     continue;
                 }
-                        
+
             }
 
             // Is the list empty? and it is the last query?
-            if (perObjs.isEmpty() && index == (sizeArchiveQueryList - 1)  ){
+            if (perObjs.isEmpty() && index == (sizeArchiveQueryList - 1)) {
                 interaction.sendResponse(null, null, null, null);  // requirement: 3.4.4.2.29
                 return;
             }
-            
+
             // requirement: 3.4.4.2.18 and requirement 3.4.4.2.21
-            if (manager.objectTypeContainsWildcard(lObjectType)  ||
-                    HelperCOM.domainContainsWildcard(lArchiveQueryList.get(index).getDomain())) {  // Any wilcards? if so, then send the updates separately
+            if (manager.objectTypeContainsWildcard(lObjectType)
+                    || HelperCOM.domainContainsWildcard(lArchiveQueryList.get(index).getDomain())) {  // Any wilcards? if so, then send the updates separately
 
                 // Then we need to send data sequentially... object by object
                 for (int j = 0; j < perObjs.size(); j++) {
@@ -353,21 +352,21 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                             outObjectList.add(perObjs.get(j).getObject()); // requirement: 3.4.4.2.24
                         }
                     }
-                    
+
                     // requirement: 3.4.4.2.19
                     ObjectType objType = (manager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : null;
 //                    ObjectType objType = (manager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : lObjectType;
-                    
-                    if (j != (perObjs.size() - 1)  || index != (sizeArchiveQueryList - 1) ) {
+
+                    if (j != (perObjs.size() - 1) || index != (sizeArchiveQueryList - 1)) {
                         // requirement: 3.4.4.2.18
-                        interaction.sendUpdate(objType, perObjs.get(j).getDomain(), 
+                        interaction.sendUpdate(objType, perObjs.get(j).getDomain(),
                                 outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
                     } else {
-                            interaction.sendResponse(objType, perObjs.get(j).getDomain(), 
-                                    outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
+                        interaction.sendResponse(objType, perObjs.get(j).getDomain(),
+                                outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
                     }
                 }
-                
+
             } else {
                 // Here: Same Domain and Object Type for all objects
                 // Find the objIds based on the query
@@ -424,9 +423,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (lArchiveQueryList == null) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.5.2.1
         }
-        
+
         if (queryFilterList != null) { // requirement: 3.4.5.2.1
-            
+
             if (lArchiveQueryList.size() != queryFilterList.size()) { // requirement: 3.4.5.2.1
 //                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
@@ -470,7 +469,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 perObjs = new ArrayList<ArchivePersistenceObject>();
                 perObjs.add(latestPerObj);
             }
-            
+
             // Sort the objects  (just to be sure there are no errors...
             if (tmpArchiveQuery.getSortOrder() != null) {
                 try { // requirement: 3.4.4.2.26
@@ -480,7 +479,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
                 }
             }
-            
+
             outLong.add(new Long(perObjs.size())); // requirement: 3.4.5.2.2
         }
 
@@ -504,7 +503,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         UIntegerList dupIndexList;
 
         // What if the list is null?
-        if (lArchiveDetailsList == null){
+        if (lArchiveDetailsList == null) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
@@ -521,7 +520,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, error));
             }
-        
+
         }
 
         if (manager.objectTypeContainsWildcard(objType)) { // requirement: 3.4.6.2.9
@@ -543,12 +542,10 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
                 // Shall be taken care in the manager & per inserted entry
-            } else {
-                // Does it exist already?  // requirement: 3.4.6.2.6
-                if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
-                    dupIndexList.add(new UInteger(index));
-                    continue;
-                }
+            } else // Does it exist already?  // requirement: 3.4.6.2.6
+            if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
+                dupIndexList.add(new UInteger(index));
+                continue;
             }
 
             if (HelperArchive.archiveDetailsContainsWildcard(lArchiveDetailsList.get(index))) { // requirement: 3.4.6.2.11
@@ -566,7 +563,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     continue;
                 }
             }
-*/
+             */
         }
 
         // Errors
@@ -577,16 +574,26 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (!dupIndexList.isEmpty()) { // requirement: 3.4.6.3 (error: b)
             throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
         }
-        
 
         // The errors have to be before the store operation to fulfil requirement: 3.4.6.2.13
-        // Execute the store operation (objType, domain, archiveDetails, objs)
-        LongList outLongLst = manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
-        // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
-
         if (returnObjId == true) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
+            // Execute the store operation (objType, domain, archiveDetails, objs)
+            LongList outLongLst = manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
+            // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
             return outLongLst;
         } else {
+            // If the user doesn't care about receiving the objId, then it can go faster!! :)
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    // Execute the store operation (objType, domain, archiveDetails, objs)
+                    manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
+                    // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
+                }
+            };
+            
+            t1.start();
+
             return null;
         }
 
@@ -609,8 +616,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (lArchiveDetailsList == null) {
             return; // requirement: 3.4.4.2.3
         }
-        if (manager.objectTypeContainsWildcard(lObjectType)     || 
-                HelperCOM.domainContainsWildcard(domain) ){   // requirement: 3.4.7.2.8 (first part)
+        if (manager.objectTypeContainsWildcard(lObjectType)
+                || HelperCOM.domainContainsWildcard(domain)) {   // requirement: 3.4.7.2.8 (first part)
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
@@ -619,7 +626,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             int size1 = (lArchiveDetailsList.size() < lElementList.size()) ? lArchiveDetailsList.size() : lElementList.size();
             int size2 = (lArchiveDetailsList.size() > lElementList.size()) ? lArchiveDetailsList.size() : lElementList.size();
 
-            for (int i = size1; i < size2; i++){ // make a list with the invalid indexes
+            for (int i = size1; i < size2; i++) { // make a list with the invalid indexes
                 error.add(new UInteger(i));
             }
 
@@ -662,11 +669,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         UIntegerList invIndexList = new UIntegerList();
         LongList toBeDeleted = new LongList();
 
-        if (manager.objectTypeContainsWildcard(lObjectType)){ // requirement: 3.4.8.2.1
+        if (manager.objectTypeContainsWildcard(lObjectType)) { // requirement: 3.4.8.2.1
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.8.2.3
         }
 
-        if (HelperCOM.domainContainsWildcard(lIdentifierList)){ // requirement: 3.4.8.2.2
+        if (HelperCOM.domainContainsWildcard(lIdentifierList)) { // requirement: 3.4.8.2.2
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.8.2.3
         }
 
@@ -701,47 +708,44 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         return outObjIds; // requirement: 3.4.8.2.8
 
     }
-    
+
     /**
-     * Return the unique domain in the Archive, if there is no single unique 
+     * Return the unique domain in the Archive, if there is no single unique
      * domain then the method shall throw an error
-     * 
+     *
      * @return The single unique domain
      * @throws IOException When there are more domains than a single unique one
      */
-    public IdentifierList getUniqueDomain() throws IOException{
-        
+    public IdentifierList getUniqueDomain() throws IOException {
+
         // Do we have a single domain for all objects?
-        
         // If not, then throw error
-        if(false){
+        if (false) {
             throw new IOException("Operation not allowed. There is no single unique domain for all objects.");
         }
-        
+
         final IdentifierList domain = new IdentifierList();
-        
+
         return domain;
     }
-    
+
     /**
-     * Sets the unique domain in the Archive, if there is no single unique 
+     * Sets the unique domain in the Archive, if there is no single unique
      * domain then the method shall throw an error
-     * 
+     *
      * @param newDomain The new domain to be set
      * @throws IOException When there are more domains than a single unique one
      */
-    public void setUniqueDomain(IdentifierList newDomain) throws IOException{
-        
+    public void setUniqueDomain(IdentifierList newDomain) throws IOException {
+
         // Do we have a single domain for all objects?
-        
         // If not, then throw error
-        if(false){
+        if (false) {
             throw new IOException("Operation not allowed. There is no single unique domain for all objects.");
         }
-        
+
         final IdentifierList domain = new IdentifierList();
-        
+
     }
-    
 
 }

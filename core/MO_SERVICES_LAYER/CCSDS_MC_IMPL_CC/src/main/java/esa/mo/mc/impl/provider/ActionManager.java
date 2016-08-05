@@ -25,7 +25,6 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
-import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -85,7 +84,7 @@ public final class ActionManager extends DefinitionsManager {
     }
 
     public ActionDefinitionDetails get(Long input) {
-        return (ActionDefinitionDetails) this.getDefs().get(input);
+        return (ActionDefinitionDetails) this.getDef(input);
     }
     
     public Long storeAndGenerateAInsobjId(ActionInstanceDetails aIns, Long related, SingleConnectionDetails connectionDetails){ 

@@ -21,6 +21,7 @@
 package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
@@ -101,17 +102,17 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     @Override
-    protected Boolean compareName(Long objId, Identifier name) {
+    public Boolean compareName(Long objId, Identifier name) {
         return this.get(objId).getName().equals(name);
     }
 
     @Override
-    protected ElementList newDefinitionList() {
+    public ElementList newDefinitionList() {
         return new AppDetailsList();
     }
 
-    protected AppDetails get(Long input) {
-        return (AppDetails) this.getDefs().get(input);
+    public AppDetails get(Long input) {
+        return (AppDetails) this.getDef(input);
     }
 
     protected Long add(AppDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
@@ -234,7 +235,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         for (AppDetails single_app : apps) {
             Long id = super.list(single_app.getName());
 
-            AppDetails previousAppDetails = (AppDetails) super.getDefs().get(id);
+            AppDetails previousAppDetails = (AppDetails) super.getDef(id);
 
             if (previousAppDetails == null) { // It didn't exist...
                 // Either is the first time running or it is a newly installed app!
@@ -262,7 +263,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     protected boolean isAppRunning(final Long appId) {
-        AppDetails app = (AppDetails) this.getDefs().get(appId); // get it from the list of available apps
+        AppDetails app = (AppDetails) this.getDef(appId); // get it from the list of available apps
         ProcessExecutionHandler handler = handlers.get(appId);
 
         if (handler == null) {
@@ -277,7 +278,7 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     protected void startAppProcess(ProcessExecutionHandler handler, MALInteraction interaction) throws IOException {
 
-        AppDetails app = (AppDetails) this.getDefs().get(handler.getAppInstId()); // get it from the list of available apps
+        AppDetails app = (AppDetails) this.getDef(handler.getAppInstId()); // get it from the list of available apps
 
         // Go to the folder where the app are installed
         String app_folder = apps_folder_path + File.separator + app.getName().getValue();
@@ -311,7 +312,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     protected boolean killAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
-        AppDetails app = (AppDetails) this.getDefs().get(appInstId); // get it from the list of available apps
+        AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
         ProcessExecutionHandler handler = handlers.get(appInstId);
 

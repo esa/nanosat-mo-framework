@@ -82,7 +82,7 @@ public abstract class DefinitionsManager {
      * @param input The object instance identifier of the definition
      * @return True if exists. False otherwise.
      */
-    public boolean exists(Long input) {
+    public synchronized boolean exists(Long input) {
         return defs.containsKey(input);
     }
 
@@ -93,7 +93,7 @@ public abstract class DefinitionsManager {
      * @return The object instance identifier of the Definition. Null if not
      * found.
      */
-    public Long list(Identifier input) {
+    public synchronized Long list(Identifier input) {
         final LongList objIds = this.listAll();
         for (Long objId : objIds) {
             if (compareName(objId, input)) {
@@ -108,28 +108,31 @@ public abstract class DefinitionsManager {
      *
      * @return The object instance identifiers of the Definitions.
      */
-    public LongList listAll() {
+    public synchronized LongList listAll() {
         LongList list = new LongList();
         list.addAll(defs.keySet());
         return list;
     }
 
     /**
-     * The HashMap of all the definitions available. The keyset are the object
-     * instance identifiers of the definitions. The values are the object body
-     * of the definitions.
+     * Get all the definition objects available.
      *
-     * @return The HashMap of the Definitions.
+     * @return The Definitions.
      */
-    public HashMap<Long, Element> getDefs() {
-        return this.defs;
-    }
-
-    @SuppressWarnings("unchecked")
-    public ElementList getAllDefs() {
+    public synchronized ElementList getAllDefs() {
         ElementList list = this.newDefinitionList();
         list.addAll(defs.values());
         return list;
+    }
+
+    /**
+     * Get the definition object.
+     *
+     * @param objId The object instance identifier
+     * @return The Definition
+     */
+    public synchronized Element getDef(Long objId) {
+        return defs.get(objId);
     }
 
     /**
@@ -139,7 +142,7 @@ public abstract class DefinitionsManager {
      * @param definition The object body of the definition
      * @return True if successful.
      */
-    public Boolean addDef(Long objId, Element definition) {
+    public synchronized Boolean addDef(Long objId, Element definition) {
         defs.put(objId, definition);
         return true;
     }
@@ -152,7 +155,7 @@ public abstract class DefinitionsManager {
      * @return True if successful. False if the object instance identifier does
      * not exist in the manager, in this case, the definition is not added.
      */
-    public boolean updateDef(Long objId, Element definition) {
+    public synchronized boolean updateDef(Long objId, Element definition) {
 //        return (defs.replace(objId, definition) != null);
 /*
          boolean deleted = this.deleteDef(objId);
@@ -174,7 +177,7 @@ public abstract class DefinitionsManager {
      * @return True if successful. False if the object instance identifier does
      * not exist in the manager.
      */
-    public boolean deleteDef(Long objId) {
+    public synchronized boolean deleteDef(Long objId) {
         return (defs.remove(objId) != null);
     }
 
@@ -184,8 +187,9 @@ public abstract class DefinitionsManager {
      * @return The definitions set and the corresponding object instance
      * identifiers.
      */
-    public HashMap<Long, Element> getCurrentDefinitionsConfiguration() {
-        return getDefs();
+    public synchronized HashMap<Long, Element> getCurrentDefinitionsConfiguration() {
+//        return defs;
+        return new HashMap(defs);
     }
 
     /**
@@ -196,7 +200,7 @@ public abstract class DefinitionsManager {
      * @return True if the configuration was successfully changed. False
      * otherwise.
      */
-    public Boolean reconfigureDefinitions(LongList objIds, ElementList definitions) {
+    public synchronized Boolean reconfigureDefinitions(LongList objIds, ElementList definitions) {
         if (objIds == null || definitions == null) {
             return false;
         }

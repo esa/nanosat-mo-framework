@@ -71,7 +71,7 @@ public final class AlertManager extends DefinitionsManager {
     }
 
     public AlertDefinitionDetails get(Long input) {
-        return (AlertDefinitionDetails) this.getDefs().get(input);
+        return (AlertDefinitionDetails) this.getDef(input);
     }
 
     public AlertDefinitionDetailsList getAll(){
@@ -177,8 +177,9 @@ public final class AlertManager extends DefinitionsManager {
     }
 
     public void setGenerationEnabledAll(Boolean bool, SingleConnectionDetails connectionDetails){ 
-        LongList objIds = new LongList(); 
-        objIds.addAll(this.getDefs().keySet());
+//        LongList objIds = new LongList(); 
+//        objIds.addAll(this.getDefs().keySet());
+        LongList objIds = this.listAll(); 
         
         for (Long objId : objIds) {
             AlertDefinitionDetails def = this.get(objId);
