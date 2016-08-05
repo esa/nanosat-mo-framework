@@ -18,8 +18,8 @@
   
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>POM</artifactId>
-        <version>5</version>
+        <artifactId>NMF_POM</artifactId>
+        <version>1-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
@@ -70,8 +70,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>NANOSAT_MO_FRAMEWORK_GENERIC</artifactId>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
             <version>${project.version}</version>
 <!--
             <scope>provided</scope>

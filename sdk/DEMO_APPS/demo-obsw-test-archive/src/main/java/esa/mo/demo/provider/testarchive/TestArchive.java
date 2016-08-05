@@ -23,8 +23,8 @@ package esa.mo.demo.provider.testarchive;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.connector.NanoSatMOConnectorImpl;
 import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOFrameworkMonolithicImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -50,7 +50,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class TestArchive {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOFrameworkMonolithicImpl(new mcAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
 //    private static int NUMBER_OF_OBJS = 5000;
     private static int NUMBER_OF_OBJS = 3;
 
@@ -103,6 +103,26 @@ public class TestArchive {
         } catch (MALInteractionException ex) {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        for (int i = 0; i < NUMBER_OF_OBJS - 1; i++) {
+            archDetails.get(i).setInstId(new Long(i));
+        }
+        
+        try {
+            nanoSatMOFramework.getCOMServices().getArchiveService().update(
+                    AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                    nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
+                    archDetails,
+                    defs,
+                    null);
+
+        } catch (MALException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
         
 /*
         try {
