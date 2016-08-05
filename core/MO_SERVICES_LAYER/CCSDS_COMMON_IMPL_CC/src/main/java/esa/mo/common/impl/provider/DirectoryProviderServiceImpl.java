@@ -328,8 +328,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         capabilities.add(newProviderDetails.getProviderDetails());
 
         // Store in the Archive the ProviderCapabilities COM object and get an object instance identifier
-        LongList returnedIds = comServices.getArchiveService().store(
-                true,
+        comServices.getArchiveService().store(
+                false,
                 DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
                 connection.getConnectionDetails().getDomain(),
                 archDetails1,

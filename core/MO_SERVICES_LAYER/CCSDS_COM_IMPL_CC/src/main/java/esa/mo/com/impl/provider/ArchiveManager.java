@@ -189,12 +189,11 @@ public class ArchiveManager {
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         this.em = this.emf.createEntityManager();
-
         this.em.getTransaction().begin();
         this.em.createQuery("DELETE FROM ArchivePersistenceObject").executeUpdate();
         this.em.getTransaction().commit();
-
         this.em.close();
 
         this.emf.close();
@@ -207,7 +206,6 @@ public class ArchiveManager {
     }
 
     private void createEMFactory() {
-
         boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));  // Is the status of the dropTable flag on?
         Map<String, String> persistenceMap = new HashMap<String, String>();
 
@@ -249,12 +247,10 @@ public class ArchiveManager {
 
         // Well, if not then we must check if this combination already exists in the PU...
         this.createEntityManager();
-
         Query query = this.em.createQuery("SELECT MAX(PU.objId) FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
         query.setParameter("objectTypeId", HelperCOM.generateSubKey(objectType));
         query.setParameter("domainId", HelperMisc.domain2domainId(domain));
         Long maxValue = (Long) query.getSingleResult();
-
         this.closeEntityManager();
 
         if (maxValue == null) {
@@ -269,8 +265,7 @@ public class ArchiveManager {
         return objId;
     }
 
-    protected ArchivePersistenceObject getPersistenceObject(
-            final ObjectType objectType, final IdentifierList domain, final Long objId) {
+    protected ArchivePersistenceObject getPersistenceObject(final ObjectType objectType, final IdentifierList domain, final Long objId) {
         this.createEntityManager();
         final COMObjectPK id = ArchivePersistenceObject.generatePK(objectType, domain, objId);
         final ArchivePersistenceObject PerObj = this.em.find(ArchivePersistenceObject.class, id);
@@ -291,17 +286,13 @@ public class ArchiveManager {
         return (this.getPersistenceObject(objType, domain, objId) != null);
     }
 
-    @SuppressWarnings("unchecked")
     protected LongList getAllObjIds(final ObjectType objectType, final IdentifierList domain) {
-
         this.createEntityManager();
-
         Query query = this.em.createQuery("SELECT PU.objId FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
         query.setParameter("objectTypeId", HelperCOM.generateSubKey(objectType));
         query.setParameter("domainId", HelperMisc.domain2domainId(domain));
         LongList objIds = new LongList();
         objIds.addAll(query.getResultList());
-
         this.closeEntityManager();
 
         return objIds;
@@ -390,9 +381,7 @@ public class ArchiveManager {
                 em.flush();
                 em.clear();
             }
-
         }
-
     }
 
     protected void updateEntries(final ObjectType objType, final IdentifierList domain,
@@ -580,7 +569,7 @@ public class ArchiveManager {
 
     }
 
-    @Deprecated
+    /*
     private ArchivePersistenceObject removeEntry(final ObjectType objectType,
             final IdentifierList domain, final Long objId) {
 
@@ -596,6 +585,7 @@ public class ArchiveManager {
 
         return obj;
     }
+    */
 
     @SuppressWarnings("unchecked")
     protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType, final ArchiveQuery archiveQuery) {

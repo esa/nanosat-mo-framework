@@ -31,4 +31,5 @@ import esa.mo.mc.impl.interfaces.ParameterStatusListener;
  */
 public abstract class MonitorAndControlAdapter implements ActionInvocationListener, ParameterStatusListener {
     
+    public abstract void initialRegistrations();
 }
