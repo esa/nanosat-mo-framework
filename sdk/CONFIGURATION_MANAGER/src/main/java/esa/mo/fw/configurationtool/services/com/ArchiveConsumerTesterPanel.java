@@ -21,6 +21,7 @@
 package esa.mo.fw.configurationtool.services.com;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
+import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.Map;
@@ -53,8 +54,6 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
 
     private ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter();
     private ArchiveConsumerServiceImpl serviceCOMArchive;
-    private DefaultTableModel archiveTableData;
-    
     public final transient ObjectType OBJTYPE_AGGS_AGGREGATIONDEFINITION = HelperCOM.generateCOMObjectType(4, 6, 1, 1);
 
     /**
@@ -72,7 +71,7 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
             "domain", "# objects" };
 
         
-        archiveTableData = new javax.swing.table.DefaultTableModel(
+        DefaultTableModel archiveTableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, archiveTableCol) {
                     Class[] types = new Class[]{
                         java.lang.String.class, java.lang.String.class, java.lang.String.class, 
@@ -175,7 +174,7 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
                 n_objs = String.valueOf(bodies.size());
             }
 
-            archiveTableData.addRow( new Object[]{
+            ((DefaultTableModel) archiveTable.getModel()).addRow( new Object[]{
                 op, ip, domain1, objType1, n_objs
                 } );
             
@@ -372,8 +371,9 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonStoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreActionPerformed
-        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
+//        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
+        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         ObjectType objType = this.OBJTYPE_AGGS_AGGREGATIONDEFINITION;
         AggregationDefinitionDetailsList objList = new AggregationDefinitionDetailsList();
         objList.add(ArchiveConsumerManagerPanel.generateAggregationDefinition("AggregationStore"));
@@ -419,8 +419,8 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
         CompositeFilterSet compositeFilterSet = new CompositeFilterSet();
         CompositeFilterList compositeFilterList = new CompositeFilterList();
 
-        archiveQueryList.add(ArchiveConsumerServiceImpl.generateArchiveQuery());
-        compositeFilterList.add(ArchiveConsumerServiceImpl.generateCompositeFilter());
+        archiveQueryList.add(ArchiveConsumerManagerPanel.generateArchiveQuery());
+        compositeFilterList.add(ArchiveConsumerManagerPanel.generateCompositeFilter());
         compositeFilterSet.setFilters(compositeFilterList);
         compositeFilterSetList.add(compositeFilterSet);
 
@@ -459,8 +459,8 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
         CompositeFilterSet compositeFilterSet = new CompositeFilterSet();
         CompositeFilterList compositeFilterList = new CompositeFilterList();
 
-        archiveQueryList.add(ArchiveConsumerServiceImpl.generateArchiveQuery());
-        compositeFilterList.add(ArchiveConsumerServiceImpl.generateCompositeFilter());
+        archiveQueryList.add(ArchiveConsumerManagerPanel.generateArchiveQuery());
+        compositeFilterList.add(ArchiveConsumerManagerPanel.generateCompositeFilter());
         compositeFilterSet.setFilters(compositeFilterList);
         compositeFilterSetList.add(compositeFilterSet);
 

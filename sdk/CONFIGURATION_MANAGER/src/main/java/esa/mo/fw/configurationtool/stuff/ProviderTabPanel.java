@@ -170,7 +170,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         add(serviceTabs, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane serviceTabs;
     // End of variables declaration//GEN-END:variables

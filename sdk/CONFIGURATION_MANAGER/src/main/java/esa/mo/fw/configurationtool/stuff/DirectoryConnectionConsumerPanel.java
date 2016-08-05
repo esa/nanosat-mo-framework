@@ -350,12 +350,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-        /*
-        if (providersList.isSelectionEmpty()) {
-            this.load_URI_links1ActionPerformed(null); // Fetch the info automatically...
-        }
-        this.load_URI_links1ActionPerformed(null); // Fetch the info automatically...
-         */
 
         if (providersList.getModel().getSize() == 0) {
             return;
@@ -384,7 +378,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         tabs.addTab("", providerPanel);
         tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
         tabs.setSelectedIndex(tabs.getTabCount() - 1);
-
 
     }//GEN-LAST:event_connectButtonActionPerformed
 
@@ -488,7 +481,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_obswFolderItemStateChanged
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectButton;
     private javax.swing.JPanel homeTab;
@@ -505,11 +497,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private javax.swing.JList providersList;
     private javax.swing.JTextField uriServiceDirectory;
     // End of variables declaration//GEN-END:variables
-/*
-    private void setAddressToBeUsed() {  // updates the 
-        this.providerURI = new URI(this.uriServiceDirectory.getText());
-    }
-     */
+
     private URI getAddressToBeUsed() {  // updates the 
         return new URI(this.uriServiceDirectory.getText());
     }
@@ -527,7 +515,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         if (details != null) {
             this.uriServiceDirectory.setText(details.getProviderURI().toString());
-//            this.providerURI = details.getProviderURI();
         }
     }
 
