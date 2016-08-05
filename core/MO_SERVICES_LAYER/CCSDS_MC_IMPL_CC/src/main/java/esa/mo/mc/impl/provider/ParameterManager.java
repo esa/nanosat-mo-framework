@@ -526,7 +526,6 @@ public class ParameterManager extends DefinitionsManager {
             }
             
             successFlags.add(success);
-            
         }
 
         return successFlags;

@@ -543,9 +543,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
                 // Shall be taken care in the manager & per inserted entry
             } else // Does it exist already?  // requirement: 3.4.6.2.6
-            if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
-                dupIndexList.add(new UInteger(index));
-                continue;
+            {
+                if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
+                    dupIndexList.add(new UInteger(index));
+                    continue;
+                }
             }
 
             if (HelperArchive.archiveDetailsContainsWildcard(lArchiveDetailsList.get(index))) { // requirement: 3.4.6.2.11
@@ -582,7 +584,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
             return outLongLst;
         } else {
+            manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
+            
+            /*
             // If the user doesn't care about receiving the objId, then it can go faster!! :)
+            // Doesn't work because the thread is not lock the access to the db (we woulld have to lock it here)
             Thread t1 = new Thread() {
                 @Override
                 public void run() {
@@ -591,8 +597,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
                 }
             };
-            
+
             t1.start();
+            */
 
             return null;
         }
@@ -655,7 +662,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        // The errors have to be before the store operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
+        // The errors have to be before the update operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
         manager.updateEntries(lObjectType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.7.2.6 and 3.4.7.2.7
 
     }

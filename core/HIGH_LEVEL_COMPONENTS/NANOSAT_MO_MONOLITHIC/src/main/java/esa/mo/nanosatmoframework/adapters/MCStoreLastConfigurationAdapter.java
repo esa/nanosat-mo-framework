@@ -210,24 +210,17 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     }
 
     private void updateConfigurationInArchive(final ReconfigurableServiceImplInterface serviceImpl, final Long objId) {
-
         Thread t1 = new Thread() {
             @Override
             public void run() {
-                long startTime = System.currentTimeMillis();
-
                 // Retrieve the COM object of the service
                 ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
                         ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), objId);
-
-                Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Time 1: " + (System.currentTimeMillis() - startTime));
 
                 // Stuff to feed the update operation from the Archive...
                 ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
                 ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
                 confObjsList.add(serviceImpl.getCurrentConfiguration());
-
-                Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Time 2: " + (System.currentTimeMillis() - startTime));
 
                 try {
                     comServices.getArchiveService().update(
@@ -241,13 +234,10 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "Duration of the update: " + (System.currentTimeMillis() - startTime));
             }
         };
 
-        t1.start(); // Total time thread: ~1.485 ms
-
+        t1.start();
     }
 
     private Long storeDefaultServiceConfiguration(final Long defaultObjId, final UShort serviceNumber, ReconfigurableServiceImplInterface service) {

@@ -125,22 +125,21 @@ public class ArchiveManager {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 startServer();
                 createEMFactory();
                 emAvailability.release();
-                
+
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "The database was initialized and the Archive service is ready!");
             }
         };
 
         startDatabase.start();
     }
-    
+
     private void startServer() {
 
 //        System.setProperty("derby.drda.startNetworkServer", "true");
-
         // Loads a new instance of the database driver
         try {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Creating a new instance of the database driver: " + DRIVER_CLASS_NAME);
@@ -204,7 +203,7 @@ public class ArchiveManager {
         this.fastObjId = new ArchiveFastObjId();
 
         this.emAvailability.release();
-        
+
     }
 
     private void createEMFactory() {
@@ -317,7 +316,7 @@ public class ArchiveManager {
         // Generate the object Ids if needed and the persistence objects to be stored
         for (int i = 0; i < lArchiveDetails.size(); i++) {
             Long objId;
-            
+
             if (lArchiveDetails.get(i).getInstId() == 0) { // requirement: 3.4.6.2.5
                 objId = this.generateUniqueObjId(objType, domain);
             } else {
@@ -344,37 +343,18 @@ public class ArchiveManager {
             public void run() {
                 em.getTransaction().begin(); // 0.480 ms
 
-                for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
-                    if (SAFE_MODE) {
-                        final ArchivePersistenceObject objCOM = em.find(ArchivePersistenceObject.class, perObjs.get(i).getPrimaryKey()); // 0.830 ms
+                persistObjects(perObjs);
 
-                        if (objCOM == null) { // Last minute safety, the db crashes if one tries to store an object with a used pk
-                            final ArchivePersistenceObject perObj = perObjs.get(i); // The object to be stored  // 0.255 ms
-                            em.persist(perObj);  // object    // 0.240 ms
-                        } else {
-                            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "The Archive could not store the object: " + perObjs.get(i).toString());
-                        }
-                    } else {
-                        em.persist(perObjs.get(i));  // object
-                    }
-
-                    // Flush every 1k objects...
-                    if ((i % 1000) == 0) {
-                        em.flush();
-                        em.clear();
-                    }
-                }
-
-                try{
+                try {
                     em.getTransaction().commit(); // 1.220 ms
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING, "The object could not be stored! Waiting 500 ms and trying again...");
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException ex1) {
                         Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex1);
                     }
-                    
+
                     em.getTransaction().commit(); // 1.220 ms
                 }
 
@@ -382,7 +362,6 @@ public class ArchiveManager {
 
                 // Generate and Publish the Events - requirement: 3.4.2.1
                 generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, perObjs, interaction);
-
             }
         };
 
@@ -391,27 +370,95 @@ public class ArchiveManager {
         return outIds;
     }
 
+    private void persistObjects(final ArrayList<ArchivePersistenceObject> perObjs) {
+        for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
+            if (SAFE_MODE) {
+                final ArchivePersistenceObject objCOM = em.find(ArchivePersistenceObject.class, perObjs.get(i).getPrimaryKey()); // 0.830 ms
+
+                if (objCOM == null) { // Last minute safety, the db crashes if one tries to store an object with a used pk
+                    final ArchivePersistenceObject perObj = perObjs.get(i); // The object to be stored  // 0.255 ms
+                    em.persist(perObj);  // object    // 0.240 ms
+                } else {
+                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "The Archive could not store the object: " + perObjs.get(i).toString());
+                }
+            } else {
+                em.persist(perObjs.get(i));  // object
+            }
+
+            // Flush every 1k objects...
+            if ((i % 1000) == 0) {
+                em.flush();
+                em.clear();
+            }
+
+        }
+
+    }
+
     protected void updateEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
 
-        final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
+        /*
+                final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
 
-        for (int i = 0; i < lArchiveDetails.size(); i++) {
-            perObjs.add(this.updateEntry(objType, domain, lArchiveDetails.get(i), (Element) objects.get(i)));
-        }
+                for (int i = 0; i < lArchiveDetails.size(); i++) {
+                    perObjs.add(updateEntry(objType, domain, lArchiveDetails.get(i), (Element) objects.get(i)));
+                }
 
-        // Thread to generate the Events
+                // Thread to generate the Events
+                Thread t2 = new Thread() {
+                    @Override
+                    public void run() {
+                        // Generate and Publish the Events - requirement: 3.4.2.2
+                        generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, perObjs, interaction);
+                    }
+                };
+
+                t2.start();
+         */
+        createEntityManager();  // 0.166 ms
+
         Thread t1 = new Thread() {
             @Override
             public void run() {
-                // Generate and Publish the Events - requirement: 3.4.2.2
-                generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, perObjs, interaction);
+                final ArrayList<ArchivePersistenceObject> newObjs = new ArrayList<ArchivePersistenceObject>();
+
+                // Generate the object Ids if needed and the persistence objects to be stored
+                for (int i = 0; i < lArchiveDetails.size(); i++) {
+                    // If there are no objects in the list, inject null...
+                    Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
+
+                    final ArchivePersistenceObject newObj = new ArchivePersistenceObject(objType,
+                            domain, lArchiveDetails.get(i).getInstId(), lArchiveDetails.get(i), objBody); // 0.170 ms
+
+                    newObjs.add(newObj);
+                }
+
+                for (int i = 0; i < newObjs.size(); i++) {
+                    final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, newObjs.get(i).getArchiveDetails().getInstId());
+                    ArchivePersistenceObject previousObj = em.find(ArchivePersistenceObject.class, id);
+
+                    em.getTransaction().begin();
+                    em.remove(previousObj);
+                    em.getTransaction().commit();
+                    em.getTransaction().begin();
+                    em.persist(newObjs.get(i));
+                    em.getTransaction().commit();
+                }
+
+                closeEntityManager(); // 0.410 ms
+
+                // Generate and Publish the Events - requirement: 3.4.2.1
+                generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, newObjs, interaction);
+
             }
         };
 
         t1.start();
+
     }
 
+    /*
     private ArchivePersistenceObject updateEntry(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetails lArchiveDetails, final Element object) {
 
@@ -444,10 +491,10 @@ public class ArchiveManager {
 
         return perObj;
     }
-
+     */
     protected LongList removeEntries(final ObjectType objType, final IdentifierList domain,
             final LongList objIds, final MALInteraction interaction) {
-        
+
         final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
 
         createEntityManager();  // 0.166 ms
@@ -459,16 +506,16 @@ public class ArchiveManager {
                 for (int i = 0; i < objIds.size(); i++) {
                     final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
                     ArchivePersistenceObject perObj = em.find(ArchivePersistenceObject.class, id);
-        
+
                     perObjs.add(perObj);
                 }
 
                 for (int i = 0; i < objIds.size(); i++) {
-                        final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
-                        ArchivePersistenceObject perObj = em.find(ArchivePersistenceObject.class, id);
-                        em.getTransaction().begin();
-                        em.remove(perObj);
-                        em.getTransaction().commit();
+                    final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
+                    ArchivePersistenceObject perObj = em.find(ArchivePersistenceObject.class, id);
+                    em.getTransaction().begin();
+                    em.remove(perObj);
+                    em.getTransaction().commit();
                 }
 
                 fastObjId.lock();
@@ -476,7 +523,7 @@ public class ArchiveManager {
                 fastObjId.unlock();
 
                 closeEntityManager(); // 0.410 ms
-        
+
                 // Generate and Publish the Events - requirement: 3.4.2.1
                 generateAndPublishEvents(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, perObjs, interaction);
             }
@@ -484,7 +531,6 @@ public class ArchiveManager {
 
         t1.start(); // Total time thread: ~1.485 ms
 
-        
         /*
          LongList deletedObjects = new LongList();
          for (Long objId : objIds) {
@@ -499,8 +545,7 @@ public class ArchiveManager {
          }
          }
          */
-        
-/*        
+ /*        
         final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
         LongList deletedObjects = new LongList();
 
@@ -530,8 +575,7 @@ public class ArchiveManager {
         t1.start();
         
         return deletedObjects;
-*/        
-        
+         */
         return objIds;
 
     }
@@ -564,15 +608,14 @@ public class ArchiveManager {
         final boolean providerURIContainsWildcard = (archiveQuery.getProvider() == null);
         final boolean networkContainsWildcard = (archiveQuery.getNetwork() == null);
 
-        final boolean hasSomeDefinedFields = (
-                !domainContainsWildcard      || 
-                !objectTypeContainsWildcard  || 
-                !relatedContainsWildcard     ||
-                !startTimeContainsWildcard   ||
-                !endTimeContainsWildcard     ||
-                !providerURIContainsWildcard ||
-                !networkContainsWildcard     );
-               
+        final boolean hasSomeDefinedFields = (!domainContainsWildcard
+                || !objectTypeContainsWildcard
+                || !relatedContainsWildcard
+                || !startTimeContainsWildcard
+                || !endTimeContainsWildcard
+                || !providerURIContainsWildcard
+                || !networkContainsWildcard);
+
         // Generate the query string
         String queryString = "SELECT PU FROM ArchivePersistenceObject PU ";
         queryString += (hasSomeDefinedFields) ? "WHERE " : "";
@@ -584,11 +627,11 @@ public class ArchiveManager {
         queryString += (endTimeContainsWildcard) ? "" : "PU.timestampArchiveDetails<=:endTime AND ";
         queryString += (providerURIContainsWildcard) ? "" : "PU.providerURI=:providerURI AND ";
         queryString += (networkContainsWildcard) ? "" : "PU.network=:network AND ";
-        
-        if (hasSomeDefinedFields){ // 4 because we are removing the "AND " part
+
+        if (hasSomeDefinedFields) { // 4 because we are removing the "AND " part
             queryString = queryString.substring(0, queryString.length() - 4);
         }
-        
+
         ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
 
         this.createEntityManager();
@@ -626,7 +669,7 @@ public class ArchiveManager {
             @Override
             public void run() {
                 try {
-                    this.wait(10*1000); // 10 seconds
+                    this.wait(10 * 1000); // 10 seconds
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "The query is taking longer than 10 seconds. The query might be too broad to be handled by the database.");
                 } catch (InterruptedException ex) {
                 } catch (IllegalMonitorStateException ex) {
@@ -635,7 +678,7 @@ public class ArchiveManager {
         });
 
         tThread.start();
-        
+
         // BUG: The code will get stuck on the line below if the database is too big (tested with Derby)
         List resultList = query.getResultList();
         tThread.interrupt();
@@ -693,8 +736,7 @@ public class ArchiveManager {
             }
             perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
         }
-        */
-
+         */
         // StartTime field
 /*        
         if (archiveQuery.getStartTime() != null) {  // Numeric comparisons first (faster)
@@ -725,8 +767,7 @@ public class ArchiveManager {
             }
             perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
         }
-*/        
-
+         */
         // Source field
         if (archiveQuery.getSource() != null) {
 
@@ -854,8 +895,7 @@ public class ArchiveManager {
             }
             perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
         }
-        */
-
+         */
         return perObjs;
     }
 
@@ -920,8 +960,6 @@ public class ArchiveManager {
         return new ObjectId(obj.getObjectType(), new ObjectKey(obj.getDomain(), obj.getObjectId()));
     }
 
-
-
     protected Boolean objectTypeContainsWildcard(final ObjectType objType) {
         return (objType.getArea().getValue() == 0
                 || objType.getService().getValue() == 0
@@ -984,7 +1022,8 @@ public class ArchiveManager {
 
         return true;
     }
-/*
+
+    /*
     protected void generateAndPublishEvent(final ObjectType objType, final Long related,
             final ObjectId source, final MALInteraction interaction) {
         if (eventService == null) {
@@ -1000,28 +1039,28 @@ public class ArchiveManager {
         Long eventObjId = eventService.generateAndStoreEvent(objType, configuration.getDomain(), null, related, source, interaction);
         eventService.publishEvent(interaction, eventObjId, objType, null, source, null);
     }
-*/
+     */
     protected void generateAndPublishEvents(final ObjectType objType,
             final ArrayList<ArchivePersistenceObject> comObjs, final MALInteraction interaction) {
-        
+
         if (eventService == null) {
             return;
         }
 
         final ObjectIdList sourceList = new ObjectIdList();
-        
-        for(int i = 0 ; i < comObjs.size() ; i++){
+
+        for (int i = 0; i < comObjs.size(); i++) {
             final ObjectId source = ArchiveManager.archivePerObj2source(comObjs.get(i));
-            
+
             // Is the COM Object an Event coming from the archive?
             if (source.getType().equals(HelperCOM.generateCOMObjectType(ArchiveHelper.ARCHIVE_SERVICE, source.getType().getNumber()))) {
                 continue; // requirement: 3.4.2.5
             }
-            
+
             sourceList.add(source);
         }
-        
-        if (sourceList.isEmpty()){ // Don't store anything if the list is empty...
+
+        if (sourceList.isEmpty()) { // Don't store anything if the list is empty...
             return;
         }
 
@@ -1033,7 +1072,7 @@ public class ArchiveManager {
         final LongList eventObjIds = eventService.generateAndStoreEvents(objType, configuration.getDomain(), null, sourceList, interaction);
 
         Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
-        
+
         URI sourceURI = new URI("");
 
         if (interaction != null) {
@@ -1044,7 +1083,7 @@ public class ArchiveManager {
 
         eventService.publishEvents(sourceURI, eventObjIds, objType, null, sourceList, null);
     }
-    
+
     public static boolean isObjectTypeLikeDeclaredServiceType(ObjectType objType, Element element) {
         if (element == null) {
             return false;
@@ -1134,5 +1173,5 @@ public class ArchiveManager {
 
         return true;
     }
-    
+
 }
