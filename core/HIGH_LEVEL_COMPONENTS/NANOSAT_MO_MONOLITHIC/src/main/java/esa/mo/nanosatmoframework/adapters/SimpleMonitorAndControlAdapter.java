@@ -35,15 +35,20 @@ import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
- * The SimpleMonitorAndControlAdapter extends the MonitorAndControlAdapter 
- * and implements the SimpleMonitorAndControlListener to facilitate receiving 
- * actions and set/get parameters from an external software entity in a 
+ * The SimpleMonitorAndControlAdapter extends the MonitorAndControlAdapter and
+ * implements the SimpleMonitorAndControlListener to facilitate receiving
+ * actions and set/get parameters from an external software entity in a
  * simplified way. This adapter allows the parameter values to be directly Java
- * types and also serializable objects. The adapter automatically serializes an 
+ * types and also serializable objects. The adapter automatically serializes an
  * object and puts it inside a MAL Blob type (a byte container).
- * 
+ *
  */
 public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlAdapter implements SimpleMonitorAndControlListener {
+
+    @Override
+    public void initialRegistrations() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
@@ -84,10 +89,10 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlAd
             // First try to convert it into a MO type...
             Object moType = (Object) HelperAttributes.javaType2Attribute(ret);
 
-            if (moType instanceof Attribute){ // Was it succcessfully converted from Java to Attribute?
+            if (moType instanceof Attribute) { // Was it succcessfully converted from Java to Attribute?
                 return (Attribute) moType;
             }
-                              
+
             try { // Thy to serialize the object and put it inside a Blob
                 return (Attribute) HelperAttributes.serialObject2blobAttribute(ret);
             } catch (IOException ex) {
@@ -115,7 +120,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlAd
 
         // Convert it to java type
         obj = (Serializable) HelperAttributes.attribute2JavaType(value);
-        
+
         return this.onSetValueSimple(identifier.getValue(), obj);
     }
 

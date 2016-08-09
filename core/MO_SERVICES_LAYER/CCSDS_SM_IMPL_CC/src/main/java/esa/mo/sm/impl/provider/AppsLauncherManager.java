@@ -271,7 +271,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             return false;
         }
 
-        this.get(appId).setRunning(handler.getProcess().isAlive());
+//        this.get(appId).setRunning(handler.getProcess().isAlive());
 
         return this.get(appId).getRunning();
     }
@@ -303,7 +303,9 @@ public class AppsLauncherManager extends DefinitionsManager {
         dfdfdf.directory(outDir);
         Process proc = dfdfdf.start();
          */
-        if (proc.isAlive()) {
+        
+//        if (proc.isAlive()) {
+        if (proc != null) {
             handlers.put(handler.getAppInstId(), handler);
             app.setRunning(true);
             this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
@@ -326,11 +328,11 @@ public class AppsLauncherManager extends DefinitionsManager {
             return true;
         }
 
-        if (handler.getProcess().isAlive()) {
+//        if (handler.getProcess().isAlive()) {
             handler.close();
             app.setRunning(false);
             this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
-        }
+//        }
 
         return true;
 
@@ -339,7 +341,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     public static SingleConnectionDetails getSingleConnectionDetailsFromProviderSummaryList(ProviderSummaryList providersList) throws IOException {
 
         if (providersList.isEmpty()) { // Throw error!
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "The app could not be found in the Directory service... Possible reasons: Not a NMF app, if so, one needs to use killApp!");
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "The app could not be found in the Directory service... Possible reasons: Not a NMF app! If so, one needs to use killApp!");
             throw new IOException();
         }
 

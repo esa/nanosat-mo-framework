@@ -70,7 +70,7 @@
 
         <!-- Transports -->
         <esa.ccsds.trans.http.version>1.0.1-SNAPSHOT</esa.ccsds.trans.http.version>
-
+        
         <!-- APIs -->
         <esa.ccsds.api.mc.version>1.0-SNAPSHOT</esa.ccsds.api.mc.version>
         <esa.ccsds.api.common.version>1.0-SNAPSHOT</esa.ccsds.api.common.version>
@@ -94,6 +94,13 @@
   
     <dependencyManagement>
         <dependencies>
+            <!--
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>TRANSPORT_GEN</artifactId>
+                <version>1.0.3-SNAPSHOT</version>
+            </dependency>
+-->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>NMF_HELPER_TOOLS</artifactId>
