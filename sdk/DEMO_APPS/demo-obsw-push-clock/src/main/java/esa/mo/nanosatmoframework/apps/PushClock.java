@@ -20,6 +20,7 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
+import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
 import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
@@ -31,6 +32,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
  * This app is a simple clock. It pushes the day of the week, the hours, the
@@ -40,7 +46,7 @@ import java.util.logging.Logger;
 public class PushClock {
 
 //    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(null);
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(null);
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
     private final Timer timer = new Timer();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
     private int hours = 0;
@@ -96,4 +102,28 @@ public class PushClock {
         PushClock demo = new PushClock();
     }
 
+    public class mcAdapter extends MonitorAndControlAdapter {
+
+        @Override
+        public void initialRegistrations() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln, MALInteraction mali) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Attribute onGetValue(Identifier idntfr, Byte b) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Boolean onSetValue(Identifier idntfr, Attribute atrbt) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    
 }

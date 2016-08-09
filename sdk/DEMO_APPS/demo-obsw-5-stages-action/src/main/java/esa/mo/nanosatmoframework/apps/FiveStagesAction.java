@@ -58,6 +58,11 @@ public class FiveStagesAction {
     public class mcAdapter extends MonitorAndControlAdapter {
 
         @Override
+        public void initialRegistrations() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
         public Attribute onGetValue(Identifier identifier, Byte rawType) {
             return null;
         }

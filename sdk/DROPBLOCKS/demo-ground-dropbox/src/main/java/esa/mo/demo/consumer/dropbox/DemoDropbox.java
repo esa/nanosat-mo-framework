@@ -34,7 +34,7 @@ import esa.mo.nanosatmoframework.ground.listeners.SimpleDataReceivedListener;
  */
 public class DemoDropbox {
 
-    private final GroundMOAdapter moGroundAdapter;
+    private final GroundMOAdapter groundMOadapter;
 
     public DemoDropbox() {
 
@@ -46,8 +46,8 @@ public class DemoDropbox {
             Logger.getLogger(DemoDropbox.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        moGroundAdapter = new GroundMOAdapter(connection);
-        moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
+        groundMOadapter = new GroundMOAdapter(connection);
+        groundMOadapter.addDataReceivedListener(new DataReceivedAdapter());
         
         // Sync the dropbox folder with the one in space
         // https://github.com/dropbox/dropbox-sdk-java
@@ -66,11 +66,9 @@ public class DemoDropbox {
     }
 
     class DataReceivedAdapter extends SimpleDataReceivedListener {
-
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
         }
-
     }
 
 }

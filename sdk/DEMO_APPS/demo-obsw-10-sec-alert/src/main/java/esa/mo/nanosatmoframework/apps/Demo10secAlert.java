@@ -20,6 +20,7 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
+import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
 import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
@@ -27,6 +28,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
  * This class provides a simple Hello World demo cli provider
@@ -34,7 +40,7 @@ import java.util.logging.Logger;
  */
 public class Demo10secAlert {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(null);
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new Adapter());
     private final Timer timer;
 
     public Demo10secAlert() {
@@ -60,6 +66,30 @@ public class Demo10secAlert {
      */
     public static void main(final String args[]) throws Exception {
         Demo10secAlert demo = new Demo10secAlert();
+    }
+    
+    class Adapter extends MonitorAndControlAdapter{
+
+        @Override
+        public void initialRegistrations() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln, MALInteraction mali) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Attribute onGetValue(Identifier idntfr, Byte b) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Boolean onSetValue(Identifier idntfr, Attribute atrbt) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
     }
 
 }

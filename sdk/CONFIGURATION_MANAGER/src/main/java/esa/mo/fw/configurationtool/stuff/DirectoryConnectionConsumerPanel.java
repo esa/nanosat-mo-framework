@@ -381,8 +381,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_connectButtonActionPerformed
 
-    private void errorConnectionProvider(String service) {
-        JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!", "Error!", JOptionPane.PLAIN_MESSAGE);
+    private void errorConnectionProvider(String service, Throwable ex) {
+        JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!\nException: " + ex, "Error!", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void uriServiceDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
@@ -436,19 +436,19 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             connectButton.setEnabled(true);
 
         } catch (MALException ex) {
-            errorConnectionProvider("Directory");
+            errorConnectionProvider("Directory", ex);
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
             Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         } catch (MalformedURLException ex) {
-            errorConnectionProvider("Directory");
+            errorConnectionProvider("Directory", ex);
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
             Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         } catch (MALInteractionException ex) {
-            errorConnectionProvider("Directory");
+            errorConnectionProvider("Directory", ex);
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
             Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);

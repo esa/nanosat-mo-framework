@@ -58,6 +58,10 @@
         </developer>
     </developers>
 
+    <properties>
+        <assembly.mainClass>esa.mo.nanosatmoframework.apps.DemoTestApp</assembly.mainClass>
+    </properties>
+    
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

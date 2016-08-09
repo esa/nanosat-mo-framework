@@ -91,6 +91,11 @@ public class BlankApp {
             return null;  // Action service not integrated
         }
 
+        @Override
+        public void initialRegistrations() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
     }
 
 }
