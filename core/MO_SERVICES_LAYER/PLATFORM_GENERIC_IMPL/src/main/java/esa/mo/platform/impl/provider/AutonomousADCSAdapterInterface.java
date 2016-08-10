@@ -22,6 +22,7 @@ package esa.mo.platform.impl.provider;
 
 import java.io.IOException;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinition;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
 
 /**
  *
@@ -60,7 +61,7 @@ public interface AutonomousADCSAdapterInterface {
      * @return The Attitude Telemetry from the ADCS
      * @throws IOException
      */
-    public AttitudeTM getAttitudeTM() throws IOException;
+    public AttitudeInstance getAttitudeInstance() throws IOException;
     
     
 }

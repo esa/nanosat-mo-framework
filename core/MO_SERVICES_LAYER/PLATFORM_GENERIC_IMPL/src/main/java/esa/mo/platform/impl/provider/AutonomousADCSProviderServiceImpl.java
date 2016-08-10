@@ -73,6 +73,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     private AutonomousADCSAdapterInterface adapter;
     private boolean adcsInUse;
     private ConfigurationNotificationInterface configurationAdapter;
+    private Thread autoUnsetThread = null;
 
     // private blablabla ... The IFineADCS implementation object
     
@@ -180,7 +181,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     */
     
     @Override
-    public void configureMonitoring(Duration streamingRate, ReferenceFrame referenceFrame, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void configureMonitoring(Duration streamingRate, MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         
         
@@ -226,7 +227,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
 
         // Start auto-timer to unset
-        Thread t = new Thread() {
+        autoUnsetThread = new Thread() {
             @Override
             public void run() {
                 // Store current time
@@ -235,33 +236,40 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
                 try {
                     Thread.sleep((long) autoUnset.getValue()*1000); // Conversion to miliseconds
+
+                    try {
+                        adapter.unset();
+                        adcsInUse = false;
+                    } catch (IOException ex) {
+                        Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
                 }
                 
-                try {
-                    adapter.unset();
-                    adcsInUse = false;
-                } catch (IOException ex) {
-                    Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         };
         
-        t.start();
+        autoUnsetThread.start();
         
     }
 
     @Override
     public synchronized void unsetAttitude(MALInteraction interaction) throws MALInteractionException, MALException {
-
+        // Stop the current Thread to automatically unset the Attitude
+        if (autoUnsetThread != null){
+            autoUnsetThread.interrupt();
+        }
+        
+        if (adapter.isUnitAvailable()) { // Is the ADCS unit available?
+            throw new MALInteractionException(new MALStandardError(AutonomousADCSHelper.ADCS_NOT_AVAILABLE_ERROR_NUMBER, null));
+        }
+        
         try {
             adapter.unset();
         } catch (IOException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         
     }
 

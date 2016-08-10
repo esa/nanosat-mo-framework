@@ -20,12 +20,21 @@
  */
 package esa.mo.platform.impl.provider;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Cesar Coelho
  */
 public class AttitudeTM {
 
-    public boolean aField;
+    public ArrayList<Double> currrentQuaternions = new ArrayList<Double>();
+    public ArrayList<Double> targetQuaternions = new ArrayList<Double>();
+
+
+    
+    
+    
+    
 
 }
