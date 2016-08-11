@@ -347,12 +347,14 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
-        // requirement: 3.4.8.i (This part of the code is not reached if an error is thrown)
-        for (int index = 0; index < objIdToBeEnabled.size() ; index++){
+        if (!foundWildcard) {
+            // requirement: 3.4.8.i (This part of the code is not reached if an error is thrown)
+            for (int index = 0; index < objIdToBeEnabled.size() ; index++){
              // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
-            manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), connection.getConnectionDetails());
-            periodicReportingManager.refresh(objIdToBeEnabled.get(index));
-            periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
+                manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), connection.getConnectionDetails());
+                periodicReportingManager.refresh(objIdToBeEnabled.get(index));
+                periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
+            }
         }
         
         if (configurationAdapter != null){
@@ -722,8 +724,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     private class PeriodicReportingManager { // requirement: 3.7.2.1a
 
-        private HashMap<Long, Timer> updateTimerList; // updateInterval Timers list
-        private HashMap<Long, Timer> filterTimeoutTimerList; // filterTimeout Timers list
+        private final HashMap<Long, Timer> updateTimerList; // updateInterval Timers list
+        private final HashMap<Long, Timer> filterTimeoutTimerList; // filterTimeout Timers list
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingManager() {

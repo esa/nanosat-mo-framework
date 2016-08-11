@@ -227,10 +227,12 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
-        // requirement: 3.4.8.i (This part of the code is not reached if an error is thrown)
-        for (int index = 0; index < objIdToBeEnabled.size(); index++) {
-            // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
-            manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), connection.getConnectionDetails());
+        if (!foundWildcard) { // requirement: 3.4.8.2.d
+            // requirement: 3.4.8.i (This part of the code is not reached if an error is thrown)
+            for (int index = 0; index < objIdToBeEnabled.size(); index++) {
+                // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
+                manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), connection.getConnectionDetails());
+            }
         }
 
         if (configurationAdapter != null){

@@ -95,6 +95,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             ParameterStatusListener parameterAdapter) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + System.getProperty(ConfigurationProvider.MO_APP_NAME);

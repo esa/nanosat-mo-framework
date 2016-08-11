@@ -65,13 +65,13 @@ public class ParameterManager extends DefinitionsManager {
     private Long uniqueObjIdPVal;
     private final transient ParameterStatusListener parametersMonitoring;   // transient: marks members that won't be serialized.
 
-    public ParameterManager (COMServicesProvider comServices, ParameterStatusListener parametersMonitoring) {
+    public ParameterManager(COMServicesProvider comServices, ParameterStatusListener parametersMonitoring) {
         super(comServices);
 
-            try {
-                ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) { // nothing to be done..
-            }
+        try {
+            ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
+        } catch (MALException ex) { // nothing to be done..
+        }
 
         this.parametersMonitoring = parametersMonitoring;
 
@@ -79,9 +79,9 @@ public class ParameterManager extends DefinitionsManager {
             this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdPVal = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
 //            this.load(); // Load the file
-        } else { 
+        } else {
             // With Archive...
-            
+
             // Initialize the Conversion service
             try {
                 this.conversionService.init(super.getArchiveService());
@@ -90,7 +90,7 @@ public class ParameterManager extends DefinitionsManager {
             }
         }
     }
-    
+
     protected ParameterDefinitionDetailsList getAll() {
         return (ParameterDefinitionDetailsList) this.getAllDefs();
     }
@@ -203,9 +203,7 @@ public class ParameterManager extends DefinitionsManager {
         return null;
 
     }
-    
-    
-    
+
     protected ParameterValueList getParameterValues(LongList input) {
         ParameterValueList pValList = new ParameterValueList();
         for (Long input1 : input) {
@@ -230,18 +228,25 @@ public class ParameterManager extends DefinitionsManager {
             pVal.setConvertedValue(null);
             pVal.setRawValue(null);
             return pVal;
-            */
+             */
         }
 
         ParameterDefinitionDetails pDef = this.get(objId);
+
+        Attribute rawValue = (parametersMonitoring != null) ? parametersMonitoring.onGetValue(pDef.getName(), pDef.getRawType()) : null;
+
+        // Is the Conversion service available for use?
+        Attribute convertedValue = (conversionService != null) ? conversionService.generateConvertedValue(rawValue, pDef.getConversion()) : null;
+
+        /*
         Attribute rawValue;
-        
-        if (parametersMonitoring != null){
+
+        if (parametersMonitoring != null) {
             rawValue = parametersMonitoring.onGetValue(pDef.getName(), pDef.getRawType());
-        }else{
+        } else {
             rawValue = null;
         }
-        
+
         Attribute convertedValue;
 
         // Is the Conversion service available for use?
@@ -250,6 +255,7 @@ public class ParameterManager extends DefinitionsManager {
         } else {
             convertedValue = null;
         }
+        */
 
         UOctet invalidSubState = this.generateInvalidSubState(pDef, rawValue, convertedValue);
 
@@ -266,7 +272,7 @@ public class ParameterManager extends DefinitionsManager {
                 invalidSubState, rawValue, unionConvertedValue);
     }
 
-/*    
+    /*    
     public static Boolean evaluateExpression13234325(ParameterExpression expression, Attribute value, Attribute convertedValue){
 
         if (expression.getUseConverted()){ // Is the validity checking for the converted or for the raw value?
@@ -278,9 +284,8 @@ public class ParameterManager extends DefinitionsManager {
 
         return eval;
     }
-*/
-    
-    public Boolean evaluateParameterExpression(ParameterExpression expression){
+     */
+    public Boolean evaluateParameterExpression(ParameterExpression expression) {
 
         if (expression == null) {
             return true;  // No test is required
@@ -288,15 +293,14 @@ public class ParameterManager extends DefinitionsManager {
 
         ParameterDefinitionDetails pDef = this.get(expression.getParameterId().getInstId());
         Attribute value = parametersMonitoring.onGetValue(pDef.getName(), pDef.getRawType());
-        
-        if (expression.getUseConverted()){ // Is the validity checking for the converted or for the raw value?
+
+        if (expression.getUseConverted()) { // Is the validity checking for the converted or for the raw value?
             value = conversionService.generateConvertedValue(value, pDef.getConversion());
         }
 
         return HelperCOM.evaluateExpression(value, expression.getOperator(), expression.getValue());
     }
-    
-    
+
     protected UOctet generateInvalidSubState(ParameterDefinitionDetails definition, Attribute value, Attribute convertedValue) {
         if (definition == null) // Does not exist?
         {
@@ -317,7 +321,7 @@ public class ParameterManager extends DefinitionsManager {
             return new UOctet((short) 4); // UNVERIFIED
         }
 
-/*        
+        /*        
         if (validityExpression.getUseConverted()) // Is the validity checking for the converted or for the raw value?
         {
             value = convertedValue;
@@ -325,22 +329,21 @@ public class ParameterManager extends DefinitionsManager {
 
         Attribute parameterIdValue = value;
         Boolean eval = HelperCOM.evaluateExpression13234325(parameterIdValue, validityExpression.getOperator(), validityExpression.getValue());
-*/
-
+         */
 //        Boolean eval = ParameterManager.evaluateExpression13234325(validityExpression, value, convertedValue);
         Boolean eval = this.evaluateParameterExpression(validityExpression);
 
-        if (eval == null){ // The expression was not evaluated?
+        if (eval == null) { // The expression was not evaluated?
             return new UOctet((short) 4); // UNVERIFIED
         }//            return Validity.UNVERIFIED; // requirement: 3.3.2.20
 
-        if (!eval){ // Is the validity expression false?
+        if (!eval) { // Is the validity expression false?
             return new UOctet((short) 5); // INVALID
         }//            return Validity.INVALID;  // requirement: 3.3.2.21
 
         ParameterConversion conversion = paramValidityDefinition.getConversion();
 
-        if (conversion == null){ // There's no conversion to apply?
+        if (conversion == null) { // There's no conversion to apply?
             return new UOctet((short) 0); // VALID
         }//            return Validity.VALID;  // requirement: 3.3.2.22
 
@@ -399,7 +402,6 @@ public class ParameterManager extends DefinitionsManager {
         
      }
      */
-
     protected Long add(ParameterDefinitionDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         definition.setGenerationEnabled(false);  // requirement: 3.3.2.7
 
@@ -437,34 +439,40 @@ public class ParameterManager extends DefinitionsManager {
 
     }
 
-    protected boolean update(Long objId, ParameterDefinitionDetails definition, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    protected boolean update(final Long objId, final ParameterDefinitionDetails definition, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Boolean success = this.updateDef(objId, definition);
 
         if (super.getArchiveService() != null) {  // It should also update on the COM Archive
-            try {
-                ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
-                defs.add(definition);
 
-                ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.getArchiveService(), 
-                        ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, connectionDetails.getDomain(), objId);
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+                        defs.add(definition);
+                        ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(getArchiveService(),
+                                ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, connectionDetails.getDomain(), objId);
 
-                ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-                archiveDetailsList.add(archiveDetails);
+                        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+                        archiveDetailsList.add(archiveDetails);
 
-                super.getArchiveService().update(
-                        ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                        connectionDetails.getDomain(),
-                        archiveDetailsList,
-                        defs,
-                        null);
+                        getArchiveService().update(
+                                ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                                connectionDetails.getDomain(),
+                                archiveDetailsList,
+                                defs,
+                                null);
+                    } catch (MALException ex) {
+                        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (MALInteractionException ex) {
+                        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+            t1.start();
 
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
-            }
+            return true;
+
         }
 
 //        this.save();
@@ -481,12 +489,12 @@ public class ParameterManager extends DefinitionsManager {
 
     protected boolean setGenerationEnabled(Long objId, Boolean bool, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getDef(objId);
-        
-        if (def == null){
+
+        if (def == null) {
             return false;
         }
-        
-        if (def.getGenerationEnabled().booleanValue() == bool){ // Is it set with the requested value already?
+
+        if (def.getGenerationEnabled().booleanValue() == bool) { // Is it set with the requested value already?
             return false; // the value was not changed
         }
         def.setGenerationEnabled(bool);
@@ -494,15 +502,15 @@ public class ParameterManager extends DefinitionsManager {
         return true;
     }
 
-    protected void setGenerationEnabledAll(Boolean bool, SingleConnectionDetails connectionDetails) {
+    protected void setGenerationEnabledAll(Boolean bool, final SingleConnectionDetails connectionDetails) {
 //        LongList objIds = new LongList(); 
 //        objIds.addAll(this.getDefs().keySet());
-        LongList objIds = this.listAll(); 
-        
+        final LongList objIds = this.listAll();
+
         for (Long objId : objIds) {
             ParameterDefinitionDetails def = this.get(objId);
             def.setGenerationEnabled(bool);
-            this.update(objId, def, connectionDetails);
+            update(objId, def, connectionDetails);
         }
 
     }
@@ -511,20 +519,20 @@ public class ParameterManager extends DefinitionsManager {
 
         Long objId;
         ParameterValue newValue;
-        
+
         BooleanList successFlags = new BooleanList();
-        
+
         for (int i = 0; i < paramDefInstIds.size(); i++) {
             objId = paramDefInstIds.get(i);
             newValue = newValues.get(i);
             Boolean success;
-            
-            if(parametersMonitoring != null){
+
+            if (parametersMonitoring != null) {
                 success = parametersMonitoring.onSetValue(this.get(objId).getName(), newValue.getRawValue());
-            }else{
+            } else {
                 success = false;
             }
-            
+
             successFlags.add(success);
         }
 

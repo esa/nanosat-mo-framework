@@ -182,7 +182,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         } catch (MalformedURLException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-*/
+         */
         initialiased = true;
         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).info("Parameter service READY");
 
@@ -204,11 +204,15 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
     }
 
-    public ConnectionProvider getConnectionProvider(){
+    public ConnectionProvider getConnectionProvider() {
         return this.connection;
     }
 
     private void publishParameterUpdate(final Long objId) {
+        this.publishParameterUpdate(objId, true);
+    }
+    
+    private void publishParameterUpdate(final Long objId, final boolean storeIt) {
         try {
             if (!isRegistered) {
                 final EntityKeyList lst = new EntityKeyList();
@@ -225,7 +229,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     });
 
             final ParameterValue parameterValue = manager.getParameterValue(objId);
-            final Long pValObjId = manager.storeAndGeneratePValobjId(parameterValue, objId, connection.getConnectionDetails()); // requirement: 3.3.4.2
+            final Long pValObjId = (storeIt) ? 
+                    manager.storeAndGeneratePValobjId(parameterValue, objId, connection.getConnectionDetails()) :
+                    HelperTime.getTimestampMillis().getValue(); // requirement: 3.3.4.2
 
             //  requirements: 3.3.5.2.1 , 3.3.5.2.2 , 3.3.5.2.3 , 3.3.5.2.4
             final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, pValObjId, null);
@@ -259,7 +265,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         ParameterDefinitionDetails tempPDef;
         Long tempLong;
 
-        if (null == lLongList){ // Is the input null?
+        if (null == lLongList) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
 
@@ -366,11 +372,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
-        // requirement: 3.4.8.i (This part of the code is not reached if an error is thrown)
-        for (int index = 0; index < objIdToBeEnabled.size(); index++) {
-            // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
-            manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), connection.getConnectionDetails());
-            periodicReportingManager.refresh(objIdToBeEnabled.get(index));
+        if (!foundWildcard) { // requirement: 3.4.8.2.d
+            // requirement: 3.4.8.i (This part of the code is not reached if an error is thrown)
+            for (int index = 0; index < objIdToBeEnabled.size(); index++) {
+                // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
+                manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), connection.getConnectionDetails());
+                periodicReportingManager.refresh(objIdToBeEnabled.get(index));
+            }
         }
 
         if (configurationAdapter != null) {
@@ -405,10 +413,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             newValue = newValues.get(index);
             pDef = manager.get(objId);
 
-            if (pDef == null){ // The definition does not exist...
+            if (pDef == null) { // The definition does not exist...
                 unkIndexList.add(new UInteger(index));
             }
-            
+
             /*
              if (pDef.getRawType() == newValue.getRawValue()) // requirement: 3.3.9.2.f
              invIndexList.add(new UInteger(index)); 
@@ -606,9 +614,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     @Override
     public COMService getCOMService() {
         return ParameterHelper.PARAMETER_SERVICE;
-    }    
+    }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties) throws MALException {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishDeregisterAckReceived");
@@ -701,7 +710,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                             return;
                         }
                         if (manager.get(objId).getGenerationEnabled()) {
-                            publishParameterUpdate(objId);
+                            // The Archive is getting swamped if we store all the pushed Parameters
+//                            publishParameterUpdate(objId, false);
+                            publishParameterUpdate(objId, true);
                         }
                     }
                 }
@@ -716,11 +727,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     /**
      *
-     * The pushSingleParameterValueAttribute operation allows an external
-     * entity to push Attribute values through the monitorValue operation of
-     * the Parameter service. If there is no parameter definition with the
-     * submitted name, the method shall automatically create the parameter
-     * definition in the Parameter service.
+     * The pushSingleParameterValueAttribute operation allows an external entity
+     * to push Attribute values through the monitorValue operation of the
+     * Parameter service. If there is no parameter definition with the submitted
+     * name, the method shall automatically create the parameter definition in
+     * the Parameter service.
      *
      * @param name The name of the Parameter as set in the parameter definition
      * @param value The value of the parameter to be pushed
@@ -815,10 +826,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             //  requirements: 3.3.5.2.1 , 3.3.5.2.2 , 3.3.5.2.3 , 3.3.5.2.4
             final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, pValObjId, null);
-            
+
             Time time = timestamp;
-            
-            if (time == null){
+
+            if (time == null) {
                 time = HelperTime.getTimestampMillis(); //  requirement: 3.3.5.2.5
             }
 
@@ -963,7 +974,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         return true;
 
     }
-    
+
     @Override
     public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
@@ -972,11 +983,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
         // Validate the returned configuration...
-        if(configurationObjectDetails == null){
+        if (configurationObjectDetails == null) {
             return false;
         }
 
-        if(configurationObjectDetails.getConfigObjects() == null){
+        if (configurationObjectDetails.getConfigObjects() == null) {
             return false;
         }
 
@@ -996,9 +1007,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         if (!confSet.getDomain().equals(configuration.getDomain())) {
             return false;
         }
-        
+
         // If the list is empty, reconfigure the service with nothing...
-        if(confSet.getObjInstIds().isEmpty()){
+        if (confSet.getObjInstIds().isEmpty()) {
             manager.reconfigureDefinitions(new LongList(), new ParameterDefinitionDetailsList());   // Reconfigures the Manager
             periodicReportingManager.refreshAll();  // Refresh the reporting
             return true;
@@ -1041,6 +1052,5 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         return set;
     }
-
 
 }

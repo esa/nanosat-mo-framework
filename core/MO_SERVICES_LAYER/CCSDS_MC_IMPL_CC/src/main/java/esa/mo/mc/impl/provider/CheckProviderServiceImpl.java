@@ -324,12 +324,14 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
-        // requirement: 3.4.8.i (This part of the code is not reached if an error is thrown)
-        for (int index = 0; index < objIdToBeEnabled.size(); index++) {
-            // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
-            manager.setCheckEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), connection.getConnectionDetails());
-            periodicReportingManager.refresh(objIdToBeEnabled.get(index));
-            periodicCheckingManager.refresh(objIdToBeEnabled.get(index));
+        if (!foundWildcard) {
+            // requirement: 3.4.8.i (This part of the code is not reached if an error is thrown)
+            for (int index = 0; index < objIdToBeEnabled.size(); index++) {
+                // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
+                manager.setCheckEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), connection.getConnectionDetails());
+                periodicReportingManager.refresh(objIdToBeEnabled.get(index));
+                periodicCheckingManager.refresh(objIdToBeEnabled.get(index));
+            }
         }
 
         if (configurationAdapter != null) {

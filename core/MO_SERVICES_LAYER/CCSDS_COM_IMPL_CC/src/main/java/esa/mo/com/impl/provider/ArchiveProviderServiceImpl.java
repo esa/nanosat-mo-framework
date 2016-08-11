@@ -146,7 +146,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (inDomain == null) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.3.2.3
         }
-        if (manager.objectTypeContainsWildcard(inObjectType)) {   // requirement: 3.4.3.2.2
+        if (ArchiveManager.objectTypeContainsWildcard(inObjectType)) {   // requirement: 3.4.3.2.2
 //            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
@@ -328,7 +328,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // requirement: 3.4.4.2.18 and requirement 3.4.4.2.21
-            if (manager.objectTypeContainsWildcard(lObjectType)
+            if (ArchiveManager.objectTypeContainsWildcard(lObjectType)
                     || HelperCOM.domainContainsWildcard(lArchiveQueryList.get(index).getDomain())) {  // Any wilcards? if so, then send the updates separately
 
                 // Then we need to send data sequentially... object by object
@@ -354,8 +354,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     }
 
                     // requirement: 3.4.4.2.19
-                    ObjectType objType = (manager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : null;
-//                    ObjectType objType = (manager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : lObjectType;
+                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : null;
+//                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : lObjectType;
 
                     if (j != (perObjs.size() - 1) || index != (sizeArchiveQueryList - 1)) {
                         // requirement: 3.4.4.2.18
@@ -523,7 +523,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         }
 
-        if (manager.objectTypeContainsWildcard(objType)) { // requirement: 3.4.6.2.9
+        if (ArchiveManager.objectTypeContainsWildcard(objType)) { // requirement: 3.4.6.2.9
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
@@ -542,8 +542,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
                 // Shall be taken care in the manager & per inserted entry
-            } else // Does it exist already?  // requirement: 3.4.6.2.6
-            {
+            }else{// Does it exist already?  // requirement: 3.4.6.2.6
                 if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
                     dupIndexList.add(new UInteger(index));
                     continue;
@@ -623,11 +622,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (lArchiveDetailsList == null) {
             return; // requirement: 3.4.4.2.3
         }
-        if (manager.objectTypeContainsWildcard(lObjectType)
+        if (ArchiveManager.objectTypeContainsWildcard(lObjectType)
                 || HelperCOM.domainContainsWildcard(domain)) {   // requirement: 3.4.7.2.8 (first part)
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
-
+        
         if (lArchiveDetailsList.size() != lElementList.size()) { // requirement: ------ (proposed, does not exist yet)
             UIntegerList error = new UIntegerList();
             int size1 = (lArchiveDetailsList.size() < lElementList.size()) ? lArchiveDetailsList.size() : lElementList.size();
@@ -664,7 +663,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         // The errors have to be before the update operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
         manager.updateEntries(lObjectType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.7.2.6 and 3.4.7.2.7
-
+        
     }
 
     @Override
@@ -676,7 +675,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         UIntegerList invIndexList = new UIntegerList();
         LongList toBeDeleted = new LongList();
 
-        if (manager.objectTypeContainsWildcard(lObjectType)) { // requirement: 3.4.8.2.1
+        if (ArchiveManager.objectTypeContainsWildcard(lObjectType)) { // requirement: 3.4.8.2.1
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.8.2.3
         }
 

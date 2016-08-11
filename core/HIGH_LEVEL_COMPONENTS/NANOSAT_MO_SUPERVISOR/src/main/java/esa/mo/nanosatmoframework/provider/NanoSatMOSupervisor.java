@@ -68,6 +68,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
             PlatformServicesProviderInterface platformServices) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        HelperMisc.setInputProcessorsProperty();
 
         this.platformServices = platformServices;
 

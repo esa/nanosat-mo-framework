@@ -591,7 +591,7 @@ public class ArchiveManager {
     protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType, final ArchiveQuery archiveQuery) {
 
         final boolean domainContainsWildcard = HelperCOM.domainContainsWildcard(archiveQuery.getDomain());
-        final boolean objectTypeContainsWildcard = this.objectTypeContainsWildcard(objType);
+        final boolean objectTypeContainsWildcard = ArchiveManager.objectTypeContainsWildcard(objType);
         final boolean relatedContainsWildcard = (archiveQuery.getRelated().equals((long) 0));
         final boolean startTimeContainsWildcard = (archiveQuery.getStartTime() == null);
         final boolean endTimeContainsWildcard = (archiveQuery.getEndTime() == null);
@@ -693,9 +693,9 @@ public class ArchiveManager {
         }
 
         // If objectType contains a wildcard then we have to filter them
-        if (this.objectTypeContainsWildcard(objType)) {
+        if (ArchiveManager.objectTypeContainsWildcard(objType)) {
 
-            final long bitMask = this.objectType2Mask(objType);
+            final long bitMask = ArchiveManager.objectType2Mask(objType);
             final long objTypeId = HelperCOM.generateSubKey(objType);
 
             ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
@@ -761,13 +761,13 @@ public class ArchiveManager {
         // Source field
         if (archiveQuery.getSource() != null) {
 
-            if (this.objectTypeContainsWildcard(archiveQuery.getSource().getType())
+            if (ArchiveManager.objectTypeContainsWildcard(archiveQuery.getSource().getType())
                     || HelperCOM.domainContainsWildcard(archiveQuery.getSource().getKey().getDomain())
                     || archiveQuery.getSource().getKey().getInstId() == 0) { // Any Wildcards?
                 // objectType filtering   (in the source link)
-                if (this.objectTypeContainsWildcard(archiveQuery.getSource().getType())) {
+                if (ArchiveManager.objectTypeContainsWildcard(archiveQuery.getSource().getType())) {
 
-                    final long bitMask = this.objectType2Mask(archiveQuery.getSource().getType());
+                    final long bitMask = ArchiveManager.objectType2Mask(archiveQuery.getSource().getType());
                     final long objTypeId = HelperCOM.generateSubKey(archiveQuery.getSource().getType());
 
                     ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
@@ -950,14 +950,14 @@ public class ArchiveManager {
         return new ObjectId(obj.getObjectType(), new ObjectKey(obj.getDomain(), obj.getObjectId()));
     }
 
-    protected Boolean objectTypeContainsWildcard(final ObjectType objType) {
+    protected static Boolean objectTypeContainsWildcard(final ObjectType objType) {
         return (objType.getArea().getValue() == 0
                 || objType.getService().getValue() == 0
                 || objType.getVersion().getValue() == 0
                 || objType.getNumber().getValue() == 0);
     }
 
-    private Long objectType2Mask(final ObjectType objType) {
+    private static Long objectType2Mask(final ObjectType objType) {
 
         long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
         long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
@@ -971,65 +971,6 @@ public class ArchiveManager {
 
     }
 
-    protected boolean isObjectTypeConstant(ArrayList<ArchivePersistenceObject> perObjs) {
-
-        if (perObjs == null) {
-            return true;
-        }
-
-        if (perObjs.isEmpty()) {
-            return true;
-        }
-
-        ObjectType objType = perObjs.get(0).getObjectType();
-
-        for (int i = 0; i < perObjs.size(); i++) {
-            if (!objType.equals(perObjs.get(i).getObjectType())) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    protected boolean isDomainConstant(ArrayList<ArchivePersistenceObject> perObjs) {
-
-        if (perObjs == null) {
-            return true;
-        }
-
-        if (perObjs.isEmpty()) {
-            return true;
-        }
-
-        IdentifierList domain = perObjs.get(0).getDomain();
-
-        for (int i = 0; i < perObjs.size(); i++) {
-            if (!domain.equals(perObjs.get(i).getDomain())) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /*
-    protected void generateAndPublishEvent(final ObjectType objType, final Long related,
-            final ObjectId source, final MALInteraction interaction) {
-        if (eventService == null) {
-            return;
-        }
-
-        // Is the Event an Event coming from the archive?
-        if (source.getType().equals(HelperCOM.generateCOMObjectType(ArchiveHelper.ARCHIVE_SERVICE, source.getType().getNumber()))) {
-            return; // requirement: 3.4.2.5
-        }
-
-        // requirement: 3.4.2.4
-        Long eventObjId = eventService.generateAndStoreEvent(objType, configuration.getDomain(), null, related, source, interaction);
-        eventService.publishEvent(interaction, eventObjId, objType, null, source, null);
-    }
-     */
     protected void generateAndPublishEvents(final ObjectType objType,
             final ArrayList<ArchivePersistenceObject> comObjs, final MALInteraction interaction) {
 
@@ -1074,6 +1015,7 @@ public class ArchiveManager {
         eventService.publishEvents(sourceURI, eventObjIds, objType, null, sourceList, null);
     }
 
+    /*
     public static boolean isObjectTypeLikeDeclaredServiceType(ObjectType objType, Element element) {
         if (element == null) {
             return false;
@@ -1091,6 +1033,7 @@ public class ArchiveManager {
 
         return true;
     }
+    */
 
     public static UIntegerList checkForDuplicates(ArchiveDetailsList archiveDetailsList) {
         UIntegerList dupList = new UIntegerList();
