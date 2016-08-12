@@ -49,6 +49,11 @@ public class CheckConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getCheckStub();
+    }
+
     public CheckStub getCheckStub() {
         return this.checkService;
     }

@@ -45,6 +45,11 @@ public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getGPSStub();
+    }
+
     public GPSStub getGPSStub() {
         return this.gpsService;
     }

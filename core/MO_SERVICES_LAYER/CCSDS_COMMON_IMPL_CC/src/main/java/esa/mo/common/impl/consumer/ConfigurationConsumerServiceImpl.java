@@ -54,6 +54,11 @@ public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl {
         return new ConfigurationStub(tmConsumer);
     }
 
+    @Override
+    public Object getStub() {
+        return this.getConfigurationStub();
+    }
+
     public ConfigurationStub getConfigurationStub() {
         return this.configurationService;
     }

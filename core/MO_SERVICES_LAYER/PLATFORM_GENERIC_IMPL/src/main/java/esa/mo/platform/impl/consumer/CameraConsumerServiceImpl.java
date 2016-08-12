@@ -45,6 +45,11 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getCameraStub();
+    }
+
     public CameraStub getCameraStub() {
         return this.cameraService;
     }

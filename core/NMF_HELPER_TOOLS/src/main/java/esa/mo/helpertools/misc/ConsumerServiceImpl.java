@@ -102,5 +102,12 @@ public abstract class ConsumerServiceImpl {
      * @return Wrapped MALconsumer
      */
     public abstract Object generateServiceStub(MALConsumer tmConsumer);
+
+    /**
+     * Returns the service Stub
+     *
+     * @return The service Stub
+     */
+    public abstract Object getStub();
     
 }

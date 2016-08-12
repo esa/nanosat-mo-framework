@@ -49,6 +49,11 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getAppsLauncherStub();
+    }
+
     public AppsLauncherStub getAppsLauncherStub() {
         return this.applicationsManagerService;
     }

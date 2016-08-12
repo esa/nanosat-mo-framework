@@ -49,6 +49,11 @@ public class ActionConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getActionStub();
+    }
+
     public ActionStub getActionStub() {
         return this.actionService;
     }

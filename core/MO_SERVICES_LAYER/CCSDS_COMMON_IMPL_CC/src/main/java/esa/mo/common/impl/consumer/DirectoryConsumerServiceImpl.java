@@ -46,6 +46,11 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
     private final URI providerURI;
     private DirectoryStub directoryService = null;
 
+    @Override
+    public Object getStub() {
+        return this.getDirectoryStub();
+    }
+
     public DirectoryStub getDirectoryStub() {
         return this.directoryService;
     }

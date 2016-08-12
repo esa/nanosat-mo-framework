@@ -51,6 +51,11 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getParameterStub();
+    }
+
     public ParameterStub getParameterStub() {
         return this.parameterService;
     }

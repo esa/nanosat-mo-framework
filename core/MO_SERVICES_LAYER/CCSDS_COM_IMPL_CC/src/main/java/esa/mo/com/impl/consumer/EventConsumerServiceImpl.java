@@ -59,13 +59,18 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
     private EventStub eventService = null;
     private SubscriptionList subs = new SubscriptionList();
 
-    public EventStub getEventStub() {
-        return eventService;
-    }
-
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
         return new EventStub(tmConsumer);
+    }
+
+    @Override
+    public Object getStub() {
+        return this.getEventStub();
+    }
+
+    public EventStub getEventStub() {
+        return eventService;
     }
 
     public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MALInteractionException, MalformedURLException {

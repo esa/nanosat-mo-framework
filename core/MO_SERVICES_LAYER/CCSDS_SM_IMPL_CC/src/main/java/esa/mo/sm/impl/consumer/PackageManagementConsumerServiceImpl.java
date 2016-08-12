@@ -50,6 +50,11 @@ public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getPackageManagementStub();
+    }
+
     public PackageManagementStub getPackageManagementStub() {
         return this.packageManagementService;
     }

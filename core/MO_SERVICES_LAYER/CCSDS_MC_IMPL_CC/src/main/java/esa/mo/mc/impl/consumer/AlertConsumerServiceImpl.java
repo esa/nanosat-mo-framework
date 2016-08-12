@@ -49,6 +49,11 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getAlertStub();
+    }
+
     public AlertStub getAlertStub() {
         return this.alertService;
     }

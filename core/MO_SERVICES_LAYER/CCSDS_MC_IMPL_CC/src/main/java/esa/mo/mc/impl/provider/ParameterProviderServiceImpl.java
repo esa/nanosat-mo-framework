@@ -701,7 +701,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         private void startTimer(final Long objId, final Duration interval) {  // requirement: 3.3.2.11
-
             timerList.get(objId).scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {

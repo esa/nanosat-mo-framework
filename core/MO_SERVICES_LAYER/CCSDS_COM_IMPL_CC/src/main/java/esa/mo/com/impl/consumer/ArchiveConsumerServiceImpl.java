@@ -23,15 +23,12 @@ package esa.mo.com.impl.consumer;
 import esa.mo.helpertools.connections.ConfigurationConsumer;
 import esa.mo.helpertools.misc.ConsumerServiceImpl;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperTime;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -49,6 +46,11 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
         return new ArchiveStub(tmConsumer);
+    }
+
+    @Override
+    public Object getStub() {
+        return this.getArchiveStub();
     }
 
     public ArchiveStub getArchiveStub() {
@@ -90,17 +92,5 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         this.archiveService = new ArchiveStub(tmConsumer);
 
     }
-/*
-    @Deprecated
-    public ArchiveDetails generateArchiveDetails(Long objId) {
-        // ArchiveDetails
-        ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setDetails(new ObjectDetails());
-        archiveDetails.setInstId(objId);
-        archiveDetails.setNetwork(configuration.getNetwork());
-        archiveDetails.setTimestamp(HelperTime.getTimestamp());
-        archiveDetails.setProvider(connectionDetails.getProviderURI());
-        return archiveDetails;
-    }
-  */  
+
 }

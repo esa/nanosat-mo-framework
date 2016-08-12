@@ -49,6 +49,11 @@ public class StatisticConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getStatisticStub();
+    }
+
     public StatisticStub getStatisticStub() {
         return this.statisticService;
     }

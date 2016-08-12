@@ -49,6 +49,11 @@ public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getAggregationStub();
+    }
+
     public AggregationStub getAggregationStub() {
         return this.aggregationService;
     }

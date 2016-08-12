@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionN
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionSingleSpinning;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionSunPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionTargetTracking;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 
 /**
  *
@@ -201,6 +202,30 @@ public final class AutonomousADCSManager {
         }
 
         return ((this.availableTime == 0) ? null : new Duration((this.availableTime - System.currentTimeMillis()) * 1000));
+    }
+    
+    public static AttitudeMode getAttitudeMode(AttitudeDefinition definition){
+        if(definition instanceof AttitudeDefinitionBDot){
+            return AttitudeMode.BDOT;
+        }
+
+        if(definition instanceof AttitudeDefinitionSunPointing){
+            return AttitudeMode.SUNPOINTING;
+        }
+
+        if(definition instanceof AttitudeDefinitionSingleSpinning){
+            return AttitudeMode.SINGLESPINNING;
+        }
+
+        if(definition instanceof AttitudeDefinitionTargetTracking){
+            return AttitudeMode.TARGETTRACKING;
+        }
+
+        if(definition instanceof AttitudeDefinitionNadirPointing){
+            return AttitudeMode.NADIRPOINTING;
+        }
+        
+        return null;
     }
 
 }

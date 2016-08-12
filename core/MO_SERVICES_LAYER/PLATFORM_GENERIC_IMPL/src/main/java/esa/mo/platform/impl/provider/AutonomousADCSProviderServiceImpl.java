@@ -21,7 +21,10 @@
 package esa.mo.platform.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.IOException;
@@ -31,6 +34,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -46,18 +50,24 @@ import org.ccsds.moims.mo.mal.structures.EntityKeyList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.QoSLevel;
+import org.ccsds.moims.mo.mal.structures.SessionType;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.autonomousadcs.provider.MonitorAttitudePublisher;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinition;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionList;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReferenceFrame;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceList;
 
 /**
  *
@@ -67,16 +77,16 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     private MALProvider autonomousADCSServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
+    private MonitorAttitudePublisher publisher;
     private boolean isRegistered = false;
     private AutonomousADCSManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
+    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private AutonomousADCSAdapterInterface adapter;
     private boolean adcsInUse;
     private ConfigurationNotificationInterface configurationAdapter;
     private Thread autoUnsetThread = null;
 
-    // private blablabla ... The IFineADCS implementation object
-    
     /**
      * creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
@@ -106,6 +116,14 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             }
         }
 
+        publisher = createMonitorAttitudePublisher(configuration.getDomain(),
+                configuration.getNetwork(),
+                SessionType.LIVE,
+                new Identifier("LIVE"),
+                QoSLevel.BESTEFFORT,
+                null,
+                new UInteger(0));
+
         // Shut down old service transport
         if (null != autonomousADCSServiceProvider) {
             connection.close();
@@ -123,7 +141,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     /**
      * Closes all running threads and releases the MAL resources.
      */
-    public void close() {
+    public synchronized void close() {
         try {
             if (null != autonomousADCSServiceProvider) {
                 autonomousADCSServiceProvider.close();
@@ -135,7 +153,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
-/*
+
     private void publishCurrentAttitude(final Long objId) {
         try {
             if (!isRegistered) {
@@ -146,29 +164,22 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                 isRegistered = true;
             }
 
+            final AttitudeDefinition attDef = manager.get(objId);
+
+            final AttitudeInstance ai = adapter.getAttitudeInstance();
+            AttitudeInstanceList ail = (AttitudeInstanceList) HelperMisc.element2elementList(ai);
+            ail.add(ai);
+
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.FINER,
                     "Generating Parameter update for the Parameter Definition: {0} (Identifier: {1})",
-                    new Object[]{
-                        objId, new Identifier(manager.get(objId).getName().toString())
-                    });
+                    new Object[]{objId, attDef.getName()});
 
-
-            //  requirements: 3.3.5.2.1 , 3.3.5.2.2 , 3.3.5.2.3 , 3.3.5.2.4
-            final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, pValObjId, null);
-            final Time timestamp = HelperTime.getTimestampMillis(); //  requirement: 3.3.5.2.5
-
-            
-            AttitudeTM tm = adapter.getAttitudeTM();
-            
+            final EntityKey ekey = new EntityKey(attDef.getName(), objId, AutonomousADCSManager.getAttitudeMode(attDef).getNumericValue().getValue(), null);
+            final Time timestamp = HelperTime.getTimestampMillis();
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            final ObjectIdList objectIdlst = new ObjectIdList();
-            final ParameterValueList pVallst = new ParameterValueList();
-
             hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
-            objectIdlst.add(null); // requirement: 3.3.5.2.7 (3.3.5.2.6 not necessary. We will not use it for periodic updates)
-            pVallst.add(parameterValue); // requirement: 3.3.5.2.8
 
-            publisher.publish(hdrlst, objectIdlst, pVallst);
+            publisher.publish(hdrlst, ail);
 
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
@@ -176,17 +187,17 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         } catch (MALInteractionException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+        } catch (IOException ex) {
+            return;
+        } catch (Exception ex) { // Could not generate the Element List
+            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, "Could not create the Element List!", ex);
         }
     }
-    */
-    
+
     @Override
-    public void configureMonitoring(Duration streamingRate, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void configureMonitoring(Duration streamingRate, MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
-        
-        
-        
+
     }
 
     @Override
@@ -194,7 +205,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         if (null == objInstId) { // Is the input null?
             throw new IllegalArgumentException("objInstId argument must not be null");
         }
-        
+
         if (adapter.isUnitAvailable()) { // Is the ADCS unit available?
             throw new MALInteractionException(new MALStandardError(AutonomousADCSHelper.ADCS_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
@@ -203,17 +214,17 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             Duration duration = manager.getTimeLeft();
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, duration));
         }
-        
+
         AttitudeDefinition attitude = manager.get(objInstId);
-        
-        if(attitude == null){
+
+        if (attitude == null) {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
-        
+
         // Validate the attitude definition...
         String invalidField = manager.invalidField(attitude);
-        
-        if(invalidField != null){
+
+        if (invalidField != null) {
             // Oppss.. there's an invalid field! Throw it!
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invalidField));
         }
@@ -235,7 +246,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                 adcsInUse = true;
 
                 try {
-                    Thread.sleep((long) autoUnset.getValue()*1000); // Conversion to miliseconds
+                    Thread.sleep((long) autoUnset.getValue() * 1000); // Conversion to miliseconds
 
                     try {
                         adapter.unset();
@@ -246,35 +257,35 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                 } catch (InterruptedException ex) {
                     // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
                 }
-                
+
             }
         };
-        
+
         autoUnsetThread.start();
-        
+
     }
 
     @Override
     public synchronized void unsetAttitude(MALInteraction interaction) throws MALInteractionException, MALException {
         // Stop the current Thread to automatically unset the Attitude
-        if (autoUnsetThread != null){
+        if (autoUnsetThread != null) {
             autoUnsetThread.interrupt();
         }
-        
+
         if (adapter.isUnitAvailable()) { // Is the ADCS unit available?
             throw new MALInteractionException(new MALStandardError(AutonomousADCSHelper.ADCS_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
-        
+
         try {
             adapter.unset();
         } catch (IOException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     @Override
-    public LongList addAttitudeDefinition(AttitudeDefinitionList attitudeDefinitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized LongList addAttitudeDefinition(AttitudeDefinitionList attitudeDefinitions, MALInteraction interaction) throws MALInteractionException, MALException {
         LongList outLongLst = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -311,7 +322,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        if (configurationAdapter != null){
+        if (configurationAdapter != null) {
             configurationAdapter.configurationChanged(this);
         }
 
@@ -354,13 +365,13 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             manager.delete(tempLong2);  // COM archive is left untouched.
         }
 
-        if (configurationAdapter != null){
+        if (configurationAdapter != null) {
             configurationAdapter.configurationChanged(this);
-        }        
+        }
     }
 
     @Override
-    public LongList listAttitudeDefinition(IdentifierList names, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized LongList listAttitudeDefinition(IdentifierList names, MALInteraction interaction) throws MALInteractionException, MALException {
         LongList outLongLst = new LongList();
 
         if (null == names) { // Is the input null?
@@ -380,11 +391,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
         // Errors
         // The operation does not return any errors.
-        return outLongLst; 
+        return outLongLst;
     }
 
     @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+    public synchronized void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
 
@@ -404,6 +415,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {
@@ -427,5 +439,5 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
-    
+
 }

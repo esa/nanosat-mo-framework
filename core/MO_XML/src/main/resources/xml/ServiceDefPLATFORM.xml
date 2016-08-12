@@ -649,11 +649,11 @@
 			</mal:capabilitySet>
 			<mal:dataTypes>
 				<mal:enumeration comment="AttitudeMode is an enumeration definition holding the attitude modes." name="AttitudeMode" shortFormPart="4">
-					<mal:item comment="Target Pointing mode." nvalue="1" value="TARGETPOINTING"/>
-					<mal:item comment="Nadir Pointing mode." nvalue="2" value="NADIRPOINTING"/>
-					<mal:item comment="Sun Pointing mode." nvalue="3" value="SUNPOINTING"/>
-					<mal:item comment="Spin mode." nvalue="4" value="SPINMODE"/>
-					<mal:item comment="B dot mode. Can also be used for detumbling and momentum unloading." nvalue="5" value="BDOTMODE"/>
+					<mal:item comment="B dot mode. Can also be used for detumbling and momentum unloading." nvalue="1" value="BDOT"/>
+					<mal:item comment="Sun Pointing mode." nvalue="2" value="SUNPOINTING"/>
+					<mal:item comment="Single Spinning mode." nvalue="3" value="SINGLESPINNING"/>
+					<mal:item comment="Target Pointing mode." nvalue="4" value="TARGETTRACKING"/>
+					<mal:item comment="Nadir Pointing mode." nvalue="5" value="NADIRPOINTING"/>
 				</mal:enumeration>
 				<mal:enumeration comment="ReferenceFrame is an enumeration definition holding the frames of reference." name="ReferenceFrame" shortFormPart="5">
 					<mal:item comment="Euler angles reference frame." nvalue="1" value="EULER_ANGLES"/>

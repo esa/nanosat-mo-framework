@@ -50,6 +50,11 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
         return comServices;
     }
 
+    @Override
+    public Object getStub() {
+        return this.getHeartbeatStub();
+    }
+
     public HeartbeatStub getHeartbeatStub() {
         return this.heartbeatService;
     }
