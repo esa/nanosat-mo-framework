@@ -56,15 +56,15 @@ public class HelperADCS {
         }
         public static byte [] long2ByteArray (long value)
         {
-            return ByteBuffer.allocate(Long.BYTES).putLong(value).array();
+            return ByteBuffer.allocate(8).putLong(value).array();
         }
         public static byte [] int2ByteArray (int value)
         {  
-             return ByteBuffer.allocate(Integer.BYTES).putInt(value).array();
+             return ByteBuffer.allocate(4).putInt(value).array();
         }
         public static byte [] int16_2ByteArray (int value)
         {  
-             byte[] temp=ByteBuffer.allocate(Integer.BYTES).putInt(value).array();
+             byte[] temp=ByteBuffer.allocate(4).putInt(value).array();
              byte[] result=new byte[2];
              result[0]=temp[2];
              result[1]=temp[3];
@@ -72,67 +72,67 @@ public class HelperADCS {
         }
         public static byte [] float2ByteArray (float value)
         {  
-             return ByteBuffer.allocate(Float.BYTES).putFloat(value).array();
+             return ByteBuffer.allocate(4).putFloat(value).array();
         }
         public static byte [] double2ByteArray (double value)
         {  
-             return ByteBuffer.allocate(Double.BYTES).putDouble(value).array();
+             return ByteBuffer.allocate(8).putDouble(value).array();
         }
         
         public static void putFloatInByteArray(float value, int byteOffset, byte[] target)
         {
             byte [] tempByte=float2ByteArray(value);
-            for (int i=0;i<=Float.BYTES-1;i++)
+            for (int i=0;i<=4-1;i++)
             {
                 target[byteOffset+i]=tempByte[i];
             }
         }
         public static float getFloatFromByteArray(byte[] source, int byteOffset)
         {
-            return ByteBuffer.wrap(source,byteOffset,Float.BYTES).order(ByteOrder.BIG_ENDIAN).getFloat();
+            return ByteBuffer.wrap(source,byteOffset,4).order(ByteOrder.BIG_ENDIAN).getFloat();
         }
         public static void putDoubleInByteArray(double value, int byteOffset, byte[] target)
         {
             byte [] tempByte=double2ByteArray(value);
-            for (int i=0;i<=Double.BYTES-1;i++)
+            for (int i=0;i<=8-1;i++)
             {
                 target[byteOffset+i]=tempByte[i];
             }
         }
         public static double getDoubleFromByteArray(byte[] source, int byteOffset)
         {
-            return ByteBuffer.wrap(source,byteOffset,Double.BYTES).order(ByteOrder.BIG_ENDIAN).getDouble();
+            return ByteBuffer.wrap(source,byteOffset,8).order(ByteOrder.BIG_ENDIAN).getDouble();
         }
         public static void putIntInByteArray(int value, int byteOffset, byte[] target)
         {
             byte [] tempByte=int2ByteArray(value);
-            for (int i=0;i<=Integer.BYTES-1;i++)
+            for (int i=0;i<=4-1;i++)
             {
                 target[byteOffset+i]=tempByte[i];
             }
         }
         public static int getIntFromByteArray(byte[] source, int byteOffset)
         {
-            return ByteBuffer.wrap(source,byteOffset,Integer.BYTES).order(ByteOrder.BIG_ENDIAN).getInt();
+            return ByteBuffer.wrap(source,byteOffset,4).order(ByteOrder.BIG_ENDIAN).getInt();
         }
         public static int getInt16FromByteArray(byte[] source, int byteOffset)
         {
-            byte[] temp=new byte[Integer.BYTES];
+            byte[] temp=new byte[4];
             temp[2]=source[byteOffset];
             temp[3]=source[byteOffset+1];
-            return ByteBuffer.wrap(temp,byteOffset,Integer.BYTES).order(ByteOrder.BIG_ENDIAN).getInt();
+            return ByteBuffer.wrap(temp,byteOffset,4).order(ByteOrder.BIG_ENDIAN).getInt();
         }
         public static void putLongInByteArray(long value, int byteOffset, byte[] target)
         {
             byte [] tempByte=long2ByteArray(value);
-            for (int i=0;i<=Long.BYTES-1;i++)
+            for (int i=0;i<=8-1;i++)
             {
                 target[byteOffset+i]=tempByte[i];
             }
         }
         public static long getLongFromByteArray(byte[] source, int byteOffset)
         {
-            return ByteBuffer.wrap(source,byteOffset,Long.BYTES).order(ByteOrder.BIG_ENDIAN).getLong();
+            return ByteBuffer.wrap(source,byteOffset,8).order(ByteOrder.BIG_ENDIAN).getLong();
         }
     
     }
