@@ -22,6 +22,7 @@ package esa.mo.platform.impl.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import org.ccsds.moims.mo.mal.structures.DoubleList;
 import org.ccsds.moims.mo.platform.structures.Quaternions;
 import org.ccsds.moims.mo.platform.structures.Vector3D;
 import org.ccsds.moims.mo.platform.structures.WheelSpeed;
@@ -54,6 +55,91 @@ public class HelperADCS {
             public final static int QUATERNION3                      = 16*4+2;
             public final static int QUATERNION4                      = 17*4+2;
         }
+        public static class ACTUATORTM_IDX{
+            //Byte offset
+            public final static int RW_CURRENT_SPEED_X               = 0*2;
+            public final static int RW_LAST_TARGET_X                 = 1*2;
+            public final static int RW_TARGET_MODE_X                 = 2*2;
+            public final static int RW_CURRENT_SPEED_Y               = 2*2+1;
+            public final static int RW_LAST_TARGET_Y                 = 3*2+1;
+            public final static int RW_TARGET_MODE_Y                 = 4*2+1;
+            public final static int RW_CURRENT_SPEED_Z               = 5*2;
+            public final static int RW_LAST_TARGET_Z                 = 6*2;
+            public final static int RW_TARGET_MODE_Z                 = 7*2;
+            public final static int MTQ_TARGET_X                     = 7*2+1;
+            public final static int MTQ_TARGET_Y                     = 8*2+1;
+            public final static int MTQ_TARGET_Z                     = 9*2+1;
+        }
+        public static class SPINMODESTAT_IDX{
+            //Byte offset
+            public final static int SUN_VECTOR_X                     = 0*4;
+            public final static int SUN_VECTOR_Y                     = 1*4;
+            public final static int SUN_VECTOR_Z                     = 2*4;
+            public final static int MAGNETOMETER_X                   = 3*4;
+            public final static int MAGNETOMETER_Y                   = 4*4;
+            public final static int MAGNETOMETER_Z                   = 5*4;
+            public final static int Q1                               = 6*4;
+            public final static int Q2                               = 7*4;
+            public final static int Q3                               = 8*4;
+            public final static int Q4                               = 9*4;
+            public final static int ANG_MOM_X                        = 10*4;
+            public final static int ANG_MOM_Y                        = 11*4;
+            public final static int ANG_MOM_Z                        = 12*4;
+            public final static int MTQ_DIP_MOMENT_X                 = 13*4;
+            public final static int MTQ_DIP_MOMENT_Y                 = 14*4;
+            public final static int MTQ_DIP_MOMENT_Z                 = 15*4;
+        }
+        public static class SUNPOINTSTAT_IDX{
+            //Byte offset
+            public final static int SUN_VECTOR_X                     = 0*4;
+            public final static int SUN_VECTOR_Y                     = 1*4;
+            public final static int SUN_VECTOR_Z                     = 2*4;
+            public final static int SUN_VECTOR_VALID                 = 3*4;
+            public final static int ACTUATOR_X                       = 3*4+1;
+            public final static int ACTUATOR_Y                       = 4*4+1;
+            public final static int ACTUATOR_Z                       = 5*4+1;
+        }
+        public static class FIXWGS84_TGTTRACKSTAT_IDX{
+            //Byte offset
+            public final static int POSITION_VECTOR_X                = 0*4;
+            public final static int POSITION_VECTOR_Y                = 1*4;
+            public final static int POSITION_VECTOR_Z                = 2*4;
+            public final static int ANG_VEL_X                        = 3*4;
+            public final static int ANG_VEL_Y                        = 4*4;
+            public final static int ANG_VEL_Z                        = 5*4;
+            public final static int Q1                               = 6*4;
+            public final static int Q2                               = 7*4;
+            public final static int Q3                               = 8*4;
+            public final static int Q4                               = 9*4;
+            public final static int TGT_Q1                           = 10*4;
+            public final static int TGT_Q2                           = 11*4;
+            public final static int TGT_Q3                           = 12*4;
+            public final static int TGT_Q4                           = 13*4;
+            public final static int RW_SPEED_X                       = 14*4;
+            public final static int RW_SPEED_Y                       = 15*4;
+            public final static int RW_SPEED_Z                       = 16*4;
+        }
+        public static class NADIR_TGTTRACKSTAT_IDX{
+            //Byte offset
+            public final static int POSITION_VECTOR_X                = 0*4;
+            public final static int POSITION_VECTOR_Y                = 1*4;
+            public final static int POSITION_VECTOR_Z                = 2*4;
+            public final static int ANG_VEL_X                        = 3*4;
+            public final static int ANG_VEL_Y                        = 4*4;
+            public final static int ANG_VEL_Z                        = 5*4;
+            public final static int Q1                               = 6*4;
+            public final static int Q2                               = 7*4;
+            public final static int Q3                               = 8*4;
+            public final static int Q4                               = 9*4;
+            public final static int TGT_Q1                           = 10*4;
+            public final static int TGT_Q2                           = 11*4;
+            public final static int TGT_Q3                           = 12*4;
+            public final static int TGT_Q4                           = 13*4;
+            public final static int RW_SPEED_X                       = 14*4;
+            public final static int RW_SPEED_Y                       = 15*4;
+            public final static int RW_SPEED_Z                       = 16*4;
+        }
+        
         public static byte [] long2ByteArray (long value)
         {
             return ByteBuffer.allocate(8).putLong(value).array();
@@ -138,49 +224,82 @@ public class HelperADCS {
     }
     public static Vector3D getMagneticFieldFromSensorTM(byte[] sensorTM) {
         return new Vector3D(
-            FWRefFineADCS.getDoubleFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_X),
-            FWRefFineADCS.getDoubleFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_Y),
-            FWRefFineADCS.getDoubleFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_Z));        
+            (double) FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_Z));        
     }
 
     public static Vector3D getMTQFromActuatorTM(byte[] actuatorTM) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Vector3D(
+            (double) FWRefFineADCS.getInt16FromByteArray(actuatorTM, FWRefFineADCS.ACTUATORTM_IDX.MTQ_TARGET_X),
+            (double) FWRefFineADCS.getInt16FromByteArray(actuatorTM, FWRefFineADCS.ACTUATORTM_IDX.MTQ_TARGET_Y),
+            (double) FWRefFineADCS.getInt16FromByteArray(actuatorTM, FWRefFineADCS.ACTUATORTM_IDX.MTQ_TARGET_Z));
     }
 
     public static WheelSpeed getWheelSpeedFromActuatorTM(byte[] actuatorTM) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DoubleList velocity=new DoubleList();
+        velocity.add((double) FWRefFineADCS.getInt16FromByteArray(actuatorTM, FWRefFineADCS.ACTUATORTM_IDX.RW_CURRENT_SPEED_X));
+        velocity.add((double) FWRefFineADCS.getInt16FromByteArray(actuatorTM, FWRefFineADCS.ACTUATORTM_IDX.RW_CURRENT_SPEED_Y));
+        velocity.add((double) FWRefFineADCS.getInt16FromByteArray(actuatorTM, FWRefFineADCS.ACTUATORTM_IDX.RW_CURRENT_SPEED_Z));
+        return new WheelSpeed(velocity);
     }
 
     public static Vector3D getSunVectorFromSpinModeStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_Z));
     }
 
     public static Vector3D getMagneticFieldFromSpinModeStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_Z));
     }
 
     public static Quaternions getQuaternionsFromSpinModeStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Quaternions(
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.Q1),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.Q2),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.Q3),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.Q4));
     }
 
     public static Vector3D getAngularMomentumFromSpinModeStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.ANG_MOM_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.ANG_MOM_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.ANG_MOM_Z));
     }
 
     public static Vector3D getMTQFromSpinModeStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MTQ_DIP_MOMENT_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MTQ_DIP_MOMENT_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MTQ_DIP_MOMENT_Z));
     }
 
     public static Vector3D getSunVectorFromSunPointingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_Z));
     }
 
     public static Vector3D getMTQFromSunPointingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_Z));
     }
 
     public static WheelSpeed getWheelSpeedFromSunPointingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DoubleList velocity=new DoubleList();
+        velocity.add((double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_X));
+        velocity.add((double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_Y));
+        velocity.add((double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_Z));
+        return new WheelSpeed(velocity);
     }
 
     public static Vector3D getMagneticFieldFromFixWGS84TargetTrackingStatus(byte[] status) {
@@ -192,19 +311,34 @@ public class HelperADCS {
     }
 
     public static WheelSpeed getWheelSpeedFromFixWGS84TargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DoubleList velocity=new DoubleList();
+        velocity.add((double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_X));
+        velocity.add((double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_Y));
+        velocity.add((double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_Z));
+        return new WheelSpeed(velocity);
     }
 
     public static Quaternions getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Quaternions(
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q1),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q2),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q3),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q4));
     }
 
     public static Quaternions getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Quaternions(
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q1),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q2),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q3),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q4));
     }
 
     public static Vector3D getPositionFromNadirTargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.POSITION_VECTOR_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.POSITION_VECTOR_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.POSITION_VECTOR_Z));
     }
 
     public static Double getAngularVelocityFromNadirTargetTrackingStatus(byte[] status) {
@@ -212,15 +346,27 @@ public class HelperADCS {
     }
 
     public static Quaternions getCurrentQuaternionsFromNadirTargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Quaternions(
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.Q1),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.Q2),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.Q3),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.Q4));
     }
 
     public static Quaternions getTargetQuaternionsFromNadirTargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Quaternions(
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q1),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q2),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q3),
+            FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q4));
     }
 
     public static WheelSpeed getWheelSpeedFromNadirTargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DoubleList velocity=new DoubleList();
+        velocity.add((double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_X));
+        velocity.add((double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_Y));
+        velocity.add((double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_Z));
+        return new WheelSpeed(velocity);
     }
 
 
