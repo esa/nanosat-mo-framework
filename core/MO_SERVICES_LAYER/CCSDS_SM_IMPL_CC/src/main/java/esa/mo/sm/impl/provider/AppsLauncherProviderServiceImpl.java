@@ -104,6 +104,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     private boolean initialiased = false;
     private boolean running = false;
     private boolean isRegistered = false;
+    private final Object lock = new Object();
     private AppsLauncherManager manager;
     private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final ConnectionProvider connection = new ConnectionProvider();
@@ -168,14 +169,15 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     private void publishExecutionMonitoring(final Long appObjId, final String outputText) {
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
-
-                isRegistered = true;
+            synchronized(lock){
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
             }
-
+                
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER,
                     "Generating update for the App: {0} (Identifier: {1})",
                     new Object[]{

@@ -92,6 +92,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private boolean running = false;
     private MonitorValuePublisher publisher;
     private boolean isRegistered = false;
+    private final Object lock = new Object();
     private ParameterManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
@@ -214,12 +215,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     
     private void publishParameterUpdate(final Long objId, final boolean storeIt) {
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
-
-                isRegistered = true;
+            synchronized(lock){
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
             }
 
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.FINER,
@@ -772,12 +774,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     public Boolean pushParameterValue(final Identifier name, final ParameterValue parameterValue, final ObjectId source, final Time timestamp) {
 
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
-
-                isRegistered = true;
+            synchronized(lock){
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
             }
 
             Long objId = manager.list(name);  // Does the submitted name exists in the manager?

@@ -73,6 +73,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     private MALProvider eventServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
+    private final Object lock = new Object();
     private boolean isRegistered = false;
     private MonitorEventPublisher publisher;
     private final ConfigurationProvider configuration = new ConfigurationProvider();
@@ -122,8 +123,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         } catch (MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
-        
+         */
         // shut down old service transport
         if (null != eventServiceProvider) {
             connection.close();
@@ -143,8 +143,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     public ConnectionProvider getConnectionProvider() {
         return this.connection;
     }
-    
-    public MonitorEventPublisher getPublisher(){
+
+    public MonitorEventPublisher getPublisher() {
         return publisher;
     }
 
@@ -261,11 +261,13 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             final Long related, final ObjectId source, ElementList eventBodies) {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
-                isRegistered = true;
+            synchronized (lock) {
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
             }
 
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.FINE,
@@ -295,10 +297,10 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 if (eventBodies.isEmpty()) {
                     Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING, "The event bodies list is empty!");
                 }
-            }else{
+            } else {
                 eventBodies = new UIntegerList(hdrlst.size());
-                
-                for (UpdateHeader hdrlst1 : hdrlst){
+
+                for (UpdateHeader hdrlst1 : hdrlst) {
                     eventBodies.add(new UInteger());
                 }
             }
@@ -328,22 +330,24 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             final LongList relateds, final ObjectIdList sources, ElementList eventBodies) {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
-                isRegistered = true;
+            synchronized (lock) {
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
             }
 
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.FINE,
-//            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO,
+                    //            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO,
                     "Publishing Event for the Event objIds: {0}; with Event Object Numbers: {1}",
                     new Object[]{objIds, objType.getNumber()});
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             final ObjectDetailsList objectDetailsList = new ObjectDetailsList();
 
-            for (int i = 0; i < objIds.size(); i++){
+            for (int i = 0; i < objIds.size(); i++) {
                 // 0xFFFF FFFF FF00 0000
                 final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
 
@@ -366,10 +370,10 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 if (eventBodies.isEmpty()) {
                     Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING, "The event bodies list is empty!");
                 }
-            }else{
+            } else {
                 eventBodies = new UIntegerList(hdrlst.size());
-                
-                for (UpdateHeader hdrlst1 : hdrlst){
+
+                for (UpdateHeader hdrlst1 : hdrlst) {
                     eventBodies.add(new UInteger());
                 }
             }
@@ -385,15 +389,15 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         }
     }
 
-    public LongList generateAndStoreEvents(final ObjectType objType, final IdentifierList domain, 
+    public LongList generateAndStoreEvents(final ObjectType objType, final IdentifierList domain,
             final LongList relateds, final ObjectIdList sourceList, final MALInteraction interaction) {
 
         ObjectDetailsList objectDetailsList = new ObjectDetailsList();
 
-        for(int i = 0; i < sourceList.size(); i++){
-            if(relateds != null){
+        for (int i = 0; i < sourceList.size(); i++) {
+            if (relateds != null) {
                 objectDetailsList.add(new ObjectDetails(relateds.get(i), sourceList.get(i)));
-            }else{
+            } else {
                 objectDetailsList.add(new ObjectDetails(null, sourceList.get(i)));
             }
         }
@@ -412,8 +416,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         }
 
         ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-        
-        for(int i = 0; i < objectDetailsList.size(); i++){
+
+        for (int i = 0; i < objectDetailsList.size(); i++) {
             ArchiveDetails archiveDetails = new ArchiveDetails();
             archiveDetails.setDetails(objectDetailsList.get(i));
             archiveDetails.setInstId(new Long(0)); // no need to worry about objIds
@@ -427,7 +431,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
             if (uri != null) {
                 archiveDetails.setProvider(uri);
-            }else{
+            } else {
                 archiveDetails.setProvider(connection.getConnectionDetails().getProviderURI());
             }
 
@@ -442,7 +446,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         } catch (MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return null;
     }
 

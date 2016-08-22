@@ -75,7 +75,6 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     private MALProvider alertServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private boolean isRegistered = false;
     private AlertManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final ConfigurationProvider configuration = new ConfigurationProvider();

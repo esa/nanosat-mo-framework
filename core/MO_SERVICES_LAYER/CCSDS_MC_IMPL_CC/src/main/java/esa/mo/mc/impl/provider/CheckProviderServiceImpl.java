@@ -88,7 +88,6 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
     private MALProvider checkServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private boolean isRegistered = false;
     private CheckManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final ConfigurationProvider configuration = new ConfigurationProvider();

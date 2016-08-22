@@ -29,12 +29,13 @@ import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -74,18 +75,22 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceLis
  */
 public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritanceSkeleton implements ReconfigurableServiceImplInterface {
 
+    private final static Duration MINIMUM_PERIOD = new Duration(0.1); // 100 Milliseconds
     private MALProvider autonomousADCSServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
     private MonitorAttitudePublisher publisher;
     private boolean isRegistered = false;
+    private final Object lock = new Object();
     private AutonomousADCSManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final ConfigurationProvider configuration = new ConfigurationProvider();
     private AutonomousADCSAdapterInterface adapter;
     private boolean adcsInUse;
+    private final Timer publishTimer = new Timer();
     private ConfigurationNotificationInterface configurationAdapter;
     private Thread autoUnsetThread = null;
+    private Long currentAttitudeObjId = (long) 0;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -154,17 +159,22 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
     }
 
-    private void publishCurrentAttitude(final Long objId) {
+    private void publishCurrentAttitude() {
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
+            final Long objId;
+            final AttitudeDefinition attDef;
 
-                isRegistered = true;
+            synchronized(lock){
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
+                
+                objId = this.currentAttitudeObjId;
+                attDef = manager.get(objId);
             }
-
-            final AttitudeDefinition attDef = manager.get(objId);
 
             final AttitudeInstance ai = adapter.getAttitudeInstance();
             AttitudeInstanceList ail = (AttitudeInstanceList) HelperMisc.element2elementList(ai);
@@ -180,7 +190,6 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
 
             publisher.publish(hdrlst, ail);
-
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         } catch (MALException ex) {
@@ -196,7 +205,24 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public synchronized void configureMonitoring(Duration streamingRate, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        // Is the requested streaming rate less than the minimum period?
+        if(streamingRate.getValue() < MINIMUM_PERIOD.getValue()){
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, MINIMUM_PERIOD));
+        }
+        
+        publishTimer.cancel();
+
+        int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
+
+        publishTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (running) {
+                    publishCurrentAttitude();
+                }
+            }
+        }, period, period);
 
     }
 
@@ -232,6 +258,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         try {
             // Now we can finally set the desiredAttitude!
             adapter.setDesiredAttitude(attitude);
+            currentAttitudeObjId = objInstId;
         } catch (IOException ex) {
             // Operation not supported by the implementation...
             throw new MALInteractionException(new MALStandardError(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));

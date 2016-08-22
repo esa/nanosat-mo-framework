@@ -91,6 +91,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     private boolean running = false;
     private NearbyPositionPublisher publisher;
     private boolean isRegistered = false;
+    private final Object lock = new Object();
     private GPSManager manager;
     private PeriodicReportingManager periodicReporting;
     private final ConnectionProvider connection = new ConnectionProvider();
@@ -173,12 +174,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     private void publishNearbyPositionUpdate(final Long objId, final Boolean isInside) {
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
-
-                isRegistered = true;
+            synchronized(lock){
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
             }
 
             Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.FINER,
@@ -231,8 +233,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction) throws MALInteractionException, MALException {
 
         GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
-        Position pos;
-        long startTime;
+        final Position pos;
+        final long startTime;
         
         synchronized (MUTEX){
             pos = currentPosition;
@@ -254,13 +256,14 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         
         interaction.sendAcknowledgement();
 
-        Position position =  adapter.getCurrentPosition();
-        interaction.sendResponse(position);
+        Position position = adapter.getCurrentPosition();
 
         synchronized(MUTEX){ // Store the latest Position
             currentPosition = position;
             timeOfCurrentPosition = System.currentTimeMillis();
         }
+
+        interaction.sendResponse(position);
         
     }
 
@@ -521,9 +524,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                             return;
                         }
                         
+                        Position pos = adapter.getCurrentPosition(); // Current Position
+                        
                         // Do: get the current value from the GPS unit
                         synchronized(MUTEX){
-                            currentPosition = adapter.getCurrentPosition();
+                            currentPosition = pos;
                             timeOfCurrentPosition = System.currentTimeMillis();
                         }
                         
@@ -537,7 +542,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                             Boolean previousState = manager.getPreviousStatus(objId);
 
                             try {
-                                double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(), currentPosition);
+                                double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(), pos);
                                 boolean isInside = (distance < def.getDistanceBoundary());
                             
                                 if (previousState == null){ // Maybe it's the first run...

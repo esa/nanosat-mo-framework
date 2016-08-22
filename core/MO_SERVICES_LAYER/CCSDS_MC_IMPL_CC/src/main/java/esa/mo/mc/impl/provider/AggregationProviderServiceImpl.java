@@ -94,6 +94,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     private boolean running = false;
     private MonitorValuePublisher publisher;
     private boolean isRegistered = false;
+    private final Object lock = new Object();
     private AggregationManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private PeriodicSamplingManager periodicSamplingManager;
@@ -191,11 +192,13 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     private void publishAggregationUpdate(final Long objId, final AggregationValue aVal) {
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
-                isRegistered = true;
+            synchronized(lock){
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
             }
 
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.FINER,

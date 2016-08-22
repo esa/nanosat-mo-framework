@@ -57,7 +57,6 @@ public class ActivityTrackingProviderServiceImpl {
 
     private boolean initialiased = false;
     private boolean running = false;
-    private boolean isRegistered = false;
     private ArchiveProviderServiceImpl archiveService;
     private EventProviderServiceImpl eventService;
     private final ConfigurationProvider configuration = new ConfigurationProvider();
