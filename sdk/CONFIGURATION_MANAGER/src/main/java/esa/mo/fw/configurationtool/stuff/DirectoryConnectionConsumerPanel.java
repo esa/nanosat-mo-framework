@@ -397,7 +397,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         File[] fList = folder_location.listFiles();
 
         if (fList == null) {
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, "The directory could not be found: {0}", folder_location.toString());
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, "The directory could not be found: {0}", folder_location.toString());
             this.changeOBSWFolder();
 
             if (!isSecondaryCall) { // To avoid getting the code in a stupid loop
@@ -504,7 +504,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     private void changeOBSWFolder() {
         folder_location = new File(".." + File.separator + OBSW_ALTERNATIVE_DIRECTORY_NAME);  // Location of the folder
-        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, "The directory path was changed to: {0}", folder_location.toString());
+        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, "The directory path was changed to: {0}", folder_location.toString());
     }
 
     private void initTextBoxAddress() {  // runs during the init of the app

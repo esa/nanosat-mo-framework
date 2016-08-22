@@ -65,7 +65,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</artifactId>
+            <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
             <version>${project.version}</version>
 <!--
             <scope>provided</scope>

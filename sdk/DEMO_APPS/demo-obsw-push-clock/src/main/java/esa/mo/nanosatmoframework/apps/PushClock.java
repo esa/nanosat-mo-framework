@@ -21,8 +21,8 @@
 package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.connector.NanoSatMOConnectorImpl;
 import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
@@ -45,8 +46,8 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class PushClock {
 
-//    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(null);
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
+//    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
     private final Timer timer = new Timer();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
     private int hours = 0;
@@ -116,7 +117,7 @@ public class PushClock {
 
         @Override
         public Attribute onGetValue(Identifier idntfr, Byte b) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return new Duration(34);
         }
 
         @Override
