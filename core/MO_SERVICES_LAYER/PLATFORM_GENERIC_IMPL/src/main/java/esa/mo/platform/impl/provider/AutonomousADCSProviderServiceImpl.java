@@ -456,7 +456,6 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
-
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {

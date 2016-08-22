@@ -47,10 +47,10 @@ public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl
 
     @Override
     public Object getStub() {
-        return this.getCameraStub();
+        return this.getSoftwareDefinedRadioStub();
     }
 
-    public SoftwareDefinedRadioStub getCameraStub() {
+    public SoftwareDefinedRadioStub getSoftwareDefinedRadioStub() {
         return this.softwareDefinedRadioService;
     }
 

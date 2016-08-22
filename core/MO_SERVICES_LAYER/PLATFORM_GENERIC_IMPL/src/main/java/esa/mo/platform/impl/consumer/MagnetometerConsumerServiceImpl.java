@@ -47,10 +47,10 @@ public class MagnetometerConsumerServiceImpl extends ConsumerServiceImpl {
 
     @Override
     public Object getStub() {
-        return this.getGPSStub();
+        return this.getMagnetometerStub();
     }
 
-    public MagnetometerStub getGPSStub() {
+    public MagnetometerStub getMagnetometerStub() {
         return this.magnetometerService;
     }
 

@@ -47,10 +47,10 @@ public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl 
 
     @Override
     public Object getStub() {
-        return this.getGPSStub();
+        return this.getOpticalDataReceiverStub();
     }
 
-    public OpticalDataReceiverStub getGPSStub() {
+    public OpticalDataReceiverStub getOpticalDataReceiverStub() {
         return this.opticalDataReceiverService;
     }
 

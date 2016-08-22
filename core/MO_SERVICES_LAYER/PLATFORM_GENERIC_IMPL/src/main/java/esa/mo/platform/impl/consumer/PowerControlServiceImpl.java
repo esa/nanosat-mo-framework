@@ -47,10 +47,10 @@ public class PowerControlServiceImpl extends ConsumerServiceImpl {
 
     @Override
     public Object getStub() {
-        return this.getGPSStub();
+        return this.getPowerControlStub();
     }
 
-    public PowerControlStub getGPSStub() {
+    public PowerControlStub getPowerControlStub() {
         return this.powerControlService;
     }
 

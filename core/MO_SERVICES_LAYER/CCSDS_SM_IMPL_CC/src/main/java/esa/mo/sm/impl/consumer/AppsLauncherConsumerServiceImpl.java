@@ -42,7 +42,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherS
  */
 public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
     
-    private AppsLauncherStub applicationsManagerService = null;
+    private AppsLauncherStub appLauncherService = null;
     private COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
@@ -55,7 +55,7 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public AppsLauncherStub getAppsLauncherStub() {
-        return this.applicationsManagerService;
+        return this.appLauncherService;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getDomain(),
                 AppsLauncherHelper.APPSLAUNCHER_SERVICE);
 
-        this.applicationsManagerService = new AppsLauncherStub(tmConsumer);
+        this.appLauncherService = new AppsLauncherStub(tmConsumer);
     }
 
 }

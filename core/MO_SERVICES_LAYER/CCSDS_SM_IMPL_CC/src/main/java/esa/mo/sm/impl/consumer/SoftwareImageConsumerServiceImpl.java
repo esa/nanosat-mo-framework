@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.platform.impl.consumer;
+package esa.mo.sm.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.helpertools.misc.ConsumerServiceImpl;
@@ -26,19 +26,23 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
-import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
-import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.softwaremanagement.softwareimage.SoftwareImageHelper;
+import org.ccsds.moims.mo.softwaremanagement.softwareimage.consumer.SoftwareImageStub;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
-
-    private AutonomousADCSStub autonomousADCSService = null;
+public class SoftwareImageConsumerServiceImpl extends ConsumerServiceImpl {
+    
+    private SoftwareImageStub softwareImageService = null;
     private COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
@@ -47,19 +51,37 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
 
     @Override
     public Object getStub() {
-        return this.getAutonomousADCSStub();
+        return this.getSoftwareImageStub();
     }
 
-    public AutonomousADCSStub getAutonomousADCSStub() {
-        return this.autonomousADCSService;
+    public SoftwareImageStub getSoftwareImageStub() {
+        return this.softwareImageService;
     }
 
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
-        return new AutonomousADCSStub(tmConsumer);
+        return new SoftwareImageStub(tmConsumer);
     }
 
-    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public SoftwareImageConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+
+        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
+            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
+        }
+
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
+            COMHelper.init(MALContextFactory.getElementFactoryRegistry());
+        }
+
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+            SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
+        }
+
+        try {
+            SoftwareImageHelper.init(MALContextFactory.getElementFactoryRegistry());
+        } catch (MALException ex) {
+            // nothing to be done..
+        }
 
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
@@ -69,7 +91,7 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(AutonomousADCSConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SoftwareImageConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -77,9 +99,9 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE);
+                SoftwareImageHelper.SOFTWAREIMAGE_SERVICE);
 
-        this.autonomousADCSService = new AutonomousADCSStub(tmConsumer);
+        this.softwareImageService = new SoftwareImageStub(tmConsumer);
     }
 
 }
