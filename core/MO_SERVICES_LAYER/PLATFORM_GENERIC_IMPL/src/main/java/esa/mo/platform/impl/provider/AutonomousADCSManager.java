@@ -20,6 +20,7 @@
  */
 package esa.mo.platform.impl.provider;
 
+import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -27,13 +28,18 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinition;
@@ -63,41 +69,37 @@ public final class AutonomousADCSManager {
         this.comServices = comServices;
         this.attitudeDefs = new HashMap<Long, AttitudeDefinition>();
 
-        if (comServices != null) {  // Do we have COM services?
-            if (comServices.getArchiveService() == null) {  // No Archive?
-                this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-            } else {
-
-            }
-        }
+        this.uniqueObjIdDef = System.currentTimeMillis();
 
     }
 
-    public Long add(AttitudeDefinition definition, ObjectId source, SingleConnectionDetails connectionDetails) {
+    public ArchiveProviderServiceImpl getArchiveService() {
+        return this.comServices.getArchiveService();
+    }
 
-        if (comServices.getArchiveService() == null) {
-            uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-            this.attitudeDefs.put(uniqueObjIdDef, definition);
+    public synchronized Long add(AttitudeDefinition definition, ObjectId source, SingleConnectionDetails connectionDetails) {
 
-//            this.save();
-            return uniqueObjIdDef;
-        } else {
+        uniqueObjIdDef++;
+
+        if (comServices.getArchiveService() != null) {
             try {
                 AttitudeDefinitionList defs = (AttitudeDefinitionList) HelperMisc.element2elementList(definition);
                 defs.add(definition);
                 ObjectType objType = AutonomousADCSManager.generateDefinitionObjectType(definition);
+                ArchiveDetailsList adl = HelperArchive.generateArchiveDetailsList(null, source, connectionDetails);
+                adl.get(0).setInstId(uniqueObjIdDef);
 
                 // Store the actual Definition
-                LongList objIds = comServices.getArchiveService().store(
-                        true,
+                comServices.getArchiveService().store(
+                        false,
                         objType,
                         connectionDetails.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails),
+                        adl,
                         defs,
                         null);
 
-                this.attitudeDefs.put(objIds.get(0), definition);
-                return objIds.get(0);
+                this.attitudeDefs.put(uniqueObjIdDef, definition);
+                return uniqueObjIdDef;
             } catch (MALException ex) {
                 Logger.getLogger(AutonomousADCSManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
@@ -107,7 +109,7 @@ public final class AutonomousADCSManager {
             }
         }
 
-        return null;
+        return uniqueObjIdDef;
     }
 
     protected AttitudeDefinition get(Long objId) {
@@ -150,30 +152,6 @@ public final class AutonomousADCSManager {
         }
     }
 
-    private static ObjectType generateDefinitionObjectType(AttitudeDefinition definition) {
-        if (definition instanceof AttitudeDefinitionBDot) {
-            return AutonomousADCSHelper.ATTITUDEDEFINITIONBDOT_OBJECT_TYPE;
-        }
-
-        if (definition instanceof AttitudeDefinitionSingleSpinning) {
-            return AutonomousADCSHelper.ATTITUDEDEFINITIONSINGLESPINNING_OBJECT_TYPE;
-        }
-
-        if (definition instanceof AttitudeDefinitionSunPointing) {
-            return AutonomousADCSHelper.ATTITUDEDEFINITIONSUNPOINTING_OBJECT_TYPE;
-        }
-
-        if (definition instanceof AttitudeDefinitionTargetTracking) {
-            return AutonomousADCSHelper.ATTITUDEDEFINITIONTARGETTRACKING_OBJECT_TYPE;
-        }
-
-        if (definition instanceof AttitudeDefinitionNadirPointing) {
-            return AutonomousADCSHelper.ATTITUDEDEFINITIONNADIRPOINTING_OBJECT_TYPE;
-        }
-
-        return null;
-    }
-
     public String invalidField(AttitudeDefinition attitude) {
 
         // Add the validation conditions below
@@ -203,29 +181,176 @@ public final class AutonomousADCSManager {
 
         return ((this.availableTime == 0) ? null : new Duration((this.availableTime - System.currentTimeMillis()) * 1000));
     }
-    
-    public static AttitudeMode getAttitudeMode(AttitudeDefinition definition){
-        if(definition instanceof AttitudeDefinitionBDot){
+
+    protected ConfigurationObjectDetails getCurrentConfiguration(final IdentifierList domain) {
+        final HashMap<Long, AttitudeDefinition> defObjs = new HashMap(attitudeDefs);
+        LongList keys = new LongList();
+        keys.addAll(defObjs.keySet());
+
+        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
+
+        ConfigurationObjectSet objsSetBDot = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONBDOT_OBJECT_TYPE);
+        ConfigurationObjectSet objsSetSunPointing = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONSUNPOINTING_OBJECT_TYPE);
+        ConfigurationObjectSet objsSetSingleSpinning = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONSUNPOINTING_OBJECT_TYPE);
+        ConfigurationObjectSet objsSetTargetTracking = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONTARGETTRACKING_OBJECT_TYPE);
+        ConfigurationObjectSet objsSetNadirPointing = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONNADIRPOINTING_OBJECT_TYPE);
+
+        for (int i = 0; i < defObjs.size(); i++) {
+            final Long objId = keys.get(i);
+            final AttitudeDefinition definition = defObjs.get(objId);
+
+            if (definition instanceof AttitudeDefinitionBDot) {
+                objsSetBDot.getObjInstIds().add(objId);
+            }
+
+            if (definition instanceof AttitudeDefinitionSunPointing) {
+                objsSetSunPointing.getObjInstIds().add(objId);
+            }
+
+            if (definition instanceof AttitudeDefinitionSingleSpinning) {
+                objsSetSingleSpinning.getObjInstIds().add(objId);
+            }
+
+            if (definition instanceof AttitudeDefinitionTargetTracking) {
+                objsSetTargetTracking.getObjInstIds().add(objId);
+            }
+
+            if (definition instanceof AttitudeDefinitionNadirPointing) {
+                objsSetNadirPointing.getObjInstIds().add(objId);
+            }
+        }
+
+        list.add(objsSetBDot);
+        list.add(objsSetSunPointing);
+        list.add(objsSetSingleSpinning);
+        list.add(objsSetTargetTracking);
+        list.add(objsSetNadirPointing);
+
+        // Needs the Common API here!
+        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
+        set.setConfigObjects(list);
+
+        return set;
+    }
+
+    private static ConfigurationObjectSet newConfigurationObjectSet(final IdentifierList domain, final ObjectType objType) {
+        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
+
+        objsSet.setDomain(domain);
+        objsSet.setObjType(objType);
+        objsSet.setObjInstIds(new LongList());
+
+        return objsSet;
+    }
+
+    private static ObjectType generateDefinitionObjectType(AttitudeDefinition definition) {
+        if (definition instanceof AttitudeDefinitionBDot) {
+            return AutonomousADCSHelper.ATTITUDEDEFINITIONBDOT_OBJECT_TYPE;
+        }
+
+        if (definition instanceof AttitudeDefinitionSingleSpinning) {
+            return AutonomousADCSHelper.ATTITUDEDEFINITIONSINGLESPINNING_OBJECT_TYPE;
+        }
+
+        if (definition instanceof AttitudeDefinitionSunPointing) {
+            return AutonomousADCSHelper.ATTITUDEDEFINITIONSUNPOINTING_OBJECT_TYPE;
+        }
+
+        if (definition instanceof AttitudeDefinitionTargetTracking) {
+            return AutonomousADCSHelper.ATTITUDEDEFINITIONTARGETTRACKING_OBJECT_TYPE;
+        }
+
+        if (definition instanceof AttitudeDefinitionNadirPointing) {
+            return AutonomousADCSHelper.ATTITUDEDEFINITIONNADIRPOINTING_OBJECT_TYPE;
+        }
+
+        return null;
+    }
+
+    public static AttitudeMode getAttitudeMode(AttitudeDefinition definition) {
+        if (definition instanceof AttitudeDefinitionBDot) {
             return AttitudeMode.BDOT;
         }
 
-        if(definition instanceof AttitudeDefinitionSunPointing){
+        if (definition instanceof AttitudeDefinitionSunPointing) {
             return AttitudeMode.SUNPOINTING;
         }
 
-        if(definition instanceof AttitudeDefinitionSingleSpinning){
+        if (definition instanceof AttitudeDefinitionSingleSpinning) {
             return AttitudeMode.SINGLESPINNING;
         }
 
-        if(definition instanceof AttitudeDefinitionTargetTracking){
+        if (definition instanceof AttitudeDefinitionTargetTracking) {
             return AttitudeMode.TARGETTRACKING;
         }
 
-        if(definition instanceof AttitudeDefinitionNadirPointing){
+        if (definition instanceof AttitudeDefinitionNadirPointing) {
             return AttitudeMode.NADIRPOINTING;
         }
-        
+
         return null;
+    }
+
+    protected synchronized boolean reloadConfiguration(final IdentifierList domain, ConfigurationObjectDetails configurationObjectDetails) {
+        final HashMap<Long, AttitudeDefinition> defs = new HashMap<Long, AttitudeDefinition>();
+
+        for (int i = 0; i < configurationObjectDetails.getConfigObjects().size(); i++) {
+            ConfigurationObjectSet confSet = configurationObjectDetails.getConfigObjects().get(i);
+
+            // Confirm the domain
+            if (!confSet.getDomain().equals(domain)) {
+                return false;
+            }
+
+            // Load them from the Archive
+            if (confSet.getObjType().equals(AutonomousADCSHelper.ATTITUDEDEFINITIONBDOT_OBJECT_TYPE)) {
+                defs.putAll(this.getDefsFromArchive(confSet));
+                continue;
+            }
+
+            if (confSet.getObjType().equals(AutonomousADCSHelper.ATTITUDEDEFINITIONSINGLESPINNING_OBJECT_TYPE)) {
+                defs.putAll(this.getDefsFromArchive(confSet));
+                continue;
+            }
+
+            if (confSet.getObjType().equals(AutonomousADCSHelper.ATTITUDEDEFINITIONSUNPOINTING_OBJECT_TYPE)) {
+                defs.putAll(this.getDefsFromArchive(confSet));
+                continue;
+            }
+
+            if (confSet.getObjType().equals(AutonomousADCSHelper.ATTITUDEDEFINITIONTARGETTRACKING_OBJECT_TYPE)) {
+                defs.putAll(this.getDefsFromArchive(confSet));
+                continue;
+            }
+
+            if (confSet.getObjType().equals(AutonomousADCSHelper.ATTITUDEDEFINITIONNADIRPOINTING_OBJECT_TYPE)) {
+                defs.putAll(this.getDefsFromArchive(confSet));
+                continue;
+            }
+            
+            return false; // One of the sets is Unknown!
+        }
+
+        // ok, we're good to go...
+        this.attitudeDefs.clear();
+        this.attitudeDefs.putAll(defs);
+
+        return true;
+    }
+    
+    private HashMap<Long, AttitudeDefinition> getDefsFromArchive(ConfigurationObjectSet confSet) {
+        final HashMap<Long, AttitudeDefinition> defs = new HashMap<Long, AttitudeDefinition>();
+        AttitudeDefinitionList pDefs = (AttitudeDefinitionList) HelperArchive.getObjectBodyListFromArchive(
+                this.getArchiveService(),
+                confSet.getObjType(),
+                confSet.getDomain(),
+                confSet.getObjInstIds());
+
+        for (int j = 0; j < confSet.getObjInstIds().size(); j++) {
+            defs.put(confSet.getObjInstIds().get(j), (AttitudeDefinition) pDefs.get(j));
+        }
+
+        return defs;
     }
 
 }

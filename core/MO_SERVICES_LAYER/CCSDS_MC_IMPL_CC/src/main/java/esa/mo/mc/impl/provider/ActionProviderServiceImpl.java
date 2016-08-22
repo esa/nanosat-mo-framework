@@ -473,7 +473,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
         return true;
-
     }
 
     @Override

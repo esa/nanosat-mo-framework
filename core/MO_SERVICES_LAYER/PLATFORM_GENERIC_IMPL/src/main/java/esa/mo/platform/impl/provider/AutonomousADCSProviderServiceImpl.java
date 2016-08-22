@@ -164,14 +164,14 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             final Long objId;
             final AttitudeDefinition attDef;
 
-            synchronized(lock){
+            synchronized (lock) {
                 if (!isRegistered) {
                     final EntityKeyList lst = new EntityKeyList();
                     lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
                     publisher.register(lst, new PublishInteractionListener());
                     isRegistered = true;
                 }
-                
+
                 objId = this.currentAttitudeObjId;
                 attDef = manager.get(objId);
             }
@@ -207,12 +207,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     public synchronized void configureMonitoring(Duration streamingRate, MALInteraction interaction) throws MALInteractionException, MALException {
 
         // Is the requested streaming rate less than the minimum period?
-        if(streamingRate.getValue() < MINIMUM_PERIOD.getValue()){
+        if (streamingRate.getValue() < MINIMUM_PERIOD.getValue()) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, MINIMUM_PERIOD));
         }
-        
-        publishTimer.cancel();
 
+        publishTimer.cancel();
         int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
 
         publishTimer.scheduleAtFixedRate(new TimerTask() {
@@ -428,17 +427,32 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Validate the returned configuration...
+        if (configurationObjectDetails == null) {
+            return false;
+        }
+
+        if (configurationObjectDetails.getConfigObjects() == null) {
+            return false;
+        }
+
+        // Is the size 5?
+        if (configurationObjectDetails.getConfigObjects().size() != 5) {  // 5 because we just have 5 definitions
+            return false;
+        }
+        
+        return manager.reloadConfiguration(configuration.getDomain(), configurationObjectDetails);
     }
 
     @Override
     public ConfigurationObjectDetails getCurrentConfiguration() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return manager.getCurrentConfiguration(configuration.getDomain());
     }
 
     @Override
     public COMService getCOMService() {
         return AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE;
+
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {

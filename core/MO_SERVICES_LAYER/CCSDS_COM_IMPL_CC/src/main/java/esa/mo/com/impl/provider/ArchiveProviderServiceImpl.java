@@ -723,7 +723,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
      * @throws IOException When there are more domains than a single unique one
      */
     public IdentifierList getUniqueDomain() throws IOException {
-
         // Do we have a single domain for all objects?
         // If not, then throw error
         if (false) {
@@ -743,7 +742,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
      * @throws IOException When there are more domains than a single unique one
      */
     public void setUniqueDomain(IdentifierList newDomain) throws IOException {
-
         // Do we have a single domain for all objects?
         // If not, then throw error
         if (false) {

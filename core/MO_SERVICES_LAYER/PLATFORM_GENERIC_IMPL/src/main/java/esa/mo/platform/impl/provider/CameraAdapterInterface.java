@@ -35,6 +35,4 @@ public interface CameraAdapterInterface {
 
     public byte[] getPicturePreview();
     
-    
-    
 }

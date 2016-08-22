@@ -62,7 +62,7 @@ public class ParameterManager extends DefinitionsManager {
     private static final transient int SAVING_PERIOD = 20;  // Used to store the uniqueObjIdPVal only once every "SAVINGPERIOD" times
 
     private Long uniqueObjIdDef; // Counter (different for every Definition)
-    private Long uniqueObjIdPVal;
+    private Long uniqueObjIdPVal = System.currentTimeMillis();
     private final transient ParameterStatusListener parametersMonitoring;   // transient: marks members that won't be serialized.
 
     public ParameterManager(COMServicesProvider comServices, ParameterStatusListener parametersMonitoring) {
