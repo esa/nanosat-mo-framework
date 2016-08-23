@@ -66,7 +66,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     private final ConnectionProvider connection = new ConnectionProvider();
     private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final Timer timer = new Timer();
-    protected long period = 2000; // 2 seconds
+    protected long period = 10000; // 10 seconds
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts

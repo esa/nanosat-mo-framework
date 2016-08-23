@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.platform.structures.WheelSpeed;
  *
  * @author Cesar Coelho
  */
-public class HelperADCS {
+public class HelperIADCS100 {
     public static class FWRefFineADCS {
         public static class SENSORTM_IDX{
             //Byte offset
@@ -302,11 +302,11 @@ public class HelperADCS {
         return new WheelSpeed(velocity);
     }
 
-    public static Vector3D getMagneticFieldFromFixWGS84TargetTrackingStatus(byte[] status) {
+    public static Vector3D getPositionFromFixWGS84TargetTrackingStatus(byte[] status) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public static Double getMTQFromFixWGS84TargetTrackingStatus(byte[] status) {
+    public static Double getAngularVelocityFromFixWGS84TargetTrackingStatus(byte[] status) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -23,6 +23,7 @@ package esa.mo.platform.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -133,7 +134,9 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     public Picture previewPicture(MALInteraction interaction) throws MALInteractionException, MALException {
 
         // Get some picture from the adapter...
-        byte[] data = adapter.getPicturePreview();
+        Picture aaaa = adapter.getPicturePreview();
+
+        byte[] data = null;
 
         ImageIcon image = new ImageIcon(data);
         PixelResolution dimension = new PixelResolution();
@@ -158,16 +161,22 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         interaction.sendAcknowledgement();
         
-        // Get some picture from the simulator...
-        byte[] data = null;//instrumentsSimulator.getPicture();
         
-        ImageIcon image = new ImageIcon(data);
+        try {
+            Picture data = adapter.takePicture(dimension, format);
+
+//            ImageIcon image = new ImageIcon(data);
+    //        BufferedImage bi = data;
+//            Picture picture = new Picture();
         
-//        BufferedImage bi = data;
-                
-        Picture picture = new Picture();
+//            picture.setBitDepth(null);
+
+        } catch (IOException ex) {
+            Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        picture.setBitDepth(null);
+        
+        
         
         throw new MALInteractionException(new MALStandardError(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));
 

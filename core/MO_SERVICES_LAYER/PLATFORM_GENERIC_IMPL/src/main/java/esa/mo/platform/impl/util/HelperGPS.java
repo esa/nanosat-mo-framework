@@ -87,9 +87,9 @@ public class HelperGPS {
     public static SatelliteInfoList gpalm2SatelliteInfoList(final String gpalm) throws IOException {
 
         SatelliteInfoList sats = new SatelliteInfoList();
-        sats.add(new SatelliteInfo());
-        sats.add(new SatelliteInfo());
-        sats.add(new SatelliteInfo());
+
+        // To be done!! :P
+
         
         return sats;
     }

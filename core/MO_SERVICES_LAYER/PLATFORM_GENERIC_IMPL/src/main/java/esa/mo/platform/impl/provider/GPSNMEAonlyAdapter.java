@@ -20,6 +20,7 @@
  */
 package esa.mo.platform.impl.provider;
 
+import esa.mo.platform.impl.util.HelperGPS;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,30 +34,30 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
     
     @Override
-    public Position getCurrentPosition(){
-        Position position = new Position();
-        
+    public Position getCurrentPosition() {
         try {
-            this.getNMEASentence("Something here...");
+            String gpggalong = this.getNMEASentence("GPGGALONG");
+            Position position = HelperGPS.gpggalong2Position(gpggalong);
+            // The utc time needs to be set here!
+            
+            return position;
         } catch (IOException ex) {
-            Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, "The current position could not be retrieved! Exception: " + ex);
         }
-
-        // Use the Helper
-
-        return position;
+        
+        return null;
     }
 
     @Override
-    public SatelliteInfoList getSatelliteInfoList(){
-        SatelliteInfoList satelitesInView = new SatelliteInfoList();
+    public SatelliteInfoList getSatelliteInfoList() {
         try {
-            String fdfddf = this.getNMEASentence("fbfggbf");
+            String gpalm = this.getNMEASentence("GPALM");
+            return HelperGPS.gpalm2SatelliteInfoList(gpalm);
         } catch (IOException ex) {
             Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return satelitesInView;
+        return null;
     }
-    
+
 }

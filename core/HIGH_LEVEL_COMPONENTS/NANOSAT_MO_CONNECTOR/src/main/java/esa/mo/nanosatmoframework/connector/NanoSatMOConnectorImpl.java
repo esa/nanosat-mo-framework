@@ -156,6 +156,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.FINE, "Initializing services...");
 
             comServices.init();
+            heartbeatService.init();
             this.startMCServices(actionAdapter, parameterAdapter);
             directoryService.init(comServices);
         } catch (MALException ex) {

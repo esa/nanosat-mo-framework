@@ -20,6 +20,10 @@
  */
 package esa.mo.platform.impl.provider;
 
+import java.io.IOException;
+import org.ccsds.moims.mo.platform.camera.structures.Picture;
+import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
+import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 
 
@@ -31,8 +35,24 @@ public interface CameraAdapterInterface {
 
     public String getExtraInfo();
 
+    /**
+     * This method should be a static method! Java 6 does not allow static
+     * methods in interfaces.
+     * 
+     * @return The available resolutions
+     */
     public PixelResolutionList getAvailableResolutions();
 
-    public byte[] getPicturePreview();
+    /**
+     * This method should be a static method! Java 6 does not allow static
+     * methods in interfaces.
+     * 
+     * @return The available formats
+     */
+    public PixelResolutionList getAvailableFormats();
+    
+    public Picture getPicturePreview();
+
+    public Picture takePicture(PixelResolution dimensions, PictureFormat format) throws IOException;    
     
 }

@@ -29,6 +29,9 @@ import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
 import esa.mo.nanosatmoframework.interfaces.CloseAppListener;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
+import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
+import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
+import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import esa.mo.sm.impl.util.SMServicesProvider;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -51,6 +54,9 @@ import org.ccsds.moims.mo.mal.MALException;
 public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
     private final SMServicesProvider smServices = new SMServicesProvider();
+    private final PackageManagementProviderServiceImpl packageManagementService = new PackageManagementProviderServiceImpl();
+    private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
+    private final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -74,10 +80,12 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
         try {
             this.comServices.init();
+            heartbeatService.init();
             this.startMCServices(actionAdapter, parameterAdapter);
             this.initPlatformServices();
             this.directoryService.init(comServices);
-            smServices.init(comServices, this.directoryService);
+            packageManagementService.init(comServices);
+            applicationsManagerService.init(comServices, directoryService);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);

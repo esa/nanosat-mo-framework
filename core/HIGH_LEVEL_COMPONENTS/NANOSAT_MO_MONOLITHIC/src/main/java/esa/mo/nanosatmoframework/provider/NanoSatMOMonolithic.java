@@ -73,6 +73,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.FINE, "Initializing services...");
 
             comServices.init();
+            heartbeatService.init();
             this.startMCServices(actionAdapter, parameterAdapter);
             this.initPlatformServices();
             directoryService.init(comServices);

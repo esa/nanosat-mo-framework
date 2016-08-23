@@ -562,7 +562,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                     }
                 }
             }, 0, PERIOD);
-
             
         }
 

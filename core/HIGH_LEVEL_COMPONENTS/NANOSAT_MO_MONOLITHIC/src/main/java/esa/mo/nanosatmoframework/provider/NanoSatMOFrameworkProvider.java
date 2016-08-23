@@ -37,6 +37,7 @@ import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -71,10 +72,11 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
     public final ConfigurationProvider configuration = new ConfigurationProvider();
     public final COMServicesProvider comServices = new COMServicesProvider();
+    public final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
+    public final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     public MCServicesProvider mcServices;
     public ParameterManager parameterManager;
     public PlatformServicesProviderInterface platformServices;
-    public final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     public CloseAppListener closeAppAdapter = null;
     public ConfigurationNotificationInterface providerConfigurationAdapter = null;
     public String providerName;
