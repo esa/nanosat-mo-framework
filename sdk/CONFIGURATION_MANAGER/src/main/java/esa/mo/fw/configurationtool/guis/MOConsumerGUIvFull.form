@@ -133,14 +133,13 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Status:"/>
+            <Property name="text" type="java.lang.String" value="Provider Status:"/>
             <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="delayLabel">
+        <Component class="javax.swing.JLabel" name="providerStatus">
           <Properties>
-            <Property name="text" type="java.lang.String" value="0.0"/>
-            <Property name="name" type="java.lang.String" value="delayLabel" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="providerStatus" noResource="true"/>
           </Properties>
         </Component>
       </SubComponents>
