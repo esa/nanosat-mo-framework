@@ -157,7 +157,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     }
 
     @Override
-    public void takePicture(PixelResolution dimension, PictureFormat format, TakePictureInteraction interaction) throws MALInteractionException, MALException {
+    public void takePicture(PixelResolution dimension, PictureFormat format, Duration exposureTime, TakePictureInteraction interaction) throws MALInteractionException, MALException {
 
         interaction.sendAcknowledgement();
         

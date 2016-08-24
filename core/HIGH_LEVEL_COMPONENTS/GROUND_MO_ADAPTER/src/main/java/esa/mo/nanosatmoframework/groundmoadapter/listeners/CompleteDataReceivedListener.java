@@ -18,32 +18,25 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.mc.impl.interfaces;
+package esa.mo.nanosatmoframework.groundmoadapter.listeners;
 
-import java.util.EventListener;
-import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import esa.mo.mc.impl.provider.ParameterInstance;
+import esa.mo.nanosatmoframework.groundmoadapter.interfaces.DataReceivedListener;
 
 /**
+ * An abstract class that pushes the received data from the Parameter service
+ * coming via the monitorValue operation with the complete parameter data
  *
- * 
+ * @author Cesar Coelho
  */
-public interface ActionInvocationListener extends EventListener {
-    
+public abstract class CompleteDataReceivedListener implements DataReceivedListener {
+
     /**
-     * The user must implement this interface in order to link a certain 
-     * action Identifier to the method on the application
-     * @param identifier Name of the Parameter
-     * @param attributeValues
-     * @param actionInstanceObjId
-     * @param reportProgress Determines if it is necessary to report the execution
-     * @param interaction The interaction object
-     * progress of the action
-     * @return Returns null if the Action was successful. If not null, then the 
-     * returned value should hold the error number
+     * This interface must be implemented in order to receive the parameter
+     * content from the Parameter service coming via the monitorValue operation
+     *
+     * @param parameterInstance
      */
-    public UInteger actionArrived (Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction);
+    public abstract void onDataReceived(ParameterInstance parameterInstance);
 
 }

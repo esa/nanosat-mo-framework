@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.ground.interfaces;
+package esa.mo.nanosatmoframework.groundmoadapter.interfaces;
 
 import java.io.Serializable;
 

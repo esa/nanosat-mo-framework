@@ -18,25 +18,26 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.ground.listeners;
+package esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces;
 
-import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.nanosatmoframework.ground.interfaces.DataReceivedListener;
+import java.util.EventListener;
+
 
 /**
- * An abstract class that pushes the received data from the Parameter service
- * coming via the monitorValue operation with the complete parameter data
- *
- * @author Cesar Coelho
+ * The CloseAppListener provides a simple interface to be implemented by the
+ * App developers in order to provide App-specific operations before closing 
+ * the App.
+ * 
  */
-public abstract class CompleteDataReceivedListener implements DataReceivedListener {
-
+public interface CloseAppListener extends EventListener {
+    
     /**
-     * This interface must be implemented in order to receive the parameter
-     * content from the Parameter service coming via the monitorValue operation
+     * The onClose signature shall be called when the app is requested to be
+     * closed.
      *
-     * @param parameterInstance
+     * @return Returns true if everything was closed successfully, false 
+     * otherwise.
      */
-    public abstract void onDataReceived(ParameterInstance parameterInstance);
-
+    public Boolean onClose();
+    
 }

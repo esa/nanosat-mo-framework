@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.interfaces;
+package esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces;
 
 import java.io.IOException;
 import java.io.Serializable;

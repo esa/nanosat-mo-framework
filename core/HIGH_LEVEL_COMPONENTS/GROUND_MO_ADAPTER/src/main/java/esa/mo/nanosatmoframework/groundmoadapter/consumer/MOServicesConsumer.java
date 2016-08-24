@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.ground.adapter;
+package esa.mo.nanosatmoframework.groundmoadapter.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;

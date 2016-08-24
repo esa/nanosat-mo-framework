@@ -20,20 +20,22 @@
  */
 package esa.mo.com.impl.util;
 
+import java.util.EventListener;
+
 /**
  * An interface to receive events from the Event service via the monitorEvent
  * operation
  *
  * @author Cesar Coelho
  */
-public abstract class EventReceivedListener {
+public abstract class EventReceivedListener implements EventListener {
 
-     /**
+    /**
      * This interface must be implemented in order to receive the subscribed
      * events coming from the Event service monitorValue operation.
      *
      * @param eventCOMObject The COM Object of the received event
      */
-    public abstract void onDataReceived (EventCOMObject eventCOMObject);
-   
+    public abstract void onDataReceived(EventCOMObject eventCOMObject);
+
 }

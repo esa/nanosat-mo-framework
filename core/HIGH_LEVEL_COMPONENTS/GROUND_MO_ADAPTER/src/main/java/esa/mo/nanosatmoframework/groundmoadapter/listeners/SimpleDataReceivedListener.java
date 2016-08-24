@@ -18,9 +18,9 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.ground.listeners;
+package esa.mo.nanosatmoframework.groundmoadapter.listeners;
 
-import esa.mo.nanosatmoframework.ground.interfaces.DataReceivedListener;
+import esa.mo.nanosatmoframework.groundmoadapter.interfaces.DataReceivedListener;
 import java.io.Serializable;
 
 /**

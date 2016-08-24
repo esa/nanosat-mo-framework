@@ -18,14 +18,15 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.adapters;
+package esa.mo.nanosatmoframework.nanosatmomonolithic.adapters;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.MCRegistrationInterface;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import esa.mo.nanosatmoframework.interfaces.SimpleMonitorAndControlListener;
+import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.SimpleMonitorAndControlListener;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
@@ -46,7 +47,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlAdapter implements SimpleMonitorAndControlListener {
 
     @Override
-    public void initialRegistrations() {
+    public void initialRegistrations(MCRegistrationInterface registrationObject) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

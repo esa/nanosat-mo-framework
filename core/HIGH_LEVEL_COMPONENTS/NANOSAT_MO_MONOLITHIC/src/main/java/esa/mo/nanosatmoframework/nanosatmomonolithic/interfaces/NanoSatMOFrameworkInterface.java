@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.interfaces;
+package esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces;
 
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.com.impl.util.COMServicesProvider;

@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.provider;
+package esa.mo.nanosatmoframework.nanosatmomonolithic.provider;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
@@ -30,9 +30,9 @@ import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.mc.impl.util.MCServicesProvider;
-import esa.mo.nanosatmoframework.adapters.MCStoreLastConfigurationAdapter;
-import esa.mo.nanosatmoframework.interfaces.CloseAppListener;
-import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
+import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MCStoreLastConfigurationAdapter;
+import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.CloseAppListener;
+import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.NanoSatMOFrameworkInterface;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
@@ -121,8 +121,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             throw new IOException("The M&C services were not initialized!");
         }
 
-        // Convert to MAL type if possible
-        Object obj = HelperAttributes.javaType2Attribute(content);
+        Object obj = HelperAttributes.javaType2Attribute(content); // Convert to MAL type if possible
 
         // If it is not a MAL type, then try to convert it into a Blob container
         if (!(obj instanceof Attribute)) {

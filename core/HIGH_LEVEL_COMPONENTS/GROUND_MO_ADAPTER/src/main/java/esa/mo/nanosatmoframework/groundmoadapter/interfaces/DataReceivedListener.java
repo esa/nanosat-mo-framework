@@ -18,24 +18,16 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.interfaces;
+package esa.mo.nanosatmoframework.groundmoadapter.interfaces;
 
+import java.util.EventListener;
 
 /**
- * The CloseAppListener provides a simple interface to be implemented by the
- * App developers in order to provide App-specific operations before closing 
- * the App.
- * 
+ * An interface to receive data from the Parameter service via the monitorValue
+ * operation
+ *
+ * @author Cesar Coelho
  */
-public interface CloseAppListener {
-    
-    /**
-     * The onClose signature shall be called when the app is requested to be
-     * closed.
-     *
-     * @return Returns true if everything was closed successfully, false 
-     * otherwise.
-     */
-    public Boolean onClose();
-    
+public interface DataReceivedListener extends EventListener {
+
 }

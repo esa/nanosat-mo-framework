@@ -18,24 +18,17 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.provider;
+package esa.mo.nanosatmoframework.nanosatmomonolithic.provider;
 
-import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
+import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.mc.impl.util.MCServicesProvider;
-import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.interfaces.CloseAppListener;
+import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MonitorAndControlAdapter;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
-import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
-import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
-import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
-import esa.mo.sm.impl.util.SMServicesProvider;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -51,12 +44,9 @@ import org.ccsds.moims.mo.mal.MALException;
  *
  * @author Cesar Coelho
  */
-public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
+public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
 
-    private final SMServicesProvider smServices = new SMServicesProvider();
-    private final PackageManagementProviderServiceImpl packageManagementService = new PackageManagementProviderServiceImpl();
-    private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
-    private final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
+    private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Monolithic";
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -69,7 +59,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
      * corresponding variable of a specific entity.
      * @param platformServices
      */
-    public NanoSatMOSupervisor(ActionInvocationListener actionAdapter,
+    public NanoSatMOMonolithic(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter,
             PlatformServicesProviderInterface platformServices) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
@@ -77,24 +67,25 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         HelperMisc.setInputProcessorsProperty();
 
         this.platformServices = platformServices;
+        this.providerName = System.getProperty(ConfigurationProvider.MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
 
         try {
-            this.comServices.init();
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.FINE, "Initializing services...");
+
+            comServices.init();
             heartbeatService.init();
             this.startMCServices(actionAdapter, parameterAdapter);
             this.initPlatformServices();
-            this.directoryService.init(comServices);
-            packageManagementService.init(comServices);
-            applicationsManagerService.init(comServices, directoryService);
+            directoryService.init(comServices);
         } catch (MALException ex) {
-            Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
-                    "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE,
+                    "The services could not be initialized. Perhaps there's something wrong with the selected Transport Layer.", ex);
             return;
         }
 
         // Populate the Directory service with the entries from the URIs File
-        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
-        this.directoryService.autoLoadURIsFile(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME);
+        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Populating Directory service...");
+        directoryService.autoLoadURIsFile(this.providerName);
 
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
@@ -104,9 +95,8 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
             }
         }
 
-        final String uri = this.directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
-        this.writeCentralDirectoryServiceURI(uri);
-        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + uri + "\n");
+        final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
+        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "NanoSat MO Monolithic initialized! URI: " + uri + "\n");
 
     }
 
@@ -119,36 +109,11 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
      *
      * @param mcAdapter The adapter to connect the actions and parameters to the
      * corresponding methods and variables of a specific entity.
-     * @param platformServices
+     * @param platformServices Platform Services
      */
-    public NanoSatMOSupervisor(MonitorAndControlAdapter mcAdapter,
+    public NanoSatMOMonolithic(MonitorAndControlAdapter mcAdapter,
             PlatformServicesProviderInterface platformServices) {
         this(mcAdapter, mcAdapter, platformServices);
-    }
-
-    @Override
-    public void addCloseAppListener(CloseAppListener closeAppAdapter) {
-        // To be done...
-    }
-
-    public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI) {
-
-        // Reset the file
-        BufferedWriter wrt = null;
-        try {
-            wrt = new BufferedWriter(new FileWriter(FILENAME_CENTRAL_DIRECTORY_SERVICE, false));
-            wrt.write(centralDirectoryURI);
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
-        } finally {
-            if (wrt != null) {
-                try {
-                    wrt.close();
-                } catch (IOException ex) {
-                }
-            }
-        }
-
     }
 
 }

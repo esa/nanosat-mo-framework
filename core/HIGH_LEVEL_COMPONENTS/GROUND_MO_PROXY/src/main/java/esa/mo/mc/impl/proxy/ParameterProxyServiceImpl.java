@@ -22,7 +22,7 @@ package esa.mo.mc.impl.proxy;
 
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
-import esa.mo.nanosatmoframework.ground.adapter.GroundMOAdapter;
+import esa.mo.nanosatmoframework.groundmoadapter.consumer.GroundMOAdapter;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;

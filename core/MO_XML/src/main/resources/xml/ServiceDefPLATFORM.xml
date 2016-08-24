@@ -86,13 +86,16 @@
 				<mal:invokeIP comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected." name="takePicture" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:invoke comment="">
-							<mal:field canBeNull="true" comment="The dimension field shall hold the desired streaming pictures resolution." name="dimension">
+							<mal:field canBeNull="true" comment="The dimensions field shall hold the desired picture resolution." name="dimensions">
 								<mal:type area="Platform" list="false" name="PixelResolution" service="Camera"/>
 							</mal:field>
 							<mal:field canBeNull="true" comment="The format field shall hold the desired streaming picture format." name="format">
 								<mal:type area="Platform" list="false" name="PictureFormat" service="Camera"/>
 							</mal:field>
-						</mal:invoke>
+						<mal:field canBeNull="true" comment="The exposureTime field shall hold the exposure time of the camera." name="exposureTime">
+                <mal:type area="MAL" list="false" name="Duration"/>
+              </mal:field>
+            </mal:invoke>
 						<mal:acknowledgement comment=""/>
 						<mal:response comment="">
 							<mal:field canBeNull="true" comment="The picture field shall hold the picture." name="picture">
@@ -921,11 +924,16 @@
 			<mal:documentation name="High Level Requirements" order="1"/>
 			<mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
-				<mal:pubsubIP comment="" name="streamRadio" number="1" supportInReplay="false">
+				<mal:pubsubIP comment="The streamRadio operation allows a consumer to subscribe for Software-defined Radio data updates." name="streamRadio" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-							<mal:type area="MAL" list="false" name="Blob"/>
-						</mal:publishNotify>
+							<mal:field canBeNull="true" comment="The inPhase field shall hold the in phase data from the Software-defined Radio unit." name="inPhase">
+                <mal:type area="MAL" list="false" name="Blob"/>
+              </mal:field>
+						<mal:field canBeNull="true" comment="The quadrature field shall hold the quadrature data component of the Software-defined Radio unit." name="quadrature">
+                <mal:type area="MAL" list="false" name="Blob"/>
+              </mal:field>
+            </mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
 			</mal:capabilitySet>
@@ -1009,10 +1017,10 @@
 				</mal:pubsubIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:submitIP comment="" name="sendData" number="2" supportInReplay="false">
+				<mal:submitIP comment="The sendData operation allows a consumer to send data to a generic device." name="sendData" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="" name="message">
+							<mal:field canBeNull="true" comment="The message field shall hold the content to be sent." name="message">
 								<mal:type area="MAL" list="false" name="Blob"/>
 							</mal:field>
 						</mal:submit>
@@ -1023,18 +1031,19 @@
     </mal:service>
 		<mal:service comment="" name="Magnetometer" number="7" xsi:type="com:ExtendedServiceType">
 			<mal:capabilitySet comment="" number="1">
-				<mal:submitIP comment="" name="getMagneticField" number="1" supportInReplay="false">
-					<mal:messages>
-						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="" name="magneticField">
-								<mal:type area="Platform" list="false" name="MagneticFieldInstance" service="Magnetometer"/>
-							</mal:field>
-						</mal:submit>
-					</mal:messages>
-				</mal:submitIP>
+				<mal:requestIP comment="The getMagneticField operation allows a consumer to retrieve the magnetic field instance from a magnetometer unit." name="getMagneticField" number="1" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment=""/>
+            <mal:response comment="">
+              <mal:field canBeNull="true" comment="The magneticField field shall hold the magnetic field instance of the magnetometer." name="magneticField">
+                <mal:type area="Platform" list="false" name="MagneticFieldInstance" service="Magnetometer"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
-				<mal:composite comment="An instance of the magnetic field vector" name="MagneticFieldInstance" shortFormPart="6">
+				<mal:composite comment="An instance of the magnetic field vector" name="MagneticFieldInstance" shortFormPart="1">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
@@ -1051,184 +1060,32 @@
 			</mal:dataTypes>
 			<com:features/>
 		</mal:service>
-		<mal:service comment="" name="ManualADCS" number="8" xsi:type="com:ExtendedServiceType">
-			<mal:capabilitySet comment="" number="5">
-				<mal:requestIP comment="" name="getStandardTM" number="7" supportInReplay="false">
-					<mal:messages>
-						<mal:request comment=""/>
-						<mal:response comment="">
-							<mal:field canBeNull="true" comment="" name="temperatureStatus">
-								<mal:type area="Platform" list="false" name="TemperatureStatus" service="ManualADCS"/>
-							</mal:field>
-							<mal:field canBeNull="true" comment="" name="powerStatus">
-								<mal:type area="Platform" list="false" name="PowerStatus" service="ManualADCS"/>
-							</mal:field>
-						</mal:response>
-					</mal:messages>
-					<mal:errors>
-						<mal:errorRef comment="">
-              				<mal:type area="Platform" list="false" name="READOUT_RW" service="ManualADCS"/>
-						</mal:errorRef>
-						<mal:errorRef comment="">
-							<mal:type area="Platform" list="false" name="READOUT_MTQ" service="ManualADCS"/>
-						</mal:errorRef>
-						<mal:errorRef comment="">
-							<mal:type area="Platform" list="false" name="READOUT_GYRO" service="ManualADCS"/>
-						</mal:errorRef>
-						<mal:errorRef comment="">
-							<mal:type area="Platform" list="false" name="READOUT_SS" service="ManualADCS"/>
-						</mal:errorRef>
-						<mal:errorRef comment="">
-							<mal:type area="Platform" list="false" name="READOUT_OTHER" service="ManualADCS"/>
-						</mal:errorRef>
-					</mal:errors>
-				</mal:requestIP>
-			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="6">
-				<mal:requestIP comment="" name="getPowerStatus" number="8" supportInReplay="false">
-					<mal:messages>
-						<mal:request comment=""/>
-						<mal:response comment="">
-							<mal:field canBeNull="true" comment="" name="powerStatusTelemetry">
-								<mal:type area="Platform" list="false" name="PowerStatus" service="ManualADCS"/>
-							</mal:field>
-						</mal:response>
-					</mal:messages>
-				</mal:requestIP>
-			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="7">
-				<mal:requestIP comment="" name="getSensorTM" number="10" supportInReplay="false">
-					<mal:messages>
-						<mal:request comment="">
-						</mal:request>
-						<mal:response comment=""/>
-					</mal:messages>
-				</mal:requestIP>
-			</mal:capabilitySet>
-			<mal:dataTypes>
-				<mal:composite comment="" name="ADCSStatus" shortFormPart="12">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
-					<mal:field canBeNull="true" comment="[default state] all control off" name="HighLevelOperationIdleStatus">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="= IDLE (can be defined by customer)" name="HighLevelOperationSaveStatus">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="" name="HighLevelOperationControlStatus">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Set by Valid SET_DATIME cmd" name="DateTimeValid">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Kalman Filter 2 Status" name="hlOpValid">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Gyro 1 - Filter 1 Status" name="gyro1Filter1">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Gyro 2 - Filter 1 Status" name="gyro2Filter1">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Gyro 1 - Bias Remove Status" name="gyro1RemoveBias">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Gyro 2 - Bias Remove Status" name="gyro2RemoveBias">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Gyro 1 - Start Calibration" name="gyro1Calibrate">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Gyro 2 - Start Calibration" name="gyro2Calibrate">
-						<mal:type area="MAL" list="false" name="Boolean"/>
-					</mal:field>
-				</mal:composite>
-				<mal:composite comment="" name="PowerStatus" shortFormPart="10">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
-					<mal:field canBeNull="true" comment="Magnetorquers Power Status" name="magnetorquers">
-						<mal:type area="Platform" list="false" name="PowerStatusContainer" service="ManualADCS"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Camera Power Status. The power of the ManualADCS Camera and not to of any other camera." name="camera">
-						<mal:type area="Platform" list="false" name="PowerStatusContainer" service="ManualADCS"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="ManualADCS Power Status" name="adcs">
-						<mal:type area="Platform" list="false" name="PowerStatusContainer" service="ManualADCS"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Reaction Wheels Power Status" name="reactionWheels">
-						<mal:type area="Platform" list="false" name="PowerStatusContainer" service="ManualADCS"/>
-					</mal:field>
-				</mal:composite>
-				<mal:composite comment="" name="PowerStatusContainer" shortFormPart="11">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
-					<mal:field canBeNull="true" comment="Current Consumption [mA]" name="currentConsumption">
-						<mal:type area="MAL" list="false" name="UInteger"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Power Consumption [mW]" name="powerConsumption">
-						<mal:type area="MAL" list="false" name="UInteger"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Supply Voltage [mV]" name="supplyVoltage">
-						<mal:type area="MAL" list="false" name="UInteger"/>
-					</mal:field>
-				</mal:composite>
-				<mal:composite comment="" name="TemperatureStatus" shortFormPart="13">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
-					<mal:field canBeNull="true" comment="The Gyro temperature. The sorting shall be ascending. Example 1, 2, 3." name="gyroTemperature">
-						<mal:type area="MAL" list="true" name="Integer"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="The Magnetorquers temperature. The sorting shall be ascending. Example X, Y, Z." name="mtqTemperature">
-						<mal:type area="MAL" list="true" name="Integer"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="The Control Processor temperature. The sorting shall be ascending. Example 1, 2, 3." name="ctrlProcesorTemperature">
-						<mal:type area="MAL" list="true" name="Integer"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="The Reaction Wheel temperature. The sorting shall be ascending. Example X, Y, Z." name="rwTemperature">
-						<mal:type area="MAL" list="true" name="Integer"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="The Star Tracker temperature. The sorting shall be ascending. Example 1, 2, 3." name="starTrackerTemperature">
-						<mal:type area="MAL" list="true" name="Integer"/>
-					</mal:field>
-				</mal:composite>
-				<mal:composite comment="" name="SensorsInformation" shortFormPart="14">
-					<mal:extends>
-						<mal:type area="MAL" list="false" name="Composite"/>
-					</mal:extends>
-					<mal:field canBeNull="true" comment="Magnetic Field [uT]" name="magneticField">
-						<mal:type area="Platform" list="false" name="Vector3D"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Accelerometer [m/s^2]" name="accelerometer">
-						<mal:type area="Platform" list="false" name="Vector3D"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="List of Gyros [mdps]. Ascending sorted." name="gyros">
-						<mal:type area="Platform" list="true" name="Vector3D"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Time [sec]" name="starTrackerTimeSec">
-						<mal:type area="MAL" list="false" name="ULong"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Time [m sec]" name="starTrackerMilliSec">
-						<mal:type area="MAL" list="false" name="Integer"/>
-					</mal:field>
-					<mal:field canBeNull="true" comment="Quaternions" name="quaternions">
-						<mal:type area="Platform" list="false" name="Quaternions"/>
-					</mal:field>
-				</mal:composite>
-			</mal:dataTypes>
-      <mal:errors>
-				<mal:error comment="" name="READOUT_RW" number="10505"/>
-				<mal:error comment="" name="READOUT_MTQ" number="10506"/>
-				<mal:error comment="" name="READOUT_GYRO" number="10507"/>
-				<mal:error comment="" name="READOUT_SS" number="10508"/>
-				<mal:error comment="" name="READOUT_OTHER" number="9"/>
-      </mal:errors>
-			<com:features/>
-		</mal:service>
-    <mal:service comment="" name="PowerControl" number="9" xsi:type="com:ExtendedServiceType"/>
+    <mal:service comment="" name="PowerControl" number="8" xsi:type="com:ExtendedServiceType">
+      <mal:capabilitySet comment="" number="1">
+        <mal:requestIP comment="" name="listUnitsAvailable" number="1" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment=""/>
+            <mal:response comment=""/>
+          </mal:messages>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="2">
+        <mal:requestIP comment="" name="enableUnit" number="2" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="">
+              <mal:field canBeNull="true" comment="" name="enable">
+                <mal:type area="MAL" list="false" name="Boolean"/>
+              </mal:field>
+              <mal:field canBeNull="true" comment="" name="unitObjInstIds">
+                <mal:type area="MAL" list="false" name="Long"/>
+              </mal:field>
+            </mal:request>
+            <mal:response comment=""/>
+          </mal:messages>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <com:features/>
+    </mal:service>
 		<mal:dataTypes>
 			<mal:composite comment="" name="Vector3D" shortFormPart="17">
 				<mal:extends>

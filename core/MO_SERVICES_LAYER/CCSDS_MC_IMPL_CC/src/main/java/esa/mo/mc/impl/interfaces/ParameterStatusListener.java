@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.impl.interfaces;
 
+import java.util.EventListener;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 
@@ -27,7 +28,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
  *
  * 
  */
-public interface ParameterStatusListener {
+public interface ParameterStatusListener extends EventListener {
     
     /**
      * The user must implement this interface in order to acquire a certain 

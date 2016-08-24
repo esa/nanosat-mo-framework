@@ -30,10 +30,8 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import esa.mo.mc.impl.util.MCServicesProvider;
-import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.provider.NanoSatMOFrameworkProvider;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithic;
+import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.nanosatmomonolithic.provider.NanoSatMOFrameworkProvider;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.BufferedReader;
@@ -58,7 +56,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
@@ -76,7 +73,6 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  */
 public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
-//    private Long appObjInstId = new Long(0);
     private Long appDirectoryServiceId;
     private EventConsumerServiceImpl serviceCOMEvent;
     private Subscription subscription;
