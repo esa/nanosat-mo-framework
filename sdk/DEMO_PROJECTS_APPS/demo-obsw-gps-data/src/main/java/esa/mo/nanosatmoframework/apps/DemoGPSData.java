@@ -42,6 +42,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReferenceFrame;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
+import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.provider.GetSatellitesInfoInteraction;
 
 /**
@@ -100,7 +101,7 @@ public class DemoGPSData {
                     return null;
                 }
 
-                GetLastKnownPositionResponse pos = nanoSatMOFramework.getPlatformServices().getGPSService().getLastKnownPosition(null);
+                GetLastKnownPositionResponse pos = nanoSatMOFramework.getPlatformServices().getGPSService().getLastKnownPosition();
 
                 if (identifier.getValue().equals("GPS.Latitude")) {
                     return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
@@ -123,26 +124,18 @@ public class DemoGPSData {
                     final Semaphore sem = new Semaphore(0);
                     final IntegerList nOfSats = new IntegerList();
 
-                    GetSatellitesInfoInteraction interaction = new GetSatellitesInfoInteraction(null) {
+                    class AdapterImpl extends GPSAdapter {
 
                         @Override
-                        public org.ccsds.moims.mo.mal.transport.MALMessage sendAcknowledgement() throws org.ccsds.moims.mo.mal.MALInteractionException, org.ccsds.moims.mo.mal.MALException {
-                            return null;
-                        }
-
-                        @Override
-                        public org.ccsds.moims.mo.mal.transport.MALMessage sendResponse(org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo) throws org.ccsds.moims.mo.mal.MALInteractionException, org.ccsds.moims.mo.mal.MALException {
-
+                        public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
                             nOfSats.add(gpsSatellitesInfo.size());
 
                             sem.release();
 
-                            return null;
                         }
+                    }
 
-                    };
-
-                    nanoSatMOFramework.getPlatformServices().getGPSService().getSatellitesInfo(interaction);
+                    nanoSatMOFramework.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
 
                     try {
                         sem.acquire();
