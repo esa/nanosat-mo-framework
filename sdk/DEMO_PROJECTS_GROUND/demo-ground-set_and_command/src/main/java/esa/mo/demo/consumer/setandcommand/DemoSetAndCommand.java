@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.demo.consumer.dropbox;
+package esa.mo.demo.consumer.setandcommand;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nanosatmoframework.groundmoadapter.consumer.GroundMOAdapter;
@@ -27,32 +27,43 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 
 /**
- * Ground consumer: Demo Dropbox
+ * Ground consumer: Demo Ground 0
  *
  */
-public class DemoDropbox {
+public class DemoSetAndCommand {
 
-    private final GroundMOAdapter groundMOadapter;
 
-    public DemoDropbox() {
+    private final GroundMOAdapter moGroundAdapter;
+    
+    
+    public DemoSetAndCommand() {
 
         ConnectionConsumer connection = new ConnectionConsumer();
-
+        
         try {
             connection.loadURIs();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(DemoDropbox.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        moGroundAdapter = new GroundMOAdapter(connection);
+        moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
+        
+        // Set a parameter with a double value
+        Double parameterValue = 1.2345;
+//        moGroundAdapter.sendData("Parameter_name", parameterValue);
+        AggregationDefinitionDetails aaa = new AggregationDefinitionDetails();
+        moGroundAdapter.setParameter("Parameter_name", aaa);
 
-        groundMOadapter = new GroundMOAdapter(connection);
-        groundMOadapter.addDataReceivedListener(new DataReceivedAdapter());
-        
-        // Sync the dropbox folder with the one in space
-        // https://github.com/dropbox/dropbox-sdk-java
-        // 
-        
+        // Send a command with a Double argument
+        Double value = 1.35565;
+        Double[] values = new Double[1];
+        values[0] = value;
+        moGroundAdapter.invokeAction("Something", values);
+    
     }
 
     /**
@@ -62,13 +73,18 @@ public class DemoDropbox {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        DemoDropbox demo = new DemoDropbox();
+        DemoSetAndCommand demo = new DemoSetAndCommand();
     }
 
+    
     class DataReceivedAdapter extends SimpleDataReceivedListener {
+    
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
+            Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName, data.toString()});
         }
-    }
 
+    }
+    
+    
 }

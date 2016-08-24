@@ -23,8 +23,8 @@
         <relativePath/>
     </parent>
   
-    <artifactId>NMF_APP_DEV</artifactId>
-    <name>NMF: SDK for Apps and Ground</name>
+    <artifactId>NMF_SDK</artifactId>
+    <name>NMF: SDK</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -62,10 +62,12 @@
     </developers>
 
     <modules>
-        <module>DEMO_APPS</module>
-        <module>GROUND_DEMOS</module>
+        <module>DEMO_PROJECTS_APPS</module>
+        <module>DEMO_PROJECTS_GROUND</module>
         <module>CONFIGURATION_MANAGER</module>
         <module>DROPBLOCKS</module>
+        <!-- Shoud fail on the module below because the Software Simulator needs to go into the Core package -->
+        <module>PLAYGROUND_GENERATOR</module> 
     </modules>
   
 </project>

@@ -23,7 +23,7 @@ package esa.mo.fw.configurationtool.stuff;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.nanosatmoframework.ground.adapter.GroundMOAdapter;
+import esa.mo.nanosatmoframework.groundmoadapter.consumer.GroundMOAdapter;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;

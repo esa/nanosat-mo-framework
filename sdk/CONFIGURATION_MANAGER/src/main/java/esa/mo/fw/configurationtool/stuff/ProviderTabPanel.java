@@ -32,7 +32,7 @@ import esa.mo.fw.configurationtool.services.mc.ParameterPublishedValues;
 import esa.mo.fw.configurationtool.services.mc.StatisticConsumerPanel;
 import esa.mo.fw.configurationtool.services.sm.AppsLauncherConsumerPanel;
 import esa.mo.fw.configurationtool.services.sm.PackageManagementConsumerPanel;
-import esa.mo.nanosatmoframework.ground.adapter.GroundMOAdapter;
+import esa.mo.nanosatmoframework.groundmoadapter.consumer.GroundMOAdapter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;

@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.demo.consumer.dropbox;
+package esa.mo.demo.consumer.ground0;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nanosatmoframework.groundmoadapter.consumer.GroundMOAdapter;
@@ -29,30 +29,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Ground consumer: Demo Dropbox
- *
+ * Ground consumer: Demo Ground 0
  */
-public class DemoDropbox {
+public class DemoGround0 {
 
-    private final GroundMOAdapter groundMOadapter;
+    private final GroundMOAdapter moGroundAdapter;
 
-    public DemoDropbox() {
+    public DemoGround0() {
 
         ConnectionConsumer connection = new ConnectionConsumer();
 
         try {
             connection.loadURIs();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(DemoDropbox.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        groundMOadapter = new GroundMOAdapter(connection);
-        groundMOadapter.addDataReceivedListener(new DataReceivedAdapter());
-        
-        // Sync the dropbox folder with the one in space
-        // https://github.com/dropbox/dropbox-sdk-java
-        // 
-        
+        moGroundAdapter = new GroundMOAdapter(connection);
+        moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
     }
 
     /**
@@ -62,13 +56,16 @@ public class DemoDropbox {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        DemoDropbox demo = new DemoDropbox();
+        DemoGround0 demo = new DemoGround0();
     }
 
     class DataReceivedAdapter extends SimpleDataReceivedListener {
+
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
+            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName, data.toString()});
         }
+
     }
 
 }
