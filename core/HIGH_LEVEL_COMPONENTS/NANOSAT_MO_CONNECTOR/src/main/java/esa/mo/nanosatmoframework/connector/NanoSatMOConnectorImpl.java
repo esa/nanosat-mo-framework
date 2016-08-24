@@ -21,6 +21,7 @@
 package esa.mo.nanosatmoframework.connector;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
+import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConfigurationProvider;
@@ -209,7 +210,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
     }
 
     @Override
-    public void initPlatformServices() {
+    public void initPlatformServices(COMServicesProvider comServices) {
         // Connect to the Platform services...
 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

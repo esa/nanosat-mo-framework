@@ -31,13 +31,15 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.platform.camera.CameraHelper;
+import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
+import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 
 /**
  *
  *
  */
-public class PlatformServicesConsumer {
+public class PlatformServicesConsumer implements PlatformServicesConsumerInterface {
 
     private CameraConsumerServiceImpl cameraService;
     private GPSConsumerServiceImpl gpsService;
@@ -68,16 +70,17 @@ public class PlatformServicesConsumer {
         }
     }
 
-    public CameraConsumerServiceImpl getCameraService() {
-        return this.cameraService;
+    @Override
+    public CameraStub getCameraService() {
+        return this.cameraService.getCameraStub();
     }
 
-    public GPSConsumerServiceImpl getGPSService() {
-        return this.gpsService;
+    @Override
+    public GPSStub getGPSService() {
+        return this.gpsService.getGPSStub();
     }
 
-    public void setServices(
-            CameraConsumerServiceImpl cameraService,
+    public void setServices(CameraConsumerServiceImpl cameraService,
             GPSConsumerServiceImpl gpsService) {
         this.cameraService = cameraService;
         this.gpsService = gpsService;

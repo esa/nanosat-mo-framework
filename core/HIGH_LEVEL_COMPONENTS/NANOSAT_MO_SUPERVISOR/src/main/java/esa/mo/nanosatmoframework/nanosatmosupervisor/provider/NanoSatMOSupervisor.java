@@ -28,7 +28,7 @@ import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MonitorAndControlAdapter;
 import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.CloseAppListener;
-import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
+import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import java.io.BufferedWriter;
@@ -67,7 +67,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
      */
     public NanoSatMOSupervisor(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter,
-            PlatformServicesProviderInterface platformServices) {
+            PlatformServicesConsumer platformServices) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         HelperMisc.setInputProcessorsProperty();
@@ -78,7 +78,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
             this.comServices.init();
             heartbeatService.init();
             this.startMCServices(actionAdapter, parameterAdapter);
-            this.initPlatformServices();
+            this.initPlatformServices(comServices);
             this.directoryService.init(comServices);
             packageManagementService.init(comServices);
             applicationsManagerService.init(comServices, directoryService);
@@ -118,7 +118,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
      * @param platformServices
      */
     public NanoSatMOSupervisor(MonitorAndControlAdapter mcAdapter,
-            PlatformServicesProviderInterface platformServices) {
+            PlatformServicesConsumer platformServices) {
         this(mcAdapter, mcAdapter, platformServices);
     }
 

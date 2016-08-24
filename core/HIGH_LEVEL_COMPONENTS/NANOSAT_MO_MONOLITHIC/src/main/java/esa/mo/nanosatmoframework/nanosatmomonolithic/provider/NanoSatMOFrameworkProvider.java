@@ -33,7 +33,7 @@ import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MCStoreLastConfigurationAdapter;
 import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.CloseAppListener;
 import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.NanoSatMOFrameworkInterface;
-import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
+import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
@@ -76,7 +76,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     public MCServicesProvider mcServices;
     public ParameterManager parameterManager;
-    public PlatformServicesProviderInterface platformServices;
+    public PlatformServicesConsumer platformServices;
     public CloseAppListener closeAppAdapter = null;
     public ConfigurationNotificationInterface providerConfigurationAdapter = null;
     public String providerName;
@@ -92,7 +92,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     }
 
     @Override
-    public PlatformServicesProviderInterface getPlatformServices() {
+    public PlatformServicesConsumer getPlatformServices() {
         return platformServices;
     }
 
@@ -155,7 +155,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         service.reloadConfiguration(configurationObjectDetails);
     }
 
-    public abstract void initPlatformServices();
+    public abstract void initPlatformServices(COMServicesProvider comServices);
 
     public final void loadConfigurations() {
         // Activate the previous configuration

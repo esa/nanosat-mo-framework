@@ -20,9 +20,9 @@
  */
 package esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces;
 
-import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mc.impl.util.MCServicesProvider;
+import esa.mo.platform.impl.util.PlatformServicesConsumer;
 
 
 /**
@@ -51,7 +51,7 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      *
      * @return The Platform services
      */
-    public PlatformServicesProviderInterface getPlatformServices();
+    public PlatformServicesConsumer getPlatformServices();
     
     /**
      * Adds a listener for when the app is requested to be closed.

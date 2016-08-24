@@ -28,6 +28,7 @@ import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MonitorAndControlAdapter;
+import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +62,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
      */
     public NanoSatMOMonolithic(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter,
-            PlatformServicesProviderInterface platformServices) {
+            PlatformServicesConsumer platformServices) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         HelperMisc.setInputProcessorsProperty();
@@ -75,7 +76,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
             comServices.init();
             heartbeatService.init();
             this.startMCServices(actionAdapter, parameterAdapter);
-            this.initPlatformServices();
+            this.initPlatformServices(comServices);
             directoryService.init(comServices);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE,
@@ -112,7 +113,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
      * @param platformServices Platform Services
      */
     public NanoSatMOMonolithic(MonitorAndControlAdapter mcAdapter,
-            PlatformServicesProviderInterface platformServices) {
+            PlatformServicesConsumer platformServices) {
         this(mcAdapter, mcAdapter, platformServices);
     }
 
