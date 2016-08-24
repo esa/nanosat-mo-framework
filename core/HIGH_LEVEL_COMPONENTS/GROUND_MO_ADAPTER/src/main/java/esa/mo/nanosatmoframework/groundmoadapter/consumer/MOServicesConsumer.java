@@ -27,6 +27,7 @@ import esa.mo.helpertools.connections.ServicesConnectionDetails;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
+import esa.mo.common.impl.util.HelperCOMMON;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.util.SMServicesConsumer;
@@ -99,48 +100,15 @@ public class MOServicesConsumer {
     public MOServicesConsumer(ProviderSummary provider) {
         // Grab the provider variable and put it into a ConnectionConsumer
 
-        this.connection = new ConnectionConsumer();
         this.comServices = new COMServicesConsumer();
         this.mcServices = new MCServicesConsumer();
         this.platformServices = new PlatformServicesConsumer();
         this.commonServices = new CommonServicesConsumer();
         this.smServices = new SMServicesConsumer();
 
-        this.initHelpers();
-
-        ServicesConnectionDetails serviceDetails = new ServicesConnectionDetails();
-        HashMap<String, SingleConnectionDetails> services = new HashMap<String, SingleConnectionDetails>();
-
-        // Cycle all the services in the provider and put them in the serviceDetails object
-        for (ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {  // Add all the tabs!
-
-            ServiceKey key = serviceInfo.getServiceKey();
-            AddressDetails addressDetails;
-
-            if (!serviceInfo.getServiceAddresses().isEmpty()) {  // If there are no address info we cannot connect...
-                addressDetails = serviceInfo.getServiceAddresses().get(0);
-            } else {
-                continue;
-            }
-
-            SingleConnectionDetails details = new SingleConnectionDetails();
-            details.setBrokerURI(addressDetails.getBrokerURI());
-            details.setProviderURI(addressDetails.getServiceURI());
-            details.setDomain(provider.getProviderKey().getDomain());
-
-            MALService malService = MALContextFactory.lookupArea(key.getArea(), key.getAreaVersion()).getServiceByNumber(key.getService());
-            
-            if(malService == null){
-                Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The service could not be found in the MAL factory. Maybe the Helper for that service was not initialized. The service key is: " + key.toString());
-                continue;
-            }
-            
-            services.put(malService.getName().toString(), details);
-
-        }
-
-        serviceDetails.setServices(services);
-        this.connection.setServicesDetails(serviceDetails);
+        this.initHelpers(); // The Helpers need to be initialized before conversion
+        this.connection = HelperCOMMON.providerSummaryToConnectionConsumer(provider);
+        
         this.init();
 
     }

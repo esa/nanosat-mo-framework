@@ -21,9 +21,11 @@
 package esa.mo.nanosatmoframework.connector;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
+import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
+import esa.mo.common.impl.util.HelperCOMMON;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
@@ -33,6 +35,7 @@ import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MonitorAndControlAdapter;
 import esa.mo.nanosatmoframework.nanosatmomonolithic.provider.NanoSatMOFrameworkProvider;
+import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.BufferedReader;
@@ -96,14 +99,14 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
         // Create provider name to be registerd on the Directory service...
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + System.getProperty(ConfigurationProvider.MO_APP_NAME);
-        
+
         URI centralDirectoryURI;
         try {
             centralDirectoryURI = this.readCentralDirectoryServiceURI();
         } catch (FileNotFoundException ex) {
             centralDirectoryURI = null;
         }
-        
+
         DirectoryConsumerServiceImpl directoryServiceConsumer = null;
 
         if (centralDirectoryURI != null) {
@@ -116,12 +119,12 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 COMService eventCOM = EventHelper.EVENT_SERVICE; // Filter for the Event service of the Supervisor
                 ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(), eventCOM.getNumber(), eventCOM.getArea().getVersion());
                 ServiceFilter sf = new ServiceFilter(new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME), domain, new Identifier("*"), null, new Identifier("*"), serviceKey, new UIntegerList());
-                ProviderSummaryList supervisorConnectionDetails = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf);
+                ProviderSummaryList supervisorEventServiceConnectionDetails = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf);
 
                 // Register for CloseApp Events...
                 try {
                     // To do, convert provider to connectionDetails...
-                    SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorConnectionDetails);
+                    SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
                 } catch (IOException ex) {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Something went wrong...");
@@ -136,9 +139,21 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 // Register with the subscription key provided
                 serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
 
-                // Lookup for the Platform services
-                // Connect to them...
-                platformServices = null;
+                // Lookup for the services on the NanoSat MO Supervisor
+                ServiceFilter sf2 = new ServiceFilter(new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME), domain, new Identifier("*"), null, new Identifier("*"), null, new UIntegerList());
+                ProviderSummaryList supervisorConnections = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf2);
+
+                if (supervisorConnections.size() == 1) { // Good!
+                    ConnectionConsumer supervisorCD = HelperCOMMON.providerSummaryToConnectionConsumer(supervisorConnections.get(0));
+
+                    // Connect to them...
+                    platformServices = new PlatformServicesConsumer();
+                    COMServicesConsumer comServicesConsumer = new COMServicesConsumer();
+                    comServicesConsumer.init(supervisorCD);
+                    platformServices.init(supervisorCD, comServicesConsumer);
+                } else {
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "The Connector was expecting a single NanoSat MO Supervisor provider!");
+                }
 
             } catch (MALException ex) {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -211,9 +226,6 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
     @Override
     public void initPlatformServices(COMServicesProvider comServices) {
-        // Connect to the Platform services...
-
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
     }
 

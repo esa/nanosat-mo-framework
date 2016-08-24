@@ -23,6 +23,7 @@ package esa.mo.sm.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
@@ -341,12 +342,12 @@ public class AppsLauncherManager extends DefinitionsManager {
     public static SingleConnectionDetails getSingleConnectionDetailsFromProviderSummaryList(ProviderSummaryList providersList) throws IOException {
 
         if (providersList.isEmpty()) { // Throw error!
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "The app could not be found in the Directory service... Possible reasons: Not a NMF app! If so, one needs to use killApp!");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "The app could not be found in the Directory service... Possible reasons: Not a NMF app! If so, one needs to use killApp!");
             throw new IOException();
         }
 
         if (providersList.size() != 1) { // Throw error!
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "Why do we have a bunch of registrations from the same App? Weirddddd...");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "Why do we have a bunch of registrations from the same App? Weirddddd...");
             throw new IOException();
         }
 
@@ -355,12 +356,12 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         // How many addresses do we have?
         if (capabilities.isEmpty()) { // Throw an error
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "We don't have any services...");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "We don't have any services...");
             throw new IOException();
         }
 
         if (capabilities.size() != 1) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "We have more than 1 service...");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "We have more than 1 service...");
             throw new IOException();
         }
 
@@ -374,11 +375,12 @@ public class AppsLauncherManager extends DefinitionsManager {
             connectionDetails.setDomain(providersList.get(0).getProviderKey().getDomain());
             return connectionDetails;
         } catch (IOException ex) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         throw new IOException();
     }
+
 
     private static int getBestServiceAddressIndex(AddressDetailsList addresses) throws IOException {
 
@@ -437,6 +439,6 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
         }
         return -1;
-    }
+    }    
 
 }
