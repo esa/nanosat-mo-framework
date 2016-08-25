@@ -21,9 +21,9 @@
 package esa.mo.demo.consumer.ground0;
 
 import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.nanosatmoframework.groundmoadapter.consumer.GroundMOAdapter;
-import esa.mo.nanosatmoframework.groundmoadapter.listeners.CompleteDataReceivedListener;
-import esa.mo.nanosatmoframework.groundmoadapter.listeners.SimpleDataReceivedListener;
+import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
+import esa.mo.nanosatmoframework.groundmoadapter.CompleteDataReceivedListener;
+import esa.mo.nanosatmoframework.groundmoadapter.SimpleDataReceivedListener;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;

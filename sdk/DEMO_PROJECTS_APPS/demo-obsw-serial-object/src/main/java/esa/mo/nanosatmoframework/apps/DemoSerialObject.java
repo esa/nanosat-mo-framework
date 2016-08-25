@@ -20,8 +20,8 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
-import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.SimpleMonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.NanoSatMOFrameworkInterface;
+import esa.mo.nanosatmoframework.SimpleMonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.Serializable;
 import org.ccsds.moims.mo.mal.structures.UInteger;

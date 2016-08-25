@@ -20,9 +20,9 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
-import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.MCRegistrationInterface;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.NanoSatMOFrameworkInterface;
+import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.MCRegistrationInterface;
+import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
 import java.util.logging.Level;

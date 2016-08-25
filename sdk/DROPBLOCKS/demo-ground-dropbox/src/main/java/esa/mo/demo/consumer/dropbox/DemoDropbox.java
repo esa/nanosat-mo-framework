@@ -21,8 +21,8 @@
 package esa.mo.demo.consumer.dropbox;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.nanosatmoframework.groundmoadapter.consumer.GroundMOAdapter;
-import esa.mo.nanosatmoframework.groundmoadapter.listeners.SimpleDataReceivedListener;
+import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
+import esa.mo.nanosatmoframework.groundmoadapter.SimpleDataReceivedListener;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;

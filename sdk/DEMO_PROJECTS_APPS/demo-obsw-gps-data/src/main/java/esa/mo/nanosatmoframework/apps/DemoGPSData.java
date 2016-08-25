@@ -21,11 +21,10 @@
 package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.MCRegistrationInterface;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
-//import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.MCRegistrationInterface;
+import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.concurrent.Semaphore;
@@ -52,8 +51,8 @@ import org.ccsds.moims.mo.platform.gps.provider.GetSatellitesInfoInteraction;
  */
 public class DemoGPSData {
 
-//    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
+//    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
 
     public DemoGPSData() {
 

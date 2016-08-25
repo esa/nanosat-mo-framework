@@ -21,10 +21,10 @@
 package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.nanosatmoframework.connector.NanoSatMOConnectorImpl;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.MCRegistrationInterface;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.NanoSatMOFrameworkInterface;
+import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.MCRegistrationInterface;
+import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

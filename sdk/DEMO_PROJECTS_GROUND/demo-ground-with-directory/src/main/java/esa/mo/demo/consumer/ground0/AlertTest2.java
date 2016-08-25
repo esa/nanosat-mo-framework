@@ -26,7 +26,7 @@ import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.nanosatmoframework.groundmoadapter.consumer.GroundMOAdapter;
+import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
