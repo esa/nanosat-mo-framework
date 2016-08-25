@@ -74,6 +74,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final HashMap<Long, PublishDetails> providersAvailable = new HashMap<Long, PublishDetails>();
+    private final Object MUTEX = new Object();
     private COMServicesProvider comServices;
 
     /**
@@ -156,8 +157,14 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
         }
         
+        final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
+
+        synchronized(MUTEX){
+            list.putAll(providersAvailable);
+        }
+        
         LongList keys = new LongList();
-        keys.addAll(providersAvailable.keySet());
+        keys.addAll(list.keySet());
 
         // Initialize the final Provider Summary List
         ProviderSummaryList outputList = new ProviderSummaryList();
@@ -165,7 +172,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         // Filter...
         for (int i = 0; i < keys.size() ; i++) { // Filter through all providers
 
-            PublishDetails provider = providersAvailable.get(keys.get(i));
+            PublishDetails provider = list.get(keys.get(i));
             ProviderSummary providerOutput = new ProviderSummary();
             
             //Check service provider name
@@ -337,23 +344,25 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 null
         );
 
-        this.providersAvailable.put(servProvObjId, newProviderDetails);
+        synchronized(MUTEX){
+            this.providersAvailable.put(servProvObjId, newProviderDetails);
+        }
 
         return servProvObjId;
     }
 
     @Override
     public void withdrawProvider(Long providerObjectKey, MALInteraction interaction) throws MALInteractionException, MALException {
+        synchronized(MUTEX){
+            PublishDetails details = this.providersAvailable.get(providerObjectKey);
 
-        PublishDetails details = this.providersAvailable.get(providerObjectKey);
+            if (details == null) { // The requested provider does not exist
+                throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            }
 
-        if (details == null) { // The requested provider does not exist
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            // Remove the provider...
+            providersAvailable.remove(providerObjectKey);
         }
-
-        // Remove the provider...
-        providersAvailable.remove(providerObjectKey);
-
     }
 
     public PublishDetails autoLoadURIsFile(String providerName) {
