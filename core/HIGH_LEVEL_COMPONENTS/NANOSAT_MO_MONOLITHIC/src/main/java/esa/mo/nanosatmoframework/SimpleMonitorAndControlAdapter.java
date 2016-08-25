@@ -18,15 +18,13 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.nanosatmomonolithic.adapters;
+package esa.mo.nanosatmoframework;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.MCRegistrationInterface;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.SimpleMonitorAndControlListener;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;

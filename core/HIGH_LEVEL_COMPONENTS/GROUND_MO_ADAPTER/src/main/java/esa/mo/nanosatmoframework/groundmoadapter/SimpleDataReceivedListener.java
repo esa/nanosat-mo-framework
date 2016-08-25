@@ -18,24 +18,27 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces;
+package esa.mo.nanosatmoframework.groundmoadapter;
+
+import esa.mo.nanosatmoframework.groundmoadapter.DataReceivedListener;
+import java.io.Serializable;
 
 /**
- * The MCRegistrationInterface provides an interface to be implemented by the
- * registration object in order to let the registration of Parameters, Actions,
- * Aggregations and Alerts.
- * 
+ * An abstract class that pushes the received data from the Parameter service 
+ * coming via the monitorValue operation with the basic parameter data: name of 
+ * the parameter and the content
+ *
+ * @author Cesar Coelho
  */
-public interface MCRegistrationInterface {
-    
-    // To be defined
+public abstract class SimpleDataReceivedListener implements DataReceivedListener {
 
-    public Boolean registerParameter();
-
-    public Boolean registerAlert();
-
-    public Boolean registerAction();
-
-    public Boolean registerAggregation();
+    /**
+     * This interface must be implemented in order to receive the parameter
+     * content from the Parameter service coming via the monitorValue operation
+     *
+     * @param parameterName Name of the Parameter
+     * @param data The content of the data
+     */
+    public abstract void onDataReceived (String parameterName, Serializable data);
     
 }

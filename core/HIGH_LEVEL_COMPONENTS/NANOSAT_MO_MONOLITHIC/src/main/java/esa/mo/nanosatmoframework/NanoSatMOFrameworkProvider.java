@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.nanosatmomonolithic.provider;
+package esa.mo.nanosatmoframework;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
@@ -30,9 +30,9 @@ import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.mc.impl.util.MCServicesProvider;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MCStoreLastConfigurationAdapter;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.CloseAppListener;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.NanoSatMOFrameworkInterface;
+import esa.mo.nanosatmoframework.MCStoreLastConfigurationAdapter;
+import esa.mo.nanosatmoframework.CloseAppListener;
+import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;

@@ -81,11 +81,11 @@ public class ConfigurationProvider {
             } else {
                 this.domain.add(new Identifier("domainNotFoundInPropertiesFile"));
             }
-/*
+
             if (System.getProperty(MISSION_NAME) != null) {  // Include the name of the mission in the Domain
                 this.domain.add(new Identifier(System.getProperty(MISSION_NAME)));
             }
-*/
+
             if (System.getProperty(MO_APP_NAME) != null) {  // Include the name of the app in the Domain
                 this.domain.add(new Identifier(System.getProperty(MO_APP_NAME)));
             }

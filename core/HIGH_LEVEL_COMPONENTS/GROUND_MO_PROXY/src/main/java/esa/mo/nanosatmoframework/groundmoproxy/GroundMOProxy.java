@@ -18,12 +18,12 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.groundmoproxy.proxy;
+package esa.mo.nanosatmoframework.groundmoproxy;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.nanosatmoframework.groundmoadapter.consumer.GroundMOAdapter;
+import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;

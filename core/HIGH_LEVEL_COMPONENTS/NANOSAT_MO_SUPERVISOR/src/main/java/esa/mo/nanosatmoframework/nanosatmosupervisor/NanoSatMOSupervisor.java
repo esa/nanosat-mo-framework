@@ -18,16 +18,16 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.nanosatmosupervisor.provider;
+package esa.mo.nanosatmoframework.nanosatmosupervisor;
 
-import esa.mo.nanosatmoframework.nanosatmomonolithic.provider.NanoSatMOMonolithic;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.provider.NanoSatMOFrameworkProvider;
+import esa.mo.nanosatmoframework.nanosatmomonolithic.NanoSatMOMonolithic;
+import esa.mo.nanosatmoframework.NanoSatMOFrameworkProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.adapters.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.CloseAppListener;
+import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.CloseAppListener;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;

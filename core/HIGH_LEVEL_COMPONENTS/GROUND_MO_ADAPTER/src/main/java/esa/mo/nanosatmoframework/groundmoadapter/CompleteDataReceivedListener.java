@@ -18,19 +18,25 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.nanosatmomonolithic.adapters;
+package esa.mo.nanosatmoframework.groundmoadapter;
 
-import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces.MCRegistrationInterface;
+import esa.mo.mc.impl.provider.ParameterInstance;
+import esa.mo.nanosatmoframework.groundmoadapter.DataReceivedListener;
 
 /**
- * The MonitorAndControlAdapter implements the Back-End interfaces from the 
- * MO Monitor and Control services composed by the ActionInvocationListener 
- * interface and the the ParameterStatusListener interface.
- * 
+ * An abstract class that pushes the received data from the Parameter service
+ * coming via the monitorValue operation with the complete parameter data
+ *
+ * @author Cesar Coelho
  */
-public abstract class MonitorAndControlAdapter implements ActionInvocationListener, ParameterStatusListener {
-    
-    public abstract void initialRegistrations(MCRegistrationInterface registrationObject);
+public abstract class CompleteDataReceivedListener implements DataReceivedListener {
+
+    /**
+     * This interface must be implemented in order to receive the parameter
+     * content from the Parameter service coming via the monitorValue operation
+     *
+     * @param parameterInstance
+     */
+    public abstract void onDataReceived(ParameterInstance parameterInstance);
+
 }

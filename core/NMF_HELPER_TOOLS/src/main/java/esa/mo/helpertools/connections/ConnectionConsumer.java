@@ -52,7 +52,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ConnectionConsumer {
 
-    private ConfigurationConsumer configuration = new ConfigurationConsumer();
+    private final ConfigurationConsumer configuration = new ConfigurationConsumer();
     private MALContextFactory malFactory;
     private MALContext mal;
     private MALConsumerManager consumerMgr;

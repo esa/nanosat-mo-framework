@@ -18,26 +18,47 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces;
+package esa.mo.nanosatmoframework;
 
-import java.util.EventListener;
+import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.mc.impl.util.MCServicesProvider;
+import esa.mo.platform.impl.util.PlatformServicesConsumer;
 
 
 /**
- * The CloseAppListener provides a simple interface to be implemented by the
- * App developers in order to provide App-specific operations before closing 
- * the App.
+ * The interface that is exposed towards the app developer.
  * 
  */
-public interface CloseAppListener extends EventListener {
+public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
     
     /**
-     * The onClose signature shall be called when the app is requested to be
-     * closed.
+     * Requests the COM services available in the NanoSat MO Framework provider.
      *
-     * @return Returns true if everything was closed successfully, false 
-     * otherwise.
+     * @return The COM services
      */
-    public Boolean onClose();
+    public COMServicesProvider getCOMServices();
+
+    /**
+     * Requests the MC services available in the NanoSat MO Framework provider.
+     *
+     * @return The MC services
+     */
+    public MCServicesProvider getMCServices();
+
+    /**
+     * Requests the Platform services available in the NanoSat MO Framework
+     * provider.
+     *
+     * @return The Platform services
+     */
+    public PlatformServicesConsumer getPlatformServices();
+    
+    /**
+     * Adds a listener for when the app is requested to be closed.
+     *
+     * @param closeAppAdapter The adapter that will be called after a request 
+     * to close the app
+     */
+    public void addCloseAppListener(CloseAppListener closeAppAdapter);
     
 }

@@ -18,16 +18,24 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.groundmoadapter.interfaces;
-
-import java.util.EventListener;
+package esa.mo.nanosatmoframework;
 
 /**
- * An interface to receive data from the Parameter service via the monitorValue
- * operation
- *
- * @author Cesar Coelho
+ * The MCRegistrationInterface provides an interface to be implemented by the
+ * registration object in order to let the registration of Parameters, Actions,
+ * Aggregations and Alerts.
+ * 
  */
-public interface DataReceivedListener extends EventListener {
+public interface MCRegistrationInterface {
+    
+    // To be defined
 
+    public Boolean registerParameter();
+
+    public Boolean registerAlert();
+
+    public Boolean registerAction();
+
+    public Boolean registerAggregation();
+    
 }

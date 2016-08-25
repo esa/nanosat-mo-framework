@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.nanosatmomonolithic.interfaces;
+package esa.mo.nanosatmoframework;
 
 import java.util.ArrayList;
 

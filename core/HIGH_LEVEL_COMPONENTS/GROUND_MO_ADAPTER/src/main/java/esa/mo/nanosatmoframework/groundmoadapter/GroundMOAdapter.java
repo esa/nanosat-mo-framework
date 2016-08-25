@@ -18,20 +18,16 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.groundmoadapter.consumer;
+package esa.mo.nanosatmoframework.groundmoadapter;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.nanosatmoframework.groundmoadapter.listeners.CompleteDataReceivedListener;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import esa.mo.nanosatmoframework.groundmoadapter.interfaces.DataReceivedListener;
-import esa.mo.nanosatmoframework.groundmoadapter.interfaces.SimpleCommandingInterface;
-import esa.mo.nanosatmoframework.groundmoadapter.listeners.SimpleDataReceivedListener;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;

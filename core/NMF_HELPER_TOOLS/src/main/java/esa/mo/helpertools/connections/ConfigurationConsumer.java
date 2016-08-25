@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mal.structures.SessionType;
  */
 public class ConfigurationConsumer {
 
-    private final IdentifierList domain = new IdentifierList();
+//    private final IdentifierList domain = new IdentifierList();
     private final Identifier network;
     private final SessionType session;
     private final Identifier sessionName;
@@ -79,6 +79,9 @@ public class ConfigurationConsumer {
         }
 
         // ------------------------Domain-----------------------------
+        // The consumer sidde does not have a domain!!!
+        
+/*        
         if (System.getProperty(ORGANIZATION_NAME) != null) {  // Include the name of the organization in the Domain
             this.domain.add(new Identifier(System.getProperty(ORGANIZATION_NAME)));
         } else {
@@ -88,7 +91,7 @@ public class ConfigurationConsumer {
         if (System.getProperty(MO_APP_NAME) != null) {  // Include the name of the app in the Domain
             this.domain.add(new Identifier(System.getProperty(MO_APP_NAME)));
         }
-        
+*/        
         /*
          this.domain.add(new Identifier("esa"));
          this.domain.add(new Identifier("OPS-SAT"));

@@ -18,25 +18,16 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.groundmoadapter.listeners;
+package esa.mo.nanosatmoframework.groundmoadapter;
 
-import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.nanosatmoframework.groundmoadapter.interfaces.DataReceivedListener;
+import java.util.EventListener;
 
 /**
- * An abstract class that pushes the received data from the Parameter service
- * coming via the monitorValue operation with the complete parameter data
+ * An interface to receive data from the Parameter service via the monitorValue
+ * operation
  *
  * @author Cesar Coelho
  */
-public abstract class CompleteDataReceivedListener implements DataReceivedListener {
-
-    /**
-     * This interface must be implemented in order to receive the parameter
-     * content from the Parameter service coming via the monitorValue operation
-     *
-     * @param parameterInstance
-     */
-    public abstract void onDataReceived(ParameterInstance parameterInstance);
+public interface DataReceivedListener extends EventListener {
 
 }

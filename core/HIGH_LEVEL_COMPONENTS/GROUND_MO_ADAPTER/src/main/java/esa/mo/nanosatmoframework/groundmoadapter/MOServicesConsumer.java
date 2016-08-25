@@ -18,13 +18,11 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.groundmoadapter.consumer;
+package esa.mo.nanosatmoframework.groundmoadapter;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.connections.ServicesConnectionDetails;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
 import esa.mo.common.impl.util.HelperCOMMON;
@@ -32,22 +30,18 @@ import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.util.SMServicesConsumer;
 import java.net.MalformedURLException;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.common.CommonHelper;
-import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALService;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
@@ -98,8 +92,6 @@ public class MOServicesConsumer {
      * the Directory service
      */
     public MOServicesConsumer(ProviderSummary provider) {
-        // Grab the provider variable and put it into a ConnectionConsumer
-
         this.comServices = new COMServicesConsumer();
         this.mcServices = new MCServicesConsumer();
         this.platformServices = new PlatformServicesConsumer();
@@ -107,14 +99,14 @@ public class MOServicesConsumer {
         this.smServices = new SMServicesConsumer();
 
         this.initHelpers(); // The Helpers need to be initialized before conversion
+
+        // Grab the provider variable and put it into a ConnectionConsumer
         this.connection = HelperCOMMON.providerSummaryToConnectionConsumer(provider);
         
         this.init();
-
     }
 
     private void init() {
-
         try {
             HelperMisc.loadConsumerProperties();
         } catch (MalformedURLException ex) {
@@ -126,7 +118,6 @@ public class MOServicesConsumer {
         initSMServices();
         initPlatformServices();
         initCommonServices();
-       
     }
 
     private void initHelpers() {

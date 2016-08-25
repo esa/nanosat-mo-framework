@@ -18,27 +18,18 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.groundmoadapter.listeners;
+package esa.mo.nanosatmoframework;
 
-import esa.mo.nanosatmoframework.groundmoadapter.interfaces.DataReceivedListener;
-import java.io.Serializable;
+import esa.mo.mc.impl.interfaces.ActionInvocationListener;
+import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 
 /**
- * An abstract class that pushes the received data from the Parameter service 
- * coming via the monitorValue operation with the basic parameter data: name of 
- * the parameter and the content
- *
- * @author Cesar Coelho
+ * The MonitorAndControlAdapter implements the Back-End interfaces from the 
+ * MO Monitor and Control services composed by the ActionInvocationListener 
+ * interface and the the ParameterStatusListener interface.
+ * 
  */
-public abstract class SimpleDataReceivedListener implements DataReceivedListener {
-
-    /**
-     * This interface must be implemented in order to receive the parameter
-     * content from the Parameter service coming via the monitorValue operation
-     *
-     * @param parameterName Name of the Parameter
-     * @param data The content of the data
-     */
-    public abstract void onDataReceived (String parameterName, Serializable data);
+public abstract class MonitorAndControlAdapter implements ActionInvocationListener, ParameterStatusListener {
     
+    public abstract void initialRegistrations(MCRegistrationInterface registrationObject);
 }
