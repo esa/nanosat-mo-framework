@@ -15,7 +15,7 @@
 				<mal:pubsubIP comment="The streamPictures operation allows a consumer to subscribe for picture updates." name="streamPictures" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-							<mal:field canBeNull="true" comment="The picture in streaming mode.&#10;The MAL EntityKey.firstSubKey shall be the value provided by the consumer during the setStreaming operation.&#10;The MAL EntityKey.secondSubKey shall hold the width value of the dimension object provided by the consumer during the setStreaming operation.&#10;The MAL EntityKey.thirdSubKey shall hold the height value of the dimension object provided by the consumer during the setStreaming operation.&#10;The MAL EntityKey.fourthSubKey shall hold the numeric value of the format enumeration provided by the consumer during the setStreaming operation.&#10;The timestamp of the update shall be the time of when the picture was taken." name="picture">
+							<mal:field canBeNull="true" comment="The picture in streaming mode.&#10;The MAL EntityKey.firstSubKey shall be the value provided by the consumer during the setStreaming operation.&#10;The MAL EntityKey.secondSubKey shall hold a unique object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall hold the width value of the resolution object provided by the consumer during the setStreaming operation.&#10;The MAL EntityKey.fourthSubKey shall hold the height value of the resolution object provided by the consumer during the setStreaming operation.&#10;The timestamp of the update shall be the time of when the picture was taken." name="picture">
 								<mal:type area="Platform" list="false" name="Picture" service="Camera"/>
 							</mal:field>
 						</mal:publishNotify>
@@ -27,13 +27,13 @@
 							<mal:field canBeNull="true" comment="The streamingRate field shall hold the streaming rate of the pictures." name="streamingRate">
 								<mal:type area="MAL" list="false" name="Duration"/>
 							</mal:field>
-							<mal:field canBeNull="true" comment="The dimension field shall hold the desired streaming pictures resolution." name="dimension">
+							<mal:field canBeNull="true" comment="The resolution field shall hold the desired streaming pictures resolution." name="resolution">
 								<mal:type area="Platform" list="false" name="PixelResolution" service="Camera"/>
 							</mal:field>
 							<mal:field canBeNull="true" comment="The format field shall hold the desired streaming picture format." name="format">
 								<mal:type area="Platform" list="false" name="PictureFormat" service="Camera"/>
 							</mal:field>
-						<mal:field canBeNull="true" comment="The firstEntityKey field holds the first entity key that will be present during the broadcast of the streamPictures operation.&#10;The firstEntityKey field must not be NULL nor the wildcard '*'. An INVALID error shall be returned in this case." name="firstEntityKey">
+						<mal:field canBeNull="true" comment="The firstEntityKey field holds the first entity key that will be present during the broadcast of the streamPictures operation.&#10;The firstEntityKey field must not empty, nor be NULL nor the wildcard '*'. An INVALID error shall be returned in this case." name="firstEntityKey">
                 <mal:type area="MAL" list="false" name="Identifier"/>
               </mal:field>
             </mal:submit>
@@ -47,14 +47,20 @@
             </mal:errorRef>
           <mal:errorRef comment="The requested resolution is not supported.">
               <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:extraInformation comment="The extra information fied shall hold the list of available resolutions.">
+                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
+              </mal:extraInformation>
             </mal:errorRef>
             <mal:errorRef comment="The requested format is not supported.">
               <mal:type area="COM" list="false" name="INVALID"/>
+              <mal:extraInformation comment="The extra information fied shall hold the list of available formats.">
+                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
+              </mal:extraInformation>
             </mal:errorRef>
           <mal:errorRef comment="The firstEntityKey field cannot be a null nor a wildcard.">
               <mal:type area="COM" list="false" name="INVALID"/>
             </mal:errorRef>
-          <mal:errorRef comment="The Camera is currently being used.">
+          <mal:errorRef comment="The Camera is currently being used. Use the unsetStreaming operation in order to manually unset the streaming and try again.">
               <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
             </mal:errorRef>
           </mal:errors>
@@ -76,7 +82,7 @@
 						</mal:response>
 					</mal:messages>
 				<mal:errors>
-            <mal:errorRef comment="The Camera is currently being used.">
+            <mal:errorRef comment="The Camera is currently being used. Use the unsetStreaming operation in order to manually unset the streaming and try again.">
               <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
             </mal:errorRef>
           </mal:errors>
@@ -86,7 +92,7 @@
 				<mal:invokeIP comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected." name="takePicture" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:invoke comment="">
-							<mal:field canBeNull="true" comment="The dimensions field shall hold the desired picture resolution." name="dimensions">
+							<mal:field canBeNull="true" comment="The resolution field shall hold the desired picture resolution." name="resolution">
 								<mal:type area="Platform" list="false" name="PixelResolution" service="Camera"/>
 							</mal:field>
 							<mal:field canBeNull="true" comment="The format field shall hold the desired streaming picture format." name="format">
@@ -104,14 +110,20 @@
 						</mal:response>
 					</mal:messages>
 				<mal:errors>
-            <mal:errorRef comment="The Camera is currently being used.">
+            <mal:errorRef comment="The Camera is currently being used. Use the unsetStreaming operation in order to manually unset the streaming and try again.">
               <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
             </mal:errorRef>
           <mal:errorRef comment="The requested resolution is not supported.">
               <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:extraInformation comment="The extra information fied shall hold the list of available resolutions.">
+                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
+              </mal:extraInformation>
             </mal:errorRef>
             <mal:errorRef comment="The requested format is not supported.">
               <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:extraInformation comment="The extra information fied shall hold the list of available formats.">
+                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
+              </mal:extraInformation>
             </mal:errorRef>
           </mal:errors>
         </mal:invokeIP>
@@ -504,7 +516,9 @@
 				<mal:pubsubIP comment="The monitorAttitude operation allows a consumer to subscribe for the satellite's current attitude.&#10;The pointingTo field shall contain the attitude instance in a reference frame.&#10;The MAL EntityKey.firstSubKey shall contain the AttitudeDefinition name.&#10;The MAL EntityKey.secondSubKey shall contain the AttitudeDefinition object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall contain the numeric value of the AttitudeMode of the AttitudeDefinition.&#10;The MAL EntityKey.fourthSubKey shall be NULL.&#10;The timestamp of the update shall be on-board clock at the time of the sampling.&#10;The ObjectId shall be set to NULL." name="monitorAttitude" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-            <mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+            <mal:field canBeNull="true" comment="The attitudeInstance filed shall hold the instance of the current attitude." name="attitudeInstance">
+                <mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+              </mal:field>
             </mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
@@ -1027,6 +1041,22 @@
 					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
+      <mal:capabilitySet comment="" number="3">
+        <mal:requestIP comment="" name="getDataForCommand" number="3" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="">
+              <mal:field canBeNull="true" comment="" name="command">
+                <mal:type area="MAL" list="false" name="Blob"/>
+              </mal:field>
+            </mal:request>
+            <mal:response comment="">
+              <mal:field canBeNull="true" comment="" name="data">
+                <mal:type area="MAL" list="false" name="Blob"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
+      </mal:capabilitySet>
 		<com:features/>
     </mal:service>
 		<mal:service comment="" name="Magnetometer" number="7" xsi:type="com:ExtendedServiceType">

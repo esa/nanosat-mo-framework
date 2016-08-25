@@ -62,7 +62,7 @@ public final class GPSManager extends DefinitionsManager {
     }
     
     @Override
-    public Boolean compareName(Long objId, Identifier name) {
+    public Boolean compareName(final Long objId, final Identifier name) {
         return this.get(objId).getName().equals(name);
     }
 
@@ -71,15 +71,15 @@ public final class GPSManager extends DefinitionsManager {
         return new NearbyPositionDefinitionList();
     }
 
-    public NearbyPositionDefinition get(Long input) {
+    public NearbyPositionDefinition get(final Long input) {
         return (NearbyPositionDefinition) this.getDef(input);
     }
 
-    public Boolean getPreviousStatus(Long input) {
+    public synchronized Boolean getPreviousStatus(final Long input) {
         return previousIsInsideStatus.get(input);
     }
 
-    public boolean setPreviousStatus(Long input, boolean isInside) {
+    public synchronized boolean setPreviousStatus(final Long input, final boolean isInside) {
         return previousIsInsideStatus.put(input, isInside);
     }
 
@@ -87,7 +87,7 @@ public final class GPSManager extends DefinitionsManager {
         return (NearbyPositionDefinitionList) this.getAllDefs();
     }
 
-    public Long add(NearbyPositionDefinition definition, ObjectId source, SingleConnectionDetails connectionDetails){
+    public Long add(final NearbyPositionDefinition definition, final ObjectId source, SingleConnectionDetails connectionDetails){
         if (super.getArchiveService() == null) {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
@@ -122,7 +122,7 @@ public final class GPSManager extends DefinitionsManager {
         return null;
     }
       
-    public boolean delete(Long objId){
+    public boolean delete(final Long objId){
 
         if (!this.deleteDef(objId)) {
             return false;
@@ -134,7 +134,8 @@ public final class GPSManager extends DefinitionsManager {
         return true;
     }
 
-    protected Long storeAndGenerateNearbyPositionAlertId(Boolean inside, Long objId, SingleConnectionDetails connectionDetails) {
+    protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside, 
+            final Long objId, final SingleConnectionDetails connectionDetails) {
         if (super.getArchiveService() != null) {
             BooleanList isEnteringList = new BooleanList();
             isEnteringList.add(inside);

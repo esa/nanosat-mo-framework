@@ -21,8 +21,10 @@
 package esa.mo.platform.impl.provider;
 
 import java.io.IOException;
+import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
+import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 
@@ -49,10 +51,14 @@ public interface CameraAdapterInterface {
      * 
      * @return The available formats
      */
-    public PixelResolutionList getAvailableFormats();
+    public PictureFormatList getAvailableFormats();
     
     public Picture getPicturePreview();
 
-    public Picture takePicture(PixelResolution dimensions, PictureFormat format) throws IOException;    
+    public Picture takePicture(PixelResolution resolution, PictureFormat format) throws IOException;    
+
+    public Picture processPicture(Picture picture, PictureFormat format)  throws IOException;
+
+    public Duration getMinimumPeriod();
     
 }
