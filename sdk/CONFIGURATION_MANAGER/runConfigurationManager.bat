@@ -1,0 +1,1 @@
+java -classpath "target\NANOSAT_MO_FRAMEWORK_CONFIGURATION_MANAGER-jar-with-dependencies.jar" esa.mo.fw.configurationtool.guis.MOConsumerGUIvFull

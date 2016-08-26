@@ -86,7 +86,7 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>install-jar</id>
+                        <id>copy</id>
                         <phase>install</phase>
                         <goals>
                             <goal>copy</goal>
@@ -123,6 +123,24 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/../Playground</outputDirectory>
+                            <resources>          
+                                <resource>
+                                    <directory>${basedir}/src/mainDirectory</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>            
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

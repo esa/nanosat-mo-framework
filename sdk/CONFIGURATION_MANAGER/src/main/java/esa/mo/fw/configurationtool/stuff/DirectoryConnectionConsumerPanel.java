@@ -56,8 +56,8 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     private final static String FOLDER_LOCATION_PROPERTY = "esa.mo.fw.configurationtool.stuff.FolderLocation";
-    private static final String OBSW_DIRECTORY_NAME = "APPS";  // dir name
-    private static final String OBSW_ALTERNATIVE_DIRECTORY_NAME = "sandbox" + File.separator + "apps";  // Running Environment
+    private static final String OBSW_DIRECTORY_NAME = "DEMO_PROJECTS_APPS";  // dir name
+    private static final String OBSW_ALTERNATIVE_DIRECTORY_NAME = "Playground" + File.separator + "apps";  // Running Environment
     private File folder_location = new File(".." + File.separator + OBSW_DIRECTORY_NAME);  // Location of the folder
     private ConnectionConsumer connectionConsumer;
     private javax.swing.JTabbedPane tabs;
@@ -350,7 +350,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-
         if (providersList.getModel().getSize() == 0) {
             return;
         }
@@ -378,11 +377,10 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         tabs.addTab("", providerPanel);
         tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
         tabs.setSelectedIndex(tabs.getTabCount() - 1);
-
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void errorConnectionProvider(String service, Throwable ex) {
-        JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!\nException: " + ex, "Error!", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void uriServiceDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
@@ -417,7 +415,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
-
         try {
             summaryList = GroundMOAdapter.retrieveProvidersFromDirectory(this.getAddressToBeUsed());
 
@@ -462,13 +459,16 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_obswFolderActionPerformed
 
     private void obswFolderItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_obswFolderItemStateChanged
-
         if (obswFolder.getSelectedItem() == null) {
             return;
         }
 
         // Generate the file path...
-        String filePath = folder_location + File.separator + obswFolder.getSelectedItem().toString() + File.separator + "providerURIs.properties";
+        String filePath = folder_location + 
+                File.separator + 
+                obswFolder.getSelectedItem().toString() + 
+                File.separator + 
+                HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME;
 
         try { // Load properties
             connectionConsumer.loadURIs(filePath);
@@ -478,7 +478,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         // refres the textbox
         this.initTextBoxAddress();
-
     }//GEN-LAST:event_obswFolderItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
