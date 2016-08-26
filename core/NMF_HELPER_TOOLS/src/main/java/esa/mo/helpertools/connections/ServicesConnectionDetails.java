@@ -30,7 +30,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
 
 public class ServicesConnectionDetails {
 
-    private static final String FILENAME_PROVIDER_URIS = "providerURIs.properties";
     private HashMap<String, SingleConnectionDetails> services = new HashMap<String, SingleConnectionDetails>();
 
     public HashMap<String, SingleConnectionDetails> getServices() {
@@ -74,7 +73,7 @@ public class ServicesConnectionDetails {
         final String configFile;
         
         if (filename == null){
-            configFile = System.getProperty("providerURI.properties", FILENAME_PROVIDER_URIS);
+            configFile = System.getProperty("providerURI.properties", HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
         }else{
             configFile = filename;
         }

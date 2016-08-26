@@ -941,11 +941,8 @@
 				<mal:pubsubIP comment="The streamRadio operation allows a consumer to subscribe for Software-defined Radio data updates." name="streamRadio" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-							<mal:field canBeNull="true" comment="The inPhase field shall hold the in phase data from the Software-defined Radio unit." name="inPhase">
-                <mal:type area="MAL" list="false" name="Blob"/>
-              </mal:field>
-						<mal:field canBeNull="true" comment="The quadrature field shall hold the quadrature data component of the Software-defined Radio unit." name="quadrature">
-                <mal:type area="MAL" list="false" name="Blob"/>
+            <mal:field canBeNull="true" comment="The iqComponents field shall hold the in-phase and quadrature data from the Software-defined Radio unit." name="iqComponents">
+                <mal:type area="Platform" list="false" name="IQComponents" service="SoftwareDefinedRadio"/>
               </mal:field>
             </mal:publishNotify>
 					</mal:messages>
@@ -958,12 +955,26 @@
 							<mal:field canBeNull="true" comment="The enable field shall hold the flag status to enable/disable the Software-defined Radio.&#10;If the enable field is true then the Software-defined Radio shall be enabled otherwise disabled." name="enable">
 								<mal:type area="MAL" list="false" name="Boolean"/>
 							</mal:field>
-						</mal:submit>
+						<mal:field canBeNull="true" comment="The  initialConfiguration field shall hold the configuration to be set right after the SDR is enabled." name="initialConfiguration">
+                <mal:type area="Platform" list="false" name="SDRConfiguration" service="SoftwareDefinedRadio"/>
+              </mal:field>
+            <mal:field canBeNull="true" comment="" name="publishingPeriod">
+                <mal:type area="MAL" list="false" name="Duration"/>
+              </mal:field>
+            </mal:submit>
 					</mal:messages>
-				</mal:submitIP>
+				<mal:errors>
+            <mal:errorRef comment="The provided configuration is invalid.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            </mal:errorRef>
+            <mal:errorRef comment="The Software-defined Radio could not be enabled.">
+              <mal:type area="MAL" list="false" name="INTERNAL"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:submitIP comment="The setConfiguration operation allows a consumer to set a configuration to the Software-defined Radio." name="setConfiguration" number="3" supportInReplay="false">
+				<mal:submitIP comment="The setConfiguration operation allows a consumer to set a configuration to the Software-defined Radio." name="updateConfiguration" number="3" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="The configuration field holds the configuration of the SDR." name="configuration">
@@ -971,7 +982,12 @@
 							</mal:field>
 						</mal:submit>
 					</mal:messages>
-				</mal:submitIP>
+				<mal:errors>
+            <mal:errorRef comment="The provided configuration is invalid.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
 				<mal:composite comment="" name="SDRConfiguration" shortFormPart="1">
@@ -997,7 +1013,18 @@
 						<mal:type area="MAL" list="false" name="Double"/>
 					</mal:field>
 				</mal:composite>
-			</mal:dataTypes>
+			<mal:composite comment="It holds the In-phase and Quadrature components." name="IQComponents" shortFormPart="27">
+          <mal:extends>
+            <mal:type area="MAL" list="false" name="Composite"/>
+          </mal:extends>
+        <mal:field canBeNull="true" comment="The in-phase component." name="inPhase">
+            <mal:type area="MAL" list="true" name="Double"/>
+          </mal:field>
+        <mal:field canBeNull="true" comment="The quadrature component." name="quadrature">
+            <mal:type area="MAL" list="true" name="Double"/>
+          </mal:field>
+        </mal:composite>
+      </mal:dataTypes>
 			<com:features/>
 		</mal:service>
 		<mal:service comment="The Optical Data Receiver service provides an interface to receive messages from an Optical Data Receiver device." name="OpticalDataReceiver" number="5" xsi:type="com:ExtendedServiceType">

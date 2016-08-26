@@ -18,19 +18,21 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework;
+package esa.mo.platform.impl.provider;
 
-import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsList;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
 /**
- * The MonitorAndControlAdapter implements the Back-End interfaces from the 
- * MO Monitor and Control services composed by the ActionInvocationListener 
- * interface and the the ParameterStatusListener interface.
- * 
+ *
+ * @author Cesar Coelho
  */
-public abstract class MonitorAndControlAdapter implements ActionInvocationListener, ParameterStatusListener {
-    
-    public abstract void initialRegistrations(MCRegistrationInterface registrationObject);
-    
+public interface SoftwareDefinedRadioAdapterInterface {
+
+    public boolean setConfiguration(SDRConfiguration configuration);
+
+    public boolean enableSDR(Boolean enable);
+
+    public IQComponentsList getIQComponents();
+
 }

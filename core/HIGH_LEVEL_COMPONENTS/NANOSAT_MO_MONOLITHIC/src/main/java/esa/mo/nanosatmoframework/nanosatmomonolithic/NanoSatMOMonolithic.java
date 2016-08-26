@@ -61,6 +61,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
      * corresponding variable of a specific entity.
      * @param platformServices
      */
+    @Deprecated
     public NanoSatMOMonolithic(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter,
             PlatformServicesConsumer platformServices) {

@@ -265,13 +265,13 @@ public class ArchiveManager {
         return objId;
     }
 
-    protected ArchivePersistenceObject getPersistenceObject(final ObjectType objectType, final IdentifierList domain, final Long objId) {
+    protected ArchivePersistenceObject getPersistenceObject(final ObjectType objType, final IdentifierList domain, final Long objId) {
         this.createEntityManager();
-        final COMObjectPK id = ArchivePersistenceObject.generatePK(objectType, domain, objId);
-        final ArchivePersistenceObject PerObj = this.em.find(ArchivePersistenceObject.class, id);
+        final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objId);
+        final ArchivePersistenceObject perObj = this.em.find(ArchivePersistenceObject.class, id);
         this.closeEntityManager();
 
-        return PerObj;
+        return perObj;
     }
 
     protected Object getObject(final ObjectType objType, final IdentifierList domain, final Long objId) {

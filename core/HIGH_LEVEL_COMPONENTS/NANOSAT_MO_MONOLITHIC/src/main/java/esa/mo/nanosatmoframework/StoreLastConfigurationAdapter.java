@@ -263,11 +263,11 @@ public class StoreLastConfigurationAdapter implements ConfigurationNotificationI
 
         } catch (MALException ex) {
             Logger.getLogger(StoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            return defaultObjId;
         } catch (MALInteractionException ex) {
             Logger.getLogger(StoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            return defaultObjId;
         }
-
-        return null;
 
     }
 

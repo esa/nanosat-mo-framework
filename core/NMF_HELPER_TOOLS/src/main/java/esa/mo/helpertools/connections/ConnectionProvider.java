@@ -48,7 +48,6 @@ public class ConnectionProvider {
     private MALContextFactory malFactory;
     private MALContext mal;
     private MALProviderManager providerMgr;
-    private static final String FILENAME_DEMO_SERVICE_URIS = "providerURIs.properties";
     private static final String PROPERTY_SHARED_BROKER_URI = "esa.mo.helpertools.connections.SharedBrokerURI";
     private final SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
 
@@ -147,7 +146,7 @@ public class ConnectionProvider {
         // Write the URIs on a text file
         BufferedWriter wrt = null;
         try {
-            wrt = new BufferedWriter(new FileWriter(FILENAME_DEMO_SERVICE_URIS, true));
+            wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, true));
             wrt.append(serviceName + "URI=" + connectionDetails.getProviderURI());
             wrt.newLine();
             wrt.append(serviceName + "Broker=" + connectionDetails.getBrokerURI());
@@ -195,7 +194,7 @@ public class ConnectionProvider {
         
         BufferedWriter wrt = null;
         try {
-            wrt = new BufferedWriter(new FileWriter(FILENAME_DEMO_SERVICE_URIS, false));
+            wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false));
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
         } finally {

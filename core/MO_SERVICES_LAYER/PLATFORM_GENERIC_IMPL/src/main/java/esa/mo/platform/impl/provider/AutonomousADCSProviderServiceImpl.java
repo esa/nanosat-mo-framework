@@ -140,7 +140,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         manager = new AutonomousADCSManager(comServices);
         running = true;
         initialiased = true;
-        Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).info("GPS service READY");
+        Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).info("AutonomousADCS service READY");
     }
 
     /**

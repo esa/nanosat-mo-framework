@@ -133,7 +133,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         running = true;
         initialiased = true;
-        Logger.getLogger(CameraProviderServiceImpl.class.getName()).info("Action service READY");
+        Logger.getLogger(CameraProviderServiceImpl.class.getName()).info("Camera service READY");
     }
 
     /**

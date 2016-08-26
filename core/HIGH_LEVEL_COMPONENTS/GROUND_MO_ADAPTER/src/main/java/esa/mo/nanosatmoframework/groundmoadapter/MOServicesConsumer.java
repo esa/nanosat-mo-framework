@@ -29,6 +29,7 @@ import esa.mo.common.impl.util.HelperCOMMON;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.util.SMServicesConsumer;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -111,6 +112,10 @@ public class MOServicesConsumer {
             HelperMisc.loadConsumerProperties();
         } catch (MalformedURLException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, "The file " + 
+                    HelperMisc.CONSUMER_PROPERTIES_FILE + 
+                    " could not be found! This error can happen if the user is trying to run the application from a different folder other than the one where the file is.", ex);
         }
 
         initCOMServices();
@@ -121,7 +126,6 @@ public class MOServicesConsumer {
     }
 
     private void initHelpers() {
-
         // Load the MAL factories for the supported services
         try {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -149,7 +153,6 @@ public class MOServicesConsumer {
         } catch (MALException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void initCOMServices() {
@@ -221,9 +224,10 @@ public class MOServicesConsumer {
         return connection;
     }
 
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI) throws MALException, MalformedURLException, MALInteractionException {
-
-        // Starting the directory service consumer from static method. The whole Common should be registered to avoid errors during the initHelpers
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI)
+            throws MALException, MalformedURLException, MALInteractionException {
+        // Starting the directory service consumer from static method.
+        // The whole Common area should be registered to avoid errors during the initHelpers
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
             CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
         }
@@ -232,6 +236,11 @@ public class MOServicesConsumer {
             HelperMisc.loadConsumerProperties();
         } catch (MalformedURLException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, "The file " + 
+                    HelperMisc.CONSUMER_PROPERTIES_FILE + 
+                    " could not be found! This error can happen if the user is trying to run the application from a different folder other than the one where the file is.", ex);
+            return null;
         }
 
         DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI);

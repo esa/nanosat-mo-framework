@@ -65,6 +65,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
      * corresponding variable of a specific entity.
      * @param platformServices
      */
+    @Deprecated
     public NanoSatMOSupervisor(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter,
             PlatformServicesConsumer platformServices) {

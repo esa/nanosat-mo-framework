@@ -76,7 +76,8 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     private ConfigurationProvider configuration = new ConfigurationProvider();
     private final COMServicesProvider comServices;
 
-    public MCStoreLastConfigurationAdapter(NanoSatMOFrameworkInterface provider, ObjectId confId, Identifier providerName) {
+    public MCStoreLastConfigurationAdapter(NanoSatMOFrameworkInterface provider, 
+            final ObjectId confId, final Identifier providerName) {
 
         try {
             ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -258,23 +259,24 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             ServiceKey serviceKey = new ServiceKey(MCHelper.MC_AREA_NUMBER, serviceNumber, MCHelper.MC_AREA_VERSION);
             serviceKeyList.add(serviceKey);
 
-            LongList objIds2 = comServices.getArchiveService().store(
-                    true,
+            comServices.getArchiveService().store(
+                    false,
                     ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
                     configuration.getDomain(),
                     HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, configuration.getNetwork(), new URI(""), defaultObjId),
                     serviceKeyList,
                     null);
 
-            return objIds2.get(0);
+            return defaultObjId;
 
         } catch (MALException ex) {
             Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            return defaultObjId;
         } catch (MALInteractionException ex) {
             Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            return defaultObjId;
         }
 
-        return null;
     }
 
 }

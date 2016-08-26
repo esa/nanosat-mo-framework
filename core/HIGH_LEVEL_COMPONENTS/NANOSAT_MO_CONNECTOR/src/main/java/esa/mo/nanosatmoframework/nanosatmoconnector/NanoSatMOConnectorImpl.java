@@ -91,6 +91,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
      * @param parameterAdapter The adapter to connect the parameters to the
      * corresponding variable of a specific entity.
      */
+    @Deprecated
     public NanoSatMOConnectorImpl(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file

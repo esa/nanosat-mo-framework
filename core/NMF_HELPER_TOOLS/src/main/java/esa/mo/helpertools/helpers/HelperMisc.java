@@ -48,11 +48,12 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 public class HelperMisc {
 
     private static final Set LOADED_PROPERTIES = new TreeSet();
-    private static final String TRANSPORT_PROPERTIES_FILE = "transport.properties";
-    private static final String PROVIDER_PROPERTIES_FILE = "provider.properties";
-    private static final String CONSUMER_PROPERTIES_FILE = "consumer.properties";
-    private static final String SHARED_BROKER_PROPERTIES = "sharedBroker.properties";
-    private static final String SHARED_BROKER_URI = "sharedBrokerURI.properties";
+    public static final String TRANSPORT_PROPERTIES_FILE = "transport.properties";
+    public static final String PROVIDER_PROPERTIES_FILE = "provider.properties";
+    public static final String CONSUMER_PROPERTIES_FILE = "consumer.properties";
+    public static final String SHARED_BROKER_PROPERTIES = "sharedBroker.properties";
+    public static final String SHARED_BROKER_URI = "sharedBrokerURI.properties";
+    public static final String PROVIDER_URIS_PROPERTIES_FILENAME = "providerURIs.properties";
     private static final String PROP_TRANSPORT_ID = "helpertools.configurations.provider.transportfilepath";
     private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";
 
@@ -87,17 +88,21 @@ public class HelperMisc {
      * Loads the properties for the consumer
      *
      * @throws java.net.MalformedURLException
+     * @throws java.net.IOException The file consumer properties file does no exist
      */
-    public static void loadConsumerProperties() throws MalformedURLException {
+    public static void loadConsumerProperties() throws MalformedURLException, IOException {
 
         final Properties sysProps = System.getProperties();
-        final File file = new File(System.getProperty("provider.properties", CONSUMER_PROPERTIES_FILE));
+        final File file = new File(System.getProperty("consumer.properties", CONSUMER_PROPERTIES_FILE));
 
         if (file.exists()) {
-            sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
+            sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "consumer.properties"));
         } else {
+            throw new IOException("The file " + file.getName() + " does not exist.");
+/*
             Logger.getLogger(HelperMisc.class.getName()).log(Level.INFO,
                     "The file " + file.getName() + " does not exist.");
+*/
         }
 
         System.setProperties(sysProps);
@@ -335,7 +340,7 @@ public class HelperMisc {
      * @param domain The domain
      * @return The domain Id
      */
-    public static String domain2domainId(IdentifierList domain) {
+    public static String domain2domainId(final IdentifierList domain) {
         if (domain == null) {
             return null;
         }
