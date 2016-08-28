@@ -303,7 +303,10 @@ public class HelperIADCS100 {
     }
 
     public static Vector3D getPositionFromFixWGS84TargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.POSITION_VECTOR_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.POSITION_VECTOR_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.POSITION_VECTOR_Z));
     }
 
     public static Double getAngularVelocityFromFixWGS84TargetTrackingStatus(byte[] status) {
