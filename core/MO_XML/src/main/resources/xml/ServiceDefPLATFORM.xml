@@ -1040,7 +1040,17 @@
 						</mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
-			</mal:capabilitySet>
+			<mal:requestIP comment="The setPublishingFrequency operation allows a consumer to set the publishing frequency or disable it." name="setPublishingFrequency" number="2" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="">
+              <mal:field canBeNull="true" comment="The publishingFrequency field shall hold the frequency rate of the stream updates.&#10;If set to 0, then no updates will be generated." name="publishingFrequency">
+                <mal:type area="MAL" list="false" name="Duration"/>
+              </mal:field>
+            </mal:request>
+            <mal:response comment=""/>
+          </mal:messages>
+        </mal:requestIP>
+      </mal:capabilitySet>
 			<com:features/>
 		</mal:service>
 		<mal:service comment="The Generic Device service provides a generic interface to interact with any possible device. The service achieves this by providing two simple operations, one to receive data and other to send data." name="GenericDevice" number="6" xsi:type="com:ExtendedServiceType">
