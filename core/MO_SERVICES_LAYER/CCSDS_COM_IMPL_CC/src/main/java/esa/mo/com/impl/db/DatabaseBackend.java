@@ -87,7 +87,6 @@ public class DatabaseBackend {
     
     
     private void startServer() {
-
 //        System.setProperty("derby.drda.startNetworkServer", "true");
         // Loads a new instance of the database driver
         try {
@@ -122,9 +121,7 @@ public class DatabaseBackend {
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Most likely there is another instance of the same application already running. Two instances of the same application are not allowed. The application will exit.");
                 System.exit(0);
             }
-
         }
-
     }
     
     private void createEMFactory() {
@@ -164,7 +161,6 @@ public class DatabaseBackend {
     public void restartEMF(){
         this.emf.close();
         this.createEMFactory();
-
         this.emAvailability.release();
     }
 

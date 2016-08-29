@@ -42,10 +42,10 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  * object and puts it inside a MAL Blob type (a byte container).
  *
  */
-public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlAdapter implements SimpleMonitorAndControlListener {
+public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
 
     @Override
-    public void initialRegistrations(MCRegistrationInterface registrationObject) {
+    public void initialRegistrations(MCRegistration registrationObject) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

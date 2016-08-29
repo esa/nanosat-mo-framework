@@ -26,8 +26,10 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.CloseAppListener;
+import esa.mo.nanosatmoframework.MCRegistration;
+import static esa.mo.nanosatmoframework.NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
@@ -56,18 +58,16 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
-     * to implement the ActionInvocationListener interface and the
-     * ParameterStatusListener interface.
+     * to extend the MonitorAndControlAdapter adapter class. The
+     * SimpleMonitorAndControlAdapter class contains a simpler interface which
+     * allows sending directly parameters of the most common java types and it
+     * also allows the possibility to send serializable objects.
      *
-     * @param actionAdapter The adapter to connect the actions to the
-     * corresponding method of a specific entity.
-     * @param parameterAdapter The adapter to connect the parameters to the
-     * corresponding variable of a specific entity.
+     * @param mcAdapter The adapter to connect the actions and parameters to the
+     * corresponding methods and variables of a specific entity.
      * @param platformServices
      */
-    @Deprecated
-    public NanoSatMOSupervisor(ActionInvocationListener actionAdapter,
-            ParameterStatusListener parameterAdapter,
+    public NanoSatMOSupervisor(MonitorAndControlNMFAdapter mcAdapter,
             PlatformServicesConsumer platformServices) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
@@ -78,7 +78,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         try {
             this.comServices.init();
             heartbeatService.init();
-            this.startMCServices(actionAdapter, parameterAdapter);
+            this.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
             this.directoryService.init(comServices);
             packageManagementService.init(comServices);
@@ -93,34 +93,21 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
         this.directoryService.autoLoadURIsFile(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME);
 
-        // Are the dynamic changes enabled?
-        if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
-            if (actionAdapter != null || parameterAdapter != null) {
+        if (mcAdapter != null) {
+            // Are the dynamic changes enabled?
+            if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
+                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
                 this.loadConfigurations();
             }
-        }
 
+            MCRegistration registration = new MCRegistration(mcServices.getParameterService(), 
+                    mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
+            mcAdapter.initialRegistrations(registration);
+        }
+        
         final String uri = this.directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         this.writeCentralDirectoryServiceURI(uri);
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + uri + "\n");
-
-    }
-
-    /**
-     * To initialize the NanoSat MO Framework with this method, it is necessary
-     * to extend the MonitorAndControlAdapter adapter class. The
-     * SimpleMonitorAndControlAdapter class contains a simpler interface which
-     * allows sending directly parameters of the most common java types and it
-     * also allows the possibility to send serializable objects.
-     *
-     * @param mcAdapter The adapter to connect the actions and parameters to the
-     * corresponding methods and variables of a specific entity.
-     * @param platformServices
-     */
-    public NanoSatMOSupervisor(MonitorAndControlAdapter mcAdapter,
-            PlatformServicesConsumer platformServices) {
-        this(mcAdapter, mcAdapter, platformServices);
     }
 
     @Override

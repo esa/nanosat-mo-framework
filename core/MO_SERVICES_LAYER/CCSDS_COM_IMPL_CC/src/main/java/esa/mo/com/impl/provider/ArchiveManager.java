@@ -285,6 +285,8 @@ public class ArchiveManager {
                     dbBackend.getEM().getTransaction().begin();
                     dbBackend.getEM().remove(previousObj);
                     dbBackend.getEM().getTransaction().commit();
+                    
+                    // Maybe we can replace the 3 lines below with a persistObjects(newObjs) after the for loop
                     dbBackend.getEM().getTransaction().begin();
                     dbBackend.getEM().persist(newObjs.get(i));
                     dbBackend.getEM().getTransaction().commit();

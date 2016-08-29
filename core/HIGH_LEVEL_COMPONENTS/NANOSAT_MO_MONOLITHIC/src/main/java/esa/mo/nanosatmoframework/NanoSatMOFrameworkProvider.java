@@ -185,6 +185,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     }
 
+    /*
+    @Deprecated
     public final void startMCServices(ActionInvocationListener actionAdapter,
             ParameterStatusListener parameterAdapter) throws MALException {
         if (actionAdapter != null || parameterAdapter != null) {
@@ -199,7 +201,22 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         }
 
     }
+*/
 
+    public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
+        if (mcAdapter != null) {
+            mcServices = new MCServicesProvider();
+
+            parameterManager = new ParameterManager(comServices, mcAdapter);
+
+            mcServices.getParameterService().init(parameterManager);
+            mcServices.getActionService().init(comServices, mcAdapter);
+            mcServices.getAlertService().init(comServices);
+            mcServices.getAggregationService().init(comServices, parameterManager);
+        }
+
+    }
+    
     @Override
     public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
         this.providerConfigurationAdapter = configurationAdapter;

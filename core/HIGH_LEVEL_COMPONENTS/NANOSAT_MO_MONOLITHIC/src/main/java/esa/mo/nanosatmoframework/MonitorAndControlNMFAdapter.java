@@ -20,22 +20,17 @@
  */
 package esa.mo.nanosatmoframework;
 
+import esa.mo.mc.impl.interfaces.ActionInvocationListener;
+import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+
 /**
- * The MCRegistrationInterface provides an interface to be implemented by the
- * registration object in order to let the registration of Parameters, Actions,
- * Aggregations and Alerts.
+ * The MonitorAndControlAdapter implements the Back-End interfaces from the 
+ * MO Monitor and Control services composed by the ActionInvocationListener 
+ * interface and the the ParameterStatusListener interface.
  * 
  */
-public interface MCRegistrationInterface {
+public abstract class MonitorAndControlNMFAdapter implements ActionInvocationListener, ParameterStatusListener {
     
-    // To be defined
-
-    public Boolean registerParameter();
-
-    public Boolean registerAlert();
-
-    public Boolean registerAction();
-
-    public Boolean registerAggregation();
+    public abstract void initialRegistrations(MCRegistration registration);
     
 }
