@@ -24,9 +24,9 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
+import esa.mo.nanosatmoframework.MCRegistration;
+import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.SimpleMonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.MCRegistrationInterface;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.Serializable;
@@ -72,10 +72,10 @@ public class DemoHelloWorld {
         DemoHelloWorld demo = new DemoHelloWorld();
     }
 
-    public class MCAdapter extends MonitorAndControlAdapter {
+    public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistrationInterface registrationObject) {
+        public void initialRegistrations(MCRegistration registrationObject) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 

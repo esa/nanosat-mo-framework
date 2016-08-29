@@ -20,8 +20,8 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
-import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.MCRegistrationInterface;
+import esa.mo.nanosatmoframework.MCRegistration;
+import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
@@ -39,7 +39,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class FiveStagesAction {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapter());
     private final static int TOTAL_N_OF_STAGES = 5; // 5 stages
     private final static int SLEEP_TIME = 2; // 2 seconds
 
@@ -56,10 +56,10 @@ public class FiveStagesAction {
         FiveStagesAction demo = new FiveStagesAction();
     }
 
-    public class mcAdapter extends MonitorAndControlAdapter {
+    public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistrationInterface registrationObject) {
+        public void initialRegistrations(MCRegistration registrationObject) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 

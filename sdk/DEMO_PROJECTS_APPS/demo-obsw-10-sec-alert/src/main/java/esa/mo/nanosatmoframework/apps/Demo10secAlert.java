@@ -20,8 +20,8 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
-import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.MCRegistrationInterface;
+import esa.mo.nanosatmoframework.MCRegistration;
+import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
@@ -69,10 +69,10 @@ public class Demo10secAlert {
         Demo10secAlert demo = new Demo10secAlert();
     }
     
-    class Adapter extends MonitorAndControlAdapter {
+    class Adapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistrationInterface registrationObject) {
+        public void initialRegistrations(MCRegistration registrationObject) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 

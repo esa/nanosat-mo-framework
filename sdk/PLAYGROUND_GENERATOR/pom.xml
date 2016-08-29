@@ -102,7 +102,7 @@
                             </artifactItems>
                             <includeScope></includeScope>
                             <outputDirectory>${basedir}/../Playground/libs/NanoSat_MO_Framework</outputDirectory>
-                            <stripVersion>false</stripVersion>
+                            <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
                 </executions>     

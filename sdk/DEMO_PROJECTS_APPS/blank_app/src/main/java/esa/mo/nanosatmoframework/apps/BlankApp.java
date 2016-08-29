@@ -22,8 +22,8 @@ package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.MCRegistrationInterface;
+import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
+import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -39,7 +39,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class BlankApp {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
     private String parameterX = "";
 
     public BlankApp() {
@@ -55,7 +55,7 @@ public class BlankApp {
         BlankApp demo = new BlankApp();
     }
 
-    public class mcAdapter extends MonitorAndControlAdapter {
+    public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
         public Attribute onGetValue(Identifier identifier, Byte rawType) {
@@ -93,7 +93,7 @@ public class BlankApp {
         }
 
         @Override
-        public void initialRegistrations(MCRegistrationInterface registrationObject) {
+        public void initialRegistrations(MCRegistration registrationObject) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 

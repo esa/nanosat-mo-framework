@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.body.GetValueResponse;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
@@ -243,7 +244,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         ParameterDefinitionDetails parameterDefinition = new ParameterDefinitionDetails();
         parameterDefinition.setName(new Identifier("GPS.Latitude"));
         parameterDefinition.setDescription("This Parameter Definition gives a simulated value of the GPS latitude.");
-        parameterDefinition.setRawType((byte) 5);
+        parameterDefinition.setRawType(Union.DOUBLE_TYPE_SHORT_FORM.byteValue());
         parameterDefinition.setRawUnit("degrees");
         parameterDefinition.setGenerationEnabled(false);
         parameterDefinition.setUpdateInterval(new Duration(2));

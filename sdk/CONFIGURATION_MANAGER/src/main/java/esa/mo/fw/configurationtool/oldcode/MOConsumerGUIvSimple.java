@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.fw.configurationtool.guis;
+package esa.mo.fw.configurationtool.oldcode;
 
 import esa.mo.fw.configurationtool.stuff.ConnectionConsumerPanel;
 import esa.mo.helpertools.connections.ConnectionConsumer;

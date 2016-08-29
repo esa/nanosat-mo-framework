@@ -22,13 +22,13 @@
         <version>1-SNAPSHOT</version>
         <relativePath/>
     </parent>
-  
-    <artifactId>APPS_MANAGER</artifactId>
+    
+    <artifactId>demo-Triple-Presentation</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Apps Manager</name>
-    <description>The app responsible for managing apps, including launching and installing apps.</description>
+    <name>Demo Triple Presentation</name>
+    <description>A demo for the triple presentation.</description>
     <url>http://www.esa.int</url>
   
     <organization>
@@ -52,28 +52,25 @@
     <developers>
         <developer>
             <id>CesarCoelho</id>
-            <name>Cesar Coelho</name>
+            <name>César Coelho</name>
             <email>cesar.coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
 
+    <properties>
+        <assembly.mainClass>esa.mo.nanosatmoframework.apps.TriplePresentation</assembly.mainClass>
+    </properties>
+
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
-<!--
-            <artifactId>NANOSAT_MO_FRAMEWORK_SOFTWARE_SIMULATOR</artifactId>
--->            
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</artifactId>
             <version>1.0-SNAPSHOT</version>
+
 <!--
             <scope>provided</scope>
 -->            
-        </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>CCSDS_SM_IMPL</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -123,13 +120,9 @@
     </build>
     <repositories>
         <repository>
-            <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <url>file:${project.basedir}/lib</url>
-        </repository>
-        <repository>
-            <id>swt-repo</id>
-            <url>https://swt-repo.googlecode.com/svn/repo/</url>
+            <id>AGSA-Maven-Repository</id>
+            <name>The Maven repository from the AGSA server.</name>
+            <url>http://agsacloud01:8081/plugin/repository/everything/</url>
         </repository>
     </repositories>    
     

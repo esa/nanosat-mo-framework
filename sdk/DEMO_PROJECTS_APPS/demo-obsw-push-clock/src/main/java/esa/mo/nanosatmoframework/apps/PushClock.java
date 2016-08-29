@@ -20,9 +20,9 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
+import esa.mo.nanosatmoframework.MCRegistration;
+import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nanosatmoframework.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.MCRegistrationInterface;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -47,7 +47,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class PushClock {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
 //    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
     private final Timer timer = new Timer();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
@@ -104,10 +104,10 @@ public class PushClock {
         PushClock demo = new PushClock();
     }
 
-    public class mcAdapter extends MonitorAndControlAdapter {
+    public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistrationInterface registrationObject) {
+        public void initialRegistrations(MCRegistration registrationObject) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 

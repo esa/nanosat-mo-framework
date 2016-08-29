@@ -20,22 +20,22 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
-import esa.mo.nanosatmoframework.SimpleMonitorAndControlAdapter;
+//import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
-import java.io.Serializable;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mc.structures.AttributeValue;
 
 /**
- * This class provides a demo cli provider for generating Serial objects
- *
+ * The demo app for the Triple Presentation
  */
-public class DemoSerialObject {
+public class TriplePresentation {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework;
 
-    public DemoSerialObject() {
+    public TriplePresentation() {
+        MCTriplePresentationAdapter adapter = new MCTriplePresentationAdapter();
+//        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
+        nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
+        adapter.setNMF(nanoSatMOFramework);
     }
 
     /**
@@ -45,29 +45,7 @@ public class DemoSerialObject {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        DemoSerialObject demo = new DemoSerialObject();
+        TriplePresentation demo = new TriplePresentation();
     }
-
-    public class MCAdapter extends SimpleMonitorAndControlAdapter {
-
-        @Override
-        public boolean actionArrivedSimple(String name, Serializable[] srlzbls, Long l) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public Serializable onGetValueSimple(String name) {
-            AttributeValue aval = new AttributeValue();
-            aval.setValue(new UInteger(1234));
-            return aval;
-        }
-
-        @Override
-        public boolean onSetValueSimple(String name, Serializable srlzbl) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-    }
-
 
 }

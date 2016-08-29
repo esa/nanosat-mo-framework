@@ -18,11 +18,12 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.fw.configurationtool.services.com;
+package esa.mo.fw.configurationtool.oldcode;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.fw.configurationtool.services.com.ArchiveConsumerManagerPanel;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.Map;
 import java.util.logging.Level;
