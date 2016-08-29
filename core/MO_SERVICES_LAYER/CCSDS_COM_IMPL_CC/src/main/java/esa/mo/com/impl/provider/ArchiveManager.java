@@ -25,19 +25,10 @@ import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.com.impl.db.DatabaseBackend;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -73,29 +64,12 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ArchiveManager {
 
-//    private EntityManagerFactory emf;
-//    private EntityManager em;
-
-    private static final Boolean SAFE_MODE = false;
-//    private static final String DROP_TABLE_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.droptable";
-//    private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
-
-//    private static final String DRIVER_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver"; // Derby Embedded Driver
-//    private static final String DATABASE_NAME = "derby"; // Derby
-//    private static final String DATABASE_LOCATION_NAME = "databaseV0.4";
-
-//    private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
-//    private static final String DATABASE_NAME = "sqlite"; // SQLite
-//    private static final String DATABASE_LOCATION_NAME = "comArchive.db";
-
-//    private final String url;
     private ArchiveFastObjId fastObjId;
-    private ArchiveFastDomain fastDomain;
-//    private Connection serverConnection;
-    private DatabaseBackend dbBackend;
-    
+    private final ArchiveFastDomain fastDomain;
+    private final DatabaseBackend dbBackend;
+    private static final Boolean SAFE_MODE = false;
+
     protected EventProviderServiceImpl eventService;
-//    private final Semaphore emAvailability = new Semaphore(1, true);  // true for fairness, because we want FIFO
     private final ConfigurationProvider configuration = new ConfigurationProvider();
 
     /**
@@ -104,11 +78,9 @@ public class ArchiveManager {
      * @param eventService
      */
     public ArchiveManager(EventProviderServiceImpl eventService) {
-
         // Start the separate lists for the "fast" generation of objIds
         this.fastObjId = new ArchiveFastObjId();
         this.eventService = eventService;
-//        this.fastDomain = new ArchiveFastDomain(emf, emAvailability);
 
         try {
             ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -117,114 +89,13 @@ public class ArchiveManager {
 
         this.dbBackend = new DatabaseBackend();
         this.fastDomain = new ArchiveFastDomain(dbBackend);
-
-        // Create unique URL that identifies the connection
-//        this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
-//        this.startBackendDatabase();
-
     }
-/*
-    private void startBackendDatabase() {
-        Thread startDatabase = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    emAvailability.acquire();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                startServer();
-                createEMFactory();
-                emAvailability.release();
-
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "The database was initialized and the Archive service is ready!");
-            }
-        };
-
-        startDatabase.start();
-    }
-*/
-    /*
-    private void startServer() {
-
-//        System.setProperty("derby.drda.startNetworkServer", "true");
-        // Loads a new instance of the database driver
-        try {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Creating a new instance of the database driver: " + DRIVER_CLASS_NAME);
-            Class.forName(DRIVER_CLASS_NAME).newInstance();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // Create unique URL that identifies the driver to use for the connection
-//        String url2 = this.url + ";decryptDatabase=true"; // new
-        String url2 = this.url;
-
-        try {
-            // Connect to the database
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Attempting to establish a connection to the database: " + url2);
-            serverConnection = DriverManager.getConnection(url2);
-        } catch (SQLException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                    "There was an SQLException, maybe the " + DATABASE_LOCATION_NAME + " folder/file does not exist. Attempting to create it...");
-
-            try {
-                // Connect to the database but also create the database if it does not exist
-                serverConnection = DriverManager.getConnection(url2 + ";create=true");
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Successfully created!");
-            } catch (SQLException ex2) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Derby connection already exists! Error: {0}", ex2);
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Most likely there is another instance of the same application already running. Two instances of the same application are not allowed. The application will exit.");
-                System.exit(0);
-            }
-
-        }
-
-    }
-    */
 
     protected void setEventService(EventProviderServiceImpl eventService) {
         this.eventService = eventService;
     }
-/*
+
     protected void resetTable() {
-
-        try {
-            this.emAvailability.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        this.em = this.emf.createEntityManager();
-        this.em.getTransaction().begin();
-        this.em.createQuery("DELETE FROM ArchivePersistenceObject").executeUpdate();
-        this.em.getTransaction().commit();
-        this.em.close();
-
-        this.emf.close();
-        this.createEMFactory();
-
-        this.fastObjId = new ArchiveFastObjId();
-
-        this.emAvailability.release();
-
-    }
-*/
-    protected void resetTable() {
-/*
-        try {
-            this.emAvailability.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        this.em = this.emf.createEntityManager();
-*/        
         dbBackend.createEntityManager();
         
         dbBackend.getEM().getTransaction().begin();
@@ -235,40 +106,8 @@ public class ArchiveManager {
         this.fastObjId = new ArchiveFastObjId();
 
         dbBackend.restartEMF();
-
     }
     
-    /*
-    private void createEMFactory() {
-        boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));  // Is the status of the dropTable flag on?
-        Map<String, String> persistenceMap = new HashMap<String, String>();
-
-        // Add the url property of the connection to the database
-        persistenceMap.put("javax.persistence.jdbc.url", this.url);
-
-        if (dropTable) {
-            persistenceMap.put("javax.persistence.schema-generation.database.action", "drop-and-create");
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "The droptable flag in the properties file is enabled! The table will be dropped upon start-up.");
-        }
-
-        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Creating Entity Manager Factory...");
-        this.emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, persistenceMap);
-    }
-
-    private void createEntityManager() {
-        try {
-            this.emAvailability.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.em = this.emf.createEntityManager();
-    }
-
-    private void closeEntityManager() {
-        this.em.close();
-        this.emAvailability.release();
-    }
-*/
     protected Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
         this.fastObjId.lock();
 
@@ -628,52 +467,6 @@ public class ArchiveManager {
 
         }
 
-        // Related field
-        /*
-        if ((long) archiveQuery.getRelated() != 0) {  // Numeric comparisons first (faster)
-            ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-            final long queRelated = archiveQuery.getRelated();
-            long tmpRelated;
-            for (ArchivePersistenceObject perObj : perObjs) {
-                tmpRelated = perObj.getArchiveDetails().getDetails().getRelated();
-                if (tmpRelated == queRelated) { // Comparison  // It can never be null, disregard warning
-                    tmpPerObjs.add(perObj);
-                }
-            }
-            perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-        }
-         */
-        // StartTime field
-/*        
-        if (archiveQuery.getStartTime() != null) {  // Numeric comparisons first (faster)
-            ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-            final long queFineTime = archiveQuery.getStartTime().getValue();
-            long tmpFineTime;
-            for (ArchivePersistenceObject perObj : perObjs) {
-                tmpFineTime = perObj.getArchiveDetails().getTimestamp().getValue();
-                if (tmpFineTime >= queFineTime) { // Comparison
-                    tmpPerObjs.add(perObj);
-                }
-            }
-            perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-        }
-        
-
-        // EndTime field
-        
-        if (archiveQuery.getEndTime() != null) {  // Numeric comparisons first (faster)
-            ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-            final long queFineTime = archiveQuery.getEndTime().getValue();
-            long tmpFineTime;
-            for (ArchivePersistenceObject perObj : perObjs) {
-                tmpFineTime = perObj.getArchiveDetails().getTimestamp().getValue();
-                if (tmpFineTime <= queFineTime) { // Comparison
-                    tmpPerObjs.add(perObj);
-                }
-            }
-            perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-        }
-         */
         // Source field
         if (archiveQuery.getSource() != null) {
 
@@ -772,35 +565,6 @@ public class ArchiveManager {
 
         }
 
-        /*
-        // Provider field
-        if (archiveQuery.getProvider() != null) {
-            ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-            final URI queProvider = archiveQuery.getProvider();
-            URI tmpProvider;
-            for (ArchivePersistenceObject perObj : perObjs) {
-                tmpProvider = perObj.getArchiveDetails().getProvider();
-                if (tmpProvider.toString().equals(queProvider.toString())) {
-                    tmpPerObjs.add(perObj);
-                }
-            }
-            perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-        }
-
-        // Network field
-        if (archiveQuery.getNetwork() != null) {
-            ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-            final Identifier queNetwork = archiveQuery.getNetwork();
-            Identifier tmpNetwork;
-            for (ArchivePersistenceObject perObj : perObjs) {
-                tmpNetwork = perObj.getArchiveDetails().getNetwork();
-                if (tmpNetwork.toString().equals(queNetwork.toString())) {
-                    tmpPerObjs.add(perObj);
-                }
-            }
-            perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-        }
-         */
         return perObjs;
     }
 
@@ -861,31 +625,6 @@ public class ArchiveManager {
         return outPerObjs;
     }
 
-    protected static ObjectId archivePerObj2source(final ArchivePersistenceObject obj) {
-        return new ObjectId(obj.getObjectType(), new ObjectKey(obj.getDomain(), obj.getObjectId()));
-    }
-
-    protected static Boolean objectTypeContainsWildcard(final ObjectType objType) {
-        return (objType.getArea().getValue() == 0
-                || objType.getService().getValue() == 0
-                || objType.getVersion().getValue() == 0
-                || objType.getNumber().getValue() == 0);
-    }
-
-    private static Long objectType2Mask(final ObjectType objType) {
-
-        long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
-        long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
-        long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
-        long numberVal = (objType.getNumber().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
-
-        return (new Long(areaVal << 48)
-                | new Long(serviceVal << 32)
-                | new Long(versionVal << 24)
-                | new Long(numberVal));
-
-    }
-
     protected void generateAndPublishEvents(final ObjectType objType,
             final ArrayList<ArchivePersistenceObject> comObjs, final MALInteraction interaction) {
 
@@ -930,26 +669,31 @@ public class ArchiveManager {
         eventService.publishEvents(sourceURI, eventObjIds, objType, null, sourceList, null);
     }
 
-    /*
-    public static boolean isObjectTypeLikeDeclaredServiceType(ObjectType objType, Element element) {
-        if (element == null) {
-            return false;
-        }
-
-        if (!objType.getArea().equals(element.getAreaNumber())) {
-            return false;
-        }
-        if (!objType.getService().equals(element.getServiceNumber())) {
-            return false;
-        }
-        if (!objType.getVersion().equals(element.getAreaVersion())) {
-            return false;
-        }
-
-        return true;
+    protected static ObjectId archivePerObj2source(final ArchivePersistenceObject obj) {
+        return new ObjectId(obj.getObjectType(), new ObjectKey(obj.getDomain(), obj.getObjectId()));
     }
-    */
 
+    protected static Boolean objectTypeContainsWildcard(final ObjectType objType) {
+        return (objType.getArea().getValue() == 0
+                || objType.getService().getValue() == 0
+                || objType.getVersion().getValue() == 0
+                || objType.getNumber().getValue() == 0);
+    }
+
+    private static Long objectType2Mask(final ObjectType objType) {
+
+        long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
+        long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
+        long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
+        long numberVal = (objType.getNumber().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
+
+        return (new Long(areaVal << 48)
+                | new Long(serviceVal << 32)
+                | new Long(versionVal << 24)
+                | new Long(numberVal));
+
+    }
+    
     public static UIntegerList checkForDuplicates(ArchiveDetailsList archiveDetailsList) {
         UIntegerList dupList = new UIntegerList();
 

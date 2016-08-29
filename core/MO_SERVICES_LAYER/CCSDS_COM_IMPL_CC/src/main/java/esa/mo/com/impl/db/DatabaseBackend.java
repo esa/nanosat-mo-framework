@@ -59,6 +59,7 @@ public class DatabaseBackend {
     
     
     public DatabaseBackend(){
+        // Create unique URL that identifies the connection
         this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
         this.startBackendDatabase();
     }
