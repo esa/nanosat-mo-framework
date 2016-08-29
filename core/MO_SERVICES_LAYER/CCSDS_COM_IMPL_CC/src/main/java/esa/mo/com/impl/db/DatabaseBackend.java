@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.impl.db;
+package esa.mo.com.impl.db;
 
 import esa.mo.com.impl.provider.ArchiveManager;
 import java.sql.Connection;

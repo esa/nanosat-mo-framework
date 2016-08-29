@@ -24,7 +24,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.impl.db.DatabaseBackend;
+import esa.mo.com.impl.db.DatabaseBackend;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

@@ -22,7 +22,7 @@ package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.entities.DomainHolderEntity;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.impl.db.DatabaseBackend;
+import esa.mo.com.impl.db.DatabaseBackend;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
