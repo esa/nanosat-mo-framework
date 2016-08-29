@@ -21,6 +21,8 @@
 package esa.mo.platform.impl.util;
 
 import java.io.IOException;
+import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.PositionExtraDetails;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfo;
@@ -50,6 +52,29 @@ public class HelperGPS {
         public final static int AGE_CORR_DATA = 13;
         public final static int DIFF_BASESID = 14;
         public final static int CHECKSUM = 15;
+    }
+    public static class GPGSV_COL{
+            public final static int HEADER                          = 0;
+            public final static int NUMBER_MSGS                     = 1;
+            public final static int CURRENT_MSG                     = 2;
+            public final static int NUMBER_SATS                     = 3;
+            public final static int SAT1_PRN                        = 4;
+            public final static int SAT1_ELEV                       = 5;
+            public final static int SAT1_AZ                         = 6;
+            public final static int SAT1_SNR                        = 7;
+            public final static int SAT2_PRN                        = 8;
+            public final static int SAT2_ELEV                       = 9;
+            public final static int SAT2_AZ                         = 10;
+            public final static int SAT2_SNR                        = 11;
+            public final static int SAT3_PRN                        = 12;
+            public final static int SAT3_ELEV                       = 13;
+            public final static int SAT3_AZ                         = 14;
+            public final static int SAT3_SNR                        = 15;
+            public final static int SAT4_PRN                        = 16;
+            public final static int SAT4_ELEV                       = 17;
+            public final static int SAT4_AZ                         = 18;
+            public final static int SAT4_SNR                        = 19;
+            public final static int CHECKSUM                        = 20;
     }
 
     /**
@@ -87,7 +112,62 @@ public class HelperGPS {
     public static SatelliteInfoList gpalm2SatelliteInfoList(final String gpalm) throws IOException {
 
         SatelliteInfoList sats = new SatelliteInfoList();
-
+        String sentences[]=gpalm.split("\n");
+        for (String sentence:sentences)
+        {
+            String[] words=sentence.split(",");
+            int count=words.length;
+            System.out.println(count);
+            int expectedSize=GPGSV_COL.CHECKSUM;
+            if (count==GPGSV_COL.CHECKSUM){
+                int satCount=0;
+                if ("$GPGSV".equals(words[GPGSV_COL.HEADER]))
+                {
+                    int totalSats=Integer.valueOf(words[GPGSV_COL.NUMBER_SATS]);
+                    for (int i=0;i<4;i++) {
+                        float azimuth=0,elevation=0;
+                        int prn=0;
+                        double almanac=0,ephemeris=0;
+                        Time recentFix=new Time();
+                        UInteger svn=new UInteger();
+                        if (i==0)
+                        {
+                            azimuth=Float.valueOf(words[GPGSV_COL.SAT1_AZ]);
+                            elevation=Float.valueOf(words[GPGSV_COL.SAT1_ELEV]);    
+                            prn=Integer.valueOf(words[GPGSV_COL.SAT1_PRN]);
+                        }
+                        else if (i==1)
+                        {
+                            azimuth=Float.valueOf(words[GPGSV_COL.SAT2_AZ]);
+                            elevation=Float.valueOf(words[GPGSV_COL.SAT2_ELEV]);    
+                            prn=Integer.valueOf(words[GPGSV_COL.SAT2_PRN]);
+                        }
+                        else if (i==2)
+                        {
+                            azimuth=Float.valueOf(words[GPGSV_COL.SAT3_AZ]);
+                            elevation=Float.valueOf(words[GPGSV_COL.SAT3_ELEV]);    
+                            prn=Integer.valueOf(words[GPGSV_COL.SAT3_PRN]);
+                        }
+                        else if (i==3)
+                        {
+                            azimuth=Float.valueOf(words[GPGSV_COL.SAT4_AZ]);
+                            elevation=Float.valueOf(words[GPGSV_COL.SAT4_ELEV]);    
+                            prn=Integer.valueOf(words[GPGSV_COL.SAT4_PRN]);
+                        }
+                        if (satCount++<totalSats) sats.add(new SatelliteInfo(azimuth,elevation,prn,almanac,ephemeris,recentFix,svn));
+                    }
+                }
+                else
+                {
+                    System.out.println("Sentence ["+sentence+"] has wrong header ["+words[GPGSV_COL.HEADER]+"], expected [$GPGSV]");
+                }
+            }
+            else
+            {
+                System.out.println("Sentence ["+sentence+"] has wrong GPS sentence size ["+count+"], expected ["+expectedSize+"]");
+            }
+            
+        }
         // To be done!! :P
 
         
