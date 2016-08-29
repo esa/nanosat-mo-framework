@@ -204,7 +204,6 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
         }else{
             sdrInUse = false;
         }
-
     }
 
     @Override
@@ -215,7 +214,6 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
-
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {
