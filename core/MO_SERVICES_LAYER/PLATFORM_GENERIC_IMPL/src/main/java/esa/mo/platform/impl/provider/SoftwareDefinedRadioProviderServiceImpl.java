@@ -177,7 +177,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     }
 
     @Override
-    public synchronized void enableSDR(Boolean enable, SDRConfiguration initialConfiguration, Duration publishingPeriod, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void enableSDR(final Boolean enable, final SDRConfiguration initialConfiguration, final Duration publishingPeriod, final MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.enableSDR(enable)) {
             throw new MALInteractionException(new MALStandardError(MALHelper.INTERNAL_ERROR_NUMBER, null));
         }
@@ -210,7 +210,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     }
 
     @Override
-    public synchronized void updateConfiguration(SDRConfiguration sdrConfiguration, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void updateConfiguration(final SDRConfiguration sdrConfiguration, final MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.setConfiguration(sdrConfiguration)) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }

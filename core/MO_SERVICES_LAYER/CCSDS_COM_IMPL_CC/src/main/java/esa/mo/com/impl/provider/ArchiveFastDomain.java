@@ -22,14 +22,10 @@ package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.entities.DomainHolderEntity;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.impl.db.DatabaseBackend;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -43,15 +39,12 @@ public class ArchiveFastDomain {
 
     private final HashMap<IdentifierList, Long> fastID;
     private final HashMap<Long, IdentifierList> fastIDreverse;
-    private final EntityManagerFactory emf;
-    private final Semaphore emAvailability;
-    private EntityManager em;
+    private final DatabaseBackend dbBackend;
        
-    public ArchiveFastDomain(final EntityManagerFactory emf, final Semaphore emAvailability) {
+    public ArchiveFastDomain(final DatabaseBackend dbBackend) {
         this.fastID = new HashMap<IdentifierList, Long>();
         this.fastIDreverse = new HashMap<Long, IdentifierList>();
-        this.emf = emf;
-        this.emAvailability = emAvailability;
+        this.dbBackend = dbBackend;
     }
     
     public boolean exists(final IdentifierList domain) {
@@ -65,15 +58,10 @@ public class ArchiveFastDomain {
     private void populate(){
         
         // Retrieve all the ids and domains from the Database
-        try {
-            this.emAvailability.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.em = this.emf.createEntityManager();
-
+        dbBackend.createEntityManager();
+                
         // Get All the domains available
-        Query query = this.em.createQuery("SELECT PU FROM DomainHolderEntity PU");
+        Query query = dbBackend.getEM().createQuery("SELECT PU FROM DomainHolderEntity PU");
 
         List resultList = query.getResultList();
         ArrayList<DomainHolderEntity> domainHolderEntities = new ArrayList<DomainHolderEntity>();
@@ -95,30 +83,22 @@ public class ArchiveFastDomain {
             this.fastIDreverse.put(ids.get(i), domain);
         }
 
-        this.em.close();
-        this.emAvailability.release();
+        dbBackend.closeEntityManager();
         
     }
     
     public void addNewDomain(final IdentifierList domain){       
-        try {
-            this.emAvailability.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        this.em = this.emf.createEntityManager();    
+        dbBackend.createEntityManager();
         
         // Create Entity
         DomainHolderEntity domainEntity = new DomainHolderEntity(new Long(fastID.size() + 1), HelperMisc.domain2domainId(domain));
         
         // Add it to the table
-        this.em.getTransaction().begin();
-        this.em.persist(domainEntity);
-        this.em.getTransaction().commit();
+        dbBackend.getEM().getTransaction().begin();
+        dbBackend.getEM().persist(domainEntity);
+        dbBackend.getEM().getTransaction().commit();
         
-        this.em.close();
-        this.emAvailability.release();        
+        dbBackend.closeEntityManager();
     }
 
     
@@ -149,27 +129,20 @@ public class ArchiveFastDomain {
         }
 
         final Long id = new Long (1);
-        final DomainHolderEntity oldDomainEntity = this.em.find(DomainHolderEntity.class, id);
+        dbBackend.createEntityManager();
+        
+        final DomainHolderEntity oldDomainEntity = dbBackend.getEM().find(DomainHolderEntity.class, id);
 
         // Create new Entity
         DomainHolderEntity newDomainEntity = new DomainHolderEntity(new Long(fastID.size() + 1), HelperMisc.domain2domainId(newDomain));
         
-        // Lock it
-        try {
-            this.emAvailability.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        dbBackend.getEM().getTransaction().begin();
+        dbBackend.getEM().remove(oldDomainEntity);
+        dbBackend.getEM().getTransaction().commit();
+        dbBackend.getEM().persist(newDomainEntity); 
+        dbBackend.getEM().getTransaction().commit();
         
-        this.em = this.emf.createEntityManager();    
-        this.em.getTransaction().begin();
-        this.em.remove(oldDomainEntity);
-        this.em.getTransaction().commit();
-        this.em.persist(newDomainEntity); 
-        this.em.getTransaction().commit();
-        
-        this.em.close();
-        this.emAvailability.release();        
+        dbBackend.closeEntityManager();
         
         return true;
     }

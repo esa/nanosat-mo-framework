@@ -24,6 +24,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.impl.db.DatabaseBackend;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -72,25 +73,29 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ArchiveManager {
 
-    private EntityManagerFactory emf;
-    private EntityManager em;
+//    private EntityManagerFactory emf;
+//    private EntityManager em;
 
     private static final Boolean SAFE_MODE = false;
-    private static final String DROP_TABLE_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.droptable";
-    private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
+//    private static final String DROP_TABLE_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.droptable";
+//    private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
+
 //    private static final String DRIVER_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver"; // Derby Embedded Driver
 //    private static final String DATABASE_NAME = "derby"; // Derby
 //    private static final String DATABASE_LOCATION_NAME = "databaseV0.4";
-    private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
-    private static final String DATABASE_NAME = "sqlite"; // SQLite
-    private static final String DATABASE_LOCATION_NAME = "comArchive.db";
 
-    private final String url;
+//    private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
+//    private static final String DATABASE_NAME = "sqlite"; // SQLite
+//    private static final String DATABASE_LOCATION_NAME = "comArchive.db";
+
+//    private final String url;
     private ArchiveFastObjId fastObjId;
     private ArchiveFastDomain fastDomain;
-    private Connection serverConnection;
+//    private Connection serverConnection;
+    private DatabaseBackend dbBackend;
+    
     protected EventProviderServiceImpl eventService;
-    private final Semaphore emAvailability = new Semaphore(1, true);  // true for fairness, because we want FIFO
+//    private final Semaphore emAvailability = new Semaphore(1, true);  // true for fairness, because we want FIFO
     private final ConfigurationProvider configuration = new ConfigurationProvider();
 
     /**
@@ -103,19 +108,22 @@ public class ArchiveManager {
         // Start the separate lists for the "fast" generation of objIds
         this.fastObjId = new ArchiveFastObjId();
         this.eventService = eventService;
-        this.fastDomain = new ArchiveFastDomain(emf, emAvailability);
+//        this.fastDomain = new ArchiveFastDomain(emf, emAvailability);
 
         try {
             ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
         } catch (MALException ex) {
         }
 
+        this.dbBackend = new DatabaseBackend();
+        this.fastDomain = new ArchiveFastDomain(dbBackend);
+
         // Create unique URL that identifies the connection
-        this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
-        this.startBackendDatabase();
+//        this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
+//        this.startBackendDatabase();
 
     }
-
+/*
     private void startBackendDatabase() {
         Thread startDatabase = new Thread() {
             @Override
@@ -136,7 +144,8 @@ public class ArchiveManager {
 
         startDatabase.start();
     }
-
+*/
+    /*
     private void startServer() {
 
 //        System.setProperty("derby.drda.startNetworkServer", "true");
@@ -177,11 +186,12 @@ public class ArchiveManager {
         }
 
     }
+    */
 
     protected void setEventService(EventProviderServiceImpl eventService) {
         this.eventService = eventService;
     }
-
+/*
     protected void resetTable() {
 
         try {
@@ -204,7 +214,31 @@ public class ArchiveManager {
         this.emAvailability.release();
 
     }
+*/
+    protected void resetTable() {
+/*
+        try {
+            this.emAvailability.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.em = this.emf.createEntityManager();
+*/        
+        dbBackend.createEntityManager();
+        
+        dbBackend.getEM().getTransaction().begin();
+        dbBackend.getEM().createQuery("DELETE FROM ArchivePersistenceObject").executeUpdate();
+        dbBackend.getEM().getTransaction().commit();
+        dbBackend.getEM().close();
 
+        this.fastObjId = new ArchiveFastObjId();
+
+        dbBackend.restartEMF();
+
+    }
+    
+    /*
     private void createEMFactory() {
         boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));  // Is the status of the dropTable flag on?
         Map<String, String> persistenceMap = new HashMap<String, String>();
@@ -234,7 +268,7 @@ public class ArchiveManager {
         this.em.close();
         this.emAvailability.release();
     }
-
+*/
     protected Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
         this.fastObjId.lock();
 
@@ -246,12 +280,12 @@ public class ArchiveManager {
         }
 
         // Well, if not then we must check if this combination already exists in the PU...
-        this.createEntityManager();
-        Query query = this.em.createQuery("SELECT MAX(PU.objId) FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
+        dbBackend.createEntityManager();
+        Query query = dbBackend.getEM().createQuery("SELECT MAX(PU.objId) FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
         query.setParameter("objectTypeId", HelperCOM.generateSubKey(objectType));
         query.setParameter("domainId", HelperMisc.domain2domainId(domain));
         Long maxValue = (Long) query.getSingleResult();
-        this.closeEntityManager();
+        dbBackend.closeEntityManager();
 
         if (maxValue == null) {
             this.fastObjId.setUniqueID(objectType, domain, (long) 0); // The object does not exist in PU
@@ -266,10 +300,10 @@ public class ArchiveManager {
     }
 
     protected ArchivePersistenceObject getPersistenceObject(final ObjectType objType, final IdentifierList domain, final Long objId) {
-        this.createEntityManager();
+        dbBackend.createEntityManager();
         final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objId);
-        final ArchivePersistenceObject perObj = this.em.find(ArchivePersistenceObject.class, id);
-        this.closeEntityManager();
+        final ArchivePersistenceObject perObj = dbBackend.getEM().find(ArchivePersistenceObject.class, id);
+        dbBackend.closeEntityManager();
 
         return perObj;
     }
@@ -287,13 +321,13 @@ public class ArchiveManager {
     }
 
     protected LongList getAllObjIds(final ObjectType objectType, final IdentifierList domain) {
-        this.createEntityManager();
-        Query query = this.em.createQuery("SELECT PU.objId FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
+        dbBackend.createEntityManager();
+        Query query = dbBackend.getEM().createQuery("SELECT PU.objId FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
         query.setParameter("objectTypeId", HelperCOM.generateSubKey(objectType));
         query.setParameter("domainId", HelperMisc.domain2domainId(domain));
         LongList objIds = new LongList();
         objIds.addAll(query.getResultList());
-        this.closeEntityManager();
+        dbBackend.closeEntityManager();
 
         return objIds;
     }
@@ -327,17 +361,17 @@ public class ArchiveManager {
             outIds.add(objId);
         }
 
-        createEntityManager();  // 0.166 ms
+        dbBackend.createEntityManager();  // 0.166 ms
 
         Thread t1 = new Thread() {
             @Override
             public void run() {
-                em.getTransaction().begin(); // 0.480 ms
+                dbBackend.getEM().getTransaction().begin(); // 0.480 ms
 
                 persistObjects(perObjs);
 
                 try {
-                    em.getTransaction().commit(); // 1.220 ms
+                    dbBackend.getEM().getTransaction().commit(); // 1.220 ms
                 } catch (Exception ex) {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING, "The object could not be stored! Waiting 500 ms and trying again...");
                     try {
@@ -346,10 +380,10 @@ public class ArchiveManager {
                         Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex1);
                     }
 
-                    em.getTransaction().commit(); // 1.220 ms
+                    dbBackend.getEM().getTransaction().commit(); // 1.220 ms
                 }
 
-                closeEntityManager(); // 0.410 ms
+                dbBackend.closeEntityManager(); // 0.410 ms
 
                 // Generate and Publish the Events - requirement: 3.4.2.1
                 generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, perObjs, interaction);
@@ -364,22 +398,22 @@ public class ArchiveManager {
     private void persistObjects(final ArrayList<ArchivePersistenceObject> perObjs) {
         for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
             if (SAFE_MODE) {
-                final ArchivePersistenceObject objCOM = em.find(ArchivePersistenceObject.class, perObjs.get(i).getPrimaryKey()); // 0.830 ms
+                final ArchivePersistenceObject objCOM = dbBackend.getEM().find(ArchivePersistenceObject.class, perObjs.get(i).getPrimaryKey()); // 0.830 ms
 
                 if (objCOM == null) { // Last minute safety, the db crashes if one tries to store an object with a used pk
                     final ArchivePersistenceObject perObj = perObjs.get(i); // The object to be stored  // 0.255 ms
-                    em.persist(perObj);  // object    // 0.240 ms
+                    dbBackend.getEM().persist(perObj);  // object    // 0.240 ms
                 } else {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "The Archive could not store the object: " + perObjs.get(i).toString());
                 }
             } else {
-                em.persist(perObjs.get(i));  // object
+                dbBackend.getEM().persist(perObjs.get(i));  // object
             }
 
             // Flush every 1k objects...
             if ((i % 1000) == 0) {
-                em.flush();
-                em.clear();
+                dbBackend.getEM().flush();
+                dbBackend.getEM().clear();
             }
         }
     }
@@ -387,7 +421,7 @@ public class ArchiveManager {
     protected void updateEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
 
-        createEntityManager();  // 0.166 ms
+        dbBackend.createEntityManager();  // 0.166 ms
 
         Thread t1 = new Thread() {
             @Override
@@ -407,17 +441,17 @@ public class ArchiveManager {
 
                 for (int i = 0; i < newObjs.size(); i++) {
                     final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, newObjs.get(i).getArchiveDetails().getInstId());
-                    ArchivePersistenceObject previousObj = em.find(ArchivePersistenceObject.class, id);
+                    ArchivePersistenceObject previousObj = dbBackend.getEM().find(ArchivePersistenceObject.class, id);
 
-                    em.getTransaction().begin();
-                    em.remove(previousObj);
-                    em.getTransaction().commit();
-                    em.getTransaction().begin();
-                    em.persist(newObjs.get(i));
-                    em.getTransaction().commit();
+                    dbBackend.getEM().getTransaction().begin();
+                    dbBackend.getEM().remove(previousObj);
+                    dbBackend.getEM().getTransaction().commit();
+                    dbBackend.getEM().getTransaction().begin();
+                    dbBackend.getEM().persist(newObjs.get(i));
+                    dbBackend.getEM().getTransaction().commit();
                 }
 
-                closeEntityManager(); // 0.410 ms
+                dbBackend.closeEntityManager(); // 0.410 ms
 
                 // Generate and Publish the Events - requirement: 3.4.2.1
                 generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, newObjs, interaction);
@@ -433,7 +467,7 @@ public class ArchiveManager {
 
         final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
 
-        createEntityManager();  // 0.166 ms
+        dbBackend.createEntityManager();  // 0.166 ms
 
         Thread t1 = new Thread() {
             @Override
@@ -441,24 +475,24 @@ public class ArchiveManager {
                 // Generate the object Ids if needed and the persistence objects to be stored
                 for (int i = 0; i < objIds.size(); i++) {
                     final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
-                    ArchivePersistenceObject perObj = em.find(ArchivePersistenceObject.class, id);
+                    ArchivePersistenceObject perObj = dbBackend.getEM().find(ArchivePersistenceObject.class, id);
 
                     perObjs.add(perObj);
                 }
 
                 for (int i = 0; i < objIds.size(); i++) {
                     final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
-                    ArchivePersistenceObject perObj = em.find(ArchivePersistenceObject.class, id);
-                    em.getTransaction().begin();
-                    em.remove(perObj);
-                    em.getTransaction().commit();
+                    ArchivePersistenceObject perObj = dbBackend.getEM().find(ArchivePersistenceObject.class, id);
+                    dbBackend.getEM().getTransaction().begin();
+                    dbBackend.getEM().remove(perObj);
+                    dbBackend.getEM().getTransaction().commit();
                 }
 
                 fastObjId.lock();
                 fastObjId.delete(objType, domain);
                 fastObjId.unlock();
 
-                closeEntityManager(); // 0.410 ms
+                dbBackend.closeEntityManager(); // 0.410 ms
 
                 // Generate and Publish the Events - requirement: 3.4.2.1
                 generateAndPublishEvents(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, perObjs, interaction);
@@ -506,8 +540,8 @@ public class ArchiveManager {
 
         ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
 
-        this.createEntityManager();
-        Query query = this.em.createQuery(queryString); // Make the query
+        dbBackend.createEntityManager();
+        Query query = dbBackend.getEM().createQuery(queryString); // Make the query
 
         if (!objectTypeContainsWildcard) {
             query.setParameter("objectTypeId", HelperCOM.generateSubKey(objType));
@@ -555,7 +589,7 @@ public class ArchiveManager {
         List resultList = query.getResultList();
         tThread.interrupt();
         perObjs.addAll(resultList);
-        this.closeEntityManager();
+        dbBackend.closeEntityManager();
 
         // Add domain filtering by subpart
         if (archiveQuery.getDomain() != null) {
