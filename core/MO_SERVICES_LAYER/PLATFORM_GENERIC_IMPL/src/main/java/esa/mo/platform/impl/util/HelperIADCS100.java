@@ -309,8 +309,11 @@ public class HelperIADCS100 {
             (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.POSITION_VECTOR_Z));
     }
 
-    public static Double getAngularVelocityFromFixWGS84TargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Vector3D getAngularVelocityFromFixWGS84TargetTrackingStatus(byte[] status) {
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.ANG_VEL_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.ANG_VEL_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.ANG_VEL_Z));
     }
 
     public static WheelSpeed getWheelSpeedFromFixWGS84TargetTrackingStatus(byte[] status) {
@@ -344,8 +347,11 @@ public class HelperIADCS100 {
             (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.POSITION_VECTOR_Z));
     }
 
-    public static Double getAngularVelocityFromNadirTargetTrackingStatus(byte[] status) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Vector3D getAngularVelocityFromNadirTargetTrackingStatus(byte[] status) {
+        return new Vector3D(
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.ANG_VEL_X),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.ANG_VEL_Y),
+            (double) FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.ANG_VEL_Z));
     }
 
     public static Quaternions getCurrentQuaternionsFromNadirTargetTrackingStatus(byte[] status) {

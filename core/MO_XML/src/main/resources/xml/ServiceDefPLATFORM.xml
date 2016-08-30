@@ -177,16 +177,14 @@
 					<mal:field canBeNull="false" comment="The height of the picture." name="height">
 						<mal:type area="MAL" list="false" name="UInteger"/>
 					</mal:field>
-					<mal:field canBeNull="false" comment="Determines if the aspect ratio of the picture must be kept. If true, the picture will keep the default aspect ratio and fit inside the maximum width or height and ignore one of the dimensions in order to avoid losing part of the picture. No cropping shall be done." name="keepAspectRatio">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
 				</mal:composite>
 				<mal:enumeration comment="PictureFormat is an enumeration definition holding the format of the picture." name="PictureFormat" shortFormPart="3">
 					<mal:item comment="RAW format." nvalue="1" value="RAW"/>
-					<mal:item comment="Bitmap format." nvalue="2" value="BMP"/>
-					<mal:item comment="PNG format." nvalue="3" value="PNG"/>
-					<mal:item comment="JPG format." nvalue="4" value="JPG"/>
-				</mal:enumeration>
+					<mal:item comment="Raw colored format." nvalue="2" value="RAW_DEBAYERED"/>
+					<mal:item comment="Bitmap format." nvalue="3" value="BMP"/>
+					<mal:item comment="PNG format." nvalue="4" value="PNG"/>
+					<mal:item comment="JPG format." nvalue="5" value="JPG"/>
+        </mal:enumeration>
 			</mal:dataTypes>
 			<com:features/>
 		</mal:service>
@@ -750,7 +748,7 @@
             <mal:type area="Platform" list="false" name="Vector3D"/>
           </mal:field>
         <mal:field canBeNull="true" comment="The angular velocity in rpm." name="angularVelocity">
-          <mal:type area="MAL" list="false" name="Double"/>
+          <mal:type area="Platform" list="false" name="Vector3D"/>
           </mal:field>
         </mal:composite>
         <mal:composite comment="" name="AttitudeInstanceNadirPointing" shortFormPart="15">
@@ -770,7 +768,7 @@
           <mal:type area="Platform" list="false" name="Vector3D"/>
           </mal:field>
           <mal:field canBeNull="true" comment="The angular velocity in rpm." name="angularVelocity">
-          <mal:type area="MAL" list="false" name="Double"/>
+          <mal:type area="Platform" list="false" name="Vector3D"/>
           </mal:field>
         </mal:composite>
 				<mal:composite comment="" name="AttitudeDefinition">
@@ -1043,7 +1041,7 @@
 			<mal:requestIP comment="The setPublishingFrequency operation allows a consumer to set the publishing frequency or disable it." name="setPublishingFrequency" number="2" supportInReplay="false">
           <mal:messages>
             <mal:request comment="">
-              <mal:field canBeNull="true" comment="The publishingFrequency field shall hold the frequency rate of the stream updates.&#10;If set to 0, then no updates will be generated." name="publishingFrequency">
+              <mal:field canBeNull="true" comment="The publishingPeriod field shall hold the period of updates to be streamed.&#10;If set to 0, then no updates will be generated." name="publishingPeriod">
                 <mal:type area="MAL" list="false" name="Duration"/>
               </mal:field>
             </mal:request>

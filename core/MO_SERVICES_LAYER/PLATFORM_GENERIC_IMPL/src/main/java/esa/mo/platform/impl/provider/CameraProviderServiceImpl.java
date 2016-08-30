@@ -168,7 +168,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 objId = uniqueObjId.incrementAndGet();
                 try {
                     picture = adapter.takePicture(resolution, format);
-                    picture = adapter.processPicture(picture, format);
+                    picture = adapter.convertPicture(picture, format);
                 } catch (IOException ex) {
                     Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -332,7 +332,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         synchronized (lock) {
             try {
                 Picture picture = adapter.takePicture(resolution, format);
-                picture = adapter.processPicture(picture, format);
+                picture = adapter.convertPicture(picture, format);
                 interaction.sendResponse(picture);
             } catch (IOException ex) {
                 Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

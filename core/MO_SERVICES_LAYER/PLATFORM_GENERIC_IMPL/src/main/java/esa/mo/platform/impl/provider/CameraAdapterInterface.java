@@ -55,7 +55,7 @@ public interface CameraAdapterInterface {
 
     public Picture takePicture(PixelResolution resolution, PictureFormat format) throws IOException;    
 
-    public Picture processPicture(Picture picture, PictureFormat format)  throws IOException;
+    public Picture convertPicture(Picture picture, PictureFormat format)  throws IOException;
 
     /**
      * The getMinimumPeriod method shall return the duration of taking a picture.
