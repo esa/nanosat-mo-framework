@@ -20,33 +20,64 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
+import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.Severity;
+import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionList;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionNadirPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionNadirPointingList;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionSunPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionSunPointingList;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceNadirPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceSunPointing;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
+import org.ccsds.moims.mo.platform.structures.Quaternions;
+import org.ccsds.moims.mo.platform.structures.Vector3D;
+import org.ccsds.moims.mo.platform.structures.WheelSpeed;
 
 /**
  * The adapter for the app
@@ -61,6 +92,12 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     private static final String PARAMETER_GPS_ELAPSED_TIME = "GPS.ElapsedTime";
     private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "GPS.NumberOfSatellitesInView";
     private static final String AGGREGATION_GPS = "GPS.Aggregation";
+    private static final String ACTION_SUN_POINTING_MODE = "ADCS.SunPointingMode";
+    private static final String ACTION_NADIR_POINTING_MODE = "ADCS.NadirPointingMode";
+
+    private boolean adcsDefsAdded = false;
+    private Long sunPointingObjId = null;
+    private Long nadirPointingObjId = null;
 
     public void setNMF(NanoSatMOFrameworkInterface nmf) {
         this.nmf = nmf;
@@ -70,7 +107,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     public void initialRegistrations(MCRegistration registration) {
 
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
-        
+
         // Create the GPS.Latitude
         ParameterDefinitionDetails defLatitude = new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_GPS_LATITUDE),
@@ -82,7 +119,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         );
-        
+
         // Create the GPS.Longitude
         ParameterDefinitionDetails defLongitude = new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_GPS_LONGITUDE),
@@ -106,13 +143,13 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         );
-        
+
         ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
         defs.add(defLatitude);
         defs.add(defLongitude);
         defs.add(defAltitude);
         LongList parameterObjIds = registration.registerParameters(defs);
-        
+
         // Create the Aggregation GPS
         AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
                 new Identifier(AGGREGATION_GPS),
@@ -124,20 +161,42 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 new Duration(20),
                 new AggregationParameterSetList()
         );
-        
+
         defGPSAgg.getParameterSets().add(new AggregationParameterSet(
                 null,
                 parameterObjIds,
-                new Duration (3),
+                new Duration(3),
                 null
         ));
-        
+
         AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
         aggs.add(defGPSAgg);
-        LongList objIdAggs = registration.registerAggregations(aggs);
-        
+        registration.registerAggregations(aggs);
+
+        ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
+                new Identifier(ACTION_SUN_POINTING_MODE),
+                "Changes the spacecraft's attitude to sun pointing mode.",
+                Severity.INFORMATIONAL,
+                new UShort(0),
+                new ArgumentDefinitionDetailsList(),
+                null
+        );
+
+        ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
+                new Identifier(ACTION_NADIR_POINTING_MODE),
+                "Changes the spacecraft's attitude to nadir pointing mode.",
+                Severity.INFORMATIONAL,
+                new UShort(0),
+                new ArgumentDefinitionDetailsList(),
+                null
+        );
+
+        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        actionDefs.add(actionDef1);
+        actionDefs.add(actionDef2);
+        LongList actionObjIds = registration.registerActions(actionDefs);
+
     }
-        
 
     @Override
     public Attribute onGetValue(Identifier identifier, Byte rawType) {
@@ -212,16 +271,142 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-        /*
-        if ("action1".equals(name.getValue())) {
-            try { // action1 was called?
-                nmf.reportActionExecutionProgress(true, 0, 1, 1, actionInstanceObjId);
-            } catch (IOException ex) {
+        
+        if(nmf == null){
+            return new UInteger(0);
+        }
+        
+        if (ACTION_SUN_POINTING_MODE.equals(name.getValue())) {
+            synchronized(this){
+                if(!adcsDefsAdded){
+                    this.addADCSDefinitions();
+                }
+            }
+            
+            try {
+                // Auto unset it after 10 seconds
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, new Duration(10));
+
+                // Report every 1 second
+                nmf.getPlatformServices().getAutonomousADCSService().configureMonitoring(new Duration(1));
+                
+                // Subscribe monitorAttitude
+                nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcardRandom(), new DataReceivedAdapter());
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+         
+        if (ACTION_NADIR_POINTING_MODE.equals(name.getValue())) {
+            synchronized(this){
+                if(!adcsDefsAdded){
+                    this.addADCSDefinitions();
+                }
+            }
+            
+            try {
+                // Auto unset it after 10 seconds
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, new Duration(10));
+
+                // Report every 1 second
+                nmf.getPlatformServices().getAutonomousADCSService().configureMonitoring(new Duration(1));
+                
+                // Subscribe monitorAttitude
+                nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcardRandom(), new DataReceivedAdapter());
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-         */
+        
         return null;  // Action service not integrated
     }
+    
+    public void addADCSDefinitions(){
+        AttitudeDefinitionList nadirDefs = new AttitudeDefinitionNadirPointingList();
+        AttitudeDefinitionNadirPointing nadirDef = new AttitudeDefinitionNadirPointing();
+        nadirDef.setName(new Identifier("NadirPoiting"));
+        nadirDef.setDescription("A definition pointing to Nadir");
+        
+        AttitudeDefinitionSunPointingList sunDefs = new AttitudeDefinitionSunPointingList();
+        AttitudeDefinitionSunPointing sunDef = new AttitudeDefinitionSunPointing();
+        sunDef.setName(new Identifier("NadirPoiting"));
+        sunDef.setDescription("A definition pointing to the sun");
+        
+        try {
+            LongList nadirObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(nadirDefs);
+            sunPointingObjId = nadirObj.get(0);
+            LongList sunObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(sunDefs);
+            nadirPointingObjId = sunObj.get(0);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        adcsDefsAdded = true;
+    }
 
+    
+        public class DataReceivedAdapter extends AutonomousADCSAdapter {
+
+            @Override
+            public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,
+                    final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+                    final org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceList attitudeInstanceList, 
+                    final Map qosp) {
+
+                if (attitudeInstanceList.size() == lUpdateHeaderList.size()) {
+                    for (int i = 0; i < lUpdateHeaderList.size(); i++) {
+
+                        AttitudeInstance attitudeInstance = (AttitudeInstance) attitudeInstanceList.get(i);
+                        
+                        // Sun Pointing
+                        if (attitudeInstance instanceof AttitudeInstanceSunPointing){
+                            Vector3D sunVector = ((AttitudeInstanceSunPointing) attitudeInstance).getSunVector();
+                            WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
+                            
+                            try {
+                                nmf.pushParameterValue("sunVector3dX", sunVector.getX());
+                                nmf.pushParameterValue("sunVector3dY", sunVector.getY());
+                                nmf.pushParameterValue("sunVector3dZ", sunVector.getZ());
+                                
+                                for(int j = 0; j < wheelSpeed.getVelocity().size(); j++){
+                                    nmf.pushParameterValue("wheelSpeed_" + j, wheelSpeed.getVelocity().get(j));
+                                }
+                            } catch (IOException ex) {
+                                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        
+                        // Nadir Pointing
+                        if (attitudeInstance instanceof AttitudeInstanceNadirPointing){
+                            Vector3D positionVector = ((AttitudeInstanceNadirPointing) attitudeInstance).getPositionVector();
+                            Quaternions quaternions = ((AttitudeInstanceNadirPointing) attitudeInstance).getCurrentQuaternions();
+                            
+                            try {
+                                nmf.pushParameterValue("positionVector3dX", positionVector.getX());
+                                nmf.pushParameterValue("positionVector3dY", positionVector.getY());
+                                nmf.pushParameterValue("positionVector3dZ", positionVector.getZ());
+                                
+                                nmf.pushParameterValue("quaternion1", quaternions.getQ1());
+                                nmf.pushParameterValue("quaternion2", quaternions.getQ2());
+                                nmf.pushParameterValue("quaternion3", quaternions.getQ3());
+                                nmf.pushParameterValue("quaternion4", quaternions.getQ4());
+                            } catch (IOException ex) {
+                                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                        }
+                        
+                    }
+                }
+            }
+        }
+    
 }
