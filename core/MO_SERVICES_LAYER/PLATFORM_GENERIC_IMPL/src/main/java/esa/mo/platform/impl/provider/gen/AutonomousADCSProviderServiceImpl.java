@@ -87,7 +87,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     private final ConfigurationProvider configuration = new ConfigurationProvider();
     private AutonomousADCSAdapterInterface adapter;
     private boolean adcsInUse;
-    private final Timer publishTimer = new Timer();
+    private Timer publishTimer = new Timer();
     private ConfigurationNotificationInterface configurationAdapter;
     private Thread autoUnsetThread = null;
     private Long currentAttitudeObjId = (long) 0;
@@ -135,7 +135,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
 
         this.adapter = adapter;
-        autonomousADCSServiceProvider = connection.startService(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME.toString(), AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, false, this);
+        autonomousADCSServiceProvider = connection.startService(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME.toString(), AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
 
         manager = new AutonomousADCSManager(comServices);
         running = true;
@@ -214,6 +214,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         publishTimer.cancel();
         int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
 
+        publishTimer = new Timer();
         publishTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -231,7 +232,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             throw new IllegalArgumentException("objInstId argument must not be null");
         }
 
-        if (adapter.isUnitAvailable()) { // Is the ADCS unit available?
+        if (!adapter.isUnitAvailable()) { // Is the ADCS unit available?
             throw new MALInteractionException(new MALStandardError(AutonomousADCSHelper.ADCS_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
 
@@ -263,14 +264,14 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             throw new MALInteractionException(new MALStandardError(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));
         }
 
+        // Store current time
+        manager.markAvailableTime(autoUnset);
+        adcsInUse = true;
+
         // Start auto-timer to unset
         autoUnsetThread = new Thread() {
             @Override
             public void run() {
-                // Store current time
-                manager.markAvailableTime(autoUnset);
-                adcsInUse = true;
-
                 try {
                     Thread.sleep((long) autoUnset.getValue() * 1000); // Conversion to miliseconds
 
@@ -298,7 +299,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             autoUnsetThread.interrupt();
         }
 
-        if (adapter.isUnitAvailable()) { // Is the ADCS unit available?
+        if (!adapter.isUnitAvailable()) { // Is the ADCS unit available?
             throw new MALInteractionException(new MALStandardError(AutonomousADCSHelper.ADCS_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
 

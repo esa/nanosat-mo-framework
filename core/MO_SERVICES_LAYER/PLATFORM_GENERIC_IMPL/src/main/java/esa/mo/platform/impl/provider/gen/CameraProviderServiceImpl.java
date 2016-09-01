@@ -81,8 +81,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     private boolean isRegistered = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final ConfigurationProvider configuration = new ConfigurationProvider();
-    private final Timer publishTimer = new Timer();
-    private AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
+    private Timer publishTimer = new Timer();
+    private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
     private CameraAdapterInterface adapter;
 
     /**
@@ -257,6 +257,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         publishTimer.cancel();
         int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
 
+        publishTimer = new Timer();
         publishTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

@@ -27,6 +27,7 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -750,8 +751,15 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         parameterValue.setConvertedValue(null);
         parameterValue.setValid(true);
         parameterValue.setInvalidSubState(new UOctet((short) 0));
+        
+        ParameterInstance instance = new ParameterInstance(name, parameterValue, source, timestamp);
 
-        return this.pushParameterValue(name, parameterValue, source, timestamp);
+        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
+        parameters.add(instance);
+        
+        return this.pushMultipleParameterValues(parameters);
+
+//        return this.pushParameterValue(name, parameterValue, source, timestamp);
     }
 
     /**
@@ -771,6 +779,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * notice that if no consumers are registered on the broker, then the value
      * of true will be returned because not error happened.
      */
+    @Deprecated
     public Boolean pushParameterValue(final Identifier name, final ParameterValue parameterValue, final ObjectId source, final Time timestamp) {
 
         try {

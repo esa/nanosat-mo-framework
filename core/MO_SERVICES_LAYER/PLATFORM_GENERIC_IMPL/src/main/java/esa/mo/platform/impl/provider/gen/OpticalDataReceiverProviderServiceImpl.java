@@ -69,7 +69,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
     private boolean isRegistered = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final ConfigurationProvider configuration = new ConfigurationProvider();
-    private final Timer publishTimer = new Timer();
+    private Timer publishTimer = new Timer();
     private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
     private OpticalDataReceiverAdapterInterface adapter;
 
@@ -180,6 +180,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
         if (publishingPeriod.getValue() != 0) {
             int period = (int) (publishingPeriod.getValue() * 1000); // In milliseconds
 
+            publishTimer = new Timer();
             publishTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
