@@ -48,8 +48,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
  */
 public class ParameterPublishedValues extends javax.swing.JPanel {
     
-    private ConnectionConsumer connection = new ConnectionConsumer();
-
     private final int numberOfColumns = 5;
     private ParameterLabel[] labels = new ParameterLabel[32 * numberOfColumns];
 
@@ -128,7 +126,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                         String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 //                        String convertedValueStr = (convertedValue == null) ? "null" : convertedValue.getStringValue();
 
-                        labels[index + 0 * numberOfColumns].setNewValue(String.valueOf(objId), iDiff);
+                        labels[index + 0 * numberOfColumns].setNewValue("(" + String.valueOf(objId) + ") " + updateHeader.getKey().getFirstSubKey().getValue(), iDiff);
 //            labels[index+1*numberOfColumns].setNewValue( validityString.toString() , iDiff);
                         labels[index + 1 * numberOfColumns].setNewValue(validityState.toString(), iDiff);
 //                        labels[index + 2 * numberOfColumns].setNewValue(rawValue.toString(), iDiff);
@@ -146,8 +144,6 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
             }
         }
     }
-    
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -169,7 +165,6 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
             .addGap(0, 496, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

@@ -32,15 +32,18 @@ import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
@@ -271,142 +274,163 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-        
-        if(nmf == null){
+
+        if (nmf == null) {
             return new UInteger(0);
         }
-        
+
         if (ACTION_SUN_POINTING_MODE.equals(name.getValue())) {
-            synchronized(this){
-                if(!adcsDefsAdded){
-                    this.addADCSDefinitions();
+            synchronized (this) {
+                if (!adcsDefsAdded) {
+                    this.prepareADCSForApp();
                 }
             }
-            
+
             try {
                 // Auto unset it after 10 seconds
                 nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, new Duration(10));
-
-                // Report every 1 second
-                nmf.getPlatformServices().getAutonomousADCSService().configureMonitoring(new Duration(1));
-                
-                // Subscribe monitorAttitude
-                nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcardRandom(), new DataReceivedAdapter());
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
             } catch (MALException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
             }
-            
-            
+
         }
-         
+
         if (ACTION_NADIR_POINTING_MODE.equals(name.getValue())) {
-            synchronized(this){
-                if(!adcsDefsAdded){
-                    this.addADCSDefinitions();
+            synchronized (this) {
+                if (!adcsDefsAdded) {
+                    this.prepareADCSForApp();
                 }
             }
-            
+
             try {
                 // Auto unset it after 10 seconds
                 nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, new Duration(10));
-
-                // Report every 1 second
-                nmf.getPlatformServices().getAutonomousADCSService().configureMonitoring(new Duration(1));
-                
-                // Subscribe monitorAttitude
-                nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcardRandom(), new DataReceivedAdapter());
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
             } catch (MALException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
             }
         }
-        
+
         return null;  // Action service not integrated
     }
-    
-    public void addADCSDefinitions(){
+
+    public void prepareADCSForApp() {
         AttitudeDefinitionList nadirDefs = new AttitudeDefinitionNadirPointingList();
         AttitudeDefinitionNadirPointing nadirDef = new AttitudeDefinitionNadirPointing();
-        nadirDef.setName(new Identifier("NadirPoiting"));
+        nadirDef.setName(new Identifier("NadirPointing"));
         nadirDef.setDescription("A definition pointing to Nadir");
-        
+        nadirDefs.add(nadirDef);
+
         AttitudeDefinitionSunPointingList sunDefs = new AttitudeDefinitionSunPointingList();
         AttitudeDefinitionSunPointing sunDef = new AttitudeDefinitionSunPointing();
-        sunDef.setName(new Identifier("NadirPoiting"));
+        sunDef.setName(new Identifier("SunPointing"));
         sunDef.setDescription("A definition pointing to the sun");
-        
+        sunDefs.add(sunDef);
+
         try {
-            LongList nadirObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(nadirDefs);
-            sunPointingObjId = nadirObj.get(0);
-            LongList sunObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(sunDefs);
-            nadirPointingObjId = sunObj.get(0);
+            IdentifierList names = new IdentifierList();
+            names.add(nadirDef.getName());
+            names.add(sunDef.getName());
+            LongList objIds = nmf.getPlatformServices().getAutonomousADCSService().listAttitudeDefinition(names);
+            sunPointingObjId = objIds.get(0);
+            nadirPointingObjId = objIds.get(1);
+            
+            if (sunPointingObjId == null){ // It does not exist
+                LongList nadirObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(nadirDefs);
+                sunPointingObjId = nadirObj.get(0);
+            }
+
+            if (nadirPointingObjId == null){ // It does not exist
+                LongList sunObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(sunDefs);
+                nadirPointingObjId = sunObj.get(0);
+            }
+
+        } catch (MALInteractionException ex) {
+            if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.INFO, "The Attitude Definition already exists!");
+            } else {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (MALException ex) {
+            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            // Report every 1 second
+            nmf.getPlatformServices().getAutonomousADCSService().configureMonitoring(new Duration(1));
+
+            // Subscribe monitorAttitude
+            nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcard(), new DataReceivedAdapter());
         } catch (MALInteractionException ex) {
             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         adcsDefsAdded = true;
     }
 
-    
-        public class DataReceivedAdapter extends AutonomousADCSAdapter {
+    public class DataReceivedAdapter extends AutonomousADCSAdapter {
 
-            @Override
-            public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,
-                    final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
-                    final org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceList attitudeInstanceList, 
-                    final Map qosp) {
+        @Override
+        public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,
+                final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+                final org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceList attitudeInstanceList,
+                final Map qosp) {
 
-                if (attitudeInstanceList.size() == lUpdateHeaderList.size()) {
-                    for (int i = 0; i < lUpdateHeaderList.size(); i++) {
+            if (attitudeInstanceList.size() == lUpdateHeaderList.size()) {
+                for (int i = 0; i < lUpdateHeaderList.size(); i++) {
 
-                        AttitudeInstance attitudeInstance = (AttitudeInstance) attitudeInstanceList.get(i);
-                        
-                        // Sun Pointing
-                        if (attitudeInstance instanceof AttitudeInstanceSunPointing){
-                            Vector3D sunVector = ((AttitudeInstanceSunPointing) attitudeInstance).getSunVector();
-                            WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
-                            
-                            try {
-                                nmf.pushParameterValue("sunVector3dX", sunVector.getX());
-                                nmf.pushParameterValue("sunVector3dY", sunVector.getY());
-                                nmf.pushParameterValue("sunVector3dZ", sunVector.getZ());
-                                
-                                for(int j = 0; j < wheelSpeed.getVelocity().size(); j++){
-                                    nmf.pushParameterValue("wheelSpeed_" + j, wheelSpeed.getVelocity().get(j));
-                                }
-                            } catch (IOException ex) {
-                                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    AttitudeInstance attitudeInstance = (AttitudeInstance) attitudeInstanceList.get(i);
+
+                    // Sun Pointing
+                    if (attitudeInstance instanceof AttitudeInstanceSunPointing) {
+                        Vector3D sunVector = ((AttitudeInstanceSunPointing) attitudeInstance).getSunVector();
+                        WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
+
+                        try {
+                            nmf.pushParameterValue("sunVector3dX", sunVector.getX());
+                            nmf.pushParameterValue("sunVector3dY", sunVector.getY());
+                            nmf.pushParameterValue("sunVector3dZ", sunVector.getZ());
+
+                            for (int j = 0; j < wheelSpeed.getVelocity().size(); j++) {
+                                nmf.pushParameterValue("wheelSpeed_" + j, wheelSpeed.getVelocity().get(j));
                             }
+                        } catch (IOException ex) {
+                            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        
-                        // Nadir Pointing
-                        if (attitudeInstance instanceof AttitudeInstanceNadirPointing){
-                            Vector3D positionVector = ((AttitudeInstanceNadirPointing) attitudeInstance).getPositionVector();
-                            Quaternions quaternions = ((AttitudeInstanceNadirPointing) attitudeInstance).getCurrentQuaternions();
-                            
-                            try {
-                                nmf.pushParameterValue("positionVector3dX", positionVector.getX());
-                                nmf.pushParameterValue("positionVector3dY", positionVector.getY());
-                                nmf.pushParameterValue("positionVector3dZ", positionVector.getZ());
-                                
-                                nmf.pushParameterValue("quaternion1", quaternions.getQ1());
-                                nmf.pushParameterValue("quaternion2", quaternions.getQ2());
-                                nmf.pushParameterValue("quaternion3", quaternions.getQ3());
-                                nmf.pushParameterValue("quaternion4", quaternions.getQ4());
-                            } catch (IOException ex) {
-                                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-
-                        }
-                        
                     }
+
+                    // Nadir Pointing
+                    if (attitudeInstance instanceof AttitudeInstanceNadirPointing) {
+                        Vector3D positionVector = ((AttitudeInstanceNadirPointing) attitudeInstance).getPositionVector();
+                        Quaternions quaternions = ((AttitudeInstanceNadirPointing) attitudeInstance).getCurrentQuaternions();
+
+                        try {
+                            nmf.pushParameterValue("positionVector3dX", positionVector.getX());
+                            nmf.pushParameterValue("positionVector3dY", positionVector.getY());
+                            nmf.pushParameterValue("positionVector3dZ", positionVector.getZ());
+
+                            nmf.pushParameterValue("quaternion1", quaternions.getQ1());
+                            nmf.pushParameterValue("quaternion2", quaternions.getQ2());
+                            nmf.pushParameterValue("quaternion3", quaternions.getQ3());
+                            nmf.pushParameterValue("quaternion4", quaternions.getQ4());
+                        } catch (IOException ex) {
+                            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }
+
                 }
             }
         }
-    
+    }
+
 }
