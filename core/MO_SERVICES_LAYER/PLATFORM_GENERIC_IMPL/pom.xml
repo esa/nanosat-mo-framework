@@ -130,7 +130,7 @@
         <repository>
             <id>AGSA-GITLAB</id>
             <name>The GitLab repository from the AGSA server.</name>
-            <url>http://agsacloud01:8081/plugin/repository/everything/</url>
+            <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
         </repository>
     </repositories>    
     
