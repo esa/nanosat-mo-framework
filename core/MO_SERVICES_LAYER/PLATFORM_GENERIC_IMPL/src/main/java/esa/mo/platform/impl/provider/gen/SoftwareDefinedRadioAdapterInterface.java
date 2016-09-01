@@ -18,14 +18,21 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.platform.impl.provider;
+package esa.mo.platform.impl.provider.gen;
+
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsList;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
 /**
  *
  * @author Cesar Coelho
  */
-public interface OpticalDataReceiverAdapterInterface {
+public interface SoftwareDefinedRadioAdapterInterface {
 
-    public byte[] getOpticalReceiverData();
+    public boolean setConfiguration(SDRConfiguration configuration);
+
+    public boolean enableSDR(Boolean enable);
+
+    public IQComponentsList getIQComponents();
 
 }

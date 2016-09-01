@@ -18,46 +18,49 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.platform.impl.provider;
+package esa.mo.platform.impl.provider.gen;
 
-import esa.mo.platform.impl.util.HelperGPS;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+
 
 /**
  *
  * @author Cesar Coelho
  */
-public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
+public interface GPSAdapterInterface {
     
-    @Override
-    public Position getCurrentPosition() {
-        try {
-            String gpggalong = this.getNMEASentence("GPGGALONG");
-            Position position = HelperGPS.gpggalong2Position(gpggalong);
-            // The utc time needs to be set here!
-            
-            return position;
-        } catch (IOException ex) {
-            Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, "The current position could not be retrieved! Exception: " + ex);
-        }
-        
-        return null;
-    }
+    /**
+     * The isADCSAvailable operation checks if the ADCS unit.
+     *
+     * @return
+     */
+    public boolean isUnitAvailable();
+    
+    /**
+     * Request a NMEA sentence from a GPS unit.
+     *
+     * @param identifier The NMEA Identifier
+     * @return
+     * @throws java.io.IOException
+     */
+    public String getNMEASentence(final String identifier) throws IOException;
+    
+    /**
+     * Request the current position from the GPS
+     *
+     * @return The Position
+     */
+    public Position getCurrentPosition();
 
-    @Override
-    public SatelliteInfoList getSatelliteInfoList() {
-        try {
-            String gpalm = this.getNMEASentence("GPALM");
-            return HelperGPS.gpalm2SatelliteInfoList(gpalm);
-        } catch (IOException ex) {
-            Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return null;
-    }
+    /**
+     * Requests the information of the satellites in view.
+     *
+     * @return The list of Satellites Information
+     */
+    public SatelliteInfoList getSatelliteInfoList();
+    
 
+    
 }

@@ -25,15 +25,22 @@ import esa.mo.platform.impl.consumer.CameraConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.GPSConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.platform.impl.consumer.AutonomousADCSConsumerServiceImpl;
+import esa.mo.platform.impl.consumer.OpticalDataReceiverConsumerServiceImpl;
+import esa.mo.platform.impl.consumer.SoftwareDefinedRadioConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
+import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
+import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
 /**
  *
@@ -41,14 +48,24 @@ import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
  */
 public class PlatformServicesConsumer implements PlatformServicesConsumerInterface {
 
+    private AutonomousADCSConsumerServiceImpl autonomousADCSService;
     private CameraConsumerServiceImpl cameraService;
     private GPSConsumerServiceImpl gpsService;
+//    private MagnetometerConsumerServiceImpl magnetometerService;
+    private OpticalDataReceiverConsumerServiceImpl odrService;
+    private SoftwareDefinedRadioConsumerServiceImpl sdrService;
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
 
         SingleConnectionDetails details;
 
         try {
+            // Initialize the AutonomousADCS service
+            details = connectionConsumer.getServicesDetails().get(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
+            if(details != null){
+                autonomousADCSService = new AutonomousADCSConsumerServiceImpl(details, comServices);
+            }
+
             // Initialize the Camera service
             details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
             if(details != null){
@@ -61,6 +78,18 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
                 gpsService = new GPSConsumerServiceImpl(details, comServices);
             }
 
+            // Initialize the Optical Data Receiver service
+            details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
+            if(details != null){
+                odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices);
+            }
+
+            // Initialize the Software Defined Radio service
+            details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
+            if(details != null){
+                sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices);
+            }
+
         } catch (MALException  ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException  ex) {
@@ -68,6 +97,18 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         } catch (MALInteractionException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void setServices(CameraConsumerServiceImpl cameraService,
+            GPSConsumerServiceImpl gpsService) {
+        this.cameraService = cameraService;
+        this.gpsService = gpsService;
+    }
+
+    
+    @Override
+    public AutonomousADCSStub getAutonomousADCSService() {
+        return this.autonomousADCSService.getAutonomousADCSStub();
     }
 
     @Override
@@ -80,18 +121,36 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         return this.gpsService.getGPSStub();
     }
 
-    public void setServices(CameraConsumerServiceImpl cameraService,
-            GPSConsumerServiceImpl gpsService) {
-        this.cameraService = cameraService;
-        this.gpsService = gpsService;
+    @Override
+    public OpticalDataReceiverStub getOpticalDataReceiverService() {
+        return this.odrService.getOpticalDataReceiverStub();
     }
+
+    @Override
+    public SoftwareDefinedRadioStub getSoftwareDefinedRadioService() {
+        return this.sdrService.getSoftwareDefinedRadioStub();
+    }
+
+    // Setters
 
     public void setCameraService(CameraConsumerServiceImpl cameraService) {
         this.cameraService = cameraService;
     }
 
+    public void setAutonomousADCSService(AutonomousADCSConsumerServiceImpl autonomousADCSService) {
+        this.autonomousADCSService = autonomousADCSService;
+    }
+
     public void setGPSService(GPSConsumerServiceImpl gpsService) {
         this.gpsService = gpsService;
+    }
+
+    public void setOpticalDataReceiverService(OpticalDataReceiverConsumerServiceImpl odrService) {
+        this.odrService = odrService;
+    }
+
+    public void setSoftwareDefinedRadioService(SoftwareDefinedRadioConsumerServiceImpl sdrService) {
+        this.sdrService = sdrService;
     }
 
     /**
@@ -107,5 +166,5 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
             this.gpsService.closeConnection();
         }
     }    
-    
+  
 }

@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.platform.impl.provider;
+package esa.mo.platform.impl.provider.gen;
 
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperTime;
@@ -34,11 +34,10 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
-import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.BlobList;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.EntityKey;
 import org.ccsds.moims.mo.mal.structures.EntityKeyList;
@@ -52,26 +51,29 @@ import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
-import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
-import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
-import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.StreamDataPublisher;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelper;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.StreamRadioPublisher;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsList;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
 /**
  *
  */
-public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverInheritanceSkeleton {
+public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadioInheritanceSkeleton {
 
-    private MALProvider opticalDataReceiverServiceProvider;
+    private MALProvider softwareDefinedRadioServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private StreamDataPublisher publisher;
+    private boolean sdrInUse;
+    private StreamRadioPublisher publisher;
     private final Object lock = new Object();
     private boolean isRegistered = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final Timer publishTimer = new Timer();
     private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
-    private OpticalDataReceiverAdapterInterface adapter;
+    private SoftwareDefinedRadioAdapterInterface adapter;
 
     /**
      * Initializes the Software-defined Radio service.
@@ -79,7 +81,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
      * @param adapter The Camera adapter
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(OpticalDataReceiverAdapterInterface adapter) throws MALException {
+    public synchronized void init(SoftwareDefinedRadioAdapterInterface adapter) throws MALException {
         if (!initialiased) {
 
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -95,12 +97,12 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
             }
 
             try {
-                OpticalDataReceiverHelper.init(MALContextFactory.getElementFactoryRegistry());
+                SoftwareDefinedRadioHelper.init(MALContextFactory.getElementFactoryRegistry());
             } catch (MALException ex) { // nothing to be done..
             }
         }
 
-        publisher = createStreamDataPublisher(configuration.getDomain(),
+        publisher = createStreamRadioPublisher(configuration.getDomain(),
                 configuration.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
@@ -109,16 +111,16 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
                 new UInteger(0));
 
         // Shut down old service transport
-        if (null != opticalDataReceiverServiceProvider) {
+        if (null != softwareDefinedRadioServiceProvider) {
             connection.close();
         }
 
         this.adapter = adapter;
-        opticalDataReceiverServiceProvider = connection.startService(OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME.toString(), OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE, this);
+        softwareDefinedRadioServiceProvider = connection.startService(SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME.toString(), SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE, this);
 
         running = true;
         initialiased = true;
-        Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).info("Optical Data Receiver service READY");
+        Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).info("Software-defined Radio service READY");
     }
 
     /**
@@ -126,21 +128,21 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
      */
     public void close() {
         try {
-            if (null != opticalDataReceiverServiceProvider) {
-                opticalDataReceiverServiceProvider.close();
+            if (null != softwareDefinedRadioServiceProvider) {
+                softwareDefinedRadioServiceProvider.close();
             }
 
             connection.close();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
 
-    private void streamDataUpdate() {
+    private void streamRadioUpdate() {
         try {
             final Long objId;
-            final byte[] data;
+            final IQComponentsList iqComponents;
 
             synchronized (lock) {
                 if (!isRegistered) {
@@ -151,43 +153,63 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
                 }
 
                 objId = uniqueObjId.incrementAndGet();
-                data = adapter.getOpticalReceiverData();
+                iqComponents = adapter.getIQComponents();
             }
 
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).log(Level.FINER,
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.FINER,
                     "Generating streaming Radio update with objId: " + objId);
 
             final EntityKey ekey = new EntityKey(null, null, null, null);
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
 
-            BlobList list = new BlobList();
-            list.add(new Blob(data));
-            publisher.publish(hdrlst, list);
+            publisher.publish(hdrlst, iqComponents);
+
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         } catch (MALException ex) {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         }
     }
 
     @Override
-    public synchronized void setPublishingFrequency(Duration publishingPeriod, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void enableSDR(final Boolean enable, final SDRConfiguration initialConfiguration, final Duration publishingPeriod, final MALInteraction interaction) throws MALInteractionException, MALException {
+        if (!adapter.enableSDR(enable)) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.INTERNAL_ERROR_NUMBER, null));
+        }
+
+        if (!adapter.setConfiguration(initialConfiguration)) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+        }
+
         publishTimer.cancel();
 
-        if (publishingPeriod.getValue() != 0) {
+        if (enable) {
+            sdrInUse = true;
             int period = (int) (publishingPeriod.getValue() * 1000); // In milliseconds
 
             publishTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     if (running) {
-                        streamDataUpdate();
+                        if (sdrInUse) {
+                            streamRadioUpdate();
+                        }
                     }
                 }
             }, period, period);
+
+        }else{
+            sdrInUse = false;
+        }
+    }
+
+    @Override
+    public synchronized void updateConfiguration(final SDRConfiguration sdrConfiguration, final MALInteraction interaction) throws MALInteractionException, MALException {
+        if (!adapter.setConfiguration(sdrConfiguration)) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
     }
 
@@ -195,24 +217,24 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishDeregisterAckReceived");
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties)
                 throws MALException {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
         public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 

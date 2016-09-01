@@ -20,8 +20,11 @@
  */
 package esa.mo.platform.impl.util;
 
+import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
+import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
 /**
  *
@@ -31,8 +34,14 @@ public interface PlatformServicesConsumerInterface {
 
 //    public void init(COMServicesProvider comServices) throws MALException;
 
+    public abstract AutonomousADCSStub getAutonomousADCSService();
+
     public abstract CameraStub getCameraService();
 
     public abstract GPSStub getGPSService();
     
+    public abstract OpticalDataReceiverStub getOpticalDataReceiverService();
+
+    public abstract SoftwareDefinedRadioStub getSoftwareDefinedRadioService();
+
 }

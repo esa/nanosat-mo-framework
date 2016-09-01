@@ -20,8 +20,11 @@
  */
 package esa.mo.platform.impl.util;
 
+import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
 /**
  *
@@ -34,5 +37,11 @@ public interface PlatformServicesProviderInterface {
     public abstract CameraInheritanceSkeleton getCameraService();
 
     public abstract GPSInheritanceSkeleton getGPSService();
+
+    public abstract AutonomousADCSInheritanceSkeleton getAutonomousADCSService();
+
+    public abstract OpticalDataReceiverInheritanceSkeleton getOpticalDataReceiverService();
+
+    public abstract SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService();
     
 }

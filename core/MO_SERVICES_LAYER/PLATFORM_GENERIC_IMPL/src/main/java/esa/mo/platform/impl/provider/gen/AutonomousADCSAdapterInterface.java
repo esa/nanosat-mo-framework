@@ -18,18 +18,17 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.platform.impl.provider;
+package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
-import org.ccsds.moims.mo.platform.gps.structures.Position;
-import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
-
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinition;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
 
 /**
  *
  * @author Cesar Coelho
  */
-public interface GPSAdapterInterface {
+public interface AutonomousADCSAdapterInterface {
     
     /**
      * The isADCSAvailable operation checks if the ADCS unit.
@@ -37,30 +36,32 @@ public interface GPSAdapterInterface {
      * @return
      */
     public boolean isUnitAvailable();
-    
-    /**
-     * Request a NMEA sentence from a GPS unit.
-     *
-     * @param identifier The NMEA Identifier
-     * @return
-     * @throws java.io.IOException
-     */
-    public String getNMEASentence(final String identifier) throws IOException;
-    
-    /**
-     * Request the current position from the GPS
-     *
-     * @return The Position
-     */
-    public Position getCurrentPosition();
 
     /**
-     * Requests the information of the satellites in view.
+     * The setAttitudeDefinition operation shall set a certain attitude based
+     * on the AttitudeDefinition 
      *
-     * @return The list of Satellites Information
+     * @param attitude
+     * @throws IOException
      */
-    public SatelliteInfoList getSatelliteInfoList();
-    
+    public void setDesiredAttitude(AttitudeDefinition attitude) throws IOException;
 
+    /**
+     * The unset operation shall set a certain attitude based
+     * on the AttitudeDefinition 
+     *
+     * @throws IOException
+     */
+    public void unset() throws IOException;
+    
+    /**
+     * The getAttitudeTM returns an object representing the information
+     * usually provided by an ADCS unit
+     *
+     * @return The Attitude Telemetry from the ADCS
+     * @throws IOException
+     */
+    public AttitudeInstance getAttitudeInstance() throws IOException;
+    
     
 }

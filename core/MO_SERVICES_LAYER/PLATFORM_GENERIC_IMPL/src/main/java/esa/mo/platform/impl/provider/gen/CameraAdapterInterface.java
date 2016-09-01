@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.platform.impl.provider;
+package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Duration;
