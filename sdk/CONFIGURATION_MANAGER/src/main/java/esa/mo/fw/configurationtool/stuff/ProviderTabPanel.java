@@ -67,7 +67,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             @Override
             public void run() {
                 initComponents();
-
+                
                 try {
                     // Software Management
                     if (services.getSMServices() != null) {

@@ -22,9 +22,9 @@ package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nanosatmoframework.MCRegistration;
-import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
+import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.concurrent.Semaphore;
@@ -51,8 +51,8 @@ import org.ccsds.moims.mo.platform.gps.provider.GetSatellitesInfoInteraction;
  */
 public class DemoGPSData {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
-//    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
+//    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
 
     public DemoGPSData() {
 
@@ -89,7 +89,7 @@ public class DemoGPSData {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
         }
 
         @Override
