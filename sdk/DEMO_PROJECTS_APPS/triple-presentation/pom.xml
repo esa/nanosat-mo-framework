@@ -72,11 +72,6 @@
             <scope>provided</scope>
 -->            
         </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>ENCODING_XML</artifactId>
-            <version>1.0.1</version>
-        </dependency>
     </dependencies>
 
         
