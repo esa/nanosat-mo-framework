@@ -104,7 +104,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             connection.close();
         }
 
-        heartbeatServiceProvider = connection.startService(HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(), HeartbeatHelper.HEARTBEAT_SERVICE, false, this);
+        heartbeatServiceProvider = connection.startService(HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(), HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
 
         running = true;
         initialiased = true;
