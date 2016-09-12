@@ -23,7 +23,6 @@ package esa.mo.sm.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
@@ -273,6 +272,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         }
 
 //        this.get(appId).setRunning(handler.getProcess().isAlive());
+        this.get(appId).setRunning(true);
 
         return this.get(appId).getRunning();
     }
