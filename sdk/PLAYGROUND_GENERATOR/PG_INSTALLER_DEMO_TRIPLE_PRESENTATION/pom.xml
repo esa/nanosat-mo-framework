@@ -22,13 +22,13 @@
         <version>1-SNAPSHOT</version>
         <relativePath/>
     </parent>
-    
-    <artifactId>demo-triple-presentation</artifactId>
+  
+    <artifactId>PG_INSTALLER_TRIPLE_PRESENTATION</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Demo Triple Presentation</name>
-    <description>A demo for the triple presentation.</description>
+    <name>PG: Installer of Triple Presentation App</name>
+    <description>The Triple Presentation App installer for the Playground environment.</description>
     <url>http://www.esa.int</url>
   
     <organization>
@@ -43,7 +43,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-  
+    
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
@@ -53,27 +53,25 @@
         <developer>
             <id>CesarCoelho</id>
             <name>César Coelho</name>
-            <email>cesar.coelho@esa.int</email>
+            <email>Cesar.Coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
-
-    <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.apps.TriplePresentation</assembly.mainClass>
-    </properties>
-
+    
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</artifactId>
+            <artifactId>LIB_NANOSAT_MO_FRAMEWORK_SOFTWARE_SIMULATOR</artifactId>
             <version>1.0-SNAPSHOT</version>
-
-<!--
-            <scope>provided</scope>
--->            
         </dependency>
     </dependencies>
 
+    <properties>
+        <app.artifactid>demo-triple-presentation</app.artifactid>
+        <playground.folder.output>${basedir}/../../Playground</playground.folder.output>
+        <playground.folder.app>${playground.folder.output}/apps/${app.artifactid}</playground.folder.app>
+    </properties>
+        
     <build>
         <resources>
             <resource>
@@ -92,11 +90,34 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>int.esa.ccsds.mo</groupId>
+                                    <artifactId>${app.artifactid}</artifactId>
+                                    <version>1.0-SNAPSHOT</version>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
+                            </artifactItems>
+                            <includeScope></includeScope>
+                            <outputDirectory>${playground.folder.app}</outputDirectory>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>     
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -105,22 +126,40 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${playground.folder.app}</outputDirectory>
+                            <resources>          
+                                <resource>
+                                    <directory>${basedir}/src/appDirectory</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>            
+                    </execution>
+                </executions>
             </plugin>
-          
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
             </plugin>
-
         </plugins>
     </build>
     <repositories>
         <repository>
-            <id>AGSA-Maven-Repository</id>
-            <name>The Maven repository from the AGSA server.</name>
+            <id>AGSA-GITLAB</id>
+            <name>The GitLab repository from the AGSA server.</name>
             <url>http://agsacloud01:8081/plugin/repository/everything/</url>
         </repository>
     </repositories>    

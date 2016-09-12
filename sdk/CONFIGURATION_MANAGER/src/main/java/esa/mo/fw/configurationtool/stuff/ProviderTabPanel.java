@@ -75,11 +75,11 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                         if (services.getSMServices().getAppsLauncherService() != null) {
                             serviceTabs.insertTab("Apps Launcher service", null, new AppsLauncherConsumerPanel(services.getSMServices().getAppsLauncherService()), "Apps Launcher Tab", serviceTabs.getTabCount());
                         }
-
+/*
                         if (services.getSMServices().getPackageManagementService() != null) {
                             serviceTabs.insertTab("Package Management service", null, new PackageManagementConsumerPanel(services.getSMServices().getPackageManagementService()), "Package Management Tab", serviceTabs.getTabCount());
                         }
-
+*/
                     }
 
                     // COM

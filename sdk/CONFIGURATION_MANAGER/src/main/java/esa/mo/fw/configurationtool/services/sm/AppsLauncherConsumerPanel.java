@@ -286,8 +286,10 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             this.serviceSMAppsLauncher.getAppsLauncherStub().killApp(ids);
             appsTable.switchEnabledstatus(false);
         } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
+            JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -307,8 +309,10 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, new StopAdapter());
             appsTable.switchEnabledstatus(false);
         } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
+            JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -328,8 +332,10 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             this.serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
             appsTable.switchEnabledstatus(true);
         } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
+            JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
