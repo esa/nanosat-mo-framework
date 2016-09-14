@@ -336,20 +336,20 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         try {
             IdentifierList names = new IdentifierList();
-            names.add(nadirDef.getName());
             names.add(sunDef.getName());
+            names.add(nadirDef.getName());
             LongList objIds = nmf.getPlatformServices().getAutonomousADCSService().listAttitudeDefinition(names);
             sunPointingObjId = objIds.get(0);
             nadirPointingObjId = objIds.get(1);
             
             if (sunPointingObjId == null){ // It does not exist
-                LongList nadirObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(nadirDefs);
-                sunPointingObjId = nadirObj.get(0);
+                LongList sunObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(sunDefs);
+                sunPointingObjId = sunObj.get(0);
             }
 
             if (nadirPointingObjId == null){ // It does not exist
-                LongList sunObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(sunDefs);
-                nadirPointingObjId = sunObj.get(0);
+                LongList nadirObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(nadirDefs);
+                nadirPointingObjId = nadirObj.get(0);
             }
 
         } catch (MALInteractionException ex) {
