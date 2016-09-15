@@ -66,6 +66,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.ConditionalReferenceList;
 import org.ccsds.moims.mo.mc.structures.Severity;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionList;
@@ -89,12 +90,14 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
     private NanoSatMOFrameworkInterface nmf;
 
+    
     private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
     private static final String PARAMETER_GPS_LONGITUDE = "GPS.Longitude";
     private static final String PARAMETER_GPS_ALTITUDE = "GPS.Altitude";
     private static final String PARAMETER_GPS_ELAPSED_TIME = "GPS.ElapsedTime";
     private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "GPS.NumberOfSatellitesInView";
     private static final String AGGREGATION_GPS = "GPS.Aggregation";
+    private static final String PARAMETER_ADCS_MODE = "ADCS.ModeOperation";
     private static final String ACTION_SUN_POINTING_MODE = "ADCS.SunPointingMode";
     private static final String ACTION_NADIR_POINTING_MODE = "ADCS.NadirPointingMode";
 
@@ -111,6 +114,17 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
+        ParameterDefinitionDetails defModeOperation = new ParameterDefinitionDetails(
+                new Identifier(PARAMETER_ADCS_MODE),
+                "The ADCS mode operation",
+                Union.OCTET_SHORT_FORM.byteValue(),
+                "",
+                false,
+                new Duration(3),
+                null,
+                null
+        );
+        
         // Create the GPS.Latitude
         ParameterDefinitionDetails defLatitude = new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_GPS_LATITUDE),
@@ -148,6 +162,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         );
 
         ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+        defs.add(defModeOperation);
         defs.add(defLatitude);
         defs.add(defLongitude);
         defs.add(defAltitude);
@@ -176,21 +191,43 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         aggs.add(defGPSAgg);
         registration.registerAggregations(aggs);
 
+        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+        {
+            Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
+            String rawUnit = "seconds";
+            ConditionalReferenceList conversionCondition = null;
+            Byte convertedType = null;
+            String convertedUnit = null;
+
+            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, conversionCondition, convertedType, convertedUnit));
+        }
+
         ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
                 new Identifier(ACTION_SUN_POINTING_MODE),
                 "Changes the spacecraft's attitude to sun pointing mode.",
                 Severity.INFORMATIONAL,
                 new UShort(0),
-                new ArgumentDefinitionDetailsList(),
+                arguments1,
                 null
         );
+
+        ArgumentDefinitionDetailsList arguments2 = new ArgumentDefinitionDetailsList();
+        {
+            Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
+            String rawUnit = "seconds";
+            ConditionalReferenceList conversionCondition = null;
+            Byte convertedType = null;
+            String convertedUnit = null;
+
+            arguments2.add(new ArgumentDefinitionDetails(rawType, rawUnit, conversionCondition, convertedType, convertedUnit));
+        }
 
         ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
                 new Identifier(ACTION_NADIR_POINTING_MODE),
                 "Changes the spacecraft's attitude to nadir pointing mode.",
                 Severity.INFORMATIONAL,
                 new UShort(0),
-                new ArgumentDefinitionDetailsList(),
+                arguments2,
                 null
         );
 
@@ -287,8 +324,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             }
 
             try {
-                // Auto unset it after 10 seconds
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, new Duration(10));
+                Attribute argValue = attributeValues.get(0).getValue();
+                System.out.println("ACTION_SUN_POINTING_MODE Value is ["+esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue)+"]");
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, (Duration)argValue);
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -307,8 +345,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             }
 
             try {
-                // Auto unset it after 10 seconds
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, new Duration(10));
+                Attribute argValue = attributeValues.get(0).getValue();
+                System.out.println("ACTION_NADIR_POINTING_MODE Value is ["+esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue)+"]");
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, (Duration)argValue);
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -396,6 +435,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
 
                         try {
+                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, 0);
                             nmf.pushParameterValue("sunVector3dX", sunVector.getX());
                             nmf.pushParameterValue("sunVector3dY", sunVector.getY());
                             nmf.pushParameterValue("sunVector3dZ", sunVector.getZ());
@@ -414,6 +454,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         Quaternions quaternions = ((AttitudeInstanceNadirPointing) attitudeInstance).getCurrentQuaternions();
 
                         try {
+                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, 1);
                             nmf.pushParameterValue("positionVector3dX", positionVector.getX());
                             nmf.pushParameterValue("positionVector3dY", positionVector.getY());
                             nmf.pushParameterValue("positionVector3dZ", positionVector.getZ());
