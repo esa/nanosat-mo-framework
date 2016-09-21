@@ -28,5 +28,4 @@ public class HelperNMFPackage {
 
     private final static String DEVICE_NAME = "helpertools.configurations.ground.DeviceName";
 
-
 }
