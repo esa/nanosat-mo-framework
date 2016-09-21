@@ -98,13 +98,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         // Create provider name to be registerd on the Directory service...
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + System.getProperty(ConfigurationProvider.MO_APP_NAME);
 
-        URI centralDirectoryURI;
-        try {
-            centralDirectoryURI = this.readCentralDirectoryServiceURI();
-        } catch (FileNotFoundException ex) {
-            centralDirectoryURI = null;
-        }
-
+        URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
         DirectoryConsumerServiceImpl directoryServiceConsumer = null;
 
         if (centralDirectoryURI != null) {
@@ -150,7 +144,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     comServicesConsumer.init(supervisorCD);
                     platformServices.init(supervisorCD, comServicesConsumer);
                 } else {
-                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "The Connector was expecting a single NanoSat MO Supervisor provider!");
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "The Connector was expecting a single NanoSat MO Supervisor provider! Instead it found " + supervisorConnections.size() + ".");
                 }
 
             } catch (MALException ex) {
@@ -217,24 +211,29 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
     }
 
-    public final URI readCentralDirectoryServiceURI() throws FileNotFoundException {
+    public final URI readCentralDirectoryServiceURI() {
         String path = ".." + File.separator
                 + NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME + File.separator
                 + FILENAME_CENTRAL_DIRECTORY_SERVICE;
 
         File file = new File(path); // Select the file that we want to read from
 
-        String line;
-        // Get the text out of that file...
-        InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
-        BufferedReader br = new BufferedReader(isr);
-
         try {
-            while ((line = br.readLine()) != null) {
-                return new URI(line);
+            // Get the text out of that file...
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
+            BufferedReader br = new BufferedReader(isr);
+
+            try {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    return new URI(line);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.WARNING, "The File " + file.getPath() + " could not be found!");
+            return null;
         }
 
         return null;
