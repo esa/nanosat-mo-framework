@@ -108,7 +108,8 @@ public class PushClock {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            // Not necessary because the NMF will do the registrations automatically
+            // after the first push
         }
 
         @Override
