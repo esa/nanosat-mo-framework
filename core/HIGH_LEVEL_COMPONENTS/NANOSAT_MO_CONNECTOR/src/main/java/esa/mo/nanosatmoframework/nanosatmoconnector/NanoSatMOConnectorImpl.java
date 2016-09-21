@@ -146,7 +146,6 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 } else {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "The Connector was expecting a single NanoSat MO Supervisor provider! Instead it found " + supervisorConnections.size() + ".");
                 }
-
             } catch (MALException ex) {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MalformedURLException ex) {
