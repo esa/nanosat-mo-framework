@@ -67,24 +67,23 @@ public class CloseAppEventListener extends EventReceivedListener {
             provider.closeAppAdapter.onClose(); // Time to sleep, boy!
         }
 
-        try { // Unregister the provider from the Central Directory service...
+            // Unregister the provider from the Central Directory service...
             URI centralDirectoryURI = provider.readCentralDirectoryServiceURI();
             
-            try {
-                DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
-                directoryServiceConsumer.getDirectoryStub().withdrawProvider(provider.getAppDirectoryId());
-                directoryServiceConsumer.closeConnection();
-            } catch (MALException ex) {
-                Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "There was a problem while connectin to the Central Directory service on URI: " + centralDirectoryURI.getValue() + "\nException: " + ex);
+            if (centralDirectoryURI != null){
+                try {
+                    DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+                    directoryServiceConsumer.getDirectoryStub().withdrawProvider(provider.getAppDirectoryId());
+                    directoryServiceConsumer.closeConnection();
+                } catch (MALException ex) {
+                    Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "There was a problem while connectin to the Central Directory service on URI: " + centralDirectoryURI.getValue() + "\nException: " + ex);
+                }
             }
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         // Should close them safely as well...
 //        provider.getCOMServices().closeServices();
