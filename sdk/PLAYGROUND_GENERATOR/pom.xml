@@ -64,6 +64,7 @@
     <modules>
         <module>PG_NMS</module>
         <module>PG_INSTALLER_DEMO_TRIPLE_PRESENTATION</module>
+        <module>PG_INSTALLER_DEMO_PUSH_CLOCK</module>
     </modules>
   
 </project>
