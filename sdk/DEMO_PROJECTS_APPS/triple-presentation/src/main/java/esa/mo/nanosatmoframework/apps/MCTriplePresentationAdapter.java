@@ -77,6 +77,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionS
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceNadirPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceSunPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.structures.Quaternions;
@@ -428,6 +429,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 for (int i = 0; i < lUpdateHeaderList.size(); i++) {
 
                     AttitudeInstance attitudeInstance = (AttitudeInstance) attitudeInstanceList.get(i);
+                    Long mode = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
 
                     // Sun Pointing
                     if (attitudeInstance instanceof AttitudeInstanceSunPointing) {
@@ -435,7 +437,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
 
                         try {
-                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, 0);
+                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, mode); 
                             nmf.pushParameterValue("sunVector3dX", sunVector.getX());
                             nmf.pushParameterValue("sunVector3dY", sunVector.getY());
                             nmf.pushParameterValue("sunVector3dZ", sunVector.getZ());
@@ -454,7 +456,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         Quaternions quaternions = ((AttitudeInstanceNadirPointing) attitudeInstance).getCurrentQuaternions();
 
                         try {
-                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, 1);
+                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, mode);
                             nmf.pushParameterValue("positionVector3dX", positionVector.getX());
                             nmf.pushParameterValue("positionVector3dY", positionVector.getY());
                             nmf.pushParameterValue("positionVector3dZ", positionVector.getZ());
