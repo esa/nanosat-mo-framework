@@ -276,6 +276,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                     Thread.sleep((long) autoUnset.getValue() * 1000); // Conversion to miliseconds
 
                     try {
+                        publishTimer.cancel();
                         adapter.unset();
                         adcsInUse = false;
                     } catch (IOException ex) {
@@ -304,7 +305,9 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
 
         try {
+            publishTimer.cancel();
             adapter.unset();
+            adcsInUse = false;
         } catch (IOException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
