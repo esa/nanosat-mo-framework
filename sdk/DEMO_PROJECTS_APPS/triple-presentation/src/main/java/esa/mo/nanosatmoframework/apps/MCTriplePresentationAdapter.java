@@ -437,13 +437,17 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
 
                         try {
-                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, mode); 
-                            nmf.pushParameterValue("sunVector3dX", sunVector.getX());
-                            nmf.pushParameterValue("sunVector3dY", sunVector.getY());
-                            nmf.pushParameterValue("sunVector3dZ", sunVector.getZ());
+                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, mode);
+                            if(sunVector != null){
+                                nmf.pushParameterValue("sunVector3dX", sunVector.getX());
+                                nmf.pushParameterValue("sunVector3dY", sunVector.getY());
+                                nmf.pushParameterValue("sunVector3dZ", sunVector.getZ());
+                            }
 
-                            for (int j = 0; j < wheelSpeed.getVelocity().size(); j++) {
-                                nmf.pushParameterValue("wheelSpeed_" + j, wheelSpeed.getVelocity().get(j));
+                            if(wheelSpeed != null){
+                                for (int j = 0; j < wheelSpeed.getVelocity().size(); j++) {
+                                    nmf.pushParameterValue("wheelSpeed_" + j, wheelSpeed.getVelocity().get(j));
+                                }
                             }
                         } catch (IOException ex) {
                             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
