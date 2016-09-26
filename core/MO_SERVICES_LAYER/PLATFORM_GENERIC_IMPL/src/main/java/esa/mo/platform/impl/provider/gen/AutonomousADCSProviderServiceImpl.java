@@ -438,7 +438,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
 
         // Is the size 5?
-        if (configurationObjectDetails.getConfigObjects().size() != 5) {  // 5 because we just have 5 definitions
+        if (configurationObjectDetails.getConfigObjects().size() != 5) {  // 5 because we just have 5 definition types
             return false;
         }
         
