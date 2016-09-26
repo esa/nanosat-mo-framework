@@ -108,7 +108,7 @@ public class ArchiveManager {
         dbBackend.restartEMF();
     }
     
-    protected Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
+    private Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
         this.fastObjId.lock();
 
         // Did we request this objType+domain combination before?! If so, return the next value

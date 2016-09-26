@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -94,6 +95,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private MonitorValuePublisher publisher;
     private boolean isRegistered = false;
     private final Object lock = new Object();
+    private AtomicLong pValUniqueObjId = new AtomicLong(System.currentTimeMillis());
     private ParameterManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
@@ -215,6 +217,23 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
     
     private void publishParameterUpdate(final Long objId, final boolean storeIt) {
+
+        final ParameterValue parameterValue;
+        try {
+            parameterValue = manager.getParameterValue(objId);
+            final Time timestamp = HelperTime.getTimestampMillis();
+            final Identifier name = manager.get(objId).getName();
+            ParameterInstance instance = new ParameterInstance(name, parameterValue, null, timestamp);
+
+            ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
+            parameters.add(instance);
+
+            this.pushMultipleParameterValues(parameters, storeIt);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        /*
         try {
             synchronized(lock){
                 if (!isRegistered) {
@@ -232,9 +251,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     });
 
             final ParameterValue parameterValue = manager.getParameterValue(objId);
-            final Long pValObjId = (storeIt) ? 
+            final Long pValObjId = (storeIt) ?
                     manager.storeAndGeneratePValobjId(parameterValue, objId, connection.getConnectionDetails()) :
-                    HelperTime.getTimestampMillis().getValue(); // requirement: 3.3.4.2
+                    pValUniqueObjId.incrementAndGet(); // requirement: 3.3.4.2
 
             //  requirements: 3.3.5.2.1 , 3.3.5.2.2 , 3.3.5.2.3 , 3.3.5.2.4
             final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, pValObjId, null);
@@ -257,6 +276,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         } catch (MALInteractionException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         }
+        */
     }
 
     @Override
@@ -782,6 +802,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     @Deprecated
     public Boolean pushParameterValue(final Identifier name, final ParameterValue parameterValue, final ObjectId source, final Time timestamp) {
 
+        ParameterInstance instance = new ParameterInstance(name, parameterValue, source, timestamp);
+        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
+        parameters.add(instance);
+        
+        return this.pushMultipleParameterValues(parameters);
+        
+/*        
         try {
             synchronized(lock){
                 if (!isRegistered) {
@@ -866,6 +893,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         return true;
+        */
     }
 
     /**
@@ -882,14 +910,34 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * of true will be returned because not error happened.
      */
     public Boolean pushMultipleParameterValues(final List<ParameterInstance> parameters) {
+        return this.pushMultipleParameterValues(parameters, true);
+    }
+    
+    /**
+     *
+     * The pushParameterValue operation allows an external entity to push
+     * Parameter values through the monitorValue operation of the Parameter
+     * service. If there is no parameter definition with the submitted name, the
+     * method shall automatically create the parameter definition in the
+     * Parameter service
+     *
+     * @param parameters
+     * @param storeIt A flag that defines if the Parameters are going to be stored
+     * in the COM Archive
+     * @return Returns true if the push was successful. False otherwise. Please
+     * notice that if no consumers are registered on the broker, then the value
+     * of true will be returned because not error happened.
+     */
+    public Boolean pushMultipleParameterValues(final List<ParameterInstance> parameters, final boolean storeIt) {
 
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
-
-                isRegistered = true;
+            synchronized(lock){
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
             }
 
             LongList objIds = new LongList();
@@ -946,7 +994,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 parameterValueList.add(parameter.getParameterValue());
             }
 
-            final LongList pValObjIds = manager.storeAndGenerateMultiplePValobjId(parameterValueList, objIds, connection.getConnectionDetails()); // requirement: 3.3.4.2
+            final LongList pValObjIds;
+            
+            if(storeIt){
+                pValObjIds = manager.storeAndGenerateMultiplePValobjId(parameterValueList, objIds, connection.getConnectionDetails()); // requirement: 3.3.4.2
+            }else{
+                // Well, if we don't strore it, then we shall use the local unique variable
+                pValObjIds = new LongList();
+                for(ParameterInstance parameter : parameters){
+                    pValObjIds.add(pValUniqueObjId.incrementAndGet());
+                }
+            }
 
             for (int i = 0; i < pValObjIds.size(); i++) {
 

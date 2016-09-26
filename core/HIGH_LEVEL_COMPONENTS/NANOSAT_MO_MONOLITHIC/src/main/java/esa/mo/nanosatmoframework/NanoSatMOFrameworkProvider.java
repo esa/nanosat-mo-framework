@@ -26,13 +26,8 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.mc.impl.util.MCServicesProvider;
-import esa.mo.nanosatmoframework.MCStoreLastConfigurationAdapter;
-import esa.mo.nanosatmoframework.CloseAppListener;
-import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
@@ -66,6 +61,7 @@ import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
  */
 public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProviderImplInterface, NanoSatMOFrameworkInterface {
 
+    private final static String MESSAGE_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
     public final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     public final static String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
     public final static String NANOSAT_MO_SUPERVISOR_NAME = "NanoSat_MO_Supervisor";
@@ -100,7 +96,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public void reportActionExecutionProgress(final boolean success, final int errorNumber,
             final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws IOException {
         if (this.getMCServices() == null) {
-            throw new IOException("The M&C services were not initialized!");
+            throw new IOException(MESSAGE_SERVICES_NOT_INITIALIZED);
         }
 
         this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
@@ -109,7 +105,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     @Override
     public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) throws IOException {
         if (this.getMCServices() == null) {
-            throw new IOException("The M&C services were not initialized!");
+            throw new IOException(MESSAGE_SERVICES_NOT_INITIALIZED);
         }
 
         return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName), argumentValues, null, null);
@@ -118,7 +114,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     @Override
     public Boolean pushParameterValue(final String name, final Serializable content) throws IOException {
         if (this.getMCServices() == null) {
-            throw new IOException("The M&C services were not initialized!");
+            throw new IOException(MESSAGE_SERVICES_NOT_INITIALIZED);
         }
 
         Object obj = HelperAttributes.javaType2Attribute(content); // Convert to MAL type if possible
@@ -184,24 +180,6 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
 
     }
-
-    /*
-    @Deprecated
-    public final void startMCServices(ActionInvocationListener actionAdapter,
-            ParameterStatusListener parameterAdapter) throws MALException {
-        if (actionAdapter != null || parameterAdapter != null) {
-            mcServices = new MCServicesProvider();
-
-            parameterManager = new ParameterManager(comServices, parameterAdapter);
-
-            mcServices.getParameterService().init(parameterManager);
-            mcServices.getActionService().init(comServices, actionAdapter);
-            mcServices.getAlertService().init(comServices);
-            mcServices.getAggregationService().init(comServices, parameterManager);
-        }
-
-    }
-*/
 
     public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
         if (mcAdapter != null) {

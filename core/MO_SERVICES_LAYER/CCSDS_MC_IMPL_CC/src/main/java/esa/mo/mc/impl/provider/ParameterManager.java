@@ -27,6 +27,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -62,7 +63,7 @@ public class ParameterManager extends DefinitionsManager {
     private static final transient int SAVING_PERIOD = 20;  // Used to store the uniqueObjIdPVal only once every "SAVINGPERIOD" times
 
     private Long uniqueObjIdDef; // Counter (different for every Definition)
-    private Long uniqueObjIdPVal = System.currentTimeMillis();
+    private AtomicLong uniqueObjIdPVal = new AtomicLong(0);
     private final transient ParameterStatusListener parametersMonitoring;   // transient: marks members that won't be serialized.
 
     public ParameterManager(COMServicesProvider comServices, ParameterStatusListener parametersMonitoring) {
@@ -77,7 +78,7 @@ public class ParameterManager extends DefinitionsManager {
 
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdPVal = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+//            this.uniqueObjIdPVal = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
 //            this.load(); // Load the file
         } else {
             // With Archive...
@@ -118,14 +119,17 @@ public class ParameterManager extends DefinitionsManager {
      * Archive service for objects storage. In this case, the unique identifier
      * must be retrieved from the Archive during storage
      */
+    /*    @Deprecated
     protected Long storeAndGeneratePValobjId(ParameterValue pVal, Long related, SingleConnectionDetails connectionDetails) {
         if (super.getArchiveService() == null) {
-            uniqueObjIdPVal++;
+//            uniqueObjIdPVal++;
+            
             // It is used to avoid constant saving every time we generate a new obj Inst identifier.
-            if (uniqueObjIdPVal % SAVING_PERIOD == 0) {
+//            if (uniqueObjIdPVal % SAVING_PERIOD == 0) {
 //                this.save();
-            }
-            return this.uniqueObjIdPVal;
+//            }
+//            return this.uniqueObjIdPVal;
+            return this.uniqueObjIdPVal.incrementAndGet();            
         } else {
             ParameterValueList pValList = new ParameterValueList();
             pValList.add(pVal);
@@ -152,56 +156,115 @@ public class ParameterManager extends DefinitionsManager {
             return null;
         }
     }
-
+     */
     /**
      *
-     * @param pVal
+     * @param pVals
      * @param relatedList
      * @param connectionDetails
      * @return The unique identifier or null if the implementation is using the
      * Archive service for objects storage. In this case, the unique identifier
      * must be retrieved from the Archive during storage
      */
-    protected LongList storeAndGenerateMultiplePValobjId(ParameterValueList pVal, LongList relatedList, SingleConnectionDetails connectionDetails) {
-        if (this.getArchiveService() != null) {
+    protected synchronized LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals, final LongList relatedList, final SingleConnectionDetails connectionDetails) {
 
-            ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        if (this.getArchiveService() == null) {
+            LongList out = new LongList();
 
-            for (Long related : relatedList) {
-                ArchiveDetails archiveDetails = new ArchiveDetails();
+            for (ParameterValue pVal : pVals) {
+                out.add(this.uniqueObjIdPVal.incrementAndGet());
+            }
+
+            return out;
+        }
+
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+
+        final LongList out = new LongList();
+
+        for (Long related : relatedList) {
+            ArchiveDetails archiveDetails = new ArchiveDetails();
+
+            if (this.uniqueObjIdPVal.get() == 0) {
                 archiveDetails.setInstId(new Long(0));
-                archiveDetails.setDetails(new ObjectDetails(related, null));
-                archiveDetails.setNetwork(connectionDetails.getConfiguration().getNetwork());
-                archiveDetails.setTimestamp(HelperTime.getTimestamp());
-                archiveDetails.setProvider(connectionDetails.getProviderURI());
-
-                archiveDetailsList.add(archiveDetails);
+            } else {
+                Long unique = this.uniqueObjIdPVal.incrementAndGet();
+                archiveDetails.setInstId(unique);
+                out.add(unique);
             }
 
-            try {  // requirement: 3.3.4.2
-                LongList objIds = this.getArchiveService().store(
-                        true,
-                        ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
-                        connectionDetails.getDomain(),
-                        archiveDetailsList,
-                        pVal,
-                        null);
+            archiveDetails.setDetails(new ObjectDetails(related, null));
+            archiveDetails.setNetwork(connectionDetails.getConfiguration().getNetwork());
+            archiveDetails.setTimestamp(HelperTime.getTimestamp());
+            archiveDetails.setProvider(connectionDetails.getProviderURI());
+            archiveDetailsList.add(archiveDetails);
+        }
 
-                if (objIds.size() == pVal.size()) {
-                    return objIds;
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+                try {  // requirement: 3.3.4.2
+                    LongList objIds = getArchiveService().store(
+                            true,
+                            ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
+                            connectionDetails.getDomain(),
+                            archiveDetailsList,
+                            pVals,
+                            null);
+
+                    if (uniqueObjIdPVal.get() == 0) {
+                        uniqueObjIdPVal.set(objIds.get(objIds.size() - 1));
+                    }
+
+                    out.clear();
+                    out.addAll(objIds);
+                } catch (MALException ex) {
+                    Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+        };
 
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+        if (this.uniqueObjIdPVal.get() != 0) {
+            t1.start();
+            return out;
+        } else {
+            t1.start();
+            try { // Wait until it is ready
+                t1.join();
+            } catch (InterruptedException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            return null;
+            return out;
+        }
+        /*
+        try {  // requirement: 3.3.4.2
+            LongList objIds = this.getArchiveService().store(
+                    true,
+                    ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
+                    connectionDetails.getDomain(),
+                    archiveDetailsList,
+                    pVals,
+                    null);
+
+            if (this.uniqueObjIdPVal.get() == 0) {
+                this.uniqueObjIdPVal.set(objIds.get(objIds.size() - 1));
+            }
+
+            if (objIds.size() == pVals.size()) {
+                return objIds;
+            }
+
+        } catch (MALException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
-
+         */
     }
 
     protected ParameterValueList getParameterValues(LongList input) {
@@ -255,8 +318,7 @@ public class ParameterManager extends DefinitionsManager {
         } else {
             convertedValue = null;
         }
-        */
-
+         */
         UOctet invalidSubState = this.generateInvalidSubState(pDef, rawValue, convertedValue);
 
         if (invalidSubState.equals(new UOctet((short) 4))
