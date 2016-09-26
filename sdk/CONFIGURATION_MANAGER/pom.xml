@@ -65,6 +65,11 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>TRANSPORT_HTTP_TP</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>GROUND_MO_ADAPTER</artifactId>
         </dependency>
         <dependency>
