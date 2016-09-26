@@ -22,31 +22,24 @@ package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
@@ -59,10 +52,8 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
-import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
@@ -77,7 +68,6 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionS
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceNadirPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceSunPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.structures.Quaternions;
@@ -320,7 +310,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         if (ACTION_SUN_POINTING_MODE.equals(name.getValue())) {
             synchronized (this) {
                 if (!adcsDefsAdded) {
-                    this.prepareADCSForApp();
+                    this.prepareADCSServiceForApp();
                 }
             }
 
@@ -341,7 +331,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         if (ACTION_NADIR_POINTING_MODE.equals(name.getValue())) {
             synchronized (this) {
                 if (!adcsDefsAdded) {
-                    this.prepareADCSForApp();
+                    this.prepareADCSServiceForApp();
                 }
             }
 
@@ -361,7 +351,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         return null;  // Action service not integrated
     }
 
-    public void prepareADCSForApp() {
+    private void prepareADCSServiceForApp() {
         AttitudeDefinitionList nadirDefs = new AttitudeDefinitionNadirPointingList();
         AttitudeDefinitionNadirPointing nadirDef = new AttitudeDefinitionNadirPointing();
         nadirDef.setName(new Identifier("NadirPointing"));
