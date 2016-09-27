@@ -68,6 +68,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionS
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceNadirPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceSunPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.structures.Quaternions;
@@ -81,7 +82,6 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
     private NanoSatMOFrameworkInterface nmf;
 
-    
     private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
     private static final String PARAMETER_GPS_LONGITUDE = "GPS.Longitude";
     private static final String PARAMETER_GPS_ALTITUDE = "GPS.Altitude";
@@ -91,6 +91,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     private static final String PARAMETER_ADCS_MODE = "ADCS.ModeOperation";
     private static final String ACTION_SUN_POINTING_MODE = "ADCS.SunPointingMode";
     private static final String ACTION_NADIR_POINTING_MODE = "ADCS.NadirPointingMode";
+    private static final String ACTION_UNSET = "ADCS.UnsetAttitude";
 
     private boolean adcsDefsAdded = false;
     private Long sunPointingObjId = null;
@@ -108,7 +109,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         ParameterDefinitionDetails defModeOperation = new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_ADCS_MODE),
                 "The ADCS mode operation",
-                Union.OCTET_SHORT_FORM.byteValue(),
+                Union.STRING_SHORT_FORM.byteValue(),
                 "",
                 false,
                 new Duration(3),
@@ -222,9 +223,22 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null
         );
 
+        ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
+        detailsList.add(null);
+        
+        ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails(
+                new Identifier(ACTION_UNSET),
+                "Unsets the spacecraft's attitude.",
+                Severity.INFORMATIONAL,
+                new UShort(0),
+                detailsList,
+                null
+        );
+
         ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
         actionDefs.add(actionDef1);
         actionDefs.add(actionDef2);
+        actionDefs.add(actionDef3);
         LongList actionObjIds = registration.registerActions(actionDefs);
 
     }
@@ -245,9 +259,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     @Override
                     public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
                         nOfSats.add(gpsSatellitesInfo.size());
-
                         sem.release();
-
                     }
                 }
 
@@ -316,8 +328,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 Attribute argValue = attributeValues.get(0).getValue();
-                System.out.println("ACTION_SUN_POINTING_MODE Value is ["+esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue)+"]");
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, (Duration)argValue);
+                System.out.println(ACTION_SUN_POINTING_MODE + " with value is ["+esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue)+"]");
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, (Duration)argValue, new Duration(2));
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -337,8 +349,27 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 Attribute argValue = attributeValues.get(0).getValue();
-                System.out.println("ACTION_NADIR_POINTING_MODE Value is ["+esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue)+"]");
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, (Duration)argValue);
+                System.out.println(ACTION_NADIR_POINTING_MODE + " with value is ["+esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue)+"]");
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, (Duration)argValue, new Duration(2));
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
+            } catch (MALException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
+            }
+        }
+
+        if (ACTION_UNSET.equals(name.getValue())) {
+            synchronized (this) {
+                if (!adcsDefsAdded) {
+                    this.prepareADCSServiceForApp();
+                }
+            }
+
+            try {
+                System.out.println(ACTION_UNSET + " was called");
+                nmf.getPlatformServices().getAutonomousADCSService().unsetAttitude();
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -393,9 +424,6 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         }
 
         try {
-            // Report every 1 second
-            nmf.getPlatformServices().getAutonomousADCSService().configureMonitoring(new Duration(1));
-
             // Subscribe monitorAttitude
             nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcard(), new DataReceivedAdapter());
         } catch (MALInteractionException ex) {
@@ -420,6 +448,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
                     AttitudeInstance attitudeInstance = (AttitudeInstance) attitudeInstanceList.get(i);
                     Long mode = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
+                    AttitudeMode attMode = AttitudeMode.fromNumericValue(new UInteger(mode));
 
                     // Sun Pointing
                     if (attitudeInstance instanceof AttitudeInstanceSunPointing) {
@@ -427,18 +456,20 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
 
                         try {
-                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, mode);
+                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode.toString());
                             if(sunVector != null){
-                                nmf.pushParameterValue("sunVector3dX", sunVector.getX());
-                                nmf.pushParameterValue("sunVector3dY", sunVector.getY());
-                                nmf.pushParameterValue("sunVector3dZ", sunVector.getZ());
+                                nmf.pushParameterValue("sunVector3D_X", sunVector.getX());
+                                nmf.pushParameterValue("sunVector3D_Y", sunVector.getY());
+                                nmf.pushParameterValue("sunVector3D_Z", sunVector.getZ());
                             }
 
+                            /*
                             if(wheelSpeed != null){
                                 for (int j = 0; j < wheelSpeed.getVelocity().size(); j++) {
                                     nmf.pushParameterValue("wheelSpeed_" + j, wheelSpeed.getVelocity().get(j));
                                 }
                             }
+                            */
                         } catch (IOException ex) {
                             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -448,12 +479,13 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     if (attitudeInstance instanceof AttitudeInstanceNadirPointing) {
                         Vector3D positionVector = ((AttitudeInstanceNadirPointing) attitudeInstance).getPositionVector();
                         Quaternions quaternions = ((AttitudeInstanceNadirPointing) attitudeInstance).getCurrentQuaternions();
+                        attMode = AttitudeMode.NADIRPOINTING;
 
                         try {
-                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, mode);
-                            nmf.pushParameterValue("positionVector3dX", positionVector.getX());
-                            nmf.pushParameterValue("positionVector3dY", positionVector.getY());
-                            nmf.pushParameterValue("positionVector3dZ", positionVector.getZ());
+                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode.toString());
+                            nmf.pushParameterValue("positionVector3D_X", positionVector.getX());
+                            nmf.pushParameterValue("positionVector3D_Y", positionVector.getY());
+                            nmf.pushParameterValue("positionVector3D_Z", positionVector.getZ());
 
                             nmf.pushParameterValue("quaternion1", quaternions.getQ1());
                             nmf.pushParameterValue("quaternion2", quaternions.getQ2());

@@ -22,9 +22,10 @@ package esa.mo.demo.provider.testarchive;
 
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.provider.ParameterManager;
-import esa.mo.nanosatmoframework.adapters.MonitorAndControlAdapter;
-import esa.mo.nanosatmoframework.connector.NanoSatMOConnectorImpl;
-import esa.mo.nanosatmoframework.interfaces.NanoSatMOFrameworkInterface;
+import esa.mo.nanosatmoframework.MCRegistration;
+import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
+import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
+import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -52,7 +53,7 @@ public class TestArchive {
 
     private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
 //    private static int NUMBER_OF_OBJS = 5000;
-    private static int NUMBER_OF_OBJS = 3;
+    private static int NUMBER_OF_OBJS = 100;
 
     public TestArchive() {
 
@@ -88,7 +89,7 @@ public class TestArchive {
         }
 
         long startTime = System.nanoTime();
-
+/*
         try {
             LongList objIds = nanoSatMOFramework.getCOMServices().getArchiveService().store(
                     true,
@@ -122,9 +123,8 @@ public class TestArchive {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-
+*/
         
-/*
         try {
 
             for (int i = 0; i < defs.size(); i++) {
@@ -148,11 +148,15 @@ public class TestArchive {
         } catch (MALInteractionException ex) {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-*/
+
 
         long estimatedTime = System.nanoTime() - startTime;
-        Logger.getLogger(TestArchive.class.getName()).log(Level.INFO, "time: {0}", estimatedTime);
+        Logger.getLogger(TestArchive.class.getName()).log(Level.INFO, "Total time: " + NUMBER_OF_OBJS + " objects in {0} nanoseconds", estimatedTime);
 
+        float objectPerSec = NUMBER_OF_OBJS / ((float) ((float) estimatedTime / (float) 1000000000));
+        float averageTimePerObj = 1 / objectPerSec;
+        Logger.getLogger(TestArchive.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
+        
     }
 
     /**
@@ -165,10 +169,10 @@ public class TestArchive {
         TestArchive demo = new TestArchive();
     }
 
-    public class mcAdapter extends MonitorAndControlAdapter {
+    public class mcAdapter extends MonitorAndControlNMFAdapter {
         @Override
-        public void initialRegistrations() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        public void initialRegistrations(MCRegistration registration) {
+
         }
 
         @Override
