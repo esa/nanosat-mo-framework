@@ -47,6 +47,7 @@ public class DatabaseBackend {
     private EntityManagerFactory emf;
     private EntityManager em;
     private Connection serverConnection;
+    private boolean keptOpen = false;
 
 //    private static final String DRIVER_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver"; // Derby Embedded Driver
 //    private static final String DATABASE_NAME = "derby"; // Derby
@@ -56,7 +57,6 @@ public class DatabaseBackend {
     private static final String DATABASE_LOCATION_NAME = "comArchive.db";
 
     private final String url;
-    
     
     public DatabaseBackend(){
         // Create unique URL that identifies the connection
@@ -146,11 +146,20 @@ public class DatabaseBackend {
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.em = this.emf.createEntityManager();
+        
+//        if(!keptOpen){
+            this.em = this.emf.createEntityManager();
+//        }
     }
 
     public void closeEntityManager() {
-        this.em.close();
+        // If it has Thread open, then keep it open...
+//        keptOpen = this.emAvailability.hasQueuedThreads();
+        
+//        if(!keptOpen){
+            this.em.close();
+//        }
+        
         this.emAvailability.release();
     }
     

@@ -233,6 +233,10 @@ public class ArchiveManager {
 
         return outIds;
     }
+    
+    private void insertInQueue(){
+        // We wil need a queue for the handling of multiple separate stores simultaneously
+    }
 
     private void persistObjects(final ArrayList<ArchivePersistenceObject> perObjs) {
         for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle

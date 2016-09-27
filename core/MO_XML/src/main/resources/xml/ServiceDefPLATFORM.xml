@@ -520,26 +520,9 @@
             </mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
-				<mal:submitIP comment="The configureMonitoring operation allows a consumer to configure the monitoring of the satellite's current attitude." name="configureMonitoring" number="2" supportInReplay="false">
-					<mal:messages>
-						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="The streamingRate field shall contain the publishing frequency. " name="streamingRate">
-								<mal:type area="MAL" list="false" name="Duration"/>
-							</mal:field>
-						</mal:submit>
-					</mal:messages>
-          <mal:errors>
-            <mal:errorRef comment="The streamingRate is out of limits.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            <mal:extraInformation comment="The minimum valid streamingRate.">
-                <mal:type area="MAL" list="false" name="Duration"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:submitIP comment="The setDesiredAttitude operation allows a consumer to set the spacecraft's attitude from an attitude definition." name="setDesiredAttitude" number="3" supportInReplay="false">
+				<mal:submitIP comment="The setDesiredAttitude operation allows a consumer to set the spacecraft's attitude from an attitude definition." name="setDesiredAttitude" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="The object instance identifier of the attitude definition to be set." name="objInstId">
@@ -548,7 +531,10 @@
 							<mal:field canBeNull="true" comment="The autoUnset field holds the duration after which the attitude definition shall be automatically unset.&#10;If the field is null, then the attitude definition won't be automatically unset, in this case the manual unsetAttitude operation must be used to disengage it." name="autoUnset">
 								<mal:type area="MAL" list="false" name="Duration"/>
 							</mal:field>
-						</mal:submit>
+						<mal:field canBeNull="true" comment="The streamingRate field shall contain the publishing frequency. " name="streamingRate">
+                <mal:type area="MAL" list="false" name="Duration"/>
+              </mal:field>
+            </mal:submit>
 					</mal:messages>
 					<mal:errors>
 						<mal:errorRef comment="The ADCS unit is not available.">
@@ -572,9 +558,15 @@
           <mal:errorRef comment="The selected attitude definition is unsupported by the current implementation of the service.">
               <mal:type area="MAL" list="false" name="UNSUPPORTED_OPERATION"/>
             </mal:errorRef>
+          <mal:errorRef comment="The streamingRate is out of limits.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+              <mal:extraInformation comment="The minimum valid streamingRate.">
+                <mal:type area="MAL" list="false" name="Duration"/>
+              </mal:extraInformation>
+            </mal:errorRef>
           </mal:errors>
 				</mal:submitIP>
-				<mal:submitIP comment="The unsetAttitude operation allows a consumer to unset the spacecraft's attitude from the current selected attitude definition. This operation is expected to be used after a certain attitude definition is set by the setDesiredAttitude operation. If the attitude was set with the automatic unsetting enabled, then the unsetAttitude operation will override it and the attitude will be unset immediately. " name="unsetAttitude" number="4" supportInReplay="false">
+				<mal:submitIP comment="The unsetAttitude operation allows a consumer to unset the spacecraft's attitude from the current selected attitude definition. This operation is expected to be used after a certain attitude definition is set by the setDesiredAttitude operation. If the attitude was set with the automatic unsetting enabled, then the unsetAttitude operation will override it and the attitude will be unset immediately. " name="unsetAttitude" number="3" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment=""/>
 					</mal:messages>
@@ -586,7 +578,7 @@
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:requestIP comment="The listAttitudeDefinition operation allows a consumer to request the object instance identifiers of the attitude definition objects for the supported parameters of the provider. The operation is expected to be used in conjunction with the COM archive which holds the actual ParameterDefinition objects." name="listAttitudeDefinition" number="7" supportInReplay="false">
+				<mal:requestIP comment="The listAttitudeDefinition operation allows a consumer to request the object instance identifiers of the attitude definition objects for the supported parameters of the provider. The operation is expected to be used in conjunction with the COM archive which holds the actual ParameterDefinition objects." name="listAttitudeDefinition" number="4" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
 							<mal:field canBeNull="true" comment="The names of the Attitude definitions to be listed.&#10;The names field may contain the wildcard value of '*' to return all supported ParameterDefinition objects." name="names">
@@ -707,7 +699,7 @@
           <mal:field canBeNull="true" comment="" name="wheelSpeed">
           <mal:type area="Platform" list="false" name="WheelSpeed"/>
           </mal:field>
-          <mal:field canBeNull="true" comment="" name="mtqDipoleMomentum">
+          <mal:field canBeNull="true" comment="This value shall not be used" name="mtqDipoleMomentum">
           <mal:type area="Platform" list="false" name="Vector3D"/>
           </mal:field>
         </mal:composite>

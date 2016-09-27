@@ -111,6 +111,29 @@
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>StubGenerator</artifactId>
       </plugin>
+      <!-- A problem was found on the automatic generation of Enumerations
+      this is the fix for it. However the latest StubGenerator would have to be
+      cloned from GitHub and compiled locally in order to work.
+<plugin>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>StubGenerator</artifactId>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>StubGenerator_Java</artifactId>
+            <version>1.5-SNAPSHOT</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+-->      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

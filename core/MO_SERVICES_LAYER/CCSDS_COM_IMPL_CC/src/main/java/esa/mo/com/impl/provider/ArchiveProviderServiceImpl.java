@@ -134,7 +134,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     @Override
     @SuppressWarnings("unchecked")
     public void retrieve(final ObjectType inObjectType, final IdentifierList inDomain,
-            LongList inObjIds, RetrieveInteraction interaction) throws MALInteractionException, MALException {
+            final LongList inObjIds, final RetrieveInteraction interaction) 
+            throws MALInteractionException, MALException {
 
         interaction.sendAcknowledgement();  // "ok, it was received.."
         UIntegerList unkIndexList = new UIntegerList();

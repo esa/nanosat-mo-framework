@@ -91,6 +91,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     private ConfigurationNotificationInterface configurationAdapter;
     private Thread autoUnsetThread = null;
     private Long currentAttitudeObjId = (long) 0;
+    private int period = 5000; // Default value: 5 seconds
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -202,32 +203,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, "Could not create the Element List!", ex);
         }
     }
-
+    
     @Override
-    public synchronized void configureMonitoring(Duration streamingRate, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void setDesiredAttitude(final Long objInstId, final Duration autoUnset, 
+            final Duration streamingRate, final MALInteraction interaction) throws MALInteractionException, MALException {
 
-        // Is the requested streaming rate less than the minimum period?
-        if (streamingRate.getValue() < MINIMUM_PERIOD.getValue()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, MINIMUM_PERIOD));
-        }
-
-        publishTimer.cancel();
-        int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
-
-        publishTimer = new Timer();
-        publishTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (running) {
-                    publishCurrentAttitude();
-                }
-            }
-        }, period, period);
-
-    }
-
-    @Override
-    public synchronized void setDesiredAttitude(final Long objInstId, final Duration autoUnset, final MALInteraction interaction) throws MALInteractionException, MALException {
         if (null == objInstId) { // Is the input null?
             throw new IllegalArgumentException("objInstId argument must not be null");
         }
@@ -239,6 +219,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         if (adcsInUse) { // Is the ADCS unit in use?
             Duration duration = manager.getTimeLeft();
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, duration));
+        }
+
+        // Is the requested streaming rate less than the minimum period?
+        if (streamingRate.getValue() < MINIMUM_PERIOD.getValue()) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, MINIMUM_PERIOD));
         }
 
         AttitudeDefinition attitude = manager.get(objInstId);
@@ -264,32 +249,37 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             throw new MALInteractionException(new MALStandardError(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));
         }
 
+        period = (int) (streamingRate.getValue() * 1000); // In milliseconds
+        this.restartPublishTimer();
+
         // Store current time
         manager.markAvailableTime(autoUnset);
         adcsInUse = true;
 
-        // Start auto-timer to unset
-        autoUnsetThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep((long) autoUnset.getValue() * 1000); // Conversion to miliseconds
-
+        if(autoUnset.getValue() != 0){
+            // Start auto-timer to unset
+            autoUnsetThread = new Thread() {
+                @Override
+                public void run() {
                     try {
-                        publishTimer.cancel();
-                        adapter.unset();
-                        adcsInUse = false;
-                    } catch (IOException ex) {
-                        Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        Thread.sleep((long) autoUnset.getValue() * 1000); // Conversion to miliseconds
+
+                        try {
+                            publishTimer.cancel();
+                            adapter.unset();
+                            adcsInUse = false;
+                        } catch (IOException ex) {
+                            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } catch (InterruptedException ex) {
+                        // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
                     }
-                } catch (InterruptedException ex) {
-                    // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
+
                 }
+            };
 
-            }
-        };
-
-        autoUnsetThread.start();
+            autoUnsetThread.start();
+        }
 
     }
 
@@ -335,11 +325,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                 invIndexList.add(new UInteger(index));
             }
 
-            if (manager.list(def.getName()) == null) { // Is the supplied name unique?
-                ObjectId source = manager.storeCOMOperationActivity(interaction);
-                outLongLst.add(manager.add(def, source, connection.getConnectionDetails()));
-            } else {
-                dupIndexList.add(new UInteger(index)); //  requirement: 3.4.10.2.c
+            if (manager.list(def.getName()) != null) { // Is the supplied name unique?
+                dupIndexList.add(new UInteger(index));
             }
         }
 
@@ -352,6 +339,12 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
+        // If no errors, then add!  // requirement: 3.6.13.2.h
+        for (Object attitudeDefinition : attitudeDefinitions) {  // requirement: 3.6.13.2.i
+                ObjectId source = manager.storeCOMOperationActivity(interaction);
+                outLongLst.add(manager.add((AttitudeDefinition) attitudeDefinition, source, connection.getConnectionDetails()));
+        }
+        
         if (configurationAdapter != null) {
             configurationAdapter.configurationChanged(this);
         }
@@ -422,6 +415,19 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         // Errors
         // The operation does not return any errors.
         return outLongLst;
+    }
+
+    private void restartPublishTimer(){
+        publishTimer.cancel();
+        publishTimer = new Timer();
+        publishTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (running) {
+                    publishCurrentAttitude();
+                }
+            }
+        }, period, period);
     }
 
     @Override
