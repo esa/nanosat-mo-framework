@@ -23,6 +23,7 @@ package esa.mo.platform.impl.util;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
+import org.ccsds.moims.mo.platform.magnetometer.consumer.MagnetometerStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
@@ -39,6 +40,8 @@ public interface PlatformServicesConsumerInterface {
     public abstract CameraStub getCameraService();
 
     public abstract GPSStub getGPSService();
+    
+    public abstract MagnetometerStub getMagnetometerService();
     
     public abstract OpticalDataReceiverStub getOpticalDataReceiverService();
 

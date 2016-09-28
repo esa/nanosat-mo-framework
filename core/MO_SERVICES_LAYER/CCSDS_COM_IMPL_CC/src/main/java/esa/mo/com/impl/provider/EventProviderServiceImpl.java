@@ -113,17 +113,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 null,
                 new UInteger(0));
 
-        /*
-        try {
-            final EntityKeyList lst = new EntityKeyList();
-            lst.add(new EntityKey(new Identifier("*"), (long) 0, (long) 0, (long) 0));
-            publisher.register(lst, new PublishInteractionListener());
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
         // shut down old service transport
         if (null != eventServiceProvider) {
             connection.close();
