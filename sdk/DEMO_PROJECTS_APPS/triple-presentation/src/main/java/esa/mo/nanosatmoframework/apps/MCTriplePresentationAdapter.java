@@ -58,6 +58,8 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ArgumentValue;
+import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalReferenceList;
 import org.ccsds.moims.mo.mc.structures.Severity;
@@ -116,8 +118,12 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                ArgumentValueList args = new ArgumentValueList();
+                ArgumentValue arg = new ArgumentValue(false, new Union("Hello from the other side!"));
+                args.add(arg);
+                
                 try {
-                    nmf.publishAlertEvent("10SecondsAlert", null);
+                    nmf.publishAlertEvent("10SecondsAlert", args);
                 } catch (IOException ex) {
                     Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -448,9 +454,15 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     this.prepareADCSServiceForApp();
                 }
             }
-
+            
             try {
                 Attribute argValue = attributeValues.get(0).getValue();
+
+                // Negative Durations are not allowed!
+                if(((Duration) argValue).getValue() < 0){
+                    return new UInteger(0);
+                }
+
                 System.out.println(ACTION_SUN_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
                 nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, (Duration) argValue, new Duration(2));
             } catch (MALInteractionException ex) {
@@ -472,6 +484,12 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 Attribute argValue = attributeValues.get(0).getValue();
+                
+                // Negative Durations are not allowed!
+                if(((Duration) argValue).getValue() < 0){
+                    return new UInteger(0);
+                }
+                
                 System.out.println(ACTION_NADIR_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
                 nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, (Duration) argValue, new Duration(2));
             } catch (MALInteractionException ex) {
@@ -490,6 +508,12 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 }
             }
 
+            try {
+                nmf.pushParameterValue(PARAMETER_ADCS_MODE, (AttitudeMode.BDOT).toString());
+            } catch (IOException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             try {
                 System.out.println(ACTION_UNSET + " was called");
                 nmf.getPlatformServices().getAutonomousADCSService().unsetAttitude();
