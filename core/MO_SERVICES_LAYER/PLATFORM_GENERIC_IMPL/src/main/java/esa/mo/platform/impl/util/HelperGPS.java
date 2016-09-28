@@ -103,23 +103,23 @@ public class HelperGPS {
     }
 
     /**
-     * Converts a GPALM NMEA sentence into a SatelliteInfoList object.
+     * Converts a GPGSV NMEA sentence into a SatelliteInfoList object.
      *
-     * @param gpalm GPALM NMEA sentence
+     * @param gpgsv GPGSV NMEA sentence
      * @return SatelliteInfoList object
      * @throws java.io.IOException
      */
-    public static SatelliteInfoList gpalm2SatelliteInfoList(final String gpalm) throws IOException {
+    public static SatelliteInfoList gpgsv2SatelliteInfoList(final String gpgsv) throws IOException {
 
         SatelliteInfoList sats = new SatelliteInfoList();
-        String sentences[]=gpalm.split("\n");
+        String sentences[]=gpgsv.split("\n");
         for (String sentence:sentences)
         {
             String[] words=sentence.split(",");
             int count=words.length;
-            System.out.println(count);
-            int expectedSize=GPGSV_COL.CHECKSUM;
-            if (count==GPGSV_COL.CHECKSUM){
+            //System.out.println(count);
+            int expectedSize=GPGSV_COL.CHECKSUM+1;
+            if (count==expectedSize){
                 int satCount=0;
                 if ("$GPGSV".equals(words[GPGSV_COL.HEADER]))
                 {
@@ -154,23 +154,20 @@ public class HelperGPS {
                             elevation=Float.valueOf(words[GPGSV_COL.SAT4_ELEV]);    
                             prn=Integer.valueOf(words[GPGSV_COL.SAT4_PRN]);
                         }
-                        if (satCount++<totalSats) sats.add(new SatelliteInfo(azimuth,elevation,prn,almanac,ephemeris,recentFix,svn));
+                        if (satCount++<totalSats && prn>0) sats.add(new SatelliteInfo(azimuth,elevation,prn,almanac,ephemeris,recentFix,svn));
                     }
                 }
                 else
                 {
-                    System.out.println("Sentence ["+sentence+"] has wrong header ["+words[GPGSV_COL.HEADER]+"], expected [$GPGSV]");
+                    System.out.println("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["+sentence+"] has wrong header ["+words[GPGSV_COL.HEADER]+"], expected [$GPGSV]");
                 }
             }
             else
             {
-                System.out.println("Sentence ["+sentence+"] has wrong GPS sentence size ["+count+"], expected ["+expectedSize+"]");
+                System.out.println("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["+sentence+"] has wrong GPS sentence size ["+count+"], expected ["+expectedSize+"]");
             }
             
         }
-        // To be done!! :P
-
-        
         return sats;
     }
     

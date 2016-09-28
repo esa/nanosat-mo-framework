@@ -51,8 +51,8 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
     @Override
     public SatelliteInfoList getSatelliteInfoList() {
         try {
-            String gpalm = this.getNMEASentence("GPALM");
-            return HelperGPS.gpalm2SatelliteInfoList(gpalm);
+            String gpgsv = this.getNMEASentence("GPGSV");
+            return HelperGPS.gpgsv2SatelliteInfoList(gpgsv);
         } catch (IOException ex) {
             Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
