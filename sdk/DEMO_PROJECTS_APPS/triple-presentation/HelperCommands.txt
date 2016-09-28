@@ -1,13 +1,22 @@
+# find out which Actions are available for execution in the target application(space)
 list:
 
+# obtain description and required arguments for each Action
 help:ADCS.UnsetAttitude
 help:ADCS.NadirPointingMode
 help:ADCS.SunPointingMode
 
-ADCS.UnsetAttitude(+00.00.00.000)
+# clear any currently running Pointing Mode
+ADCS.UnsetAttitude()
 
-precheck: ADCS.NadirPointingMode(+00.00.25.000)
-ADCS.NadirPointingMode(+00.00.25.000)
+# Change pointing mode to Nadir for a duration of 2 minutes
+precheck:ADCS.NadirPointingMode(+00.02.00.000)
+ADCS.NadirPointingMode(+00.02.00.000)
 
-precheck: ADCS.SunPointingMode(+00.00.25.000)
-ADCS.SunPointingMode(+00.00.25.000)
+# Change pointing mode to Sun for a duration of 2 minutes
+precheck:ADCS.SunPointingMode(+00.02.00.000)
+ADCS.SunPointingMode(+00.02.00.000)
+
+# 5StagesAction
+precheck:5StagesAction
+5StagesAction()
