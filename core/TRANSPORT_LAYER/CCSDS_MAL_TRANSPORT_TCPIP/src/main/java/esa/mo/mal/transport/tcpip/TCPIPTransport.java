@@ -198,10 +198,17 @@ public class TCPIPTransport extends GENTransport {
                 if (properties.containsKey("org.ccsds.moims.mo.mal.transport.tcpip.port")) {
                     try {
                         this.serverPort = Integer.parseInt((String) properties.get("org.ccsds.moims.mo.mal.transport.tcpip.port"));
+                        InetAddress serverHostAddr = InetAddress.getByName(serverHost);
+                        serverSocket = new ServerSocket(this.serverPort, 0, serverHostAddr);
                     } catch (NumberFormatException ex) {
                         RLOGGER.log(Level.WARNING, "Cannot parse server port number from properties file to Integer", ex);
                         throw new MALException("Cannot parse server port number from properties file to Integer", ex);
+                    } catch (UnknownHostException ex) {
+                        Logger.getLogger(TCPIPTransport.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(TCPIPTransport.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    
                 } else {
 //          this.serverPort = 61616;
                     try {

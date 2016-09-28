@@ -280,36 +280,48 @@ public class ActivityTrackingProviderServiceImpl {
             return null;
         }
 
-        OperationActivityList opActivityList = new OperationActivityList();
+        final OperationActivityList opActivityList = new OperationActivityList();
         opActivityList.add(new OperationActivity(interaction.getMessageHeader().getInteractionType()));
 
         // requirement: 3.5.2.3
-        ArchiveDetailsList archiveDetails = HelperArchive.generateArchiveDetailsList(null, source, interaction);
-        archiveDetails.get(0).setInstId(interaction.getMessageHeader().getTransactionId()); // requirement: 3.5.2.4
+        final ArchiveDetailsList archiveDetails = HelperArchive.generateArchiveDetailsList(null, source, interaction);
+        final Long objId = interaction.getMessageHeader().getTransactionId();
+        archiveDetails.get(0).setInstId(objId); // requirement: 3.5.2.4
         archiveDetails.get(0).setNetwork(interaction.getMessageHeader().getNetworkZone());  // RID raised to create this requirement!
         archiveDetails.get(0).setProvider(interaction.getMessageHeader().getURIFrom());     // RID raised to create this requirement!
 
-        try {
-            LongList objIds = this.archiveService.store(
-                    true,
-                    ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
-                    interaction.getMessageHeader().getDomain(),
-                    archiveDetails,
-                    opActivityList,
-                    interaction); // requirement: 3.5.2.3 & 3.5.2.5
-
-            if (objIds.size() == 1) {
-                ObjectKey key = new ObjectKey(interaction.getMessageHeader().getDomain(), objIds.get(0));
-                return new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, key);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    LongList objIds = archiveService.store(
+//                            true,
+                            false,
+                            ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
+                            interaction.getMessageHeader().getDomain(),
+                            archiveDetails,
+                            opActivityList,
+                            interaction); // requirement: 3.5.2.3 & 3.5.2.5
+        /*
+                    if (objIds.size() == 1) {
+                        ObjectKey key = new ObjectKey(interaction.getMessageHeader().getDomain(), objIds.get(0));
+                        return new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, key);
+                    }
+        */
+                } catch (MALException ex) {
+                    Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+        };
+        
+        t.start();
+        
+        ObjectKey key = new ObjectKey(interaction.getMessageHeader().getDomain(), objId);
+        return new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, key);
 
-        } catch (MALException ex) {
-            Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return null;
+//        return null;
     }
 
 }
