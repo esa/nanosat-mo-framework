@@ -108,12 +108,13 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         }
     }
 
+    /*
     public void setServices(CameraConsumerServiceImpl cameraService,
             GPSConsumerServiceImpl gpsService) {
         this.cameraService = cameraService;
         this.gpsService = gpsService;
     }
-
+    */
     
     @Override
     public AutonomousADCSStub getAutonomousADCSService() {
