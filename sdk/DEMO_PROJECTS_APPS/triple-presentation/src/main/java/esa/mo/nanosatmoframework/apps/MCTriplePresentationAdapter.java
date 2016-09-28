@@ -27,6 +27,8 @@ import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,6 +73,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceSun
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
+import org.ccsds.moims.mo.platform.magnetometer.structures.MagneticFieldInstance;
 import org.ccsds.moims.mo.platform.structures.Quaternions;
 import org.ccsds.moims.mo.platform.structures.Vector3D;
 import org.ccsds.moims.mo.platform.structures.WheelSpeed;
@@ -82,23 +85,45 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
     private NanoSatMOFrameworkInterface nmf;
 
+    private static final String PARAMETER_ADCS_MODE = "ADCS.ModeOperation";
     private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
     private static final String PARAMETER_GPS_LONGITUDE = "GPS.Longitude";
     private static final String PARAMETER_GPS_ALTITUDE = "GPS.Altitude";
+    private static final String PARAMETER_MAG_X = "Magnetometer.X";
+    private static final String PARAMETER_MAG_Y = "Magnetometer.Y";
+    private static final String PARAMETER_MAG_Z = "Magnetometer.Z";
     private static final String PARAMETER_GPS_ELAPSED_TIME = "GPS.ElapsedTime";
     private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "GPS.NumberOfSatellitesInView";
+
     private static final String AGGREGATION_GPS = "GPS.Aggregation";
-    private static final String PARAMETER_ADCS_MODE = "ADCS.ModeOperation";
+    private static final String AGGREGATION_MAG = "Magnetometer.Aggregation";
+
     private static final String ACTION_SUN_POINTING_MODE = "ADCS.SunPointingMode";
     private static final String ACTION_NADIR_POINTING_MODE = "ADCS.NadirPointingMode";
     private static final String ACTION_UNSET = "ADCS.UnsetAttitude";
+    private static final String ACTION_5_STAGES = "5StagesAction";
 
     private boolean adcsDefsAdded = false;
     private Long sunPointingObjId = null;
     private Long nadirPointingObjId = null;
+    private Timer timer;
 
-    public void setNMF(NanoSatMOFrameworkInterface nmf) {
-        this.nmf = nmf;
+    public void setNMF(NanoSatMOFrameworkInterface nanosatmoframework) {
+        this.nmf = nanosatmoframework;
+        
+        this.timer = new Timer();
+
+        this.timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    nmf.publishAlertEvent("10SecondsAlert", null);
+                } catch (IOException ex) {
+                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }, 0, 10 * 1000); // 10 seconds
+
     }
 
     @Override
@@ -106,7 +131,12 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
-        ParameterDefinitionDetails defModeOperation = new ParameterDefinitionDetails(
+        // ------------------ Parameters ------------------
+        ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+        ParameterDefinitionDetailsList defsGPS = new ParameterDefinitionDetailsList();
+        ParameterDefinitionDetailsList defsMag = new ParameterDefinitionDetailsList();
+
+        defsOther.add(new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_ADCS_MODE),
                 "The ADCS mode operation",
                 Union.STRING_SHORT_FORM.byteValue(),
@@ -115,10 +145,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 new Duration(3),
                 null,
                 null
-        );
-        
+        ));
+
         // Create the GPS.Latitude
-        ParameterDefinitionDetails defLatitude = new ParameterDefinitionDetails(
+        defsGPS.add(new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_GPS_LATITUDE),
                 "The GPS Latitude",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
@@ -127,10 +157,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 new Duration(2),
                 null,
                 null
-        );
+        ));
 
         // Create the GPS.Longitude
-        ParameterDefinitionDetails defLongitude = new ParameterDefinitionDetails(
+        defsGPS.add(new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_GPS_LONGITUDE),
                 "The GPS Longitude",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
@@ -139,26 +169,62 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 new Duration(2),
                 null,
                 null
-        );
+        ));
 
         // Create the GPS.Altitude
-        ParameterDefinitionDetails defAltitude = new ParameterDefinitionDetails(
+        defsGPS.add(new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_GPS_ALTITUDE),
                 "The GPS Altitude",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                "degrees",
+                "meters",
                 false,
                 new Duration(2),
                 null,
                 null
-        );
+        ));
 
-        ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
-        defs.add(defModeOperation);
-        defs.add(defLatitude);
-        defs.add(defLongitude);
-        defs.add(defAltitude);
-        LongList parameterObjIds = registration.registerParameters(defs);
+        // Create the Magnetometer.X
+        defsMag.add(new ParameterDefinitionDetails(
+                new Identifier(PARAMETER_MAG_X),
+                "The Magnetometer X component",
+                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+                "microTesla",
+                false,
+                new Duration(2),
+                null,
+                null
+        ));
+
+        // Create the Magnetometer.Y
+        defsMag.add(new ParameterDefinitionDetails(
+                new Identifier(PARAMETER_MAG_Y),
+                "The Magnetometer Y component",
+                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+                "microTesla",
+                false,
+                new Duration(2),
+                null,
+                null
+        ));
+
+        // Create the Magnetometer.Z
+        defsMag.add(new ParameterDefinitionDetails(
+                new Identifier(PARAMETER_MAG_Z),
+                "The Magnetometer Z component",
+                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+                "microTesla",
+                false,
+                new Duration(2),
+                null,
+                null
+        ));
+
+        registration.registerParameters(defsOther);
+        LongList parameterObjIdsGPS = registration.registerParameters(defsGPS);
+//        LongList parameterObjIdsMag = registration.registerParameters(defsMag);
+
+        // ------------------ Aggregations ------------------
+        AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
 
         // Create the Aggregation GPS
         AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
@@ -174,14 +240,37 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         defGPSAgg.getParameterSets().add(new AggregationParameterSet(
                 null,
-                parameterObjIds,
+                parameterObjIdsGPS,
                 new Duration(3),
                 null
         ));
 
-        AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
+        // Create the Aggregation Magnetometer
+/*        
+        AggregationDefinitionDetails defMagAgg = new AggregationDefinitionDetails(
+                new Identifier(AGGREGATION_MAG),
+                "Aggregates Magnetometer components: X, Y, Z.",
+                AggregationCategory.GENERAL,
+                true,
+                new Duration(10),
+                false,
+                new Duration(20),
+                new AggregationParameterSetList()
+        );
+
+        defMagAgg.getParameterSets().add(new AggregationParameterSet(
+                null,
+                parameterObjIdsMag,
+                new Duration(3),
+                null
+        ));
+*/
         aggs.add(defGPSAgg);
+//        aggs.add(defMagAgg);
         registration.registerAggregations(aggs);
+
+        // ------------------ Actions ------------------
+        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
 
         ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
         {
@@ -202,7 +291,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 arguments1,
                 null
         );
-
+        /*
         ArgumentDefinitionDetailsList arguments2 = new ArgumentDefinitionDetailsList();
         {
             Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
@@ -213,32 +302,43 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
             arguments2.add(new ArgumentDefinitionDetails(rawType, rawUnit, conversionCondition, convertedType, convertedUnit));
         }
-
+         */
         ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
                 new Identifier(ACTION_NADIR_POINTING_MODE),
                 "Changes the spacecraft's attitude to nadir pointing mode.",
                 Severity.INFORMATIONAL,
                 new UShort(0),
-                arguments2,
+                //                arguments2,
+                arguments1,
                 null
         );
 
-        ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
-        detailsList.add(null);
-        
+//        ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
+//        detailsList.add(null);
         ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails(
                 new Identifier(ACTION_UNSET),
                 "Unsets the spacecraft's attitude.",
                 Severity.INFORMATIONAL,
                 new UShort(0),
-                detailsList,
+                //                detailsList,
+                new ArgumentDefinitionDetailsList(),
                 null
         );
 
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails(
+                new Identifier(ACTION_5_STAGES),
+                "Example of an Action with 5 stages.",
+                Severity.INFORMATIONAL,
+                new UShort(0),
+                //                detailsList,
+                new ArgumentDefinitionDetailsList(),
+                null
+        );
+
         actionDefs.add(actionDef1);
         actionDefs.add(actionDef2);
         actionDefs.add(actionDef3);
+        actionDefs.add(actionDef4);
         LongList actionObjIds = registration.registerActions(actionDefs);
 
     }
@@ -274,24 +374,47 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
             }
 
-            GetLastKnownPositionResponse pos = nmf.getPlatformServices().getGPSService().getLastKnownPosition();
+            if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())  ||
+                    PARAMETER_GPS_LATITUDE.equals(identifier.getValue())  ||
+                    PARAMETER_GPS_LATITUDE.equals(identifier.getValue())  ){
+                GetLastKnownPositionResponse pos = nmf.getPlatformServices().getGPSService().getLastKnownPosition();
 
-            if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
-                return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
+                if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
+                    return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
+                }
+
+                if (PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())) {
+                    return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLongitude());
+                }
+
+                if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
+                    return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
+                }
+
+                if (PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
+                    return pos.getBodyElement1();
+                }
+
             }
+/*
+            if (PARAMETER_MAG_X.equals(identifier.getValue())  ||
+                    PARAMETER_MAG_Y.equals(identifier.getValue())  ||
+                    PARAMETER_MAG_Z.equals(identifier.getValue())  ){
+                MagneticFieldInstance magField = nmf.getPlatformServices().getMagnetometerService().getMagneticField();
 
-            if (PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())) {
-                return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLongitude());
+                if (PARAMETER_MAG_X.equals(identifier.getValue())) {
+                    return (Attribute) HelperAttributes.javaType2Attribute(magField.getX());
+                }
+
+                if (PARAMETER_MAG_Y.equals(identifier.getValue())) {
+                    return (Attribute) HelperAttributes.javaType2Attribute(magField.getY());
+                }
+
+                if (PARAMETER_MAG_Z.equals(identifier.getValue())) {
+                    return (Attribute) HelperAttributes.javaType2Attribute(magField.getZ());
+                }
             }
-
-            if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
-                return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
-            }
-
-            if (PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
-                return pos.getBodyElement1();
-            }
-
+*/
         } catch (MALException ex) {
             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
@@ -328,8 +451,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 Attribute argValue = attributeValues.get(0).getValue();
-                System.out.println(ACTION_SUN_POINTING_MODE + " with value is ["+esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue)+"]");
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, (Duration)argValue, new Duration(2));
+                System.out.println(ACTION_SUN_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, (Duration) argValue, new Duration(2));
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -349,8 +472,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 Attribute argValue = attributeValues.get(0).getValue();
-                System.out.println(ACTION_NADIR_POINTING_MODE + " with value is ["+esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue)+"]");
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, (Duration)argValue, new Duration(2));
+                System.out.println(ACTION_NADIR_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, (Duration) argValue, new Duration(2));
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -379,6 +502,15 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             }
         }
 
+        if (ACTION_5_STAGES.equals(name.getValue())) {
+            try {
+                fiveStepsAction(actionInstanceObjId, 5);
+            } catch (IOException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
+            }
+        }
+
         return null;  // Action service not integrated
     }
 
@@ -402,13 +534,13 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             LongList objIds = nmf.getPlatformServices().getAutonomousADCSService().listAttitudeDefinition(names);
             sunPointingObjId = objIds.get(0);
             nadirPointingObjId = objIds.get(1);
-            
-            if (sunPointingObjId == null){ // It does not exist
+
+            if (sunPointingObjId == null) { // It does not exist
                 LongList sunObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(sunDefs);
                 sunPointingObjId = sunObj.get(0);
             }
 
-            if (nadirPointingObjId == null){ // It does not exist
+            if (nadirPointingObjId == null) { // It does not exist
                 LongList nadirObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(nadirDefs);
                 nadirPointingObjId = nadirObj.get(0);
             }
@@ -457,19 +589,12 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
                         try {
                             nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode.toString());
-                            if(sunVector != null){
+                            if (sunVector != null) {
                                 nmf.pushParameterValue("sunVector3D_X", sunVector.getX());
                                 nmf.pushParameterValue("sunVector3D_Y", sunVector.getY());
                                 nmf.pushParameterValue("sunVector3D_Z", sunVector.getZ());
                             }
-
-                            /*
-                            if(wheelSpeed != null){
-                                for (int j = 0; j < wheelSpeed.getVelocity().size(); j++) {
-                                    nmf.pushParameterValue("wheelSpeed_" + j, wheelSpeed.getVelocity().get(j));
-                                }
-                            }
-                            */
+                            
                         } catch (IOException ex) {
                             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -498,6 +623,20 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     }
 
                 }
+            }
+        }
+    }
+
+    public void fiveStepsAction(Long actionId, int total_n_of_stages) throws IOException {
+        final int sleepTime = 2; // 2 seconds
+
+        for (int stage = 1; stage < total_n_of_stages + 1; stage++) {
+            nmf.reportActionExecutionProgress(true, 0, stage, total_n_of_stages, actionId);
+
+            try {
+                Thread.sleep(sleepTime * 1000); //1000 milliseconds multiplier.
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
             }
         }
     }
