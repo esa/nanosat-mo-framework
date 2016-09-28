@@ -1,2 +1,13 @@
+list:
+
+help:ADCS.UnsetAttitude
+help:ADCS.NadirPointingMode
+help:ADCS.SunPointingMode
+
+ADCS.UnsetAttitude(+00.00.00.000)
+
 precheck: ADCS.NadirPointingMode(+00.00.25.000)
 ADCS.NadirPointingMode(+00.00.25.000)
+
+precheck: ADCS.SunPointingMode(+00.00.25.000)
+ADCS.SunPointingMode(+00.00.25.000)
