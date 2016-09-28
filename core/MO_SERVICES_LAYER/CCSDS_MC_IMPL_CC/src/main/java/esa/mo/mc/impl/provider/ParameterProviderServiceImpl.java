@@ -778,8 +778,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         parameters.add(instance);
         
         return this.pushMultipleParameterValues(parameters);
-
-//        return this.pushParameterValue(name, parameterValue, source, timestamp);
     }
 
     /**
