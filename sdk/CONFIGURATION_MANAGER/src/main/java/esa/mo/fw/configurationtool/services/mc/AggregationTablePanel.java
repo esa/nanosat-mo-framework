@@ -23,7 +23,6 @@ package esa.mo.fw.configurationtool.services.mc;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.fw.configurationtool.stuff.SharedTablePanel;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;

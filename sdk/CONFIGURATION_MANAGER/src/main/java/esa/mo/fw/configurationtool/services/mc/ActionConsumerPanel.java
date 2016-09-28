@@ -283,6 +283,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         
         // Store the Action Instance in the Archive and get an object instance identifier to use during the submit
         try {
+            /*
             LongList objIdActionInstances = this.serviceMCAction.getCOMServices().getArchiveService().getArchiveStub().store(
                     true,
                     ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
@@ -290,8 +291,10 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                     HelperArchive.generateArchiveDetailsList(objIdDef, null, serviceMCAction.getConnectionDetails()),
                     actionInstanceDetailsList);
 
+                    */
         
-            this.serviceMCAction.getActionStub().submitAction(objIdActionInstances.get(0), actionInstanceDetails);
+//            this.serviceMCAction.getActionStub().submitAction(objIdActionInstances.get(0), actionInstanceDetails);
+            this.serviceMCAction.getActionStub().submitAction(System.currentTimeMillis(), actionInstanceDetails);
         
         } catch (MALInteractionException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
