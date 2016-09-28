@@ -153,6 +153,17 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null
         ));
 
+        defsOther.add(new ParameterDefinitionDetails(
+                new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW),
+                "The number of satellites in view of GPS receiver.",
+                Union.INTEGER_SHORT_FORM.byteValue(),
+                "sats",
+                false,
+                new Duration(4),
+                null,
+                null
+        ));
+
         // Create the GPS.Latitude
         defsGPS.add(new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_GPS_LATITUDE),
@@ -227,7 +238,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         registration.registerParameters(defsOther);
         LongList parameterObjIdsGPS = registration.registerParameters(defsGPS);
-//        LongList parameterObjIdsMag = registration.registerParameters(defsMag);
+        LongList parameterObjIdsMag = registration.registerParameters(defsMag);
 
         // ------------------ Aggregations ------------------
         AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
@@ -252,7 +263,6 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         ));
 
         // Create the Aggregation Magnetometer
-/*        
         AggregationDefinitionDetails defMagAgg = new AggregationDefinitionDetails(
                 new Identifier(AGGREGATION_MAG),
                 "Aggregates Magnetometer components: X, Y, Z.",
@@ -270,9 +280,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 new Duration(3),
                 null
         ));
-*/
+
         aggs.add(defGPSAgg);
-//        aggs.add(defMagAgg);
+        aggs.add(defMagAgg);
         registration.registerAggregations(aggs);
 
         // ------------------ Actions ------------------
@@ -381,8 +391,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             }
 
             if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())  ||
-                    PARAMETER_GPS_LATITUDE.equals(identifier.getValue())  ||
-                    PARAMETER_GPS_LATITUDE.equals(identifier.getValue())  ){
+                    PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())  ||
+                    PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())  ||
+                    PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())  ){
                 GetLastKnownPositionResponse pos = nmf.getPlatformServices().getGPSService().getLastKnownPosition();
 
                 if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
@@ -402,7 +413,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 }
 
             }
-/*
+
             if (PARAMETER_MAG_X.equals(identifier.getValue())  ||
                     PARAMETER_MAG_Y.equals(identifier.getValue())  ||
                     PARAMETER_MAG_Z.equals(identifier.getValue())  ){
@@ -420,7 +431,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     return (Attribute) HelperAttributes.javaType2Attribute(magField.getZ());
                 }
             }
-*/
+
         } catch (MALException ex) {
             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
@@ -460,7 +471,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
                 // Negative Durations are not allowed!
                 if(((Duration) argValue).getValue() < 0){
-                    return new UInteger(0);
+                    return new UInteger(123);
                 }
 
                 System.out.println(ACTION_SUN_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
@@ -487,7 +498,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 
                 // Negative Durations are not allowed!
                 if(((Duration) argValue).getValue() < 0){
-                    return new UInteger(0);
+                    return new UInteger(123);
                 }
                 
                 System.out.println(ACTION_NADIR_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
