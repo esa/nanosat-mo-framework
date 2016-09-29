@@ -1,22 +1,76 @@
-# find out which Actions are available for execution in the target application(space)
+////////////////////////////////////////////////////////////////
+// Simulator GUI Panel
+////////////////////////////////////////////////////////////////
+
+// Start two instances
+// Running mission time
+// Stop and start the time
+// Close one instance
+// Change time factor
+// Change the header, submit to server
+// Manual commands
+// FineADCS send a telemetry command ID 1015
+// Show Celestia visualization
+// Reduce time to normal (x1)
+// Send GPS commands ID 2001
+// Show scheduler commands list
+// Show device tabs with internal states
+// Send FineADCS LOFPointing command ID 1170
+// Show Celestia update
+// Send FineADCS TargetTracking command ID 1178
+// Send simGetOrbitTLEFromString command ID 1182
+// Copy output
+// Change byte array content to force failure on the server
+// Change syntax to force local rejection
+// Send orbitSetTLE command ID 1162
+// Submit header again
+
+////////////////////////////////////////////////////////////////
+// EUD start
+////////////////////////////////////////////////////////////////
+
+// open workspaces view
+// open parameter browser
+// open messages view
+
+
+// open action executor
+// find out which Actions are available for execution in the target application(space)
 list:
 
-# obtain description and required arguments for each Action
+// obtain description for a particular action
 help:ADCS.UnsetAttitude
-help:ADCS.NadirPointingMode
-help:ADCS.SunPointingMode
 
-# clear any currently running Pointing Mode
-ADCS.UnsetAttitude()
+// 5StagesAction
+precheck:5StagesAction()
+5StagesAction()
 
-# Change pointing mode to Nadir for a duration of 2 minutes
+// Switch to message view
+// Show object ID, component source, system source, object ID (MAL identifier)
+// Apply filter for 10 second alerts
+
+// Change pointing mode to Nadir for a duration of 2 minutes
 precheck:ADCS.NadirPointingMode(+00.02.00.000)
 ADCS.NadirPointingMode(+00.02.00.000)
 
-# Change pointing mode to Sun for a duration of 2 minutes
+// Warning, new parameter (quaternion1) has arrived, restart of parameter processor required
+
+// Change pointing mode to Sun for a duration of 2 minutes
 precheck:ADCS.SunPointingMode(+00.02.00.000)
 ADCS.SunPointingMode(+00.02.00.000)
 
-# 5StagesAction
-precheck:5StagesAction
-5StagesAction()
+
+////////////////////////////////////////////////////////////////
+// Failure scenarios
+////////////////////////////////////////////////////////////////
+
+// Precheck fail
+precheck:ADCS.SunPointingMode()
+precheck:ADCS.SunPointingMode(+00.02.00)
+
+// Negative duration on action
+ADCS.SunPointingMode(-00.02.00.000)
+
+// Sending a pointing action before the previous expired
+ADCS.NadirPointingMode(+00.02.00.000)
+ADCS.SunPointingMode(+00.02.00.000)
