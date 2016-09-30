@@ -29,47 +29,87 @@
 // EUD start
 ////////////////////////////////////////////////////////////////
 
-// open workspaces view
-// open parameter browser
-// open messages view
+// Open workspaces view - mention custom toolbar
+
+// Open parameter browser - mention parameter categories and aggregations
 
 
-// open action executor
-// find out which Actions are available for execution in the target application(space)
+
+// Open all parameters from Magnetometer.Aggregation in new MAT view
+// Add GPS.NumSatsInView, ADCS.ModeOperation by dragging
+
+// Say: initial parameter values populated but no periodic updates
+
+// Enable generation for all parameters in MAT view, except ADCS.ModeOperation
+
+// Open parameters GPS.NumSatsInView and ADCS.ModeOperation in new SCD view
+
+// Open parameters Magnetometer.Aggregation in new GRD view
+
+// Open messages display
+// - explain the 10 seconds alert notifications
+// - drag the columns to ensure good visibility of all fields
+// - mention custom severity, colours and object Id column
+
+// Apply filter to remove 10 second alerts
+
+// Open action executor (drag the columns to ensure good visibility of all fields)
+
+// Close workspaces view
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
+// Find out which Actions are available for execution in the target application(space)
 list:
 
-// obtain description for a particular action
-help:ADCS.UnsetAttitude
+// Obtain description for a particular action
+help:5StagesAction
 
 // 5StagesAction
-precheck:5StagesAction()
+// mention PRECHECK - MO concept defined by Action service
+precheck:5StagesAction() 
+
+// execute 5 stages action
 5StagesAction()
 
-// Switch to message view
+// Switch to message display and view progress stages
+
 // Show object ID, component source, system source, object ID (MAL identifier)
-// Apply filter for 10 second alerts
+
+// Mentioned status and result fields in Action Executor
+
+//Change the graph time window size to 15 minutes
 
 // Change pointing mode to Nadir for a duration of 2 minutes
+// explain nadir (opposite of zenith)
 precheck:ADCS.NadirPointingMode(+00.02.00.000)
 ADCS.NadirPointingMode(+00.02.00.000)
 
-// Warning, new parameter (quaternion1) has arrived, restart of parameter processor required
+// Switch to Celestia to prove new pointing
+
+// Warning, new parameter (quaternion4) definition has arrived, restart of parameter processor required (MO services dynamically created a new parameter definition)
+
+// Switch from GRD to SCD, to show ADCS Mode scrolling
 
 // Change pointing mode to Sun for a duration of 2 minutes
 precheck:ADCS.SunPointingMode(+00.02.00.000)
 ADCS.SunPointingMode(+00.02.00.000)
 
+// Switch to Celestia to prove new pointing
 
 ////////////////////////////////////////////////////////////////
 // Failure scenarios
 ////////////////////////////////////////////////////////////////
 
-// Precheck fail
-precheck:ADCS.SunPointingMode()
-precheck:ADCS.SunPointingMode(+00.02.00)
+// Precheck fails when switching back to Nadir mode
+precheck:ADCS.NadirPointingMode()
+precheck:ADCS.NadirPointingMode(+00.02.00)
 
 // Negative duration on action
-ADCS.SunPointingMode(-00.02.00.000)
+ADCS.NadirPointingMode(-00.02.00.000)
+
+// show in message display which stage failed, and error code
 
 // Sending a pointing action before the previous expired
 ADCS.NadirPointingMode(+00.02.00.000)
