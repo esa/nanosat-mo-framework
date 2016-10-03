@@ -32,12 +32,22 @@ import esa.mo.fw.configurationtool.services.mc.ParameterPublishedValues;
 import esa.mo.fw.configurationtool.services.mc.StatisticConsumerPanel;
 import esa.mo.fw.configurationtool.services.sm.AppsLauncherConsumerPanel;
 import esa.mo.fw.configurationtool.services.sm.PackageManagementConsumerPanel;
+import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
+import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
+import java.awt.Color;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 
 /**
  *
@@ -67,19 +77,34 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             @Override
             public void run() {
                 initComponents();
-                
+
                 try {
                     // Software Management
                     if (services.getSMServices() != null) {
+                        if (services.getSMServices().getHeartbeatService() != null) {
+                            HeartbeatConsumerServiceImpl heartbeat = services.getSMServices().getHeartbeatService();
+
+                            Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+                            try {
+                                heartbeat.getHeartbeatStub().beatRegister(subscription, new ProviderStatusAdapter(heartbeat));
+                            } catch (MALInteractionException ex) {
+                                Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (MALException ex) {
+                                Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            status.setText("Heartbeat service not available.");
+                        }
 
                         if (services.getSMServices().getAppsLauncherService() != null) {
                             serviceTabs.insertTab("Apps Launcher service", null, new AppsLauncherConsumerPanel(services.getSMServices().getAppsLauncherService()), "Apps Launcher Tab", serviceTabs.getTabCount());
                         }
-/*
+
+                        /*
                         if (services.getSMServices().getPackageManagementService() != null) {
                             serviceTabs.insertTab("Package Management service", null, new PackageManagementConsumerPanel(services.getSMServices().getPackageManagementService()), "Package Management Tab", serviceTabs.getTabCount());
                         }
-*/
+                         */
                     }
 
                     // COM
@@ -158,6 +183,10 @@ public class ProviderTabPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         serviceTabs = new javax.swing.JTabbedPane();
+        providerStatus = new javax.swing.JToolBar();
+        jLabel3 = new javax.swing.JLabel();
+        status = new javax.swing.JLabel();
+        lastReceived = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -168,9 +197,69 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         serviceTabs.setPreferredSize(new java.awt.Dimension(800, 600));
         serviceTabs.setRequestFocusEnabled(false);
         add(serviceTabs, java.awt.BorderLayout.CENTER);
+
+        providerStatus.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        providerStatus.setFloatable(false);
+        providerStatus.setRollover(true);
+
+        jLabel3.setText("Provider Status: ");
+        providerStatus.add(jLabel3);
+        providerStatus.add(status);
+        providerStatus.add(lastReceived);
+
+        add(providerStatus, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JLabel lastReceived;
+    private javax.swing.JToolBar providerStatus;
     private javax.swing.JTabbedPane serviceTabs;
+    private javax.swing.JLabel status;
     // End of variables declaration//GEN-END:variables
+
+    private class ProviderStatusAdapter extends HeartbeatAdapter {
+
+        private static final long DELTA = 2 * 1000; // 2 seconds = 2000 milliseconds
+        private final long period; // In seconds
+        private final Timer timer;
+        private Time lastBeatAt;
+
+        public ProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat) throws MALInteractionException, MALException {
+            period = (long) (heartbeat.getHeartbeatStub().getPeriod().getValue() * 1000);
+
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    final Time currentTime = HelperTime.getTimestampMillis();
+                    
+                    // If the current time has passed the ast beat + the beat period + a delta error
+                    if(currentTime.getValue() > lastBeatAt.getValue() + period + DELTA){
+                        // Then the provider is dead
+                        status.setText("Dead! ");
+                        status.setForeground(Color.RED);
+                    }
+                    
+                }
+            }, period, period);
+
+        }
+
+        @Override
+        public synchronized void beatNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.mal.structures.Identifier _Identifier0, org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1, java.util.Map qosProperties) {
+            lastBeatAt = HelperTime.getTimestampMillis();
+            final Time onboardTime = msgHeader.getTimestamp();
+            final long iDiff = lastBeatAt.getValue() - onboardTime.getValue();
+
+            status.setText("Alive! ");
+            status.setForeground(Color.BLUE);
+            lastReceived.setText("(last beat received at: " + HelperTime.time2readableString(lastBeatAt) + ")");
+        }
+
+    }
 }

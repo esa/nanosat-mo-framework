@@ -64,20 +64,17 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
-            <version>${project.version}</version>
 <!--
             <scope>provided</scope>
 -->            
         </dependency>
-<!--
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>SPP_TRANSPORT_CFP_TCP</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>TRANSPORT_HTTP_TP</artifactId>
         </dependency>
--->        
+
     </dependencies>
         
     <build>

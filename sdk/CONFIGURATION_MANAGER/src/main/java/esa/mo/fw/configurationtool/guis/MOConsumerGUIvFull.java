@@ -120,9 +120,6 @@ public class MOConsumerGUIvFull extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        jToolBar1 = new javax.swing.JToolBar();
-        jLabel1 = new javax.swing.JLabel();
-        providerStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 600));
@@ -163,33 +160,16 @@ public class MOConsumerGUIvFull extends javax.swing.JFrame {
 
         getContentPane().add(tabs, java.awt.BorderLayout.CENTER);
 
-        jToolBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-        jToolBar1.setFloatable(false);
-        jToolBar1.setRollover(true);
-        jToolBar1.setName("jToolBar1"); // NOI18N
-
-        jLabel1.setText("Provider Status:");
-        jLabel1.setName("jLabel1"); // NOI18N
-        jToolBar1.add(jLabel1);
-
-        providerStatus.setName("providerStatus"); // NOI18N
-        jToolBar1.add(providerStatus);
-
-        getContentPane().add(jToolBar1, java.awt.BorderLayout.NORTH);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel homeTab;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JLabel providerStatus;
     private javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables
 }

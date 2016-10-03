@@ -25,7 +25,6 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import java.awt.EventQueue;
 import java.io.File;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
