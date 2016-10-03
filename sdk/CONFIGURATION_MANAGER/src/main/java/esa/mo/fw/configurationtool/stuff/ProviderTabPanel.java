@@ -37,7 +37,6 @@ import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.awt.Color;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -244,7 +243,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                         status.setText("Dead! ");
                         status.setForeground(Color.RED);
                     }
-                    
                 }
             }, period, period);
 
