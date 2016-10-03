@@ -45,7 +45,7 @@ public class ShellCommander {
         return this.runCommand(cmd, null);
     }
 
-    public String runCommandAndGetMessage(String cmd) {
+    public String runCommandAndGetOutputMessage(String cmd) {
         try {
             Process proc = this.runCommand(cmd, null);
             StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
@@ -53,15 +53,12 @@ public class ShellCommander {
             error.start();
             output.start();
             
-            String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
-
             error.join(DEATH_TIMEOUT);
             output.join(DEATH_TIMEOUT);
             proc.destroy();
-
-            out += "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
+//            String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
             
-            return out;
+            return output.getMessage();
         } catch (InterruptedException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
         }
