@@ -27,8 +27,8 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>MO Window (ESA MO Tools)</name>
-    <description>A tool to edit and display a MO object in a window interface</description>
+    <name>MAL Structures Window</name>
+    <description>A tool to edit and display a MO object structures in a window interface</description>
     <url>http://www.esa.int</url>
   
     <organization>
