@@ -44,7 +44,31 @@ public class ShellCommander {
     public Process runCommand(String cmd) {
         return this.runCommand(cmd, null);
     }
-    
+
+    public String runCommandAndGetMessage(String cmd) {
+        try {
+            Process proc = this.runCommand(cmd, null);
+            StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
+            StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
+            error.start();
+            output.start();
+            
+            String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
+
+            error.join(DEATH_TIMEOUT);
+            output.join(DEATH_TIMEOUT);
+            proc.destroy();
+
+            out += "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
+            
+            return out;
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "";
+    }
+   
     public Process runCommand(String cmd, File dirPath) {
         try {
             Process proc;
