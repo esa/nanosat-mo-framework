@@ -265,9 +265,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
 
             // It passed all the tests!
-            ObjectKey objKey = new ObjectKey();
-            objKey.setDomain(connection.getConnectionDetails().getDomain());
-            objKey.setInstId(keys.get(i));
+            final ObjectKey objKey = new ObjectKey(provider.getDomain(), keys.get(i));
             providerOutput.setProviderKey(objKey);
             providerOutput.setProviderName(provider.getProviderName());
             

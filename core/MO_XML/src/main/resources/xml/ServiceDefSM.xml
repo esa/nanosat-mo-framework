@@ -495,6 +495,9 @@ The process of loading a software image from non-volatile memory to RAM upon boo
               <mal:field canBeNull="true" comment="" name="valid">
                 <mal:type area="MAL" list="true" name="Boolean"/>
               </mal:field>
+            <mal:field canBeNull="true" comment="The publicKey field shall contain the digital signature public key of the package. If the package is not sign then the field shall be set to null." name="publicKey">
+                <mal:type area="MAL" list="false" name="String"/>
+              </mal:field>
             </mal:response>
 					</mal:messages>
 				</mal:requestIP>
@@ -526,6 +529,9 @@ The process of loading a software image from non-volatile memory to RAM upon boo
             <mal:type area="MAL" list="false" name="File"/>
           </mal:field>
         <mal:field canBeNull="true" comment="" name="publisher">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
+        <mal:field canBeNull="true" comment="" name="description">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
         </mal:composite>
@@ -735,7 +741,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
             </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
-				<mal:submitIP comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive." name="killApp" number="4" supportInReplay="false">
+				<mal:submitIP comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive." name="killApp" number="3" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to be killed." name="appInstIds">
@@ -760,32 +766,22 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:invokeIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="3" supportInReplay="false">
-					<mal:messages>
-						<mal:invoke comment="">
-							<mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
-								<mal:type area="MAL" list="true" name="Long"/>
-							</mal:field>
-						</mal:invoke>
-						<mal:acknowledgement comment=""/>
-						<mal:response comment="">
-						</mal:response>
-					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="One or more of the requested apps to be killed is unknown.">
-              <mal:type area="MAL" list="false" name="UNKNOWN"/>
-              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          <mal:errorRef comment="One or more of the requested apps is not running.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
-				</mal:invokeIP>
+				<mal:progressIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="4" supportInReplay="false">
+          <mal:messages>
+            <mal:progress comment="">
+              <mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
+                <mal:type area="MAL" list="true" name="Long"/>
+              </mal:field>
+            </mal:progress>
+            <mal:acknowledgement comment=""/>
+            <mal:update comment="">
+              <mal:field canBeNull="true" comment="The appClosing field shall contain the object instance identifier of an app. This update shall be sent after the app acknowledges the reception of the command to stop." name="appClosing">
+                <mal:type area="MAL" list="false" name="Long"/>
+              </mal:field>
+            </mal:update>
+            <mal:response comment=""/>
+          </mal:messages>
+        </mal:progressIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
 				<mal:requestIP comment="The listApp operation allows a consumer to request the object instance identifiers of the Apps objects and running status for an app name or for a certain app category." name="listApp" number="5" supportInReplay="true">
@@ -844,7 +840,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
         </mal:composite>
-			</mal:dataTypes>
+      </mal:dataTypes>
 			<com:features>
         <mal:diagram name="AppsLauncherObjects">
           <svg:svg height="220" version="1.1" width="700">

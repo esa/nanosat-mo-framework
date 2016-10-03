@@ -20,14 +20,9 @@
  */
 package esa.mo.sm.impl.provider;
 
-import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.com.impl.util.EventCOMObject;
-import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProvider;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
@@ -36,11 +31,9 @@ import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -48,8 +41,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.EventHelper;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
@@ -75,7 +66,6 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.StringList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
@@ -339,6 +329,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             // Do a lookup on the Central Drectory service for the app that we want
             ProviderSummaryList providersList = this.directoryService.lookupProvider(sf, interaction.getInteraction());
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER, "providersList object: " + providersList.toString());
+//            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "providersList object: " + providersList.toString());
 
             try {
                 SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
@@ -362,64 +353,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         interaction.sendAcknowledgement();
-
-        Random random = new Random();
-
-        // Register on the Event service with the Adapter
-        for (SingleConnectionDetails appConnection : appConnections) {
-            // Subscribe to events
-            // Select all object numbers from the Apps Launcher service Events
-            final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
-            Subscription eventSub = ConnectionConsumer.subscriptionKeys(new Identifier("AppClosingEvent" + random.nextInt()), new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
-
-            try {
-                EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnection);
-                eventServiceConsumer.addEventReceivedListener(eventSub, new ClosingAppListener(interaction, eventServiceConsumer));
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, "Could not connect to the app!");
-            }
-        }
-
-        // Stop the apps...
-        ObjectType objType = AppsLauncherHelper.STOPAPP_OBJECT_TYPE;
-        ObjectIdList sourceList = new ObjectIdList();
-
-        for (Long appInstId : appInstIds) {
-            sourceList.add(comServices.getActivityTrackingService().storeCOMOperationActivity(interaction.getInteraction(), null));
-        }
-
-        // Generate, store and publish the events to stop the Apps...
-        LongList objIds = comServices.getEventService().generateAndStoreEvents(objType, connection.getConnectionDetails().getDomain(), appInstIds, sourceList, interaction.getInteraction());
-        comServices.getEventService().publishEvents(connection.getConnectionDetails().getProviderURI(), objIds, objType, appInstIds, sourceList, null);
-
-    }
-
-    // Create the listeners for the returned events
-    private class ClosingAppListener extends EventReceivedListener {
-
-        private final StopAppInteraction interaction;
-        private final EventConsumerServiceImpl eventService;
-
-        public ClosingAppListener(StopAppInteraction interaction, EventConsumerServiceImpl eventService) {
-            this.interaction = interaction;
-            this.eventService = eventService;
-        }
-
-        @Override
-        public void onDataReceived(EventCOMObject eventCOMObject) {
-            // Is it the ack from the app?
-
-            // If so, then close the connection to the service
-            eventService.closeConnection();
-
-            try { // Send response to consumer stating that the app is closing...
-                interaction.sendResponse();
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
-                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        
+        manager.stopApps(appInstIds, appConnections, connection, interaction);
 
     }
 

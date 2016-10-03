@@ -20,9 +20,13 @@
  */
 package esa.mo.sm.impl.provider;
 
+import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
@@ -31,12 +35,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
@@ -49,7 +58,9 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
 
@@ -193,7 +204,6 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     protected void refreshAvailableAppsList(SingleConnectionDetails connectionDetails) {
-
         // Go to all the "apps folder" and check if there are new folders
         // get all the files from a directory
         File[] fList = apps_folder_path.listFiles();
@@ -234,10 +244,11 @@ public class AppsLauncherManager extends DefinitionsManager {
         // Are there any differences?
         for (AppDetails single_app : apps) {
             Long id = super.list(single_app.getName());
-
-            AppDetails previousAppDetails = (AppDetails) super.getDef(id);
+            AppDetails previousAppDetails = this.get(id);
 
             if (previousAppDetails == null) { // It didn't exist...
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "New app found! Adding new app: " + single_app.getName().getValue());
+
                 // Either is the first time running or it is a newly installed app!
                 ObjectId source = null;
 
@@ -248,6 +259,7 @@ public class AppsLauncherManager extends DefinitionsManager {
 
             // It does exist. Are there any differences?
             if (!previousAppDetails.equals(single_app)) {
+
                 // Then we have to update it...
 
                 // Is it a difference just on the Running status?
@@ -255,7 +267,9 @@ public class AppsLauncherManager extends DefinitionsManager {
                     continue;
                 }
 
-                this.update(id, single_app, connectionDetails, null);
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "New update found on app: " + single_app.getName().getValue());
+
+//                this.update(id, single_app, connectionDetails, null);
 
             }
         }
@@ -266,13 +280,13 @@ public class AppsLauncherManager extends DefinitionsManager {
         AppDetails app = (AppDetails) this.getDef(appId); // get it from the list of available apps
         ProcessExecutionHandler handler = handlers.get(appId);
 
+        /*
         if (handler == null) {
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "The Process handler could not be found!");
             app.setRunning(false);
             return false;
         }
-
-//        this.get(appId).setRunning(handler.getProcess().isAlive());
-        this.get(appId).setRunning(true);
+        */
 
         return this.get(appId).getRunning();
     }
@@ -304,12 +318,12 @@ public class AppsLauncherManager extends DefinitionsManager {
         dfdfdf.directory(outDir);
         Process proc = dfdfdf.start();
          */
-        
 //        if (proc.isAlive()) {
         if (proc != null) {
             handlers.put(handler.getAppInstId(), handler);
-            app.setRunning(true);
-            this.update(handler.getAppInstId(), app, handler.getSingleConnectionDetails(), interaction); // Update the Archive
+            this.setRunning(handler.getAppInstId(), true, handler.getSingleConnectionDetails(), interaction); // Update the Archive
+        }else{
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "The process is null! Something is wrong...");
         }
 
     }
@@ -330,19 +344,58 @@ public class AppsLauncherManager extends DefinitionsManager {
         }
 
 //        if (handler.getProcess().isAlive()) {
-            handler.close();
-            app.setRunning(false);
-            this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
+        handler.close();
+        this.setRunning(handler.getAppInstId(), false, handler.getSingleConnectionDetails(), interaction); // Update the Archive
+//        app.setRunning(false);
+//        this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
 //        }
 
         return true;
+    }
+    
+    protected void stopApps(final LongList appInstIds, final ArrayList<SingleConnectionDetails> appConnections, 
+            final ConnectionProvider connection, final StopAppInteraction interaction) throws MALException, MALInteractionException {
+        Random random = new Random();
 
+        // Register on the Event service of the respective apps
+        for (int i = 0; i < appConnections.size(); i++) {
+            // Subscribe to events
+            // Select all object numbers from the Apps Launcher service Events
+            final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
+            Subscription eventSub = ConnectionConsumer.subscriptionKeys(new Identifier("AppClosingEvent" + random.nextInt()), new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
+
+            try {
+                EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.get(i));
+                eventServiceConsumer.addEventReceivedListener(eventSub, new ClosingAppListener(interaction, eventServiceConsumer, appInstIds.get(i)));
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, "Could not connect to the app!");
+            }
+        }
+
+        // Stop the apps...
+        ObjectType objType = AppsLauncherHelper.STOPAPP_OBJECT_TYPE;
+        ObjectIdList sourceList = new ObjectIdList();
+
+        for (Long appInstId : appInstIds) {
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, "Sending event to app: " + appInstId);
+            this.setRunning(appInstId, false, connection.getConnectionDetails(), interaction.getInteraction());
+            sourceList.add(super.getCOMServices().getActivityTrackingService().storeCOMOperationActivity(interaction.getInteraction(), null));
+        }
+
+        // Generate, store and publish the events to stop the Apps...
+        LongList objIds = super.getCOMServices().getEventService().generateAndStoreEvents(objType, connection.getConnectionDetails().getDomain(), appInstIds, sourceList, interaction.getInteraction());
+        super.getCOMServices().getEventService().publishEvents(connection.getConnectionDetails().getProviderURI(), objIds, objType, appInstIds, sourceList, null);
+    }
+    
+    public void setRunning(Long appInstId, boolean running, SingleConnectionDetails details, MALInteraction interaction){
+        this.get(appInstId).setRunning(running);
+        this.update(appInstId, this.get(appInstId), details, interaction); // Update the Archive
     }
 
     public static SingleConnectionDetails getSingleConnectionDetailsFromProviderSummaryList(ProviderSummaryList providersList) throws IOException {
 
         if (providersList.isEmpty()) { // Throw error!
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "The app could not be found in the Directory service... Possible reasons: Not a NMF app! If so, one needs to use killApp!");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "The app could not be found in the Directory service... Possible reasons: 1. The property 'MOappName' of the app might not match its folder name 2. Not a NMF app! If so, one needs to use killApp!");
             throw new IOException();
         }
 
@@ -380,7 +433,6 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         throw new IOException();
     }
-
 
     private static int getBestServiceAddressIndex(AddressDetailsList addresses) throws IOException {
 
@@ -439,6 +491,6 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
         }
         return -1;
-    }    
+    }
 
 }
