@@ -95,7 +95,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private MonitorValuePublisher publisher;
     private boolean isRegistered = false;
     private final Object lock = new Object();
-    private AtomicLong pValUniqueObjId = new AtomicLong(System.currentTimeMillis());
+    private final AtomicLong pValUniqueObjId = new AtomicLong(System.currentTimeMillis());
     private ParameterManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
@@ -210,73 +210,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     public ConnectionProvider getConnectionProvider() {
         return this.connection;
-    }
-
-    private void publishParameterUpdate(final Long objId) {
-        this.publishParameterUpdate(objId, true);
-    }
-    
-    private void publishParameterUpdate(final Long objId, final boolean storeIt) {
-
-        final ParameterValue parameterValue;
-        try {
-            parameterValue = manager.getParameterValue(objId);
-            final Time timestamp = HelperTime.getTimestampMillis();
-            final Identifier name = manager.get(objId).getName();
-            ParameterInstance instance = new ParameterInstance(name, parameterValue, null, timestamp);
-
-            ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
-            parameters.add(instance);
-
-            this.pushMultipleParameterValues(parameters, storeIt);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        /*
-        try {
-            synchronized(lock){
-                if (!isRegistered) {
-                    final EntityKeyList lst = new EntityKeyList();
-                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                    publisher.register(lst, new PublishInteractionListener());
-                    isRegistered = true;
-                }
-            }
-
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.FINER,
-                    "Generating Parameter update for the Parameter Definition: {0} (Identifier: {1})",
-                    new Object[]{
-                        objId, new Identifier(manager.get(objId).getName().toString())
-                    });
-
-            final ParameterValue parameterValue = manager.getParameterValue(objId);
-            final Long pValObjId = (storeIt) ?
-                    manager.storeAndGeneratePValobjId(parameterValue, objId, connection.getConnectionDetails()) :
-                    pValUniqueObjId.incrementAndGet(); // requirement: 3.3.4.2
-
-            //  requirements: 3.3.5.2.1 , 3.3.5.2.2 , 3.3.5.2.3 , 3.3.5.2.4
-            final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, pValObjId, null);
-            final Time timestamp = HelperTime.getTimestampMillis(); //  requirement: 3.3.5.2.5
-
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            final ObjectIdList objectIdlst = new ObjectIdList();
-            final ParameterValueList pVallst = new ParameterValueList();
-
-            hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
-            objectIdlst.add(null); // requirement: 3.3.5.2.7 (3.3.5.2.6 not necessary. We will not use it for periodic updates)
-            pVallst.add(parameterValue); // requirement: 3.3.5.2.8
-
-            publisher.publish(hdrlst, objectIdlst, pVallst);
-
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
-        } catch (MALException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
-        }
-        */
     }
 
     @Override
@@ -747,6 +680,26 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     }
 
+    private void publishParameterUpdate(final Long objId) {
+        this.publishParameterUpdate(objId, true);
+    }
+    
+    private void publishParameterUpdate(final Long objId, final boolean storeIt) {
+        try {
+            final ParameterValue parameterValue = manager.getParameterValue(objId);
+            final Time timestamp = HelperTime.getTimestampMillis();
+            final Identifier name = manager.get(objId).getName();
+            ParameterInstance instance = new ParameterInstance(name, parameterValue, null, timestamp);
+
+            ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
+            parameters.add(instance);
+
+            this.pushMultipleParameterValues(parameters, storeIt);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      *
      * The pushSingleParameterValueAttribute operation allows an external entity
@@ -805,93 +758,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         parameters.add(instance);
         
         return this.pushMultipleParameterValues(parameters);
-        
-/*        
-        try {
-            synchronized(lock){
-                if (!isRegistered) {
-                    final EntityKeyList lst = new EntityKeyList();
-                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                    publisher.register(lst, new PublishInteractionListener());
-                    isRegistered = true;
-                }
-            }
-
-            Long objId = manager.list(name);  // Does the submitted name exists in the manager?
-
-            if (objId == null) {
-
-                ParameterDefinitionDetails pDef = new ParameterDefinitionDetails();
-
-                pDef.setName(name);
-                pDef.setDescription("This Parameter Definition was automatically generated by the Parameter service during the push of a parameter value.");
-
-                if (parameterValue.getRawValue() == null) {  // Well, let's then consider that it is a Double
-                    pDef.setRawType(Union.DOUBLE_TYPE_SHORT_FORM.byteValue());
-                } else {
-                    pDef.setRawType(parameterValue.getRawValue().getTypeShortForm().byteValue()); // Check what is the type and stamp it
-                }
-
-                pDef.setRawUnit(null);
-                pDef.setGenerationEnabled(false);
-                pDef.setUpdateInterval(new Duration(0));
-                pDef.setValidityExpression(null);
-                pDef.setConversion(null);
-
-                ParameterDefinitionDetailsList pDefs = new ParameterDefinitionDetailsList();
-                pDefs.add(pDef);
-
-                try {
-                    LongList returnedObjIds = this.addDefinition(pDefs, null);
-                    objId = returnedObjIds.get(0);
-
-                } catch (MALInteractionException ex) {
-                    Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALException ex) {
-                    Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.FINER,
-                    "Generating Pushed Parameter update for the Parameter Definition: {0} (Identifier: {1})",
-                    new Object[]{
-                        objId, new Identifier(manager.get(objId).getName().toString())
-                    });
-
-            final Long pValObjId = manager.storeAndGeneratePValobjId(parameterValue, objId, connection.getConnectionDetails()); // requirement: 3.3.4.2
-
-            //  requirements: 3.3.5.2.1 , 3.3.5.2.2 , 3.3.5.2.3 , 3.3.5.2.4
-            final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, pValObjId, null);
-
-            Time time = timestamp;
-
-            if (time == null) {
-                time = HelperTime.getTimestampMillis(); //  requirement: 3.3.5.2.5
-            }
-
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            final ObjectIdList objectIdlst = new ObjectIdList();
-            final ParameterValueList pVallst = new ParameterValueList();
-
-            hdrlst.add(new UpdateHeader(time, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
-            objectIdlst.add(source); // requirement: 3.3.5.2.7 (3.3.5.2.6 not necessary)
-            pVallst.add(parameterValue); // requirement: 3.3.5.2.8
-
-            publisher.publish(hdrlst, objectIdlst, pVallst);
-
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING, "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING, "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING, "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
-            return false;
-        }
-
-        return true;
-        */
     }
 
     /**
@@ -938,37 +804,36 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 }
             }
 
-            LongList objIds = new LongList();
+            final LongList outIds = new LongList();
+            final ParameterValueList parameterValueList = new ParameterValueList();
+            final List<ParameterInstance> parameterInstances = new ArrayList<ParameterInstance>();
 
-            for (ParameterInstance parameter : parameters) {
-                Long objId = manager.list(parameter.getName());  // Does the submitted name exists in the manager?
+            for (int i = 0; i < parameters.size(); i++) {
+                Long objId = manager.list(parameters.get(i).getName());  // Does the submitted name exists in the manager?
 
-                if (objId == null) {
-
+                if (objId == null) { // If the definition is not in the manager, then create it
                     ParameterDefinitionDetails pDef = new ParameterDefinitionDetails();
+                    pDef.setName(parameters.get(i).getName());
+                    pDef.setDescription("This Parameter Definition was automatically created by the Parameter service during the push of a parameter value.");
 
-                    pDef.setName(parameter.getName());
-                    pDef.setDescription("This Parameter Definition was automatically generated by the Parameter service during the push of a parameter value.");
-
-                    if (parameter.getParameterValue().getRawValue() == null) {  // Well, let's then consider that it is a Double
+                    if (parameters.get(i).getParameterValue().getRawValue() == null) {  // Well, let's then consider that it is a Double
                         pDef.setRawType(Union.DOUBLE_TYPE_SHORT_FORM.byteValue());
                     } else {
-                        pDef.setRawType(parameter.getParameterValue().getRawValue().getTypeShortForm().byteValue()); // Check what is the type and stamp it
+                        pDef.setRawType(parameters.get(i).getParameterValue().getRawValue().getTypeShortForm().byteValue()); // Check what is the type and stamp it
                     }
 
                     pDef.setRawUnit(null);
-                    pDef.setGenerationEnabled(false);
+                    pDef.setGenerationEnabled(true); // Set enabled as default
                     pDef.setUpdateInterval(new Duration(0));
                     pDef.setValidityExpression(null);
                     pDef.setConversion(null);
 
-                    ParameterDefinitionDetailsList pDefs = new ParameterDefinitionDetailsList();
+                    final ParameterDefinitionDetailsList pDefs = new ParameterDefinitionDetailsList();
                     pDefs.add(pDef);
 
                     try {
-                        LongList returnedObjIds = this.addDefinition(pDefs, null); // Enable the reporting for this Alert Definition
+                        LongList returnedObjIds = this.addDefinition(pDefs, null);
                         objId = returnedObjIds.get(0);
-
                     } catch (MALInteractionException ex) {
                         Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (MALException ex) {
@@ -976,55 +841,45 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     }
                 }
 
-                objIds.add(objId);
-
+                if(manager.get(objId).getGenerationEnabled()){
+                    outIds.add(objId); // Don't push the PVals that are not enabled...
+                    parameterValueList.add(parameters.get(i).getParameterValue());
+                    parameterInstances.add(parameters.get(i));
+                }
             }
-
-            /*            
-             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.FINER,
-             "Generating Pushed Parameter update for the Parameter Definition: {0} (Identifier: {1})",
-             new Object[]{
-             objId, new Identifier(manager.get(objId).getName().toString())
-             });
-             */
-            ParameterValueList parameterValueList = new ParameterValueList();
-            for (ParameterInstance parameter : parameters) {
-                parameterValueList.add(parameter.getParameterValue());
+            
+            if(parameterValueList.isEmpty()){
+                return true; // No parameters values are going to be pushed
             }
 
             final LongList pValObjIds;
             
             if(storeIt){
-                pValObjIds = manager.storeAndGenerateMultiplePValobjId(parameterValueList, objIds, connection.getConnectionDetails()); // requirement: 3.3.4.2
+                pValObjIds = manager.storeAndGenerateMultiplePValobjId(parameterValueList, outIds, connection.getConnectionDetails()); // requirement: 3.3.4.2
             }else{
-                // Well, if we don't strore it, then we shall use the local unique variable
+                // Well, if we don't store it, then we shall use the local unique variable
                 pValObjIds = new LongList();
-                for(ParameterInstance parameter : parameters){
+                for(ParameterValue parameterVal : parameterValueList){
                     pValObjIds.add(pValUniqueObjId.incrementAndGet());
                 }
             }
 
-            for (int i = 0; i < pValObjIds.size(); i++) {
-
+            for (int i = 0; i < parameterInstances.size(); i++) {
                 //  requirements: 3.3.5.2.1 , 3.3.5.2.2 , 3.3.5.2.3 , 3.3.5.2.4
-                final EntityKey ekey = new EntityKey(new Identifier(manager.get(objIds.get(i)).getName().toString()), objIds.get(i), pValObjIds.get(i), null);
+                final EntityKey ekey = new EntityKey(new Identifier(manager.get(outIds.get(i)).getName().toString()), outIds.get(i), pValObjIds.get(i), null);
 
-                Time time = parameters.get(i).getTimestamp();
-
-                if (time == null) {
-                    time = HelperTime.getTimestampMillis(); //  requirement: 3.3.5.2.5
-                }
+                Time time = parameterInstances.get(i).getTimestamp();
+                time = (time == null) ? HelperTime.getTimestampMillis() : time; //  requirement: 3.3.5.2.5
 
                 final UpdateHeaderList hdrlst = new UpdateHeaderList();
                 final ObjectIdList objectIdlst = new ObjectIdList();
                 final ParameterValueList pVallst = new ParameterValueList();
 
                 hdrlst.add(new UpdateHeader(time, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
-                objectIdlst.add(parameters.get(i).getSource()); // requirement: 3.3.5.2.7 (3.3.5.2.6 not necessary)
-                pVallst.add(parameters.get(i).getParameterValue()); // requirement: 3.3.5.2.8
+                objectIdlst.add(parameterInstances.get(i).getSource()); // requirement: 3.3.5.2.7 (3.3.5.2.6 not necessary)
+                pVallst.add(parameterInstances.get(i).getParameterValue()); // requirement: 3.3.5.2.8
 
                 publisher.publish(hdrlst, objectIdlst, pVallst);
-
             }
 
         } catch (IllegalArgumentException ex) {

@@ -167,7 +167,7 @@ public class ParameterManager extends DefinitionsManager {
      * must be retrieved from the Archive during storage
      */
     protected synchronized LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals, final LongList relatedList, final SingleConnectionDetails connectionDetails) {
-
+        
         if (this.getArchiveService() == null) {
             LongList out = new LongList();
 
@@ -239,32 +239,7 @@ public class ParameterManager extends DefinitionsManager {
 
             return out;
         }
-        /*
-        try {  // requirement: 3.3.4.2
-            LongList objIds = this.getArchiveService().store(
-                    true,
-                    ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
-                    connectionDetails.getDomain(),
-                    archiveDetailsList,
-                    pVals,
-                    null);
 
-            if (this.uniqueObjIdPVal.get() == 0) {
-                this.uniqueObjIdPVal.set(objIds.get(objIds.size() - 1));
-            }
-
-            if (objIds.size() == pVals.size()) {
-                return objIds;
-            }
-
-        } catch (MALException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return null;
-         */
     }
 
     protected ParameterValueList getParameterValues(LongList input) {
