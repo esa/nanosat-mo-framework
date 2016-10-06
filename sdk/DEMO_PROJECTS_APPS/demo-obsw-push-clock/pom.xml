@@ -70,10 +70,6 @@
             <scope>provided</scope>
 -->            
         </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>TRANSPORT_HTTP_TP</artifactId>
-        </dependency>
 
     </dependencies>
         
