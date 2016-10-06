@@ -25,9 +25,9 @@
   
   <artifactId>TRANSPORT_HTTP_TP</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
 
-  <name>ESA MAL HTTP Java transport (TP)</name>
+  <name>ESA MAL HTTP Java transport</name>
   <description>A Java HTTP transport for CCSDS MAL</description>
   <url>http://www.esa.int</url>
 
@@ -71,6 +71,11 @@
       <id>qa41yjus</id>
       <name>Thomas Pignede</name>
       <email>thomas.pignede@esa.int</email>
+    </developer>
+    <developer>
+      <id>CesarCoelho</id>
+      <name>Cesar Coelho</name>
+      <email>cesar.coelho@esa.int</email>
     </developer>
   </developers>
  

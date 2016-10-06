@@ -69,7 +69,7 @@
         <esa.nmf.helper.version>1.0-SNAPSHOT</esa.nmf.helper.version>
 
         <!-- Transports -->
-        <esa.ccsds.trans.http.version>1.1</esa.ccsds.trans.http.version>
+        <esa.ccsds.trans.http.version>1.2-SNAPSHOT</esa.ccsds.trans.http.version>
         
         <!-- APIs -->
         <esa.ccsds.api.mc.version>1.0-SNAPSHOT</esa.ccsds.api.mc.version>
