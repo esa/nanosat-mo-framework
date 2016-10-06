@@ -113,7 +113,7 @@ public class MOServicesConsumer {
         } catch (MalformedURLException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, "The file " + 
+            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file " + 
                     HelperMisc.CONSUMER_PROPERTIES_FILE + 
                     " could not be found! This error can happen if the user is trying to run the application from a different folder other than the one where the file is.", ex);
         }
@@ -237,10 +237,9 @@ public class MOServicesConsumer {
         } catch (MalformedURLException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, "The file " + 
+            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file " + 
                     HelperMisc.CONSUMER_PROPERTIES_FILE + 
                     " could not be found! This error can happen if the user is trying to run the application from a different folder other than the one where the file is.", ex);
-            return null;
         }
 
         DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI);

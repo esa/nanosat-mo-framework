@@ -823,7 +823,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     }
 
                     pDef.setRawUnit(null);
-                    pDef.setGenerationEnabled(true); // Set enabled as default
+                    pDef.setGenerationEnabled(true);
                     pDef.setUpdateInterval(new Duration(0));
                     pDef.setValidityExpression(null);
                     pDef.setConversion(null);
@@ -834,6 +834,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     try {
                         LongList returnedObjIds = this.addDefinition(pDefs, null);
                         objId = returnedObjIds.get(0);
+                        
+                        // Auto enable the generation
+                        InstanceBooleanPairList enableInstances = new InstanceBooleanPairList();
+                        enableInstances.add(new InstanceBooleanPair(objId, true));
+                        this.enableGeneration(false, enableInstances, null);
                     } catch (MALInteractionException ex) {
                         Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (MALException ex) {
