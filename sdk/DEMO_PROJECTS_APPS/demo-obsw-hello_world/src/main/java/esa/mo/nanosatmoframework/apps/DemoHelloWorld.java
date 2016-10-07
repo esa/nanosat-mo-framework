@@ -20,7 +20,6 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
-import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -30,13 +29,14 @@ import esa.mo.nanosatmoframework.SimpleMonitorAndControlAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -46,11 +46,12 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public class DemoHelloWorld {
 
     private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapterSimple());
+    private static final String PARAMETER_HELLO = "A_Parameter";
     private String str = "Hello World!";
 //    public final COMServicesProvider comServices = new COMServicesProvider();
 
     public DemoHelloWorld() {
-        
+
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         /*
@@ -59,7 +60,7 @@ public class DemoHelloWorld {
         } catch (MALException ex) {
             Logger.getLogger(DemoHelloWorld.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
+         */
     }
 
     /**
@@ -76,18 +77,43 @@ public class DemoHelloWorld {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
+
+            // ------------------ Parameters ------------------
+            ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+
+            defsOther.add(new ParameterDefinitionDetails(
+                    new Identifier(PARAMETER_HELLO),
+                    "The ADCS mode operation",
+                    Union.STRING_SHORT_FORM.byteValue(),
+                    "",
+                    false,
+                    new Duration(3),
+                    null,
+                    null
+            ));
+
+            registrationObject.registerParameters(defsOther);
+
         }
 
         @Override
         public Attribute onGetValue(Identifier identifier, Byte rawType) {
-            return (Attribute) HelperAttributes.javaType2Attribute(str);
+            if (PARAMETER_HELLO.equals(identifier.getValue())) {
+                return (Attribute) HelperAttributes.javaType2Attribute(str);
+            }
+
+            return null;
         }
 
         @Override
         public Boolean onSetValue(Identifier identifier, Attribute value) {
-            str = value.toString(); // Let's set the str variable
-            return true;  // to confirm that the variable was set
+            if (PARAMETER_HELLO.equals(identifier.getValue())) {
+                str = value.toString(); // Let's set the str variable
+                return true;  // to confirm that the variable was set                
+            }
+
+            return false;
         }
 
         @Override
@@ -106,14 +132,22 @@ public class DemoHelloWorld {
 
         @Override
         public Serializable onGetValueSimple(String name) {
-            return str;
+            if (PARAMETER_HELLO.equals(name)) {
+                return str;
+            }
+
+            return null;
         }
 
         @Override
         public boolean onSetValueSimple(String name, Serializable value) {
-            str = value.toString(); // Let's set the str variable
-            return true;  // to confirm that the variable was set
+            if (PARAMETER_HELLO.equals(name)) {
+                str = value.toString(); // Let's set the str variable
+                return true;  // to confirm that the variable was set
+            }
+
+            return false;
         }
     }
-    
+
 }

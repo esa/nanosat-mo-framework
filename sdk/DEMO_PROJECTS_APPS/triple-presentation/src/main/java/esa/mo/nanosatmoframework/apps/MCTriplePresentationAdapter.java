@@ -103,7 +103,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     private static final String ACTION_SUN_POINTING_MODE = "ADCS.SunPointingMode";
     private static final String ACTION_NADIR_POINTING_MODE = "ADCS.NadirPointingMode";
     private static final String ACTION_UNSET = "ADCS.UnsetAttitude";
-    private static final String ACTION_5_STAGES = "5StagesAction";
+    private static final String ACTION5STAGES = "5StagesAction";
 
     private boolean adcsDefsAdded = false;
     private Long sunPointingObjId = null;
@@ -342,7 +342,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         );
 
         ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails(
-                new Identifier(ACTION_5_STAGES),
+                new Identifier(ACTION5STAGES),
                 "Example of an Action with 5 stages.",
                 Severity.INFORMATIONAL,
                 new UShort(0),
@@ -537,7 +537,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             }
         }
 
-        if (ACTION_5_STAGES.equals(name.getValue())) {
+        if (ACTION5STAGES.equals(name.getValue())) {
             try {
                 fiveStepsAction(actionInstanceObjId, 5);
             } catch (IOException ex) {
