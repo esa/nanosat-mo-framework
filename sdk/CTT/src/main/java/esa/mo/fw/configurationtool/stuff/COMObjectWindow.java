@@ -29,6 +29,7 @@ import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -598,6 +599,10 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 comObject.getDomain(),
                 comObject.getArchiveDetails().getDetails().getRelated()
         );
+        
+        if(relatedCOMObject == null){
+            JOptionPane.showMessageDialog(null, "The archive didn't could not find the object!", "Error!", JOptionPane.PLAIN_MESSAGE);
+        }
 
         COMObjectWindow newWindow = new COMObjectWindow(relatedCOMObject, editable, archiveService);
 
