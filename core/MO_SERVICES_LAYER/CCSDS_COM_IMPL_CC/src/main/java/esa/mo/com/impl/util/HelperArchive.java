@@ -289,7 +289,7 @@ public class HelperArchive {
             final ObjectType objType, final IdentifierList domain, final Long objId) {
         LongList objIds = new LongList();
         objIds.add(objId);
-        @SuppressWarnings("unchecked")
+
         List<ArchivePersistenceObject> archiveCOMobjectList = (List<ArchivePersistenceObject>) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.COM_OBJECT);
 
         if (archiveCOMobjectList == null) {
@@ -308,7 +308,6 @@ public class HelperArchive {
      * @param objIds The List of object instance identifiers of the COM objects to be retrieved
      * @return The list of COM objects
      */
-    @SuppressWarnings("unchecked")
     public static List<ArchivePersistenceObject> getArchiveCOMObjectList(Object archiveService,
             final ObjectType objType, final IdentifierList domain, final LongList objIds) {
         return (List<ArchivePersistenceObject>) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.COM_OBJECT);
@@ -336,7 +335,7 @@ public class HelperArchive {
             public synchronized MALMessage sendResponse(ArchiveDetailsList objDetails, ElementList objBodies) throws MALInteractionException, MALException {
 
                 if (objBodies != null) {
-                    if (objBodies.size() != 0) {
+                    if (!objBodies.isEmpty()) {
                         this.obj = objBodies;
                     }
                 } else {
@@ -344,7 +343,7 @@ public class HelperArchive {
                 }
 
                 if (objDetails != null) {
-                    if (objDetails.size() != 0) {
+                    if (!objDetails.isEmpty()) {
                         this.objDetails = (ElementList) objDetails;
                     }
                 } else {
@@ -419,7 +418,7 @@ public class HelperArchive {
                     ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
 
                 if (objBodies != null) {
-                    if (objBodies.size() != 0) {
+                    if (!objBodies.isEmpty()) {
                         this.obj = objBodies;
                     }
                 } else {
@@ -427,7 +426,7 @@ public class HelperArchive {
                 }
 
                 if (objDetails != null) {
-                    if (objDetails.size() != 0) {
+                    if (!objDetails.isEmpty()) {
                         this.objDetails = (ElementList) objDetails;
                     }
                 } else {

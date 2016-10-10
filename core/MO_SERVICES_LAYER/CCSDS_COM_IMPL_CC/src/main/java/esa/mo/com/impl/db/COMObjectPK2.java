@@ -18,39 +18,40 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.entities;
+package esa.mo.com.impl.db;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
- *
+ * Archive Persistence Object Primary Key 2
  * @author Cesar Coelho
  */
-@Entity
-public class DomainHolderEntity implements Serializable{
+public class COMObjectPK2 implements Serializable {
 
-    @Id
-    @Column(name = "id")
-    private int id;
+    private final Long objectTypeId;
+    private final Integer domainId;
+    private final Long objId;
 
-    @Column(name = "domainString")
-    private String domainString;
-  
-    protected DomainHolderEntity() {
-    }
-
-    public DomainHolderEntity (final int id, final String domainString){
-        this.id = id;
-        this.domainString = domainString;
+    public COMObjectPK2 (final Long objectTypeId, final Integer domain, final Long objId){
+        this.objectTypeId = objectTypeId;
+        this.domainId = domain;
+        this.objId = objId;
     }
     
-    public int getId(){
-        return this.id;
+    @Override
+    public boolean equals(Object other) {
+    	if (this == other) return true;
+        if (!(other instanceof COMObjectPK2)) return false;
+        COMObjectPK2 input = (COMObjectPK2) other;
+        
+        return (input.objectTypeId.equals(objectTypeId) &&
+                input.domainId.equals(domainId) &&
+                input.objId.equals(objId) );
     }
 
-    public String getDomainString(){
-        return this.domainString;
+    @Override
+    public int hashCode(){
+    	return objectTypeId.hashCode() ^ domainId.hashCode() ^ objId.hashCode();
     }
-  
+
 }

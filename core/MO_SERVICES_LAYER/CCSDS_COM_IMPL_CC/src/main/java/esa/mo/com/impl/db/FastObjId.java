@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.provider;
+package esa.mo.com.impl.db;
 
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -33,28 +33,28 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
  *
  *
  */
-public class ArchiveFastObjId {
+public class FastObjId {
 
     private final HashMap<Key, Long> fastID;
     private final Semaphore semaphore = new Semaphore(1);
 
-    public ArchiveFastObjId() {
+    public FastObjId() {
         this.fastID = new HashMap<Key, Long>();
     }
 
-    protected void lock(){
+    public void lock(){
         try {
             this.semaphore.acquire();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveFastObjId.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FastObjId.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    protected void unlock(){
+    public void unlock(){
             this.semaphore.release();
     }
 
-    protected Long newUniqueID(final ObjectType objectTypeId, final IdentifierList domain) {
+    public Long newUniqueID(final ObjectType objectTypeId, final IdentifierList domain) {
 
         Long objId = (this.getCurrentID(objectTypeId, domain));
         if (objId == null){
@@ -67,7 +67,7 @@ public class ArchiveFastObjId {
         return objId;
     }
     
-    protected void setUniqueIdIfLatest(final ObjectType objectTypeId, final IdentifierList domain, final Long objId){
+    public void setUniqueIdIfLatest(final ObjectType objectTypeId, final IdentifierList domain, final Long objId){
         final Key key = new Key(objectTypeId, domain);
         final Long currentObjId = this.getCurrentID(objectTypeId, domain);
 
@@ -81,12 +81,12 @@ public class ArchiveFastObjId {
         }
     }
 
-    protected void setUniqueID(final ObjectType objectTypeId, final IdentifierList domain, final Long objId) {
+    public void setUniqueID(final ObjectType objectTypeId, final IdentifierList domain, final Long objId) {
         Key key = new Key(objectTypeId, domain);
         this.fastID.put(key, objId);
     }
 
-    protected void delete(final ObjectType objectTypeId, final IdentifierList domain) {
+    public void delete(final ObjectType objectTypeId, final IdentifierList domain) {
         Key key = new Key(objectTypeId, domain);
         this.fastID.remove(key);
     }

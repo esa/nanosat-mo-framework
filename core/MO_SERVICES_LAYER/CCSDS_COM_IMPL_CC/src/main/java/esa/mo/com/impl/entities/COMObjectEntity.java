@@ -18,9 +18,9 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.provider;
+package esa.mo.com.impl.entities;
 
-import esa.mo.com.impl.db.COMObjectPK;
+import esa.mo.com.impl.db.COMObjectPK2;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -41,15 +41,15 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * @author Cesar Coelho
  */
 @Entity
-@IdClass(COMObjectPK.class)
-@Table(name = "ArchivePersistenceObject", 
+@IdClass(COMObjectPK2.class)
+@Table(name = "COMObjectEntity", 
        indexes = {
                   @Index(name = "index_related",  columnList="relatedLink", unique = false),
                   @Index(name = "index_network", columnList="network",     unique = false),  
                   @Index(name = "index_timestampArchiveDetails",  columnList="timestampArchiveDetails", unique = false),
                   @Index(name = "index_providerURI",  columnList="providerURI", unique = false)
                 } )
-public class ArchivePersistenceObject implements Serializable{
+public class COMObjectEntity implements Serializable{
 
     @Id
     @Column(name = "objectTypeId")
@@ -57,7 +57,7 @@ public class ArchivePersistenceObject implements Serializable{
     
     @Id
     @Column(name = "domainId")
-    private String domainId;
+    private Integer domainId;
     
     @Id
     @Column(name = "objId")
@@ -103,8 +103,7 @@ public class ArchivePersistenceObject implements Serializable{
     
     public ObjectType getObjectType(){ return HelperCOM.objectTypeId2objectType(this.objectTypeId); }
     public Long getObjectTypeId(){ return this.objectTypeId; }
-    public IdentifierList getDomain(){ return HelperMisc.domainId2domain(this.domainId); }
-    public String getDomainId(){ return this.domainId; }
+    public Integer getDomainId(){ return this.domainId; }
     public Long getObjectId(){ return this.objId; }
 //    public Object getObject(){ return HelperAttributes.attribute2JavaType(obj.getObjectBody()); }
     public Object getObject(){ return HelperAttributes.attribute2JavaType(obj);  }
@@ -128,14 +127,14 @@ public class ArchivePersistenceObject implements Serializable{
 //    protected java.util.Date getStoreTimestamp(){ return storeTimestamp; }
     protected Long getStoreTimestamp(){ return storeTimestamp; }
 
-    protected ArchivePersistenceObject() {
+    protected COMObjectEntity() {
     }
 
-    public ArchivePersistenceObject (ObjectType objectType, IdentifierList domain,
+    public COMObjectEntity (ObjectType objectType, Integer domain,
             Long objId, ArchiveDetails archiveDetails, Object object){
 
         this.objectTypeId = HelperCOM.generateSubKey(objectType);
-        this.domainId = HelperMisc.domain2domainId(domain);
+        this.domainId = domain;
         this.objId = objId;
         
 //        java.sql.Timestamp ts = new java.sql.Timestamp(HelperTime.fromNanoToMilli(archiveDetails.getTimestamp().getValue()));
@@ -159,17 +158,17 @@ public class ArchivePersistenceObject implements Serializable{
 
     }
 
-    public static COMObjectPK generatePK (final ObjectType 
-             objectType, final IdentifierList domain, final Long objId){
+    public static COMObjectPK2 generatePK (final ObjectType 
+             objectType, final Integer domain, final Long objId){
         // Generate Primary Key
-        return new COMObjectPK(
+        return new COMObjectPK2(
                 HelperCOM.generateSubKey(objectType), 
-                HelperMisc.domain2domainId(domain), 
+                domain, 
                 objId );
     }
     
-    public COMObjectPK getPrimaryKey(){
-        return new COMObjectPK(this.objectTypeId, this.domainId, this.objId );
+    public COMObjectPK2 getPrimaryKey(){
+        return new COMObjectPK2(this.objectTypeId, this.domainId, this.objId );
     }
 
 }

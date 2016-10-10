@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -47,7 +48,7 @@ public class DatabaseBackend {
     private EntityManagerFactory emf;
     private EntityManager em;
     private Connection serverConnection;
-    private boolean keptOpen = false;
+    private boolean wasKeptOpen = false;
 
 //    private static final String DRIVER_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver"; // Derby Embedded Driver
 //    private static final String DATABASE_NAME = "derby"; // Derby
@@ -65,13 +66,21 @@ public class DatabaseBackend {
     }
 
     private void startBackendDatabase() {
-        Thread startDatabase = new Thread() {
+        final AtomicBoolean acquired = new AtomicBoolean(false);
+        
+        final Thread startDatabase = new Thread() {
             @Override
             public void run() {
                 try {
                     emAvailability.acquire();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                acquired.set(true);
+                
+                synchronized(this){
+                    this.notify();
                 }
 
                 startServer();
@@ -83,6 +92,17 @@ public class DatabaseBackend {
         };
 
         startDatabase.start();
+        
+        synchronized(startDatabase){
+            while(acquired.get() == false){  // Check if it is acquired...
+                try {
+                    startDatabase.wait(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
     }
     
     
@@ -147,18 +167,18 @@ public class DatabaseBackend {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-//        if(!keptOpen){
+        if(!wasKeptOpen){
             this.em = this.emf.createEntityManager();
-//        }
+        }
     }
 
     public void closeEntityManager() {
         // If it has Thread open, then keep it open...
-//        keptOpen = this.emAvailability.hasQueuedThreads();
+        wasKeptOpen = this.emAvailability.hasQueuedThreads();
         
-//        if(!keptOpen){
+        if(!wasKeptOpen){
             this.em.close();
-//        }
+        }
         
         this.emAvailability.release();
     }

@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.provider;
+package esa.mo.com.impl.db;
 
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;

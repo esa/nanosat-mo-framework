@@ -260,7 +260,6 @@ public class SortByField implements Comparator {
         return stackOut;
     }
 
-    @SuppressWarnings("unchecked")
     private static ArrayList<ArchivePersistenceObject> sortStack(ArrayList<ArchivePersistenceObject> stack,
             final String fieldString, final Boolean ascending) throws NoSuchFieldException {
 

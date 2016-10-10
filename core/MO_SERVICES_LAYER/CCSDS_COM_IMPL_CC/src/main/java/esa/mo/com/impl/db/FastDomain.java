@@ -18,48 +18,41 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.provider;
+package esa.mo.com.impl.db;
 
 import esa.mo.com.impl.entities.DomainHolderEntity;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.com.impl.db.DatabaseBackend;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
  *
  *
  */
-public class ArchiveFastDomain {
+public class FastDomain {
 
-    private final HashMap<IdentifierList, Long> fastID;
-    private final HashMap<Long, IdentifierList> fastIDreverse;
     private final DatabaseBackend dbBackend;
+    private AtomicInteger uniqueId = new AtomicInteger(0);
+    private final HashMap<IdentifierList, Integer> fastID;
+    private final HashMap<Integer, IdentifierList> fastIDreverse;
        
-    public ArchiveFastDomain(final DatabaseBackend dbBackend) {
-        this.fastID = new HashMap<IdentifierList, Long>();
-        this.fastIDreverse = new HashMap<Long, IdentifierList>();
+    public FastDomain(final DatabaseBackend dbBackend) {
+        this.fastID = new HashMap<IdentifierList, Integer>();
+        this.fastIDreverse = new HashMap<Integer, IdentifierList>();
         this.dbBackend = dbBackend;
+        this.loadDomains();
     }
     
-    public boolean exists(final IdentifierList domain) {
-        return (this.fastID.get(domain) != null);
-    }
-    
-    public boolean exists(final Long domainId) {
-        return (this.fastIDreverse.get(domainId) != null);
-    }
-    
-    private void populate(){
-        
+    private void loadDomains(){
         // Retrieve all the ids and domains from the Database
         dbBackend.createEntityManager();
-                
+
         // Get All the domains available
         Query query = dbBackend.getEM().createQuery("SELECT PU FROM DomainHolderEntity PU");
 
@@ -67,7 +60,9 @@ public class ArchiveFastDomain {
         ArrayList<DomainHolderEntity> domainHolderEntities = new ArrayList<DomainHolderEntity>();
         domainHolderEntities.addAll(resultList);
                  
-        final LongList ids = new LongList();
+        dbBackend.closeEntityManager();
+
+        final IntegerList ids = new IntegerList();
         final StringList domains = new StringList();
 
         // From the list of Entities to seperate lists of ids and domains
@@ -76,43 +71,60 @@ public class ArchiveFastDomain {
             domains.add(domainHolderEntities.get(i).getDomainString());
         }
 
+        int max = 0;
+        
         // Populate the variables on this class
         for (int i = 0; i < ids.size(); i++){
             final IdentifierList domain = HelperMisc.domainId2domain(domains.get(i));
             this.fastID.put(domain, ids.get(i));
             this.fastIDreverse.put(ids.get(i), domain);
+            
+            if(ids.get(i) > max){ // Get the maximum value
+                max = ids.get(i);
+            }
         }
-
-        dbBackend.closeEntityManager();
         
+        uniqueId = new AtomicInteger(0);
     }
     
-    public void addNewDomain(final IdentifierList domain){       
+    public synchronized boolean exists(final IdentifierList domain) {
+        return (this.fastID.get(domain) != null);
+    }
+    
+    public synchronized boolean exists(final Integer domainId) {
+        return (this.fastIDreverse.get(domainId) != null);
+    }
+    
+    private Integer addNewDomain(final IdentifierList domain){
+        final int domainId = uniqueId.incrementAndGet();
         dbBackend.createEntityManager();
-        
+
         // Create Entity
-        DomainHolderEntity domainEntity = new DomainHolderEntity(new Long(fastID.size() + 1), HelperMisc.domain2domainId(domain));
+        DomainHolderEntity domainEntity = new DomainHolderEntity(domainId, HelperMisc.domain2domainId(domain));
         
         // Add it to the table
         dbBackend.getEM().getTransaction().begin();
         dbBackend.getEM().persist(domainEntity);
         dbBackend.getEM().getTransaction().commit();
-        
         dbBackend.closeEntityManager();
-    }
-
-    
-    public Long getDomainID(final IdentifierList domain) throws Exception {
-        final Long id = this.fastID.get(domain);
         
-        if (id == null){
-            throw new Exception();
+        this.fastID.put(domain, domainId);
+        this.fastIDreverse.put(domainId, domain);
+        
+        return domainId;
+    }
+    
+    public synchronized Integer getDomainID(final IdentifierList domain) {
+        final Integer id = this.fastID.get(domain);
+        
+        if (id == null){ // Does not exist
+            this.addNewDomain(domain);
         }
 
         return id;
     }
 
-    public IdentifierList getDomain(final Long id) throws Exception {
+    public synchronized IdentifierList getDomain(final Integer id) throws Exception {
         final IdentifierList domain = this.fastIDreverse.get(id);
         
         if (domain == null){
@@ -122,7 +134,10 @@ public class ArchiveFastDomain {
         return domain;
     }
     
-    public boolean changeSingleDomain(final IdentifierList newDomain){
+    
+
+/*    
+    private boolean changeSingleDomain(final IdentifierList newDomain){
         // A single domain is not available. There are more than 1...
         if (this.fastID.size() != 1){
             return false;
@@ -134,7 +149,7 @@ public class ArchiveFastDomain {
         final DomainHolderEntity oldDomainEntity = dbBackend.getEM().find(DomainHolderEntity.class, id);
 
         // Create new Entity
-        DomainHolderEntity newDomainEntity = new DomainHolderEntity(new Long(fastID.size() + 1), HelperMisc.domain2domainId(newDomain));
+        DomainHolderEntity newDomainEntity = new DomainHolderEntity(fastID.size() + 1, HelperMisc.domain2domainId(newDomain));
         
         dbBackend.getEM().getTransaction().begin();
         dbBackend.getEM().remove(oldDomainEntity);
@@ -146,5 +161,6 @@ public class ArchiveFastDomain {
         
         return true;
     }
-
+*/
+    
 }

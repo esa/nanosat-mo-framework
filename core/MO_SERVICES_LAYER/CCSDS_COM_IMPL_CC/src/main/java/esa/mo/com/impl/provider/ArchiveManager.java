@@ -20,6 +20,9 @@
  */
 package esa.mo.com.impl.provider;
 
+import esa.mo.com.impl.db.COMObjectPK;
+import esa.mo.com.impl.db.FastObjId;
+import esa.mo.com.impl.db.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
@@ -64,8 +67,8 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ArchiveManager {
 
-    private ArchiveFastObjId fastObjId;
-    private final ArchiveFastDomain fastDomain;
+    private FastObjId fastObjId;
+    private FastDomain fastDomain;
     private final DatabaseBackend dbBackend;
     private static final Boolean SAFE_MODE = false;
 
@@ -79,7 +82,7 @@ public class ArchiveManager {
      */
     public ArchiveManager(EventProviderServiceImpl eventService) {
         // Start the separate lists for the "fast" generation of objIds
-        this.fastObjId = new ArchiveFastObjId();
+        this.fastObjId = new FastObjId();
         this.eventService = eventService;
 
         try {
@@ -88,7 +91,14 @@ public class ArchiveManager {
         }
 
         this.dbBackend = new DatabaseBackend();
-        this.fastDomain = new ArchiveFastDomain(dbBackend);
+        
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.fastDomain = new FastDomain(dbBackend);
     }
 
     protected void setEventService(EventProviderServiceImpl eventService) {
@@ -103,9 +113,10 @@ public class ArchiveManager {
         dbBackend.getEM().getTransaction().commit();
         dbBackend.getEM().close();
 
-        this.fastObjId = new ArchiveFastObjId();
-
+        this.fastObjId = new FastObjId();
         dbBackend.restartEMF();
+//        this.fastDomain = new FastDomain(dbBackend);
+        
     }
     
     private Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
@@ -205,11 +216,15 @@ public class ArchiveManager {
         Thread t1 = new Thread() {
             @Override
             public void run() {
+                long startTime = System.currentTimeMillis();
+                
                 dbBackend.getEM().getTransaction().begin(); // 0.480 ms
 
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 1: " + (System.currentTimeMillis() - startTime));
                 persistObjects(perObjs);
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 2: " + (System.currentTimeMillis() - startTime));
 
-                try {
+                try {  // This is where the db takes longer!!
                     dbBackend.getEM().getTransaction().commit(); // 1.220 ms
                 } catch (Exception ex) {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING, "The object could not be stored! Waiting 500 ms and trying again...");
@@ -222,10 +237,13 @@ public class ArchiveManager {
                     dbBackend.getEM().getTransaction().commit(); // 1.220 ms
                 }
 
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 3: " + (System.currentTimeMillis() - startTime));
                 dbBackend.closeEntityManager(); // 0.410 ms
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 4: " + (System.currentTimeMillis() - startTime));
 
                 // Generate and Publish the Events - requirement: 3.4.2.1
                 generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, perObjs, interaction);
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 5: " + (System.currentTimeMillis() - startTime));
             }
         };
 
@@ -254,9 +272,12 @@ public class ArchiveManager {
             }
 
             // Flush every 1k objects...
-            if ((i % 1000) == 0) {
-                dbBackend.getEM().flush();
-                dbBackend.getEM().clear();
+            if(i != 0){
+                if ((i % 1000) == 0) {
+                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "Flushing the data after 1000 serial stores...");
+                    dbBackend.getEM().flush();
+                    dbBackend.getEM().clear();
+                }
             }
         }
     }
