@@ -48,7 +48,7 @@ public class DatabaseBackend {
     private EntityManagerFactory emf;
     private EntityManager em;
     private Connection serverConnection;
-    private boolean wasKeptOpen = false;
+//    private boolean wasKeptOpen = false;
 
 //    private static final String DRIVER_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver"; // Derby Embedded Driver
 //    private static final String DATABASE_NAME = "derby"; // Derby
@@ -78,10 +78,7 @@ public class DatabaseBackend {
                 }
                 
                 acquired.set(true);
-                
-                synchronized(this){
-                    this.notify();
-                }
+                this.notify();
 
                 startServer();
                 createEMFactory();
@@ -167,18 +164,18 @@ public class DatabaseBackend {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if(!wasKeptOpen){
+//        if(!wasKeptOpen){
             this.em = this.emf.createEntityManager();
-        }
+//        }
     }
 
     public void closeEntityManager() {
         // If it has Thread open, then keep it open...
-        wasKeptOpen = this.emAvailability.hasQueuedThreads();
+//        wasKeptOpen = this.emAvailability.hasQueuedThreads();
         
-        if(!wasKeptOpen){
+//        if(!wasKeptOpen){
             this.em.close();
-        }
+//        }
         
         this.emAvailability.release();
     }

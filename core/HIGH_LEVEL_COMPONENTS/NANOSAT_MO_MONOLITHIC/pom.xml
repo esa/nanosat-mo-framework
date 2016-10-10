@@ -115,7 +115,6 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>TRANSPORT_TCPIP_TP</artifactId>
-            <version>1.0.1</version>
         </dependency>
 
 <!--        
