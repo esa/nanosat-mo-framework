@@ -64,7 +64,7 @@
     <modules>
         <module>DEMO_PROJECTS_APPS</module>
         <module>DEMO_PROJECTS_GROUND</module>
-        <module>CONFIGURATION_MANAGER</module>
+        <module>CTT</module>
         <module>DROPBLOCKS</module>
         <!-- Shoud fail on the module below because the Software Simulator needs to go into the Core package -->
         <module>PLAYGROUND_GENERATOR</module> 

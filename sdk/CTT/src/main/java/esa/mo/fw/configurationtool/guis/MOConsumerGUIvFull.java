@@ -62,7 +62,7 @@ public class MOConsumerGUIvFull extends javax.swing.JFrame {
             // handle exception
         }
 
-        final String name = System.getProperty("application.name", "CCSDS Mission Operations - Configuration Manager");
+        final String name = System.getProperty("application.name", "CTT: Consumer Test Tool");
         final MOConsumerGUIvFull gui = new MOConsumerGUIvFull(name);
 
         EventQueue.invokeLater(new Runnable() {

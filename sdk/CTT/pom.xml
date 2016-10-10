@@ -23,12 +23,12 @@
         <relativePath/>
     </parent>
   
-    <artifactId>NANOSAT_MO_FRAMEWORK_CONFIGURATION_MANAGER</artifactId>
+    <artifactId>CTT</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Configuration Manager</name>
-    <description>A tool to test NMF-related software</description>
+    <name>CTT: Consumer Test Tool</name>
+    <description>A tool to test NMF-related providers.</description>
     <url>http://www.esa.int</url>
   
     <organization>
