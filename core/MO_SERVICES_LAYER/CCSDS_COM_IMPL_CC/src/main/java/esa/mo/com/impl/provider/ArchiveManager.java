@@ -216,13 +216,13 @@ public class ArchiveManager {
         Thread t1 = new Thread() {
             @Override
             public void run() {
-                long startTime = System.currentTimeMillis();
+//                long startTime = System.currentTimeMillis();
                 
                 dbBackend.getEM().getTransaction().begin(); // 0.480 ms
 
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 1: " + (System.currentTimeMillis() - startTime));
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 1: " + (System.currentTimeMillis() - startTime));
                 persistObjects(perObjs);
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 2: " + (System.currentTimeMillis() - startTime));
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 2: " + (System.currentTimeMillis() - startTime));
 
                 try {  // This is where the db takes longer!!
                     dbBackend.getEM().getTransaction().commit(); // 1.220 ms
@@ -237,13 +237,13 @@ public class ArchiveManager {
                     dbBackend.getEM().getTransaction().commit(); // 1.220 ms
                 }
 
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 3: " + (System.currentTimeMillis() - startTime));
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 3: " + (System.currentTimeMillis() - startTime));
                 dbBackend.closeEntityManager(); // 0.410 ms
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 4: " + (System.currentTimeMillis() - startTime));
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 4: " + (System.currentTimeMillis() - startTime));
 
                 // Generate and Publish the Events - requirement: 3.4.2.1
                 generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, perObjs, interaction);
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 5: " + (System.currentTimeMillis() - startTime));
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 5: " + (System.currentTimeMillis() - startTime));
             }
         };
 

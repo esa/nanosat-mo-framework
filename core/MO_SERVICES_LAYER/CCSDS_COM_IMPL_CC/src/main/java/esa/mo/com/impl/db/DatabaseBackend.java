@@ -66,7 +66,7 @@ public class DatabaseBackend {
     }
 
     private void startBackendDatabase() {
-        final AtomicBoolean acquired = new AtomicBoolean(false);
+        final Semaphore sem = new Semaphore(0);
         
         final Thread startDatabase = new Thread() {
             @Override
@@ -77,9 +77,8 @@ public class DatabaseBackend {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                acquired.set(true);
-                this.notify();
-
+                sem.release();
+                
                 startServer();
                 createEMFactory();
                 emAvailability.release();
@@ -90,16 +89,12 @@ public class DatabaseBackend {
 
         startDatabase.start();
         
-        synchronized(startDatabase){
-            while(acquired.get() == false){  // Check if it is acquired...
-                try {
-                    startDatabase.wait(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        try {
+            sem.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+                
     }
     
     
