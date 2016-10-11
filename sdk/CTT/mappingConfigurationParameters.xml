@@ -23,7 +23,7 @@
 		-->
 	</app>
 
-	<app apidQualifier="248" apid="2">
+	<app apidQualifier="247" apid="2">
 		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
 		<varintSupported>true</varintSupported>
 		<time>
