@@ -23,9 +23,6 @@ package esa.mo.com.impl.archive.db;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.HashMap;
-import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -49,19 +46,6 @@ public class FastObjId {
         this.fastID = new HashMap<Key, Long>();
     }
 
-    /*
-    public void lock(){
-        try {
-            this.semaphore.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(FastObjId.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void unlock(){
-            this.semaphore.release();
-    }
-     */
     private Long newUniqueID(final ObjectType objectTypeId, final IdentifierList domain) {
 
         Long objId = (this.getCurrentID(objectTypeId, domain));
@@ -111,12 +95,10 @@ public class FastObjId {
     }
 
     private synchronized Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
-//        this.lock();
 
         // Did we request this objType+domain combination before?! If so, return the next value
         Long objId = this.newUniqueID(objectType, domain);
         if (objId != null) {
-//            this.unlock();
             return objId;
         }
 
@@ -135,7 +117,6 @@ public class FastObjId {
         }
 
         objId = this.newUniqueID(objectType, domain);
-//        this.unlock();
 
         return objId;
     }
