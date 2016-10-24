@@ -18,9 +18,9 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.entities;
+package esa.mo.com.impl.archive.entities;
 
-import esa.mo.com.impl.db.COMObjectPK2;
+import esa.mo.com.impl.archive.db.COMObjectPK2;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;

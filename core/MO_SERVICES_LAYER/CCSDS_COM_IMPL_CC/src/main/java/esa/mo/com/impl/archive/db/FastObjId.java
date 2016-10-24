@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.db;
+package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 
@@ -35,13 +36,20 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
  */
 public class FastObjId {
 
-    private final HashMap<Key, Long> fastID;
-    private final Semaphore semaphore = new Semaphore(1);
+    private final DatabaseBackend dbBackend;
+    private HashMap<Key, Long> fastID;
+//    private final Semaphore semaphore = new Semaphore(1);
 
-    public FastObjId() {
+    public FastObjId(final DatabaseBackend dbBackend) {
+        this.dbBackend = dbBackend;
         this.fastID = new HashMap<Key, Long>();
     }
-
+    
+    public synchronized void resetFastIDs(){
+        this.fastID = new HashMap<Key, Long>();
+    }
+    
+/*
     public void lock(){
         try {
             this.semaphore.acquire();
@@ -53,8 +61,8 @@ public class FastObjId {
     public void unlock(){
             this.semaphore.release();
     }
-
-    public Long newUniqueID(final ObjectType objectTypeId, final IdentifierList domain) {
+*/
+    private Long newUniqueID(final ObjectType objectTypeId, final IdentifierList domain) {
 
         Long objId = (this.getCurrentID(objectTypeId, domain));
         if (objId == null){
@@ -67,7 +75,7 @@ public class FastObjId {
         return objId;
     }
     
-    public void setUniqueIdIfLatest(final ObjectType objectTypeId, final IdentifierList domain, final Long objId){
+    public synchronized void setUniqueIdIfLatest(final ObjectType objectTypeId, final IdentifierList domain, final Long objId){
         final Key key = new Key(objectTypeId, domain);
         final Long currentObjId = this.getCurrentID(objectTypeId, domain);
 
@@ -81,12 +89,12 @@ public class FastObjId {
         }
     }
 
-    public void setUniqueID(final ObjectType objectTypeId, final IdentifierList domain, final Long objId) {
+    private void setUniqueID(final ObjectType objectTypeId, final IdentifierList domain, final Long objId) {
         Key key = new Key(objectTypeId, domain);
         this.fastID.put(key, objId);
     }
 
-    public void delete(final ObjectType objectTypeId, final IdentifierList domain) {
+    public synchronized void delete(final ObjectType objectTypeId, final IdentifierList domain) {
         Key key = new Key(objectTypeId, domain);
         this.fastID.remove(key);
     }
@@ -101,6 +109,37 @@ public class FastObjId {
         return objId;
     }
 
+    public synchronized Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
+//        this.lock();
+
+        // Did we request this objType+domain combination before?! If so, return the next value
+        Long objId = this.newUniqueID(objectType, domain);
+        if (objId != null) {
+//            this.unlock();
+            return objId;
+        }
+
+        // Well, if not then we must check if this combination already exists in the PU...
+        dbBackend.createEntityManager();
+        Query query = dbBackend.getEM().createQuery("SELECT MAX(PU.objId) FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
+        query.setParameter("objectTypeId", HelperCOM.generateSubKey(objectType));
+        query.setParameter("domainId", HelperMisc.domain2domainId(domain));
+        Long maxValue = (Long) query.getSingleResult();
+        dbBackend.closeEntityManager();
+
+        if (maxValue == null) {
+            this.setUniqueID(objectType, domain, (long) 0); // The object does not exist in PU
+        } else {
+            this.setUniqueID(objectType, domain, maxValue);
+        }
+
+        objId = this.newUniqueID(objectType, domain);
+//        this.unlock();
+
+        return objId;
+    }
+
+    
     /*
     private boolean exists(final ObjectType objectTypeId, final IdentifierList domain) {
         Key key = new Key(objectTypeId, domain);
@@ -108,7 +147,7 @@ public class FastObjId {
     }
     */
 
-    protected class Key {
+    private class Key {
 
         private final Long objectTypeId;
         private final String domainId;

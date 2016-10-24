@@ -20,14 +20,14 @@
  */
 package esa.mo.com.impl.provider;
 
-import esa.mo.com.impl.db.COMObjectPK;
-import esa.mo.com.impl.db.FastObjId;
-import esa.mo.com.impl.db.FastDomain;
+import esa.mo.com.impl.archive.db.COMObjectPK;
+import esa.mo.com.impl.archive.db.FastObjId;
+import esa.mo.com.impl.archive.db.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.com.impl.db.DatabaseBackend;
+import esa.mo.com.impl.archive.db.DatabaseBackend;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -67,10 +67,10 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ArchiveManager {
 
-    private FastObjId fastObjId;
-    private FastDomain fastDomain;
+    private final FastObjId fastObjId;
+//    private final FastDomain fastDomain;
     private final DatabaseBackend dbBackend;
-    private static final Boolean SAFE_MODE = false;
+    private static final Boolean SAFE_MODE = true;
 
     protected EventProviderServiceImpl eventService;
     private final ConfigurationProvider configuration = new ConfigurationProvider();
@@ -81,8 +81,6 @@ public class ArchiveManager {
      * @param eventService
      */
     public ArchiveManager(EventProviderServiceImpl eventService) {
-        // Start the separate lists for the "fast" generation of objIds
-        this.fastObjId = new FastObjId();
         this.eventService = eventService;
 
         try {
@@ -91,14 +89,19 @@ public class ArchiveManager {
         }
 
         this.dbBackend = new DatabaseBackend();
-        
+
+        // Start the separate lists for the "fast" generation of objIds
+        this.fastObjId = new FastObjId(dbBackend);
+//        this.fastDomain = new FastDomain(dbBackend);
+
+/*        
         try {
             Thread.sleep(500);
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        this.fastDomain = new FastDomain(dbBackend);
+*/        
+
     }
 
     protected void setEventService(EventProviderServiceImpl eventService) {
@@ -113,42 +116,13 @@ public class ArchiveManager {
         dbBackend.getEM().getTransaction().commit();
         dbBackend.getEM().close();
 
-        this.fastObjId = new FastObjId();
+        this.fastObjId.resetFastIDs();
+//        this.fastDomain.resetFastDomain();
+
         dbBackend.restartEMF();
-//        this.fastDomain = new FastDomain(dbBackend);
         
     }
     
-    private Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
-        this.fastObjId.lock();
-
-        // Did we request this objType+domain combination before?! If so, return the next value
-        Long objId = this.fastObjId.newUniqueID(objectType, domain);
-        if (objId != null) {
-            this.fastObjId.unlock();
-            return objId;
-        }
-
-        // Well, if not then we must check if this combination already exists in the PU...
-        dbBackend.createEntityManager();
-        Query query = dbBackend.getEM().createQuery("SELECT MAX(PU.objId) FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
-        query.setParameter("objectTypeId", HelperCOM.generateSubKey(objectType));
-        query.setParameter("domainId", HelperMisc.domain2domainId(domain));
-        Long maxValue = (Long) query.getSingleResult();
-        dbBackend.closeEntityManager();
-
-        if (maxValue == null) {
-            this.fastObjId.setUniqueID(objectType, domain, (long) 0); // The object does not exist in PU
-        } else {
-            this.fastObjId.setUniqueID(objectType, domain, maxValue);
-        }
-
-        objId = this.fastObjId.newUniqueID(objectType, domain);
-        this.fastObjId.unlock();
-
-        return objId;
-    }
-
     protected ArchivePersistenceObject getPersistenceObject(final ObjectType objType, final IdentifierList domain, final Long objId) {
         dbBackend.createEntityManager();
         final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objId);
@@ -193,11 +167,11 @@ public class ArchiveManager {
             Long objId;
 
             if (lArchiveDetails.get(i).getInstId() == 0) { // requirement: 3.4.6.2.5
-                objId = this.generateUniqueObjId(objType, domain);
+                objId = this.fastObjId.generateUniqueObjId(objType, domain);
             } else {
-                this.fastObjId.lock();
+//                this.fastObjId.lock();
                 this.fastObjId.setUniqueIdIfLatest(objType, domain, lArchiveDetails.get(i).getInstId()); // Check if it is not greater than the current "fast" objId
-                this.fastObjId.unlock();
+//                this.fastObjId.unlock();
                 objId = lArchiveDetails.get(i).getInstId();
             }
 
@@ -354,9 +328,9 @@ public class ArchiveManager {
                     dbBackend.getEM().getTransaction().commit();
                 }
 
-                fastObjId.lock();
+//                fastObjId.lock();
                 fastObjId.delete(objType, domain);
-                fastObjId.unlock();
+//                fastObjId.unlock();
 
                 dbBackend.closeEntityManager(); // 0.410 ms
 

@@ -18,13 +18,15 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.db;
+package esa.mo.com.impl.archive.db;
 
-import esa.mo.com.impl.entities.DomainHolderEntity;
+import esa.mo.com.impl.archive.entities.DomainHolderEntity;
+import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -39,17 +41,28 @@ public class FastDomain {
 
     private final DatabaseBackend dbBackend;
     private AtomicInteger uniqueId = new AtomicInteger(0);
-    private final HashMap<IdentifierList, Integer> fastID;
-    private final HashMap<Integer, IdentifierList> fastIDreverse;
-       
+    private HashMap<IdentifierList, Integer> fastID;
+    private HashMap<Integer, IdentifierList> fastIDreverse;
+
     public FastDomain(final DatabaseBackend dbBackend) {
         this.fastID = new HashMap<IdentifierList, Integer>();
         this.fastIDreverse = new HashMap<Integer, IdentifierList>();
         this.dbBackend = dbBackend;
         this.loadDomains();
     }
-    
-    private void loadDomains(){
+
+    public synchronized void resetFastDomain() {
+        this.fastID = new HashMap<IdentifierList, Integer>();
+        this.fastIDreverse = new HashMap<Integer, IdentifierList>();
+        
+        // To Do: Erase it from the table
+        dbBackend.getEM().getTransaction().begin();
+        dbBackend.getEM().createQuery("DELETE FROM DomainHolderEntity").executeUpdate();
+        dbBackend.getEM().getTransaction().commit();
+        dbBackend.getEM().close();
+    }
+
+    private void loadDomains() {
         // Retrieve all the ids and domains from the Database
         dbBackend.createEntityManager();
 
@@ -59,65 +72,65 @@ public class FastDomain {
         List resultList = query.getResultList();
         ArrayList<DomainHolderEntity> domainHolderEntities = new ArrayList<DomainHolderEntity>();
         domainHolderEntities.addAll(resultList);
-                 
+
         dbBackend.closeEntityManager();
 
         final IntegerList ids = new IntegerList();
         final StringList domains = new StringList();
 
         // From the list of Entities to seperate lists of ids and domains
-        for (int i = 0; i < domainHolderEntities.size(); i++){
+        for (int i = 0; i < domainHolderEntities.size(); i++) {
             ids.add(domainHolderEntities.get(i).getId());
             domains.add(domainHolderEntities.get(i).getDomainString());
         }
 
         int max = 0;
-        
+
         // Populate the variables on this class
-        for (int i = 0; i < ids.size(); i++){
+        for (int i = 0; i < ids.size(); i++) {
             final IdentifierList domain = HelperMisc.domainId2domain(domains.get(i));
             this.fastID.put(domain, ids.get(i));
             this.fastIDreverse.put(ids.get(i), domain);
-            
-            if(ids.get(i) > max){ // Get the maximum value
+
+            if (ids.get(i) > max) { // Get the maximum value
                 max = ids.get(i);
             }
         }
-        
+
         uniqueId = new AtomicInteger(0);
     }
-    
+
     public synchronized boolean exists(final IdentifierList domain) {
         return (this.fastID.get(domain) != null);
     }
-    
+
     public synchronized boolean exists(final Integer domainId) {
         return (this.fastIDreverse.get(domainId) != null);
     }
-    
-    private Integer addNewDomain(final IdentifierList domain){
+
+    private Integer addNewDomain(final IdentifierList domain) {
         final int domainId = uniqueId.incrementAndGet();
         dbBackend.createEntityManager();
 
         // Create Entity
         DomainHolderEntity domainEntity = new DomainHolderEntity(domainId, HelperMisc.domain2domainId(domain));
-        
+
         // Add it to the table
         dbBackend.getEM().getTransaction().begin();
         dbBackend.getEM().persist(domainEntity);
         dbBackend.getEM().getTransaction().commit();
         dbBackend.closeEntityManager();
-        
+
         this.fastID.put(domain, domainId);
         this.fastIDreverse.put(domainId, domain);
-        
+
         return domainId;
     }
-    
+
     public synchronized Integer getDomainID(final IdentifierList domain) {
         final Integer id = this.fastID.get(domain);
-        
-        if (id == null){ // Does not exist
+
+        if (id == null) { // Does not exist
             this.addNewDomain(domain);
         }
 
@@ -126,41 +139,40 @@ public class FastDomain {
 
     public synchronized IdentifierList getDomain(final Integer id) throws Exception {
         final IdentifierList domain = this.fastIDreverse.get(id);
-        
-        if (domain == null){
+
+        if (domain == null) {
             throw new Exception();
         }
 
         return domain;
     }
-    
-    
 
-/*    
-    private boolean changeSingleDomain(final IdentifierList newDomain){
-        // A single domain is not available. There are more than 1...
-        if (this.fastID.size() != 1){
-            return false;
+    public synchronized String getDomainsForQuery(IdentifierList domainQuery) {
+
+        final boolean domainContainsWildcard = HelperCOM.domainContainsWildcard(domainQuery);
+
+        if (!domainContainsWildcard) { // Direct match!
+            return fastID.get(domainQuery).toString();
         }
 
-        final Long id = new Long (1);
-        dbBackend.createEntityManager();
+        // It is not a direct match! We need to iterate on all 
+        // the domain to find the ones that match the query!
+        String domainIdsList = "";
         
-        final DomainHolderEntity oldDomainEntity = dbBackend.getEM().find(DomainHolderEntity.class, id);
+        Set<IdentifierList> domains = fastID.keySet();
 
-        // Create new Entity
-        DomainHolderEntity newDomainEntity = new DomainHolderEntity(fastID.size() + 1, HelperMisc.domain2domainId(newDomain));
+        for (IdentifierList domain : domains) {
+            if (HelperCOM.domainMatchesWildcardDomain(domain, domainQuery)) {  // Does the domain matches the wildcard?
+                domainIdsList += fastID.get(domain) + ",";
+            }
+        }
         
-        dbBackend.getEM().getTransaction().begin();
-        dbBackend.getEM().remove(oldDomainEntity);
-        dbBackend.getEM().getTransaction().commit();
-        dbBackend.getEM().persist(newDomainEntity); 
-        dbBackend.getEM().getTransaction().commit();
-        
-        dbBackend.closeEntityManager();
-        
-        return true;
+        // Removing the last comma:
+        if(domainIdsList.length() != 0){ 
+            domainIdsList = domainIdsList.substring(0, domainIdsList.length()-1);
+        }
+
+        return domainIdsList;
     }
-*/
-    
+
 }

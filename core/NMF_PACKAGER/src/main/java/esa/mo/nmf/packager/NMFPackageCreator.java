@@ -45,7 +45,6 @@ public class NMFPackageCreator {
     public String NMF_PACKAGE_SUFFIX = "nmfpack";
     private final int BUFFER = 2048;
 
-
     private void zipFiles(String outputPath, String files[]) {
         try {
             BufferedInputStream origin = null;
@@ -71,44 +70,41 @@ public class NMFPackageCreator {
             e.printStackTrace();
         }
     }
-    
-    public void nmfPackageCreator(){
+
+    public void nmfPackageCreator() {
         // Get the Files to be installed
-        
+
         // Create a temporary folder for the package...
-        
         // Put them in the right folder
-        
         // Generate nmfPackage.receipt
         File receipt = new File(RECEIPT_FILENAME);
-        
+
         // Generate digital signature
-            // Generate Public and Private keys
-            KeyPair pair = NMFDigitalSignature.generateKeyPar();
-        
-            // Generate the SHA
-            byte [] signature = NMFDigitalSignature.signWithData(pair.getPrivate(), RECEIPT_FILENAME);
-        
-            // Write the signature to the file: DS_FILENAME
-            try {
-                FileOutputStream sigfos = new FileOutputStream(DS_FILENAME);
-                sigfos.write(signature);
-                sigfos.close();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
+        // Generate Public and Private keys
+        KeyPair pair = NMFDigitalSignature.generateKeyPar();
+
+        // Generate the SHA
+        byte[] signature = NMFDigitalSignature.signWithData(pair.getPrivate(), RECEIPT_FILENAME);
+
+        // Write the signature to the file: DS_FILENAME
+        try {
+            FileOutputStream sigfos = new FileOutputStream(DS_FILENAME);
+            sigfos.write(signature);
+            sigfos.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-            
         // Compress the damm thing:
         String version = "1.00";
         String packageName = "demo12345";
         String packageOutputPath = packageName + "-" + version + "." + NMF_PACKAGE_SUFFIX;
-        
+
         String[] files = null;
         this.zipFiles(packageOutputPath, files);
-        
+
         // Output the secret privateKey into a file
         try {
             byte[] key = pair.getPrivate().getEncoded();
@@ -121,6 +117,5 @@ public class NMFPackageCreator {
             Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
 }

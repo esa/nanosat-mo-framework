@@ -5,9 +5,9 @@
     <!--
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
       -->
-    <class>esa.mo.com.impl.entities.ObjectBodyHolder</class>
-    <class>esa.mo.com.impl.entities.DomainHolderEntity</class>
     <class>esa.mo.com.impl.provider.ArchivePersistenceObject</class>
+    <class>esa.mo.com.impl.archive.entities.ObjectBodyHolder</class>
+    <class>esa.mo.com.impl.archive.entities.DomainHolderEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <!--      

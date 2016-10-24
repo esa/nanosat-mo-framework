@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.entities;
+package esa.mo.com.impl.archive.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;

@@ -20,7 +20,7 @@
  */
 package esa.mo.com.impl.provider;
 
-import esa.mo.com.impl.db.COMObjectPK;
+import esa.mo.com.impl.archive.db.COMObjectPK;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
