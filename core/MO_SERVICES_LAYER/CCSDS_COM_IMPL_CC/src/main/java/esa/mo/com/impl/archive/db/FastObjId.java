@@ -44,12 +44,12 @@ public class FastObjId {
         this.dbBackend = dbBackend;
         this.fastID = new HashMap<Key, Long>();
     }
-    
-    public synchronized void resetFastIDs(){
+
+    public synchronized void resetFastIDs() {
         this.fastID = new HashMap<Key, Long>();
     }
-    
-/*
+
+    /*
     public void lock(){
         try {
             this.semaphore.acquire();
@@ -61,30 +61,30 @@ public class FastObjId {
     public void unlock(){
             this.semaphore.release();
     }
-*/
+     */
     private Long newUniqueID(final ObjectType objectTypeId, final IdentifierList domain) {
 
         Long objId = (this.getCurrentID(objectTypeId, domain));
-        if (objId == null){
+        if (objId == null) {
             return null;
         }
-        
+
         objId++;
         this.setUniqueID(objectTypeId, domain, objId);
 
         return objId;
     }
-    
-    public synchronized void setUniqueIdIfLatest(final ObjectType objectTypeId, final IdentifierList domain, final Long objId){
+
+    private void setUniqueIdIfLatest(final ObjectType objectTypeId, final IdentifierList domain, final Long objId) {
         final Key key = new Key(objectTypeId, domain);
         final Long currentObjId = this.getCurrentID(objectTypeId, domain);
 
-        if (currentObjId == null){
+        if (currentObjId == null) {
             this.fastID.put(key, objId);
             return;
         }
-        
-        if (objId > currentObjId){
+
+        if (objId > currentObjId) {
             this.fastID.put(key, objId);
         }
     }
@@ -102,14 +102,15 @@ public class FastObjId {
     private Long getCurrentID(final ObjectType objectTypeId, final IdentifierList domain) {
         final Key key = new Key(objectTypeId, domain);
         final Long objId = this.fastID.get(key);
-        
-        if (objId == null)
+
+        if (objId == null) {
             return null;
+        }
 
         return objId;
     }
 
-    public synchronized Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
+    private synchronized Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
 //        this.lock();
 
         // Did we request this objType+domain combination before?! If so, return the next value
@@ -139,14 +140,25 @@ public class FastObjId {
         return objId;
     }
 
-    
+    public synchronized Long getUniqueObjId(final ObjectType objType, final IdentifierList domain, final Long objId) {
+        Long outObjId;
+
+        if (objId == 0) { // requirement: 3.4.6.2.5
+            outObjId = this.generateUniqueObjId(objType, domain);
+        } else {
+            this.setUniqueIdIfLatest(objType, domain, objId); // Check if it is not greater than the current "fast" objId
+            outObjId = objId;
+        }
+
+        return outObjId;
+    }
+
     /*
     private boolean exists(final ObjectType objectTypeId, final IdentifierList domain) {
         Key key = new Key(objectTypeId, domain);
         return (this.fastID.get(key) != null);
     }
-    */
-
+     */
     private class Key {
 
         private final Long objectTypeId;

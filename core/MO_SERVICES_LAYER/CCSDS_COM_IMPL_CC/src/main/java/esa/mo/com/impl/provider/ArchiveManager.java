@@ -164,6 +164,11 @@ public class ArchiveManager {
 
         // Generate the object Ids if needed and the persistence objects to be stored
         for (int i = 0; i < lArchiveDetails.size(); i++) {
+            
+            
+            Long objId = this.fastObjId.getUniqueObjId(objType, domain, lArchiveDetails.get(i).getInstId());
+
+                    /*
             Long objId;
 
             if (lArchiveDetails.get(i).getInstId() == 0) { // requirement: 3.4.6.2.5
@@ -174,7 +179,8 @@ public class ArchiveManager {
 //                this.fastObjId.unlock();
                 objId = lArchiveDetails.get(i).getInstId();
             }
-
+*/
+                    
             // If there are no objects in the list, inject null...
             Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
