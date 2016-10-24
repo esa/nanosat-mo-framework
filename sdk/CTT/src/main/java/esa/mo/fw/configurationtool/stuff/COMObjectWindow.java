@@ -601,7 +601,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         );
         
         if(relatedCOMObject == null){
-            JOptionPane.showMessageDialog(null, "The archive didn't could not find the object!", "Error!", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "The object was not found in the COM Archive!", "Error!", JOptionPane.PLAIN_MESSAGE);
         }
 
         COMObjectWindow newWindow = new COMObjectWindow(relatedCOMObject, editable, archiveService);
