@@ -20,10 +20,12 @@
  */
 package esa.mo.fw.configurationtool.stuff;
 
+import com.github.kayak.core.Frame;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
+import esa.mo.transport.can.opssat.CANBusConnector;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -31,6 +33,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -146,7 +149,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                     }
 
                     String supportedCapabilities = (service.getSupportedCapabilities() == null) ? "All Supported" : service.getSupportedCapabilities().toString();
-                    
+
                     tableData.addRow(new Object[]{
                         serviceName,
                         supportedCapabilities,
@@ -350,33 +353,55 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-        if (providersList.getModel().getSize() == 0) {
-            return;
+
+        synchronized (this) {
+            if (providersList.getModel().getSize() == 0) {
+                return;
+            }
+
+            final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
+            final Semaphore sem = new Semaphore(0);
+
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+
+                    ProviderTabPanel providerPanel = new ProviderTabPanel(summary);
+
+                    javax.swing.JPanel pnlTab = new javax.swing.JPanel();
+                    pnlTab.setOpaque(false);
+                    JLabel label = new JLabel(summary.getProviderName().toString());
+                    JLabel closeLabel = new JLabel("x");
+                    closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
+                    closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
+
+                    GridBagConstraints gbc = new GridBagConstraints();
+                    gbc.gridx = 0;
+                    gbc.gridy = 0;
+                    gbc.weightx = 1;
+                    pnlTab.add(label, gbc);
+
+                    gbc.gridx++;
+                    gbc.weightx = 0;
+                    pnlTab.add(closeLabel, gbc);
+
+                    tabs.addTab("", providerPanel);
+                    tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
+                    tabs.setSelectedIndex(tabs.getTabCount() - 1);
+                    sem.release();
+                }
+            };
+
+            t1.start();
+
+            try {
+                sem.acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
 
-        ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
-        ProviderTabPanel providerPanel = new ProviderTabPanel(summary);
-
-        javax.swing.JPanel pnlTab = new javax.swing.JPanel();
-        pnlTab.setOpaque(false);
-        JLabel label = new JLabel(summary.getProviderName().toString());
-        JLabel closeLabel = new JLabel("x");
-        closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
-        closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1;
-        pnlTab.add(label, gbc);
-
-        gbc.gridx++;
-        gbc.weightx = 0;
-        pnlTab.add(closeLabel, gbc);
-
-        tabs.addTab("", providerPanel);
-        tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
-        tabs.setSelectedIndex(tabs.getTabCount() - 1);
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void errorConnectionProvider(String service, Throwable ex) {
@@ -464,11 +489,11 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         }
 
         // Generate the file path...
-        String filePath = folder_location + 
-                File.separator + 
-                obswFolder.getSelectedItem().toString() + 
-                File.separator + 
-                HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME;
+        String filePath = folder_location
+                + File.separator
+                + obswFolder.getSelectedItem().toString()
+                + File.separator
+                + HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME;
 
         try { // Load properties
             connectionConsumer.loadURIs(filePath);
