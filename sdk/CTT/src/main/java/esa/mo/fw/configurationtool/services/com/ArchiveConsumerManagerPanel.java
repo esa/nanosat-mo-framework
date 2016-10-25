@@ -297,9 +297,12 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             }
 
             tabs.setTabComponentAt(index, pnlTab);
+            pnlTab.revalidate(); 
             pnlTab.repaint();  // not working
+            tabs.revalidate();
             tabs.repaint();    // not working
 
+            
         }
 
         public int getSelectedIndex() {
@@ -392,7 +395,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     public class CloseMouseHandler implements MouseListener {
 
-        private javax.swing.JPanel panel;
+        private final javax.swing.JPanel panel;
 
         CloseMouseHandler(javax.swing.JPanel panel) {
             this.panel = panel;

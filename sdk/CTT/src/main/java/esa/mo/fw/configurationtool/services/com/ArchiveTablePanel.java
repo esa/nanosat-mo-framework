@@ -44,7 +44,7 @@ import org.ccsds.moims.mo.mal.structures.Element;
  */
 public final class ArchiveTablePanel extends javax.swing.JPanel {
 
-    private DefaultTableModel archiveTableData;
+    private final DefaultTableModel archiveTableData;
     private List<ArchivePersistenceObject> comObjects;
     private Semaphore semaphore = new Semaphore(1);
 
