@@ -33,8 +33,11 @@ import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.com.impl.util.EventReceivedListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
@@ -110,7 +113,11 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                 if (e.getClickCount() == 2) {
                     // Get from the list of objects the one we want and display
                     ArchivePersistenceObject comObject = comObjects.get(eventTable.getSelectedRow());
-                    COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
+                    try {
+                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
+                    } catch (IOException ex) {
+                        Logger.getLogger(EventConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });

@@ -71,6 +71,7 @@
     <module>demo-obsw-serial-object</module>
     <module>demo-obsw-test-app</module>
     <module>triple-presentation</module>
+    <module>instaNMF</module>
   </modules>
   
   

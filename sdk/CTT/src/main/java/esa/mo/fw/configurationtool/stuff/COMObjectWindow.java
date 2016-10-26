@@ -27,6 +27,7 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -52,12 +53,14 @@ public final class COMObjectWindow extends javax.swing.JDialog {
      * @param comObject
      * @param editable
      * @param archiveService
+     * @throws java.io.IOException
      */
-    public COMObjectWindow(ArchivePersistenceObject comObject, boolean editable, ArchiveStub archiveService) {
+    public COMObjectWindow(ArchivePersistenceObject comObject, boolean editable, ArchiveStub archiveService) throws IOException {
         initComponents();
 
         if (comObject == null) {
             Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, "A null object was submitted into the COMObjectWindow. The COM object will not be displayed.");
+            throw new IOException("A null object was submitted into the COMObjectWindow. The COM object will not be displayed.");
         }
 
         this.setModal(true);
@@ -164,8 +167,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         }
 
         this.setVisible(true);
-//        this.validate();
-//        this.repaint();
 
     }
 
@@ -602,9 +603,14 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         
         if(relatedCOMObject == null){
             JOptionPane.showMessageDialog(null, "The object was not found in the COM Archive!", "Error!", JOptionPane.PLAIN_MESSAGE);
+            return;
         }
 
-        COMObjectWindow newWindow = new COMObjectWindow(relatedCOMObject, editable, archiveService);
+        try {
+            COMObjectWindow newWindow = new COMObjectWindow(relatedCOMObject, editable, archiveService);
+        } catch (IOException ex) {
+            Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_relatedButtonActionPerformed
 
@@ -617,7 +623,16 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId()
         );
 
-        COMObjectWindow newWindow = new COMObjectWindow(sourceCOMObject, editable, archiveService);
+        if(sourceCOMObject == null){
+            JOptionPane.showMessageDialog(null, "The object was not found in the COM Archive!", "Error!", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
+        try {
+            COMObjectWindow newWindow = new COMObjectWindow(sourceCOMObject, editable, archiveService);
+        } catch (IOException ex) {
+            Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_sourceButtonActionPerformed
 

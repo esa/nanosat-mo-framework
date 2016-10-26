@@ -27,9 +27,12 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.fw.configurationtool.stuff.COMObjectWindow;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.com.structures.ObjectType;
@@ -66,7 +69,11 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
                 if (e.getClickCount() == 2) {
                     // Get from the list of objects the one we want and display
                     ArchivePersistenceObject comObject = comObjects.get(getSelectedRow());
-                    COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
+                    try {
+                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
+                    } catch (IOException ex) {
+                        Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });

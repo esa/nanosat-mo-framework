@@ -29,6 +29,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -89,7 +90,11 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
                 if (e.getClickCount() == 2) {
                     // Get from the list of objects the one we want and display
                     ArchivePersistenceObject comObject = getSelectedCOMObject();
-                    COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
+                    try {
+                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
+                    } catch (IOException ex) {
+                        Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
