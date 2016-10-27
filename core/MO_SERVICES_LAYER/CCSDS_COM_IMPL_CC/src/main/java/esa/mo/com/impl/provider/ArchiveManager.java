@@ -164,22 +164,7 @@ public class ArchiveManager {
 
         // Generate the object Ids if needed and the persistence objects to be stored
         for (int i = 0; i < lArchiveDetails.size(); i++) {
-            
-            
             Long objId = this.fastObjId.getUniqueObjId(objType, domain, lArchiveDetails.get(i).getInstId());
-
-                    /*
-            Long objId;
-
-            if (lArchiveDetails.get(i).getInstId() == 0) { // requirement: 3.4.6.2.5
-                objId = this.fastObjId.generateUniqueObjId(objType, domain);
-            } else {
-//                this.fastObjId.lock();
-                this.fastObjId.setUniqueIdIfLatest(objType, domain, lArchiveDetails.get(i).getInstId()); // Check if it is not greater than the current "fast" objId
-//                this.fastObjId.unlock();
-                objId = lArchiveDetails.get(i).getInstId();
-            }
-*/
                     
             // If there are no objects in the list, inject null...
             Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
@@ -207,14 +192,18 @@ public class ArchiveManager {
                 try {  // This is where the db takes longer!!
                     dbBackend.getEM().getTransaction().commit(); // 1.220 ms
                 } catch (Exception ex) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING, "The object could not be stored! Waiting 500 ms and trying again...");
+                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING, "The object could not be commited! Waiting 500 ms and trying again...");
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException ex1) {
                         Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex1);
                     }
 
-                    dbBackend.getEM().getTransaction().commit(); // 1.220 ms
+                    try{
+                        dbBackend.getEM().getTransaction().commit(); // 1.220 ms
+                    } catch (Exception ex2) {
+                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "The objects could not be commited on the second try!", ex2);
+                    }
                 }
 
 //                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 3: " + (System.currentTimeMillis() - startTime));
