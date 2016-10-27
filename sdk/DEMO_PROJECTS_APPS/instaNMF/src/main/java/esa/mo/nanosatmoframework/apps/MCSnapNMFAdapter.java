@@ -24,7 +24,15 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
+import java.awt.Point;
+import java.awt.Transparency;
+import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -39,6 +47,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
 import javax.swing.ImageIcon;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -202,11 +211,52 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             }
 
             // Store it in a file!
-            if(picture.getFormat().equals(PictureFormat.RAW)){
+            if(picture.getFormat().equals(PictureFormat.RAW) || picture.getFormat().equals(PictureFormat.RAW_DEBAYERED)){
+                
                 try {
                     FileOutputStream fos = new FileOutputStream("myFirstPicture.raw");
                     fos.write(picture.getContent().getValue());
                     fos.close();
+                    
+
+
+            BufferedImage img = null;
+
+            try {
+                ByteArrayInputStream byteArrayIS = new ByteArrayInputStream(picture.getContent().getValue());
+
+/*
+                try {
+/*
+                    BufferedImage image = new BufferedImage((int) picture.getDimension().getWidth().getValue(),
+                            (int) picture.getDimension().getHeight().getValue(),
+                            BufferedImage.TYPE_BYTE_BINARY);
+
+                    WritableRaster raster = (WritableRaster) image.getData();
+
+                    //3 bytes per pixel: red, green, blue
+                    byte[] aByteArray = picture.getContent().getValue();
+                    DataBuffer buffer = new DataBufferByte(aByteArray, aByteArray.length);
+
+//                    WritableRaster raster = Raster.createInterleavedRaster(buffer, width, height, 3 * width, 3, new int[] {0, 1, 2}, (Point) null);
+                    WritableRaster raster = Raster.createInterleavedRaster(buffer, width, height, 2 * width, 2, new int[] {0, 1}, (Point) null);
+                    ColorModel cm = new ComponentColorModel(ColorModel.getRGBdefault().getColorSpace(), false, true, Transparency.OPAQUE, DataBuffer.TYPE_BYTE); 
+                    img = new BufferedImage(cm, raster, true, null);
+                    File outputfile = new File("image.png");
+                    ImageIO.write(img, "png", outputfile);
+                } catch (IOException ex) {
+                    Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+  */                  
+
+            } catch (MALException ex) {
+                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+
+
+
+
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -216,7 +266,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 }
                 
             }
-    
+
             
 /*            
             BufferedImage img = null;
