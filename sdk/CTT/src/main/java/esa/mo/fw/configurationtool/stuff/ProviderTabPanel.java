@@ -239,8 +239,8 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                     
                     // If the current time has passed the ast beat + the beat period + a delta error
                     if(currentTime.getValue() > lastBeatAt.getValue() + period + DELTA){
-                        // Then the provider is dead
-                        status.setText("Dead! ");
+                        // Then the provider is unresponsive
+                        status.setText("Unresponsive! ");
                         status.setForeground(Color.RED);
                     }
                 }
