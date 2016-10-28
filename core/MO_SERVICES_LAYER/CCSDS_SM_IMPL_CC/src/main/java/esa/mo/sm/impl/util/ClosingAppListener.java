@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.sm.impl.provider;
+package esa.mo.sm.impl.util;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.EventCOMObject;

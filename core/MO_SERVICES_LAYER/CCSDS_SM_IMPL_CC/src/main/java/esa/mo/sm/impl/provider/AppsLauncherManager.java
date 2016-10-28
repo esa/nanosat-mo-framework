@@ -20,6 +20,7 @@
  */
 package esa.mo.sm.impl.provider;
 
+import esa.mo.sm.impl.util.ClosingAppListener;
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
