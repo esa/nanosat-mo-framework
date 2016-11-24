@@ -73,6 +73,10 @@ public class MCRegistration {
         this.mode = mode;
     }
 
+    public ParameterProviderServiceImpl getParameterService() {
+        return this.parameterService;
+    }
+
     public LongList registerParameters(final ParameterDefinitionDetailsList defs) {
         IdentifierList names = new IdentifierList();
 
