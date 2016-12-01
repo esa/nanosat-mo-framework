@@ -179,7 +179,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 this.loadConfigurations();
             }
 
-            MCRegistration registration = new MCRegistration(mcServices.getParameterService(), 
+            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), 
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
