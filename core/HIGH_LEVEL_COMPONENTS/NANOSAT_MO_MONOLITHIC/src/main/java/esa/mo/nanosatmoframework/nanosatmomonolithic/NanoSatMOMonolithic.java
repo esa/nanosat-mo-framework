@@ -28,6 +28,7 @@ import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import static esa.mo.nanosatmoframework.NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -93,7 +94,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
                 this.loadConfigurations();
             }
 
-            MCRegistration registration = new MCRegistration(mcServices.getParameterService(), 
+            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), 
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
