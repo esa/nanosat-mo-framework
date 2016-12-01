@@ -20,14 +20,24 @@
  */
 package esa.mo.nanosatmoframework;
 
+import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
@@ -36,6 +46,8 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
+import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 
@@ -52,17 +64,20 @@ public class MCRegistration {
     };
     private RegistrationMode mode = RegistrationMode.DONT_UPDATE_IF_EXISTS; // default mode
 
+    public final COMServicesProvider comServices;
     public final ParameterProviderServiceImpl parameterService;
     public final AggregationProviderServiceImpl aggregationService;
     public final AlertProviderServiceImpl alertService;
     public final ActionProviderServiceImpl actionService;
 
     public MCRegistration(
+            COMServicesProvider comServices,
             ParameterProviderServiceImpl parameterService,
             AggregationProviderServiceImpl aggregationService,
             AlertProviderServiceImpl alertService,
             ActionProviderServiceImpl actionService
     ) {
+        this.comServices = comServices;
         this.parameterService = parameterService;
         this.aggregationService = aggregationService;
         this.alertService = alertService;
@@ -71,10 +86,6 @@ public class MCRegistration {
 
     public void setMode(RegistrationMode mode) {
         this.mode = mode;
-    }
-
-    public ParameterProviderServiceImpl getParameterService() {
-        return this.parameterService;
     }
 
     public LongList registerParameters(final ParameterDefinitionDetailsList defs) {
@@ -98,13 +109,13 @@ public class MCRegistration {
                     duplicateObjIds.add(objIds.get(i));
                 }
             }
-            
+
             parameterService.addDefinition(newDefs, null);
 
-            if (mode == RegistrationMode.UPDATE_IF_EXISTS){
+            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
                 parameterService.updateDefinition(duplicateObjIds, duplicateDefs, null);
             }
-            
+
             return parameterService.listDefinition(names, null);
         } catch (MALException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
@@ -136,13 +147,13 @@ public class MCRegistration {
                     duplicateObjIds.add(objIds.get(i));
                 }
             }
-            
+
             aggregationService.addDefinition(newDefs, null);
 
-            if (mode == RegistrationMode.UPDATE_IF_EXISTS){
+            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
                 aggregationService.updateDefinition(duplicateObjIds, duplicateDefs, null);
             }
-            
+
             return aggregationService.listDefinition(names, null);
         } catch (MALException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
@@ -174,13 +185,13 @@ public class MCRegistration {
                     duplicateObjIds.add(objIds.get(i));
                 }
             }
-            
+
             alertService.addDefinition(newDefs, null);
 
-            if (mode == RegistrationMode.UPDATE_IF_EXISTS){
+            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
                 alertService.updateDefinition(duplicateObjIds, duplicateDefs, null);
             }
-            
+
             return alertService.listDefinition(names, null);
         } catch (MALException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
@@ -212,13 +223,13 @@ public class MCRegistration {
                     duplicateObjIds.add(objIds.get(i));
                 }
             }
-            
+
             actionService.addDefinition(newDefs, null);
 
-            if (mode == RegistrationMode.UPDATE_IF_EXISTS){
+            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
                 actionService.updateDefinition(duplicateObjIds, duplicateDefs, null);
             }
-            
+
             return actionService.listDefinition(names, null);
         } catch (MALException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
@@ -227,6 +238,61 @@ public class MCRegistration {
         }
 
         return null;
+    }
+
+    public ObjectIdList registerConversions(ElementList conversions) throws IOException, MALException, MALInteractionException {
+        if (conversions == null) {
+            throw new IOException("The conversions object cannot be null!");
+        }
+
+        // Discrete Conversion:
+        if (conversions instanceof DiscreteConversionDetailsList) {
+            return this.registerConversionsDiscrete((DiscreteConversionDetailsList) conversions);
+        }
+        /*
+        // Line Conversion:
+        if (conversion instanceof LineConversionDetailsList) {
+            return this.applyLineConversion((LineConversionDetails) conversionDetails, value);
+        }
+
+        // Polynomial Conversion:
+        if (conversion instanceof PolyConversionDetailsList) {
+            return this.applyPolyConversion((PolyConversionDetails) conversionDetails, value);
+        }
+
+        // Range Conversion:
+        if (conversion instanceof RangeConversionDetailsList) {
+            return this.applyRangeConversion((RangeConversionDetails) conversionDetails, value);
+        }
+         */
+        throw new IOException("The conversion object didn't match any type of Conversion.");
+    }
+
+    private ObjectIdList registerConversionsDiscrete(DiscreteConversionDetailsList conversions) throws MALException, MALInteractionException {
+        SingleConnectionDetails connectionDetails = parameterService.getConnectionProvider().getConnectionDetails();
+
+        ObjectType objType = ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE;
+        IdentifierList domain = connectionDetails.getDomain();
+        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, connectionDetails);
+
+        for (int i = 1; i < conversions.size(); i++) { // There's already 1 object in the list
+            archiveDetailsList.add(archiveDetailsList.get(0));
+        }
+
+        LongList objIds = comServices.getArchiveService().store(true,
+                objType,
+                domain,
+                archiveDetailsList,
+                conversions,
+                null);
+
+        ObjectIdList output = new ObjectIdList();
+
+        for (Long objId : objIds) {
+            output.add(new ObjectId(objType, new ObjectKey(domain, objId)));
+        }
+
+        return output;
     }
 
 }
