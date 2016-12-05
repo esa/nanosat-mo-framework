@@ -21,6 +21,7 @@
 package esa.mo.helpertools.connections;
 
 import java.net.MalformedURLException;
+import java.util.Properties;
 import java.util.Random;
 import org.ccsds.moims.mo.mal.MALContext;
 import org.ccsds.moims.mo.mal.MALContextFactory;
@@ -92,7 +93,9 @@ public class ConnectionConsumer {
      */
     public void startMAL() throws MALException {
         malFactory = MALContextFactory.newFactory();
-        mal = malFactory.createMALContext(System.getProperties());
+        Properties props = new Properties();
+        props.putAll(System.getProperties());
+        mal = malFactory.createMALContext(props);
         consumerMgr = mal.createConsumerManager();
     }
 
@@ -132,6 +135,9 @@ public class ConnectionConsumer {
     public MALConsumer createMALconsumer(final URI uriP, final URI uriB, final IdentifierList domain,
             final MALService malService) throws MALException, MalformedURLException {
 
+        Properties props = new Properties();
+        props.putAll(System.getProperties());
+        
         tmConsumer = consumerMgr.createConsumer((String) null,
                 uriP,
                 uriB,
@@ -142,7 +148,7 @@ public class ConnectionConsumer {
                 configuration.getSession(),
                 configuration.getSessionName(),
                 QoSLevel.ASSURED,
-                System.getProperties(),
+                props,
                 new UInteger(0));
 
         return tmConsumer;
@@ -176,6 +182,9 @@ public class ConnectionConsumer {
             }
         }
 
+        Properties props = new Properties();
+        props.putAll(System.getProperties());
+
         tmConsumer = consumerMgr.createConsumer((String) null,
                 uriP,
                 uriB,
@@ -186,7 +195,7 @@ public class ConnectionConsumer {
                 configuration.getSession(),
                 configuration.getSessionName(),
                 qosLevel,
-                System.getProperties(),
+                props,
                 priorityLevels);
 
         return tmConsumer;

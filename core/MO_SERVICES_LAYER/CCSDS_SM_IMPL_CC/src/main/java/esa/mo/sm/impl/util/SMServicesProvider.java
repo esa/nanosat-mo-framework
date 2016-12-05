@@ -23,42 +23,37 @@ package esa.mo.sm.impl.util;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
-import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
- * Class holding all the COM services providers. The services can all be
- * initialized automatically or can be set manually.
+ * Example class on how to start some of the Platform services. Although
+ * functional, this class should not be used out of the box. It's deliberately
+ * here just to demonstrate how to initialize services.
  */
+@Deprecated
 public class SMServicesProvider {
 
-    private final PackageManagementProviderServiceImpl packageManagementService = new PackageManagementProviderServiceImpl();
     private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
     private final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
 
     public void init(COMServicesProvider comServices, DirectoryInheritanceSkeleton directoryService) {
         try {
-            packageManagementService.init(comServices);
             applicationsManagerService.init(comServices, directoryService);
             heartbeatService.init();
         } catch (MALException ex) {
             Logger.getLogger(SMServicesProvider.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public PackageManagementProviderServiceImpl getPackageManagementService() {
-        return this.packageManagementService;
-    }
 
     public AppsLauncherProviderServiceImpl getApplicationsManagerService() {
         return this.applicationsManagerService;
     }
-    
+
     public HeartbeatProviderServiceImpl getHeartbeatService() {
         return this.heartbeatService;
     }
-    
+
 }

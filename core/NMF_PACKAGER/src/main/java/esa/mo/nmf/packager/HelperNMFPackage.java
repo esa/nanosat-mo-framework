@@ -26,6 +26,5 @@ package esa.mo.nmf.packager;
  */
 public class HelperNMFPackage {
 
-    private final static String DEVICE_NAME = "helpertools.configurations.ground.DeviceName";
-
+    
 }

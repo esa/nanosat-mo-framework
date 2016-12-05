@@ -20,8 +20,10 @@
  */
 package esa.mo.sm.impl.provider;
 
+import esa.mo.sm.impl.util.PackageManagementBackendInterface;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -55,15 +57,17 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private COMServicesProvider comServices;
+    private PackageManagementBackendInterface backend;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
-     * the publishing thread
+     * Initializes the service
      *
      * @param comServices
+     * @param backend
      * @throws MALException On initialization error.
      */
-    public synchronized void init(COMServicesProvider comServices) throws MALException {
+    public synchronized void init(COMServicesProvider comServices, 
+            PackageManagementBackendInterface backend) throws MALException {
         if (!initialiased) {
 
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -86,13 +90,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
         
         this.comServices = comServices;
+        this.backend = backend;
 
         // shut down old service transport
         if (null != packageManagementServiceProvider) {
             connection.close();
         }
 
-        packageManagementServiceProvider = connection.startService(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME.toString(), PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, this);
+        packageManagementServiceProvider = connection.startService(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME.toString(), PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, false, this);
         running = true;
         initialiased = true;
         Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).info("Package Management service READY");
@@ -116,7 +121,15 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public ListPackageResponse listPackage(IdentifierList names, Identifier category, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        File[] packagesList = backend.getListOfPackages();
+        
+
+        ListPackageResponse response = new ListPackageResponse();
+        
+        
+        return response;
+        
     }
 
     @Override

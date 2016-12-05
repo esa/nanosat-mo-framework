@@ -1,10 +1,10 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2014      European Space Agency
+ * Copyright (C) 2015      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
- * System                : CCSDS MO TCP/IP Transport Framework
+ * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
  * Licensed under the European Space Agency Public License, Version 2.0
  * You may not use this file except in compliance with the License.
@@ -18,29 +18,16 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.mal.transport.tcpip;
+package esa.mo.sm.impl.util;
 
-import java.net.InetAddress;
+import java.io.File;
 
 /**
- * Small class to hold the TCP/IP address information.
+ *
+ * @author Cesar Coelho
  */
-public class TCPIPAddressPortData
-{
-  protected final InetAddress fromAddr;
-  protected final int fromPort;
-  protected final byte[] encodedPacketData;
+public interface PackageManagementBackendInterface {
 
-  /**
-   * Constructor
-   * @param fromAddr From InetAddress
-   * @param fromPort From port
-   * @param encodedPacketData Encoded message
-   */
-  public TCPIPAddressPortData(InetAddress fromAddr, int fromPort, byte[] encodedPacketData)
-  {
-    this.fromAddr = fromAddr;
-    this.fromPort = fromPort;
-    this.encodedPacketData = encodedPacketData;
-  }
+    public File[] getListOfPackages();
+    
 }

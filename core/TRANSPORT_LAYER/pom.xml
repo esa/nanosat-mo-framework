@@ -56,7 +56,9 @@
   </developers>
 
   <modules>
+    <!--
     <module>CCSDS_MAL_TRANSPORT_TCPIP</module>
+    -->
     <module>CCSDS_MAL_TRANSPORT_HTTP</module>
   </modules>
    

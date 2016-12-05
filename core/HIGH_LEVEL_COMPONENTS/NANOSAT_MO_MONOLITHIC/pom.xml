@@ -114,7 +114,8 @@
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>TRANSPORT_TCPIP_TP</artifactId>
+            <artifactId>TRANSPORT_TCPIP</artifactId>
+            <version>1.2-SNAPSHOT</version>
         </dependency>
 
 <!--        

@@ -147,7 +147,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         this.directoryService = directoryService;
         manager = new AppsLauncherManager(comServices);
         appsLauncherServiceProvider = connection.startService(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME.toString(), AppsLauncherHelper.APPSLAUNCHER_SERVICE, this);
-        manager.refreshAvailableAppsList(connection.getConnectionDetails());
+//        manager.refreshAvailableAppsList(connection.getConnectionDetails());
         running = true;
         initialiased = true;
         Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Apps Launcher service: READY");
@@ -580,6 +580,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             return new Thread() {
                 @Override
                 public void run() {
+                    this.setName("AppsLauncher_ThreadReader");
                     try {
                         String line = null;
 

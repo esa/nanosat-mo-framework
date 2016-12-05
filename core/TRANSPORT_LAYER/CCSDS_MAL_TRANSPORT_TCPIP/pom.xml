@@ -19,15 +19,15 @@
   <parent>
     <groupId>int.esa.ccsds.mo</groupId>
     <artifactId>POM</artifactId>
-    <version>5</version>
+    <version>6-SNAPSHOT</version>
     <relativePath/>
   </parent>
   
-  <artifactId>TRANSPORT_TCPIP_TP</artifactId>
+  <artifactId>TRANSPORT_TCPIP</artifactId>
   <packaging>jar</packaging>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
 
-  <name>ESA MAL TCP/IP Java transport (TP)</name>
+  <name>ESA MAL TCP/IP Java transport</name>
   <description>A Java TCP/IP transport for CCSDS MAL</description>
   <url>http://www.esa.int</url>
 
@@ -59,7 +59,7 @@
     <developer>
       <id>SamCooper</id>
       <name>Sam Cooper</name>
-      <email>sam.cooper@scisys.co.uk</email>
+      <email>sam@brightascension.com</email>
       <url>https://github.com/SamCooper</url>
     </developer>
     <developer>
@@ -68,9 +68,9 @@
       <email>petros.pissias@esa.int</email>
     </developer>
     <developer>
-      <id>qa41yjus</id>
-      <name>Thomas Pignede</name>
-      <email>thomas.pignede@esa.int</email>
+      <id>rvangijlswijk</id>
+      <name>Rian van Gijlswijk</name>
+      <email>rian.vangijlswijk@telespazio-vega.de</email>
     </developer>
     <developer>
       <id>CesarCoelho</id>
@@ -82,15 +82,28 @@
   <dependencies>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>API_MAL</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.ccsds.mo</groupId>
       <artifactId>TRANSPORT_GEN</artifactId>
     </dependency>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>ENCODING_BINARY_FIXED</artifactId>
+      <artifactId>ENCODING_GEN</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>int.esa.ccsds.mo</groupId>
+    	<artifactId>ENCODING_BINARY_FIXED</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>int.esa.ccsds.mo</groupId>
+    	<artifactId>ENCODING_BINARY_SPLIT</artifactId>
+    </dependency>
+    <dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+        <version>4.12</version>
+    </dependency>	    
+    <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>API_MAL</artifactId>
     </dependency>
   </dependencies>
  

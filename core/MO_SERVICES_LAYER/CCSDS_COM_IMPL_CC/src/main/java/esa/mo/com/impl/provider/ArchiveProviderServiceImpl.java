@@ -25,7 +25,6 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,6 +91,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         manager = new ArchiveManager(eventService);
+        manager.init();
 
         // shut down old service transport
         if (null != archiveServiceProvider) {
@@ -278,7 +278,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
                 try {
                     if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
-                        perObjs = manager.filterQuery(perObjs, tmpQueryFilter);  // requirement: 3.4.4.2.10
+                        perObjs = ArchiveManager.filterQuery(perObjs, tmpQueryFilter);  // requirement: 3.4.4.2.10
                     }
                 } catch (SecurityException ex) {
                     invIndexList.add(new UInteger(index));
@@ -450,7 +450,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
                 try {
                     if (tmpQueryFilter != null) {
-                        perObjs = manager.filterQuery(perObjs, tmpQueryFilter);
+                        perObjs = ArchiveManager.filterQuery(perObjs, tmpQueryFilter);
                     }
                 } catch (SecurityException ex) {
                     invIndexList.add(new UInteger(index));
@@ -714,43 +714,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         LongList outObjIds = manager.removeEntries(lObjectType, lIdentifierList, toBeDeleted, interaction);
 
         return outObjIds; // requirement: 3.4.8.2.8
-
-    }
-
-    /**
-     * Return the unique domain in the Archive, if there is no single unique
-     * domain then the method shall throw an error
-     *
-     * @return The single unique domain
-     * @throws IOException When there are more domains than a single unique one
-     */
-    public IdentifierList getUniqueDomain() throws IOException {
-        // Do we have a single domain for all objects?
-        // If not, then throw error
-        if (false) {
-            throw new IOException("Operation not allowed. There is no single unique domain for all objects.");
-        }
-
-        final IdentifierList domain = new IdentifierList();
-
-        return domain;
-    }
-
-    /**
-     * Sets the unique domain in the Archive, if there is no single unique
-     * domain then the method shall throw an error
-     *
-     * @param newDomain The new domain to be set
-     * @throws IOException When there are more domains than a single unique one
-     */
-    public void setUniqueDomain(IdentifierList newDomain) throws IOException {
-        // Do we have a single domain for all objects?
-        // If not, then throw error
-        if (false) {
-            throw new IOException("Operation not allowed. There is no single unique domain for all objects.");
-        }
-
-        final IdentifierList domain = new IdentifierList();
 
     }
 

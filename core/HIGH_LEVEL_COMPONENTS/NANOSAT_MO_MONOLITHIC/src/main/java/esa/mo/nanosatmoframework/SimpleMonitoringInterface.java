@@ -67,7 +67,8 @@ public interface SimpleMonitoringInterface {
      * entity to push Attribute values through the monitorValue operation of
      * the Parameter service. If there is no parameter definition with the
      * submitted name, the method shall automatically create the parameter
-     * definition in the Parameter service.
+     * definition in the Parameter service. By default, the parameter value will
+     * not be stored in the COM Archive.
      *
      * @param name The name of the Parameter as set in the parameter definition
      * @param content The value of the parameter to be pushed 
@@ -76,5 +77,20 @@ public interface SimpleMonitoringInterface {
      */
     public Boolean pushParameterValue(final String name, final Serializable content) throws IOException;
     
+    /**
+     * The pushParameterValue operation allows an external software 
+     * entity to push Attribute values through the monitorValue operation of
+     * the Parameter service. If there is no parameter definition with the
+     * submitted name, the method shall automatically create the parameter
+     * definition in the Parameter service.
+     *
+     * @param name The name of the Parameter as set in the parameter definition
+     * @param content The value of the parameter to be pushed 
+     * @param storeIt A boolean flag to state either the parameter value should
+     * be stored on-board
+     * @return Returns the flag reporting if the push was successful
+     * @throws java.io.IOException
+     */
+    public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws IOException;
     
 }

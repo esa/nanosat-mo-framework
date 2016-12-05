@@ -22,7 +22,6 @@ package esa.mo.helpertools.connections;
 
 import esa.mo.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 
 /**
@@ -35,12 +34,17 @@ public class ConfigurationConsumer {
     private final Identifier network;
     private final SessionType session;
     private final Identifier sessionName;
+    private final static String NETWORK = "helpertools.configurations.ground.Network";
+    private final static String SESSION_NAME = "helpertools.configurations.ground.SessionName";
+
+    // Advanced Networks
     private final static String ORGANIZATION_NAME = "helpertools.configurations.ground.OrganizationName";
     private final static String MISSION_NAME = "helpertools.configurations.ground.MissionName";
     private final static String MO_APP_NAME = "helpertools.configurations.ground.MOappName";
     private final static String NETWORK_ZONE = "helpertools.configurations.ground.NetworkZone";
     private final static String DEVICE_NAME = "helpertools.configurations.ground.DeviceName";
 
+    
     /**
      * @return Network zone
      */
@@ -80,8 +84,7 @@ public class ConfigurationConsumer {
 
         // ------------------------Domain-----------------------------
         // The consumer sidde does not have a domain!!!
-        
-/*        
+        /*        
         if (System.getProperty(ORGANIZATION_NAME) != null) {  // Include the name of the organization in the Domain
             this.domain.add(new Identifier(System.getProperty(ORGANIZATION_NAME)));
         } else {
@@ -91,51 +94,58 @@ public class ConfigurationConsumer {
         if (System.getProperty(MO_APP_NAME) != null) {  // Include the name of the app in the Domain
             this.domain.add(new Identifier(System.getProperty(MO_APP_NAME)));
         }
-*/        
-        /*
+         */
+ /*
          this.domain.add(new Identifier("esa"));
          this.domain.add(new Identifier("OPS-SAT"));
          this.domain.add(new Identifier("Demo1"));
          */
-
         // -----------------------------------------------------------
         // ------------------------Network----------------------------
         String networkString = "";
-        if (System.getProperty(ORGANIZATION_NAME) != null) {
-            networkString = networkString.concat(System.getProperty(ORGANIZATION_NAME));
+        if (System.getProperty(NETWORK) != null) {
+            networkString = System.getProperty(NETWORK);
         } else {
-            networkString += "OrganizationName";
-        }
+            if (System.getProperty(ORGANIZATION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(ORGANIZATION_NAME));
+            } else {
+                networkString += "OrganizationName";
+            }
 
-        networkString += ".";
+            networkString += ".";
 
-        if (System.getProperty(MISSION_NAME) != null) {
-            networkString = networkString.concat(System.getProperty(MISSION_NAME));
-        } else {
-            networkString += "MissionName";
-        }
+            if (System.getProperty(MISSION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(MISSION_NAME));
+            } else {
+                networkString += "MissionName";
+            }
 
-        networkString += ".";
+            networkString += ".";
 
-        if (System.getProperty(NETWORK_ZONE) != null) {
-            networkString = networkString.concat(System.getProperty(NETWORK_ZONE));
-        } else {
-            networkString += "NetworkZone";
-        }
+            if (System.getProperty(NETWORK_ZONE) != null) {
+                networkString = networkString.concat(System.getProperty(NETWORK_ZONE));
+            } else {
+                networkString += "NetworkZone";
+            }
 
-        networkString += ".";
+            networkString += ".";
 
-        if (System.getProperty(DEVICE_NAME) != null) {
-            networkString = networkString.concat(System.getProperty(DEVICE_NAME));
-        } else {
-            networkString += "DeviceName";
+            if (System.getProperty(DEVICE_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(DEVICE_NAME));
+            } else {
+                networkString += "DeviceName";
+            }
         }
 
         this.network = new Identifier(networkString);
         // -----------------------------------------------------------
 
         this.session = SessionType.LIVE;
-        this.sessionName = new Identifier("LIVE");
+        if (System.getProperty(SESSION_NAME) != null) {
+            this.sessionName = new Identifier(System.getProperty(SESSION_NAME));
+        } else {
+            this.sessionName = new Identifier("LIVE"); // Default it to "LIVE"
+        }
 
     }
 

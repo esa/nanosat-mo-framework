@@ -30,6 +30,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;
@@ -72,8 +73,11 @@ public class ArchiveManager {
     private final DatabaseBackend dbBackend;
     private static final Boolean SAFE_MODE = true;
 
-    protected EventProviderServiceImpl eventService;
+    private EventProviderServiceImpl eventService;
     private final ConfigurationProvider configuration = new ConfigurationProvider();
+
+//    private final LinkedBlockingQueue<ArrayList<ArchivePersistenceObject>> storeQueue;
+    private Thread storingThread;
 
     /**
      * Initializes the Archive manager
@@ -88,20 +92,90 @@ public class ArchiveManager {
         } catch (MALException ex) {
         }
 
+//        this.storeQueue = new LinkedBlockingQueue<ArrayList<ArchivePersistenceObject>>();
+
         this.dbBackend = new DatabaseBackend();
+        this.dbBackend.startBackendDatabase();
 
         // Start the separate lists for the "fast" generation of objIds
         this.fastObjId = new FastObjId(dbBackend);
 //        this.fastDomain = new FastDomain(dbBackend);
 
-/*        
+        /*        
         try {
             Thread.sleep(500);
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-*/        
+         */
+    }
 
+    void init() {
+/*
+        storingThread = new Thread() {
+            @Override
+            public void run() {
+                this.setName("ArchiveManager_StoringThread");
+                ArrayList<ArchivePersistenceObject> perObjs;
+                ArrayList<ArchivePersistenceObject> all;
+
+                while (true) {
+                    all = new ArrayList<ArchivePersistenceObject>();
+                    
+                    try {
+                        perObjs = storeQueue.take();
+                        all.addAll(perObjs);
+
+                        dbBackend.createEntityManager();  // 0.166 ms
+
+                        for (int i = 0; i < 2; i++) {  // Give it two tries (will lock the db for a limited time)
+
+//                long startTime = System.currentTimeMillis();
+                            dbBackend.getEM().getTransaction().begin(); // 0.480 ms
+
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 1: " + (System.currentTimeMillis() - startTime));
+                            while (perObjs != null) {
+                                persistObjects(perObjs); // store
+
+                                perObjs = storeQueue.poll(); // get next if there is one available
+
+                                if (perObjs != null) {
+                                    all.addAll(perObjs);  // Make it ready to be persisted
+                                }
+                            }
+                            
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 2: " + (System.currentTimeMillis() - startTime));
+                            dbBackend.safeCommit();
+
+                            if(i == 0){  // Only works for the first iteration of the for loop
+                                perObjs = storeQueue.poll(); // get next if there is one available
+
+                                if (perObjs != null) {
+                                    all.addAll(perObjs);  // Make it ready to be persisted
+                                }
+                                
+                            }
+
+                        }
+
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 3: " + (System.currentTimeMillis() - startTime));
+                        dbBackend.closeEntityManager(); // 0.410 ms
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 4: " + (System.currentTimeMillis() - startTime));
+
+                        // Generate and Publish the Events - requirement: 3.4.2.1
+//                        generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, all, interaction);
+                        generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, all, null);
+//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 5: " + (System.currentTimeMillis() - startTime));
+
+                    } catch (InterruptedException e) {
+                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, e);
+                    }
+                }
+            }
+        };
+
+        storingThread.start();
+*/
     }
 
     protected void setEventService(EventProviderServiceImpl eventService) {
@@ -109,8 +183,15 @@ public class ArchiveManager {
     }
 
     protected void resetTable() {
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         dbBackend.createEntityManager();
-        
+
         dbBackend.getEM().getTransaction().begin();
         dbBackend.getEM().createQuery("DELETE FROM ArchivePersistenceObject").executeUpdate();
         dbBackend.getEM().getTransaction().commit();
@@ -120,9 +201,15 @@ public class ArchiveManager {
 //        this.fastDomain.resetFastDomain();
 
         dbBackend.restartEMF();
-        
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
+
     protected ArchivePersistenceObject getPersistenceObject(final ObjectType objType, final IdentifierList domain, final Long objId) {
         dbBackend.createEntityManager();
         final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objId);
@@ -165,7 +252,7 @@ public class ArchiveManager {
         // Generate the object Ids if needed and the persistence objects to be stored
         for (int i = 0; i < lArchiveDetails.size(); i++) {
             Long objId = this.fastObjId.getUniqueObjId(objType, domain, lArchiveDetails.get(i).getInstId());
-                    
+
             // If there are no objects in the list, inject null...
             Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
@@ -176,6 +263,15 @@ public class ArchiveManager {
             outIds.add(objId);
         }
 
+        /*
+        try { // Insert into queue
+            storeQueue.put(perObjs);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
+
+        
         dbBackend.createEntityManager();  // 0.166 ms
 
         Thread t1 = new Thread() {
@@ -220,10 +316,6 @@ public class ArchiveManager {
 
         return outIds;
     }
-    
-    private void insertInQueue(){
-        // We wil need a queue for the handling of multiple separate stores simultaneously
-    }
 
     private void persistObjects(final ArrayList<ArchivePersistenceObject> perObjs) {
         for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
@@ -241,7 +333,7 @@ public class ArchiveManager {
             }
 
             // Flush every 1k objects...
-            if(i != 0){
+            if (i != 0) {
                 if ((i % 1000) == 0) {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "Flushing the data after 1000 serial stores...");
                     dbBackend.getEM().flush();
@@ -279,7 +371,7 @@ public class ArchiveManager {
                     dbBackend.getEM().getTransaction().begin();
                     dbBackend.getEM().remove(previousObj);
                     dbBackend.getEM().getTransaction().commit();
-                    
+
                     // Maybe we can replace the 3 lines below with a persistObjects(newObjs) after the for loop
                     dbBackend.getEM().getTransaction().begin();
                     dbBackend.getEM().persist(newObjs.get(i));
@@ -564,7 +656,7 @@ public class ArchiveManager {
         return perObjs;
     }
 
-    protected ArrayList<ArchivePersistenceObject> filterQuery(
+    protected static ArrayList<ArchivePersistenceObject> filterQuery(
             final ArrayList<ArchivePersistenceObject> perObjs, final CompositeFilterSet filterSet)
             throws MALInteractionException {
 
@@ -689,7 +781,7 @@ public class ArchiveManager {
                 | new Long(numberVal));
 
     }
-    
+
     public static UIntegerList checkForDuplicates(ArchiveDetailsList archiveDetailsList) {
         UIntegerList dupList = new UIntegerList();
 

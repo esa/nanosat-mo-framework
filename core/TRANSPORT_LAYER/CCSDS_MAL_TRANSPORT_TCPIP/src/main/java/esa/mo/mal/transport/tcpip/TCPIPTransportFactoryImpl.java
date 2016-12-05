@@ -33,6 +33,11 @@ public class TCPIPTransportFactoryImpl extends MALTransportFactory
 {
   private static final Object MUTEX = new Object();
   private TCPIPTransport transport = null;
+  
+  /**
+   * Service delimiter
+   */
+  public static final char SERVICE_DELIMITER = '/';
 
   /**
    * Constructor.
@@ -51,7 +56,7 @@ public class TCPIPTransportFactoryImpl extends MALTransportFactory
     {
       if (null == transport)
       {
-        transport = new TCPIPTransport(getProtocol(), '/', false, this, properties);
+        transport = new TCPIPTransport(getProtocol(), SERVICE_DELIMITER, false, this, properties);
         transport.init();
       }
 

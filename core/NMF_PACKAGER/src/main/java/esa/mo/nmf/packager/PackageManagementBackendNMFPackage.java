@@ -20,13 +20,19 @@
  */
 package esa.mo.nmf.packager;
 
+import java.io.File;
+import esa.mo.sm.impl.util.PackageManagementBackendInterface;
+
 /**
  *
  * @author Cesar Coelho
  */
-public class NMFPackageInstaller {
+public class PackageManagementBackendNMFPackage implements PackageManagementBackendInterface {
 
-    private final static String DEVICE_NAME = "helpertools.configurations.ground.DeviceName";
+    @Override
+    public File[] getListOfPackages() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 
 }

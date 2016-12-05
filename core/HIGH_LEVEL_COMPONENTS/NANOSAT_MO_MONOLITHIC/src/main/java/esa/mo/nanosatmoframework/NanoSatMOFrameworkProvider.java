@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
@@ -46,6 +47,8 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
 
 /**
@@ -113,6 +116,11 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     @Override
     public Boolean pushParameterValue(final String name, final Serializable content) throws IOException {
+        return this.pushParameterValue(name, content, false);
+    }
+
+    @Override
+    public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws IOException {
         if (this.getMCServices() == null) {
             throw new IOException(MESSAGE_SERVICES_NOT_INITIALIZED);
         }
@@ -128,17 +136,29 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             }
         }
 
-        return this.getMCServices().getParameterService().pushSingleParameterValueAttribute(new Identifier(name), (Attribute) obj, null, null);
+        final ParameterValue parameterValue = new ParameterValue();
+        parameterValue.setRawValue((Attribute) obj);
+        
+        // To do: Add the Conversion service here and put the value in the convertedValue field
+        parameterValue.setConvertedValue(null);
+        parameterValue.setValid(true);
+        parameterValue.setInvalidSubState(new UOctet((short) 0));
+        
+        ParameterInstance instance = new ParameterInstance(new Identifier(name), parameterValue, null, null);
+        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
+        parameters.add(instance);
+        
+        return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
-
-    private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) {
+    
+    private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) throws IOException {
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
                 ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), serviceObjId);
 
         if (comObject == null) { // Could not be found, return
             Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE,
-                    service.toString() + " service: The configuration object does not exist on the Archive.");
+                    service.getCOMService().getName() + " service: The configuration object does not exist in the Archive.");
             return;
         }
 
@@ -147,13 +167,18 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
                 comServices.getArchiveService(), ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                 configuration.getDomain(), comObject.getArchiveDetails().getDetails().getRelated());
 
+        if (configurationObjectDetails == null) { // Could not be found, throw error!
+            // If the object above exists, this one should also!
+            throw new IOException("An error happened while reloading the service configuration: " + service.getCOMService().getName());
+        }
+        
         // Reload the previous Configuration
         service.reloadConfiguration(configurationObjectDetails);
     }
 
     public abstract void initPlatformServices(COMServicesProvider comServices);
 
-    public final void loadConfigurations() {
+    public final void loadConfigurations() throws IOException {
         // Activate the previous configuration
         ObjectId confId = new ObjectId();  // Select the default configuration
         confId.setKey(new ObjectKey(configuration.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
@@ -162,6 +187,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         /*---------------------------------------------------*/
         // Create the adapter that stores the configurations "onChange"
         MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
+        
 
         // Reload the previous Configurations
         this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
@@ -184,7 +210,6 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
         if (mcAdapter != null) {
             mcServices = new MCServicesProvider();
-
             parameterManager = new ParameterManager(comServices, mcAdapter);
 
             mcServices.getParameterService().init(parameterManager);
@@ -203,7 +228,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     @Override
     public ArrayList<ReconfigurableServiceImplInterface> getServices() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        // To be done
 //        you need a list of services here...
     }
 
@@ -211,6 +236,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        // To be done
 //        you also need to plug the current configuration here...
 //        for our case, we have only a single configuration that never changes...
     }
@@ -219,6 +245,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public ConfigurationObjectDetails getCurrentConfiguration() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        // To be done
 //        you need to implement the getter for the current configuration
 //        Also, you will also retrieve the same because we have a single one
     }

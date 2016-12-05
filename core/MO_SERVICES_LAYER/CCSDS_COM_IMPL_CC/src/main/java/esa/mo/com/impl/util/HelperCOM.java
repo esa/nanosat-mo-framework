@@ -186,6 +186,10 @@ public class HelperCOM {
             return null;
         }
         
+        if(objType.getService() == null){
+            return null;
+        }
+        
         COMService service = (COMService) MALContextFactory.lookupArea(
                 objType.getArea(), 
                 objType.getAreaVersion()
@@ -311,7 +315,11 @@ public class HelperCOM {
 
     /**
      * Generates a COM ObjectType object from the area, service, version and
-     * object number
+     * object number. 
+     * Deprecated because this used to be needed when the services
+     * didn't provide the static COM Objects ObjectType. This can now be found 
+     * in the service Helper. For example, for the Parameter service, the parameter
+     * definition can be found in: ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE
      * 
      * @param area Area number
      * @param service Service number
@@ -319,9 +327,10 @@ public class HelperCOM {
      * @param number Object number
      * @return The ObjectType object
      */
+    @Deprecated
     public static ObjectType generateCOMObjectType(int area, int service, int version, int number) {
         return new ObjectType(
-                new UShort(area),
+                new UShort(area), 
                 new UShort(service),
                 new UOctet((short) version),
                 new UShort(number)

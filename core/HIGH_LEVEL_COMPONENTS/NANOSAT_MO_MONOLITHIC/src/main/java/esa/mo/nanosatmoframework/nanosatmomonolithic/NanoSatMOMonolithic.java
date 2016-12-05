@@ -26,7 +26,6 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
-import static esa.mo.nanosatmoframework.NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -73,7 +72,6 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
 
             comServices.init();
             heartbeatService.init();
-//            this.startMCServices(actionAdapter, parameterAdapter);
             this.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
             directoryService.init(comServices);
@@ -91,7 +89,11 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
             // Are the dynamic changes enabled?
             if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
-                this.loadConfigurations();
+                try {
+                    this.loadConfigurations();
+                } catch (IOException ex) {
+                    Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), 

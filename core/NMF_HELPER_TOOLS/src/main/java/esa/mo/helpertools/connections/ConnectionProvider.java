@@ -24,6 +24,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALContext;
@@ -101,6 +102,9 @@ public class ConnectionProvider {
 
         final String moAppName = System.getProperty(ConfigurationProvider.MO_APP_NAME);
         final String uriName = (moAppName != null) ? moAppName + "-" + serviceName : serviceName;  // Create the uri string name
+        
+        Properties props = new Properties();
+        props.putAll(System.getProperties());
 
         MALProvider serviceProvider = providerMgr.createProvider(uriName,
                 null,
@@ -111,7 +115,7 @@ public class ConnectionProvider {
                     QoSLevel.ASSURED
                 },
                 new UInteger(1),
-                System.getProperties(),
+                props,
                 isPublisher,
                 sharedBrokerURI);
 

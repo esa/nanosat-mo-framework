@@ -62,16 +62,14 @@
     </developers>
   
     <modules>
-        <module>NMF_POM</module>
-        <module>NMF_PACKAGER</module>
         <module>MO_XML</module>
         <module>CCSDS_MO_APIS</module>
         <module>NMF_HELPER_TOOLS</module>
         <module>TRANSPORT_LAYER</module>
         <module>MO_SERVICES_LAYER</module>
         <module>HIGH_LEVEL_COMPONENTS</module>
+        <module>NMF_PACKAGER</module>
         <module>OTHERS</module>
-        <module>APPS</module>
     </modules>
   
 </project>

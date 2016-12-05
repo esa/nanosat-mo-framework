@@ -27,6 +27,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,7 +63,7 @@ public class ParameterManager extends DefinitionsManager {
     private final transient ConversionServiceImpl conversionService = new ConversionServiceImpl();
     private static final transient int SAVING_PERIOD = 20;  // Used to store the uniqueObjIdPVal only once every "SAVINGPERIOD" times
 
-    private Long uniqueObjIdDef; // Counter (different for every Definition)
+    private AtomicLong uniqueObjIdDef; // Counter (different for every Definition)
     private AtomicLong uniqueObjIdPVal = new AtomicLong(0);
     private final transient ParameterStatusListener parametersMonitoring;   // transient: marks members that won't be serialized.
 
@@ -77,7 +78,7 @@ public class ParameterManager extends DefinitionsManager {
         this.parametersMonitoring = parametersMonitoring;
 
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdDef = new AtomicLong(0); // The zeroth value will not be used (reserved for the wildcard)
 //            this.uniqueObjIdPVal = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
 //            this.load(); // Load the file
         } else {
@@ -168,7 +169,7 @@ public class ParameterManager extends DefinitionsManager {
      */
     protected synchronized LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals, final LongList relatedList, final SingleConnectionDetails connectionDetails) {
         
-        if (this.getArchiveService() == null) {
+        if (this.getArchiveService() == null) {  // No Archive
             LongList out = new LongList();
 
             for (ParameterValue pVal : pVals) {
@@ -179,13 +180,12 @@ public class ParameterManager extends DefinitionsManager {
         }
 
         final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-
         final LongList out = new LongList();
 
         for (Long related : relatedList) {
             ArchiveDetails archiveDetails = new ArchiveDetails();
 
-            if (this.uniqueObjIdPVal.get() == 0) {
+            if (this.uniqueObjIdPVal.get() == 0) {  // First run?
                 archiveDetails.setInstId(new Long(0));
             } else {
                 Long unique = this.uniqueObjIdPVal.incrementAndGet();
@@ -200,6 +200,8 @@ public class ParameterManager extends DefinitionsManager {
             archiveDetailsList.add(archiveDetails);
         }
 
+        final Semaphore sem = new Semaphore(0);
+        
         Thread t1 = new Thread() {
             @Override
             public void run() {
@@ -212,16 +214,17 @@ public class ParameterManager extends DefinitionsManager {
                             pVals,
                             null);
 
-                    if (uniqueObjIdPVal.get() == 0) {
+                    if (uniqueObjIdPVal.get() == 0) {  // First run?
                         uniqueObjIdPVal.set(objIds.get(objIds.size() - 1));
                     }
 
                     out.clear();
                     out.addAll(objIds);
+                    sem.release();
                 } catch (MALException ex) {
                     Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MALInteractionException ex) {
-                    Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, "Parameter Value with objId: " + archiveDetailsList.get(0).getInstId(), ex);
                 }
             }
         };
@@ -231,12 +234,13 @@ public class ParameterManager extends DefinitionsManager {
             return out;
         } else {
             t1.start();
-            try { // Wait until it is ready
-                t1.join();
+
+            try {
+                sem.acquire();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             return out;
         }
 
@@ -443,10 +447,9 @@ public class ParameterManager extends DefinitionsManager {
         definition.setGenerationEnabled(false);  // requirement: 3.3.2.7
 
         if (super.getArchiveService() == null) {
-            uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-            this.addDef(uniqueObjIdDef, definition);
+            this.addDef(uniqueObjIdDef.incrementAndGet(), definition);
 //            this.save();
-            return uniqueObjIdDef;
+            return uniqueObjIdDef.get();
         } else {
             ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
             defs.add(definition);

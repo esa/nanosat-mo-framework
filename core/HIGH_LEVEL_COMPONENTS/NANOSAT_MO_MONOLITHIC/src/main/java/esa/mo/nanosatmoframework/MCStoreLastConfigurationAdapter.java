@@ -27,9 +27,7 @@ import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
-import esa.mo.mc.impl.provider.CheckProviderServiceImpl;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
-import esa.mo.mc.impl.provider.StatisticProviderServiceImpl;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.logging.Level;
@@ -76,7 +74,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     private ConfigurationProvider configuration = new ConfigurationProvider();
     private final COMServicesProvider comServices;
 
-    public MCStoreLastConfigurationAdapter(NanoSatMOFrameworkInterface provider, 
+    public MCStoreLastConfigurationAdapter(NanoSatMOFrameworkInterface provider,
             final ObjectId confId, final Identifier providerName) {
 
         try {
@@ -213,9 +211,17 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         Thread t1 = new Thread() {
             @Override
             public void run() {
+                this.setName("MCStoreLastConfigurationAdapter_updateConfigurationInArchive");
+                
                 // Retrieve the COM object of the service
                 ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
                         ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), objId);
+                
+                if(comObject == null){
+                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                            serviceImpl.getCOMService().getName()
+                            + " service: The service configuration object could not be found! objectId: " + objId);
+                }
 
                 // Stuff to feed the update operation from the Archive...
                 ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
@@ -232,7 +238,9 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
                 } catch (MALException ex) {
                     Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MALInteractionException ex) {
-                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                            serviceImpl.getCOMService().getName()
+                            + " service: The configuration could not be updated! objectId: " + objId, ex);
                 }
             }
         };
@@ -240,7 +248,8 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         t1.start();
     }
 
-    private Long storeDefaultServiceConfiguration(final Long defaultObjId, final UShort serviceNumber, ReconfigurableServiceImplInterface service) {
+    private Long storeDefaultServiceConfiguration(final Long defaultObjId, 
+            final UShort serviceNumber, final ReconfigurableServiceImplInterface service) {
         try {
             // Store the Service Configuration objects
             ConfigurationObjectDetailsList archObj1 = new ConfigurationObjectDetailsList();

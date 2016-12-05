@@ -124,6 +124,7 @@ public class ShellCommander {
 
         @Override
         public void run() {
+            this.setName("ShellCommander_StreamWrapper");
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
                 StringBuilder buffer = new StringBuilder();

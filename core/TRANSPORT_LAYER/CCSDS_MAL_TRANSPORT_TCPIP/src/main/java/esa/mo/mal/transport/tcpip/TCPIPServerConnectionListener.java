@@ -21,12 +21,14 @@
 package esa.mo.mal.transport.tcpip;
 
 import esa.mo.mal.transport.gen.util.GENMessagePoller;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 
 import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,81 +41,98 @@ import java.util.List;
  */
 public class TCPIPServerConnectionListener extends Thread
 {
-  private final TCPIPTransport transport;
-  private final ServerSocket serverSocket;
+	private final TCPIPTransport transport;
+	private final ServerSocket serverSocket;
 
-  /**
-   * Holds the list of data poller threads
-   */
-  private final List<Thread> pollerThreads = new ArrayList<Thread>();
+	/**
+	 * Holds the list of data poller threads
+	 */
+	private final List<Thread> pollerThreads = new ArrayList<Thread>();
 
-  /**
-   * Constructor.
-   *
-   * @param transport The parent TCPIP transport.
-   * @param serverSocket The server TCPIP socket.
-   */
-  public TCPIPServerConnectionListener(TCPIPTransport transport, ServerSocket serverSocket)
-  {
-    this.transport = transport;
-    this.serverSocket = serverSocket;
-    setName(getClass().getName() + " - Main Server Socket Thread");
-  }
+	/**
+	 * Constructor.
+	 *
+	 * @param transport
+	 *            The parent TCPIP transport.
+	 * @param serverSocket
+	 *            The server TCPIP socket.
+	 */
+	public TCPIPServerConnectionListener(TCPIPTransport transport, ServerSocket serverSocket) 
+        {
+		this.transport = transport;
+		this.serverSocket = serverSocket;
+		setName(getClass().getName() + " - Main Server Socket Thread");
+	}
 
-  @Override
-  public void run()
-  {
-    try
-    {
-      serverSocket.setSoTimeout(1000);
-    }
-    catch (IOException e)
-    {
-      RLOGGER.log(Level.WARNING, "Error while setting connection timeout", e);
-    }
+	/**
+	 * Run and accept new incoming sockets. Each incoming socket is assigned a
+	 * data transceiver, which submits outgoing messages and reads incoming
+	 * messages to and from the socket respectively.
+	 */
+	@Override
+	public void run() 
+        {
+		try 
+                {
+			serverSocket.setSoTimeout(1000);
+		} 
+                catch (IOException e) 
+                {
+			RLOGGER.log(Level.WARNING, "Error while setting connection timeout", e);
+		}
 
-    // setup socket and then listen for connections forever
-    while (!interrupted())
-    {
-      try
-      {
-        // wait for connection
-        Socket socket = serverSocket.accept();
+		// setup socket and then listen for connections forever
+		while (!interrupted()) 
+                {
+			try 
+                        {
+				// wait for connection
+				Socket socket = serverSocket.accept();
+				
+				RLOGGER.log(Level.INFO, "Socket accepted at port {0}", socket.getPort());
 
-        // handle socket in separate thread
-        TCPIPTransportDataTransceiver tc = transport.createDataTransceiver(socket);
+				// handle socket in separate thread
+				TCPIPTransportDataTransceiver tc = transport.createDataTransceiver(socket);
 
-        GENMessagePoller poller = new GENMessagePoller<TCPIPAddressPortData>(transport, tc, tc, new TCPIPIncomingAddressPortDataMessageDecoderFactory());
-        pollerThreads.add(poller);
-        poller.start();
-      }
-      catch (java.net.SocketTimeoutException ex)
-      {
-        // this is ok, we just loop back around
-      }
-      catch (IOException e)
-      {
-        RLOGGER.log(Level.WARNING, "Error while accepting connection", e);
-      }
-    }
+				GENMessagePoller poller = new GENMessagePoller(
+						transport, tc, tc, new TCPIPMessageDecoderFactory());
+				pollerThreads.add(poller);
+				poller.start();
+			} 
+                        catch (java.net.SocketTimeoutException ex) 
+                        {
+				// No socket accepted within timeout. Try again until we accept a socket.
+			} 
+                        catch (IOException e) 
+                        {
+				RLOGGER.log(Level.WARNING, "Error while accepting connection", e);
+			}
+		}
 
-    for (Thread pollerThread : pollerThreads)
-    {
-      synchronized (pollerThread)
-      {
-        pollerThread.interrupt();
-      }
-    }
+		for (Thread pollerThread : pollerThreads)
+                {
+			synchronized (pollerThread)
+                        {
+				pollerThread.interrupt();
+			}
+		}
 
-    pollerThreads.clear();
-
-    try
-    {
-      serverSocket.close();
-    }
-    catch (IOException e)
-    {
-      RLOGGER.log(Level.WARNING, "Error while closing server socket", e);
-    }
-  }
+		pollerThreads.clear();
+	}
+	
+	/**
+	 * Close the server socket for this connection listener.
+	 */
+	public void close() 
+        {
+		RLOGGER.info("Closing server socket...");
+		try 
+                {
+			serverSocket.close();
+		} 
+                catch (IOException e) 
+                {
+			RLOGGER.log(Level.WARNING, "Error while closing server socket", e);
+		}
+	}
 }

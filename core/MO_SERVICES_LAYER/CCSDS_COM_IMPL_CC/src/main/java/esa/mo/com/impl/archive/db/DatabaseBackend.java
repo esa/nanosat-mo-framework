@@ -57,16 +57,15 @@ public class DatabaseBackend {
     private static final String DATABASE_LOCATION_NAME = "comArchive.db";
 
     private final String url;
-    
-    public DatabaseBackend(){
+
+    public DatabaseBackend() {
         // Create unique URL that identifies the connection
         this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
-        this.startBackendDatabase();
     }
 
-    private void startBackendDatabase() {
+    public void startBackendDatabase() {
         final Semaphore sem = new Semaphore(0);
-        
+
         final Thread startDatabase = new Thread() {
             @Override
             public void run() {
@@ -75,9 +74,9 @@ public class DatabaseBackend {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 sem.release();
-                
+
                 startServer();
                 createEMFactory();
                 emAvailability.release();
@@ -87,16 +86,15 @@ public class DatabaseBackend {
         };
 
         startDatabase.start();
-        
+
         try {
             sem.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
-                
+
     }
-    
-    
+
     private void startServer() {
 //        System.setProperty("derby.drda.startNetworkServer", "true");
         // Loads a new instance of the database driver
@@ -134,7 +132,7 @@ public class DatabaseBackend {
             }
         }
     }
-    
+
     private void createEMFactory() {
         boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));  // Is the status of the dropTable flag on?
         Map<String, String> persistenceMap = new HashMap<String, String>();
@@ -157,31 +155,50 @@ public class DatabaseBackend {
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
 //        if(!wasKeptOpen){
-            this.em = this.emf.createEntityManager();
+        this.em = this.emf.createEntityManager();
 //        }
     }
 
     public void closeEntityManager() {
         // If it has Thread open, then keep it open...
 //        wasKeptOpen = this.emAvailability.hasQueuedThreads();
-        
+
 //        if(!wasKeptOpen){
-            this.em.close();
+        this.em.close();
 //        }
-        
+
         this.emAvailability.release();
     }
-    
-    public EntityManager getEM(){
+
+    public EntityManager getEM() {
         return this.em;
     }
-    
-    public void restartEMF(){
+
+    public void restartEMF() {
         this.emf.close();
         this.createEMFactory();
         this.emAvailability.release();
+    }
+
+    public void safeCommit() {
+        try {  // This is where the db takes longer!!
+            this.em.getTransaction().commit(); // 1.220 ms
+        } catch (Exception ex) {
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING, "The object could not be commited! Waiting 500 ms and trying again...");
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex1) {
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+
+            try {
+                this.em.getTransaction().commit(); // 1.220 ms
+            } catch (Exception ex2) {
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "The objects could not be commited on the second try!", ex2);
+            }
+        }
     }
 
 }

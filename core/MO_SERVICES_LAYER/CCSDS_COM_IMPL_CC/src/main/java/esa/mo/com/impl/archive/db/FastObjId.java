@@ -35,7 +35,6 @@ public class FastObjId {
 
     private final DatabaseBackend dbBackend;
     private HashMap<Key, Long> fastID;
-//    private final Semaphore semaphore = new Semaphore(1);
 
     public FastObjId(final DatabaseBackend dbBackend) {
         this.dbBackend = dbBackend;

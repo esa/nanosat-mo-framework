@@ -31,7 +31,6 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
-import esa.mo.sm.impl.util.ShellCommander;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -71,7 +70,6 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsL
  */
 public class AppsLauncherManager extends DefinitionsManager {
 
-    private final ShellCommander shell = new ShellCommander();
     private final OSValidator osValidator = new OSValidator();
 
     private static final String RUN_LIN_FILENAME = "runAppLin.sh";
@@ -217,24 +215,15 @@ public class AppsLauncherManager extends DefinitionsManager {
             return;
         }
 
+        boolean anyChanges = false;
         AppDetailsList apps = new AppDetailsList();
 
         for (File app_folder : fList) { // Roll all the apps inside the apps folder
-
             if (app_folder.isDirectory()) {
-                // Add app by app
-
-                // Check if the folder contains the executable
                 for (File file : app_folder.listFiles()) { // Roll all the files inside each app folder
+                    // Check if the folder contains the app executable
                     if (runnable_filename.equals(file.getName())) {
-                        // Found!
-                        AppDetails app = new AppDetails();
-                        app.setName(new Identifier(app_folder.getName()));
-                        app.setDescription("A simple description");
-                        app.setVersion("1.0");
-                        app.setCategory(new Identifier("MyCategory"));
-                        app.setRunAtStartup(false);
-                        app.setRunning(false);
+                        AppDetails app = this.readAppDescriptorFromFolder(app_folder);
                         apps.add(app);
                     }
                 }
@@ -244,35 +233,42 @@ public class AppsLauncherManager extends DefinitionsManager {
         // Compare with the defs list!
         // Are there any differences?
         for (AppDetails single_app : apps) {
-            Long id = super.list(single_app.getName());
+            final Long id = super.list(single_app.getName());
             AppDetails previousAppDetails = this.get(id);
 
-            if (previousAppDetails == null) { // It didn't exist...
+            // It didn't exist...
+            if (previousAppDetails == null) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "New app found! Adding new app: " + single_app.getName().getValue());
 
                 // Either is the first time running or it is a newly installed app!
                 ObjectId source = null;
-
                 this.add(single_app, source, connectionDetails);
-
+                anyChanges = true;
                 continue; // Check the next one...
             }
 
-            // It does exist. Are there any differences?
+            // It did exist before. Are there any differences from the previous?
             if (!previousAppDetails.equals(single_app)) {
-
-                // Then we have to update it...
-
-                // Is it a difference just on the Running status?
-                if (previousAppDetails.getRunning().equals(single_app.getRunning())) {
+                // Is it a difference just in the Running status?
+                if (AppsLauncherManager.isJustRunningStatusChange(previousAppDetails, single_app)) {
                     continue;
                 }
 
-                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "New update found on app: " + single_app.getName().getValue());
+                // Then we have to update it...
 
-//                this.update(id, single_app, connectionDetails, null);
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
+                        "New update found on app: " + single_app.getName().getValue()
+                        + "\nPrevious: " + previousAppDetails.toString()
+                        + "\nNew: " + single_app.toString());
 
+                this.update(id, single_app, connectionDetails, null);
+                anyChanges = true;
             }
+        }
+        
+        if(anyChanges){
+            // Do something!!
+            
         }
 
     }
@@ -287,13 +283,11 @@ public class AppsLauncherManager extends DefinitionsManager {
             app.setRunning(false);
             return false;
         }
-        */
-
+         */
         return this.get(appId).getRunning();
     }
 
     protected void startAppProcess(ProcessExecutionHandler handler, MALInteraction interaction) throws IOException {
-
         AppDetails app = (AppDetails) this.getDef(handler.getAppInstId()); // get it from the list of available apps
 
         // Go to the folder where the app are installed
@@ -323,7 +317,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         if (proc != null) {
             handlers.put(handler.getAppInstId(), handler);
             this.setRunning(handler.getAppInstId(), true, handler.getSingleConnectionDetails(), interaction); // Update the Archive
-        }else{
+        } else {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "The process is null! Something is wrong...");
         }
 
@@ -353,8 +347,8 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         return true;
     }
-    
-    protected void stopApps(final LongList appInstIds, final ArrayList<SingleConnectionDetails> appConnections, 
+
+    protected void stopApps(final LongList appInstIds, final ArrayList<SingleConnectionDetails> appConnections,
             final ConnectionProvider connection, final StopAppInteraction interaction) throws MALException, MALInteractionException {
         Random random = new Random();
 
@@ -387,21 +381,24 @@ public class AppsLauncherManager extends DefinitionsManager {
         LongList objIds = super.getCOMServices().getEventService().generateAndStoreEvents(objType, connection.getConnectionDetails().getDomain(), appInstIds, sourceList, interaction.getInteraction());
         super.getCOMServices().getEventService().publishEvents(connection.getConnectionDetails().getProviderURI(), objIds, objType, appInstIds, sourceList, null);
     }
-    
-    public void setRunning(Long appInstId, boolean running, SingleConnectionDetails details, MALInteraction interaction){
+
+    public void setRunning(Long appInstId, boolean running, SingleConnectionDetails details, MALInteraction interaction) {
         this.get(appInstId).setRunning(running);
         this.update(appInstId, this.get(appInstId), details, interaction); // Update the Archive
     }
 
     public static SingleConnectionDetails getSingleConnectionDetailsFromProviderSummaryList(ProviderSummaryList providersList) throws IOException {
-
         if (providersList.isEmpty()) { // Throw error!
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "The app could not be found in the Directory service... Possible reasons: 1. The property 'MOappName' of the app might not match its folder name 2. Not a NMF app! If so, one needs to use killApp!");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
+                    "The app could not be found in the Directory service... Possible reasons: " 
+                            + "1. The property 'MOappName' of the app might not match its folder name " 
+                            + "2. Not a NMF app! If so, one needs to use killApp!");
             throw new IOException();
         }
 
         if (providersList.size() != 1) { // Throw error!
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "Why do we have a bunch of registrations from the same App? Weirddddd...");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
+                    "Why do we have a bunch of registrations from the same App? Weirddddd...");
             throw new IOException();
         }
 
@@ -410,12 +407,14 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         // How many addresses do we have?
         if (capabilities.isEmpty()) { // Throw an error
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "We don't have any services...");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
+                    "We don't have any services...");
             throw new IOException();
         }
 
         if (capabilities.size() != 1) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "We have more than 1 service...");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
+                    "We have more than 1 service...");
             throw new IOException();
         }
 
@@ -436,7 +435,6 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     private static int getBestServiceAddressIndex(AddressDetailsList addresses) throws IOException {
-
         if (addresses.isEmpty()) {
             throw new IOException();
         }
@@ -492,6 +490,37 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
         }
         return -1;
+    }
+
+    private static boolean isJustRunningStatusChange(AppDetails previousAppDetails, AppDetails single_app) {
+        if (!previousAppDetails.getCategory().equals(single_app.getCategory())
+                || !previousAppDetails.getDescription().equals(single_app.getDescription())
+                || !previousAppDetails.getName().equals(single_app.getName())
+                || previousAppDetails.getRunAtStartup().booleanValue() != single_app.getRunAtStartup().booleanValue()
+                || !previousAppDetails.getVersion().equals(single_app.getVersion())) {
+            return false;
+        }
+
+        // extraInfo field can be null according to the API
+        if (previousAppDetails.getExtraInfo() != null && single_app.getExtraInfo() != null) {
+            if (!previousAppDetails.getExtraInfo().equals(single_app.getExtraInfo())) {
+                return false;
+            }
+        }
+
+        return previousAppDetails.getRunning().booleanValue() != single_app.getRunning().booleanValue();
+    }
+
+    private AppDetails readAppDescriptorFromFolder(File app_folder) {
+        // Hard-coded values for now
+        final AppDetails app = new AppDetails();
+        app.setName(new Identifier(app_folder.getName()));
+        app.setDescription("A simple description");
+        app.setVersion("1.0");
+        app.setCategory(new Identifier("MyCategory"));
+        app.setRunAtStartup(false);
+        app.setRunning(false);
+        return app;
     }
 
 }
