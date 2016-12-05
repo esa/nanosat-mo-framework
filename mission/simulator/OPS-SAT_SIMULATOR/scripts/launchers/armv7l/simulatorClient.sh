@@ -1,0 +1,2 @@
+#!/bin/bash
+cd /home/pi/repos/NANOSAT_MO_FRAMEWORK_SOFTWARE_BUNDLE/NMF_PLT/PLATFORM_SOFTWARE_SIMULATOR/OPS-SAT_SIMULATOR; JAVA_HOME=/usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt /home/pi/netbeans-8.1/java/maven/bin/mvn "-Dexec.args=-classpath %classpath opssat.simulator.main.MainClient" -Dexec.executable=/usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt/bin/java -Dexec.classpathScope=runtime org.codehaus.mojo:exec-maven-plugin:1.2.1:exec

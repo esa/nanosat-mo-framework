@@ -1,0 +1,3 @@
+cd '/cygdrive/c/Users/Cezar Suteu/temp/_OPSSAT_SIMULATOR'
+tail -f `ls -1tr Sim*log | tail -1`
+tail -f `ls -1tr Cen*log | tail -1`

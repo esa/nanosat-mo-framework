@@ -1,0 +1,25 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix} ----------------------------------------------------------------------------
+${licensePrefix} Copyright (C) ${date?date?string("yyyy")}      European Space Agency
+${licensePrefix}                         European Space Operations Centre
+${licensePrefix}                         Darmstadt
+${licensePrefix}                         Germany
+${licensePrefix} ----------------------------------------------------------------------------
+${licensePrefix} System                : ESA NanoSat MO Framework
+${licensePrefix} ----------------------------------------------------------------------------
+${licensePrefix} Licensed under the European Space Agency Public License, Version 2.0
+${licensePrefix} You may not use this file except in compliance with the License.
+${licensePrefix}
+${licensePrefix} Except as expressly set forth in this License, the Software is provided to
+${licensePrefix} You on an "as is" basis and without warranties of any kind, including without
+${licensePrefix} limitation merchantability, fitness for a particular purpose, absence of
+${licensePrefix} defects or errors, accuracy or non-infringement of intellectual property rights.
+${licensePrefix} 
+${licensePrefix} See the License for the specific language governing permissions and
+${licensePrefix} limitations under the License. 
+${licensePrefix} ----------------------------------------------------------------------------
+<#if licenseLast??>
+${licenseLast}
+</#if>

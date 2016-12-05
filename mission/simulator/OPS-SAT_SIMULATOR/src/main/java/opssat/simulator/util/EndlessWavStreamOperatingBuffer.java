@@ -1,0 +1,63 @@
+/*
+ *  ----------------------------------------------------------------------------
+ *  Copyright (C) 2016      European Space Agency
+ *                          European Space Operations Centre
+ *                          Darmstadt
+ *                          Germany
+ *  ----------------------------------------------------------------------------
+ *  System                : ESA NanoSat MO Framework
+ *  ----------------------------------------------------------------------------
+ *  Licensed under the European Space Agency Public License, Version 2.0
+ *  You may not use this file except in compliance with the License.
+ * 
+ *  Except as expressly set forth in this License, the Software is provided to
+ *  You on an "as is" basis and without warranties of any kind, including without
+ *  limitation merchantability, fitness for a particular purpose, absence of
+ *  defects or errors, accuracy or non-infringement of intellectual property rights.
+ *  
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License. 
+ *  ----------------------------------------------------------------------------
+ */
+package opssat.simulator.util;
+
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Cezar Suteu
+ */
+public class EndlessWavStreamOperatingBuffer extends GenericWavFileBasedOperatingBuffer {
+
+    public EndlessWavStreamOperatingBuffer(Logger logger) {
+        super(logger);
+    }
+    
+    public double[] getDataAsDoubleArray(int quantityOfData) {
+        int bytesNo=(Integer) quantityOfData;
+        double[] result=new double[bytesNo];
+        double[] tempData=(double[])super.getDataBuffer();
+        int capacity=tempData.length;
+        int tempOperatingIndex=super.getOperatingIndex();
+        if (tempData!=null && capacity>0)
+        {
+            int resultIndex=0;
+            while ((bytesNo--)>0){
+                result[resultIndex]=tempData[tempOperatingIndex++];
+                if (tempOperatingIndex>=capacity)
+                {
+                    tempOperatingIndex=0;
+                }
+                resultIndex++;
+            }
+            super.setOperatingIndex(tempOperatingIndex);
+        }
+        //System.out.println("result has ["+result.length+"] elements");
+        return result;
+    }
+    public void setDataFromByteArray(byte[] directData)
+    {
+        super.setOperatingIndex(0);
+        super.setDataBuffer((Object) directData);
+    }
+}
