@@ -51,7 +51,6 @@ public class MOConsumerGUIvFull extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(final String args[]) {
-
         try {
             // Set cross-platform Java L&F (also called "Metal")
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -66,6 +65,7 @@ public class MOConsumerGUIvFull extends javax.swing.JFrame {
         final MOConsumerGUIvFull gui = new MOConsumerGUIvFull(name);
 
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 gui.setVisible(true);
             }

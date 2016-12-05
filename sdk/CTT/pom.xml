@@ -73,8 +73,8 @@
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>CCSDS_MO_TOOLS_WINDOW</artifactId>
-            <version>${project.version}</version>
+            <artifactId>MAL_ELEMENTS_WINDOW</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jdesktop</groupId>
@@ -82,11 +82,18 @@
             <version>1.2.1</version>
         </dependency>
 
+        <!-- SPP Transports -->
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>SPP_TRANSPORT_CFP_TCP</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>TRANSPORT_SPP_TESTBED</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
 
     </dependencies>
 

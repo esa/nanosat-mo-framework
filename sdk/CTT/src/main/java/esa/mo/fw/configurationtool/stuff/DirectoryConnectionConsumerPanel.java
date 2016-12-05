@@ -20,12 +20,10 @@
  */
 package esa.mo.fw.configurationtool.stuff;
 
-import com.github.kayak.core.Frame;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
-import esa.mo.transport.can.opssat.CANBusConnector;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;

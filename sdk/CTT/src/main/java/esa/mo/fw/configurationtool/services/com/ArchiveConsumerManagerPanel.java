@@ -76,6 +76,7 @@ import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
@@ -94,6 +95,7 @@ import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetailsList;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetailsList;
+import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.Severity;
@@ -105,9 +107,10 @@ import org.ccsds.moims.mo.mc.structures.Severity;
 public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     private final ArchiveConsumerServiceImpl serviceCOMArchive;
-    private final ConversionConsumerServiceImpl conversionService = new ConversionConsumerServiceImpl();
+//    private final ConversionConsumerServiceImpl conversionService = new ConversionConsumerServiceImpl();
 
-    public final transient ObjectType OBJTYPE_AGGS_AGGREGATIONDEFINITION = HelperCOM.generateCOMObjectType(4, 6, 1, 1);
+//    public final transient ObjectType OBJTYPE_AGGS_AGGREGATIONDEFINITION = HelperCOM.generateCOMObjectType(4, 6, 1, 1);
+    public ObjectType OBJTYPE_AGGS_AGGREGATIONDEFINITION;
 
     /**
      * Creates new form ArchiveConsumerPanel
@@ -117,6 +120,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     public ArchiveConsumerManagerPanel(ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         serviceCOMArchive = archiveService;
+        
+        OBJTYPE_AGGS_AGGREGATIONDEFINITION = AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE;
+        
     }
 
     public static AggregationDefinitionDetails generateAggregationDefinition(String name) {
@@ -236,7 +242,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         private final ArchiveTablePanel archiveTablePanel = new ArchiveTablePanel(null, serviceCOMArchive);
         private ObjectType objType;
         private IdentifierList domain;
-        private Semaphore isOver = new Semaphore(0);
+        private final Semaphore isOver = new Semaphore(0);
         private int n_objs_counter = 0;
         private final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
         private final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
@@ -301,11 +307,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             pnlTab.repaint();  // not working
             tabs.revalidate();
             tabs.repaint();    // not working
-
             
         }
 
-        public int getSelectedIndex() {
+        public synchronized int getSelectedIndex() {
             return archiveTablePanel.getSelectedRow();
         }
 
@@ -332,7 +337,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
@@ -340,12 +345,12 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public void countResponseReceived(MALMessageHeader msgHeader, LongList _LongList0, Map qosProperties) {
+        public synchronized void countResponseReceived(MALMessageHeader msgHeader, LongList _LongList0, Map qosProperties) {
             JOptionPane.showMessageDialog(null, _LongList0.toString(), "The count operation returned the following data!", JOptionPane.PLAIN_MESSAGE);
         }
 
         @Override
-        public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        public synchronized void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
 
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
@@ -356,7 +361,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        public synchronized void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
@@ -364,7 +369,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+        public synchronized void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, "queryAckErrorReceived", error);
         }
 

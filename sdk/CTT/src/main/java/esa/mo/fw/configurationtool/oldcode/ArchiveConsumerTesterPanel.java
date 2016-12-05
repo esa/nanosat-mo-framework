@@ -22,7 +22,6 @@ package esa.mo.fw.configurationtool.oldcode;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.fw.configurationtool.services.com.ArchiveConsumerManagerPanel;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.Map;
@@ -44,6 +43,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 
@@ -55,7 +55,7 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
 
     private ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter();
     private ArchiveConsumerServiceImpl serviceCOMArchive;
-    public final transient ObjectType OBJTYPE_AGGS_AGGREGATIONDEFINITION = HelperCOM.generateCOMObjectType(4, 6, 1, 1);
+    public final transient ObjectType OBJTYPE_AGGS_AGGREGATIONDEFINITION = AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE;
 
     /**
      * Creates new form ArchiveConsumerPanel

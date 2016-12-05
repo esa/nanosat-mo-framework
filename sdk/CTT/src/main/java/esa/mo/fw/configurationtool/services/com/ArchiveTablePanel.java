@@ -143,7 +143,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
     }
 
-    private void addEntry(ArchivePersistenceObject comObject) {
+    private void addEntry(final ArchivePersistenceObject comObject) {
 
         String domain = "";
         String objType = "";

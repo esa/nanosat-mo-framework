@@ -148,7 +148,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 Union.STRING_SHORT_FORM.byteValue(),
                 "",
                 false,
-                new Duration(3),
+                new Duration(0),
                 null,
                 null
         ));

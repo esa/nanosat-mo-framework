@@ -1,3 +1,1 @@
-#!/bin/bash
-cd ${0%/*}
-java -classpath "./../../libs/NanoSat_MO_Framework/*" esa.mo.nanosatmoframework.provider.NanoSatMOSupervisorSoftSimImpl
+java -classpath ./demo-triple-presentation-jar-with-dependencies.jar esa.mo.nanosatmoframework.apps.TriplePresentation

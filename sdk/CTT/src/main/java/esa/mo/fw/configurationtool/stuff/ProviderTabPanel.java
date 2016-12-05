@@ -31,7 +31,6 @@ import esa.mo.fw.configurationtool.services.mc.ParameterConsumerPanel;
 import esa.mo.fw.configurationtool.services.mc.ParameterPublishedValues;
 import esa.mo.fw.configurationtool.services.mc.StatisticConsumerPanel;
 import esa.mo.fw.configurationtool.services.sm.AppsLauncherConsumerPanel;
-import esa.mo.fw.configurationtool.services.sm.PackageManagementConsumerPanel;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
@@ -226,7 +225,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         private static final long DELTA = 2 * 1000; // 2 seconds = 2000 milliseconds
         private final long period; // In seconds
         private final Timer timer;
-        private Time lastBeatAt;
+        private Time lastBeatAt = HelperTime.getTimestampMillis();
 
         public ProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat) throws MALInteractionException, MALException {
             period = (long) (heartbeat.getHeartbeatStub().getPeriod().getValue() * 1000);

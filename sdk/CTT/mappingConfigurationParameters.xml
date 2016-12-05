@@ -2,7 +2,7 @@
 <config xmlns="http://www.dlr.de/gsoc/mo/malspp">
 	<app apidQualifier="247" apid="100">
 		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
-		<varintSupported>true</varintSupported>
+		<varintSupported>false</varintSupported>
 		<time>
 			<format unit="second">00011111</format>
 			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
@@ -25,7 +25,7 @@
 
 	<app apidQualifier="247" apid="2">
 		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
-		<varintSupported>true</varintSupported>
+		<varintSupported>false</varintSupported>
 		<time>
 			<format unit="second">00011111</format>
 			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
@@ -44,9 +44,9 @@
 		<sessionName>malsppTestSession</sessionName>
 	</app>
 	
-	<app apidQualifier="347" apid="3">
+	<app apidQualifier="247" apid="10">
 		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
-		<varintSupported>true</varintSupported>
+		<varintSupported>false</varintSupported>
 		<time>
 			<format unit="second">00011111</format>
 			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
