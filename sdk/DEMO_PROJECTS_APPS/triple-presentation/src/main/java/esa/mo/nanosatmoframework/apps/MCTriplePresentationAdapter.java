@@ -22,10 +22,12 @@ package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,6 +35,8 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -42,7 +46,11 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.Pair;
+import org.ccsds.moims.mo.mal.structures.PairList;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
@@ -54,14 +62,20 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
+import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
+import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.ArgumentValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.ConditionalReference;
 import org.ccsds.moims.mo.mc.structures.ConditionalReferenceList;
+import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 import org.ccsds.moims.mo.mc.structures.Severity;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionList;
@@ -79,7 +93,6 @@ import org.ccsds.moims.mo.platform.magnetometer.structures.MagneticFieldInstance
 import org.ccsds.moims.mo.platform.structures.Quaternions;
 import org.ccsds.moims.mo.platform.structures.Vector3D;
 import org.ccsds.moims.mo.platform.structures.WheelSpeed;
-
 /**
  * The adapter for the app
  */
@@ -103,7 +116,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     private static final String ACTION_SUN_POINTING_MODE = "ADCS.SunPointingMode";
     private static final String ACTION_NADIR_POINTING_MODE = "ADCS.NadirPointingMode";
     private static final String ACTION_UNSET = "ADCS.UnsetAttitude";
-    private static final String ACTION5STAGES = "5StagesAction";
+    private static final String ACTION_5_STAGES = "5StagesAction";
 
     private boolean adcsDefsAdded = false;
     private Long sunPointingObjId = null;
@@ -112,7 +125,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
     public void setNMF(NanoSatMOFrameworkInterface nanosatmoframework) {
         this.nmf = nanosatmoframework;
-        
+
         this.timer = new Timer();
 
         this.timer.scheduleAtFixedRate(new TimerTask() {
@@ -137,6 +150,47 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
+        // ======================================================================= 
+
+        PairList mappings = new PairList();
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.BDOT.getOrdinal()),           new Union("BDOT") ));
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.SUNPOINTING.getOrdinal()),    new Union("SUNPOINTING_INDEX") ));
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.SINGLESPINNING.getOrdinal()), new Union("SINGLESPINNING") ));
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.TARGETTRACKING.getOrdinal()), new Union("TARGETTRACKING") ));
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.NADIRPOINTING.getOrdinal()),  new Union("NADIRPOINTING") ));
+
+        DiscreteConversionDetails conversion = new DiscreteConversionDetails(mappings);
+
+        DiscreteConversionDetailsList conversions = new DiscreteConversionDetailsList();
+        conversions.add(conversion);
+
+        ParameterConversion paramConversion = null;
+
+        try
+        {
+            ObjectIdList objIds = registration.registerConversions(conversions);
+
+            if (objIds.size() == 1)
+            {
+                ObjectId objId = objIds.get(0);
+
+                ParameterExpression paramExpr = null;
+                ConditionalReference condition = new ConditionalReference(paramExpr, objId);
+
+                ConditionalReferenceList conversionConditions = new ConditionalReferenceList();
+                conversionConditions.add(condition);
+
+                Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
+                String convertedUnit = "n/a";
+
+                paramConversion = new ParameterConversion(convertedType, convertedUnit, conversionConditions);
+            }
+        }
+        catch (Throwable ex)
+        {
+            // ooops, ignore the parameter conversion
+        }
+
         // ------------------ Parameters ------------------
         ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
         ParameterDefinitionDetailsList defsGPS = new ParameterDefinitionDetailsList();
@@ -144,13 +198,13 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         defsOther.add(new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_ADCS_MODE),
-                "The ADCS mode operation",
-                Union.STRING_SHORT_FORM.byteValue(),
+                "The ADCS mode of operation",
+                Union.UOCTET_SHORT_FORM.byteValue(),
                 "",
                 false,
                 new Duration(0),
                 null,
-                null
+                paramConversion
         ));
 
         defsOther.add(new ParameterDefinitionDetails(
@@ -342,7 +396,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         );
 
         ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails(
-                new Identifier(ACTION5STAGES),
+                new Identifier(ACTION_5_STAGES),
                 "Example of an Action with 5 stages.",
                 Severity.INFORMATIONAL,
                 new UShort(0),
@@ -519,11 +573,13 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 }
             }
 
-            try {
-                nmf.pushParameterValue(PARAMETER_ADCS_MODE, (AttitudeMode.BDOT).toString());
-            } catch (IOException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            //try {
+                //UOctet attMode = new UOctet((short) AttitudeMode.BDOT.getOrdinal());
+                pushAdcsModeParam(AttitudeMode.BDOT);
+                //nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode);
+            //} catch (IOException ex) {
+                //Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            //}
             
             try {
                 System.out.println(ACTION_UNSET + " was called");
@@ -537,7 +593,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             }
         }
 
-        if (ACTION5STAGES.equals(name.getValue())) {
+        if (ACTION_5_STAGES.equals(name.getValue())) {
             try {
                 fiveStepsAction(actionInstanceObjId, 5);
             } catch (IOException ex) {
@@ -615,7 +671,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
                     AttitudeInstance attitudeInstance = (AttitudeInstance) attitudeInstanceList.get(i);
                     Long mode = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
-                    AttitudeMode attMode = AttitudeMode.fromNumericValue(new UInteger(mode));
+                    UOctet attMode = new UOctet(mode.byteValue());
 
                     // Sun Pointing
                     if (attitudeInstance instanceof AttitudeInstanceSunPointing) {
@@ -623,7 +679,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
 
                         try {
-                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode.toString());
+                            pushAdcsModeParam(AttitudeMode.fromOrdinal(mode.intValue()));
+                            //nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode);
                             if (sunVector != null) {
                                 nmf.pushParameterValue("sunVector3D_X", sunVector.getX());
                                 nmf.pushParameterValue("sunVector3D_Y", sunVector.getY());
@@ -639,10 +696,11 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     if (attitudeInstance instanceof AttitudeInstanceNadirPointing) {
                         Vector3D positionVector = ((AttitudeInstanceNadirPointing) attitudeInstance).getPositionVector();
                         Quaternions quaternions = ((AttitudeInstanceNadirPointing) attitudeInstance).getCurrentQuaternions();
-                        attMode = AttitudeMode.NADIRPOINTING;
+                        //attMode = new UOctet((short) AttitudeMode.NADIRPOINTING.getOrdinal());
 
                         try {
-                            nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode.toString());
+                            pushAdcsModeParam(AttitudeMode.NADIRPOINTING);
+                            //nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode);
                             nmf.pushParameterValue("positionVector3D_X", positionVector.getX());
                             nmf.pushParameterValue("positionVector3D_Y", positionVector.getY());
                             nmf.pushParameterValue("positionVector3D_Z", positionVector.getZ());
@@ -660,6 +718,25 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 }
             }
         }
+    }
+
+    // push a sample of the ADCS Mode using the Parameter Service
+    private void pushAdcsModeParam(AttitudeMode attMode) {
+        Identifier name = new Identifier(PARAMETER_ADCS_MODE);
+        ObjectId source = null;
+        Boolean isValid = true;
+        UOctet invalidSubState = new UOctet((short) 0);
+        Attribute rawValue = new UOctet((short) attMode.getOrdinal());
+        Attribute convertedValue = new Identifier(attMode.toString());
+
+        ParameterValue pValue = new ParameterValue(isValid, invalidSubState, rawValue, convertedValue);
+
+        System.out.println("pValue = " + pValue.toString());
+
+        final ArrayList<ParameterInstance> instances = new ArrayList<ParameterInstance>();
+        instances.add(new ParameterInstance(name, pValue, null, new Time(System.currentTimeMillis())));
+
+        nmf.getMCServices().getParameterService().pushMultipleParameterValues(instances);
     }
 
     public void fiveStepsAction(Long actionId, int total_n_of_stages) throws IOException {
