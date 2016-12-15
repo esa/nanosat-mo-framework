@@ -27,7 +27,7 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Ground MO Proxy</name>
+    <name>Ground MO Proxy: Generic</name>
     <description>Ground MO Proxy for the NanoSat MO Framework</description>
     <url>http://www.esa.int</url>
   
