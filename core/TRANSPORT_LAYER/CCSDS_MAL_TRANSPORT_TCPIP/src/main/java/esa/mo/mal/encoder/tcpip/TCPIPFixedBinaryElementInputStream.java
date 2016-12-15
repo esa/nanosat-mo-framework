@@ -1,3 +1,23 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2014      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : CCSDS MO TCP/IP Transport Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under the European Space Agency Public License, Version 2.0
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
 package esa.mo.mal.encoder.tcpip;
 
 import java.util.logging.Level;
@@ -11,10 +31,8 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 import esa.mo.mal.encoder.binary.BinaryElementInputStream;
-import esa.mo.mal.encoder.gen.GENDecoder;
 import esa.mo.mal.transport.tcpip.TCPIPMessageHeader;
 import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
-
 
 /**
  * Manage the decoding of an incoming TCPIP Message. Separate decoders are used for 
@@ -48,12 +66,7 @@ public class TCPIPFixedBinaryElementInputStream extends BinaryElementInputStream
 			// header is decoded using custom tcpip decoder
 			return decodeHeader(element);
 		} else {
-			// body is decoded using split binary decoder
-			// Synchronize buffer reading offset as two decoders are used in parallel
-//			int headerDecodingOffset = ((TCPIPHeaderDecoder)dec).getBufferOffset();
-//			((TCPIPSplitBinaryDecoder)dec).setBufferOffset(headerDecodingOffset);
-
-			
+			// body is not decoded
 			return null;
 		}
 	}

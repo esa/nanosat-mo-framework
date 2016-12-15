@@ -44,15 +44,17 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
  */
 public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.util.GENMessagePoller.GENMessageReceiver<TCPIPPacketInfoHolder>, GENMessageSender {
 
-	protected final Socket socket;
+        private boolean closed = false;
+        private final static int HEADER_SIZE = 23;
+        protected final Socket socket;
 	protected final DataOutputStream socketWriteIf;
 	protected final DataInputStream socketReadIf;
-        private final String remoteHost;
-        private final int remotePort;
-        private final String localHost;
         private final URI from;
         private final URI to;
-	
+        
+//        private final Object MUTEX = new Object();
+//        private final Object MUTEX2 = new Object();
+
 	/**
 	 * Constructor.
 	 *
@@ -61,14 +63,15 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 	 * @throws IOException if there is an error.
 	 */
 	public TCPIPTransportDataTransceiver(Socket socket, int localPort) throws IOException {
+		RLOGGER.log(Level.FINE, "Creating new Data Transceiver");
 		this.socket = socket;
 		socketWriteIf = new DataOutputStream(socket.getOutputStream());
 		socketReadIf = new DataInputStream(socket.getInputStream());
                 
 		// get information
-		this.remoteHost = socket.getInetAddress().getHostAddress();
-		this.remotePort = socket.getPort();
-		this.localHost = socket.getLocalAddress().getHostAddress();
+		String remoteHost = socket.getInetAddress().getHostAddress();
+		int remotePort = socket.getPort();
+		String localHost = socket.getLocalAddress().getHostAddress();
 		this.from = new URI("maltcp://" + remoteHost + ":" + remotePort);
 		this.to = new URI("maltcp://" + localHost + ":" + localPort); // We need to use this localPort in order to fool the MAL
 	}
@@ -93,8 +96,14 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 		sb.append("\n---------------------------------------");
 		RLOGGER.log(Level.FINEST, sb.toString());
 */		
-		socketWriteIf.write((byte[])packetData.getEncodedMessage());
-		socketWriteIf.flush();
+
+//            synchronized(MUTEX2){
+                if(!closed){
+                    socketWriteIf.write((byte[])packetData.getEncodedMessage());
+    //                RLOGGER.log(Level.INFO, "The header is: " + Arrays.toString((byte[])packetData.getEncodedMessage()));
+        		socketWriteIf.flush();
+                }
+//            }
 	}
 
 	/**
@@ -117,42 +126,39 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 	@Override
 	public TCPIPPacketInfoHolder readEncodedMessage() throws IOException {
 		
-		// figure out length according to mal message mapping to determine byte arr length, then read the rest.		
-		final int headerSize = 23;
-		byte[] rawHeader = new byte[headerSize];
-		
-		try{
-			int bytesRead = socketReadIf.read(rawHeader, 0, headerSize);
-			if (bytesRead < 1) {
-				return null;
-			}
-		} catch (NullPointerException headerReadNullPointer) {
-			RLOGGER.warning("NullpointerException occured while reading header! " + headerReadNullPointer.getMessage());
-		} catch (IndexOutOfBoundsException headerReadOutOfBounds) {
-			RLOGGER.warning("IndexOutOfBoundsException occured while reading header! " + headerReadOutOfBounds.getMessage());			
-		} catch (SocketException socketExc) {
-//			TCPIPTransport.RLOGGER.warning("SocketException occured while reading header! " + socketExc.getMessage());			
-			return null;
-		}
-		
-		byte[] bodyLengthParam = Arrays.copyOfRange(rawHeader, 19, 23);
-		int bodyLength = byteArrayToInt(bodyLengthParam);
-		
-		// read body
-	    byte[] bodyData = new byte[bodyLength];
-	    try {
-	    	socketReadIf.readFully(bodyData);
-	    } catch (EOFException bodyReadEof) {
-	    	RLOGGER.warning("EOF reached for input stream! " + bodyReadEof.getMessage());
-	    } catch (IOException bodyReadIo) {
-	    	RLOGGER.warning("Socket connection closed while reading!");
-	    }
-	
-		// merge header and body
-	    byte[] totalPacketData = new byte[headerSize + bodyLength];
-	    System.arraycopy(rawHeader, 0, totalPacketData, 0, headerSize);
-	    System.arraycopy(bodyData, 0, totalPacketData, headerSize, bodyLength);
-	    
+                    // figure out length according to mal message mapping to determine byte arr length, then read the rest.		
+                    byte[] rawHeader = new byte[HEADER_SIZE];
+
+                    try{
+                            this.readUntilComplete(rawHeader, 0, HEADER_SIZE);
+                    } catch (NullPointerException headerReadNullPointer) {
+                            RLOGGER.warning("NullpointerException occured while reading header! " + headerReadNullPointer.getMessage());
+                    } catch (IndexOutOfBoundsException headerReadOutOfBounds) {
+                            RLOGGER.warning("IndexOutOfBoundsException occured while reading header! " + headerReadOutOfBounds.getMessage());			
+                    } catch (SocketException socketExc) {
+                            throw new IOException("SocketException occured while reading header! " + socketExc.getMessage() 
+                                    + " - It usually happens when the TCP server is terminated.");
+                    }
+
+                    // Get the lenght of the body directly at the byte level
+                    final int bodyLength = byteArrayToInt(Arrays.copyOfRange(rawHeader, 19, 23));
+
+                    // Allocate memory for header and body
+                    byte[] totalPacketData = new byte[HEADER_SIZE + bodyLength];
+                    System.arraycopy(rawHeader, 0, totalPacketData, 0, HEADER_SIZE);
+                    rawHeader = null; // Free
+
+                    try {
+                        // read body and copy the body part
+                        this.readUntilComplete(totalPacketData, HEADER_SIZE, bodyLength);
+                    } catch (EOFException bodyReadEof) {
+                        RLOGGER.warning("EOF reached for input stream! " + bodyReadEof.getMessage());
+                        throw new IOException("EOF reached for input stream!");
+                    } catch (IOException bodyReadIo) {
+                        RLOGGER.warning("Socket connection closed while reading!");
+                    }
+                    
+    
             /* Same here!
 	    StringBuilder sb = new StringBuilder();
 	    sb.append("\nTCPIPTransportDataTransciever.readEncodedMessage()");
@@ -167,8 +173,8 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 		*/
             
 		// if this is also a provider, update the localport to equal the port of the server socket.
-		RLOGGER.log(Level.FINE, "Local addr: " + to.toString());
-		RLOGGER.log(Level.FINE, "Remote addr: " + from.toString());
+//		RLOGGER.log(Level.FINE, "Local addr: " + to.toString());
+//		RLOGGER.log(Level.FINE, "Remote addr: " + from.toString());
 		
 		return new TCPIPPacketInfoHolder(totalPacketData, from, to);
 	}
@@ -178,7 +184,8 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 	 */
 	@Override
 	public void close() {
-		
+                closed = true;
+                
 		RLOGGER.log(Level.FINE, "Closing client connection at port {0}", socket.getLocalPort());
 		
 		try {
@@ -201,4 +208,18 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 		return b[3] & 0xFF | (b[2] & 0xFF) << 8 | (b[1] & 0xFF) << 16
 				| (b[0] & 0xFF) << 24;
 	}
+        
+        private int readUntilComplete(final byte[] b, final int off, final int completeLength) throws IOException {
+            int n;
+            int len = 0;
+            do {
+                n = socketReadIf.read(b, off + len, completeLength - len);
+                if (n != -1) {
+                    len += n;
+                }else{
+                    throw new IOException();
+                }
+            } while (len < completeLength);
+            return len;
+        }
 }

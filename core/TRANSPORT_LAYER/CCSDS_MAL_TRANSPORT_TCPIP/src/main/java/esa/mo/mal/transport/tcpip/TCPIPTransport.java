@@ -20,7 +20,9 @@
  */
 package esa.mo.mal.transport.tcpip;
 
+import esa.mo.mal.encoder.tcpip.TCPIPFixedBinaryStreamFactory;
 import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
+import esa.mo.mal.encoder.tcpip.TCPIPMessageDecoderFactory;
 import esa.mo.mal.transport.gen.GENEndpoint;
 import esa.mo.mal.transport.gen.GENMessage;
 import esa.mo.mal.transport.gen.GENMessageHeader;
@@ -38,23 +40,19 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.broker.MALBrokerBinding;
-import org.ccsds.moims.mo.mal.encoding.MALElementStreamFactory;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.InteractionType;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
@@ -293,10 +291,8 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 		super.init();
 		RLOGGER.fine("TCPIPTransport.init()");
 
+		// Is it a server?
 		if (serverHost != null) {
-			// this is also a server (i.e. provides some services)
-			RLOGGER.log(Level.INFO, "Starting TCPIP Server Transport on port {0}", serverPort);
-
 			// start server socket on predefined port / interface
                         try {
                                 // create thread that will listen for connections
@@ -404,7 +400,6 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 			final String destinationRootURI, final String destinationURI,
 			final Object multiSendHandle, final boolean lastForHandle,
 			final String targetURI, final GENMessage msg) throws Exception {
-
 		try {
 			// try to encode the TCPIP Message
 			final ByteArrayOutputStream lowLevelOutputStream = new ByteArrayOutputStream();
@@ -449,7 +444,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 		if (serverHost == null) {
 			addr = clientHost + PORT_DELIMITER + clientPort;
 		} else {
-			// this a server (and potentially a client)			
+			// this a server (and potentially a client)
 			addr = serverHost + PORT_DELIMITER + serverPort;
 		}
 
@@ -472,11 +467,9 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	 * 
 	 * The raw message data is split up in a packet, describing the header, and a packet for the body.
 	 * These are each decoded separately; the header is decoded using an implementation that follows the
-	 * MAL TCPIP Transport Binding specification. The body is decoded using a split binary decoder.
+	 * MAL TCPIP Transport Binding specification. The body is decoded using whatever we have selected.
 	 */
 	public GENMessage createMessage(final TCPIPPacketInfoHolder packetInfo) throws MALException {
-		RLOGGER.finest("TCPIPTransport.createMessage() for decoding");
-
                 String serviceDelimStr = Character.toString(serviceDelim);
 		String from = packetInfo.getUriFrom().getValue();
 		if (!from.endsWith(serviceDelimStr)) {
@@ -492,7 +485,9 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 		
 		// msg with decoded header and empty body
 		byte[] packetData = packetInfo.getPacketData();
-		TCPIPMessage msg = new TCPIPMessage(wrapBodyParts, header, qosProperties, packetData, getStreamFactory());
+
+                // Header must be always Fixed Binary
+		TCPIPMessage msg = new TCPIPMessage(wrapBodyParts, header, qosProperties, packetData, new TCPIPFixedBinaryStreamFactory());
 		
 		int decodedHeaderBytes = ((TCPIPMessageHeader)msg.getHeader()).decodedHeaderBytes;
 		int bodySize = ((TCPIPMessageHeader)msg.getHeader()).getBodyLength() + 23 - decodedHeaderBytes;
@@ -522,16 +517,11 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 		RLOGGER.log(Level.FINEST, sb.toString());
 		*/
                 
-
-                
-                MALElementStreamFactory bodyStreamFactory = getStreamFactory();
-
 		// decode the body
 		TCPIPMessage messageWithBody = new TCPIPMessage(wrapBodyParts, (TCPIPMessageHeader)msg.getHeader(), qosProperties,
-				bodyPacketData, bodyStreamFactory);
-		
-		RLOGGER.log(Level.FINEST,"DECODED BODY: " + messageWithBody.bodytoString());
-		RLOGGER.log(Level.FINEST,"\n");
+				bodyPacketData, getStreamFactory());
+                
+                bodyPacketData = null; // Free
 		
 		return messageWithBody;
 	}
@@ -551,20 +541,17 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	protected GENMessageSender<byte[]> createMessageSender(GENMessage msg,
 			String remoteRootURI) throws MALException,
 			MALTransmitErrorException {
-		RLOGGER.info("TCPIPTransport.createMessageSender()");
-		try {			
-                    
-			URI from = msg.getHeader().getURIFrom();
-			ConnectionTuple fromCt = getConnectionParts(from.toString());
-			ConnectionTuple toCt = getConnectionParts(remoteRootURI);
-
-			// create a message sender and receiver for the socket
+		RLOGGER.fine("TCPIPTransport.createMessageSender()");
+		try {
+                        // create a message sender and receiver for the socket
                         Integer localPort = socketsList.get(remoteRootURI);
                         
                         if(localPort == null){ // Assign a different client port per remote location
                             localPort = this.getRandomClientPort();
                             socketsList.put(remoteRootURI, localPort);
                         }
+                        
+			ConnectionTuple toCt = getConnectionParts(remoteRootURI);
                         
 			Socket s = TCPIPConnectionPoolManager.INSTANCE.get(localPort);
                         s.connect(new InetSocketAddress(toCt.host, toCt.port));
@@ -602,7 +589,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 			communicationError(remoteRootURI, null);
 
 			// rethrow for higher MAL leyers
-			throw new MALException("IO Exception", e);
+			throw new MALTransmitErrorException(msg.getHeader(), new MALStandardError(MALHelper.DELIVERY_FAILED_ERROR_NUMBER, null), null);
 		}
 	}
 
@@ -702,7 +689,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
          */
         private int getRandomClientPort() {
                 // By default the server ports will start on the 1024 range, So we can
-                // exclude the first 1000 range from being hit by probabilities
+                // exclude the first 1000 range from being hit by nasty randomness
                 int min = 2024;
                 int max = 65536;
                 return new Random().nextInt(max - min) + min;

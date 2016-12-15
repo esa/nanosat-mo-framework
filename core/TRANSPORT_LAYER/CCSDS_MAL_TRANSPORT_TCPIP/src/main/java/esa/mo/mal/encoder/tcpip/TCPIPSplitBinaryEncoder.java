@@ -181,7 +181,7 @@ public class TCPIPSplitBinaryEncoder extends esa.mo.mal.encoder.binary.BinaryEnc
 		RLOGGER.log(Level.FINEST, "TCPIPSplitBinaryEncoder.encodeNullableIdentifier val=" + value);
 		
 		try {
-			if (null != value && null != value.getValue()) {
+        		if (value != null && value.getValue() != null) {
 				outputStream.addNotNull();
 				encodeIdentifier(value);
 			} else {

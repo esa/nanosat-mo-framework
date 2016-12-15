@@ -1,5 +1,26 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2014      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : CCSDS MO TCP/IP Transport Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under the European Space Agency Public License, Version 2.0
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
 package esa.mo.mal.transport.tcpip;
 
+import esa.mo.mal.encoder.tcpip.TCPIPFixedBinaryStreamFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,7 +47,7 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
  *
  */
 public class TCPIPMessage extends GENMessage {
-
+    
 	public TCPIPMessage(boolean wrapBodyParts,
 			GENMessageHeader header, Map qosProperties, byte[] packet,
 			MALElementStreamFactory encFactory) throws MALException {
@@ -44,43 +65,34 @@ public class TCPIPMessage extends GENMessage {
 	 * Header and body are encoded separately, each with their own separate
 	 * stream Factory. This is done because the header needs to be encoded
 	 * according to the specifications in the TCPIP Transport Binding red book,
-	 * but the body needs to be split encoded. The current implementation of
-	 * split encoding in the MAL API provides an adequate implementation which
-	 * is compliant with the red book specifications.
+	 * but the body can be whatever.
 	 * 
-	 * @param headerStreamFactory
-	 *            the stream factory to use for header encoding
+	 * @param bodyStreamFactory
+	 *            the stream factory to use for body encoding
 	 * @param lowLevelOutputStream
 	 *            the stream onto which both the encoded head and body will be written
 	 * @throws MALException
 	 *             if encoding failed
 	 */
-	public void encodeMessage(final MALElementStreamFactory headerStreamFactory,
+        public void encodeMessage(final MALElementStreamFactory bodyStreamFactory,
 			final OutputStream lowLevelOutputStream)
 			throws MALException {
 		
-		RLOGGER.log(Level.FINEST, "TCPIPMessage.encodeMessage()");
-		RLOGGER.log(Level.FINEST, "TCPIPMessageHeader: " + this.getHeader().toString());
-		RLOGGER.log(Level.FINEST, "TCPIPMessageBody: " + this.bodytoString());
+//		RLOGGER.log(Level.FINEST, "TCPIPMessage.encodeMessage()");
+//		RLOGGER.log(Level.FINEST, "TCPIPMessageHeader: " + this.getHeader().toString());
+//		RLOGGER.log(Level.FINEST, "TCPIPMessageBody: " + this.bodytoString());
 
 		// encode header and body using TCPIPEncoder class
 		ByteArrayOutputStream hdrBaos = new ByteArrayOutputStream();
 		ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
-                
-                
-		MALElementStreamFactory newHeaderStreamFactory = new TCPIPSplitBinaryStreamFactory();
-		MALElementOutputStream newHeaderEncoder = newHeaderStreamFactory.createOutputStream(hdrBaos);
-//		MALElementStreamFactory bodyStreamFactory = new TCPIPSplitBinaryStreamFactory();
+		MALElementStreamFactory newHeaderStreamFactory = new TCPIPFixedBinaryStreamFactory();  // Header must be always Fixed Binary
+		MALElementOutputStream headerEncoder = newHeaderStreamFactory.createOutputStream(hdrBaos);
+		MALElementOutputStream bodyEncoder = bodyStreamFactory.createOutputStream(bodyBaos);
 
-		MALElementStreamFactory bodyStreamFactory = headerStreamFactory;
-
-                MALElementOutputStream bodyEncoder = bodyStreamFactory.createOutputStream(bodyBaos);
-
-//		super.encodeMessage(headerStreamFactory, headerEncoder, hdrBaos, true);
-		super.encodeMessage(newHeaderStreamFactory, newHeaderEncoder, hdrBaos, true);
+		super.encodeMessage(newHeaderStreamFactory, headerEncoder, hdrBaos, true);
 		super.encodeMessage(bodyStreamFactory, bodyEncoder, bodyBaos, false);
 		
-		int hdrSize = hdrBaos.size();
+//		int hdrSize = hdrBaos.size();
 
 		byte[] hdrBuf = hdrBaos.toByteArray();	
 		byte[] bodyBuf = bodyBaos.toByteArray();			
@@ -95,6 +107,7 @@ public class TCPIPMessage extends GENMessage {
 		
 		System.arraycopy(bodySizeBuf, 0, hdrBuf, 19, 4);
 		
+                /*
 		StringBuilder sb = new StringBuilder();		
 		sb.append("\nHeader: sz=" + hdrBuf.length + " contents=\n");
 		for (byte b2 : hdrBuf) {
@@ -105,18 +118,22 @@ public class TCPIPMessage extends GENMessage {
 			sb.append(Integer.toString(b2 & 0xFF, 10) + " ");
 		}
 		RLOGGER.log(Level.FINEST, sb.toString());
+                */
 
 		try {
 			lowLevelOutputStream.write(hdrBuf);
 			if (this.getBody() != null) { 
 				lowLevelOutputStream.write(bodyBuf);
 			}
+                        
+                        hdrBuf = null;
+                        bodyBuf = null;
 		} catch (IOException e) {
 			RLOGGER.warning("An IOException was thrown during message encoding! " + e.getMessage());
 			throw new MALException(e.getMessage());
 		}
 	}
-	
+
 	public String toString() {
 		return "TCPIPMessage {URIFrom:" 
 			+ header.getURIFrom() 
@@ -124,7 +141,12 @@ public class TCPIPMessage extends GENMessage {
 			+ "}";		
 	}
 	
-	public String bodytoString() {
+        /**
+         * Ok for debugging but don't put it nowhere near the final code. Performance!
+         * 
+         * @return
+         */
+        public String bodytoString() {
 		
 		if (this.body != null) {
 			StringBuilder output = new StringBuilder();

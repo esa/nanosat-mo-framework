@@ -1,4 +1,24 @@
-package esa.mo.mal.transport.tcpip;
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2013      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : CCSDS MO Split Binary encoder
+ * ----------------------------------------------------------------------------
+ * Licensed under the European Space Agency Public License, Version 2.0
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.mal.encoder.tcpip;
 
 import java.util.logging.Level;
 
@@ -21,7 +41,7 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
  *
  */
 public class TCPIPMessageDecoderFactory<O> implements GENIncomingMessageDecoderFactory<TCPIPPacketInfoHolder, O>{
-
+    
 	@Override
 	public GENIncomingMessageDecoder createDecoder(GENTransport transport,
 			GENReceptionHandler receptionHandler, TCPIPPacketInfoHolder packetInfo) {			
@@ -31,7 +51,7 @@ public class TCPIPMessageDecoderFactory<O> implements GENIncomingMessageDecoderF
 	public static final class TCPIPMessageDecoder implements GENIncomingMessageDecoder {
 		
 		private final TCPIPTransport transport;
-		private final TCPIPPacketInfoHolder packetInfo;
+		private TCPIPPacketInfoHolder packetInfo;
 		
 		public TCPIPMessageDecoder(TCPIPTransport transport, TCPIPPacketInfoHolder packetInfo) {
 			this.transport = transport;
@@ -46,6 +66,8 @@ public class TCPIPMessageDecoderFactory<O> implements GENIncomingMessageDecoderF
 
 			GENTransport.PacketToString smsg = transport.new PacketToString(null);
 			GENMessage msg = transport.createMessage(packetInfo);
+                        packetInfo.setPacketData(null);
+                        packetInfo = null; // No need to keep it anymore, it would just take space and create a memory leak!
 			
 			if (msg != null) {
 				return new GENIncomingMessageHolder(msg.getHeader().getTransactionId(), msg, smsg);

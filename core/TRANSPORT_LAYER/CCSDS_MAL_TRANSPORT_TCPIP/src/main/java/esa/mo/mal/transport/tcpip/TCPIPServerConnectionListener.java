@@ -20,6 +20,7 @@
  */
 package esa.mo.mal.transport.tcpip;
 
+import esa.mo.mal.encoder.tcpip.TCPIPMessageDecoderFactory;
 import esa.mo.mal.transport.gen.util.GENMessagePoller;
 
 import java.io.IOException;
@@ -39,8 +40,7 @@ import java.util.List;
  * created socket to a dedicated manager thread.
  *
  */
-public class TCPIPServerConnectionListener extends Thread
-{
+public class TCPIPServerConnectionListener extends Thread {
 	private final TCPIPTransport transport;
 	private final ServerSocket serverSocket;
 
@@ -57,8 +57,7 @@ public class TCPIPServerConnectionListener extends Thread
 	 * @param serverSocket
 	 *            The server TCPIP socket.
 	 */
-	public TCPIPServerConnectionListener(TCPIPTransport transport, ServerSocket serverSocket) 
-        {
+	public TCPIPServerConnectionListener(TCPIPTransport transport, ServerSocket serverSocket) {
 		this.transport = transport;
 		this.serverSocket = serverSocket;
 		setName(getClass().getName() + " - Main Server Socket Thread");
@@ -70,22 +69,16 @@ public class TCPIPServerConnectionListener extends Thread
 	 * messages to and from the socket respectively.
 	 */
 	@Override
-	public void run() 
-        {
-		try 
-                {
+	public void run() {
+		try {
 			serverSocket.setSoTimeout(1000);
-		} 
-                catch (IOException e) 
-                {
+		} catch (IOException e) {
 			RLOGGER.log(Level.WARNING, "Error while setting connection timeout", e);
 		}
 
 		// setup socket and then listen for connections forever
-		while (!interrupted()) 
-                {
-			try 
-                        {
+		while (!interrupted()) {
+			try {
 				// wait for connection
 				Socket socket = serverSocket.accept();
 				
@@ -98,21 +91,15 @@ public class TCPIPServerConnectionListener extends Thread
 						transport, tc, tc, new TCPIPMessageDecoderFactory());
 				pollerThreads.add(poller);
 				poller.start();
-			} 
-                        catch (java.net.SocketTimeoutException ex) 
-                        {
+			} catch (java.net.SocketTimeoutException ex) {
 				// No socket accepted within timeout. Try again until we accept a socket.
-			} 
-                        catch (IOException e) 
-                        {
+			} catch (IOException e) {
 				RLOGGER.log(Level.WARNING, "Error while accepting connection", e);
 			}
 		}
 
-		for (Thread pollerThread : pollerThreads)
-                {
-			synchronized (pollerThread)
-                        {
+		for (Thread pollerThread : pollerThreads) {
+			synchronized (pollerThread) {
 				pollerThread.interrupt();
 			}
 		}
@@ -123,16 +110,15 @@ public class TCPIPServerConnectionListener extends Thread
 	/**
 	 * Close the server socket for this connection listener.
 	 */
-	public void close() 
-        {
+	public void close() {
+
 		RLOGGER.info("Closing server socket...");
-		try 
-                {
+
+		try {
 			serverSocket.close();
-		} 
-                catch (IOException e) 
-                {
+		} catch (IOException e) {
 			RLOGGER.log(Level.WARNING, "Error while closing server socket", e);
 		}
+		
 	}
 }
