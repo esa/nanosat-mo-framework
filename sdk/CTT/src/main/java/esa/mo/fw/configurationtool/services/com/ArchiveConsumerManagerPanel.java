@@ -46,6 +46,7 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -270,7 +271,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
              */
 
             this.refreshTabCounter();
-
+            
             tabs.addTab("", archiveTablePanel);
 
             tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
@@ -281,7 +282,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         private void refreshTabCounter() {
             JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter + ")");
             JLabel closeLabel = new JLabel("x");
-            closeLabel.addMouseListener(new CloseMouseHandler(pnlTab));
+            closeLabel.addMouseListener(new CloseMouseHandler(this));
             closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
 
             GridBagConstraints gbc = new GridBagConstraints();
@@ -307,7 +308,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             pnlTab.repaint();  // not working
             tabs.revalidate();
             tabs.repaint();    // not working
-            
+        }
+        
+        public synchronized void finalizeAdapter() {
+            try {
+                this.finalize();
+            } catch (Throwable ex) {
+                Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         public synchronized int getSelectedIndex() {
@@ -396,23 +404,36 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         }
 
+        private JPanel getPanel() {
+            return pnlTab;
+        }
+
     }
 
     public class CloseMouseHandler implements MouseListener {
 
-        private final javax.swing.JPanel panel;
+        private ArchiveConsumerAdapter adapter;
 
-        CloseMouseHandler(javax.swing.JPanel panel) {
-            this.panel = panel;
+        CloseMouseHandler(ArchiveConsumerAdapter adapter) {
+            this.adapter = adapter;
         }
 
         @Override
         public void mouseClicked(MouseEvent evt) {
             for (int i = 0; i < tabs.getTabCount(); i++) {
                 Component component = tabs.getTabComponentAt(i);
+                JPanel panel = adapter.getPanel();
 
                 if (component == panel) {
                     tabs.remove(i);
+                    adapter.finalizeAdapter();
+//                    panel = null; // Free up the memory
+                    
+                    try {
+                        super.finalize();
+                    } catch (Throwable ex) {
+                        Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return;
                 }
             }

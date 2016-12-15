@@ -93,6 +93,7 @@ import org.ccsds.moims.mo.platform.magnetometer.structures.MagneticFieldInstance
 import org.ccsds.moims.mo.platform.structures.Quaternions;
 import org.ccsds.moims.mo.platform.structures.Vector3D;
 import org.ccsds.moims.mo.platform.structures.WheelSpeed;
+
 /**
  * The adapter for the app
  */
@@ -125,7 +126,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
     public void setNMF(NanoSatMOFrameworkInterface nanosatmoframework) {
         this.nmf = nanosatmoframework;
-
+        
         this.timer = new Timer();
 
         this.timer.scheduleAtFixedRate(new TimerTask() {
@@ -573,14 +574,16 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 }
             }
 
+            // if PUSH_USING_PARAMETER_SERVICE
+            pushAdcsModeParam(AttitudeMode.BDOT);
+            // else
             //try {
-                //UOctet attMode = new UOctet((short) AttitudeMode.BDOT.getOrdinal());
-                pushAdcsModeParam(AttitudeMode.BDOT);
-                //nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode);
+                //nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) AttitudeMode.BDOT.getOrdinal()));
             //} catch (IOException ex) {
                 //Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             //}
-            
+            // endif
+
             try {
                 System.out.println(ACTION_UNSET + " was called");
                 nmf.getPlatformServices().getAutonomousADCSService().unsetAttitude();
@@ -671,7 +674,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
                     AttitudeInstance attitudeInstance = (AttitudeInstance) attitudeInstanceList.get(i);
                     Long mode = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
-                    UOctet attMode = new UOctet(mode.byteValue());
+                    AttitudeMode attMode = AttitudeMode.fromNumericValue(new UInteger(mode));
 
                     // Sun Pointing
                     if (attitudeInstance instanceof AttitudeInstanceSunPointing) {
@@ -679,8 +682,11 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
 
                         try {
-                            pushAdcsModeParam(AttitudeMode.fromOrdinal(mode.intValue()));
-                            //nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode);
+                            // if PUSH_USING_PARAMETER_SERVICE
+                            pushAdcsModeParam(attMode);
+                            // else
+                            //     nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode);
+                            // endif
                             if (sunVector != null) {
                                 nmf.pushParameterValue("sunVector3D_X", sunVector.getX());
                                 nmf.pushParameterValue("sunVector3D_Y", sunVector.getY());
@@ -696,11 +702,14 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     if (attitudeInstance instanceof AttitudeInstanceNadirPointing) {
                         Vector3D positionVector = ((AttitudeInstanceNadirPointing) attitudeInstance).getPositionVector();
                         Quaternions quaternions = ((AttitudeInstanceNadirPointing) attitudeInstance).getCurrentQuaternions();
-                        //attMode = new UOctet((short) AttitudeMode.NADIRPOINTING.getOrdinal());
+                        attMode = AttitudeMode.NADIRPOINTING;
 
                         try {
-                            pushAdcsModeParam(AttitudeMode.NADIRPOINTING);
-                            //nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode);
+                            // if PUSH_USING_PARAMETER_SERVICE
+                            pushAdcsModeParam(attMode);
+                            // else
+                            //     nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) attMode.getOrdinal()));
+                            // endif
                             nmf.pushParameterValue("positionVector3D_X", positionVector.getX());
                             nmf.pushParameterValue("positionVector3D_Y", positionVector.getY());
                             nmf.pushParameterValue("positionVector3D_Z", positionVector.getZ());
@@ -730,8 +739,6 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         Attribute convertedValue = new Identifier(attMode.toString());
 
         ParameterValue pValue = new ParameterValue(isValid, invalidSubState, rawValue, convertedValue);
-
-        System.out.println("pValue = " + pValue.toString());
 
         final ArrayList<ParameterInstance> instances = new ArrayList<ParameterInstance>();
         instances.add(new ParameterInstance(name, pValue, null, new Time(System.currentTimeMillis())));
