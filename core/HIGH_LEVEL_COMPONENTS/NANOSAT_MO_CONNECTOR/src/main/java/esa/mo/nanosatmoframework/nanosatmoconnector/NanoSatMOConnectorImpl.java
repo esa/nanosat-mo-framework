@@ -60,7 +60,10 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
@@ -131,8 +134,9 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 // Register with the subscription key provided
                 serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
 
-                // Lookup for the services on the NanoSat MO Supervisor
-                ServiceFilter sf2 = new ServiceFilter(new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME), domain, new Identifier("*"), null, new Identifier("*"), null, new UIntegerList());
+                // Lookup for the Platform services on the NanoSat MO Supervisor
+                ServiceKey sk = new ServiceKey(PlatformHelper.PLATFORM_AREA_NUMBER, new UShort(0), new UOctet((short) 0));
+                ServiceFilter sf2 = new ServiceFilter(new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME), domain, new Identifier("*"), null, new Identifier("*"), sk, new UIntegerList());
                 ProviderSummaryList supervisorConnections = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf2);
 
                 if (supervisorConnections.size() == 1) { // Good!

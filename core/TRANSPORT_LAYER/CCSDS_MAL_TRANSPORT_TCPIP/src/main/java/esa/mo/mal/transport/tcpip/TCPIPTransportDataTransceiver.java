@@ -35,6 +35,8 @@ import java.util.logging.Level;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
+import org.ccsds.moims.mo.mal.MALHelper;
+import org.ccsds.moims.mo.mal.MALStandardError;
 
 /**
  * This class implements the low level data (MAL Message) transport protocol. The messages are encoded according to the
@@ -217,7 +219,7 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
                 if (n != -1) {
                     len += n;
                 }else{
-                    throw new IOException();
+                    throw new IOException("The socket read -1 from the input stream.");
                 }
             } while (len < completeLength);
             return len;
