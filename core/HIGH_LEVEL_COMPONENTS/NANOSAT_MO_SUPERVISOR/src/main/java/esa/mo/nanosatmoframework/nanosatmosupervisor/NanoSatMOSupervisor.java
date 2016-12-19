@@ -24,14 +24,13 @@ import esa.mo.nanosatmoframework.nanosatmomonolithic.NanoSatMOMonolithic;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.CloseAppListener;
 import esa.mo.nanosatmoframework.MCRegistration;
 import static esa.mo.nanosatmoframework.NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
+import esa.mo.sm.impl.util.PackageManagementBackendInterface;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -65,10 +64,12 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
      *
      * @param mcAdapter The adapter to connect the actions and parameters to the
      * corresponding methods and variables of a specific entity.
-     * @param platformServices
+     * @param platformServices The Platform services consumer stubs
+     * @param packageManagementBackend
      */
     public NanoSatMOSupervisor(MonitorAndControlNMFAdapter mcAdapter,
-            PlatformServicesConsumer platformServices) {
+            PlatformServicesConsumer platformServices,
+            PackageManagementBackendInterface packageManagementBackend) {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         HelperMisc.setInputProcessorsProperty();
@@ -77,12 +78,15 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
         try {
             this.comServices.init();
-            heartbeatService.init();
+            this.heartbeatService.init();
+            
+            // Change transport to start on both RMI and SPP
+            
+            this.directoryService.init(comServices);
+            this.applicationsManagerService.init(comServices, directoryService);
+            this.packageManagementService.init(comServices, packageManagementBackend);
             this.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
-            this.directoryService.init(comServices);
-            packageManagementService.init(comServices);
-            applicationsManagerService.init(comServices, directoryService);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
@@ -97,10 +101,15 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
             // Are the dynamic changes enabled?
             if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
-                this.loadConfigurations();
+                
+                try {
+                    this.loadConfigurations();
+                } catch (IOException ex) {
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), 
+            final MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), 
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
@@ -116,10 +125,8 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
     }
 
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI) {
-
-        // Reset the file
         BufferedWriter wrt = null;
-        try {
+        try { // Reset the file
             wrt = new BufferedWriter(new FileWriter(FILENAME_CENTRAL_DIRECTORY_SERVICE, false));
             wrt.write(centralDirectoryURI);
         } catch (IOException ex) {
@@ -132,7 +139,6 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
                 }
             }
         }
-
     }
 
 }

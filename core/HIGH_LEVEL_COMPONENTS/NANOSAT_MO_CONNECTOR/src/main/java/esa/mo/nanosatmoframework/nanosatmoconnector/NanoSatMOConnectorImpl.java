@@ -147,6 +147,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     COMServicesConsumer comServicesConsumer = new COMServicesConsumer();
                     comServicesConsumer.init(supervisorCD);
                     platformServices.init(supervisorCD, comServicesConsumer);
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Successfully connected to: " + supervisorCD.getConsumerURI());
                 } else {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "The Connector was expecting a single NanoSat MO Supervisor provider! Instead it found " + supervisorConnections.size() + ".");
                 }
