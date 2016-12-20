@@ -54,6 +54,21 @@ public class HelperMisc {
     public static final String SHARED_BROKER_PROPERTIES = "sharedBroker.properties";
     public static final String SHARED_BROKER_URI = "sharedBrokerURI.properties";
     public static final String PROVIDER_URIS_PROPERTIES_FILENAME = "providerURIs.properties";
+    public static final String PROPERTY_SHARED_BROKER_URI = "esa.mo.helpertools.connections.SharedBrokerURI";
+
+    public final static String PROPERTY_DOMAIN = "helpertools.configurations.provider.Domain";
+    public final static String ORGANIZATION_NAME = "helpertools.configurations.provider.OrganizationName";
+    public final static String MISSION_NAME = "helpertools.configurations.provider.MissionName";
+    public final static String MO_APP_NAME = "helpertools.configurations.provider.MOappName";
+
+    public final static String NMF_APP_VERSION = "helpertools.configurations.provider.NMFAppVersion";
+    public final static String NMF_APP_DESCRIPTION = "helpertools.configurations.provider.NMFAppDescription";
+    public final static String NMF_PACKAGE_NAME = "helpertools.configurations.provider.NMFPackageName";
+    public final static String NMF_PACKAGE_ID = "helpertools.configurations.provider.NMFPackageId";
+
+    public final static String NETWORK_ZONE = "helpertools.configurations.provider.NetworkZone";
+    public final static String DEVICE_NAME = "helpertools.configurations.provider.DeviceName";
+
     private static final String PROP_TRANSPORT_ID = "helpertools.configurations.provider.transportfilepath";
     private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";
 
@@ -88,7 +103,7 @@ public class HelperMisc {
      * Loads the properties for the consumer
      *
      * @throws java.net.MalformedURLException
-     * @throws java.net.IOException The file consumer properties file does no exist
+     * @throws IOException The file consumer properties file does no exist
      */
     public static void loadConsumerProperties() throws MalformedURLException, IOException {
 

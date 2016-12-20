@@ -49,7 +49,6 @@ public class ConnectionProvider {
     private MALContextFactory malFactory;
     private MALContext mal;
     private MALProviderManager providerMgr;
-    private static final String PROPERTY_SHARED_BROKER_URI = "esa.mo.helpertools.connections.SharedBrokerURI";
     private final SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
 
     public SingleConnectionDetails getConnectionDetails() {
@@ -96,11 +95,11 @@ public class ConnectionProvider {
 
         URI sharedBrokerURI = null;
 
-        if ((null != System.getProperty(PROPERTY_SHARED_BROKER_URI))) {
-            sharedBrokerURI = new URI(System.getProperty(PROPERTY_SHARED_BROKER_URI));
+        if ((null != System.getProperty(HelperMisc.PROPERTY_SHARED_BROKER_URI))) {
+            sharedBrokerURI = new URI(System.getProperty(HelperMisc.PROPERTY_SHARED_BROKER_URI));
         }
 
-        final String moAppName = System.getProperty(ConfigurationProvider.MO_APP_NAME);
+        final String moAppName = System.getProperty(HelperMisc.MO_APP_NAME);
         final String uriName = (moAppName != null) ? moAppName + "-" + serviceName : serviceName;  // Create the uri string name
         
         Properties props = new Properties();
@@ -129,23 +128,17 @@ public class ConnectionProvider {
         serviceKey.add(malService.getNumber().getValue()); // Service
         serviceKey.add((int) malService.getArea().getVersion().getValue()); // Version
 
-//        Logger.getLogger(ConnectionProvider.class.getName()).log(Level.INFO,
         Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE,
                 "\n" + serviceName + " Service URI        : {0}" +
                 "\n" + serviceName + " Service broker URI : {1}" +
                 "\n" + serviceName + " Service domain     : {2}" +
                 "\n" + serviceName + " Service key        : {3}" ,
-                new Object[]{connectionDetails.getProviderURI(),
+                new Object[]{
+                    connectionDetails.getProviderURI(),
                     connectionDetails.getBrokerURI(),
                     connectionDetails.getDomain(),
-                    serviceKey});
-
-        /*        
-         Logger.getLogger(ConnectionProvider.class.getName()).log(Level.INFO, serviceName + " Service URI        : {0}", connectionDetails.getProviderURI());
-         Logger.getLogger(ConnectionProvider.class.getName()).log(Level.INFO, serviceName + " Service broker URI : {0}", connectionDetails.getBrokerURI());
-         Logger.getLogger(ConnectionProvider.class.getName()).log(Level.INFO, serviceName + " Service domain     : {0}", connectionDetails.getDomain());
-         Logger.getLogger(ConnectionProvider.class.getName()).log(Level.INFO, serviceName + " Service key        : {0}", serviceKey);
-         */
+                    serviceKey
+                });
 
         // Write the URIs on a text file
         BufferedWriter wrt = null;
@@ -195,7 +188,6 @@ public class ConnectionProvider {
      * Clears the URI links file of the provider
      */
     public static void resetURILinksFile() {
-        
         BufferedWriter wrt = null;
         try {
             wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false));
@@ -209,7 +201,6 @@ public class ConnectionProvider {
                 }
             }
         }
-        
     }
 
 }

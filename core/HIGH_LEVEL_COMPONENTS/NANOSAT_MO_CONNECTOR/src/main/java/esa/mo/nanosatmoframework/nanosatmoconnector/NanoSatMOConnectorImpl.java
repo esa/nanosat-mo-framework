@@ -99,7 +99,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
-        this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + System.getProperty(ConfigurationProvider.MO_APP_NAME);
+        this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + System.getProperty(HelperMisc.MO_APP_NAME);
 
         URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
         DirectoryConsumerServiceImpl directoryServiceConsumer = null;
@@ -216,7 +216,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
     @Override
     public void initPlatformServices(COMServicesProvider comServices) {
-
+        // It is supposed to be empty!
     }
 
     public final URI readCentralDirectoryServiceURI() {

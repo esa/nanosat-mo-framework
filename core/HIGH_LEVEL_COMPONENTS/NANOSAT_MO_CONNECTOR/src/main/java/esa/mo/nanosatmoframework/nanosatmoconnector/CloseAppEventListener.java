@@ -23,7 +23,6 @@ package esa.mo.nanosatmoframework.nanosatmoconnector;
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
-import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,23 +66,22 @@ public class CloseAppEventListener extends EventReceivedListener {
             provider.closeAppAdapter.onClose(); // Time to sleep, boy!
         }
 
-            // Unregister the provider from the Central Directory service...
-            URI centralDirectoryURI = provider.readCentralDirectoryServiceURI();
-            
-            if (centralDirectoryURI != null){
-                try {
-                    DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
-                    directoryServiceConsumer.getDirectoryStub().withdrawProvider(provider.getAppDirectoryId());
-                    directoryServiceConsumer.closeConnection();
-                } catch (MALException ex) {
-                    Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MalformedURLException ex) {
-                    Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALInteractionException ex) {
-                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "There was a problem while connectin to the Central Directory service on URI: " + centralDirectoryURI.getValue() + "\nException: " + ex);
-                }
-            }
+        // Unregister the provider from the Central Directory service...
+        URI centralDirectoryURI = provider.readCentralDirectoryServiceURI();
 
+        if (centralDirectoryURI != null) {
+            try {
+                DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+                directoryServiceConsumer.getDirectoryStub().withdrawProvider(provider.getAppDirectoryId());
+                directoryServiceConsumer.closeConnection();
+            } catch (MALException ex) {
+                Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "There was a problem while connectin to the Central Directory service on URI: " + centralDirectoryURI.getValue() + "\nException: " + ex);
+            }
+        }
 
         // Should close them safely as well...
 //        provider.getCOMServices().closeServices();

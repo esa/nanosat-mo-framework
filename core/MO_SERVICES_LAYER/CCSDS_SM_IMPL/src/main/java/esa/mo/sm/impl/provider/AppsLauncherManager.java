@@ -126,21 +126,43 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     protected Long add(AppDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+        
+        Long objId = null;
+        Long related = null;
+        
+        if(definition.getExtraInfo() != null){
+            // To do:
+            
+            // Look up for apid
+            int apid = 0;
+            
+            // Look up for the packageId
+            related = new Long(1234);
+            
+            // If so, tag as apid
+            objId = new Long(apid);
+        }
+        
         if (super.getArchiveService() == null) {
-            uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-            this.addDef(uniqueObjIdDef, definition);
-//            this.save();
-            return uniqueObjIdDef;
+            if (objId == null){
+                uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
+                objId = uniqueObjIdDef;
+            }
+            this.addDef(objId, definition);
+            return objId;
         } else {
             AppDetailsList defs = new AppDetailsList();
             defs.add(definition);
 
             try {
+                ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, connectionDetails);
+                archDetails.get(0).setInstId(objId);
+
                 LongList objIds = super.getArchiveService().store(
                         true,
                         AppsLauncherHelper.APP_OBJECT_TYPE,
                         connectionDetails.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails),
+                        archDetails,
                         defs,
                         null);
 
@@ -157,7 +179,6 @@ public class AppsLauncherManager extends DefinitionsManager {
         }
 
         return null;
-
     }
 
     protected boolean update(Long objId, AppDetails definition, SingleConnectionDetails connectionDetails, MALInteraction interaction) { // requirement: 3.3.2.5
@@ -277,13 +298,12 @@ public class AppsLauncherManager extends DefinitionsManager {
         AppDetails app = (AppDetails) this.getDef(appId); // get it from the list of available apps
         ProcessExecutionHandler handler = handlers.get(appId);
 
-        /*
         if (handler == null) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "The Process handler could not be found!");
             app.setRunning(false);
             return false;
         }
-         */
+        
         return this.get(appId).getRunning();
     }
 
@@ -297,9 +317,9 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         BufferedReader brTest = new BufferedReader(new FileReader(new File(full_path)));
         String text = brTest.readLine();
-        String splitted[] = text.split(" ");
+        String split[] = text.split(" ");
 
-        Process proc = Runtime.getRuntime().exec(splitted, null, new File(app_folder));
+        Process proc = Runtime.getRuntime().exec(split, null, new File(app_folder));
         handler.startPublishing(proc);
 
         /*
@@ -320,7 +340,6 @@ public class AppsLauncherManager extends DefinitionsManager {
         } else {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "The process is null! Something is wrong...");
         }
-
     }
 
     protected boolean killAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
@@ -515,11 +534,15 @@ public class AppsLauncherManager extends DefinitionsManager {
         // Hard-coded values for now
         final AppDetails app = new AppDetails();
         app.setName(new Identifier(app_folder.getName()));
+        
         app.setDescription("A simple description");
         app.setVersion("1.0");
-        app.setCategory(new Identifier("MyCategory"));
+        app.setExtraInfo("");
+        
+        File cat = new File(app_folder.getAbsolutePath() + ".." + File.separator); // go up one folder
+        app.setCategory(new Identifier(cat.getName()));
         app.setRunAtStartup(false);
-        app.setRunning(false);
+        app.setRunning(false); // Default values
         return app;
     }
 
