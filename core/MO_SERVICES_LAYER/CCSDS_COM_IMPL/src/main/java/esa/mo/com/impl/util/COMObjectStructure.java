@@ -56,9 +56,9 @@ public class COMObjectStructure {
         this.objects = objects;
     }
 
-    public COMObjectStructure (final ArchivePersistenceObject archiveObject){
-        this(archiveObject.getDomain(), archiveObject.getObjectType(), 
-                archiveObject.getArchiveDetails(), (ElementList) archiveObject.getObject());
+    public COMObjectStructure (final ArchivePersistenceObject archivePersistenceObject){
+        this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(), 
+                archivePersistenceObject.getArchiveDetails(), (ElementList) archivePersistenceObject.getObject());
     }
     
     public ObjectType getObjType() {

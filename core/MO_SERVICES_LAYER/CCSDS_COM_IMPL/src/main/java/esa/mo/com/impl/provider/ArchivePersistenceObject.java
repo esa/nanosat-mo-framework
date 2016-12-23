@@ -25,7 +25,6 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.Serializable;
-import javax.persistence.*;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -40,50 +39,51 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-@Entity
-@IdClass(COMObjectPK.class)
-@Table(name = "ArchivePersistenceObject", 
-       indexes = {
-                  @Index(name = "index_related",  columnList="relatedLink", unique = false),
-                  @Index(name = "index_network", columnList="network",     unique = false),  
-                  @Index(name = "index_timestampArchiveDetails",  columnList="timestampArchiveDetails", unique = false),
-                  @Index(name = "index_providerURI",  columnList="providerURI", unique = false)
-                } )
+@Deprecated
+//@Entity
+//@IdClass(COMObjectPK.class)
+//@Table(name = "ArchivePersistenceObject", 
+//       indexes = {
+//                  @Index(name = "index_related",  columnList="relatedLink", unique = false),
+//                  @Index(name = "index_network", columnList="network",     unique = false),  
+//                  @Index(name = "index_timestampArchiveDetails",  columnList="timestampArchiveDetails", unique = false),
+//                  @Index(name = "index_providerURI",  columnList="providerURI", unique = false)
+//                } )
 public class ArchivePersistenceObject implements Serializable{
 
-    @Id
-    @Column(name = "objectTypeId")
+//    @Id
+//    @Column(name = "objectTypeId")
     private Long objectTypeId;
     
-    @Id
-    @Column(name = "domainId")
+//    @Id
+//    @Column(name = "domainId")
     private String domainId;
     
-    @Id
-    @Column(name = "objId")
+//    @Id
+//    @Column(name = "objId")
     private Long objId;
 
     // ---------------------    
     
-    @Column(name = "sourceLink")
+//    @Column(name = "sourceLink")
 //    private COMObjectPK sourceLink;
     private ObjectId sourceLink;
     
-    @Column(name = "relatedLink")
+//    @Column(name = "relatedLink")
     private Long relatedLink;
 
-    @Column(name = "network")
+//    @Column(name = "network")
     private String network;
 
-    @Column(name = "timestampArchiveDetails")
+//    @Column(name = "timestampArchiveDetails")
 //    @Temporal(TemporalType.TIMESTAMP)
 //    private java.util.Date timestampArchiveDetails;
     private Long timestampArchiveDetails;
 
-    @Column(name = "nanosecondsFraction")
+//    @Column(name = "nanosecondsFraction")
     private int nanos;
             
-    @Column(name = "providerURI")
+//    @Column(name = "providerURI")
     private String providerURI;
 //    @ManyToOne
 //    @JoinColumn(name = "providerURI", referencedColumnName = "id")
@@ -95,11 +95,10 @@ public class ArchivePersistenceObject implements Serializable{
 
     private Element obj;
     
-    @Column(name = "storeTimestamp")
+//    @Column(name = "storeTimestamp")
 //    @Temporal(TemporalType.TIMESTAMP)
 //    private java.util.Date storeTimestamp;
     private Long storeTimestamp;
-    
     
     public ObjectType getObjectType(){ return HelperCOM.objectTypeId2objectType(this.objectTypeId); }
     public Long getObjectTypeId(){ return this.objectTypeId; }

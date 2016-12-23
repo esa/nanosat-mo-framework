@@ -20,20 +20,20 @@
  */
 package esa.mo.com.impl.provider;
 
-import esa.mo.com.impl.archive.db.COMObjectPK;
+import esa.mo.com.impl.archive.db.BackendInteractionsProcessor;
 import esa.mo.com.impl.archive.db.FastObjId;
 import esa.mo.com.impl.archive.db.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.com.impl.archive.db.DatabaseBackend;
+import esa.mo.com.impl.archive.db.FastNetwork;
+import esa.mo.com.impl.archive.db.FastProviderURI;
+import esa.mo.com.impl.archive.db.SourceLinkContainer;
+import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.Query;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -42,6 +42,7 @@ import org.ccsds.moims.mo.com.archive.structures.CompositeFilter;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterList;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSet;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
+import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
@@ -56,6 +57,7 @@ import org.ccsds.moims.mo.mal.structures.Composite;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Enumeration;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -68,17 +70,19 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ArchiveManager {
 
-    private final FastObjId fastObjId;
-//    private final FastDomain fastDomain;
     private final DatabaseBackend dbBackend;
-    private static final Boolean SAFE_MODE = true;
+    private final BackendInteractionsProcessor dbProcessor;
+
+    private final FastDomain fastDomain;
+    private final FastNetwork fastNetwork;
+    private final FastProviderURI fastProviderURI;
+    private final FastObjId fastObjId;
 
     private EventProviderServiceImpl eventService;
     private final ConfigurationProvider configuration = new ConfigurationProvider();
 
 //    private final LinkedBlockingQueue<ArrayList<ArchivePersistenceObject>> storeQueue;
-    private Thread storingThread;
-
+//    private Thread storingThread;
     /**
      * Initializes the Archive manager
      *
@@ -93,13 +97,16 @@ public class ArchiveManager {
         }
 
 //        this.storeQueue = new LinkedBlockingQueue<ArrayList<ArchivePersistenceObject>>();
-
         this.dbBackend = new DatabaseBackend();
         this.dbBackend.startBackendDatabase();
 
+        this.dbProcessor = new BackendInteractionsProcessor(dbBackend);
+
         // Start the separate lists for the "fast" generation of objIds
+        this.fastDomain = new FastDomain(dbBackend);
+        this.fastNetwork = new FastNetwork(dbBackend);
+        this.fastProviderURI = new FastProviderURI(dbBackend);
         this.fastObjId = new FastObjId(dbBackend);
-//        this.fastDomain = new FastDomain(dbBackend);
 
         /*        
         try {
@@ -111,7 +118,7 @@ public class ArchiveManager {
     }
 
     void init() {
-/*
+        /*
         storingThread = new Thread() {
             @Override
             public void run() {
@@ -175,7 +182,7 @@ public class ArchiveManager {
         };
 
         storingThread.start();
-*/
+         */
     }
 
     protected void setEventService(EventProviderServiceImpl eventService) {
@@ -183,7 +190,6 @@ public class ArchiveManager {
     }
 
     protected void resetTable() {
-
         try {
             Thread.sleep(500);
         } catch (InterruptedException ex) {
@@ -193,12 +199,15 @@ public class ArchiveManager {
         dbBackend.createEntityManager();
 
         dbBackend.getEM().getTransaction().begin();
-        dbBackend.getEM().createQuery("DELETE FROM ArchivePersistenceObject").executeUpdate();
+        dbBackend.getEM().createQuery("DELETE FROM COMObjectEntity").executeUpdate();
         dbBackend.getEM().getTransaction().commit();
-        dbBackend.getEM().close();
 
         this.fastObjId.resetFastIDs();
-//        this.fastDomain.resetFastDomain();
+        this.fastDomain.resetFastDomain();
+        this.fastNetwork.resetFastNetwork();
+        this.fastProviderURI.resetFastProviderURI();
+
+        dbBackend.getEM().close();
 
         dbBackend.restartEMF();
 
@@ -207,16 +216,53 @@ public class ArchiveManager {
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     protected ArchivePersistenceObject getPersistenceObject(final ObjectType objType, final IdentifierList domain, final Long objId) {
-        dbBackend.createEntityManager();
-        final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objId);
-        final ArchivePersistenceObject perObj = dbBackend.getEM().find(ArchivePersistenceObject.class, id);
-        dbBackend.closeEntityManager();
+        Integer domainId = this.fastDomain.getDomainId(domain);
+        COMObjectEntity comEntity = this.dbProcessor.getPersistenceObject(objType, domainId, objId);
 
-        return perObj;
+        if (comEntity == null) {
+            return null;
+        }
+
+        return this.convert2ArchivePersistenceObject(comEntity, domain, objId);
+    }
+
+    private ArchivePersistenceObject convert2ArchivePersistenceObject(COMObjectEntity comEntity, IdentifierList domain, Long objId) {
+        Identifier network = null;
+        URI providerURI = null;
+
+        try {
+            network = this.fastNetwork.getNetwork(comEntity.getNetwork());
+            providerURI = this.fastProviderURI.getProviderURI(comEntity.getProviderURI());
+        } catch (Exception ex) {
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        SourceLinkContainer sourceLink = comEntity.getSourceLink();
+        ObjectId objectId = null;
+
+        if (sourceLink.getObjectType() != null
+                || sourceLink.getDomainId() != null
+                || sourceLink.getObjId() != null) {
+            try {
+                ObjectKey ok = new ObjectKey(this.fastDomain.getDomain(sourceLink.getDomainId()), sourceLink.getObjId());
+                objectId = new ObjectId(sourceLink.getObjectType(), ok);
+            } catch (Exception ex) {
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        ArchiveDetails archiveDetails = new ArchiveDetails(
+                comEntity.getObjectId(),
+                new ObjectDetails(comEntity.getRelatedLink(), objectId),
+                network,
+                comEntity.getTimestamp(),
+                providerURI);
+
+        return new ArchivePersistenceObject(comEntity.getObjectType(), domain,
+                objId, archiveDetails, comEntity.getObject());
     }
 
     protected Object getObject(final ObjectType objType, final IdentifierList domain, final Long objId) {
@@ -231,35 +277,57 @@ public class ArchiveManager {
         return (this.getPersistenceObject(objType, domain, objId) != null);
     }
 
-    protected LongList getAllObjIds(final ObjectType objectType, final IdentifierList domain) {
-        dbBackend.createEntityManager();
-        Query query = dbBackend.getEM().createQuery("SELECT PU.objId FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
-        query.setParameter("objectTypeId", HelperCOM.generateSubKey(objectType));
-        query.setParameter("domainId", HelperMisc.domain2domainId(domain));
-        LongList objIds = new LongList();
-        objIds.addAll(query.getResultList());
-        dbBackend.closeEntityManager();
+    protected LongList getAllObjIds(final ObjectType objType, final IdentifierList domain) {
+        return this.dbProcessor.getAllPersistenceObjects(objType, this.fastDomain.getDomainId(domain));
+    }
 
-        return objIds;
+    private SourceLinkContainer createSourceContainerFromObjectId(ObjectId source) {
+        Integer sourceDomainId = null;
+        ObjectType sourceObjectType = null;
+        Long sourceObjId = null;
+
+        if (source != null) {
+            IdentifierList sourceDomain = source.getKey().getDomain();
+            if (sourceDomain != null) {
+                sourceDomainId = this.fastDomain.getDomainId(sourceDomain);
+            }
+
+            sourceObjectType = source.getType();
+            sourceObjId = source.getKey().getInstId();
+        }
+
+        SourceLinkContainer sourceLink = new SourceLinkContainer(sourceObjectType, sourceDomainId, sourceObjId);
+
+        return sourceLink;
     }
 
     protected LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
-
         final LongList outIds = new LongList();
-        final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
+        final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<COMObjectEntity>();
+        final int domainId = this.fastDomain.getDomainId(domain);
 
         // Generate the object Ids if needed and the persistence objects to be stored
         for (int i = 0; i < lArchiveDetails.size(); i++) {
-            Long objId = this.fastObjId.getUniqueObjId(objType, domain, lArchiveDetails.get(i).getInstId());
+            final Long objId = this.fastObjId.getUniqueObjId(objType, domainId, lArchiveDetails.get(i).getInstId());
+            final int providerURIId = this.fastProviderURI.getProviderURIId(lArchiveDetails.get(i).getProvider());
+            final int networkId = this.fastNetwork.getNetworkId(lArchiveDetails.get(i).getNetwork());
+            final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(lArchiveDetails.get(i).getDetails().getSource());
 
             // If there are no objects in the list, inject null...
-            Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
+            final Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
-            final ArchivePersistenceObject perObj = new ArchivePersistenceObject(objType,
-                    domain, objId, lArchiveDetails.get(i), objBody); // 0.170 ms
+            final COMObjectEntity perObjEntity = new COMObjectEntity(objType,
+                    domainId,
+                    objId,
+                    lArchiveDetails.get(i).getTimestamp().getValue(),
+                    providerURIId,
+                    networkId,
+                    sourceLink,
+                    lArchiveDetails.get(i).getDetails().getRelated(),
+                    objBody);
 
-            perObjs.add(perObj);
+            perObjsEntities.add(perObjEntity);
             outIds.add(objId);
         }
 
@@ -269,401 +337,190 @@ public class ArchiveManager {
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
-
-        
-        dbBackend.createEntityManager();  // 0.166 ms
-
-        Thread t1 = new Thread() {
+         */
+        Thread publishEvents = new Thread() {
             @Override
             public void run() {
-//                long startTime = System.currentTimeMillis();
-                
-                dbBackend.getEM().getTransaction().begin(); // 0.480 ms
-
-//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 1: " + (System.currentTimeMillis() - startTime));
-                persistObjects(perObjs);
-//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 2: " + (System.currentTimeMillis() - startTime));
-
-                try {  // This is where the db takes longer!!
-                    dbBackend.getEM().getTransaction().commit(); // 1.220 ms
-                } catch (Exception ex) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING, "The object could not be commited! Waiting 500 ms and trying again...");
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex1) {
-                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex1);
-                    }
-
-                    try{
-                        dbBackend.getEM().getTransaction().commit(); // 1.220 ms
-                    } catch (Exception ex2) {
-                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "The objects could not be commited on the second try!", ex2);
-                    }
-                }
-
-//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 3: " + (System.currentTimeMillis() - startTime));
-                dbBackend.closeEntityManager(); // 0.410 ms
-//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 4: " + (System.currentTimeMillis() - startTime));
+                final ObjectIdList sources = ArchiveManager.generateSources(objType, domain, outIds);
 
                 // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, perObjs, interaction);
+                generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, sources, interaction);
 //                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 5: " + (System.currentTimeMillis() - startTime));
             }
         };
 
-        t1.start(); // Total time thread: ~1.485 ms
+        this.dbProcessor.insert(perObjsEntities, publishEvents);
 
         return outIds;
     }
 
-    private void persistObjects(final ArrayList<ArchivePersistenceObject> perObjs) {
-        for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
-            if (SAFE_MODE) {
-                final ArchivePersistenceObject objCOM = dbBackend.getEM().find(ArchivePersistenceObject.class, perObjs.get(i).getPrimaryKey()); // 0.830 ms
-
-                if (objCOM == null) { // Last minute safety, the db crashes if one tries to store an object with a used pk
-                    final ArchivePersistenceObject perObj = perObjs.get(i); // The object to be stored  // 0.255 ms
-                    dbBackend.getEM().persist(perObj);  // object    // 0.240 ms
-                } else {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "The Archive could not store the object: " + perObjs.get(i).toString());
-                }
-            } else {
-                dbBackend.getEM().persist(perObjs.get(i));  // object
-            }
-
-            // Flush every 1k objects...
-            if (i != 0) {
-                if ((i % 1000) == 0) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "Flushing the data after 1000 serial stores...");
-                    dbBackend.getEM().flush();
-                    dbBackend.getEM().clear();
-                }
-            }
-        }
-    }
-
     protected void updateEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
+        final int domainId = this.fastDomain.getDomainId(domain);
+        final ArrayList<COMObjectEntity> newObjs = new ArrayList<COMObjectEntity>();
+        final LongList objIds = new LongList();
 
-        dbBackend.createEntityManager();  // 0.166 ms
+        // Generate the object Ids if needed and the persistence objects to be stored
+        for (int i = 0; i < lArchiveDetails.size(); i++) {
+            final Integer providerURIId = this.fastProviderURI.getProviderURIId(lArchiveDetails.get(i).getProvider());
+            final Integer networkId = this.fastNetwork.getNetworkId(lArchiveDetails.get(i).getNetwork());
 
-        Thread t1 = new Thread() {
+            // If there are no objects in the list, inject null...
+            Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
+
+            SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(lArchiveDetails.get(i).getDetails().getSource());
+
+            final COMObjectEntity newObj = new COMObjectEntity(objType,
+                    domainId,
+                    lArchiveDetails.get(i).getInstId(),
+                    lArchiveDetails.get(i).getTimestamp().getValue(),
+                    providerURIId,
+                    networkId,
+                    sourceLink,
+                    lArchiveDetails.get(i).getDetails().getRelated(),
+                    objBody); // 0.170 ms
+
+            newObjs.add(newObj);
+            objIds.add(lArchiveDetails.get(i).getInstId());
+        }
+
+        Thread publishEvents = new Thread() {
             @Override
             public void run() {
-                final ArrayList<ArchivePersistenceObject> newObjs = new ArrayList<ArchivePersistenceObject>();
-
-                // Generate the object Ids if needed and the persistence objects to be stored
-                for (int i = 0; i < lArchiveDetails.size(); i++) {
-                    // If there are no objects in the list, inject null...
-                    Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
-
-                    final ArchivePersistenceObject newObj = new ArchivePersistenceObject(objType,
-                            domain, lArchiveDetails.get(i).getInstId(), lArchiveDetails.get(i), objBody); // 0.170 ms
-
-                    newObjs.add(newObj);
-                }
-
-                for (int i = 0; i < newObjs.size(); i++) {
-                    final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, newObjs.get(i).getArchiveDetails().getInstId());
-                    ArchivePersistenceObject previousObj = dbBackend.getEM().find(ArchivePersistenceObject.class, id);
-
-                    dbBackend.getEM().getTransaction().begin();
-                    dbBackend.getEM().remove(previousObj);
-                    dbBackend.getEM().getTransaction().commit();
-
-                    // Maybe we can replace the 3 lines below with a persistObjects(newObjs) after the for loop
-                    dbBackend.getEM().getTransaction().begin();
-                    dbBackend.getEM().persist(newObjs.get(i));
-                    dbBackend.getEM().getTransaction().commit();
-                }
-
-                dbBackend.closeEntityManager(); // 0.410 ms
+                final ObjectIdList sources = ArchiveManager.generateSources(objType, domain, objIds);
 
                 // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, newObjs, interaction);
+                generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, sources, interaction);
             }
         };
 
-        t1.start();
-
+        this.dbProcessor.update(newObjs, publishEvents);
     }
 
     protected LongList removeEntries(final ObjectType objType, final IdentifierList domain,
             final LongList objIds, final MALInteraction interaction) {
+        final int domainId = this.fastDomain.getDomainId(domain);
 
-        final ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
-
-        dbBackend.createEntityManager();  // 0.166 ms
-
-        Thread t1 = new Thread() {
+        Thread publishEvents = new Thread() {
             @Override
             public void run() {
-                // Generate the object Ids if needed and the persistence objects to be stored
-                for (int i = 0; i < objIds.size(); i++) {
-                    final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
-                    ArchivePersistenceObject perObj = dbBackend.getEM().find(ArchivePersistenceObject.class, id);
-
-                    perObjs.add(perObj);
-                }
-
-                for (int i = 0; i < objIds.size(); i++) {
-                    final COMObjectPK id = ArchivePersistenceObject.generatePK(objType, domain, objIds.get(i));
-                    ArchivePersistenceObject perObj = dbBackend.getEM().find(ArchivePersistenceObject.class, id);
-                    dbBackend.getEM().getTransaction().begin();
-                    dbBackend.getEM().remove(perObj);
-                    dbBackend.getEM().getTransaction().commit();
-                }
-
-//                fastObjId.lock();
-                fastObjId.delete(objType, domain);
-//                fastObjId.unlock();
-
-                dbBackend.closeEntityManager(); // 0.410 ms
+                final ObjectIdList sources = ArchiveManager.generateSources(objType, domain, objIds);
 
                 // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, perObjs, interaction);
+                generateAndPublishEvents(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, sources, interaction);
             }
         };
 
-        t1.start(); // Total time thread: ~1.485 ms
+        this.dbProcessor.remove(objType, domainId, objIds, publishEvents);
+        this.fastObjId.delete(objType, domainId);
 
         return objIds;
     }
 
     protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType, final ArchiveQuery archiveQuery) {
+        boolean domainContainsWildcard = HelperCOM.domainContainsWildcard(archiveQuery.getDomain());
+        Integer domainId = (!domainContainsWildcard) ? this.fastDomain.getDomainId(archiveQuery.getDomain()) : null;
+        Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
+        Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
+        SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
-        final boolean domainContainsWildcard = HelperCOM.domainContainsWildcard(archiveQuery.getDomain());
-        final boolean objectTypeContainsWildcard = ArchiveManager.objectTypeContainsWildcard(objType);
-        final boolean relatedContainsWildcard = (archiveQuery.getRelated().equals((long) 0));
-        final boolean startTimeContainsWildcard = (archiveQuery.getStartTime() == null);
-        final boolean endTimeContainsWildcard = (archiveQuery.getEndTime() == null);
-        final boolean providerURIContainsWildcard = (archiveQuery.getProvider() == null);
-        final boolean networkContainsWildcard = (archiveQuery.getNetwork() == null);
-
-        final boolean hasSomeDefinedFields = (!domainContainsWildcard
-                || !objectTypeContainsWildcard
-                || !relatedContainsWildcard
-                || !startTimeContainsWildcard
-                || !endTimeContainsWildcard
-                || !providerURIContainsWildcard
-                || !networkContainsWildcard);
-
-        // Generate the query string
-        String queryString = "SELECT PU FROM ArchivePersistenceObject PU ";
-        queryString += (hasSomeDefinedFields) ? "WHERE " : "";
-
-        queryString += (domainContainsWildcard) ? "" : "PU.domainId=:domainId AND ";
-        queryString += (objectTypeContainsWildcard) ? "" : "PU.objectTypeId=:objectTypeId AND ";
-        queryString += (relatedContainsWildcard) ? "" : "PU.relatedLink=:relatedLink AND ";
-        queryString += (startTimeContainsWildcard) ? "" : "PU.timestampArchiveDetails>=:startTime AND ";
-        queryString += (endTimeContainsWildcard) ? "" : "PU.timestampArchiveDetails<=:endTime AND ";
-        queryString += (providerURIContainsWildcard) ? "" : "PU.providerURI=:providerURI AND ";
-        queryString += (networkContainsWildcard) ? "" : "PU.network=:network AND ";
-
-        if (hasSomeDefinedFields) { // 4 because we are removing the "AND " part
-            queryString = queryString.substring(0, queryString.length() - 4);
-        }
-
-        ArrayList<ArchivePersistenceObject> perObjs = new ArrayList<ArchivePersistenceObject>();
-
-        dbBackend.createEntityManager();
-        Query query = dbBackend.getEM().createQuery(queryString); // Make the query
-
-        if (!objectTypeContainsWildcard) {
-            query.setParameter("objectTypeId", HelperCOM.generateSubKey(objType));
-        }
-
-        if (!domainContainsWildcard) {
-            query.setParameter("domainId", HelperMisc.domain2domainId(archiveQuery.getDomain()));
-        }
-
-        if (!relatedContainsWildcard) {
-            query.setParameter("relatedLink", archiveQuery.getRelated());
-        }
-
-        if (!startTimeContainsWildcard) {
-            query.setParameter("startTime", archiveQuery.getStartTime().getValue());
-        }
-
-        if (!endTimeContainsWildcard) {
-            query.setParameter("endTime", archiveQuery.getEndTime().getValue());
-        }
-
-        if (!providerURIContainsWildcard) {
-            query.setParameter("providerURI", archiveQuery.getProvider().getValue());
-        }
-
-        if (!networkContainsWildcard) {
-            query.setParameter("network", archiveQuery.getNetwork().getValue());
-        }
-
-        Thread tThread = new Thread(new Runnable() { // Display a message in case the query gets stuck...
-            @Override
-            public void run() {
-                try {
-                    this.wait(10 * 1000); // 10 seconds
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "The query is taking longer than 10 seconds. The query might be too broad to be handled by the database.");
-                } catch (InterruptedException ex) {
-                } catch (IllegalMonitorStateException ex) {
-                }
-            }
-        });
-
-        tThread.start();
-
-        // BUG: The code will get stuck on the line below if the database is too big (tested with Derby)
-        List resultList = query.getResultList();
-        tThread.interrupt();
-        perObjs.addAll(resultList);
-        dbBackend.closeEntityManager();
+        ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objType, archiveQuery, domainId, providerURIId, networkId, sourceLink);
 
         // Add domain filtering by subpart
         if (archiveQuery.getDomain() != null) {
             if (domainContainsWildcard) {  // It does contain a wildcard
-                ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-                IdentifierList tmpDomain;
-
-                for (ArchivePersistenceObject perObj : perObjs) {
-                    tmpDomain = perObj.getDomain();
-                    if (HelperCOM.domainMatchesWildcardDomain(tmpDomain, archiveQuery.getDomain())) {  // Does the domain matches the wildcard?
-                        tmpPerObjs.add(perObj);
-                    }
-                }
-
-                perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
+                perObjs = this.filterByDomainSubpart(perObjs, archiveQuery.getDomain());
             }
         }
 
         // If objectType contains a wildcard then we have to filter them
         if (ArchiveManager.objectTypeContainsWildcard(objType)) {
-
-            final long bitMask = ArchiveManager.objectType2Mask(objType);
-            final long objTypeId = HelperCOM.generateSubKey(objType);
-
-            ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-            long tmpObjectTypeId;
-            long objTypeANDed;
-            for (ArchivePersistenceObject perObj : perObjs) {
-                tmpObjectTypeId = perObj.getObjectTypeId();
-                objTypeANDed = (tmpObjectTypeId & bitMask);
-                if (objTypeANDed == objTypeId) { // Comparison
-                    tmpPerObjs.add(perObj);
-                }
-            }
-            perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-
+            perObjs = this.filterByObjectIdMask(perObjs, objType, false);
         }
 
         // Source field
         if (archiveQuery.getSource() != null) {
-
             if (ArchiveManager.objectTypeContainsWildcard(archiveQuery.getSource().getType())
                     || HelperCOM.domainContainsWildcard(archiveQuery.getSource().getKey().getDomain())
                     || archiveQuery.getSource().getKey().getInstId() == 0) { // Any Wildcards?
                 // objectType filtering   (in the source link)
                 if (ArchiveManager.objectTypeContainsWildcard(archiveQuery.getSource().getType())) {
-
-                    final long bitMask = ArchiveManager.objectType2Mask(archiveQuery.getSource().getType());
-                    final long objTypeId = HelperCOM.generateSubKey(archiveQuery.getSource().getType());
-
-                    ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-                    long tmpObjectTypeId;
-                    long objTypeANDed;
-                    for (ArchivePersistenceObject perObj : perObjs) {
-                        tmpObjectTypeId = HelperCOM.generateSubKey(perObj.getArchiveDetails().getDetails().getSource().getType());
-                        objTypeANDed = (tmpObjectTypeId & bitMask);
-                        if (objTypeANDed == objTypeId) { // Comparison
-                            tmpPerObjs.add(perObj);
-                        }
-                    }
-                    perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-
-                } else {
-
-                    final long objTypeId = HelperCOM.generateSubKey(archiveQuery.getSource().getType());
-
-                    ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-                    long tmpObjectTypeId;
-                    for (ArchivePersistenceObject perObj : perObjs) {
-                        tmpObjectTypeId = HelperCOM.generateSubKey(perObj.getArchiveDetails().getDetails().getSource().getType());
-                        if (tmpObjectTypeId == objTypeId) { // Comparison
-                            tmpPerObjs.add(perObj);
-                        }
-                    }
-                    perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-
+                    perObjs = this.filterByObjectIdMask(perObjs, archiveQuery.getSource().getType(), true);
                 }
 
                 // Add domain filtering by subpart  (in the source link)
                 if (HelperCOM.domainContainsWildcard(archiveQuery.getSource().getKey().getDomain())) {  // Does it contain a wildcard?
-                    ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-                    IdentifierList tmpDomain;
-
-                    for (ArchivePersistenceObject perObj : perObjs) {
-                        tmpDomain = perObj.getArchiveDetails().getDetails().getSource().getKey().getDomain();
-                        if (HelperCOM.domainMatchesWildcardDomain(tmpDomain, archiveQuery.getSource().getKey().getDomain())) {  // Does the domain matches the wildcard?
-                            tmpPerObjs.add(perObj);
-                        }
-                    }
-
-                    perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-                } else {
-                    ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-                    IdentifierList tmpDomain;
-
-                    for (ArchivePersistenceObject perObj : perObjs) {
-                        tmpDomain = perObj.getArchiveDetails().getDetails().getSource().getKey().getDomain();
-                        if (tmpDomain.equals(archiveQuery.getSource().getKey().getDomain())) {  // Does the domain matches the wildcard?
-                            tmpPerObjs.add(perObj);
-                        }
-                    }
-
-                    perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-
+                    perObjs = this.filterByDomainSubpart(perObjs, archiveQuery.getSource().getKey().getDomain());
                 }
-
-                // ObjId
-                if (archiveQuery.getSource().getKey().getInstId() != 0) {
-                    ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-                    final long queRelated = archiveQuery.getSource().getKey().getInstId();
-                    long tmpRelated;
-                    for (ArchivePersistenceObject perObj : perObjs) {
-                        tmpRelated = perObj.getArchiveDetails().getDetails().getSource().getKey().getInstId();
-                        if (tmpRelated == queRelated) { // Comparison  // It can never be null, disregard warning
-                            tmpPerObjs.add(perObj);
-                        }
-                    }
-                    perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
-                }
-
-            } else {
-                // Direct match without wildcards
-                ArrayList<ArchivePersistenceObject> tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
-                final ObjectId queSource = archiveQuery.getSource();
-                ObjectId tmpSource;
-                for (ArchivePersistenceObject perObj : perObjs) {
-                    tmpSource = perObj.getArchiveDetails().getDetails().getSource();
-                    if (tmpSource.equals(queSource)) {
-                        tmpPerObjs.add(perObj);
-                    }
-                }
-                perObjs = tmpPerObjs;  // Assign new filtered list and discard old one
             }
-
         }
 
-        return perObjs;
+        // Convert to ArchivePersistenceObject
+        ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>();
+        IdentifierList domain;
+
+        for (COMObjectEntity perObj : perObjs) {
+            try {
+                domain = this.fastDomain.getDomain(perObj.getDomainId());
+                ArchivePersistenceObject out = this.convert2ArchivePersistenceObject(perObj, domain, perObj.getObjectId());
+                outs.add(out);
+            } catch (Exception ex) {
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return outs;
+    }
+
+    private ArrayList<COMObjectEntity> filterByObjectIdMask(
+            final ArrayList<COMObjectEntity> perObjs, 
+            final ObjectType objectTypeMask, final boolean isSource) {
+        final long bitMask = ArchiveManager.objectType2Mask(objectTypeMask);
+        final long objTypeId = HelperCOM.generateSubKey(objectTypeMask);
+
+        final ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>();
+        long tmpObjectTypeId;
+        long objTypeANDed;
+        for (COMObjectEntity perObj : perObjs) {
+            tmpObjectTypeId = (isSource) ? 
+                    HelperCOM.generateSubKey(perObj.getSourceLink().getObjectType()) :
+                    perObj.getObjectTypeId();
+            objTypeANDed = (tmpObjectTypeId & bitMask);
+            if (objTypeANDed == objTypeId) { // Comparison
+                tmpPerObjs.add(perObj);
+            }
+        }
+
+        return tmpPerObjs;  // Assign new filtered list and discard old one
+    }
+
+    private ArrayList<COMObjectEntity> filterByDomainSubpart(
+            final ArrayList<COMObjectEntity> perObjs, final IdentifierList wildcardDomain) {
+        ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>();
+        IdentifierList tmpDomain;
+
+        for (COMObjectEntity perObj : perObjs) {
+            try {
+                tmpDomain = this.fastDomain.getDomain(perObj.getDomainId());
+                if (HelperCOM.domainMatchesWildcardDomain(tmpDomain, wildcardDomain)) {  // Does the domain matches the wildcard?
+                    tmpPerObjs.add(perObj);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return tmpPerObjs;  // Assign new filtered list and discard old one
     }
 
     protected static ArrayList<ArchivePersistenceObject> filterQuery(
             final ArrayList<ArchivePersistenceObject> perObjs, final CompositeFilterSet filterSet)
             throws MALInteractionException {
-
         if (filterSet == null) {
             return perObjs;
         }
-        CompositeFilterList compositeFilterList = filterSet.getFilters();
+
+        final CompositeFilterList compositeFilterList = filterSet.getFilters();
         ArrayList<ArchivePersistenceObject> outPerObjs = perObjs;
         ArrayList<ArchivePersistenceObject> tmpPerObjs;
         Object obj;
@@ -713,17 +570,12 @@ public class ArchiveManager {
         return outPerObjs;
     }
 
-    protected void generateAndPublishEvents(final ObjectType objType,
-            final ArrayList<ArchivePersistenceObject> comObjs, final MALInteraction interaction) {
-
-        if (eventService == null) {
-            return;
-        }
-
+    private static ObjectIdList generateSources(final ObjectType objType,
+            final IdentifierList domain, final LongList objIds) {
         final ObjectIdList sourceList = new ObjectIdList();
 
-        for (int i = 0; i < comObjs.size(); i++) {
-            final ObjectId source = ArchiveManager.archivePerObj2source(comObjs.get(i));
+        for (int i = 0; i < objIds.size(); i++) {
+            final ObjectId source = new ObjectId(objType, new ObjectKey(domain, objIds.get(i)));
 
             // Is the COM Object an Event coming from the archive?
             if (source.getType().equals(HelperCOM.generateCOMObjectType(ArchiveHelper.ARCHIVE_SERVICE, source.getType().getNumber()))) {
@@ -733,17 +585,23 @@ public class ArchiveManager {
             sourceList.add(source);
         }
 
+        return sourceList;
+    }
+
+    private void generateAndPublishEvents(final ObjectType objType,
+            final ObjectIdList sourceList, final MALInteraction interaction) {
+        if (eventService == null) {
+            return;
+        }
+
         if (sourceList.isEmpty()) { // Don't store anything if the list is empty...
             return;
         }
 
         Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "\nobjType: " + objType.toString() + "\nDomain: " + configuration.getDomain().toString() + "\nSourceList: " + sourceList.toString());
-//        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "\nDomain: " + configuration.getDomain().toString());
-//        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "\nSourceList: " + sourceList.toString());
 
         // requirement: 3.4.2.4
         final LongList eventObjIds = eventService.generateAndStoreEvents(objType, configuration.getDomain(), null, sourceList, interaction);
-
         Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
 
         URI sourceURI = new URI("");
@@ -761,7 +619,7 @@ public class ArchiveManager {
         return new ObjectId(obj.getObjectType(), new ObjectKey(obj.getDomain(), obj.getObjectId()));
     }
 
-    protected static Boolean objectTypeContainsWildcard(final ObjectType objType) {
+    public static Boolean objectTypeContainsWildcard(final ObjectType objType) {
         return (objType.getArea().getValue() == 0
                 || objType.getService().getValue() == 0
                 || objType.getVersion().getValue() == 0
@@ -769,7 +627,6 @@ public class ArchiveManager {
     }
 
     private static Long objectType2Mask(final ObjectType objType) {
-
         long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
         long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
         long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
@@ -801,7 +658,6 @@ public class ArchiveManager {
     }
 
     public static boolean isCompositeFilterValid(CompositeFilter compositeFilter, Object obj) {
-
         if (compositeFilter.getFieldName().contains("\\.")) {  // Looking into a nested field?
             if (!(obj instanceof Composite)) {
                 return false;  // If it is not a composite, we can not check fields inside...
@@ -809,7 +665,6 @@ public class ArchiveManager {
                 try {
                     // Does the Field asked for, exists?
                     HelperCOM.getNestedObject(obj, compositeFilter.getFieldName());
-
                 } catch (NoSuchFieldException ex) {
                     return false;
                 }

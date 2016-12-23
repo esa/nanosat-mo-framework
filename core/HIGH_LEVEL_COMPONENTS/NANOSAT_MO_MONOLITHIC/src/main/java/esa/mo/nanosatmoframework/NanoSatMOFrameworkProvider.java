@@ -64,7 +64,7 @@ import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
  */
 public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProviderImplInterface, NanoSatMOFrameworkInterface {
 
-    private final static String MESSAGE_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
+    private final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
     public final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     public final static String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
     public final static String NANOSAT_MO_SUPERVISOR_NAME = "NanoSat_MO_Supervisor";
@@ -99,7 +99,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public void reportActionExecutionProgress(final boolean success, final int errorNumber,
             final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws IOException {
         if (this.getMCServices() == null) {
-            throw new IOException(MESSAGE_SERVICES_NOT_INITIALIZED);
+            throw new IOException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
@@ -108,7 +108,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     @Override
     public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) throws IOException {
         if (this.getMCServices() == null) {
-            throw new IOException(MESSAGE_SERVICES_NOT_INITIALIZED);
+            throw new IOException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName), argumentValues, null, null);
@@ -116,13 +116,13 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     @Override
     public Boolean pushParameterValue(final String name, final Serializable content) throws IOException {
-        return this.pushParameterValue(name, content, false);
+        return this.pushParameterValue(name, content, true);
     }
 
     @Override
     public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws IOException {
         if (this.getMCServices() == null) {
-            throw new IOException(MESSAGE_SERVICES_NOT_INITIALIZED);
+            throw new IOException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         Object obj = HelperAttributes.javaType2Attribute(content); // Convert to MAL type if possible
@@ -181,8 +181,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public final void loadConfigurations() throws IOException {
         // Activate the previous configuration
         ObjectId confId = new ObjectId();  // Select the default configuration
-        confId.setKey(new ObjectKey(configuration.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
         confId.setType(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE);
+        confId.setKey(new ObjectKey(configuration.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
         /*---------------------------------------------------*/
         // Create the adapter that stores the configurations "onChange"
@@ -193,16 +193,12 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
         this.reloadServiceConfiguration(mcServices.getParameterService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_PARAMETER_SERVICE);
         this.reloadServiceConfiguration(mcServices.getAlertService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ALERT_SERVICE);
-//            this.reloadServiceConfiguration(mcServices.getCheckService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_CHECK_SERVICE);
-//            this.reloadServiceConfiguration(mcServices.getStatisticService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_STATISTIC_SERVICE);
         this.reloadServiceConfiguration(mcServices.getAggregationService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_AGGREGATION_SERVICE);
 
         // Send the adapter into each service to save configuration changes when they happen
         mcServices.getActionService().setConfigurationAdapter(confAdapter);
         mcServices.getParameterService().setConfigurationAdapter(confAdapter);
         mcServices.getAlertService().setConfigurationAdapter(confAdapter);
-//            mcServices.getCheckService().setConfigurationAdapter(confAdapter);
-//            mcServices.getStatisticService().setConfigurationAdapter(confAdapter);
         mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
 
     }

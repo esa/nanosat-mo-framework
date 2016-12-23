@@ -129,7 +129,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
      */
     public void reset() {
         manager.resetTable();
-
     }
 
     @Override
@@ -714,7 +713,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         LongList outObjIds = manager.removeEntries(lObjectType, lIdentifierList, toBeDeleted, interaction);
 
         return outObjIds; // requirement: 3.4.8.2.8
-
     }
 
 }

@@ -92,7 +92,6 @@ public class DatabaseBackend {
         } catch (InterruptedException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void startServer() {

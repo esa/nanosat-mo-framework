@@ -21,11 +21,9 @@
 package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.HashMap;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 
 /**
  *
@@ -33,6 +31,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
  */
 public class FastObjId {
 
+    private final static String QUERY_FIND_MAX = "SELECT MAX(PU.objId) FROM COMObjectEntity PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId";
     private final DatabaseBackend dbBackend;
     private HashMap<Key, Long> fastID;
 
@@ -45,7 +44,7 @@ public class FastObjId {
         this.fastID = new HashMap<Key, Long>();
     }
 
-    private Long newUniqueID(final ObjectType objectTypeId, final IdentifierList domain) {
+    private Long newUniqueID(final ObjectType objectTypeId, final Integer domain) {
 
         Long objId = (this.getCurrentID(objectTypeId, domain));
         if (objId == null) {
@@ -57,8 +56,8 @@ public class FastObjId {
 
         return objId;
     }
-
-    private void setUniqueIdIfLatest(final ObjectType objectTypeId, final IdentifierList domain, final Long objId) {
+    
+    private void setUniqueIdIfLatest(final ObjectType objectTypeId, final Integer domain, final Long objId) {
         final Key key = new Key(objectTypeId, domain);
         final Long currentObjId = this.getCurrentID(objectTypeId, domain);
 
@@ -72,28 +71,24 @@ public class FastObjId {
         }
     }
 
-    private void setUniqueID(final ObjectType objectTypeId, final IdentifierList domain, final Long objId) {
+    private void setUniqueID(final ObjectType objectTypeId, final Integer domain, final Long objId) {
         Key key = new Key(objectTypeId, domain);
         this.fastID.put(key, objId);
     }
 
-    public synchronized void delete(final ObjectType objectTypeId, final IdentifierList domain) {
+    public synchronized void delete(final ObjectType objectTypeId, final Integer domain) {
         Key key = new Key(objectTypeId, domain);
         this.fastID.remove(key);
     }
 
-    private Long getCurrentID(final ObjectType objectTypeId, final IdentifierList domain) {
+    private Long getCurrentID(final ObjectType objectTypeId, final Integer domain) {
         final Key key = new Key(objectTypeId, domain);
         final Long objId = this.fastID.get(key);
 
-        if (objId == null) {
-            return null;
-        }
-
-        return objId;
+        return (objId == null) ? null : objId;
     }
-
-    private synchronized Long generateUniqueObjId(final ObjectType objectType, final IdentifierList domain) {
+    
+    private synchronized Long generateUniqueObjId(final ObjectType objectType, final Integer domain) {
 
         // Did we request this objType+domain combination before?! If so, return the next value
         Long objId = this.newUniqueID(objectType, domain);
@@ -103,9 +98,9 @@ public class FastObjId {
 
         // Well, if not then we must check if this combination already exists in the PU...
         dbBackend.createEntityManager();
-        Query query = dbBackend.getEM().createQuery("SELECT MAX(PU.objId) FROM ArchivePersistenceObject PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId");
+        Query query = dbBackend.getEM().createQuery(QUERY_FIND_MAX);
         query.setParameter("objectTypeId", HelperCOM.generateSubKey(objectType));
-        query.setParameter("domainId", HelperMisc.domain2domainId(domain));
+        query.setParameter("domainId", domain);
         Long maxValue = (Long) query.getSingleResult();
         dbBackend.closeEntityManager();
 
@@ -119,8 +114,9 @@ public class FastObjId {
 
         return objId;
     }
+    
 
-    public synchronized Long getUniqueObjId(final ObjectType objType, final IdentifierList domain, final Long objId) {
+    public synchronized Long getUniqueObjId(final ObjectType objType, final Integer domain, final Long objId) {
         Long outObjId;
 
         if (objId == 0) { // requirement: 3.4.6.2.5
@@ -134,7 +130,7 @@ public class FastObjId {
     }
 
     /*
-    private boolean exists(final ObjectType objectTypeId, final IdentifierList domain) {
+    private boolean exists(final ObjectType objectTypeId, final Integer domain) {
         Key key = new Key(objectTypeId, domain);
         return (this.fastID.get(key) != null);
     }
@@ -142,18 +138,18 @@ public class FastObjId {
     private class Key {
 
         private final Long objectTypeId;
-        private final String domainId;
+        private final Integer domainId;
 
-        protected Key(final ObjectType objectTypeId, final IdentifierList domain) {
+        protected Key(final ObjectType objectTypeId, final Integer domain) {
             this.objectTypeId = HelperCOM.generateSubKey(objectTypeId);
-            this.domainId = HelperMisc.domain2domainId(domain);
+            this.domainId = domain;
         }
 
         private Long getObjTypeId() {
             return this.objectTypeId;
         }
 
-        private String getDomainId() {
+        private Integer getDomainId() {
             return this.domainId;
         }
 

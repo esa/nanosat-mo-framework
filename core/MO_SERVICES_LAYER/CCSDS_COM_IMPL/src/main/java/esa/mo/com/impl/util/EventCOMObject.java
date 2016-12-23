@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * @author Cesar Coelho
  */
 public class EventCOMObject {
-
     private IdentifierList domain;
     private ObjectType objType;
     private Long objId;

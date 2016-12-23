@@ -62,7 +62,6 @@ public class SortByField implements Comparator {
             if (fieldName.equals("")) {
                 return;
             }
-
         } else {  // timestamp
             this.fieldName = "timestamp";
             this.timestampSorting = true;
@@ -163,6 +162,7 @@ public class SortByField implements Comparator {
         }
 
         //  Compare objects
+        /*
         Object c1;
         Object c2;
 
@@ -173,6 +173,9 @@ public class SortByField implements Comparator {
             c1 = obj2;
             c2 = obj1;
         }
+*/
+        Object c1 = (this.ascending) ? obj1 : obj2;
+        Object c2 = (this.ascending) ? obj2 : obj1;
 
         // Don't compare if it is a List
         if (c1 instanceof ElementList) {

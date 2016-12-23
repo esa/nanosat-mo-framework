@@ -86,6 +86,14 @@
             <version>2.5.2</version>
         </dependency>
 
+        <!-- Used to encode/decode the elements before/after inserting and
+        removing from the Persistence Unit -->
+        <dependency>
+          <groupId>int.esa.ccsds.mo</groupId>
+          <artifactId>ENCODING_BINARY</artifactId>
+            <version>1.0.5-SNAPSHOT</version>
+        </dependency>
+
 <!--
         <dependency>
           <groupId>org.hibernate</groupId>
@@ -99,12 +107,12 @@
             <version>5.2.1.Final</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbynet</artifactId>
-            <version>10.12.1.1</version>
-        </dependency>
--->
+                <dependency>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derbynet</artifactId>
+                    <version>10.12.1.1</version>
+                </dependency>
+        -->
 
         <dependency>
             <groupId>org.xerial</groupId>
