@@ -88,6 +88,7 @@ public class TestArchive {
             archDetails.add(archDetails.get(0));
         }
 
+
         long startTime = System.nanoTime();
 /*
         try {
@@ -125,6 +126,7 @@ public class TestArchive {
         
 */
         
+
         try {
 
             for (int i = 0; i < defs.size(); i++) {
@@ -156,7 +158,9 @@ public class TestArchive {
         float objectPerSec = NUMBER_OF_OBJS / ((float) ((float) estimatedTime / (float) 1000000000));
         float averageTimePerObj = 1 / objectPerSec;
         Logger.getLogger(TestArchive.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
-        
+
+        nanoSatMOFramework.getCOMServices().getArchiveService().reset();
+
     }
 
     /**
