@@ -57,7 +57,7 @@ public class BackendInteractionsProcessor {
         return perObj;
     }
 
-    public LongList getAllPersistenceObjects(ObjectType objType, Integer domainId) {
+    public LongList getAllPersistenceObjects(final ObjectType objType, final Integer domainId) {
         dbBackend.createEntityManager();
         Query query = dbBackend.getEM().createQuery(QUERY_SELECT_ALL);
         query.setParameter("objectTypeId", HelperCOM.generateSubKey(objType));
@@ -298,12 +298,19 @@ public class BackendInteractionsProcessor {
         tThread.start();
 
         // BUG: The code will get stuck on the line below if the database is too big (tested with Derby)
-        List resultList = query.getResultList();
+        final List resultList = query.getResultList();
         tThread.interrupt();
         perObjs.addAll(resultList);
         dbBackend.closeEntityManager();
 
         return perObjs;
+    }
+
+    public void resetMainTable() {
+        dbBackend.createEntityManager();
+        dbBackend.getEM().getTransaction().begin();
+        dbBackend.getEM().createQuery("DELETE FROM COMObjectEntity").executeUpdate();
+        dbBackend.getEM().getTransaction().commit();
     }
 
 }

@@ -200,7 +200,6 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         mcServices.getParameterService().setConfigurationAdapter(confAdapter);
         mcServices.getAlertService().setConfigurationAdapter(confAdapter);
         mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
-
     }
 
     public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
@@ -213,7 +212,6 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             mcServices.getAlertService().init(comServices);
             mcServices.getAggregationService().init(comServices, parameterManager);
         }
-
     }
     
     @Override

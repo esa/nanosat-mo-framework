@@ -76,7 +76,7 @@
             <artifactId>API_COM</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NMF_HELPER_TOOLS</artifactId>
         </dependency>
 

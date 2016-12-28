@@ -196,11 +196,7 @@ public class ArchiveManager {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        dbBackend.createEntityManager();
-
-        dbBackend.getEM().getTransaction().begin();
-        dbBackend.getEM().createQuery("DELETE FROM COMObjectEntity").executeUpdate();
-        dbBackend.getEM().getTransaction().commit();
+        this.dbProcessor.resetMainTable();
 
         this.fastObjId.resetFastIDs();
         this.fastDomain.resetFastDomain();
@@ -636,7 +632,6 @@ public class ArchiveManager {
                 | new Long(serviceVal << 32)
                 | new Long(versionVal << 24)
                 | new Long(numberVal));
-
     }
 
     public static UIntegerList checkForDuplicates(ArchiveDetailsList archiveDetailsList) {

@@ -54,9 +54,7 @@ import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
-import org.ccsds.moims.mo.mc.check.CheckHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
-import org.ccsds.moims.mo.mc.statistic.StatisticHelper;
 
 /**
  *
