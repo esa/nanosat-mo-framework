@@ -46,7 +46,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
- * This class provides a simple Hello World demo cli provider
+ * This class provides a simple provider to test the Archive
  *
  */
 public class TestArchive {
@@ -159,7 +159,7 @@ public class TestArchive {
         float averageTimePerObj = 1 / objectPerSec;
         Logger.getLogger(TestArchive.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
 
-        nanoSatMOFramework.getCOMServices().getArchiveService().reset();
+//        nanoSatMOFramework.getCOMServices().getArchiveService().reset();
 
     }
 
