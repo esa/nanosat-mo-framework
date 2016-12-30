@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2016      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -20,38 +20,29 @@
  */
 package esa.mo.com.impl.archive.db;
 
-import java.io.Serializable;
+import esa.mo.com.impl.archive.entities.COMObjectEntity;
+import java.util.ArrayList;
 
 /**
- * Archive Persistence Object Primary Key 2
+ *
  * @author Cesar Coelho
  */
-public class COMObjectPK2 implements Serializable {
+public class StoreCOMObjectsContainer {
 
-    private final Long objectTypeId;
-    private final Short domainId;
-    private final Long objId;
+    private final ArrayList<COMObjectEntity> perObjs;
+    private final boolean continuous;
 
-    public COMObjectPK2 (final Long objectTypeId, final Short domain, final Long objId){
-        this.objectTypeId = objectTypeId;
-        this.domainId = domain;
-        this.objId = objId;
-    }
-    
-    @Override
-    public boolean equals(Object other) {
-    	if (this == other) return true;
-        if (!(other instanceof COMObjectPK2)) return false;
-        COMObjectPK2 input = (COMObjectPK2) other;
-        
-        return (input.objectTypeId.equals(objectTypeId) &&
-                input.domainId.equals(domainId) &&
-                input.objId.equals(objId) );
+    public StoreCOMObjectsContainer(final ArrayList<COMObjectEntity> perObjs,
+            final boolean continuous) {
+        this.perObjs = perObjs;
+        this.continuous = continuous;
     }
 
-    @Override
-    public int hashCode(){
-    	return objectTypeId.hashCode() ^ domainId.hashCode() ^ objId.hashCode();
+    public ArrayList<COMObjectEntity> getPerObjs() {
+        return perObjs;
     }
 
+    public boolean isContinuous() {
+        return continuous;
+    }
 }

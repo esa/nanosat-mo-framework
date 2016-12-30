@@ -65,9 +65,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     public static Long DEFAULT_OBJID_ACTION_SERVICE = (long) 1;
     public static Long DEFAULT_OBJID_PARAMETER_SERVICE = (long) 2;
     public static Long DEFAULT_OBJID_ALERT_SERVICE = (long) 3;
-    public static Long DEFAULT_OBJID_CHECK_SERVICE = (long) 4;
-    public static Long DEFAULT_OBJID_STATISTIC_SERVICE = (long) 5;
-    public static Long DEFAULT_OBJID_AGGREGATION_SERVICE = (long) 6;
+    public static Long DEFAULT_OBJID_AGGREGATION_SERVICE = (long) 4;
 
     private ConfigurationProvider configuration = new ConfigurationProvider();
     private final COMServicesProvider comServices;
@@ -113,13 +111,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
 
             Long objIdAlert = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_ALERT_SERVICE,
                     AlertHelper.ALERT_SERVICE_NUMBER, provider.getMCServices().getAlertService());
-            /*
-            Long objIdCheck = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_CHECK_SERVICE,
-                    CheckHelper.CHECK_SERVICE_NUMBER, provider.getMCServices().getCheckService());
 
-            Long objIdStatistic = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_STATISTIC_SERVICE,
-                    StatisticHelper.STATISTIC_SERVICE_NUMBER, provider.getMCServices().getStatisticService());
-             */
             Long objIdAggregation = this.storeDefaultServiceConfiguration(DEFAULT_OBJID_AGGREGATION_SERVICE,
                     AggregationHelper.AGGREGATION_SERVICE_NUMBER, provider.getMCServices().getAggregationService());
 
@@ -133,8 +125,6 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             objIds.add(objIdAction);
             objIds.add(objIdParameter);
             objIds.add(objIdAlert);
-//            objIds.add(objIdCheck);
-//            objIds.add(objIdStatistic);
             objIds.add(objIdAggregation);
 
             set.setDomain(configuration.getDomain());
@@ -191,15 +181,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         if (serviceImpl instanceof AlertProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_ALERT_SERVICE);
         }
-        /*
-        if (serviceImpl instanceof CheckProviderServiceImpl) {
-            this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_CHECK_SERVICE);
-        }
 
-        if (serviceImpl instanceof StatisticProviderServiceImpl) {
-            this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_STATISTIC_SERVICE);
-        }
-         */
         if (serviceImpl instanceof AggregationProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_AGGREGATION_SERVICE);
         }

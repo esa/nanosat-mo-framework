@@ -32,6 +32,8 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 public class FastObjId {
 
     private final static String QUERY_FIND_MAX = "SELECT MAX(PU.objId) FROM COMObjectEntity PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId";
+    private final static String FIELD_OBJTYPEID = "objectTypeId";
+    private final static String FIELD_DOMAINID = "domainId";
     private final DatabaseBackend dbBackend;
     private HashMap<Key, Long> fastID;
 
@@ -45,7 +47,6 @@ public class FastObjId {
     }
 
     private Long newUniqueID(final ObjectType objectTypeId, final Integer domain) {
-
         Long objId = (this.getCurrentID(objectTypeId, domain));
         if (objId == null) {
             return null;
@@ -72,7 +73,7 @@ public class FastObjId {
     }
 
     private void setUniqueID(final ObjectType objectTypeId, final Integer domain, final Long objId) {
-        Key key = new Key(objectTypeId, domain);
+        final Key key = new Key(objectTypeId, domain);
         this.fastID.put(key, objId);
     }
 
@@ -89,7 +90,6 @@ public class FastObjId {
     }
     
     private synchronized Long generateUniqueObjId(final ObjectType objectType, final Integer domain) {
-
         // Did we request this objType+domain combination before?! If so, return the next value
         Long objId = this.newUniqueID(objectType, domain);
         if (objId != null) {
@@ -99,42 +99,27 @@ public class FastObjId {
         // Well, if not then we must check if this combination already exists in the PU...
         dbBackend.createEntityManager();
         Query query = dbBackend.getEM().createQuery(QUERY_FIND_MAX);
-        query.setParameter("objectTypeId", HelperCOM.generateSubKey(objectType));
-        query.setParameter("domainId", domain);
+        query.setParameter(FIELD_OBJTYPEID, HelperCOM.generateSubKey(objectType));
+        query.setParameter(FIELD_DOMAINID, domain);
         Long maxValue = (Long) query.getSingleResult();
         dbBackend.closeEntityManager();
 
-        if (maxValue == null) {
-            this.setUniqueID(objectType, domain, (long) 0); // The object does not exist in PU
-        } else {
-            this.setUniqueID(objectType, domain, maxValue);
-        }
+        // If the object does not exist in PU, set as 0
+        long value = (maxValue == null) ? (long) 0 : maxValue;
+        this.setUniqueID(objectType, domain, value);
 
-        objId = this.newUniqueID(objectType, domain);
-
-        return objId;
+        return this.newUniqueID(objectType, domain);
     }
     
-
     public synchronized Long getUniqueObjId(final ObjectType objType, final Integer domain, final Long objId) {
-        Long outObjId;
-
         if (objId == 0) { // requirement: 3.4.6.2.5
-            outObjId = this.generateUniqueObjId(objType, domain);
+            return this.generateUniqueObjId(objType, domain);
         } else {
             this.setUniqueIdIfLatest(objType, domain, objId); // Check if it is not greater than the current "fast" objId
-            outObjId = objId;
+            return objId;
         }
-
-        return outObjId;
     }
 
-    /*
-    private boolean exists(final ObjectType objectTypeId, final Integer domain) {
-        Key key = new Key(objectTypeId, domain);
-        return (this.fastID.get(key) != null);
-    }
-     */
     private class Key {
 
         private final Long objectTypeId;

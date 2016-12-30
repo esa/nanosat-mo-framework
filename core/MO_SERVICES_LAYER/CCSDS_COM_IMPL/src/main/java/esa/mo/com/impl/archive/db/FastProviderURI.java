@@ -47,7 +47,6 @@ public class FastProviderURI {
         this.fastID = new HashMap<String, Integer>();
         this.fastIDreverse = new HashMap<Integer, String>();
         this.dbBackend = dbBackend;
-        this.loadProviderURIs();
     }
 
     public synchronized void resetFastProviderURI() {
@@ -61,13 +60,12 @@ public class FastProviderURI {
         dbBackend.getEM().getTransaction().commit();
     }
 
-    private void loadProviderURIs() {
+    public void init() {
         // Retrieve all the ids and providerURIs from the Database
         dbBackend.createEntityManager();
 
         // Get All the providerURIs available
         Query query = dbBackend.getEM().createQuery(QUERY_SELECT_PROVIDERURI);
-
         List resultList = query.getResultList();
         ArrayList<ProviderURIHolderEntity> providerURIHolderEntities = new ArrayList<ProviderURIHolderEntity>();
         providerURIHolderEntities.addAll(resultList);

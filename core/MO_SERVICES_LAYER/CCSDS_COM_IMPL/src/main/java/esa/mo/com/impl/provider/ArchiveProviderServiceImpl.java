@@ -74,7 +74,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
      */
     public synchronized void init(EventProviderServiceImpl eventService) throws MALException {
         if (!initialiased) {
-
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
@@ -87,7 +86,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
             } catch (MALException ex) {
             }
-
         }
 
         manager = new ArchiveManager(eventService);
@@ -132,9 +130,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void retrieve(final ObjectType inObjectType, final IdentifierList inDomain,
-            final LongList inObjIds, final RetrieveInteraction interaction) 
+            final LongList inObjIds, final RetrieveInteraction interaction)
             throws MALInteractionException, MALException {
 
         interaction.sendAcknowledgement();  // "ok, it was received.."
@@ -225,7 +222,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void query(Boolean returnObjBody, final ObjectType lObjectType,
             final ArchiveQueryList lArchiveQueryList, final QueryFilterList queryFilterList,
             final QueryInteraction interaction) throws MALException, MALInteractionException {
@@ -543,11 +539,10 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
                 // Shall be taken care in the manager & per inserted entry
-            }else{// Does it exist already?  // requirement: 3.4.6.2.6
-                if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
-                    dupIndexList.add(new UInteger(index));
-                    continue;
-                }
+            } else// Does it exist already?  // requirement: 3.4.6.2.6
+            if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
+                dupIndexList.add(new UInteger(index));
+                continue;
             }
 
             if (HelperArchive.archiveDetailsContainsWildcard(lArchiveDetailsList.get(index))) { // requirement: 3.4.6.2.11
@@ -585,10 +580,10 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             return outLongLst;
         } else {
             manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
-            
+
             /*
             // If the user doesn't care about receiving the objId, then it can go faster!! :)
-            // Doesn't work because the thread is not lock the access to the db (we woulld have to lock it here)
+            // Doesn't work because the thread is not lock the access to the db (we would have to lock it here)
             Thread t1 = new Thread() {
                 @Override
                 public void run() {
@@ -599,8 +594,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             };
 
             t1.start();
-            */
-
+             */
             return null;
         }
 
@@ -627,7 +621,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 || HelperCOM.domainContainsWildcard(domain)) {   // requirement: 3.4.7.2.8 (first part)
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
-        
+
         if (lArchiveDetailsList.size() != lElementList.size()) { // requirement: ------ (proposed, does not exist yet)
             UIntegerList error = new UIntegerList();
             int size1 = (lArchiveDetailsList.size() < lElementList.size()) ? lArchiveDetailsList.size() : lElementList.size();
@@ -664,7 +658,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         // The errors have to be before the update operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
         manager.updateEntries(lObjectType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.7.2.6 and 3.4.7.2.7
-        
+
     }
 
     @Override

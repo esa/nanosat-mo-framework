@@ -32,6 +32,7 @@ import esa.mo.com.impl.archive.db.FastProviderURI;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
@@ -98,8 +99,6 @@ public class ArchiveManager {
 
 //        this.storeQueue = new LinkedBlockingQueue<ArrayList<ArchivePersistenceObject>>();
         this.dbBackend = new DatabaseBackend();
-        this.dbBackend.startBackendDatabase();
-
         this.dbProcessor = new BackendInteractionsProcessor(dbBackend);
 
         // Start the separate lists for the "fast" generation of objIds
@@ -107,17 +106,14 @@ public class ArchiveManager {
         this.fastNetwork = new FastNetwork(dbBackend);
         this.fastProviderURI = new FastProviderURI(dbBackend);
         this.fastObjId = new FastObjId(dbBackend);
-
-        /*        
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
     }
 
-    void init() {
+    public void init() {
+        this.dbBackend.startBackendDatabase();
+        this.fastDomain.init();
+        this.fastNetwork.init();
+        this.fastProviderURI.init();
+
         /*
         storingThread = new Thread() {
             @Override
@@ -189,15 +185,37 @@ public class ArchiveManager {
         this.eventService = eventService;
     }
 
-    protected void resetTable() {
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+    private class ResetMainTableRunnable implements Callable {
+
+        @Override
+        public Integer call() {
+            dbBackend.createEntityManager();
+            dbBackend.getEM().getTransaction().begin();
+            dbBackend.getEM().createQuery("DELETE FROM COMObjectEntity").executeUpdate();
+            dbBackend.getEM().getTransaction().commit();
+
+            fastObjId.resetFastIDs();
+            fastDomain.resetFastDomain();
+            fastNetwork.resetFastNetwork();
+            fastProviderURI.resetFastProviderURI();
+
+            dbBackend.getEM().close();
+            dbBackend.restartEMF();
+
+            return null;
         }
+    }
 
-        this.dbProcessor.resetMainTable();
-
+    /**
+     * Needs to be synchronized with the insertEntries method because the fast
+     * objects are being called simultaneously. The Testbeds don't pass without 
+     * the synchronization.
+     * 
+     */
+    protected synchronized void resetTable() {
+        Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).info("Reset table triggered!");
+        this.dbProcessor.resetMainTable(new ResetMainTableRunnable());
+        /*
         this.fastObjId.resetFastIDs();
         this.fastDomain.resetFastDomain();
         this.fastNetwork.resetFastNetwork();
@@ -212,11 +230,12 @@ public class ArchiveManager {
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+         */
     }
 
     protected ArchivePersistenceObject getPersistenceObject(final ObjectType objType, final IdentifierList domain, final Long objId) {
         Integer domainId = this.fastDomain.getDomainId(domain);
-        COMObjectEntity comEntity = this.dbProcessor.getPersistenceObject(objType, domainId, objId);
+        COMObjectEntity comEntity = this.dbProcessor.getCOMObject(objType, domainId, objId);
 
         if (comEntity == null) {
             return null;
@@ -274,7 +293,7 @@ public class ArchiveManager {
     }
 
     protected LongList getAllObjIds(final ObjectType objType, final IdentifierList domain) {
-        return this.dbProcessor.getAllPersistenceObjects(objType, this.fastDomain.getDomainId(domain));
+        return this.dbProcessor.getAllCOMObjects(objType, this.fastDomain.getDomainId(domain));
     }
 
     private SourceLinkContainer createSourceContainerFromObjectId(ObjectId source) {
@@ -283,7 +302,7 @@ public class ArchiveManager {
         Long sourceObjId = null;
 
         if (source != null) {
-            IdentifierList sourceDomain = source.getKey().getDomain();
+            final IdentifierList sourceDomain = source.getKey().getDomain();
             if (sourceDomain != null) {
                 sourceDomainId = this.fastDomain.getDomainId(sourceDomain);
             }
@@ -292,12 +311,10 @@ public class ArchiveManager {
             sourceObjId = source.getKey().getInstId();
         }
 
-        SourceLinkContainer sourceLink = new SourceLinkContainer(sourceObjectType, sourceDomainId, sourceObjId);
-
-        return sourceLink;
+        return new SourceLinkContainer(sourceObjectType, sourceDomainId, sourceObjId);
     }
 
-    protected LongList insertEntries(final ObjectType objType, final IdentifierList domain,
+    protected synchronized LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         final LongList outIds = new LongList();
         final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<COMObjectEntity>();
@@ -327,21 +344,13 @@ public class ArchiveManager {
             outIds.add(objId);
         }
 
-        /*
-        try { // Insert into queue
-            storeQueue.put(perObjs);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
         Thread publishEvents = new Thread() {
             @Override
             public void run() {
-                final ObjectIdList sources = ArchiveManager.generateSources(objType, domain, outIds);
-
                 // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, sources, interaction);
-//                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Time 5: " + (System.currentTimeMillis() - startTime));
+                generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, 
+                        ArchiveManager.generateSources(objType, domain, outIds), 
+                        interaction);
             }
         };
 
@@ -383,10 +392,10 @@ public class ArchiveManager {
         Thread publishEvents = new Thread() {
             @Override
             public void run() {
-                final ObjectIdList sources = ArchiveManager.generateSources(objType, domain, objIds);
-
                 // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, sources, interaction);
+                generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, 
+                        ArchiveManager.generateSources(objType, domain, objIds), 
+                        interaction);
             }
         };
 
@@ -400,10 +409,10 @@ public class ArchiveManager {
         Thread publishEvents = new Thread() {
             @Override
             public void run() {
-                final ObjectIdList sources = ArchiveManager.generateSources(objType, domain, objIds);
-
                 // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, sources, interaction);
+                generateAndPublishEvents(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, 
+                        ArchiveManager.generateSources(objType, domain, objIds), 
+                        interaction);
             }
         };
 
@@ -431,7 +440,7 @@ public class ArchiveManager {
 
         // If objectType contains a wildcard then we have to filter them
         if (ArchiveManager.objectTypeContainsWildcard(objType)) {
-            perObjs = this.filterByObjectIdMask(perObjs, objType, false);
+            perObjs = ArchiveManager.filterByObjectIdMask(perObjs, objType, false);
         }
 
         // Source field
@@ -441,7 +450,7 @@ public class ArchiveManager {
                     || archiveQuery.getSource().getKey().getInstId() == 0) { // Any Wildcards?
                 // objectType filtering   (in the source link)
                 if (ArchiveManager.objectTypeContainsWildcard(archiveQuery.getSource().getType())) {
-                    perObjs = this.filterByObjectIdMask(perObjs, archiveQuery.getSource().getType(), true);
+                    perObjs = ArchiveManager.filterByObjectIdMask(perObjs, archiveQuery.getSource().getType(), true);
                 }
 
                 // Add domain filtering by subpart  (in the source link)
@@ -468,8 +477,8 @@ public class ArchiveManager {
         return outs;
     }
 
-    private ArrayList<COMObjectEntity> filterByObjectIdMask(
-            final ArrayList<COMObjectEntity> perObjs, 
+    private static ArrayList<COMObjectEntity> filterByObjectIdMask(
+            final ArrayList<COMObjectEntity> perObjs,
             final ObjectType objectTypeMask, final boolean isSource) {
         final long bitMask = ArchiveManager.objectType2Mask(objectTypeMask);
         final long objTypeId = HelperCOM.generateSubKey(objectTypeMask);
@@ -478,9 +487,9 @@ public class ArchiveManager {
         long tmpObjectTypeId;
         long objTypeANDed;
         for (COMObjectEntity perObj : perObjs) {
-            tmpObjectTypeId = (isSource) ? 
-                    HelperCOM.generateSubKey(perObj.getSourceLink().getObjectType()) :
-                    perObj.getObjectTypeId();
+            tmpObjectTypeId = (isSource)
+                    ? HelperCOM.generateSubKey(perObj.getSourceLink().getObjectType())
+                    : perObj.getObjectTypeId();
             objTypeANDed = (tmpObjectTypeId & bitMask);
             if (objTypeANDed == objTypeId) { // Comparison
                 tmpPerObjs.add(perObj);
@@ -510,8 +519,8 @@ public class ArchiveManager {
     }
 
     protected static ArrayList<ArchivePersistenceObject> filterQuery(
-            final ArrayList<ArchivePersistenceObject> perObjs, final CompositeFilterSet filterSet)
-            throws MALInteractionException {
+            final ArrayList<ArchivePersistenceObject> perObjs, 
+            final CompositeFilterSet filterSet) throws MALInteractionException {
         if (filterSet == null) {
             return perObjs;
         }
@@ -657,8 +666,7 @@ public class ArchiveManager {
             if (!(obj instanceof Composite)) {
                 return false;  // If it is not a composite, we can not check fields inside...
             } else {
-                try {
-                    // Does the Field asked for, exists?
+                try { // Does the Field asked for, exists?
                     HelperCOM.getNestedObject(obj, compositeFilter.getFieldName());
                 } catch (NoSuchFieldException ex) {
                     return false;

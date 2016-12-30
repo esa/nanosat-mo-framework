@@ -21,6 +21,7 @@
 package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.archive.entities.DomainHolderEntity;
+import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.ArrayList;
@@ -50,7 +51,6 @@ public class FastDomain {
         this.fastID = new HashMap<IdentifierList, Integer>();
         this.fastIDreverse = new HashMap<Integer, IdentifierList>();
         this.dbBackend = dbBackend;
-        this.loadDomains();
     }
 
     public synchronized void resetFastDomain() {
@@ -63,7 +63,7 @@ public class FastDomain {
         dbBackend.getEM().getTransaction().commit();
     }
 
-    private void loadDomains() {
+    public void init() {
         // Retrieve all the ids and domains from the Database
         dbBackend.createEntityManager();
 
@@ -107,7 +107,7 @@ public class FastDomain {
         dbBackend.createEntityManager();
 
         // Create Entity
-        DomainHolderEntity domainEntity = new DomainHolderEntity(domainId, HelperMisc.domain2domainId(domain));
+        final DomainHolderEntity domainEntity = new DomainHolderEntity(domainId, HelperMisc.domain2domainId(domain));
 
         // Add it to the table
         dbBackend.getEM().getTransaction().begin();

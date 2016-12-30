@@ -73,17 +73,16 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
         return this.configObjId;
     }
     
-    
     @Override
     public void configurationChanged(ReconfigurableServiceImplInterface serviceImpl) {
-
         // Update the configuration in the Archive!!
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
                 ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), configObjId);
 
         // Stuff to feed the update operation from the Archive...
-        ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
+        ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, 
+                configuration.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
         ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
         confObjsList.add(serviceImpl.getCurrentConfiguration());
 

@@ -45,7 +45,6 @@ public class FastNetwork {
         this.fastID = new HashMap<String, Integer>();
         this.fastIDreverse = new HashMap<Integer, String>();
         this.dbBackend = dbBackend;
-        this.loadNetworks();
     }
 
     public synchronized void resetFastNetwork() {
@@ -58,13 +57,12 @@ public class FastNetwork {
         dbBackend.getEM().getTransaction().commit();
     }
 
-    private void loadNetworks() {
+    public void init() {
         // Retrieve all the ids and networks from the Database
         dbBackend.createEntityManager();
 
         // Get All the networks available
         Query query = dbBackend.getEM().createQuery(QUERY_SELECT_NETWORK);
-
         List resultList = query.getResultList();
         ArrayList<NetworkHolderEntity> networksHolderEntities = new ArrayList<NetworkHolderEntity>();
         networksHolderEntities.addAll(resultList);

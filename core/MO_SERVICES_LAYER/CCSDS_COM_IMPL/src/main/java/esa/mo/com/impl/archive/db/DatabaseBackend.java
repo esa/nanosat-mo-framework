@@ -63,6 +63,42 @@ public class DatabaseBackend {
         this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
     }
 
+    /*
+    public void startBackendDatabase() {
+        final Semaphore sem = new Semaphore(0);
+
+        final Thread startDatabase = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    emAvailability.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                sem.release();
+
+                startServer();
+                createEMFactory();
+                emAvailability.release();
+
+                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO, "The database was initialized and the Archive service is ready!");
+            }
+        };
+
+        startDatabase.start();
+
+        try {
+            sem.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+     */
+    public Semaphore getEmAvailability() {
+        return emAvailability;
+    }
+
     public void startBackendDatabase() {
         final Semaphore sem = new Semaphore(0);
 
