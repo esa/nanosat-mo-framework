@@ -84,8 +84,8 @@ public class CloseAppEventListener extends EventReceivedListener {
         }
 
         // Should close them safely as well...
-//        provider.getCOMServices().closeServices();
 //        provider.getMCServices().closeServices();
+//        provider.getCOMServices().closeServices();
         // Exit the Java application
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "Success! The currently running Java Virtual Machine will now terminate.");
         System.exit(0);

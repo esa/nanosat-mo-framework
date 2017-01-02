@@ -31,6 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;
@@ -50,12 +51,14 @@ public class BackendInteractionsProcessor {
     private static final Class<COMObjectEntity> CLASS_ENTITY = COMObjectEntity.class;
     private final DatabaseBackend dbBackend;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final AtomicBoolean sequencialStoring;
 
     private final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;
 
     public BackendInteractionsProcessor(DatabaseBackend dbBackend) {
         this.dbBackend = dbBackend;
         this.storeQueue = new LinkedBlockingQueue<StoreCOMObjectsContainer>();
+        this.sequencialStoring = new AtomicBoolean(false);
     }
 
     private class GetCOMObjectCallable implements Callable {
@@ -77,6 +80,7 @@ public class BackendInteractionsProcessor {
     }
 
     public COMObjectEntity getCOMObject(final ObjectType objType, final Integer domain, final Long objId) {
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final GetCOMObjectCallable task = new GetCOMObjectCallable(COMObjectEntity.generatePK(objType, domain, objId));
         Future<COMObjectEntity> future = executor.submit(task);
 
@@ -116,6 +120,7 @@ public class BackendInteractionsProcessor {
     }
 
     public LongList getAllCOMObjects(final ObjectType objType, final Integer domainId) {
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final GetAllCOMObjectsCallable task = new GetAllCOMObjectsCallable(objType, domainId);
         Future<LongList> future = executor.submit(task);
 
@@ -205,14 +210,17 @@ public class BackendInteractionsProcessor {
 
     public void insert(final ArrayList<COMObjectEntity> perObjs, final Thread publishEventsThread) {
 
-        StoreCOMObjectsContainer container = new StoreCOMObjectsContainer(perObjs, true);
+        final boolean isSequential = this.sequencialStoring.get();
+        StoreCOMObjectsContainer container = new StoreCOMObjectsContainer(perObjs, isSequential);
+
+        this.sequencialStoring.set(true);
 
         try { // Insert into queue
             storeQueue.put(container);
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         final InsertCOMObjectRunnable task = new InsertCOMObjectRunnable(publishEventsThread);
         executor.execute(task);
 
@@ -254,9 +262,9 @@ public class BackendInteractionsProcessor {
 
     public void remove(final ObjectType objType, final Integer domainId,
             final LongList objIds, final Thread publishEventsThread) {
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final RemoveCOMObjectRunnable task = new RemoveCOMObjectRunnable(
                 objType, domainId, objIds, publishEventsThread);
-
         executor.execute(task);
     }
 
@@ -297,6 +305,7 @@ public class BackendInteractionsProcessor {
     }
 
     public void update(final ArrayList<COMObjectEntity> newObjs, final Thread publishEventsThread) {
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final UpdateCOMObjectRunnable task = new UpdateCOMObjectRunnable(newObjs, publishEventsThread);
         executor.execute(task);
     }
@@ -448,7 +457,7 @@ public class BackendInteractionsProcessor {
             final ArchiveQuery archiveQuery, final Integer domainId,
             final Integer providerURIId, final Integer networkId,
             final SourceLinkContainer sourceLink) {
-
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final QueryCallable task = new QueryCallable(objType, archiveQuery,
                 domainId, providerURIId, networkId, sourceLink);
 
@@ -466,6 +475,7 @@ public class BackendInteractionsProcessor {
     }
 
     public void resetMainTable(final Callable task) {
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         Future<Integer> nullValue = executor.submit(task);
         Logger.getLogger(BackendInteractionsProcessor.class.getName()).info("Reset table submitted!");
 
