@@ -20,6 +20,7 @@
  */
 package esa.mo.helpertools.connections;
 
+import esa.mo.helpertools.helpers.HelperConnections;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -144,13 +145,13 @@ public class ConnectionProvider {
         BufferedWriter wrt = null;
         try {
             wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, true));
-            wrt.append(serviceName + "URI=" + connectionDetails.getProviderURI());
+            wrt.append(serviceName + HelperConnections.SUFFIX_URI + "=" + connectionDetails.getProviderURI());
             wrt.newLine();
-            wrt.append(serviceName + "Broker=" + connectionDetails.getBrokerURI());
+            wrt.append(serviceName + HelperConnections.SUFFIX_BROKER + "=" + connectionDetails.getBrokerURI());
             wrt.newLine();
-            wrt.append(serviceName + "Domain=" + HelperMisc.domain2domainId(connectionDetails.getDomain()));
+            wrt.append(serviceName + HelperConnections.SUFFIX_DOMAIN + "=" + HelperMisc.domain2domainId(connectionDetails.getDomain()));
             wrt.newLine();
-            wrt.append(serviceName + "ServiceKey=" + serviceKey);
+            wrt.append(serviceName + HelperConnections.SUFFIX_SERVICE_KEY + "=" + serviceKey);
             wrt.newLine();
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to write URI information to properties file {0}", ex);
@@ -178,7 +179,6 @@ public class ConnectionProvider {
             if (null != mal) {
                 mal.close();
             }
-
         } catch (MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }

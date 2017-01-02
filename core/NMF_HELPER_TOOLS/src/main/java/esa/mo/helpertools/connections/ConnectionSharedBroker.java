@@ -20,6 +20,8 @@
  */
 package esa.mo.helpertools.connections;
 
+import esa.mo.helpertools.helpers.HelperConnections;
+import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,7 +44,6 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
  */
 public class ConnectionSharedBroker {
 
-    private static final String FILENAME_SHARED_BROKER_URI = "sharedBrokerURI.properties";
     private MALContextFactory malFactory;
     private MALContext mal;
     private MALBrokerManager brokerMgr;
@@ -74,8 +75,8 @@ public class ConnectionSharedBroker {
         // Write the URIs on a text file
         BufferedWriter wrt = null;
         try {
-            wrt = new BufferedWriter(new FileWriter(FILENAME_SHARED_BROKER_URI, true));
-            wrt.append("SharedBrokerURI=" + brokerBinding.getURI());
+            wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, true));
+            wrt.append(HelperConnections.PROPERTY_SHARED_BROKER + "=" + brokerBinding.getURI());
             wrt.newLine();
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to write URI information to properties file {0}", ex);
@@ -89,22 +90,6 @@ public class ConnectionSharedBroker {
         }
 
         return brokerBinding;
-
-        /*    
-         try (BufferedWriter wrt = new BufferedWriter(new FileWriter(filenameSharedBrokerURI, true)))
-         {
-         //      wrt.append(serviceName + "SharedBrokerURI=" + brokerBinding.getURI());
-         wrt.append("SharedBrokerURI=" + brokerBinding.getURI());
-         wrt.newLine();
-         wrt.close();
-         return brokerBinding;
-         }
-         catch (IOException ex)
-         {
-         Logger.getLogger(ConnectionSharedBroker.class.getName()).log(Level.WARNING, "Unable to write URI information to properties file {0}", ex);
-         return brokerBinding;
-         }
-         */
     }
 
     /**
@@ -129,10 +114,9 @@ public class ConnectionSharedBroker {
      * Clears the URI links file for the shared broker
      */
     public static void resetURILinksFile() {
-
         BufferedWriter wrt = null;
         try {
-            wrt = new BufferedWriter(new FileWriter(FILENAME_SHARED_BROKER_URI, false));
+            wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, false));
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
         } finally {
@@ -144,6 +128,5 @@ public class ConnectionSharedBroker {
             }
         }
     }
-
 
 }

@@ -20,6 +20,7 @@
  */
 package esa.mo.helpertools.connections;
 
+import esa.mo.helpertools.helpers.HelperConnections;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -69,7 +70,7 @@ public class ServicesConnectionDetails {
      */
     public ServicesConnectionDetails loadURIFromFiles(String filename) throws MalformedURLException {
 
-        final java.util.Properties sysProps = System.getProperties();
+        java.util.Properties uriProps = null;
         final String configFile;
         
         if (filename == null){
@@ -80,33 +81,34 @@ public class ServicesConnectionDetails {
         
         final java.io.File file = new java.io.File(configFile);
         if (file.exists()) {
-            sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "providerURI.properties"));
+            uriProps = HelperMisc.loadProperties(file.toURI().toURL(), "providerURI.properties");
+        }else{
+            return null;
         }
-        System.setProperties(sysProps);
-
+        
         // Reading the values out of the properties file
-        Set propKeys = System.getProperties().keySet();
+        Set propKeys = uriProps.keySet();
         Object[] array = propKeys.toArray();
 
         for (int i = 0; i < array.length; i++) {
             String propString = array[i].toString();
 
-            if (propString.endsWith("URI")) {  // Is it a URI property of some service?
-                String serviceName = propString.substring(0, propString.length() - 3);  // Remove the URI part of it
+            if (propString.endsWith(HelperConnections.SUFFIX_URI)) {  // Is it a URI property of some service?
+                String serviceName = propString.substring(0, propString.length() - HelperConnections.SUFFIX_URI.length());  // Remove the URI part of it
                 SingleConnectionDetails details = new SingleConnectionDetails();
 
                 // Get the URI + Broker + Domain from the Properties
-                details.setProviderURI(System.getProperty(serviceName + "URI"));
+                details.setProviderURI(uriProps.getProperty(serviceName + HelperConnections.SUFFIX_URI));
                 
-                String brokerURI = System.getProperty(serviceName + "Broker");
+                String brokerURI = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_BROKER);
                 details.setBrokerURI(brokerURI);
 
                 if ("null".equals(brokerURI)){
                     details.setBrokerURI((URI) null);
                 }
 
-                details.setDomain(HelperMisc.domainId2domain(System.getProperty(serviceName + "Domain")));
-                String serviceKeyRaw = System.getProperty(serviceName + "ServiceKey");
+                details.setDomain(HelperMisc.domainId2domain(uriProps.getProperty(serviceName + HelperConnections.SUFFIX_DOMAIN)));
+                String serviceKeyRaw = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_SERVICE_KEY);
 
                 if (serviceKeyRaw != null) {
                     String[] a = serviceKeyRaw.substring(1, serviceKeyRaw.length() - 1).split(", ");

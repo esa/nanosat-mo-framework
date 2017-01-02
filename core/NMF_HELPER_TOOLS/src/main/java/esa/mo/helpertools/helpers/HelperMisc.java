@@ -133,7 +133,6 @@ public class HelperMisc {
      * file to load.
      * @return The loaded properties or an empty list if no file loaded.
      */
-    @SuppressWarnings("unchecked")
     public static Properties loadProperties(final java.net.URL url, final String chainProperty) {
         final Properties topProps = new Properties();
 
