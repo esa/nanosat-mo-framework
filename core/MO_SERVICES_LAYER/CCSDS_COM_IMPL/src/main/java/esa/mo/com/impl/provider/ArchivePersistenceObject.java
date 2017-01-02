@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.provider;
 
-import esa.mo.com.impl.archive.db.COMObjectPK;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -153,11 +152,10 @@ public class ArchivePersistenceObject implements Serializable{
         this.obj = (Element) HelperAttributes.javaType2Attribute(object);
         
         // This is specific to the database, not the COM object timestamp
-//        this.storeTimestamp = new java.sql.Timestamp(System.currentTimeMillis()); // stamp the time of the object store
         this.storeTimestamp = System.currentTimeMillis(); // stamp the time of the object store
-
     }
 
+    /*
     public static COMObjectPK generatePK (final ObjectType 
              objectType, final IdentifierList domain, final Long objId){
         // Generate Primary Key
@@ -170,5 +168,6 @@ public class ArchivePersistenceObject implements Serializable{
     public COMObjectPK getPrimaryKey(){
         return new COMObjectPK(this.objectTypeId, this.domainId, this.objId );
     }
+*/
 
 }

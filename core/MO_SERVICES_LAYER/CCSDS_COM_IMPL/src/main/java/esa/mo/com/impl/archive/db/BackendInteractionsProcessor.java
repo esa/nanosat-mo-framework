@@ -63,9 +63,9 @@ public class BackendInteractionsProcessor {
 
     private class GetCOMObjectCallable implements Callable {
 
-        private final COMObjectPK2 id;
+        private final COMObjectEntityPK id;
 
-        public GetCOMObjectCallable(final COMObjectPK2 id) {
+        public GetCOMObjectCallable(final COMObjectEntityPK id) {
             this.id = id;
         }
 
@@ -247,7 +247,7 @@ public class BackendInteractionsProcessor {
 
             // Generate the object Ids if needed and the persistence objects to be removed
             for (int i = 0; i < objIds.size(); i++) {
-                final COMObjectPK2 id = COMObjectEntity.generatePK(objType, domainId, objIds.get(i));
+                final COMObjectEntityPK id = COMObjectEntity.generatePK(objType, domainId, objIds.get(i));
                 COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY, id);
                 dbBackend.getEM().getTransaction().begin();
                 dbBackend.getEM().remove(perObj);
@@ -284,7 +284,7 @@ public class BackendInteractionsProcessor {
             dbBackend.createEntityManager();  // 0.166 ms
 
             for (int i = 0; i < newObjs.size(); i++) {
-                final COMObjectPK2 id = newObjs.get(i).getPrimaryKey();
+                final COMObjectEntityPK id = newObjs.get(i).getPrimaryKey();
                 COMObjectEntity previousObj = dbBackend.getEM().find(CLASS_ENTITY, id);
 
                 dbBackend.getEM().getTransaction().begin();

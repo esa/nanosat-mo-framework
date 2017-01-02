@@ -26,13 +26,13 @@ import java.io.Serializable;
  * Archive Persistence Object Primary Key 2
  * @author Cesar Coelho
  */
-public class COMObjectPK2 implements Serializable {
+public class COMObjectEntityPK implements Serializable {
 
     private final Long objectTypeId;
-    private final Short domainId;
+    private final Integer domainId;
     private final Long objId;
 
-    public COMObjectPK2 (final Long objectTypeId, final Short domain, final Long objId){
+    public COMObjectEntityPK (final Long objectTypeId, final Integer domain, final Long objId){
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;
@@ -41,8 +41,8 @@ public class COMObjectPK2 implements Serializable {
     @Override
     public boolean equals(Object other) {
     	if (this == other) return true;
-        if (!(other instanceof COMObjectPK2)) return false;
-        COMObjectPK2 input = (COMObjectPK2) other;
+        if (!(other instanceof COMObjectEntityPK)) return false;
+        COMObjectEntityPK input = (COMObjectEntityPK) other;
         
         return (input.objectTypeId.equals(objectTypeId) &&
                 input.domainId.equals(domainId) &&

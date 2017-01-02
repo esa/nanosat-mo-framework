@@ -20,7 +20,7 @@
  */
 package esa.mo.com.impl.archive.entities;
 
-import esa.mo.com.impl.archive.db.COMObjectPK2;
+import esa.mo.com.impl.archive.db.COMObjectEntityPK;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperAttributes;
@@ -43,7 +43,7 @@ import org.ccsds.moims.mo.mal.structures.FineTime;
  * @author Cesar Coelho
  */
 @Entity
-@IdClass(COMObjectPK2.class)
+@IdClass(COMObjectEntityPK.class)
 @Table(name = "COMObjectEntity",
         indexes = {
             @Index(name = "index_related2", columnList = "relatedLink", unique = false),
@@ -60,7 +60,7 @@ public class COMObjectEntity implements Serializable {
 
     @Id
     @Column(name = "domainId")
-    private Short domainId;
+    private Integer domainId;
 
     @Id
     @Column(name = "objId")
@@ -71,17 +71,14 @@ public class COMObjectEntity implements Serializable {
     private Long relatedLink;
 
     @Column(name = "network")
-    private Short network;
+    private Integer network;
 
     @Column(name = "timestampArchiveDetails")
     private Long timestampArchiveDetails;
 
     @Column(name = "providerURI")
-    private Short providerURI;
+    private Integer providerURI;
 
-//    @Column(name = "storeTimestamp")
-//    private Long storeTimestamp;
-    
     private byte[] obj;
 
     // ---------------------    
@@ -89,7 +86,7 @@ public class COMObjectEntity implements Serializable {
     private Long sourceLinkObjectTypeId;
 
     @Column(name = "sourceLinkDomainId")
-    private Short sourceLinkDomainId;
+    private Integer sourceLinkDomainId;
 
     @Column(name = "sourceLinkObjId")
     private Long sourceLinkObjId;
@@ -104,7 +101,7 @@ public class COMObjectEntity implements Serializable {
     }
 
     public Integer getDomainId() {
-        return new Integer(this.domainId);
+        return this.domainId;
     }
 
     public Long getObjectId() {
@@ -117,7 +114,7 @@ public class COMObjectEntity implements Serializable {
 
     public SourceLinkContainer getSourceLink() {
         final ObjectType objType = (sourceLinkObjectTypeId != null) ? HelperCOM.objectTypeId2objectType(sourceLinkObjectTypeId) : null;
-        final Integer domainIdLocal = (sourceLinkDomainId != null) ? new Integer(sourceLinkDomainId) : null;
+        final Integer domainIdLocal = (sourceLinkDomainId != null) ? sourceLinkDomainId : null;
         return new SourceLinkContainer(
                 objType,
                 domainIdLocal,
@@ -126,11 +123,11 @@ public class COMObjectEntity implements Serializable {
     }
 
     public Integer getNetwork() {
-        return new Integer(this.network);
+        return (this.network);
     }
 
     public Integer getProviderURI() {
-        return new Integer(this.providerURI);
+        return (this.providerURI);
     }
 
     public FineTime getTimestamp() {
@@ -153,11 +150,6 @@ public class COMObjectEntity implements Serializable {
         return HelperAttributes.attribute2JavaType(elem);
     }
 
-    /*
-    protected Long getStoreTimestamp() {
-        return storeTimestamp;
-    }
-     */
     protected COMObjectEntity() {
     }
 
@@ -172,16 +164,16 @@ public class COMObjectEntity implements Serializable {
             Object object) {
 
         this.objectTypeId = HelperCOM.generateSubKey(objectType);
-        this.domainId = domain.shortValue();
+        this.domainId = domain;
         this.objId = objId;
 
         this.timestampArchiveDetails = timestampArchiveDetails;
-        this.providerURI = providerURI.shortValue();
-        this.network = network.shortValue();
+        this.providerURI = providerURI;
+        this.network = network;
         this.relatedLink = relatedLink;
 
         this.sourceLinkObjectTypeId = (sourceLink == null) ? null : HelperCOM.generateSubKey(sourceLink.getObjectType());
-        this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink.getDomainId().shortValue();
+        this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink.getDomainId();
         this.sourceLinkObjId = (sourceLink == null) ? null : sourceLink.getObjId();
 
         this.obj = null;
@@ -198,21 +190,18 @@ public class COMObjectEntity implements Serializable {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        // This is specific to the database, not the COM object timestamp
-//        this.storeTimestamp = System.currentTimeMillis(); // stamp the time of the object store
     }
 
-    public static COMObjectPK2 generatePK(final ObjectType objectType, final Integer domain, final Long objId) {
+    public static COMObjectEntityPK generatePK(final ObjectType objectType, final Integer domain, final Long objId) {
         // Generate Primary Key
-        return new COMObjectPK2(
+        return new COMObjectEntityPK(
                 HelperCOM.generateSubKey(objectType),
-                domain.shortValue(),
+                domain,
                 objId);
     }
 
-    public COMObjectPK2 getPrimaryKey() {
-        return new COMObjectPK2(this.objectTypeId, this.domainId, this.objId);
+    public COMObjectEntityPK getPrimaryKey() {
+        return new COMObjectEntityPK(this.objectTypeId, this.domainId, this.objId);
     }
 
 }
