@@ -57,6 +57,7 @@ import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.NamedValue;
 import org.ccsds.moims.mo.mal.structures.NamedValueList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.QoSLevelList;
@@ -112,7 +113,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
 
         directoryServiceProvider = connection.startService(DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(), DirectoryHelper.DIRECTORY_SERVICE, false, this);
-        
+
         running = true;
         initialiased = true;
         Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).info("Directory service READY");
@@ -135,10 +136,10 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
     }
 
-    public ConnectionProvider getConnection(){
+    public ConnectionProvider getConnection() {
         return this.connection;
     }
-    
+
     @Override
     public ProviderSummaryList lookupProvider(ServiceFilter filter, MALInteraction interaction) throws MALInteractionException, MALException {
 
@@ -156,13 +157,13 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             }
         }
-        
+
         final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
 
-        synchronized(MUTEX){
+        synchronized (MUTEX) {
             list.putAll(providersAvailable);
         }
-        
+
         LongList keys = new LongList();
         keys.addAll(list.keySet());
 
@@ -170,13 +171,13 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         ProviderSummaryList outputList = new ProviderSummaryList();
 
         // Filter...
-        for (int i = 0; i < keys.size() ; i++) { // Filter through all providers
+        for (int i = 0; i < keys.size(); i++) { // Filter through all providers
 
             PublishDetails provider = list.get(keys.get(i));
             ProviderSummary providerOutput = new ProviderSummary();
-            
+
             //Check service provider name
-            if(!filter.getServiceProviderName().toString().equals("*")){ // If not a wildcard...
+            if (!filter.getServiceProviderName().toString().equals("*")) { // If not a wildcard...
                 if (!provider.getProviderName().toString().equals(filter.getServiceProviderName().toString())) {
                     continue;
                 }
@@ -189,11 +190,10 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     continue;
                 }
 
-            } else { // Direct match...
-                if (!inputDomain.equals(provider.getDomain())) {
+            } else // Direct match...
+             if (!inputDomain.equals(provider.getDomain())) {
                     continue;
                 }
-            }
 
             // Check session type
             if (filter.getSessionType() != null) {
@@ -212,7 +212,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             // Set the Provider Details structure
             ProviderDetails outProvDetails = new ProviderDetails();
             outProvDetails.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
-            
+
             ServiceCapabilityList outCap = new ServiceCapabilityList();
 
             // Check each service
@@ -259,7 +259,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                         continue;
                     }
                 }
-                
+
                 // Add the service to the list of matching services
                 outCap.add(serviceCapability);
             }
@@ -268,7 +268,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             final ObjectKey objKey = new ObjectKey(provider.getDomain(), keys.get(i));
             providerOutput.setProviderKey(objKey);
             providerOutput.setProviderName(provider.getProviderName());
-            
+
             outProvDetails.setServiceCapabilities(outCap);
             providerOutput.setProviderDetails(outProvDetails);
 
@@ -325,9 +325,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
 
         // related contains the objId of the ServiceProvider object
-        ArchiveDetailsList archDetails1 = (interaction == null) ? 
-                HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getConnectionDetails()) : 
-                HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
+        ArchiveDetailsList archDetails1 = (interaction == null)
+                ? HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getConnectionDetails())
+                : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
 
         ProviderDetailsList capabilities = new ProviderDetailsList();
         capabilities.add(newProviderDetails.getProviderDetails());
@@ -342,7 +342,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 null
         );
 
-        synchronized(MUTEX){
+        synchronized (MUTEX) {
             this.providersAvailable.put(servProvObjId, newProviderDetails);
         }
 
@@ -351,65 +351,98 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public void withdrawProvider(Long providerObjectKey, MALInteraction interaction) throws MALInteractionException, MALException {
-        synchronized(MUTEX){
+        synchronized (MUTEX) {
             PublishDetails details = this.providersAvailable.get(providerObjectKey);
 
             if (details == null) { // The requested provider does not exist
                 throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
             }
 
-            // Remove the provider...
-            providersAvailable.remove(providerObjectKey);
+            providersAvailable.remove(providerObjectKey); // Remove the provider...
         }
     }
 
     public PublishDetails autoLoadURIsFile(String providerName) {
-        ServicesConnectionDetails servicesOnFile = new ServicesConnectionDetails();
+        ServicesConnectionDetails primaryConnectionDetails = new ServicesConnectionDetails();
+        ServicesConnectionDetails secondaryAddresses = new ServicesConnectionDetails();
 
         try {
-            servicesOnFile = servicesOnFile.loadURIFromFiles();
+            primaryConnectionDetails = primaryConnectionDetails.loadURIFromFiles();
         } catch (MalformedURLException ex) {
             Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        HashMap<String, SingleConnectionDetails> map = servicesOnFile.getServices();
-        Object[] a = map.keySet().toArray();
+        try {
+            secondaryAddresses = secondaryAddresses.loadURIFromFiles("providerURIsSecondary.properties");
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        ServiceCapabilityList capabilities = new ServiceCapabilityList();
+        HashMap<String, SingleConnectionDetails> connsMap = primaryConnectionDetails.getServices();
+        Object[] keys = connsMap.keySet().toArray();
+
+        final ServiceCapabilityList capabilities = new ServiceCapabilityList();
 
         // Iterate all the services and make them available...
-        for (int i = 0; i < a.length; i++) {
-            ServiceCapability capability = new ServiceCapability();
+        for (int i = 0; i < keys.length; i++) {
+            String serviceName = (String) keys[i];
+            SingleConnectionDetails conn = connsMap.get(serviceName);
+            AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn);
 
-            String servName = (String) a[i];
-            SingleConnectionDetails conn = map.get(servName);
+            AddressDetailsList serviceAddresses = new AddressDetailsList();
+            serviceAddresses.add(serviceAddress);
 
             ServiceKey key = new ServiceKey();
             key.setArea(new UShort(conn.getServiceKey().get(0)));
             key.setService(new UShort(conn.getServiceKey().get(1)));
             key.setVersion(new UOctet(conn.getServiceKey().get(2).shortValue()));
 
-            QoSLevelList qos = new QoSLevelList();
-            qos.add(QoSLevel.ASSURED);
-            NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
-
-            AddressDetails serviceAddress = new AddressDetails();
-            serviceAddress.setSupportedLevels(qos);
-            serviceAddress.setQoSproperties(qosProperties);
-            serviceAddress.setPriorityLevels(new UInteger(1));  // hum?
-            serviceAddress.setServiceURI(conn.getProviderURI());
-            serviceAddress.setBrokerURI(conn.getBrokerURI());
-            serviceAddress.setBrokerProviderObjInstId(null);
-
-            AddressDetailsList serviceAddresses = new AddressDetailsList();
-            serviceAddresses.add(serviceAddress);
-
+            ServiceCapability capability = new ServiceCapability();
             capability.setServiceKey(key);
             capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
-            capability.setServiceProperties(new NamedValueList());
+            NamedValueList serviceProps = new NamedValueList();
+            serviceProps.add(new NamedValue(new Identifier("name"), new Identifier(serviceName)));
+            capability.setServiceProperties(serviceProps);
             capability.setServiceAddresses(serviceAddresses);
 
             capabilities.add(capability);
+        }
+
+        // Second iteration needed here for the secondaryAddresses
+        if (secondaryAddresses != null) {
+            connsMap = secondaryAddresses.getServices();
+            keys = connsMap.keySet().toArray();
+
+            for (int i = 0; i < keys.length; i++) {
+                String serviceName = (String) keys[i];
+                SingleConnectionDetails conn = connsMap.get(serviceName);
+                AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn);
+
+//                AddressDetailsList serviceAddresses = new AddressDetailsList();
+                AddressDetailsList serviceAddresses = this.findAddressDetailsListOfService(serviceName, capabilities);
+
+                if (serviceAddresses == null) { // If not found
+                    serviceAddresses = new AddressDetailsList();
+
+                    // Then create a new capability object
+                    ServiceKey key = new ServiceKey();
+                    key.setArea(new UShort(conn.getServiceKey().get(0)));
+                    key.setService(new UShort(conn.getServiceKey().get(1)));
+                    key.setVersion(new UOctet(conn.getServiceKey().get(2).shortValue()));
+
+                    ServiceCapability capability = new ServiceCapability();
+                    capability.setServiceKey(key);
+                    capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
+                    NamedValueList serviceProps = new NamedValueList();
+                    serviceProps.add(new NamedValue(new Identifier("name"), new Identifier(serviceName)));
+                    capability.setServiceProperties(serviceProps);
+                    capability.setServiceAddresses(serviceAddresses);
+
+                    capabilities.add(capability);
+                }
+
+                serviceAddresses.add(serviceAddress);
+            }
         }
 
         ProviderDetails serviceDetails = new ProviderDetails();
@@ -432,8 +465,44 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         } catch (MALException ex) {
             Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return null;
+    }
+
+    private static AddressDetails getServiceAddressDetails(SingleConnectionDetails conn) {
+        QoSLevelList qos = new QoSLevelList();
+        qos.add(QoSLevel.ASSURED);
+        NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
+
+        AddressDetails serviceAddress = new AddressDetails();
+        serviceAddress.setSupportedLevels(qos);
+        serviceAddress.setQoSproperties(qosProperties);
+        serviceAddress.setPriorityLevels(new UInteger(1));  // hum?
+        serviceAddress.setServiceURI(conn.getProviderURI());
+        serviceAddress.setBrokerURI(conn.getBrokerURI());
+        serviceAddress.setBrokerProviderObjInstId(null);
+
+        return serviceAddress;
+    }
+
+    private AddressDetailsList findAddressDetailsListOfService(String serviceName, ServiceCapabilityList capabilities) {
+        if (serviceName == null) {
+            return null;
+        }
+
+        // Iterate all capabilities until you find the serviceName
+        for (ServiceCapability capability : capabilities) {
+            if (capability != null) {
+                for (NamedValue serviceProp : capability.getServiceProperties()) {
+                    if ("name".equals(serviceProp.getName().getValue())
+                            && serviceName.equals(((Identifier) serviceProp.getValue()).getValue())) {
+                        return capability.getServiceAddresses();
+                    }
+                }
+            }
+        }
+
+        return null; // Not found!
     }
 
 }

@@ -111,6 +111,7 @@ public class ServicesConnectionDetails {
                 String serviceKeyRaw = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_SERVICE_KEY);
 
                 if (serviceKeyRaw != null) {
+                    // 1 in order to remove the '['
                     String[] a = serviceKeyRaw.substring(1, serviceKeyRaw.length() - 1).split(", ");
                     IntegerList serviceKey = new IntegerList();
                     serviceKey.add(Integer.parseInt(a[0]));

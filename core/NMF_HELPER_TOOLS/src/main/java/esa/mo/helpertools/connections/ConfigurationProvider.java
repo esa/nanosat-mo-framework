@@ -58,7 +58,6 @@ public class ConfigurationProvider {
      * Additionally, it sets the session to SessionType.LIVE
      */
     public ConfigurationProvider() {
-
         if (System.getProperty(HelperMisc.ORGANIZATION_NAME) == null) {  // The property does not exist? 
             HelperMisc.loadPropertiesFile(); // try to load the properties from the file...
         }

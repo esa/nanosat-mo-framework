@@ -69,7 +69,7 @@ public class HelperCOMMON {
             details.setProviderURI(addressDetails.getServiceURI());
             details.setDomain(provider.getProviderKey().getDomain());
 
-            MALService malService = MALContextFactory.lookupArea(key.getArea(), key.getAreaVersion()).getServiceByNumber(key.getService());
+            MALService malService = MALContextFactory.lookupArea(key.getArea(), key.getVersion()).getServiceByNumber(key.getService());
             
             if(malService == null){
                 Logger.getLogger(HelperCOMMON.class.getName()).log(Level.WARNING, "The service could not be found in the MAL factory. Maybe the Helper for that service was not initialized. The service key is: " + key.toString());
