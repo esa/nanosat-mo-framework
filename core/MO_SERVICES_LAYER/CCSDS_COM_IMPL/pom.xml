@@ -91,7 +91,6 @@
         <dependency>
           <groupId>int.esa.ccsds.mo</groupId>
           <artifactId>ENCODING_BINARY</artifactId>
-            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
 <!--

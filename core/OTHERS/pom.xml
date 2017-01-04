@@ -14,49 +14,49 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
   
-  <parent>
-    <groupId>int.esa.ccsds.mo</groupId>
-    <artifactId>POM</artifactId>
-    <version>5</version>
-    <relativePath/>
-  </parent>
+    <parent>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>NMF_POM</artifactId>
+        <version>1-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
   
-  <artifactId>OTHERS</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>Others</name>
+    <artifactId>OTHERS</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Others</name>
 
-  <organization>
-    <name>ESA</name>
-    <url>http://www.esa.int</url>
-  </organization>
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
   
-  <licenses>
-    <license>
-      <name>The European Space Agency Public License, Version 2.0</name>
-      <url>https://raw.github.com/esa/CCSDS_MO_APIS/master/LICENCE.md</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>The European Space Agency Public License, Version 2.0</name>
+            <url>https://raw.github.com/esa/CCSDS_MO_APIS/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/esa/CCSDS_MO_APIS/issues</url>
-  </issueManagement>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/esa/CCSDS_MO_APIS/issues</url>
+    </issueManagement>
   
-  <developers>
-    <developer>
-      <id>CesarCoelho</id>
-      <name>Cesar Coelho</name>
-      <email>cesar.coelho@esa.int</email>
-      <url>https://github.com/CesarCoelho</url>
-    </developer>
-  </developers>
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>Cesar Coelho</name>
+            <email>cesar.coelho@esa.int</email>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
 
-  <modules>
-    <module>GPS_SIMULATOR</module>
-    <module>CCSDS_MO_TOOLS_WINDOW</module>
-  </modules>
+    <modules>
+        <module>GPS_SIMULATOR</module>
+        <module>CCSDS_MO_TOOLS_WINDOW</module>
+    </modules>
 </project>
