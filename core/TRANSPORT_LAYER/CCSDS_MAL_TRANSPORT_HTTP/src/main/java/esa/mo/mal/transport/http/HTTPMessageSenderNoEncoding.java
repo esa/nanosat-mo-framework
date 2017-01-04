@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
  * The implementation of the GENMessageSender interface for HTTP transport.
  * Encodes and delivers the MAL message via a HTTP request.
  */
-public class HTTPMessageSenderNoEncoding implements GENMessageSender
+public class HTTPMessageSenderNoEncoding implements GENMessageSender<byte[]>
 {
   protected final HTTPTransport transport;
   protected final String abstractPostClientImpl;
@@ -66,7 +66,7 @@ public class HTTPMessageSenderNoEncoding implements GENMessageSender
   }
 
   @Override
-  public void sendEncodedMessage(GENOutgoingMessageHolder packetData) throws IOException
+  public void sendEncodedMessage(GENOutgoingMessageHolder<byte[]> packetData) throws IOException
   {
     MALMessageHeader malMessageHeader = packetData.getOriginalMessage().getHeader();
     

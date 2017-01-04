@@ -65,7 +65,7 @@ import org.ccsds.moims.mo.mal.transport.MALTransportFactory;
 /**
  * An implementation of the transport interface for the HTTP protocol.
  */
-public class HTTPTransport extends GENTransport
+public class HTTPTransport extends GENTransport<HTTPHeaderAndBody, byte[]>
 {
   // TODO where to pass and how to set ??
   public static final Boolean authenticationIdFlag = true;
@@ -476,7 +476,7 @@ public class HTTPTransport extends GENTransport
   }
 
   @Override
-  protected GENOutgoingMessageHolder internalEncodeMessage(final String destinationRootURI,
+  protected GENOutgoingMessageHolder<byte[]> internalEncodeMessage(final String destinationRootURI,
           final String destinationURI,
           final Object multiSendHandle,
           final boolean lastForHandle,
@@ -485,7 +485,7 @@ public class HTTPTransport extends GENTransport
   {
     if (selectedHttpBindingMode == HTTP_BINDING_MODE_NO_ENCODING)
     {
-      return super.internalEncodeMessage(destinationRootURI, destinationURI, multiSendHandle, lastForHandle, targetURI, msg);
+      return internalEncodeMessage(destinationRootURI, destinationURI, multiSendHandle, lastForHandle, targetURI, msg);
     }
     else
     {
@@ -503,7 +503,7 @@ public class HTTPTransport extends GENTransport
         targetURI, new PacketToString(data)
         });
 
-        return new GENOutgoingMessageHolder(destinationRootURI, destinationURI, multiSendHandle, lastForHandle, msg, data);
+        return new GENOutgoingMessageHolder<byte[]>(10, destinationRootURI, destinationURI, multiSendHandle, lastForHandle, msg, data);
       }
       catch (MALException ex)
       {
@@ -518,17 +518,24 @@ public class HTTPTransport extends GENTransport
    * 
    * @param messageSource The input HTTPHeaderAndBody data structure to use.
    * @return The new message.
-   * @throws MALException on Error.
    */
-  protected GENMessage createMessage(final HTTPHeaderAndBody messageSource) throws MALException
+  @Override
+  public GENMessage createMessage(final HTTPHeaderAndBody messageSource)
   {
     GENMessageHeader header = messageSource.header;
     byte[] packetData = messageSource.encodedPacketData;
-    return new GENMessage(wrapBodyParts, false, header, qosProperties, packetData, getStreamFactory());
+    try{
+        return new GENMessage(wrapBodyParts, false, header, qosProperties, packetData, getStreamFactory());
+    }
+    catch(MALException ex)
+    {
+        LOGGER.log(Level.SEVERE, "Could not create message!", ex);
+        return null;
+    }
   }
 
   @Override
-  protected GENMessageSender createMessageSender(GENMessage msg, String remoteRootURI) throws MALException, MALTransmitErrorException
+  protected GENMessageSender createMessageSender(GENMessage msg, String remoteRootURI)
   {
     if (selectedHttpBindingMode == HTTP_BINDING_MODE_NO_ENCODING)
     {

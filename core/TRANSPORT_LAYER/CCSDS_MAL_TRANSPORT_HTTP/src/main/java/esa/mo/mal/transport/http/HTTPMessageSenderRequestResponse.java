@@ -52,7 +52,7 @@ public class HTTPMessageSenderRequestResponse extends HTTPMessageSenderNoRespons
   }
 
   @Override
-  public void sendEncodedMessage(GENOutgoingMessageHolder packetData) throws IOException
+  public void sendEncodedMessage(GENOutgoingMessageHolder<byte[]> packetData) throws IOException
   {
     if (HTTPTransport.messageIsEncodedHttpResponse(packetData.getOriginalMessage().getHeader()))
     {
@@ -70,7 +70,7 @@ public class HTTPMessageSenderRequestResponse extends HTTPMessageSenderNoRespons
    * @param packetData the MALMessage
    * @throws IOException in case the message cannot be sent to the client
    */
-  public void sendEncodedMessageViaHttpResponse(GENOutgoingMessageHolder packetData) throws IOException
+  public void sendEncodedMessageViaHttpResponse(GENOutgoingMessageHolder<byte[]> packetData) throws IOException
   {
     MALMessageHeader malMessageHeader = packetData.getOriginalMessage().getHeader();
     AbstractHttpResponse httpResponse = transport.retrieveOpenHttpResponse(malMessageHeader.getURIFrom().getValue(), malMessageHeader.getTransactionId());
@@ -180,7 +180,7 @@ public class HTTPMessageSenderRequestResponse extends HTTPMessageSenderNoRespons
    * @param packetData the MALMessage
    * @throws IOException in case the message cannot be sent to the client
    */
-  protected void sendEncodedMessageViaHttpClient(GENOutgoingMessageHolder packetData) throws IOException
+  protected void sendEncodedMessageViaHttpClient(GENOutgoingMessageHolder<byte[]> packetData) throws IOException
   {
     MALMessageHeader malMessageHeader = packetData.getOriginalMessage().getHeader();
     

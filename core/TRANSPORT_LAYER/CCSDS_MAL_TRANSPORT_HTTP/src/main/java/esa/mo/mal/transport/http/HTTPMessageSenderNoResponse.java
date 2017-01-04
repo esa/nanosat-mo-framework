@@ -48,7 +48,7 @@ public class HTTPMessageSenderNoResponse extends HTTPMessageSenderNoEncoding
   }
 
   @Override
-  public void sendEncodedMessage(GENOutgoingMessageHolder packetData) throws IOException
+  public void sendEncodedMessage(GENOutgoingMessageHolder<byte[]> packetData) throws IOException
   {
     MALMessageHeader malMessageHeader = packetData.getOriginalMessage().getHeader();
     

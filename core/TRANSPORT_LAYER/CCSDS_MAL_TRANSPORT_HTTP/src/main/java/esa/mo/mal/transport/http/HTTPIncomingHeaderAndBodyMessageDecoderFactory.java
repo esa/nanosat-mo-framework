@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mal.MALException;
 /**
  * Factory class for HTTPHeaderAndBody decoders.
  */
-public class HTTPIncomingHeaderAndBodyMessageDecoderFactory implements GENIncomingMessageDecoderFactory<HTTPHeaderAndBody>
+public class HTTPIncomingHeaderAndBodyMessageDecoderFactory implements GENIncomingMessageDecoderFactory<HTTPHeaderAndBody, byte[]>
 {
   @Override
   public GENIncomingMessageDecoder createDecoder(GENTransport transport, GENReceptionHandler receptionHandler, HTTPHeaderAndBody messageSource)
