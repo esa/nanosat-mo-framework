@@ -64,8 +64,10 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         HelperMisc.setInputProcessorsProperty();
 
-        this.platformServices = platformServices;
+        // Create provider name to be registerd on the Directory service...
         this.providerName = System.getProperty(HelperMisc.MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
+
+        this.platformServices = platformServices;
 
         try {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.FINE, "Initializing services...");

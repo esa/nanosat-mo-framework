@@ -187,7 +187,8 @@ public class COMObjectEntity implements Serializable {
                 be.encodeNullableElement(ele);
                 this.obj = bodyBaos.toByteArray();
             } catch (MALException ex) {
-                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE, 
+                        "Could not encode COM object with object body class: " + ele.getClass().getSimpleName(), ex);
             }
         }
     }

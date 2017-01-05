@@ -65,6 +65,7 @@ public class HelperMisc {
     public final static String NMF_APP_DESCRIPTION = "helpertools.configurations.provider.NMFAppDescription";
     public final static String NMF_PACKAGE_NAME = "helpertools.configurations.provider.NMFPackageName";
     public final static String NMF_PACKAGE_ID = "helpertools.configurations.provider.NMFPackageId";
+    public final static String NMF_NMS_NAME = "NanoSat_MO_Supervisor";
 
     public final static String NETWORK_ZONE = "helpertools.configurations.provider.NetworkZone";
     public final static String DEVICE_NAME = "helpertools.configurations.provider.DeviceName";

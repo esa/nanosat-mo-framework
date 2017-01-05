@@ -73,6 +73,12 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         HelperMisc.setInputProcessorsProperty();
+        
+        // To do: Should override the MO_APP_NAME propertie with HelperMisc.NMF_NMS_NAME
+        // Then edit the line below to use the MO_APP_NAME
+
+        // Create provider name to be registerd on the Directory service...
+        this.providerName = System.getProperty(HelperMisc.NMF_NMS_NAME);
 
         this.platformServices = platformServices;
 
