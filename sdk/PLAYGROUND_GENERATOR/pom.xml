@@ -18,8 +18,8 @@
   
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>POM</artifactId>
-        <version>5</version>
+        <artifactId>NMF_POM</artifactId>
+        <version>1-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
