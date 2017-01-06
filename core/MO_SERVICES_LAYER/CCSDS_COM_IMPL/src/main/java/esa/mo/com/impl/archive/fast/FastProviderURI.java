@@ -18,8 +18,9 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.archive.db;
+package esa.mo.com.impl.archive.fast;
 
+import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.entities.ProviderURIHolderEntity;
 import java.util.ArrayList;
 import java.util.HashMap;

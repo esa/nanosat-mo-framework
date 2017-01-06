@@ -9,6 +9,7 @@
     <class>esa.mo.com.impl.archive.entities.NetworkHolderEntity</class>
     <class>esa.mo.com.impl.archive.entities.ProviderURIHolderEntity</class>
     <class>esa.mo.com.impl.archive.entities.COMObjectEntity</class>
+    <class>esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <!--      

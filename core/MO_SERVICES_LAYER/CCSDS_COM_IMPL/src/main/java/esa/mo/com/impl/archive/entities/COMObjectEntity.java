@@ -92,6 +92,61 @@ public class COMObjectEntity implements Serializable {
     private Long sourceLinkObjId;
     // ---------------------    
 
+    protected COMObjectEntity() {
+    }
+
+    public COMObjectEntity(ObjectType objectType,
+            Integer domain,
+            Long objId,
+            Long timestampArchiveDetails,
+            Integer providerURI,
+            Integer network,
+            SourceLinkContainer sourceLink,
+            Long relatedLink,
+            Object object) {
+
+        this.objectTypeId = HelperCOM.generateSubKey(objectType);
+        this.domainId = domain;
+        this.objId = objId;
+
+        this.timestampArchiveDetails = timestampArchiveDetails;
+        this.providerURI = providerURI;
+        this.network = network;
+        this.relatedLink = relatedLink;
+
+        this.sourceLinkObjectTypeId = (sourceLink == null) ? null : HelperCOM.generateSubKey(sourceLink.getObjectType());
+        this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink.getDomainId();
+        this.sourceLinkObjId = (sourceLink == null) ? null : sourceLink.getObjId();
+
+        this.obj = null;
+        final Element ele = (Element) HelperAttributes.javaType2Attribute(object);
+
+        if (ele != null) {
+            try {
+                final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
+                final BinaryEncoder be = new BinaryEncoder(bodyBaos);
+                be.encodeLong(ele.getShortForm());
+                be.encodeNullableElement(ele);
+                this.obj = bodyBaos.toByteArray();
+            } catch (MALException ex) {
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
+                        "Could not encode COM object with object body class: " + ele.getClass().getSimpleName(), ex);
+            }
+        }
+    }
+
+    public static COMObjectEntityPK generatePK(final ObjectType objectType, final Integer domain, final Long objId) {
+        // Generate Primary Key
+        return new COMObjectEntityPK(
+                HelperCOM.generateSubKey(objectType),
+                domain,
+                objId);
+    }
+
+    public COMObjectEntityPK getPrimaryKey() {
+        return new COMObjectEntityPK(this.objectTypeId, this.domainId, this.objId);
+    }
+
     public ObjectType getObjectType() {
         return HelperCOM.objectTypeId2objectType(this.objectTypeId);
     }
@@ -148,61 +203,6 @@ public class COMObjectEntity implements Serializable {
         }
 
         return HelperAttributes.attribute2JavaType(elem);
-    }
-
-    protected COMObjectEntity() {
-    }
-
-    public COMObjectEntity(ObjectType objectType,
-            Integer domain,
-            Long objId,
-            Long timestampArchiveDetails,
-            Integer providerURI,
-            Integer network,
-            SourceLinkContainer sourceLink,
-            Long relatedLink,
-            Object object) {
-
-        this.objectTypeId = HelperCOM.generateSubKey(objectType);
-        this.domainId = domain;
-        this.objId = objId;
-
-        this.timestampArchiveDetails = timestampArchiveDetails;
-        this.providerURI = providerURI;
-        this.network = network;
-        this.relatedLink = relatedLink;
-
-        this.sourceLinkObjectTypeId = (sourceLink == null) ? null : HelperCOM.generateSubKey(sourceLink.getObjectType());
-        this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink.getDomainId();
-        this.sourceLinkObjId = (sourceLink == null) ? null : sourceLink.getObjId();
-
-        this.obj = null;
-        final Element ele = (Element) HelperAttributes.javaType2Attribute(object);
-
-        if (ele != null) {
-            try {
-                final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
-                final BinaryEncoder be = new BinaryEncoder(bodyBaos);
-                be.encodeLong(ele.getShortForm());
-                be.encodeNullableElement(ele);
-                this.obj = bodyBaos.toByteArray();
-            } catch (MALException ex) {
-                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE, 
-                        "Could not encode COM object with object body class: " + ele.getClass().getSimpleName(), ex);
-            }
-        }
-    }
-
-    public static COMObjectEntityPK generatePK(final ObjectType objectType, final Integer domain, final Long objId) {
-        // Generate Primary Key
-        return new COMObjectEntityPK(
-                HelperCOM.generateSubKey(objectType),
-                domain,
-                objId);
-    }
-
-    public COMObjectEntityPK getPrimaryKey() {
-        return new COMObjectEntityPK(this.objectTypeId, this.domainId, this.objId);
     }
 
 }

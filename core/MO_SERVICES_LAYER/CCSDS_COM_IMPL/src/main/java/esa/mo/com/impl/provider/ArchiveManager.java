@@ -21,14 +21,14 @@
 package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.archive.db.BackendInteractionsProcessor;
-import esa.mo.com.impl.archive.db.FastObjId;
-import esa.mo.com.impl.archive.db.FastDomain;
+import esa.mo.com.impl.archive.fast.FastObjId;
+import esa.mo.com.impl.archive.fast.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.com.impl.archive.db.DatabaseBackend;
-import esa.mo.com.impl.archive.db.FastNetwork;
-import esa.mo.com.impl.archive.db.FastProviderURI;
+import esa.mo.com.impl.archive.fast.FastNetwork;
+import esa.mo.com.impl.archive.fast.FastProviderURI;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import java.util.ArrayList;

@@ -74,11 +74,11 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         HelperMisc.setInputProcessorsProperty();
         
-        // To do: Should override the MO_APP_NAME propertie with HelperMisc.NMF_NMS_NAME
-        // Then edit the line below to use the MO_APP_NAME
+        // Enforce the App Name property to be HelperMisc.NMF_NMS_NAME
+        System.setProperty(HelperMisc.MO_APP_NAME, HelperMisc.NMF_NMS_NAME);
 
         // Create provider name to be registerd on the Directory service...
-        this.providerName = System.getProperty(HelperMisc.NMF_NMS_NAME);
+        this.providerName = System.getProperty(HelperMisc.MO_APP_NAME);
 
         this.platformServices = platformServices;
 
@@ -106,12 +106,14 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         if (mcAdapter != null) {
             // Are the dynamic changes enabled?
             if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
+                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, 
+                        "Loading previous configurations...");
                 
                 try {
                     this.loadConfigurations();
                 } catch (IOException ex) {
-                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, 
+                            "The configurations could not be loaded!", ex);
                 }
             }
 
@@ -127,7 +129,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
     @Override
     public void addCloseAppListener(CloseAppListener closeAppAdapter) {
-        // To be done...
+        // To do...
     }
 
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI) {
@@ -136,7 +138,8 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
             wrt = new BufferedWriter(new FileWriter(FILENAME_CENTRAL_DIRECTORY_SERVICE, false));
             wrt.write(centralDirectoryURI);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+                    "Unable to reset URI information from properties file {0}", ex);
         } finally {
             if (wrt != null) {
                 try {
