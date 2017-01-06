@@ -27,7 +27,8 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +67,7 @@ public class ParameterManager extends DefinitionsManager {
     private AtomicLong uniqueObjIdDef; // Counter (different for every Definition)
     private AtomicLong uniqueObjIdPVal = new AtomicLong(0);
     private final transient ParameterStatusListener parametersMonitoring;   // transient: marks members that won't be serialized.
+    private final ExecutorService updatesExecutor = Executors.newFixedThreadPool(2);
 
     public ParameterManager(COMServicesProvider comServices, ParameterStatusListener parametersMonitoring) {
         super(comServices);
@@ -167,8 +169,7 @@ public class ParameterManager extends DefinitionsManager {
      * Archive service for objects storage. In this case, the unique identifier
      * must be retrieved from the Archive during storage
      */
-    protected synchronized LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals, final LongList relatedList, final SingleConnectionDetails connectionDetails) {
-
+    protected LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals, final LongList relatedList, final SingleConnectionDetails connectionDetails) {
         if (this.getArchiveService() == null) {  // No Archive
             LongList out = new LongList();
 
@@ -256,11 +257,11 @@ public class ParameterManager extends DefinitionsManager {
                     archiveDetailsList,
                     pVals,
                     null);
-/*
+            /*
             if (uniqueObjIdPVal.get() == 0) {  // First run?
                 uniqueObjIdPVal.set(objIds.get(objIds.size() - 1));
             }
-*/
+             */
 //                    out.clear();
             out.addAll(objIds);
             return out;
@@ -510,59 +511,36 @@ public class ParameterManager extends DefinitionsManager {
     protected boolean update(final Long objId, final ParameterDefinitionDetails definition, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Boolean success = this.updateDef(objId, definition);
 
-        if (super.getArchiveService() != null) {  // It should also update on the COM Archive
-/*
-            Thread t1 = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
-                        defs.add(definition);
-                        ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(getArchiveService(),
-                                ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, connectionDetails.getDomain(), objId);
+        class UpdateHandler implements Runnable {
 
-                        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-                        archiveDetailsList.add(archiveDetails);
+            @Override
+            public void run() {
+                try {
+                    ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+                    defs.add(definition);
+                    ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(getArchiveService(),
+                            ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, connectionDetails.getDomain(), objId);
 
-                        getArchiveService().update(
-                                ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                                connectionDetails.getDomain(),
-                                archiveDetailsList,
-                                defs,
-                                null);
-                    } catch (MALException ex) {
-                        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (MALInteractionException ex) {
-                        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+                    archiveDetailsList.add(archiveDetails);
+
+                    getArchiveService().update(
+                            ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                            connectionDetails.getDomain(),
+                            archiveDetailsList,
+                            defs,
+                            null);
+                } catch (MALException ex) {
+                    Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            };
-            t1.start();
-             */
-
-            try {
-                ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
-                defs.add(definition);
-                ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(getArchiveService(),
-                        ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, connectionDetails.getDomain(), objId);
-
-                ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-                archiveDetailsList.add(archiveDetails);
-
-                getArchiveService().update(
-                        ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                        connectionDetails.getDomain(),
-                        archiveDetailsList,
-                        defs,
-                        null);
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+        }
+        
+        if (super.getArchiveService() != null) {  // It should also update on the COM Archive
+            updatesExecutor.execute(new UpdateHandler());
             return true;
-
         }
 
 //        this.save();

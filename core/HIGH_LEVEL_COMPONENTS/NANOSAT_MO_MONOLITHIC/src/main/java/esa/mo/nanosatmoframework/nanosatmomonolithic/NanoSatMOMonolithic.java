@@ -21,7 +21,6 @@
 package esa.mo.nanosatmoframework.nanosatmomonolithic;
 
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkProvider;
-import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nanosatmoframework.MCRegistration;

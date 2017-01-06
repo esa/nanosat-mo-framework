@@ -49,7 +49,7 @@ public class BackendInteractionsProcessor {
     private static final Boolean SAFE_MODE = true;
     private static final Class<COMObjectEntity> CLASS_ENTITY = COMObjectEntity.class;
     private final DatabaseBackend dbBackend;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = Executors.newSingleThreadExecutor(); // Guarantees sequential order
     private final AtomicBoolean sequencialStoring;
 
     private final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;

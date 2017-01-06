@@ -30,6 +30,8 @@ import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -68,6 +70,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     public static Long DEFAULT_OBJID_AGGREGATION_SERVICE = (long) 4;
 
     private ConfigurationProvider configuration = new ConfigurationProvider();
+    private final ExecutorService executor = Executors.newSingleThreadExecutor(); // Guarantees sequential order
     private final COMServicesProvider comServices;
 
     public MCStoreLastConfigurationAdapter(NanoSatMOFrameworkInterface provider,
@@ -225,7 +228,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             }
         };
 
-        t1.start();
+        executor.execute(t1);
     }
 
     private Long storeDefaultServiceConfiguration(final Long defaultObjId, 
