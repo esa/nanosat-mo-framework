@@ -28,11 +28,11 @@ import java.io.Serializable;
  */
 public class COMObjectEntityPK implements Serializable {
 
-    private final Long objectTypeId;
+    private final Integer objectTypeId;
     private final Integer domainId;
     private final Long objId;
 
-    public COMObjectEntityPK (final Long objectTypeId, final Integer domain, final Long objId){
+    public COMObjectEntityPK (final Integer objectTypeId, final Integer domain, final Long objId){
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;

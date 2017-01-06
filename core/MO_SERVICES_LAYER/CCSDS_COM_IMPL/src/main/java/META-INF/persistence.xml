@@ -28,9 +28,15 @@
             <property name="hibernate.format_sql" value="true"/>
 
         -->
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
-      <!--      
-      <property name="eclipselink.platform.class.name" value="SQLite3"/>
+        
+        <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        <property name="eclipselink.target-database" value="SQLServer"/>
+
+        <!--      In case of problems roll it to "Database", it is the generic value
+        <property name="eclipselink.target-database" value="Database"/>
+        <property name="eclipselink.platform.class.name" value="org.eclipse.persistence.platform.database.SQLServerPlatform"/>
+        <property name="eclipselink.platform.class.name" value="SQLite3"/>
+        
       <property name="eclipselink.target-database" value=""/>
       <property name="eclipselink.logging.level" value="WARNING"/>
       <property name="eclipselink.logging.level" value="FINE"/>

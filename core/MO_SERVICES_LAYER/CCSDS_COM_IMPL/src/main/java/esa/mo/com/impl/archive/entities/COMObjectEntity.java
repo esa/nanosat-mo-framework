@@ -22,7 +22,6 @@ package esa.mo.com.impl.archive.entities;
 
 import esa.mo.com.impl.archive.db.COMObjectEntityPK;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mal.encoder.binary.BinaryDecoder;
 import esa.mo.mal.encoder.binary.BinaryEncoder;
@@ -31,7 +30,6 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.*;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALElementFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -56,7 +54,7 @@ public class COMObjectEntity implements Serializable {
     // ---------------------    
     @Id
     @Column(name = "objectTypeId")
-    private Long objectTypeId;
+    private Integer objectTypeId;
 
     @Id
     @Column(name = "domainId")
@@ -83,7 +81,7 @@ public class COMObjectEntity implements Serializable {
 
     // ---------------------    
     @Column(name = "sourceLinkObjectTypeId")
-    private Long sourceLinkObjectTypeId;
+    private Integer sourceLinkObjectTypeId;
 
     @Column(name = "sourceLinkDomainId")
     private Integer sourceLinkDomainId;
@@ -95,7 +93,7 @@ public class COMObjectEntity implements Serializable {
     protected COMObjectEntity() {
     }
 
-    public COMObjectEntity(ObjectType objectType,
+    public COMObjectEntity(Integer objectTypeId,
             Integer domain,
             Long objId,
             Long timestampArchiveDetails,
@@ -105,7 +103,7 @@ public class COMObjectEntity implements Serializable {
             Long relatedLink,
             Object object) {
 
-        this.objectTypeId = HelperCOM.generateSubKey(objectType);
+        this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;
 
@@ -114,7 +112,7 @@ public class COMObjectEntity implements Serializable {
         this.network = network;
         this.relatedLink = relatedLink;
 
-        this.sourceLinkObjectTypeId = (sourceLink == null) ? null : HelperCOM.generateSubKey(sourceLink.getObjectType());
+        this.sourceLinkObjectTypeId = (sourceLink == null) ? null : sourceLink.getObjectTypeId();
         this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink.getDomainId();
         this.sourceLinkObjId = (sourceLink == null) ? null : sourceLink.getObjId();
 
@@ -135,10 +133,10 @@ public class COMObjectEntity implements Serializable {
         }
     }
 
-    public static COMObjectEntityPK generatePK(final ObjectType objectType, final Integer domain, final Long objId) {
+    public static COMObjectEntityPK generatePK(final Integer objectTypeId, final Integer domain, final Long objId) {
         // Generate Primary Key
         return new COMObjectEntityPK(
-                HelperCOM.generateSubKey(objectType),
+                objectTypeId,
                 domain,
                 objId);
     }
@@ -147,11 +145,7 @@ public class COMObjectEntity implements Serializable {
         return new COMObjectEntityPK(this.objectTypeId, this.domainId, this.objId);
     }
 
-    public ObjectType getObjectType() {
-        return HelperCOM.objectTypeId2objectType(this.objectTypeId);
-    }
-
-    public Long getObjectTypeId() {
+    public Integer getObjectTypeId() {
         return this.objectTypeId;
     }
 
@@ -168,10 +162,9 @@ public class COMObjectEntity implements Serializable {
     }
 
     public SourceLinkContainer getSourceLink() {
-        final ObjectType objType = (sourceLinkObjectTypeId != null) ? HelperCOM.objectTypeId2objectType(sourceLinkObjectTypeId) : null;
         final Integer domainIdLocal = (sourceLinkDomainId != null) ? sourceLinkDomainId : null;
         return new SourceLinkContainer(
-                objType,
+                sourceLinkObjectTypeId,
                 domainIdLocal,
                 sourceLinkObjId
         );
@@ -205,4 +198,9 @@ public class COMObjectEntity implements Serializable {
         return HelperAttributes.attribute2JavaType(elem);
     }
 
+    @Override
+    public String toString() {
+        return "COM Object: this.objectTypeId=" + this.objectTypeId + ", this.domainId=" + this.domainId + ", this.objId=" + this.objId;
+    }
+    
 }

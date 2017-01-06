@@ -22,14 +22,15 @@ package esa.mo.com.impl.archive.fast;
 
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity;
+import esa.mo.com.impl.util.HelperCOM;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.persistence.Query;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  *
@@ -54,7 +55,7 @@ public class FastObjectType {
         this.fastID = new HashMap<Long, Integer>();
         this.fastIDreverse = new HashMap<Integer, Long>();
         uniqueId = new AtomicInteger(0);
-        
+
         // To Do: Erase it from the table
         dbBackend.getEM().getTransaction().begin();
         dbBackend.getEM().createQuery(QUERY_DELETE_OBJECTTYPE).executeUpdate();
@@ -76,7 +77,7 @@ public class FastObjectType {
         final IntegerList ids = new IntegerList();
         final LongList objectTypes = new LongList();
 
-        // From the list of Entities to separate lists of ids and providerURIs
+        // From the list of entities to separate lists of ids and objectTypeIds
         for (int i = 0; i < objectTypeHolderEntities.size(); i++) {
             ids.add(objectTypeHolderEntities.get(i).getId());
             objectTypes.add(objectTypeHolderEntities.get(i).getObjectType());
@@ -124,18 +125,20 @@ public class FastObjectType {
         return id;
     }
 
-    public synchronized Integer getObjectTypeId(final Long objectType) {
-        final Integer id = this.fastID.get(objectType);
-        return (id == null) ? this.addNew(objectType) : id;
+    public synchronized Integer getObjectTypeId(final ObjectType objectType) {
+        final Long longObjType = HelperCOM.generateSubKey(objectType);
+        final Integer id = this.fastID.get(longObjType);
+        return (id == null) ? this.addNew(longObjType) : id;
     }
-    
-    public synchronized Long getObjectType(final Integer id) throws Exception {
+
+    public synchronized ObjectType getObjectType(final Integer id) throws Exception {
         final Long objectType = this.fastIDreverse.get(id);
 
         if (objectType == null) {
             throw new Exception();
         }
 
-        return objectType;
+        return HelperCOM.objectTypeId2objectType(objectType);
     }
+
 }

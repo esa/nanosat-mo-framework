@@ -20,26 +20,24 @@
  */
 package esa.mo.com.impl.archive.db;
 
-import org.ccsds.moims.mo.com.structures.ObjectType;
-
 /**
  *
  * @author Cesar Coelho
  */
 public class SourceLinkContainer {
 
-    private final ObjectType objectType;
+    private final Integer objectTypeId;
     private final Integer domainId;
     private final Long objId;
 
-    public SourceLinkContainer(ObjectType objectType, Integer domainId, Long objId) {
-        this.objectType = objectType;
+    public SourceLinkContainer(Integer objectTypeId, Integer domainId, Long objId) {
+        this.objectTypeId = objectTypeId;
         this.domainId = domainId;
         this.objId = objId;
     }
 
-    public ObjectType getObjectType() {
-        return objectType;
+    public Integer getObjectTypeId() {
+        return objectTypeId;
     }
 
     public Integer getDomainId() {

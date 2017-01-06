@@ -536,13 +536,13 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         for (int index = 0; index < lArchiveDetailsList.size(); index++) { // Validation of ArchiveDetails object
-
             if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
                 // Shall be taken care in the manager & per inserted entry
-            } else// Does it exist already?  // requirement: 3.4.6.2.6
-            if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
-                dupIndexList.add(new UInteger(index));
-                continue;
+            }else{ // Does it exist already?  // requirement: 3.4.6.2.6
+                if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
+                    dupIndexList.add(new UInteger(index));
+                    continue;
+                }
             }
 
             if (HelperArchive.archiveDetailsContainsWildcard(lArchiveDetailsList.get(index))) { // requirement: 3.4.6.2.11
@@ -579,30 +579,17 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
             return outLongLst;
         } else {
+            // Cannot be Threaded because is does not lock the access to the db and out of order will happen
             manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
-
-            /*
-            // If the user doesn't care about receiving the objId, then it can go faster!! :)
-            // Doesn't work because the thread is not lock the access to the db (we would have to lock it here)
-            Thread t1 = new Thread() {
-                @Override
-                public void run() {
-                    // Execute the store operation (objType, domain, archiveDetails, objs)
-                    manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
-                    // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
-                }
-            };
-
-            t1.start();
-             */
             return null;
         }
-
     }
 
     @Override
-    public void update(final ObjectType lObjectType, final IdentifierList domain,
-            final ArchiveDetailsList lArchiveDetailsList, final ElementList lElementList,
+    public void update(final ObjectType lObjectType,
+            final IdentifierList domain,
+            final ArchiveDetailsList lArchiveDetailsList,
+            final ElementList lElementList,
             final MALInteraction interaction) throws MALException, MALInteractionException {
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -658,12 +645,13 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         // The errors have to be before the update operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
         manager.updateEntries(lObjectType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.7.2.6 and 3.4.7.2.7
-
     }
 
     @Override
-    public LongList delete(final ObjectType lObjectType, final IdentifierList lIdentifierList,
-            final LongList lLongList, final MALInteraction interaction)
+    public LongList delete(final ObjectType lObjectType,
+            final IdentifierList lIdentifierList,
+            final LongList lLongList,
+            final MALInteraction interaction)
             throws MALException, MALInteractionException {
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -705,7 +693,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         // requirement: 3.4.8.2.4 and 3.4.8.2.7
         LongList outObjIds = manager.removeEntries(lObjectType, lIdentifierList, toBeDeleted, interaction);
-
         return outObjIds; // requirement: 3.4.8.2.8
     }
 

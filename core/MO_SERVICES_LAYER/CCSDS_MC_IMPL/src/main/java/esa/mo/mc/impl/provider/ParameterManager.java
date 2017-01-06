@@ -168,7 +168,7 @@ public class ParameterManager extends DefinitionsManager {
      * must be retrieved from the Archive during storage
      */
     protected synchronized LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals, final LongList relatedList, final SingleConnectionDetails connectionDetails) {
-        
+
         if (this.getArchiveService() == null) {  // No Archive
             LongList out = new LongList();
 
@@ -185,6 +185,8 @@ public class ParameterManager extends DefinitionsManager {
         for (Long related : relatedList) {
             ArchiveDetails archiveDetails = new ArchiveDetails();
 
+            archiveDetails.setInstId(new Long(0));
+            /*
             if (this.uniqueObjIdPVal.get() == 0) {  // First run?
                 archiveDetails.setInstId(new Long(0));
             } else {
@@ -192,6 +194,7 @@ public class ParameterManager extends DefinitionsManager {
                 archiveDetails.setInstId(unique);
                 out.add(unique);
             }
+             */
 
             archiveDetails.setDetails(new ObjectDetails(related, null));
             archiveDetails.setNetwork(connectionDetails.getConfiguration().getNetwork());
@@ -200,6 +203,7 @@ public class ParameterManager extends DefinitionsManager {
             archiveDetailsList.add(archiveDetails);
         }
 
+        /*
         final Semaphore sem = new Semaphore(0);
         
         Thread t1 = new Thread() {
@@ -243,6 +247,30 @@ public class ParameterManager extends DefinitionsManager {
             
             return out;
         }
+         */
+        try {  // requirement: 3.3.4.2
+            LongList objIds = getArchiveService().store(
+                    true,
+                    ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
+                    connectionDetails.getDomain(),
+                    archiveDetailsList,
+                    pVals,
+                    null);
+/*
+            if (uniqueObjIdPVal.get() == 0) {  // First run?
+                uniqueObjIdPVal.set(objIds.get(objIds.size() - 1));
+            }
+*/
+//                    out.clear();
+            out.addAll(objIds);
+            return out;
+        } catch (MALException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, "Parameter Value with objId: " + archiveDetailsList.get(0).getInstId(), ex);
+        }
+
+        return null;
 
     }
 
@@ -483,7 +511,7 @@ public class ParameterManager extends DefinitionsManager {
         Boolean success = this.updateDef(objId, definition);
 
         if (super.getArchiveService() != null) {  // It should also update on the COM Archive
-
+/*
             Thread t1 = new Thread() {
                 @Override
                 public void run() {
@@ -510,6 +538,28 @@ public class ParameterManager extends DefinitionsManager {
                 }
             };
             t1.start();
+             */
+
+            try {
+                ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+                defs.add(definition);
+                ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(getArchiveService(),
+                        ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, connectionDetails.getDomain(), objId);
+
+                ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+                archiveDetailsList.add(archiveDetails);
+
+                getArchiveService().update(
+                        ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                        connectionDetails.getDomain(),
+                        archiveDetailsList,
+                        defs,
+                        null);
+            } catch (MALException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             return true;
 
