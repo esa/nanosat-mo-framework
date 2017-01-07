@@ -191,16 +191,15 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     }
 
     private void updateConfigurationInArchive(final ReconfigurableServiceImplInterface serviceImpl, final Long objId) {
-        Thread t1 = new Thread() {
+        class UpdateConfigurationHandler implements Runnable {
+
             @Override
             public void run() {
-                this.setName("MCStoreLastConfigurationAdapter_updateConfigurationInArchive");
-                
                 // Retrieve the COM object of the service
                 ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
                         ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), objId);
-                
-                if(comObject == null){
+
+                if (comObject == null) {
                     Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE,
                             serviceImpl.getCOMService().getName()
                             + " service: The service configuration object could not be found! objectId: " + objId);
@@ -226,12 +225,12 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
                             + " service: The configuration could not be updated! objectId: " + objId, ex);
                 }
             }
-        };
+        }
 
-        executor.execute(t1);
+        executor.execute(new UpdateConfigurationHandler());
     }
 
-    private Long storeDefaultServiceConfiguration(final Long defaultObjId, 
+    private Long storeDefaultServiceConfiguration(final Long defaultObjId,
             final UShort serviceNumber, final ReconfigurableServiceImplInterface service) {
         try {
             // Store the Service Configuration objects
