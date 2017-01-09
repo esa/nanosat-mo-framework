@@ -22,16 +22,11 @@ package esa.mo.com.impl.archive.fast;
 
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.entities.DomainHolderEntity;
-import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 

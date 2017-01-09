@@ -22,6 +22,8 @@ package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProvider;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -45,7 +47,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
 
@@ -60,6 +61,7 @@ public class ActivityTrackingProviderServiceImpl {
     private ArchiveProviderServiceImpl archiveService;
     private EventProviderServiceImpl eventService;
     private final ConfigurationProvider configuration = new ConfigurationProvider();
+    private final ExecutorService executor = Executors.newFixedThreadPool(2);
 
     /**
      * Initializes the service
@@ -275,7 +277,6 @@ public class ActivityTrackingProviderServiceImpl {
      * stored.
      */
     public ObjectId storeCOMOperationActivity(final MALInteraction interaction, final ObjectId source) {
-
         if (interaction == null || this.archiveService == null) {
             return null;
         }
@@ -290,38 +291,30 @@ public class ActivityTrackingProviderServiceImpl {
         archiveDetails.get(0).setNetwork(interaction.getMessageHeader().getNetworkZone());  // RID raised to create this requirement!
         archiveDetails.get(0).setProvider(interaction.getMessageHeader().getURIFrom());     // RID raised to create this requirement!
 
-        Thread t = new Thread() {
+        class StoreCOMOperationActivityHandler implements Runnable {
+
             @Override
             public void run() {
                 try {
-                    LongList objIds = archiveService.store(
-//                            true,
+                    archiveService.store(
                             false,
                             ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
                             interaction.getMessageHeader().getDomain(),
                             archiveDetails,
                             opActivityList,
                             interaction); // requirement: 3.5.2.3 & 3.5.2.5
-        /*
-                    if (objIds.size() == 1) {
-                        ObjectKey key = new ObjectKey(interaction.getMessageHeader().getDomain(), objIds.get(0));
-                        return new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, key);
-                    }
-        */
                 } catch (MALException ex) {
                     Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        };
+        }
         
-        t.start();
+        executor.execute(new StoreCOMOperationActivityHandler());
         
-        ObjectKey key = new ObjectKey(interaction.getMessageHeader().getDomain(), objId);
+        final ObjectKey key = new ObjectKey(interaction.getMessageHeader().getDomain(), objId);
         return new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, key);
-
-//        return null;
     }
 
 }

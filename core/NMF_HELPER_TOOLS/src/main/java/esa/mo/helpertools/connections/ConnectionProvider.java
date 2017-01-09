@@ -130,7 +130,7 @@ public class ConnectionProvider {
                 props,
                 isPublisher,
                 sharedBrokerURI);
-        
+
         final ConfigurationProvider configuration = new ConfigurationProvider();
 
         primaryConnectionDetails.setProviderURI(serviceProvider.getURI());

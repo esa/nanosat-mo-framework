@@ -188,7 +188,6 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         // Create the adapter that stores the configurations "onChange"
         MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
         
-
         // Reload the previous Configurations
         this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
         this.reloadServiceConfiguration(mcServices.getParameterService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_PARAMETER_SERVICE);
