@@ -54,6 +54,7 @@ public class HelperMisc {
     public static final String SHARED_BROKER_PROPERTIES = "sharedBroker.properties";
     public static final String SHARED_BROKER_URI = "sharedBrokerURI.properties";
     public static final String PROVIDER_URIS_PROPERTIES_FILENAME = "providerURIs.properties";
+    public static final String PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME = "providerURIsSecondary.properties";
     public static final String PROPERTY_SHARED_BROKER_URI = "esa.mo.helpertools.connections.SharedBrokerURI";
 
     public final static String PROPERTY_DOMAIN = "helpertools.configurations.provider.Domain";

@@ -23,7 +23,7 @@
     <relativePath/>
   </parent>
   
-  <artifactId>TRANSPORT_TCPIP</artifactId>
+  <artifactId>TRANSPORT_TCPIP_TEMP</artifactId>
   <packaging>jar</packaging>
   <version>1.2-SNAPSHOT</version>
 

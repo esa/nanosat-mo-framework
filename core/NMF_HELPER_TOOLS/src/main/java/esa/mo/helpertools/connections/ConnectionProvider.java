@@ -131,18 +131,17 @@ public class ConnectionProvider {
                 isPublisher,
                 sharedBrokerURI);
 
-        final ConfigurationProvider configuration = new ConfigurationProvider();
-
-        primaryConnectionDetails.setProviderURI(serviceProvider.getURI());
-        primaryConnectionDetails.setBrokerURI(serviceProvider.getBrokerURI());
-        primaryConnectionDetails.setDomain(configuration.getDomain());
         IntegerList serviceKey = new IntegerList();
         serviceKey.add(malService.getArea().getNumber().getValue()); // Area
         serviceKey.add(malService.getNumber().getValue()); // Service
         serviceKey.add((int) malService.getArea().getVersion().getValue()); // Version
+
+        primaryConnectionDetails.setProviderURI(serviceProvider.getURI());
+        primaryConnectionDetails.setBrokerURI(serviceProvider.getBrokerURI());
+        primaryConnectionDetails.setDomain(new ConfigurationProvider().getDomain());
         primaryConnectionDetails.setServiceKey(serviceKey);
 
-        Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE,
+        Logger.getLogger(ConnectionProvider.class.getName()).log(Level.INFO,
                 "\n" + serviceName + " Service URI        : {0}"
                 + "\n" + serviceName + " Service broker URI : {1}"
                 + "\n" + serviceName + " Service domain     : {2}"
@@ -154,28 +153,61 @@ public class ConnectionProvider {
                     serviceKey
                 });
 
+        this.writeURIsOnFile(primaryConnectionDetails,
+                serviceName,
+                HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+
         primaryMALServiceProvider = serviceProvider;
 
-        this.writeURIsOnFile(primaryConnectionDetails, 
-                serviceName, 
-                HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
-        
-        // Check if the secondary Transport is enabled
-        if("true".equals(System.getProperty("ssssssss"))){
-            secondaryConnectionDetails = new SingleConnectionDetails();
-            
-            // To do
+        final String secondaryProtocol = System.getProperty("esa.mo.nanosatmoframework.provider.secondaryProtocol");
 
-            // Change the transport to the secondary, load the service, 
-            
+        // Check if the secondary Transport is enabled
+        if (secondaryProtocol != null) {
+            secondaryConnectionDetails = new SingleConnectionDetails();
+
+        MALProvider serviceProvider2 = providerMgr.createProvider(uriName,
+                secondaryProtocol,
+                malService,
+                new Blob("".getBytes()),
+                handler,
+                new QoSLevel[]{
+                    QoSLevel.ASSURED
+                },
+                new UInteger(1),
+                props,
+                isPublisher,
+                sharedBrokerURI);
+
+            secondaryConnectionDetails.setProviderURI(serviceProvider2.getURI());
+            secondaryConnectionDetails.setBrokerURI(serviceProvider2.getBrokerURI());
+            secondaryConnectionDetails.setDomain(new ConfigurationProvider().getDomain());
+            secondaryConnectionDetails.setServiceKey(serviceKey);
+
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.INFO,
+                    "\n" + serviceName + " Service URI        : {0}"
+                    + "\n" + serviceName + " Service broker URI : {1}"
+                    + "\n" + serviceName + " Service domain     : {2}"
+                    + "\n" + serviceName + " Service key        : {3}",
+                    new Object[]{
+                        secondaryConnectionDetails.getProviderURI(),
+                        secondaryConnectionDetails.getBrokerURI(),
+                        secondaryConnectionDetails.getDomain(),
+                        serviceKey
+                    });
+
+            this.writeURIsOnFile(secondaryConnectionDetails,
+                    serviceName,
+                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
+
+            secondaryMALServiceProvider = serviceProvider2;
         }
-        
+
         return serviceProvider;
     }
 
     /**
-     * Closes all running threads and releases the MAL resources.
-     * The method has been deprecated and closeAll should be used instead.
+     * Closes all running threads and releases the MAL resources. The method has
+     * been deprecated and closeAll should be used instead.
      */
     @Deprecated
     public void close() {
@@ -196,7 +228,6 @@ public class ConnectionProvider {
      * Closes all running threads and releases the MAL resources.
      */
     public void closeAll() {
-        
         try {
             if (null != primaryMALServiceProvider) {
                 primaryMALServiceProvider.getClass();
@@ -209,7 +240,7 @@ public class ConnectionProvider {
         } catch (MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
-        
+
         try {
             if (null != providerMgr) {
                 providerMgr.close();
@@ -230,6 +261,7 @@ public class ConnectionProvider {
         BufferedWriter wrt = null;
         try {
             wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false));
+            wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
         } finally {
