@@ -70,12 +70,6 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>GROUND_MO_ADAPTER</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>int.esa.ccsds.mo</groupId>
-                    <artifactId>TRANSPORT_TCPIP</artifactId>
-                </exclusion>
-            </exclusions>    
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
@@ -103,11 +97,6 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>API_MAL</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>TRANSPORT_TCPIP</artifactId>
-            <version>1.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
