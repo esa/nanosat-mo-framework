@@ -115,7 +115,7 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>TRANSPORT_TCPIP_TEMP</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
 
 <!--        

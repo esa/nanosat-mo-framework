@@ -25,7 +25,7 @@
   
   <artifactId>TRANSPORT_TCPIP_TEMP</artifactId>
   <packaging>jar</packaging>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
 
   <name>ESA MAL TCP/IP Java transport</name>
   <description>A Java TCP/IP transport for CCSDS MAL</description>
@@ -97,14 +97,14 @@
     	<artifactId>ENCODING_BINARY_SPLIT</artifactId>
     </dependency>
     <dependency>
-	    <groupId>junit</groupId>
-	    <artifactId>junit</artifactId>
-	    <version>4.12</version>
-	</dependency>	    
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>API_MAL</artifactId>
-        </dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.12</version>
+    </dependency>	    
+    <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>API_MAL</artifactId>
+    </dependency>
   </dependencies>
  
   <build>
