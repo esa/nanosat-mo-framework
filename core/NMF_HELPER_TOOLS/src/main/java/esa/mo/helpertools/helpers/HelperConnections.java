@@ -20,7 +20,6 @@
  */
 package esa.mo.helpertools.helpers;
 
-
 /**
  *
  * @author Cesar Coelho
@@ -34,6 +33,4 @@ public class HelperConnections {
     
     public final static String PROPERTY_SHARED_BROKER = "SharedBrokerURI";
     
-    
-       
 }
