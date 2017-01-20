@@ -47,7 +47,7 @@ import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet
 import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
+import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;

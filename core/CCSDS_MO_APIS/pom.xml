@@ -56,7 +56,9 @@
   </developers>
 
   <modules>
+    <!--
     <module>CCSDS_COMMON_API</module>
+    -->
     <module>CCSDS_MC_API</module>
     <module>CCSDS_SM_API</module>
     <module>CCSDS_PLATFORM_API</module>

@@ -50,10 +50,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.EventHelper;
+import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
+import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -199,7 +200,8 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating Central Directory service on URI: " + centralDirectoryURI.getValue());
 
                 if (directoryServiceConsumer != null) {
-                    this.appDirectoryServiceId = directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
+                    PublishProviderResponse response = directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
+                    this.appDirectoryServiceId = response.getBodyElement0();
                     directoryServiceConsumer.closeConnection(); // Close the connection to the Directory service
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populated! And the connection to the Directory service has been successfully closed!");
                 }

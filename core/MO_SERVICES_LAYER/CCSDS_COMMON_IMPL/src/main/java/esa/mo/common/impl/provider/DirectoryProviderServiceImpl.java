@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
+import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
 import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
@@ -46,7 +47,7 @@ import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
+import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -54,6 +55,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.structures.FileList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -282,7 +284,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public Long publishProvider(PublishDetails newProviderDetails, MALInteraction interaction) throws MALInteractionException, MALException {
+    public PublishProviderResponse publishProvider(PublishDetails newProviderDetails, MALInteraction interaction) throws MALInteractionException, MALException {
 
         Identifier serviceProviderName = newProviderDetails.getProviderName();
         IdentifierList objBodies = new IdentifierList();
@@ -345,8 +347,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         synchronized (MUTEX) {
             this.providersAvailable.put(servProvObjId, newProviderDetails);
         }
+        
+        PublishProviderResponse response = new PublishProviderResponse();
+        response.setBodyElement0(servProvObjId);
+        response.setBodyElement1(null); // All capabilities (does null really mean that?)
 
-        return servProvObjId;
+        return response;
     }
 
     @Override
@@ -503,6 +509,11 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
 
         return null; // Not found!
+    }
+
+    @Override
+    public FileList getServiceXML(Long l, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

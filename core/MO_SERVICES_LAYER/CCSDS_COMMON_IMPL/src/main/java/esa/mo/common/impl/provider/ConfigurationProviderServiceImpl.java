@@ -359,7 +359,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public void remove(ObjectId configObj, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void remove(ObjectIdList oil, MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

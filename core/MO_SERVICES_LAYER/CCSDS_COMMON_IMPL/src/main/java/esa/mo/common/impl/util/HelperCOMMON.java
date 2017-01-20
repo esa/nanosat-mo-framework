@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
-import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
+import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALService;
 
