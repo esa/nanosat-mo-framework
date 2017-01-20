@@ -77,7 +77,7 @@
         
         <!-- APIs -->
         <esa.ccsds.api.mc.version>1.0-SNAPSHOT</esa.ccsds.api.mc.version>
-        <esa.ccsds.api.common.version>1.0-SNAPSHOT</esa.ccsds.api.common.version>
+        <esa.ccsds.api.common.version>1.0-RC1</esa.ccsds.api.common.version>
         <esa.ccsds.api.sm.version>1.0-SNAPSHOT</esa.ccsds.api.sm.version>
         <esa.ccsds.api.platform.version>1.0-SNAPSHOT</esa.ccsds.api.platform.version>
 
