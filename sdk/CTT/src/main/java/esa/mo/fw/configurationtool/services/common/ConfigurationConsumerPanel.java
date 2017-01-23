@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.consumer.ConfigurationAdapter;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationType;
 import org.ccsds.moims.mo.common.configuration.structures.ServiceProviderKey;
-import org.ccsds.moims.mo.common.directory.structures.ServiceKey;
+import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.File;
@@ -277,10 +277,12 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        ObjectId objIdDef = (ObjectId) configurationTable.getSelectedCOMObject().getObject();
+        final ObjectId objIdDef = (ObjectId) configurationTable.getSelectedCOMObject().getObject();
+        final ObjectIdList oil = new ObjectIdList();
+        oil.add(objIdDef);
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().remove(objIdDef);
+            this.serviceMCConfiguration.getConfigurationStub().remove(oil);
             configurationTable.removeSelectedEntry();
         } catch (MALInteractionException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -330,12 +332,12 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         objKey.setDomain(domain);
         objKey.setInstId((long) 0);
 
-        ObjectId objIdDef = new ObjectId();
-        objIdDef.setKey(objKey);
-        objIdDef.setType(ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE);
+        ObjectId objIdDef = new ObjectId(ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE, objKey);
+        final ObjectIdList oil = new ObjectIdList();
+        oil.add(objIdDef);
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().remove(objIdDef);
+            this.serviceMCConfiguration.getConfigurationStub().remove(oil);
             configurationTable.removeAllEntries();
         } catch (MALInteractionException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
