@@ -94,6 +94,9 @@
         <esa.nmf.components.nms.version>1.0-SNAPSHOT</esa.nmf.components.nms.version>
         <esa.nmf.components.gma.version>1.0-SNAPSHOT</esa.nmf.components.gma.version>
         <esa.nmf.components.gmp.version>1.0-SNAPSHOT</esa.nmf.components.gmp.version>
+
+        <!-- NMF Sweeteners -->
+        <esa.nmf.packager.version>1.0-SNAPSHOT</esa.nmf.packager.version>
     </properties>
   
     <dependencyManagement>
@@ -197,6 +200,13 @@
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>GROUND_MO_PROXY</artifactId>
                 <version>${esa.nmf.components.gmp.version}</version>
+            </dependency>
+            
+            <!-- Sweeteners -->
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>NMF_PACKAGER</artifactId>
+                <version>${esa.nmf.packager.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
