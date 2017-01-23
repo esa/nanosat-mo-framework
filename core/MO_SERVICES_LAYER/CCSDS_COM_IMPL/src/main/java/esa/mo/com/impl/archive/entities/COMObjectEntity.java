@@ -191,7 +191,7 @@ public class COMObjectEntity implements Serializable {
                 final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(binDec.decodeLong());
                 elem = binDec.decodeNullableElement((Element) eleFact.createElement());
             } catch (MALException ex) {
-                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE, "The object body could not be decoded! Usually happens when ther's a change in the APIs.", ex);
             }
         }
 
