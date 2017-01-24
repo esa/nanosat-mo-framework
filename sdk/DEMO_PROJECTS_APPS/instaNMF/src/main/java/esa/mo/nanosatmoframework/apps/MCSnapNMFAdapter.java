@@ -216,6 +216,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 try {
                     FileOutputStream fos = new FileOutputStream("myFirstPicture.raw");
                     fos.write(picture.getContent().getValue());
+                    fos.flush();
                     fos.close();
                     
 
