@@ -22,11 +22,16 @@ package esa.mo.platform.impl.provider.softsim;
 
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
+import esa.opssat.camera.processing.OPSSATCameraDebayering;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import opssat.simulator.main.ESASimulator;
+import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -44,7 +49,9 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface {
 
     private final ESASimulator instrumentsSimulator;
     private final static Duration MINIMUM_DURATION = new Duration(10); // 10 seconds for now...
-
+    private final static int IMAGE_LENGTH = 2048;
+    private final static int IMAGE_WIDTH = 1944;
+    
     public CameraSoftSimAdapter(ESASimulator instrumentsSimulator) {
         this.instrumentsSimulator = instrumentsSimulator;
     }
@@ -57,7 +64,8 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface {
     @Override
     public PixelResolutionList getAvailableResolutions() {
         PixelResolutionList availableResolutions = new PixelResolutionList();
-        availableResolutions.add(new PixelResolution(new UInteger(248), new UInteger(944)));
+        // Only one:
+        availableResolutions.add(new PixelResolution(new UInteger(IMAGE_LENGTH), new UInteger(IMAGE_WIDTH)));
         
         // Insert the Available Resolutions
 
@@ -127,27 +135,33 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface {
         newPicture.setDimension(picture.getDimension());
 
         if (picture.getFormat().equals(PictureFormat.RAW)) {
-                // Call Manuels decode algorithm
+            // Call Manuels decode algorithm
 //            byte[] data = manuelAwesomeAlgorithm.convertRAWToDebayered(picture.getContent().getValue());
 
             if (format.equals(PictureFormat.RAW_DEBAYERED)) {
                 newPicture.setFormat(PictureFormat.RAW_DEBAYERED);
                 newPicture.setBitDepth(null);
 //                newPicture.setContent(new Blob(data));
-                
+
                 return newPicture;
             }
 
-            if (format.equals(PictureFormat.BMP)) {
-                newPicture.setFormat(PictureFormat.RAW_DEBAYERED);
-                newPicture.setBitDepth(null);
-//                newPicture.setContent(new Blob(data));
-                
-                return newPicture;
+            if (format.equals(PictureFormat.PNG)) {
+                try {
+                    BufferedImage img = OPSSATCameraDebayering.getBufferedImageFromBytes(picture.getContent().getValue());
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    ImageIO.write(img, "png", stream);
+                    newPicture.setContent(new Blob(stream.toByteArray()));
+                    newPicture.setFormat(PictureFormat.PNG);
+                    return newPicture;
+                } catch (MALException ex) {
+                    Logger.getLogger(CameraSoftSimAdapter.class.getName()).log(Level.SEVERE, "The picture could not be converted!", ex);
+                }
+
             }
-            
+
         }
-        
+
         return picture;
     }
 
