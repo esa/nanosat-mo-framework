@@ -86,8 +86,8 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     private static final String ALERT_SUN_POINTING_MODE = "ADCS.SunPointingMode";
 
     private final AtomicInteger snapsTaken = new AtomicInteger(0);
-    private final int width = 248;
-    private final int height = 944;
+    private final int width = 2048;
+    private final int height = 1944;
     private final int TOTAL_STAGES = 3;
 
     public void setNMF(NanoSatMOFrameworkInterface nanosatmoframework) {
@@ -139,7 +139,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         ));
 
         LongList actionObjIds = registration.registerActions(actionDefs);
-
+        
     }
 
     @Override
@@ -171,6 +171,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.RAW, new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
+                return null; // Success!
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
@@ -178,7 +179,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             }
         }
 
-        return null;  // Action service not integrated
+        return new UInteger(0);  // Action service not integrated
     }
 
     public class DataReceivedAdapter extends CameraAdapter {
@@ -219,7 +220,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                     fos.flush();
                     fos.close();
                     
-
+                    
 
             BufferedImage img = null;
 
