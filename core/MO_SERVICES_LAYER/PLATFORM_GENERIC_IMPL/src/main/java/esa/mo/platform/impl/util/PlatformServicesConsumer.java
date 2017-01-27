@@ -42,7 +42,9 @@ import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.magnetometer.MagnetometerHelper;
 import org.ccsds.moims.mo.platform.magnetometer.consumer.MagnetometerStub;
+import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelper;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
 /**
@@ -88,13 +90,13 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
             }
 
             // Initialize the Optical Data Receiver service
-            details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
             if(details != null){
                 odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Software Defined Radio service
-            details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
             if(details != null){
                 sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices);
             }

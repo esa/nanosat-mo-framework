@@ -20,6 +20,7 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
@@ -42,20 +43,10 @@ public interface CameraAdapterInterface {
      * @return The available resolutions
      */
     public PixelResolutionList getAvailableResolutions();
-
-    /**
-     * This method should be a static method! Java 6 does not allow static
-     * methods in interfaces.
-     * 
-     * @return The available formats
-     */
-    public PictureFormatList getAvailableFormats();
     
     public Picture getPicturePreview();
 
     public Picture takePicture(PixelResolution resolution, PictureFormat format) throws IOException;    
-
-    public Picture convertPicture(Picture picture, PictureFormat format)  throws IOException;
 
     /**
      * The getMinimumPeriod method shall return the duration of taking a picture.
@@ -71,4 +62,6 @@ public interface CameraAdapterInterface {
     
     public String getExtraInfo();
 
+    public BufferedImage getBufferedImageFromRaw(byte[] rawImage);
+    
 }

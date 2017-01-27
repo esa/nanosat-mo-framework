@@ -160,9 +160,6 @@
 					<mal:field canBeNull="true" comment="The dimension of the picture." name="dimension">
 						<mal:type area="Platform" list="false" name="PixelResolution" service="Camera"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="The bit depth or color depth of the picture." name="bitDepth">
-						<mal:type area="MAL" list="false" name="UInteger"/>
-					</mal:field>
 					<mal:field canBeNull="false" comment="The format of the picture." name="format">
 						<mal:type area="Platform" list="false" name="PictureFormat" service="Camera"/>
 					</mal:field>
@@ -180,7 +177,6 @@
 				</mal:composite>
 				<mal:enumeration comment="PictureFormat is an enumeration definition holding the format of the picture." name="PictureFormat" shortFormPart="3">
 					<mal:item comment="RAW format." nvalue="1" value="RAW"/>
-					<mal:item comment="Raw colored format." nvalue="2" value="RAW_DEBAYERED"/>
 					<mal:item comment="Bitmap format." nvalue="3" value="BMP"/>
 					<mal:item comment="PNG format." nvalue="4" value="PNG"/>
 					<mal:item comment="JPG format." nvalue="5" value="JPG"/>

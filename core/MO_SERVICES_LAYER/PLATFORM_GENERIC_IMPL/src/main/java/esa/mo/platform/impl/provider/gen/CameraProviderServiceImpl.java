@@ -24,6 +24,8 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Timer;
@@ -31,6 +33,7 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -40,6 +43,7 @@ import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.EntityKey;
 import org.ccsds.moims.mo.mal.structures.EntityKeyList;
@@ -84,6 +88,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     private Timer publishTimer = new Timer();
     private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
     private CameraAdapterInterface adapter;
+    PictureFormatList availableFormats;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -131,6 +136,12 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         minimumPeriod = this.adapter.getMinimumPeriod();
         cameraServiceProvider = connection.startService(CameraHelper.CAMERA_SERVICE_NAME.toString(), CameraHelper.CAMERA_SERVICE, this);
 
+        availableFormats = new PictureFormatList();
+        availableFormats.add(PictureFormat.RAW);
+        availableFormats.add(PictureFormat.PNG);
+        availableFormats.add(PictureFormat.BMP);
+        availableFormats.add(PictureFormat.JPG);        
+        
         running = true;
         initialiased = true;
         Logger.getLogger(CameraProviderServiceImpl.class.getName()).info("Camera service READY");
@@ -151,7 +162,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
-
+    
     private void streamPicturesUpdate(final Identifier firstEntityKey, final PixelResolution resolution, final PictureFormat format) {
         try {
             final Long objId;
@@ -168,7 +179,11 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 objId = uniqueObjId.incrementAndGet();
                 try {
                     picture = adapter.takePicture(resolution, format);
-                    picture = adapter.convertPicture(picture, format);
+
+                    if(!PictureFormat.RAW.equals(format)){
+                        BufferedImage image = adapter.getBufferedImageFromRaw(picture.getContent().getValue());
+                        picture = this.convertImage(image, format);
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -228,7 +243,6 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, availableResolutions));
         }
 
-        final PictureFormatList availableFormats = adapter.getAvailableFormats();
         boolean isFormatsAvailable = false;
 
         // Do we have the resolution requested?
@@ -288,7 +302,6 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             Picture preview = adapter.getPicturePreview();
             return preview;
         }
-
     }
 
     @Override
@@ -315,7 +328,6 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, availableResolutions));
         }
 
-        final PictureFormatList availableFormats = adapter.getAvailableFormats();
         boolean isFormatsAvailable = false;
 
         // Do we have the resolution requested?
@@ -327,25 +339,29 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         // If not, then send the available formats to the consumer so they can pick...
         if (!isFormatsAvailable) {
+            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, availableFormats));
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, availableFormats));
         }
 
         synchronized (lock) {
             try {
                 Picture picture = adapter.takePicture(resolution, format);
-                picture = adapter.convertPicture(picture, format);
+                
+                if(!PictureFormat.RAW.equals(format)){
+                    BufferedImage image = adapter.getBufferedImageFromRaw(picture.getContent().getValue());
+                    picture = this.convertImage(image, format);
+                }
+                
                 interaction.sendResponse(picture);
             } catch (IOException ex) {
                 Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }
 
     @Override
     public GetPropertiesResponse getProperties(MALInteraction interaction) throws MALInteractionException, MALException {
         final PixelResolutionList availableResolutions = adapter.getAvailableResolutions();
-        final PictureFormatList availableFormats = adapter.getAvailableFormats();
         String extraInfo = adapter.getExtraInfo();
 
         return new GetPropertiesResponse(availableResolutions, availableFormats, extraInfo);
@@ -375,6 +391,38 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
             Logger.getLogger(CameraProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
         }
+    }
+
+    private Picture convertImage(BufferedImage image, PictureFormat format) throws IOException {
+        Picture newPicture = new Picture();
+        newPicture.setCreationDate(HelperTime.getTimestampMillis());
+        newPicture.setDimension(new PixelResolution(new UInteger(image.getWidth()), new UInteger(image.getHeight())));
+
+        if (format.equals(PictureFormat.PNG)) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            ImageIO.write(image, "PNG", stream);
+            newPicture.setContent(new Blob(stream.toByteArray()));
+            newPicture.setFormat(PictureFormat.PNG);
+            return newPicture;
+        }
+
+        if (format.equals(PictureFormat.BMP)) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            ImageIO.write(image, "BMP", stream);
+            newPicture.setContent(new Blob(stream.toByteArray()));
+            newPicture.setFormat(PictureFormat.BMP);
+            return newPicture;
+        }
+
+        if (format.equals(PictureFormat.JPG)) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            ImageIO.write(image, "JPEG", stream);
+            newPicture.setContent(new Blob(stream.toByteArray()));
+            newPicture.setFormat(PictureFormat.JPG);
+            return newPicture;
+        }
+
+        throw new IOException("Something went wrong! The Image could not be converted into the selected format.");
     }
 
 }

@@ -232,7 +232,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
         
         return accepted;
-
     }
 
     @Override
