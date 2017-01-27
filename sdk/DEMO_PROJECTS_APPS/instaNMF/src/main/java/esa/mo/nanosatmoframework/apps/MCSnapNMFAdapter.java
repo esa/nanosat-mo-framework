@@ -139,7 +139,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         ));
 
         LongList actionObjIds = registration.registerActions(actionDefs);
-        
+
     }
 
     @Override
@@ -171,6 +171,9 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.RAW, new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
+                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.PNG, new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
+                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.JPG, new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
+                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.BMP, new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
                 return null; // Success!
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
@@ -204,6 +207,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         @Override
         public void takePictureResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.platform.camera.structures.Picture picture, java.util.Map qosProperties) {
             // The picture was received!
+            snapsTaken.incrementAndGet();
 
             try {
                 nmf.reportActionExecutionProgress(true, 0, STAGE_RSP, TOTAL_STAGES, actionInstanceObjId);
@@ -211,96 +215,43 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            // Store it in a file!
-            if(picture.getFormat().equals(PictureFormat.RAW) || picture.getFormat().equals(PictureFormat.RAW_DEBAYERED)){
-                
-                try {
+            try {
+                // Store it in a file!
+                if (picture.getFormat().equals(PictureFormat.RAW)) {
                     FileOutputStream fos = new FileOutputStream("myFirstPicture.raw");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
-                    
-                    
-
-            BufferedImage img = null;
-
-            try {
-                ByteArrayInputStream byteArrayIS = new ByteArrayInputStream(picture.getContent().getValue());
-
-/*
-                try {
-/*
-                    BufferedImage image = new BufferedImage((int) picture.getDimension().getWidth().getValue(),
-                            (int) picture.getDimension().getHeight().getValue(),
-                            BufferedImage.TYPE_BYTE_BINARY);
-
-                    WritableRaster raster = (WritableRaster) image.getData();
-
-                    //3 bytes per pixel: red, green, blue
-                    byte[] aByteArray = picture.getContent().getValue();
-                    DataBuffer buffer = new DataBufferByte(aByteArray, aByteArray.length);
-
-//                    WritableRaster raster = Raster.createInterleavedRaster(buffer, width, height, 3 * width, 3, new int[] {0, 1, 2}, (Point) null);
-                    WritableRaster raster = Raster.createInterleavedRaster(buffer, width, height, 2 * width, 2, new int[] {0, 1}, (Point) null);
-                    ColorModel cm = new ComponentColorModel(ColorModel.getRGBdefault().getColorSpace(), false, true, Transparency.OPAQUE, DataBuffer.TYPE_BYTE); 
-                    img = new BufferedImage(cm, raster, true, null);
-                    File outputfile = new File("image.png");
-                    ImageIO.write(img, "png", outputfile);
-                } catch (IOException ex) {
-                    Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
-  */                  
 
+                if (picture.getFormat().equals(PictureFormat.PNG)) {
+                    FileOutputStream fos = new FileOutputStream("myFirstPicture.png");
+                    fos.write(picture.getContent().getValue());
+                    fos.flush();
+                    fos.close();
+                }
+
+                if (picture.getFormat().equals(PictureFormat.BMP)) {
+                    FileOutputStream fos = new FileOutputStream("myFirstPicture.bmp");
+                    fos.write(picture.getContent().getValue());
+                    fos.flush();
+                    fos.close();
+                }
+
+                if (picture.getFormat().equals(PictureFormat.JPG)) {
+                    FileOutputStream fos = new FileOutputStream("myFirstPicture.jpg");
+                    fos.write(picture.getContent().getValue());
+                    fos.flush();
+                    fos.close();
+                }
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-
-
-
-
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALException ex) {
-                    Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-            }
-
-            
-/*            
-            BufferedImage img = null;
-
-            try {
-                ByteArrayInputStream byteArrayIS = new ByteArrayInputStream(picture.getContent().getValue());
-
-                try {
-                    BufferedImage image = new BufferedImage((int) picture.getDimension().getWidth().getValue(),
-                            (int) picture.getDimension().getHeight().getValue(),
-                            BufferedImage.TYPE_BYTE_BINARY);
-
-                    WritableRaster raster = (WritableRaster) image.getData();
-
-                    
-                    raster.setPixels(0, 0, width, height, picture.getContent().getValue());
-
-                    File outputfile = new File("saved.png");
-                    ImageIO.write(image, "png", outputfile);
-                    
-                    /*
-                   img = ImageIO.read(byteArrayIS);
-                    File outputfile = new File("image.jpg");
-                    ImageIO.write(img, "bmp", outputfile);
-                } catch (IOException ex) {
-                    Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            } catch (MALException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                     */
 
             try { // Stored
                 nmf.reportActionExecutionProgress(true, 0, 3, TOTAL_STAGES, actionInstanceObjId);
