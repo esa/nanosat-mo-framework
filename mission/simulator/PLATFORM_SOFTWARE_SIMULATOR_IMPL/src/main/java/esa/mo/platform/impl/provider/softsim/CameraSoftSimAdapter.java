@@ -73,14 +73,6 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface {
     }
 
     @Override
-    public PictureFormatList getAvailableFormats() {
-        PictureFormatList availableFormats = new PictureFormatList();
-        availableFormats.add(PictureFormat.RAW);
-
-        return availableFormats;
-    }
-
-    @Override
     public synchronized Picture getPicturePreview() {
         /*
         // Some data neds to go here:
@@ -100,7 +92,6 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface {
         picture.setCreationDate(HelperTime.getTimestampMillis());
         picture.setContent(new Blob(data));
         picture.setDimension(resolution);
-        picture.setBitDepth(null);
         picture.setFormat(PictureFormat.RAW);
 
         return picture;
@@ -108,15 +99,13 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface {
 
     @Override
     public synchronized Picture takePicture(PixelResolution dimensions, PictureFormat format) throws IOException {
-
-        // Get some picture from the simulator...
+        // Get a picture from the simulator...
         byte[] data = instrumentsSimulator.getpCamera().takePicture((int) dimensions.getWidth().getValue(), (int) dimensions.getHeight().getValue());
 
         Picture picture = new Picture();
         picture.setCreationDate(HelperTime.getTimestampMillis());
         picture.setContent(new Blob(data));
         picture.setDimension(dimensions);
-        picture.setBitDepth(null);
         picture.setFormat(PictureFormat.RAW);
 
         return picture;
@@ -124,47 +113,10 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface {
     }
 
     @Override
-    public Picture convertPicture(Picture picture, PictureFormat format) throws IOException {
-        if (picture.getFormat().equals(format)) {
-            return picture;
-        }
-
-        Picture newPicture = new Picture();
-        newPicture.setCreationDate(picture.getCreationDate());
-        newPicture.setBitDepth(null);
-        newPicture.setDimension(picture.getDimension());
-
-        if (picture.getFormat().equals(PictureFormat.RAW)) {
-            // Call Manuels decode algorithm
-//            byte[] data = manuelAwesomeAlgorithm.convertRAWToDebayered(picture.getContent().getValue());
-
-            if (format.equals(PictureFormat.RAW_DEBAYERED)) {
-                newPicture.setFormat(PictureFormat.RAW_DEBAYERED);
-                newPicture.setBitDepth(null);
-//                newPicture.setContent(new Blob(data));
-
-                return newPicture;
-            }
-
-            if (format.equals(PictureFormat.PNG)) {
-                try {
-                    BufferedImage img = OPSSATCameraDebayering.getBufferedImageFromBytes(picture.getContent().getValue());
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    ImageIO.write(img, "png", stream);
-                    newPicture.setContent(new Blob(stream.toByteArray()));
-                    newPicture.setFormat(PictureFormat.PNG);
-                    return newPicture;
-                } catch (MALException ex) {
-                    Logger.getLogger(CameraSoftSimAdapter.class.getName()).log(Level.SEVERE, "The picture could not be converted!", ex);
-                }
-
-            }
-
-        }
-
-        return picture;
+    public BufferedImage getBufferedImageFromRaw(byte[] rawImage){
+        return OPSSATCameraDebayering.getBufferedImageFromBytes(rawImage);
     }
-
+    
     @Override
     public Duration getMinimumPeriod() {
         return MINIMUM_DURATION;
