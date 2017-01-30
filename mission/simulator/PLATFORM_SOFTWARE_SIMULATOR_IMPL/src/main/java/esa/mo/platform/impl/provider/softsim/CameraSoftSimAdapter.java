@@ -24,20 +24,13 @@ import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
 import esa.opssat.camera.processing.OPSSATCameraDebayering;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import opssat.simulator.main.ESASimulator;
-import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 
@@ -98,7 +91,8 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface {
     }
 
     @Override
-    public synchronized Picture takePicture(PixelResolution dimensions, PictureFormat format) throws IOException {
+    public synchronized Picture takePicture(final PixelResolution dimensions, 
+            final PictureFormat format, final Duration exposureTime) throws IOException {
         // Get a picture from the simulator...
         byte[] data = instrumentsSimulator.getpCamera().takePicture((int) dimensions.getWidth().getValue(), (int) dimensions.getHeight().getValue());
 
