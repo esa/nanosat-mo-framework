@@ -163,7 +163,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         }
     }
     
-    private void streamPicturesUpdate(final Identifier firstEntityKey, final PixelResolution resolution, final PictureFormat format) {
+    private void streamPicturesUpdate(final Identifier firstEntityKey, 
+            final PixelResolution resolution, final PictureFormat format, final Duration exposureTime) {
         try {
             final Long objId;
             Picture picture = null;
@@ -178,7 +179,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
                 objId = uniqueObjId.incrementAndGet();
                 try {
-                    picture = adapter.takePicture(resolution, format);
+                    picture = adapter.takePicture(resolution, format, exposureTime);
 
                     if(!PictureFormat.RAW.equals(format)){
                         BufferedImage image = adapter.getBufferedImageFromRaw(picture.getContent().getValue());
@@ -211,7 +212,10 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     }
 
     @Override
-    public synchronized void setStreaming(final Duration streamingRate, final PixelResolution resolution, final PictureFormat format, final Identifier firstEntityKey, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void setStreaming(final Duration streamingRate, 
+            final PixelResolution resolution, final PictureFormat format, 
+            final Identifier firstEntityKey, final Duration exposureTime, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
         if (null == firstEntityKey) { // Is the input null?
             throw new IllegalArgumentException("firstEntityKey argument must not be null");
         }
@@ -277,7 +281,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             public void run() {
                 if (running) {
                     if (cameraInUse) {
-                        streamPicturesUpdate(firstEntityKey, resolution, format);
+                        streamPicturesUpdate(firstEntityKey, resolution, format, exposureTime);
                     }
                 }
             }
@@ -345,7 +349,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         synchronized (lock) {
             try {
-                Picture picture = adapter.takePicture(resolution, format);
+                Picture picture = adapter.takePicture(resolution, format, exposureTime);
                 
                 if(!PictureFormat.RAW.equals(format)){
                     BufferedImage image = adapter.getBufferedImageFromRaw(picture.getContent().getValue());

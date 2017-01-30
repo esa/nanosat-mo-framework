@@ -36,6 +36,9 @@
 						<mal:field canBeNull="true" comment="The firstEntityKey field holds the first entity key that will be present during the broadcast of the streamPictures operation.&#10;The firstEntityKey field must not empty, nor be NULL nor the wildcard '*'. An INVALID error shall be returned in this case." name="firstEntityKey">
                 <mal:type area="MAL" list="false" name="Identifier"/>
               </mal:field>
+            <mal:field canBeNull="true" comment="The exposureTime field shall hold the exposure time of each frame." name="exposureTime">
+                <mal:type area="MAL" list="false" name="Duration"/>
+              </mal:field>
             </mal:submit>
 					</mal:messages>
 					<mal:errors>
