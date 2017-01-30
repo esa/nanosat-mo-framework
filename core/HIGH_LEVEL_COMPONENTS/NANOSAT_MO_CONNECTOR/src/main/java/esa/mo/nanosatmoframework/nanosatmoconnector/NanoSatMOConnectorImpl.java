@@ -26,7 +26,6 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.util.HelperCommon;
-import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -174,7 +173,8 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             } catch (MalformedURLException ex) {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, 
+                        "Could not connect to the Central Directory service! Maybe it is down...");
             }
         }
 
@@ -192,13 +192,15 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         }
 
         // Populate the Directory service with the entries from the URIs File
-        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating Local Directory service...");
+        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, 
+                "Populating Local Directory service...");
         PublishDetails publishDetails = directoryService.autoLoadURIsFile(this.providerName);
 
         if (mcAdapter != null) {
             // Are the dynamic changes enabled?
             if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Loading previous configurations...");
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, 
+                        "Loading previous configurations...");
                 try {
                     this.loadConfigurations();
                 } catch (IOException ex) {
@@ -214,23 +216,27 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         if (centralDirectoryURI != null) {
             try {
                 // Register the services in the Central Directory service...
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating Central Directory service on URI: " + centralDirectoryURI.getValue());
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, 
+                        "Populating Central Directory service on URI: " + centralDirectoryURI.getValue());
 
                 if (directoryServiceConsumer != null) {
                     PublishProviderResponse response = directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
                     this.appDirectoryServiceId = response.getBodyElement0();
                     directoryServiceConsumer.closeConnection(); // Close the connection to the Directory service
-                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populated! And the connection to the Directory service has been successfully closed!");
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, 
+                            "Populated! And the connection to the Directory service has been successfully closed!");
                 }
             } catch (MALException ex) {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, 
+                        "Could not connect to the Central Directory service! Maybe it is down...");
             }
         }
 
         final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
-        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "NanoSat MO Connector initialized! URI: " + uri + "\n");
+        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, 
+                "NanoSat MO Connector initialized! URI: " + uri + "\n");
     }
 
     @Override
