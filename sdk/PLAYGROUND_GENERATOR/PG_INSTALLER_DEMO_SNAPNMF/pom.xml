@@ -23,12 +23,12 @@
         <relativePath/>
     </parent>
   
-    <artifactId>PG_INSTALLER_PUSH_CLOCK</artifactId>
+    <artifactId>PG_INSTALLER_SNAPNMF</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>PG: Installer of Push Clock App</name>
-    <description>The Push Clock App installer for the Playground environment.</description>
+    <name>PG: Installer of snapNMF App</name>
+    <description>The snapNMF App installer for the Playground environment.</description>
     <url>http://www.esa.int</url>
   
     <organization>
@@ -59,7 +59,7 @@
     </developers>
     
     <properties>
-        <app.artifactid>Demo_Push_Clock</app.artifactid>
+        <app.artifactid>snapNMF</app.artifactid>
         <playground.folder.output>${basedir}/../../Playground</playground.folder.output>
         <playground.folder.app>${playground.folder.output}/apps/${app.artifactid}</playground.folder.app>
     </properties>

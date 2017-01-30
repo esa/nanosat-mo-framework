@@ -20,9 +20,9 @@
  */
 package esa.mo.nanosatmoframework.apps;
 
-//import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+//import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 
 /**
  * The demo app for the Triple Presentation
@@ -33,8 +33,8 @@ public class SnapNMF {
 
     public SnapNMF() {
         MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();
-//        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
-        nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
+        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
+//        nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
         adapter.setNMF(nanoSatMOFramework);
     }
 

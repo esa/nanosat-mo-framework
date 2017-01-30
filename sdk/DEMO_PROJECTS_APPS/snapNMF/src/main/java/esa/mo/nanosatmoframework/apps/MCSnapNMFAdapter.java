@@ -208,28 +208,28 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             try {
                 // Store it in a file!
                 if (picture.getFormat().equals(PictureFormat.RAW)) {
-                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myFirstPicture.raw");
+                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myPicture.raw");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
                 if (picture.getFormat().equals(PictureFormat.PNG)) {
-                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myFirstPicture.png");
+                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myPicture.png");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
                 if (picture.getFormat().equals(PictureFormat.BMP)) {
-                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myFirstPicture.bmp");
+                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myPicture.bmp");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
                 if (picture.getFormat().equals(PictureFormat.JPG)) {
-                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myFirstPicture.jpg");
+                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myPicture.jpg");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
