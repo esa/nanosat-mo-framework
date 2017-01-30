@@ -69,11 +69,14 @@ public class HelperCommon {
             details.setProviderURI(addressDetails.getServiceURI());
             details.setDomain(provider.getProviderKey().getDomain());
 
-            MALArea malArea = MALContextFactory.lookupArea(
-                    key.getArea(), 
-                    key.getVersion());
-            MALService malService = malArea.getServiceByNumber(
-                            key.getService());
+            final MALArea malArea = MALContextFactory.lookupArea(key.getArea(), key.getVersion());
+            
+            if (malArea == null){
+                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING, "The service could not be found in the MAL factory. Maybe the Helper for that service was not initialized. The service key is: " + key.toString());
+                continue;
+            }
+            
+            final MALService malService = malArea.getServiceByNumber(key.getService());
             
             if(malService == null){
                 Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING, "The service could not be found in the MAL factory. Maybe the Helper for that service was not initialized. The service key is: " + key.toString());

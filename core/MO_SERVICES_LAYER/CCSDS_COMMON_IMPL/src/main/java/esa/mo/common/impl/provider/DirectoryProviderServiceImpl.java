@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.ServicesConnectionDetails;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.helpertools.helpers.HelperMisc;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -72,6 +73,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  */
 public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
+    private static final String PROPERTY_NAME_SERVICE = "name";
     private MALProvider directoryServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
@@ -193,9 +195,11 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 }
 
             } else // Direct match...
-             if (!inputDomain.equals(provider.getDomain())) {
+            {
+                if (!inputDomain.equals(provider.getDomain())) {
                     continue;
                 }
+            }
 
             // Check session type
             if (filter.getSessionType() != null) {
@@ -347,7 +351,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         synchronized (MUTEX) {
             this.providersAvailable.put(servProvObjId, newProviderDetails);
         }
-        
+
         PublishProviderResponse response = new PublishProviderResponse();
         response.setBodyElement0(servProvObjId);
         response.setBodyElement1(null); // All capabilities (does null really mean that?)
@@ -368,7 +372,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
     }
 
-    public PublishDetails autoLoadURIsFile(String providerName) {
+    public PublishDetails autoLoadURIsFile(final String providerName) {
         ServicesConnectionDetails primaryConnectionDetails = new ServicesConnectionDetails();
         ServicesConnectionDetails secondaryAddresses = new ServicesConnectionDetails();
 
@@ -379,7 +383,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
 
         try {
-            secondaryAddresses = secondaryAddresses.loadURIFromFiles("providerURIsSecondary.properties");
+            secondaryAddresses = (System.getProperty(HelperMisc.NMF_SECONDARY_PROTOCOL) != null)
+                    ? secondaryAddresses.loadURIFromFiles(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME)
+                    : null;
         } catch (MalformedURLException ex) {
             Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -407,7 +413,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             capability.setServiceKey(key);
             capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
             NamedValueList serviceProps = new NamedValueList();
-            serviceProps.add(new NamedValue(new Identifier("name"), new Identifier(serviceName)));
+            serviceProps.add(new NamedValue(new Identifier(PROPERTY_NAME_SERVICE), new Identifier(serviceName)));
             capability.setServiceProperties(serviceProps);
             capability.setServiceAddresses(serviceAddresses);
 
@@ -439,7 +445,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     capability.setServiceKey(key);
                     capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
                     NamedValueList serviceProps = new NamedValueList();
-                    serviceProps.add(new NamedValue(new Identifier("name"), new Identifier(serviceName)));
+                    serviceProps.add(new NamedValue(new Identifier(PROPERTY_NAME_SERVICE), new Identifier(serviceName)));
                     capability.setServiceProperties(serviceProps);
                     capability.setServiceAddresses(serviceAddresses);
 
@@ -499,7 +505,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         for (ServiceCapability capability : capabilities) {
             if (capability != null) {
                 for (NamedValue serviceProp : capability.getServiceProperties()) {
-                    if ("name".equals(serviceProp.getName().getValue())
+                    if (PROPERTY_NAME_SERVICE.equals(serviceProp.getName().getValue())
                             && serviceName.equals(((Identifier) serviceProp.getValue()).getValue())) {
                         return capability.getServiceAddresses();
                     }

@@ -55,6 +55,7 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
+import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -140,7 +141,12 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 ServiceFilter sf2 = new ServiceFilter(new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME), domain, new Identifier("*"), null, new Identifier("*"), sk, new UIntegerList());
                 ProviderSummaryList supervisorConnections = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf2);
 
-                if (supervisorConnections.size() == 1) { // Good!
+                if (supervisorConnections.size() == 1) { // Platform services found!
+                    // Load the all the Platform services' APIs
+                    if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) == null) {
+                        PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+                    }
+
                     ConnectionConsumer supervisorCD = HelperCommon.providerSummaryToConnectionConsumer(supervisorConnections.get(0));
 
                     // Connect to them...
@@ -222,8 +228,10 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
     }
 
     public final URI readCentralDirectoryServiceURI() {
-        String path = ".." + File.separator
-                + NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME + File.separator
+        String path = ".." 
+                + File.separator
+                + NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME 
+                + File.separator
                 + FILENAME_CENTRAL_DIRECTORY_SERVICE;
 
         File file = new File(path); // Select the file that we want to read from
