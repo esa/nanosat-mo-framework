@@ -26,7 +26,7 @@
     <artifactId>APPS_GROUND_REACTOR</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Ground Demos</name>
+    <name>NMF Ground Demos</name>
 
     <organization>
         <name>ESA</name>

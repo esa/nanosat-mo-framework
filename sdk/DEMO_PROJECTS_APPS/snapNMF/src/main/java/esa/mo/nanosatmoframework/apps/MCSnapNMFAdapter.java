@@ -21,34 +21,20 @@
 package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
-import java.awt.Point;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Timer;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.swing.ImageIcon;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -139,7 +125,6 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         ));
 
         LongList actionObjIds = registration.registerActions(actionDefs);
-
     }
 
     @Override
@@ -170,10 +155,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             PixelResolution resolution = new PixelResolution(new UInteger(width), new UInteger(height));
 
             try {
-                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.RAW, new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
-                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.PNG, new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
                 nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.JPG, new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
-                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.BMP, new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
                 return null; // Success!
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
@@ -214,32 +196,40 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             } catch (IOException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            final String folder = "snaps";
+            File dir = new File(folder);
+            dir.mkdirs();
+                    
+            Date date = new Date(System.currentTimeMillis());
+            Format format = new SimpleDateFormat("yyyyMMdd_HHmmss_");
+            final String timeNow = format.format(date);
 
             try {
                 // Store it in a file!
                 if (picture.getFormat().equals(PictureFormat.RAW)) {
-                    FileOutputStream fos = new FileOutputStream("myFirstPicture.raw");
+                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myFirstPicture.raw");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
                 if (picture.getFormat().equals(PictureFormat.PNG)) {
-                    FileOutputStream fos = new FileOutputStream("myFirstPicture.png");
+                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myFirstPicture.png");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
                 if (picture.getFormat().equals(PictureFormat.BMP)) {
-                    FileOutputStream fos = new FileOutputStream("myFirstPicture.bmp");
+                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myFirstPicture.bmp");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
                 if (picture.getFormat().equals(PictureFormat.JPG)) {
-                    FileOutputStream fos = new FileOutputStream("myFirstPicture.jpg");
+                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myFirstPicture.jpg");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();

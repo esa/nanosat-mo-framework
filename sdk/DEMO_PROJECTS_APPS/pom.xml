@@ -26,7 +26,7 @@
     <artifactId>APPS_SPACE_REACTOR</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>App Demos</name>
+    <name>NMF App Demos</name>
 
     <organization>
         <name>ESA</name>
@@ -71,7 +71,7 @@
         <module>demo-obsw-serial-object</module>
         <module>demo-obsw-test-app</module>
         <module>triple-presentation</module>
-        <module>instaNMF</module>
+        <module>snapNMF</module>
     </modules>
  
 </project>
