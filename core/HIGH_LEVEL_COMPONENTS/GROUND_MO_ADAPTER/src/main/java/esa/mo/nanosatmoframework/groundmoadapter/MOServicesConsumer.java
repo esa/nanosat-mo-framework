@@ -25,7 +25,7 @@ import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
-import esa.mo.common.impl.util.HelperCOMMON;
+import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.util.SMServicesConsumer;
@@ -102,7 +102,7 @@ public class MOServicesConsumer {
         this.initHelpers(); // The Helpers need to be initialized before conversion
 
         // Grab the provider variable and put it into a ConnectionConsumer
-        this.connection = HelperCOMMON.providerSummaryToConnectionConsumer(provider);
+        this.connection = HelperCommon.providerSummaryToConnectionConsumer(provider);
         
         this.init();
     }

@@ -159,24 +159,24 @@ public class ConnectionProvider {
 
         primaryMALServiceProvider = serviceProvider;
 
-        final String secondaryProtocol = System.getProperty("esa.mo.nanosatmoframework.provider.secondaryProtocol");
+        final String secondaryProtocol = System.getProperty(HelperMisc.NMF_SECONDARY_PROTOCOL);
 
         // Check if the secondary Transport is enabled
         if (secondaryProtocol != null) {
             secondaryConnectionDetails = new SingleConnectionDetails();
 
-        MALProvider serviceProvider2 = providerMgr.createProvider(uriName,
-                secondaryProtocol,
-                malService,
-                new Blob("".getBytes()),
-                handler,
-                new QoSLevel[]{
-                    QoSLevel.ASSURED
-                },
-                new UInteger(1),
-                props,
-                isPublisher,
-                sharedBrokerURI);
+            MALProvider serviceProvider2 = providerMgr.createProvider(uriName,
+                    secondaryProtocol,
+                    malService,
+                    new Blob("".getBytes()),
+                    handler,
+                    new QoSLevel[]{
+                        QoSLevel.ASSURED
+                    },
+                    new UInteger(1),
+                    props,
+                    isPublisher,
+                    sharedBrokerURI);
 
             secondaryConnectionDetails.setProviderURI(serviceProvider2.getURI());
             secondaryConnectionDetails.setBrokerURI(serviceProvider2.getBrokerURI());
@@ -261,7 +261,10 @@ public class ConnectionProvider {
         BufferedWriter wrt = null;
         try {
             wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false));
-            wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
+            
+            if(System.getProperty(HelperMisc.NMF_SECONDARY_PROTOCOL) != null){
+                wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
+            }
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
         } finally {
@@ -299,7 +302,6 @@ public class ConnectionProvider {
                 }
             }
         }
-
     }
 
 }

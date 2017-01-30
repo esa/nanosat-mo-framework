@@ -25,7 +25,7 @@ import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
-import esa.mo.common.impl.util.HelperCOMMON;
+import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
@@ -141,7 +141,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 ProviderSummaryList supervisorConnections = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf2);
 
                 if (supervisorConnections.size() == 1) { // Good!
-                    ConnectionConsumer supervisorCD = HelperCOMMON.providerSummaryToConnectionConsumer(supervisorConnections.get(0));
+                    ConnectionConsumer supervisorCD = HelperCommon.providerSummaryToConnectionConsumer(supervisorConnections.get(0));
 
                     // Connect to them...
                     platformServices = new PlatformServicesConsumer();
@@ -173,7 +173,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
-
+        
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Populating Local Directory service...");
         PublishDetails publishDetails = directoryService.autoLoadURIsFile(this.providerName);

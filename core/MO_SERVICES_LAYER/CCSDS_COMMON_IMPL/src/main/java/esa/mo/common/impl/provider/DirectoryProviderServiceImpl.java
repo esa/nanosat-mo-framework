@@ -424,7 +424,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 SingleConnectionDetails conn = connsMap.get(serviceName);
                 AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn);
 
-//                AddressDetailsList serviceAddresses = new AddressDetailsList();
                 AddressDetailsList serviceAddresses = this.findAddressDetailsListOfService(serviceName, capabilities);
 
                 if (serviceAddresses == null) { // If not found

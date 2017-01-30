@@ -67,13 +67,15 @@ public class HelperMisc {
     public final static String NMF_PACKAGE_NAME = "helpertools.configurations.provider.NMFPackageName";
     public final static String NMF_PACKAGE_ID = "helpertools.configurations.provider.NMFPackageId";
     public final static String NMF_NMS_NAME = "NanoSat_MO_Supervisor";
-
+    
     public final static String NETWORK_ZONE = "helpertools.configurations.provider.NetworkZone";
     public final static String DEVICE_NAME = "helpertools.configurations.provider.DeviceName";
 
     private static final String PROP_TRANSPORT_ID = "helpertools.configurations.provider.transportfilepath";
     private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";
 
+    public final static String NMF_SECONDARY_PROTOCOL = "esa.mo.nanosatmoframework.provider.secondaryProtocol";
+    
     /**
      * Clears the list of loaded property files.
      */

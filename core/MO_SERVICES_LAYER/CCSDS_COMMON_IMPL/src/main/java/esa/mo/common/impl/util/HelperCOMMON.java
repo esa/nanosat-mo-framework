@@ -30,6 +30,7 @@ import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
+import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALService;
 
@@ -37,7 +38,7 @@ import org.ccsds.moims.mo.mal.MALService;
  *
  * @author Cesar Coelho
  */
-public class HelperCOMMON {
+public class HelperCommon {
 
     /**
      * Generates the ConnectionConsumer from the ProviderSummary
@@ -54,7 +55,6 @@ public class HelperCOMMON {
 
         // Cycle all the services in the provider and put them in the serviceDetails object
         for (ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {  // Add all the tabs!
-
             ServiceKey key = serviceInfo.getServiceKey();
             AddressDetails addressDetails;
 
@@ -69,15 +69,18 @@ public class HelperCOMMON {
             details.setProviderURI(addressDetails.getServiceURI());
             details.setDomain(provider.getProviderKey().getDomain());
 
-            MALService malService = MALContextFactory.lookupArea(key.getArea(), key.getVersion()).getServiceByNumber(key.getService());
+            MALArea malArea = MALContextFactory.lookupArea(
+                    key.getArea(), 
+                    key.getVersion());
+            MALService malService = malArea.getServiceByNumber(
+                            key.getService());
             
             if(malService == null){
-                Logger.getLogger(HelperCOMMON.class.getName()).log(Level.WARNING, "The service could not be found in the MAL factory. Maybe the Helper for that service was not initialized. The service key is: " + key.toString());
+                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING, "The service could not be found in the MAL factory. Maybe the Helper for that service was not initialized. The service key is: " + key.toString());
                 continue;
             }
             
             services.put(malService.getName().toString(), details);
-
         }
 
         serviceDetails.setServices(services);
