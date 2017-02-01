@@ -159,7 +159,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     private void publishExecutionMonitoring(final Long appObjId, final String outputText) {
         try {
-            synchronized(lock){
+            synchronized (lock) {
                 if (!isRegistered) {
                     final EntityKeyList lst = new EntityKeyList();
                     lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -167,7 +167,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                     isRegistered = true;
                 }
             }
-                
+
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER,
                     "Generating update for the App: {0} (Identifier: {1})",
                     new Object[]{
@@ -353,7 +353,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         interaction.sendAcknowledgement();
-        
+
         manager.stopApps(appInstIds, appConnections, connection, interaction);
 
     }
@@ -510,15 +510,15 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         private final Timer timer = new Timer();
         private final static int PERIOD_PUB = 5 * 1000; // Publish every 5 seconds
-        private final Long appId;
+        private final Long appObjId;
         private Thread collectStream1;
         private Thread collectStream2;
-        private BufferedReader br1;
-        private BufferedReader br2;
+//        private BufferedReader br1;
+//        private BufferedReader br2;
         private Process process = null;
 
         public ProcessExecutionHandler(Long appId) {
-            this.appId = appId;
+            this.appObjId = appId;
         }
 
         public SingleConnectionDetails getSingleConnectionDetails() {
@@ -526,7 +526,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         public Long getAppInstId() {
-            return appId;
+            return appObjId;
         }
 
         public Process getProcess() {
@@ -536,20 +536,20 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         public void close() {
             timer.cancel();
 
-            try {
-                process.destroy();
-                br1.close();
-                br2.close();
-            } catch (IOException ex) {
-                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+            process.destroy();
+//                br1.close();
+//                br2.close();
+//            } catch (IOException ex) {
+//                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
 
         public void startPublishing(final Process process) {
             this.process = process;
 
-            br1 = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            br2 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+//            br1 = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//            br2 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             final StringBuilder buffer = new StringBuilder();
 
             // Every PERIOD_PUB seconds, publish the String data
@@ -564,13 +564,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
                         // Publish what's on the buffer every PERIOD_PUB milliseconds
                         Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE, output);
-                        publishExecutionMonitoring(appId, output);
+                        publishExecutionMonitoring(appObjId, output);
                     }
                 }
             }, 0, PERIOD_PUB);
 
-            collectStream1 = createThreadReader(buffer, br1);
-            collectStream2 = createThreadReader(buffer, br2);
+            collectStream1 = createThreadReader(buffer, new BufferedReader(new InputStreamReader(process.getInputStream())));
+            collectStream2 = createThreadReader(buffer, new BufferedReader(new InputStreamReader(process.getErrorStream())));
 
             collectStream1.start();
             collectStream2.start();
@@ -585,18 +585,23 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         String line = null;
 
                         while ((line = br.readLine()) != null) {
-//                            buf.append("\t");
                             buf.append(line);
-//                            buf.append("\t");
                             buf.append("\n");
                         }
                     } catch (IOException ex) {
-                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        // The App stream is closed!
+                        AppDetails details = manager.get(appObjId);
+                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(
+                                Level.INFO, "The stream of the App " + appObjId
+                                + " (name: " + details.getName().toString() + ")"
+                                + " has been closed.");
+
+                        close();
+                        manager.refreshAvailableAppsList(null);
                     }
                 }
             };
         }
-
     }
 
 }

@@ -23,17 +23,17 @@ package esa.mo.nanosatmoframework.nanosatmosupervisor;
 import esa.mo.nanosatmoframework.nanosatmomonolithic.NanoSatMOMonolithic;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.CloseAppListener;
 import esa.mo.nanosatmoframework.MCRegistration;
+import esa.mo.nanosatmoframework.NMFException;
 import static esa.mo.nanosatmoframework.NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PackageManagementBackendInterface;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -111,7 +111,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
                 
                 try {
                     this.loadConfigurations();
-                } catch (IOException ex) {
+                } catch (NMFException ex) {
                     Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, 
                             "The configurations could not be loaded!", ex);
                 }
@@ -122,32 +122,17 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
             mcAdapter.initialRegistrations(registration);
         }
         
-        final String uri = this.directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
-        this.writeCentralDirectoryServiceURI(uri);
-        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + uri + "\n");
+        final String primaryURI = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
+        
+        final SingleConnectionDetails det = this.directoryService.getConnection().getSecondaryConnectionDetails();
+        final String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
+        this.writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
+        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + primaryURI + "\n");
     }
 
     @Override
     public void addCloseAppListener(CloseAppListener closeAppAdapter) {
         // To do...
-    }
-
-    public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI) {
-        BufferedWriter wrt = null;
-        try { // Reset the file
-            wrt = new BufferedWriter(new FileWriter(FILENAME_CENTRAL_DIRECTORY_SERVICE, false));
-            wrt.write(centralDirectoryURI);
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
-                    "Unable to reset URI information from properties file {0}", ex);
-        } finally {
-            if (wrt != null) {
-                try {
-                    wrt.close();
-                } catch (IOException ex) {
-                }
-            }
-        }
     }
 
 }

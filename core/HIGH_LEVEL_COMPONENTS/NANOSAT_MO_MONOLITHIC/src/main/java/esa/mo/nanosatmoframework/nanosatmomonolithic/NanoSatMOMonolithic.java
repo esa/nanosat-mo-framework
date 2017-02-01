@@ -25,8 +25,8 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
+import esa.mo.nanosatmoframework.NMFException;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -92,7 +92,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
                 try {
                     this.loadConfigurations();
-                } catch (IOException ex) {
+                } catch (NMFException ex) {
                     Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

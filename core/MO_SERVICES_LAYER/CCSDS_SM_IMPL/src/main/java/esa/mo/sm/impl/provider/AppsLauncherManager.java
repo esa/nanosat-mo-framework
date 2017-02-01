@@ -56,6 +56,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
@@ -188,16 +189,18 @@ public class AppsLauncherManager extends DefinitionsManager {
             try {
                 AppDetailsList defs = new AppDetailsList();
                 defs.add(definition);
+                
+                final IdentifierList domain = connectionDetails.getDomain();
 
                 ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.getArchiveService(),
-                        AppsLauncherHelper.APP_OBJECT_TYPE, connectionDetails.getDomain(), objId);
+                        AppsLauncherHelper.APP_OBJECT_TYPE, domain, objId);
 
                 ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
                 archiveDetailsList.add(archiveDetails);
 
                 super.getArchiveService().update(
                         AppsLauncherHelper.APP_OBJECT_TYPE,
-                        connectionDetails.getDomain(),
+                        domain,
                         archiveDetailsList,
                         defs,
                         interaction);
@@ -211,16 +214,11 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
         }
 
-//        this.save();
         return success;
     }
 
-    protected boolean delete(Long objId) { // requirement: 3.3.2.5
-        if (!this.deleteDef(objId)) {
-            return false;
-        }
-//        this.save();
-        return true;
+    protected boolean delete(Long objId) {
+        return this.deleteDef(objId);
     }
 
     protected void refreshAvailableAppsList(SingleConnectionDetails connectionDetails) {
@@ -360,6 +358,8 @@ public class AppsLauncherManager extends DefinitionsManager {
 //        if (handler.getProcess().isAlive()) {
         handler.close();
         this.setRunning(handler.getAppInstId(), false, handler.getSingleConnectionDetails(), interaction); // Update the Archive
+        handlers.remove(appInstId); // Get rid of it!
+        
 //        app.setRunning(false);
 //        this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
 //        }

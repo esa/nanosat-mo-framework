@@ -34,8 +34,16 @@ import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +56,7 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
 
@@ -97,32 +106,32 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     @Override
     public void reportActionExecutionProgress(final boolean success, final int errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws IOException {
+            final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws NMFException {
         if (this.getMCServices() == null) {
-            throw new IOException(MC_SERVICES_NOT_INITIALIZED);
+            throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
     }
 
     @Override
-    public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) throws IOException {
+    public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) throws NMFException {
         if (this.getMCServices() == null) {
-            throw new IOException(MC_SERVICES_NOT_INITIALIZED);
+            throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName), argumentValues, null, null);
     }
 
     @Override
-    public Boolean pushParameterValue(final String name, final Serializable content) throws IOException {
+    public Boolean pushParameterValue(final String name, final Serializable content) throws NMFException {
         return this.pushParameterValue(name, content, true);
     }
 
     @Override
-    public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws IOException {
+    public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws NMFException {
         if (this.getMCServices() == null) {
-            throw new IOException(MC_SERVICES_NOT_INITIALIZED);
+            throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         Object obj = HelperAttributes.javaType2Attribute(content); // Convert to MAL type if possible
@@ -151,7 +160,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
     
-    private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) throws IOException {
+    private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) throws NMFException {
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
                 ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), serviceObjId);
@@ -169,7 +178,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
         if (configurationObjectDetails == null) { // Could not be found, throw error!
             // If the object above exists, this one should also!
-            throw new IOException("An error happened while reloading the service configuration: " + service.getCOMService().getName());
+            throw new NMFException("An error happened while reloading the service configuration: " + service.getCOMService().getName());
         }
         
         // Reload the previous Configuration
@@ -178,7 +187,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     public abstract void initPlatformServices(COMServicesProvider comServices);
 
-    public final void loadConfigurations() throws IOException {
+    public final void loadConfigurations() throws NMFException {
         // Activate the previous configuration
         ObjectId confId = new ObjectId();  // Select the default configuration
         confId.setType(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE);
@@ -257,4 +266,57 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         return this.closeAppAdapter;
     }
 
+    public final URI readCentralDirectoryServiceURI() {
+        String path = ".."
+                + File.separator
+                + NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME
+                + File.separator
+                + FILENAME_CENTRAL_DIRECTORY_SERVICE;
+
+        File file = new File(path); // Select the file that we want to read from
+
+        try {
+            // Get the text out of that file...
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
+            BufferedReader br = new BufferedReader(isr);
+
+            try {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    return new URI(line);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.WARNING, 
+                    "The File " + file.getPath() + " could not be found!");
+            return null;
+        }
+
+        return null;
+    }
+    
+    public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
+        BufferedWriter wrt = null;
+        try { // Reset the file
+            wrt = new BufferedWriter(new FileWriter(FILENAME_CENTRAL_DIRECTORY_SERVICE, false));
+            if(secondaryURI != null){
+                wrt.write(secondaryURI);
+                wrt.write("\n");
+            }
+
+            wrt.write(centralDirectoryURI);
+        } catch (IOException ex) {
+            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.WARNING, 
+                    "Unable to reset URI information from properties file {0}", ex);
+        } finally {
+            if (wrt != null) {
+                try {
+                    wrt.close();
+                } catch (IOException ex) {
+                }
+            }
+        }
+    }    
 }

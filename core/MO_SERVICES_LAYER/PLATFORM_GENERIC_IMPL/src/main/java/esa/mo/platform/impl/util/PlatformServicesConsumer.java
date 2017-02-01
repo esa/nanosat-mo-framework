@@ -29,6 +29,7 @@ import esa.mo.platform.impl.consumer.AutonomousADCSConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.MagnetometerConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.OpticalDataReceiverConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.SoftwareDefinedRadioConsumerServiceImpl;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,7 +84,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
                 gpsService = new GPSConsumerServiceImpl(details, comServices);
             }
 
-            // Initialize the GPS service
+            // Initialize the Magnetometer service
             details = connectionConsumer.getServicesDetails().get(MagnetometerHelper.MAGNETOMETER_SERVICE_NAME);
             if(details != null){
                 magnetometerService = new MagnetometerConsumerServiceImpl(details, comServices);
@@ -110,52 +111,68 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         }
     }
 
-    /*
-    public void setServices(CameraConsumerServiceImpl cameraService,
-            GPSConsumerServiceImpl gpsService) {
-        this.cameraService = cameraService;
-        this.gpsService = gpsService;
-    }
-    */
-    
     @Override
-    public AutonomousADCSStub getAutonomousADCSService() {
+    public AutonomousADCSStub getAutonomousADCSService() throws IOException {
+        if(this.autonomousADCSService == null){
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+        
         return this.autonomousADCSService.getAutonomousADCSStub();
     }
 
     @Override
-    public CameraStub getCameraService() {
+    public CameraStub getCameraService() throws IOException {
+        if(this.cameraService == null){
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+        
         return this.cameraService.getCameraStub();
     }
 
     @Override
-    public GPSStub getGPSService() {
+    public GPSStub getGPSService() throws IOException {
+        if(this.gpsService == null){
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+        
         return this.gpsService.getGPSStub();
     }
 
     @Override
-    public MagnetometerStub getMagnetometerService() {
+    public MagnetometerStub getMagnetometerService() throws IOException {
+        if(this.magnetometerService == null){
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+        
         return this.magnetometerService.getMagnetometerStub();
     }
 
     @Override
-    public OpticalDataReceiverStub getOpticalDataReceiverService() {
+    public OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException {
+        if(this.odrService == null){
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+
         return this.odrService.getOpticalDataReceiverStub();
     }
 
     @Override
-    public SoftwareDefinedRadioStub getSoftwareDefinedRadioService() {
+    public SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException {
+        if(this.sdrService == null){
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+
         return this.sdrService.getSoftwareDefinedRadioStub();
     }
 
     // Setters
 
-    public void setCameraService(CameraConsumerServiceImpl cameraService) {
-        this.cameraService = cameraService;
-    }
-
     public void setAutonomousADCSService(AutonomousADCSConsumerServiceImpl autonomousADCSService) {
         this.autonomousADCSService = autonomousADCSService;
+    }
+
+    public void setCameraService(CameraConsumerServiceImpl cameraService) {
+        this.cameraService = cameraService;
     }
 
     public void setGPSService(GPSConsumerServiceImpl gpsService) {
@@ -179,12 +196,28 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
      *
      */
     public void closeConnections() {
+        if(this.autonomousADCSService != null){
+            this.autonomousADCSService.closeConnection();
+        }
+        
         if(this.cameraService != null){
             this.cameraService.closeConnection();
         }
         
         if(this.gpsService != null){
             this.gpsService.closeConnection();
+        }
+        
+        if(this.magnetometerService != null){
+            this.magnetometerService.closeConnection();
+        }
+        
+        if(this.odrService != null){
+            this.odrService.closeConnection();
+        }
+        
+        if(this.sdrService != null){
+            this.sdrService.closeConnection();
         }
     }    
   

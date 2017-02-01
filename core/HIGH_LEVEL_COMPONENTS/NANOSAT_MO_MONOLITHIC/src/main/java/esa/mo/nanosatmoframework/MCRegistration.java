@@ -240,9 +240,9 @@ public class MCRegistration {
         return null;
     }
 
-    public ObjectIdList registerConversions(ElementList conversions) throws IOException, MALException, MALInteractionException {
+    public ObjectIdList registerConversions(ElementList conversions) throws NMFException, MALException, MALInteractionException {
         if (conversions == null) {
-            throw new IOException("The conversions object cannot be null!");
+            throw new NMFException("The conversions object cannot be null!");
         }
 
         // Discrete Conversion:
@@ -265,7 +265,7 @@ public class MCRegistration {
             return this.applyRangeConversion((RangeConversionDetails) conversionDetails, value);
         }
          */
-        throw new IOException("The conversion object didn't match any type of Conversion.");
+        throw new NMFException("The conversion object didn't match any type of Conversion.");
     }
 
     private ObjectIdList registerConversionsDiscrete(DiscreteConversionDetailsList conversions) throws MALException, MALInteractionException {

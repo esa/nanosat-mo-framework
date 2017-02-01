@@ -23,6 +23,7 @@ package esa.mo.nanosatmoframework.groundmoproxy;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.nanosatmoframework.NMFException;
 import esa.mo.nanosatmoframework.groundmoadapter.GroundMOAdapter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -68,16 +69,16 @@ public class GroundMOProxy {
      *
      * @param connection The connection details of the provider
      * @return
-     * @throws java.io.IOException
+     * @throws NMFException
      */
-    public GroundMOAdapter connectToProvider(ConnectionConsumer connection) throws IOException {
+    public GroundMOAdapter connectToProvider(ConnectionConsumer connection) throws NMFException {
 
         synchronized(myProviders){
             final String key = "vvfjvfbjsdkvfbsksdfksdfkbvf"; // To be done
             GroundMOAdapter gma = myProviders.get(key);
             
             if(gma != null){
-                throw new IOException("The proxy is already connected to this Provider!");
+                throw new NMFException("The proxy is already connected to this Provider!");
             }
             
             gma = new GroundMOAdapter(connection);
@@ -95,9 +96,9 @@ public class GroundMOProxy {
      * @param providerDetails The Provider details. This object can be obtained
      * from the Directory service
      * @return
-     * @throws java.io.IOException
+     * @throws NMFException
      */
-    public GroundMOAdapter connectToProvider(ProviderSummary providerDetails) throws IOException {
+    public GroundMOAdapter connectToProvider(ProviderSummary providerDetails) throws NMFException {
         
         // To be done...
         

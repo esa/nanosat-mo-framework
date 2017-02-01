@@ -20,6 +20,7 @@
  */
 package esa.mo.platform.impl.util;
 
+import java.io.IOException;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
@@ -35,16 +36,16 @@ public interface PlatformServicesConsumerInterface {
 
 //    public void init(COMServicesProvider comServices) throws MALException;
 
-    public abstract AutonomousADCSStub getAutonomousADCSService();
+    public abstract AutonomousADCSStub getAutonomousADCSService() throws IOException;
 
-    public abstract CameraStub getCameraService();
+    public abstract CameraStub getCameraService() throws IOException;
 
-    public abstract GPSStub getGPSService();
+    public abstract GPSStub getGPSService() throws IOException;
     
-    public abstract MagnetometerStub getMagnetometerService();
+    public abstract MagnetometerStub getMagnetometerService() throws IOException;
     
-    public abstract OpticalDataReceiverStub getOpticalDataReceiverService();
+    public abstract OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException;
 
-    public abstract SoftwareDefinedRadioStub getSoftwareDefinedRadioService();
+    public abstract SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException;
 
 }
