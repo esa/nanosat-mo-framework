@@ -24,6 +24,7 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
+import esa.mo.nanosatmoframework.NMFException;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -161,6 +162,8 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -181,7 +184,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         public void takePictureAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
             try {
                 nmf.reportActionExecutionProgress(true, 0, STAGE_ACK, TOTAL_STAGES, actionInstanceObjId);
-            } catch (IOException ex) {
+            } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -193,7 +196,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 nmf.reportActionExecutionProgress(true, 0, STAGE_RSP, TOTAL_STAGES, actionInstanceObjId);
-            } catch (IOException ex) {
+            } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
             
@@ -245,7 +248,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
             try { // Stored
                 nmf.reportActionExecutionProgress(true, 0, 3, TOTAL_STAGES, actionInstanceObjId);
-            } catch (IOException ex) {
+            } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -255,7 +258,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
             try {
                 nmf.reportActionExecutionProgress(false, 1, STAGE_ACK, TOTAL_STAGES, actionInstanceObjId);
-            } catch (IOException ex) {
+            } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -265,7 +268,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
             try {
                 nmf.reportActionExecutionProgress(false, 1, STAGE_RSP, TOTAL_STAGES, actionInstanceObjId);
-            } catch (IOException ex) {
+            } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

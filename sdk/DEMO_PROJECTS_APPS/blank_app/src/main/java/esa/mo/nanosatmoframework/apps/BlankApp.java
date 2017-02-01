@@ -24,8 +24,8 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.MCRegistration;
+import esa.mo.nanosatmoframework.NMFException;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -147,7 +147,7 @@ public class BlankApp {
             if (ACTION_1.equals(name.getValue())) {
                 try {
                     nanoSatMOFramework.reportActionExecutionProgress(true, 0, 1, 1, actionInstanceObjId);
-                } catch (IOException ex) {
+                } catch (NMFException ex) {
                     Logger.getLogger(BlankApp.class.getName()).log(Level.SEVERE, null, ex);
                     return new UInteger(0);
                 }

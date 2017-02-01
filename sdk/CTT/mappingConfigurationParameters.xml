@@ -44,19 +44,42 @@
 		<sessionName>malsppTestSession</sessionName>
 	</app>
 	
+	<!--	Nanomind 	-->
 	<app apidQualifier="247" apid="10">
 		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
 		<varintSupported>false</varintSupported>
 		<time>
-			<format unit="second">00011111</format>
-			<epoch scale="TAI">1958-01-01T00:00:00.000</epoch>
+			<format unit="second">00101111</format>
+			<epoch scale="TAI">2000-01-01T00:00:00.000</epoch>
 		</time>
 		<fineTime>
-			<format unit="second">1010111100001000</format>
-			<epoch scale="TAI">2013-01-01T00:00:00.000</epoch>
+			<format unit="second">00101111</format>
+			<epoch scale="TAI">2000-01-01T00:00:00.000</epoch>
 		</fineTime>
 		<duration>
-			<format unit="second">00011100</format>
+			<format unit="second">00101111</format>
+		</duration>
+		<authenticationId>0A0B0C</authenticationId>
+		<domain>malspp.test.domain</domain>
+		<networkZone>malsppTestNw</networkZone>
+		<priority>4294967295</priority>
+		<sessionName>malsppTestSession</sessionName>
+	</app>
+
+	<!--	SnapNMF 	-->
+	<app apidQualifier="247" apid="1036">
+		<packetDataFieldSizeLimit>0</packetDataFieldSizeLimit>
+		<varintSupported>false</varintSupported>
+		<time>
+			<format unit="second">00101111</format>
+			<epoch scale="TAI">2000-01-01T00:00:00.000</epoch>
+		</time>
+		<fineTime>
+			<format unit="second">00101111</format>
+			<epoch scale="TAI">2000-01-01T00:00:00.000</epoch>
+		</fineTime>
+		<duration>
+			<format unit="second">00101111</format>
 		</duration>
 		<authenticationId>0A0B0C</authenticationId>
 		<domain>malspp.test.domain</domain>

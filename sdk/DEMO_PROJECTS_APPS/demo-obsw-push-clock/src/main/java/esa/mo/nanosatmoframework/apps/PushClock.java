@@ -22,9 +22,9 @@ package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
+import esa.mo.nanosatmoframework.NMFException;
 import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -64,7 +64,7 @@ public class PushClock {
             public void run() {
                 try {
                     pushClock();
-                } catch (IOException ex) {
+                } catch (NMFException ex) {
                     Logger.getLogger(PushClock.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -72,7 +72,7 @@ public class PushClock {
 
     }
 
-    public void pushClock() throws IOException {
+    public void pushClock() throws NMFException {
         Date now = new Date();
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(now);

@@ -25,6 +25,7 @@ import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.concurrent.Semaphore;
@@ -190,18 +191,23 @@ public class DemoGPSData {
                     return null;
                 }
 
-                GetLastKnownPositionResponse pos = nanoSatMOFramework.getPlatformServices().getGPSService().getLastKnownPosition();
+                GetLastKnownPositionResponse pos;
+                try {
+                    pos = nanoSatMOFramework.getPlatformServices().getGPSService().getLastKnownPosition();
 
-                if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
-                    return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
-                }
+                    if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
+                        return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
+                    }
 
-                if (PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())) {
-                    return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLongitude());
-                }
+                    if (PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())) {
+                        return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLongitude());
+                    }
 
-                if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
-                    return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
+                    if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
+                        return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 if (PARAMETER_GPS_N_SATS_IN_VIEW.equals(identifier.getValue())) {
@@ -212,15 +218,19 @@ public class DemoGPSData {
                     class AdapterImpl extends GPSAdapter {
 
                         @Override
-                        public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
+                        public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+                                org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
                             nOfSats.add(gpsSatellitesInfo.size());
 
                             sem.release();
-
                         }
                     }
 
-                    nanoSatMOFramework.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
+                    try {
+                        nanoSatMOFramework.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
+                    } catch (IOException ex) {
+                        Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                     try {
                         sem.acquire();

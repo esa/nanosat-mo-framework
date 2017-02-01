@@ -25,6 +25,7 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
+import esa.mo.nanosatmoframework.NMFException;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -126,7 +127,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
     public void setNMF(NanoSatMOFrameworkInterface nanosatmoframework) {
         this.nmf = nanosatmoframework;
-        
+
         this.timer = new Timer();
 
         this.timer.scheduleAtFixedRate(new TimerTask() {
@@ -135,10 +136,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 ArgumentValueList args = new ArgumentValueList();
                 ArgumentValue arg = new ArgumentValue(false, new Union("Hello from the other side!"));
                 args.add(arg);
-                
+
                 try {
                     nmf.publishAlertEvent("10SecondsAlert", args);
-                } catch (IOException ex) {
+                } catch (NMFException ex) {
                     Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -152,13 +153,12 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // ======================================================================= 
-
         PairList mappings = new PairList();
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.BDOT.getOrdinal()),           new Union("BDOT") ));
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.SUNPOINTING.getOrdinal()),    new Union("SUNPOINTING_INDEX") ));
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.SINGLESPINNING.getOrdinal()), new Union("SINGLESPINNING") ));
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.TARGETTRACKING.getOrdinal()), new Union("TARGETTRACKING") ));
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.NADIRPOINTING.getOrdinal()),  new Union("NADIRPOINTING") ));
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.BDOT.getOrdinal()), new Union("BDOT")));
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.SUNPOINTING.getOrdinal()), new Union("SUNPOINTING_INDEX")));
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.SINGLESPINNING.getOrdinal()), new Union("SINGLESPINNING")));
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.TARGETTRACKING.getOrdinal()), new Union("TARGETTRACKING")));
+        mappings.add(new Pair(new UOctet((short) AttitudeMode.NADIRPOINTING.getOrdinal()), new Union("NADIRPOINTING")));
 
         DiscreteConversionDetails conversion = new DiscreteConversionDetails(mappings);
 
@@ -167,12 +167,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         ParameterConversion paramConversion = null;
 
-        try
-        {
+        try {
             ObjectIdList objIds = registration.registerConversions(conversions);
 
-            if (objIds.size() == 1)
-            {
+            if (objIds.size() == 1) {
                 ObjectId objId = objIds.get(0);
 
                 ParameterExpression paramExpr = null;
@@ -186,9 +184,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
                 paramConversion = new ParameterConversion(convertedType, convertedUnit, conversionConditions);
             }
-        }
-        catch (Throwable ex)
-        {
+        } catch (Throwable ex) {
             // ooops, ignore the parameter conversion
         }
 
@@ -434,7 +430,11 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     }
                 }
 
-                nmf.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
+                try {
+                    nmf.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
+                } catch (IOException ex) {
+                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 try {
                     sem.acquire();
@@ -445,45 +445,55 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
             }
 
-            if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())  ||
-                    PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())  ||
-                    PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())  ||
-                    PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())  ){
-                GetLastKnownPositionResponse pos = nmf.getPlatformServices().getGPSService().getLastKnownPosition();
+            if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())
+                    || PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())
+                    || PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())
+                    || PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
+                GetLastKnownPositionResponse pos;
 
-                if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
-                    return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
+                try {
+                    pos = nmf.getPlatformServices().getGPSService().getLastKnownPosition();
+
+                    if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
+                        return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
+                    }
+
+                    if (PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())) {
+                        return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLongitude());
+                    }
+
+                    if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
+                        return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
+                    }
+
+                    if (PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
+                        return pos.getBodyElement1();
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                if (PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())) {
-                    return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLongitude());
-                }
-
-                if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
-                    return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
-                }
-
-                if (PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
-                    return pos.getBodyElement1();
-                }
-
             }
 
-            if (PARAMETER_MAG_X.equals(identifier.getValue())  ||
-                    PARAMETER_MAG_Y.equals(identifier.getValue())  ||
-                    PARAMETER_MAG_Z.equals(identifier.getValue())  ){
-                MagneticFieldInstance magField = nmf.getPlatformServices().getMagnetometerService().getMagneticField();
+            if (PARAMETER_MAG_X.equals(identifier.getValue())
+                    || PARAMETER_MAG_Y.equals(identifier.getValue())
+                    || PARAMETER_MAG_Z.equals(identifier.getValue())) {
+                MagneticFieldInstance magField;
+                try {
+                    magField = nmf.getPlatformServices().getMagnetometerService().getMagneticField();
 
-                if (PARAMETER_MAG_X.equals(identifier.getValue())) {
-                    return (Attribute) HelperAttributes.javaType2Attribute(magField.getX());
-                }
+                    if (PARAMETER_MAG_X.equals(identifier.getValue())) {
+                        return (Attribute) HelperAttributes.javaType2Attribute(magField.getX());
+                    }
 
-                if (PARAMETER_MAG_Y.equals(identifier.getValue())) {
-                    return (Attribute) HelperAttributes.javaType2Attribute(magField.getY());
-                }
+                    if (PARAMETER_MAG_Y.equals(identifier.getValue())) {
+                        return (Attribute) HelperAttributes.javaType2Attribute(magField.getY());
+                    }
 
-                if (PARAMETER_MAG_Z.equals(identifier.getValue())) {
-                    return (Attribute) HelperAttributes.javaType2Attribute(magField.getZ());
+                    if (PARAMETER_MAG_Z.equals(identifier.getValue())) {
+                        return (Attribute) HelperAttributes.javaType2Attribute(magField.getZ());
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -508,7 +518,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
 
         if (nmf == null) {
             return new UInteger(0);
@@ -520,20 +531,24 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     this.prepareADCSServiceForApp();
                 }
             }
-            
+
             try {
                 Attribute argValue = attributeValues.get(0).getValue();
 
                 // Negative Durations are not allowed!
-                if(((Duration) argValue).getValue() < 0){
+                if (((Duration) argValue).getValue() < 0) {
                     return new UInteger(123);
                 }
 
-                System.out.println(ACTION_SUN_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
+                System.out.println(ACTION_SUN_POINTING_MODE + " with value is ["
+                        + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
+
                 nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, (Duration) argValue, new Duration(2));
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
+            } catch (IOException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -550,17 +565,19 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 Attribute argValue = attributeValues.get(0).getValue();
-                
+
                 // Negative Durations are not allowed!
-                if(((Duration) argValue).getValue() < 0){
+                if (((Duration) argValue).getValue() < 0) {
                     return new UInteger(123);
                 }
-                
+
                 System.out.println(ACTION_NADIR_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
                 nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, (Duration) argValue, new Duration(2));
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
+            } catch (IOException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -578,9 +595,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             pushAdcsModeParam(AttitudeMode.BDOT);
             // else
             //try {
-                //nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) AttitudeMode.BDOT.getOrdinal()));
+            //nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) AttitudeMode.BDOT.getOrdinal()));
             //} catch (IOException ex) {
-                //Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             //}
             // endif
 
@@ -590,6 +607,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
+            } catch (IOException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -599,7 +618,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         if (ACTION_5_STAGES.equals(name.getValue())) {
             try {
                 fiveStepsAction(actionInstanceObjId, 5);
-            } catch (IOException ex) {
+            } catch (NMFException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             }
@@ -639,6 +658,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 nadirPointingObjId = nadirObj.get(0);
             }
 
+        } catch (IOException ex) {
+            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
             if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.INFO, "The Attitude Definition already exists!");
@@ -652,6 +673,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         try {
             // Subscribe monitorAttitude
             nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcard(), new DataReceivedAdapter());
+        } catch (IOException ex) {
+            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -692,8 +715,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                                 nmf.pushParameterValue("sunVector3D_Y", sunVector.getY());
                                 nmf.pushParameterValue("sunVector3D_Z", sunVector.getZ());
                             }
-                            
-                        } catch (IOException ex) {
+
+                        } catch (NMFException ex) {
                             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -718,7 +741,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                             nmf.pushParameterValue("quaternion2", quaternions.getQ2());
                             nmf.pushParameterValue("quaternion3", quaternions.getQ3());
                             nmf.pushParameterValue("quaternion4", quaternions.getQ4());
-                        } catch (IOException ex) {
+                        } catch (NMFException ex) {
                             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
@@ -746,7 +769,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         nmf.getMCServices().getParameterService().pushMultipleParameterValues(instances);
     }
 
-    public void fiveStepsAction(Long actionId, int total_n_of_stages) throws IOException {
+    public void fiveStepsAction(Long actionId, int total_n_of_stages) throws NMFException {
         final int sleepTime = 2; // 2 seconds
 
         for (int stage = 1; stage < total_n_of_stages + 1; stage++) {

@@ -22,6 +22,7 @@ package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
+import esa.mo.nanosatmoframework.NMFException;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class Demo10secAlert {
             public void run() {
                 try {
                     nanoSatMOFramework.publishAlertEvent("10SecondsAlert", null);
-                } catch (IOException ex) {
+                } catch (NMFException ex) {
                     Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

@@ -22,6 +22,7 @@ package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.nanosatmoframework.MCRegistration;
 import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
+import esa.mo.nanosatmoframework.NMFException;
 import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
 import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
@@ -111,7 +112,7 @@ public class FiveStagesAction {
             if (ACTION5STAGES.equals(name.getValue())) { try {
                 // action1 was called?
                 fiveStepsAction(actionInstanceObjId);
-                } catch (IOException ex) {
+                } catch (NMFException ex) {
                     Logger.getLogger(FiveStagesAction.class.getName()).log(Level.SEVERE, null, ex);
                     return new UInteger(0);
                 }
@@ -123,7 +124,7 @@ public class FiveStagesAction {
         }
     }
 
-    public void fiveStepsAction(Long actionId) throws IOException {
+    public void fiveStepsAction(Long actionId) throws NMFException {
         for (int stage = 1; stage < TOTAL_N_OF_STAGES + 1; stage++) {
             nanoSatMOFramework.reportActionExecutionProgress(true, 0, stage, TOTAL_N_OF_STAGES, actionId);
 
