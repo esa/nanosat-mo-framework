@@ -38,7 +38,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-@Deprecated
 //@Entity
 //@IdClass(COMObjectPK.class)
 //@Table(name = "ArchivePersistenceObject", 

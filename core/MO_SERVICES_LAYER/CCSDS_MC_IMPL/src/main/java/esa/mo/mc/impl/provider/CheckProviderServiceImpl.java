@@ -134,7 +134,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
 
         // Shut down old service transport
         if (null != checkServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         checkServiceProvider = connection.startService(CheckHelper.CHECK_SERVICE_NAME.toString(), CheckHelper.CHECK_SERVICE, false, this);
@@ -160,7 +160,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
                 checkServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

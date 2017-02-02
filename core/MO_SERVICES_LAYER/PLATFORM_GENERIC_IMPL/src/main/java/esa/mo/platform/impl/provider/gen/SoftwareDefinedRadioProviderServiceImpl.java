@@ -112,7 +112,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
         // Shut down old service transport
         if (null != softwareDefinedRadioServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         this.adapter = adapter;
@@ -132,7 +132,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
                 softwareDefinedRadioServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

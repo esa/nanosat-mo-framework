@@ -132,7 +132,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
         // Shut down old service transport
         if (null != autonomousADCSServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         this.adapter = adapter;
@@ -153,7 +153,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                 autonomousADCSServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

@@ -93,7 +93,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         // shut down old service transport
         if (null != archiveServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         archiveServiceProvider = connection.startService(ArchiveHelper.ARCHIVE_SERVICE_NAME.toString(), ArchiveHelper.ARCHIVE_SERVICE, false, this);
@@ -111,7 +111,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 archiveServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

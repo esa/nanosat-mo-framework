@@ -29,9 +29,9 @@ import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
- * Example class on how to start some of the Platform services. Although
- * functional, this class should not be used out of the box. It's deliberately
- * here just to demonstrate how to initialize services.
+ * Deprecated because it is justt an example class on how to start some of the 
+ * Platform services. Although functional, this class should not be used out of 
+ * the box. It's deliberately here just to demonstrate how to initialize services.
  */
 @Deprecated
 public class SMServicesProvider {

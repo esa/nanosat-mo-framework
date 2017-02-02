@@ -116,7 +116,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         // Shut down old service transport
         if (null != alertServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         manager = new AlertManager(comServices);
@@ -137,7 +137,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                 alertServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

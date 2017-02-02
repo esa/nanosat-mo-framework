@@ -113,7 +113,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         // shut down old service transport
         if (null != directoryServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         directoryServiceProvider = connection.startService(DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(), DirectoryHelper.DIRECTORY_SERVICE, false, this);
@@ -133,7 +133,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 directoryServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

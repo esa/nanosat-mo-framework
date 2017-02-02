@@ -94,7 +94,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // shut down old service transport
         if (null != packageManagementServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         packageManagementServiceProvider = connection.startService(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME.toString(), PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, false, this);
@@ -112,7 +112,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 packageManagementServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

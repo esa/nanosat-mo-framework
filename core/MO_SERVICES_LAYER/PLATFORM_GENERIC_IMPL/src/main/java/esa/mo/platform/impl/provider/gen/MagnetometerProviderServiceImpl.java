@@ -77,7 +77,7 @@ public class MagnetometerProviderServiceImpl extends MagnetometerInheritanceSkel
 
         // Shut down old service transport
         if (null != magnetometerServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         this.adapter = adapter;
@@ -97,7 +97,7 @@ public class MagnetometerProviderServiceImpl extends MagnetometerInheritanceSkel
                 magnetometerServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(MagnetometerProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

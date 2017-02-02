@@ -148,7 +148,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Shut down old service transport
         if (null != aggregationServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         aggregationServiceProvider = connection.startService(AggregationHelper.AGGREGATION_SERVICE_NAME.toString(), AggregationHelper.AGGREGATION_SERVICE, this);
@@ -178,7 +178,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 aggregationServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

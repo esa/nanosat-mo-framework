@@ -101,7 +101,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
 
         // Shut down old service transport
         if (null != heartbeatServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         heartbeatServiceProvider = connection.startService(HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(), HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
@@ -130,7 +130,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
                 heartbeatServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

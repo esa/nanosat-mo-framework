@@ -140,7 +140,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Shut down old service transport
         if (null != appsLauncherServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         this.comServices = comServices;

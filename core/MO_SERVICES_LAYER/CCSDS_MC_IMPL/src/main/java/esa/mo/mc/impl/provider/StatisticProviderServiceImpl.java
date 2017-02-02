@@ -157,7 +157,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton i
 
         // Shut down old service transport
         if (null != statisticServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         statisticServiceProvider = connection.startService(StatisticHelper.STATISTIC_SERVICE_NAME.toString(), StatisticHelper.STATISTIC_SERVICE, this);
@@ -185,7 +185,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton i
                 statisticServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(StatisticProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

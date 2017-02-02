@@ -149,7 +149,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         // shut down old service transport
         if (null != parameterServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE_NAME.toString(), ParameterHelper.PARAMETER_SERVICE, this);
@@ -201,7 +201,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 parameterServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

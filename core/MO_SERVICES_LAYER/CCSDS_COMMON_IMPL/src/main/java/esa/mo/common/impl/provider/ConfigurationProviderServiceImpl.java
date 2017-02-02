@@ -117,7 +117,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
         // shut down old service transport
         if (null != configurationServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         service = ConfigurationHelper.CONFIGURATION_SERVICE;
@@ -139,7 +139,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
                 configurationServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

@@ -142,7 +142,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
        
         // Shut down old service transport
         if (null != gpsServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         manager = new GPSManager(comServices);
@@ -165,7 +165,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                 gpsServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

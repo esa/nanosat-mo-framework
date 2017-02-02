@@ -112,7 +112,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         // Shut down old service transport
         if (null != actionServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE_NAME.toString(), ActionHelper.ACTION_SERVICE, false, this);
@@ -133,7 +133,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
                 actionServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(ActionProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

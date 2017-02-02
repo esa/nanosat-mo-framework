@@ -129,7 +129,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         // Shut down old service transport
         if (null != cameraServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         this.adapter = adapter;
@@ -156,7 +156,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 cameraServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);

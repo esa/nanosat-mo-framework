@@ -115,7 +115,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         // shut down old service transport
         if (null != eventServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         eventServiceProvider = connection.startService(EventHelper.EVENT_SERVICE_NAME.toString(), EventHelper.EVENT_SERVICE, this);
