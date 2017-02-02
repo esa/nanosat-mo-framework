@@ -68,7 +68,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
     private static final String PARAMETER_SNAPS_TAKEN = "NumberOfSnapsTaken";
 
-    private static final String ACTION_TAKE_PICTURE = "Camera.TakePicture";
+    private static final String ACTION_TAKE_PICTURE = "Camera.TakeSnap";
 
     private static final String ALERT_SUN_POINTING_MODE = "ADCS.SunPointingMode";
 
