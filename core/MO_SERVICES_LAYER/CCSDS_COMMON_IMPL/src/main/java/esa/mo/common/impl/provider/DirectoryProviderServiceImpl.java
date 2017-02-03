@@ -505,10 +505,18 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         for (ServiceCapability capability : capabilities) {
             if (capability != null) {
                 for (NamedValue serviceProp : capability.getServiceProperties()) {
+/*                    
                     if (PROPERTY_NAME_SERVICE.equals(serviceProp.getName().getValue())
                             && serviceName.equals(((Identifier) serviceProp.getValue()).getValue())) {
                         return capability.getServiceAddresses();
                     }
+*/                    
+                    if (PROPERTY_NAME_SERVICE.equals(serviceProp.getName().getValue())
+                            && serviceName.equals(((Identifier) serviceProp.getValue()).getValue())) {
+                        return capability.getServiceAddresses();
+                    }
+                    
+
                 }
             }
         }

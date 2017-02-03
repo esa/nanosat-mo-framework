@@ -41,25 +41,33 @@ import org.ccsds.moims.mo.mal.MALService;
 public class HelperCommon {
 
     /**
-     * Generates the ConnectionConsumer from the ProviderSummary
-     * 
+     * Generates the ConnectionConsumer from the ProviderSummary. It will select
+     * the first URI available on the Service Addresses list, so the one with
+     * index 0.
+     *
      * @param provider The ProviderSummary object
      * @return ConnectionConsumer The ConnectionConsumer object
      */
-    public static ConnectionConsumer providerSummaryToConnectionConsumer(ProviderSummary provider){
-        
+    public static ConnectionConsumer providerSummaryToConnectionConsumer(ProviderSummary provider) {
         ConnectionConsumer connection = new ConnectionConsumer();
-        
+
         ServicesConnectionDetails serviceDetails = new ServicesConnectionDetails();
         HashMap<String, SingleConnectionDetails> services = new HashMap<String, SingleConnectionDetails>();
 
         // Cycle all the services in the provider and put them in the serviceDetails object
-        for (ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {  // Add all the tabs!
+        for (ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {
             ServiceKey key = serviceInfo.getServiceKey();
             AddressDetails addressDetails;
 
-            if (!serviceInfo.getServiceAddresses().isEmpty()) {  // If there are no address info we cannot connect...
+            // If there are no address info we cannot connect...
+            if (!serviceInfo.getServiceAddresses().isEmpty()) {
+                // Select the first one (index: 0)
                 addressDetails = serviceInfo.getServiceAddresses().get(0);
+
+                if (serviceInfo.getServiceAddresses().size() != 1) {
+                    Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
+                            "There are more than just one service address in the ServiceCapability.");
+                }
             } else {
                 continue;
             }
@@ -70,25 +78,31 @@ public class HelperCommon {
             details.setDomain(provider.getProviderKey().getDomain());
 
             final MALArea malArea = MALContextFactory.lookupArea(key.getArea(), key.getVersion());
-            
-            if (malArea == null){
-                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING, "The service could not be found in the MAL factory. Maybe the Helper for that service was not initialized. The service key is: " + key.toString());
+
+            if (malArea == null) {
+                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
+                        "The service could not be found in the MAL factory. "
+                        + "Maybe the Helper for that service was not initialized. "
+                        + "The service key is: " + key.toString());
                 continue;
             }
-            
+
             final MALService malService = malArea.getServiceByNumber(key.getService());
-            
-            if(malService == null){
-                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING, "The service could not be found in the MAL factory. Maybe the Helper for that service was not initialized. The service key is: " + key.toString());
+
+            if (malService == null) {
+                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
+                        "The service could not be found in the MAL factory. "
+                        + "Maybe the Helper for that service was not initialized. "
+                        + "The service key is: " + key.toString());
                 continue;
             }
-            
+
             services.put(malService.getName().toString(), details);
         }
 
         serviceDetails.setServices(services);
         connection.setServicesDetails(serviceDetails);
-        
+
         return connection;
     }
 

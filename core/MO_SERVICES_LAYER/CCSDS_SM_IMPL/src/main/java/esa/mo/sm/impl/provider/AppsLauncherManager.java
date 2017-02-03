@@ -440,7 +440,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
 
         try {
-            int bestIndex = AppsLauncherManager.getBestServiceAddressIndex(addresses);
+            int bestIndex = AppsLauncherManager.getBestIPCServiceAddressIndex(addresses);
             SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
             connectionDetails.setProviderURI(addresses.get(bestIndex).getServiceURI());
             connectionDetails.setBrokerURI(addresses.get(bestIndex).getBrokerURI());
@@ -453,7 +453,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         throw new IOException();
     }
 
-    private static int getBestServiceAddressIndex(AddressDetailsList addresses) throws IOException {
+    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws IOException {
         if (addresses.isEmpty()) {
             throw new IOException();
         }

@@ -141,7 +141,7 @@ public class ConnectionProvider {
         primaryConnectionDetails.setDomain(new ConfigurationProvider().getDomain());
         primaryConnectionDetails.setServiceKey(serviceKey);
 
-        Logger.getLogger(ConnectionProvider.class.getName()).log(Level.INFO,
+        Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE,
                 "\n" + serviceName + " Service URI        : {0}"
                 + "\n" + serviceName + " Service broker URI : {1}"
                 + "\n" + serviceName + " Service domain     : {2}"
@@ -183,7 +183,7 @@ public class ConnectionProvider {
             secondaryConnectionDetails.setDomain(new ConfigurationProvider().getDomain());
             secondaryConnectionDetails.setServiceKey(serviceKey);
 
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.INFO,
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE,
                     "\n" + serviceName + " Service URI        : {0}"
                     + "\n" + serviceName + " Service broker URI : {1}"
                     + "\n" + serviceName + " Service domain     : {2}"

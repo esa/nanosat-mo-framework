@@ -350,13 +350,20 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         synchronized (lock) {
             try {
                 Picture picture = adapter.takePicture(resolution, format, exposureTime);
+
+                Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO, "1. The picture has been taken!");
                 
                 if(!PictureFormat.RAW.equals(format)){
                     BufferedImage image = adapter.getBufferedImageFromRaw(picture.getContent().getValue());
                     picture = this.convertImage(image, format);
                 }
                 
+                Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO, "2. The picture has been converted!");
+                
                 interaction.sendResponse(picture);
+                Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO, "3. The picture has been sent!");
+                
+                picture = null;
             } catch (IOException ex) {
                 Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }

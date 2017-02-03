@@ -45,8 +45,13 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
+import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
+import org.ccsds.moims.mo.common.directory.structures.ProviderDetails;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
+import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
+import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
@@ -104,7 +109,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         if (centralDirectoryURI != null) {
             try {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Attempting to connect to Central Directory service...");
-                
+
                 // Connect to the Central Directory service...
                 directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
 
@@ -152,7 +157,10 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                         PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
                     }
 
-                    ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(supervisorConnections.get(0));
+                    // Select the best transport for IPC
+                    final ProviderSummary filteredConnections = this.selectBestIPCTransport(supervisorConnections.get(0));
+
+                    ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(filteredConnections);
 
                     // Connect to them...
                     platformServices = new PlatformServicesConsumer();
@@ -160,7 +168,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     comServicesConsumer.init(supervisorCCPlat);
                     platformServices.init(supervisorCCPlat, comServicesConsumer);
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                            "Successfully connected to Platform services on: " + supervisorConnections.get(0).toString());
+                            "Successfully connected to Platform services on: " + supervisorConnections.get(0).getProviderName());
                 } else {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
                             "The NanoSat MO Connector was expecting a single NanoSat MO Supervisor provider! Instead it found "
@@ -244,6 +252,44 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
     public final Long getAppDirectoryId() {
         return this.appDirectoryServiceId;
+    }
+
+    private ProviderSummary selectBestIPCTransport(ProviderSummary provider) {
+        final ProviderSummary newSummary = new ProviderSummary();
+        newSummary.setProviderKey(provider.getProviderKey());
+        newSummary.setProviderName(provider.getProviderName());
+
+        final ProviderDetails details = new ProviderDetails();
+        newSummary.setProviderDetails(details);
+        details.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
+
+        final ServiceCapabilityList oldCapabilities = provider.getProviderDetails().getServiceCapabilities();
+        final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
+
+        for (int i = 0; i < oldCapabilities.size(); i++) {
+            AddressDetailsList addresses = oldCapabilities.get(i).getServiceAddresses();
+            ServiceCapability cap = new ServiceCapability();
+            cap.setServiceKey(oldCapabilities.get(i).getServiceKey());
+            cap.setServiceProperties(oldCapabilities.get(i).getServiceProperties());
+            cap.setSupportedCapabilities(oldCapabilities.get(i).getSupportedCapabilities());
+
+            try {
+                final int bestIndex = AppsLauncherManager.getBestIPCServiceAddressIndex(addresses);
+
+                // Select only the best address for IPC
+                AddressDetailsList newAddresses = new AddressDetailsList();
+                newAddresses.add(addresses.get(bestIndex));
+                cap.setServiceAddresses(newAddresses);
+            } catch (IOException ex) {
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            newCapabilities.add(cap);
+        }
+
+        details.setServiceCapabilities(newCapabilities);
+
+        return newSummary;
     }
 
 }
