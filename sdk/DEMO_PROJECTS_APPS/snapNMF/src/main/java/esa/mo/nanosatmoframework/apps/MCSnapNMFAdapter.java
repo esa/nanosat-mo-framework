@@ -91,7 +91,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         defs.add(new ParameterDefinitionDetails(
                 new Identifier(PARAMETER_SNAPS_TAKEN),
-                "The nummber of snaps taken.",
+                "The number of snaps taken.",
                 Union.STRING_SHORT_FORM.byteValue(),
                 "",
                 false,
