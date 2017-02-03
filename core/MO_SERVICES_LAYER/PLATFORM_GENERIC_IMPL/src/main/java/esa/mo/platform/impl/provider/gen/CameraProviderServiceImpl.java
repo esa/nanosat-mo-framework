@@ -354,14 +354,14 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO, "1. The picture has been taken!");
                 
                 if(!PictureFormat.RAW.equals(format)){
-                    BufferedImage image = adapter.getBufferedImageFromRaw(picture.getContent().getValue());
+                    final BufferedImage image = adapter.getBufferedImageFromRaw(picture.getContent().getValue());
+                    Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO, "2. We now have the BufferedImage!");
                     picture = this.convertImage(image, format);
+                    Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO, "3. The picture has been converted!");
                 }
                 
-                Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO, "2. The picture has been converted!");
-                
                 interaction.sendResponse(picture);
-                Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO, "3. The picture has been sent!");
+                Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO, "4. The picture has been sent!");
                 
                 picture = null;
             } catch (IOException ex) {
@@ -404,31 +404,33 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         }
     }
 
-    private Picture convertImage(BufferedImage image, PictureFormat format) throws IOException {
+    private Picture convertImage(final BufferedImage image, final PictureFormat format) throws IOException {
         Picture newPicture = new Picture();
         newPicture.setCreationDate(HelperTime.getTimestampMillis());
         newPicture.setDimension(new PixelResolution(new UInteger(image.getWidth()), new UInteger(image.getHeight())));
 
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        
         if (format.equals(PictureFormat.PNG)) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
             ImageIO.write(image, "PNG", stream);
             newPicture.setContent(new Blob(stream.toByteArray()));
+            stream = null;
             newPicture.setFormat(PictureFormat.PNG);
             return newPicture;
         }
 
         if (format.equals(PictureFormat.BMP)) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
             ImageIO.write(image, "BMP", stream);
             newPicture.setContent(new Blob(stream.toByteArray()));
+            stream = null;
             newPicture.setFormat(PictureFormat.BMP);
             return newPicture;
         }
 
         if (format.equals(PictureFormat.JPG)) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
             ImageIO.write(image, "JPEG", stream);
             newPicture.setContent(new Blob(stream.toByteArray()));
+            stream = null;
             newPicture.setFormat(PictureFormat.JPG);
             return newPicture;
         }
