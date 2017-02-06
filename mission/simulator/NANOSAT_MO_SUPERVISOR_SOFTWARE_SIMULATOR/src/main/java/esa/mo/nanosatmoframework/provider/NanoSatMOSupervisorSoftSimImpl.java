@@ -22,7 +22,7 @@ package esa.mo.nanosatmoframework.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.nanosatmoframework.nanosatmosupervisor.NanoSatMOSupervisor;
+import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
 import esa.mo.nmf.packager.PackageManagementBackendNMFPackage;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;

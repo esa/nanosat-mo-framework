@@ -20,8 +20,8 @@
  */
 package esa.mo.nanosatmoframework.provider;
 
-import esa.mo.nanosatmoframework.MCRegistration;
-import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
