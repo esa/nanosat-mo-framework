@@ -18,23 +18,23 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.apps;
+package esa.mo.nmf.apps;
 
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+//import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-//import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
 
 /**
  * The demo app for the Triple Presentation
  */
-public class SnapNMF {
+public class TriplePresentation {
 
     private final NanoSatMOFrameworkInterface nanoSatMOFramework;
 
-    public SnapNMF() {
-        MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();
-        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
-//        nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
+    public TriplePresentation() {
+        MCTriplePresentationAdapter adapter = new MCTriplePresentationAdapter();
+//        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
+        nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
         adapter.setNMF(nanoSatMOFramework);
     }
 
@@ -45,7 +45,7 @@ public class SnapNMF {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        SnapNMF demo = new SnapNMF();
+        TriplePresentation demo = new TriplePresentation();
     }
 
 }

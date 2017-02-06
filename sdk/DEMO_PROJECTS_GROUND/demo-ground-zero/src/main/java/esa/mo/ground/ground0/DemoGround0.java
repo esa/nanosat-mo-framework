@@ -18,24 +18,35 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.apps;
+package esa.mo.ground.ground0;
 
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
-//import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
+import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * The demo app for the Triple Presentation
+ * Ground consumer: Demo Ground 0
  */
-public class SnapNMF {
+public class DemoGround0 {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework;
+    private final GroundMOAdapter moGroundAdapter;
 
-    public SnapNMF() {
-        MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();
-        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
-//        nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
-        adapter.setNMF(nanoSatMOFramework);
+    public DemoGround0() {
+
+        ConnectionConsumer connection = new ConnectionConsumer();
+
+        try {
+            connection.loadURIs();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        moGroundAdapter = new GroundMOAdapter(connection);
+        moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
     }
 
     /**
@@ -45,7 +56,16 @@ public class SnapNMF {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        SnapNMF demo = new SnapNMF();
+        DemoGround0 demo = new DemoGround0();
+    }
+
+    class DataReceivedAdapter extends SimpleDataReceivedListener {
+
+        @Override
+        public void onDataReceived(String parameterName, Serializable data) {
+            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName, data.toString()});
+        }
+
     }
 
 }

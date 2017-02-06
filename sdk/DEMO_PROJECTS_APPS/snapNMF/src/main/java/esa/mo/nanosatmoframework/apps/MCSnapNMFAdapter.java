@@ -22,10 +22,10 @@ package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.nanosatmoframework.MCRegistration;
-import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
-import esa.mo.nanosatmoframework.NMFException;
-import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

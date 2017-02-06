@@ -18,34 +18,51 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nanosatmoframework.apps;
+package esa.mo.nmf.ctt.services.mc;
 
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
-//import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+import java.io.Serializable;
 
 /**
- * The demo app for the Triple Presentation
+ * Class that extends the basic Swing label class to add in automatic handling for displaying an update and also
+ * calculating the transmission delay for the specific update. It also interacts with the DelayManager to calculate the
+ * total delay.
  */
-public class SnapNMF {
+public class ParameterValueLabel implements Serializable
+{
+  private String labelValue = "";
+  private boolean inError = false;
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework;
+  public ParameterValueLabel()
+  {
+  }
 
-    public SnapNMF() {
-        MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();
-        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
-//        nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
-        adapter.setNMF(nanoSatMOFramework);
+  public String getLabelValue()
+  {
+    return labelValue;
+  }
+
+  public boolean isInError()
+  {
+    return inError;
+  }
+
+  public void setNewValue(final String newVal, final long iDiff)
+  {
+
+//    boolean updatelabel = false;
+    boolean updatelabel = true;
+    inError = false;
+
+    // display the new value
+    if (updatelabel)
+    {
+      labelValue = newVal;
     }
 
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
-     */
-    public static void main(final String args[]) throws Exception {
-        SnapNMF demo = new SnapNMF();
-    }
+  }
 
+  public void reset()
+  {
+    inError = false;
+  }
 }
