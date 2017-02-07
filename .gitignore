@@ -1,0 +1,9 @@
+**/**/target/
+**/**/libs/
+**/**/.svn/
+**/comArchive.db
+**/comArchive.db-journal
+**/target/
+**/libs/
+**/.svn/
+**/providerURIs.properties
