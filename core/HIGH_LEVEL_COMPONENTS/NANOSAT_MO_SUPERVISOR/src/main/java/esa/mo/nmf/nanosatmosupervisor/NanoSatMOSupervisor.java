@@ -25,6 +25,7 @@ import esa.mo.nmf.NanoSatMOFrameworkProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.HelperNMF;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
@@ -75,7 +76,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         HelperMisc.setInputProcessorsProperty();
         
         // Enforce the App Name property to be HelperMisc.NMF_NMS_NAME
-        System.setProperty(HelperMisc.MO_APP_NAME, HelperMisc.NMF_NMS_NAME);
+        System.setProperty(HelperMisc.MO_APP_NAME, HelperNMF.NMF_NMS_NAME);
 
         // Create provider name to be registerd on the Directory service...
         this.providerName = System.getProperty(HelperMisc.MO_APP_NAME);

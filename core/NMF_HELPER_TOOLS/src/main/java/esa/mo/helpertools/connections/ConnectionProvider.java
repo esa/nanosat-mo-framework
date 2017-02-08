@@ -159,7 +159,7 @@ public class ConnectionProvider {
 
         primaryMALServiceProvider = serviceProvider;
 
-        final String secondaryProtocol = System.getProperty(HelperMisc.NMF_SECONDARY_PROTOCOL);
+        final String secondaryProtocol = System.getProperty(HelperMisc.SECONDARY_PROTOCOL);
 
         // Check if the secondary Transport is enabled
         if (secondaryProtocol != null) {
@@ -262,7 +262,7 @@ public class ConnectionProvider {
         try {
             wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false));
             
-            if(System.getProperty(HelperMisc.NMF_SECONDARY_PROTOCOL) != null){
+            if(System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null){
                 wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
             }
         } catch (IOException ex) {

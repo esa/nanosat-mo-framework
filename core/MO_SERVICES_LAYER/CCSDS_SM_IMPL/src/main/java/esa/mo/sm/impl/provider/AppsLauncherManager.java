@@ -75,7 +75,7 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     private static final String RUN_LIN_FILENAME = "runAppLin.sh";
     private static final String RUN_WIN_FILENAME = "runAppWin.bat";
-    private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.nanosatmoframework.provider.FolderLocation";
+    private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.sm.impl.appslauncher.FolderLocation";
     private static final String APPS_DIRECTORY_NAME = "apps";  // dir name
     private File apps_folder_path = new File(".." + File.separator + ".." + File.separator + APPS_DIRECTORY_NAME);  // Location of the folder
     private final String runnable_filename;

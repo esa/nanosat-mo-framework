@@ -383,7 +383,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
 
         try {
-            secondaryAddresses = (System.getProperty(HelperMisc.NMF_SECONDARY_PROTOCOL) != null)
+            secondaryAddresses = (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null)
                     ? secondaryAddresses.loadURIFromFiles(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME)
                     : null;
         } catch (MalformedURLException ex) {
