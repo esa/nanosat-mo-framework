@@ -1,1 +1,1 @@
-java -classpath ".\..\..\libs\NanoSat_MO_Framework\*" esa.mo.nanosatmoframework.provider.NanoSatMOSupervisorSoftSimImpl
+java -classpath ".\..\..\libs\NanoSat_MO_Framework\*" esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl

@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
-//import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
+//import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 

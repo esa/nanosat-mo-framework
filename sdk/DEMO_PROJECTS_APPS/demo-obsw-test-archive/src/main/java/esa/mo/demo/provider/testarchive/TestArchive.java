@@ -22,10 +22,10 @@ package esa.mo.demo.provider.testarchive;
 
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.provider.ParameterManager;
-import esa.mo.nanosatmoframework.MCRegistration;
-import esa.mo.nanosatmoframework.MonitorAndControlNMFAdapter;
-import esa.mo.nanosatmoframework.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NanoSatMOFrameworkInterface;
+import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;

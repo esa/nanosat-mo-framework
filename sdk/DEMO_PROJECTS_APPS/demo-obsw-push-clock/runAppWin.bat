@@ -1,1 +1,1 @@
-java -javaagent:"C:\Users\Cesar Coelho\Dropbox\PhD\NetBeansProjects\AGSA-LAB\NANOSAT_MO_FRAMEWORK_SOFTWARE_BUNDLE\XML_MO_APIs\.metadata\.plugins\com.anarsoft.plugin.sync.bug\agent.jar" -classpath "target\Demo_Push_Clock-jar-with-dependencies.jar" esa.mo.nanosatmoframework.apps.PushClock
+java -classpath "target\Demo_Push_Clock-jar-with-dependencies.jar" esa.mo.nmf.apps.PushClock

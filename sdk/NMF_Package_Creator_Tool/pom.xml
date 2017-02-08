@@ -59,7 +59,7 @@
     </developers>
     
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.GUI</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.GUI</assembly.mainClass>
     </properties>
     
     <dependencies>

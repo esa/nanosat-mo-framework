@@ -65,7 +65,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.apps.DemoSerialObject</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.DemoSerialObject</assembly.mainClass>
     </properties>
 
     <dependencies>

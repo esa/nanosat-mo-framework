@@ -59,7 +59,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.apps.FiveStagesAction</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.FiveStagesAction</assembly.mainClass>
     </properties>
 
     <dependencies>

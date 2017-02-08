@@ -59,7 +59,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.apps.SnapNMF</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.SnapNMF</assembly.mainClass>
     </properties>
 
     <dependencies>

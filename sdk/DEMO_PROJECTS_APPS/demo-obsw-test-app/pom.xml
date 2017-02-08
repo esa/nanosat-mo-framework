@@ -59,7 +59,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.apps.DemoTestApp</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.DemoTestApp</assembly.mainClass>
     </properties>
     
     <dependencies>

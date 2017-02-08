@@ -65,7 +65,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.apps.Demo10secAlert</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.Demo10secAlert</assembly.mainClass>
     </properties>
 
     <dependencies>

@@ -59,7 +59,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.apps.PushClock</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.PushClock</assembly.mainClass>
     </properties>
 
     <dependencies>

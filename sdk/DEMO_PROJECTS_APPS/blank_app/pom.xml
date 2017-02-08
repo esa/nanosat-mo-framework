@@ -59,7 +59,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.apps.BlankApp</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.BlankApp</assembly.mainClass>
     </properties>
 
     <dependencies>

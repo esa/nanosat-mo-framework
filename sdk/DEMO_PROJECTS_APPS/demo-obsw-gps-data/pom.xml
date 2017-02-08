@@ -65,7 +65,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.apps.DemoGPSData</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.DemoGPSData</assembly.mainClass>
     </properties>
 
     <dependencies>
