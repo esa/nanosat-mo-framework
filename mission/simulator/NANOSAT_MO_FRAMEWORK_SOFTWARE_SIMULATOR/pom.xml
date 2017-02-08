@@ -65,7 +65,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nanosatmoframework.provider.NanoSatMOSupervisorImpl</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.provider.NanoSatMOSupervisorImpl</assembly.mainClass>
     </properties>
 
     <dependencies>

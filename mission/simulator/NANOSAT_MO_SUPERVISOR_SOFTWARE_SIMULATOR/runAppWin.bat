@@ -1,1 +1,1 @@
-java  -javaagent:"C:\Users\Cesar Coelho\Dropbox\PhD\NetBeansProjects\AGSA-LAB\NANOSAT_MO_FRAMEWORK_SOFTWARE_BUNDLE\XML_MO_APIs\.metadata\.plugins\com.anarsoft.plugin.sync.bug\agent.jar" -classpath "target\NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR-jar-with-dependencies.jar" esa.mo.nanosatmoframework.provider.NanoSatMOSupervisorSoftSimImpl
+java -classpath "target\NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR-jar-with-dependencies.jar" esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl
