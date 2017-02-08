@@ -79,6 +79,8 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
      */
     public ConsumerTestToolGUI(final String name) {
         initComponents();
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mo_pic.png")));
+
         this.setLocationRelativeTo(null);
         this.setTitle(name);
 
@@ -100,9 +102,9 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
             Logger.getLogger(ConsumerTestToolGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-//        tabs.insertTab("Communication Settings", null, new ConnectionConsumerPanel(connection, tabs), "Communications Tab", tabs.getTabCount());
-        tabs.insertTab("Communication Settings (Directory)", null, new DirectoryConnectionConsumerPanel(connection, tabs), "Communications Tab (Directory)", tabs.getTabCount());
-
+        tabs.insertTab("Communication Settings (Directory)", null,
+                new DirectoryConnectionConsumerPanel(connection, tabs),
+                "Communications Tab (Directory)", tabs.getTabCount());
     }
 
     /**
@@ -152,7 +154,6 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
 
         homeTab.add(jPanel8);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esa/mo/fw/configurationtool/stuff/mo_pic.png"))); // NOI18N
         jLabel3.setName("jLabel3"); // NOI18N
         homeTab.add(jLabel3);
 

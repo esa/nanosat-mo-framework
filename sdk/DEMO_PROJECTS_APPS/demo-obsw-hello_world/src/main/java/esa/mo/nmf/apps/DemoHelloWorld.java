@@ -27,7 +27,7 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.io.Serializable;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;

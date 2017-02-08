@@ -22,7 +22,7 @@ package esa.mo.nmf.apps;
 
 //import esa.mo.nanosatmoframework.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 
 /**
  * The demo app for the Triple Presentation

@@ -22,10 +22,10 @@ package esa.mo.nanosatmoframework.apps;
 
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-//import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+//import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 
 /**
- * The demo app for the Triple Presentation
+ * The demo app to take snaps
  */
 public class SnapNMF {
 

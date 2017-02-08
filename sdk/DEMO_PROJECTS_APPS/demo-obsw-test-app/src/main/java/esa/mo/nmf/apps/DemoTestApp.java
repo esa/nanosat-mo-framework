@@ -26,7 +26,7 @@ import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;

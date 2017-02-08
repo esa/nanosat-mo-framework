@@ -22,7 +22,7 @@ package esa.mo.nmf.apps;
 
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.io.Serializable;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;

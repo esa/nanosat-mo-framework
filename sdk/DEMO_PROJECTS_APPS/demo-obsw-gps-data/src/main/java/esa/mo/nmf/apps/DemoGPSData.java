@@ -24,7 +24,7 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-import esa.mo.nanosatmoframework.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

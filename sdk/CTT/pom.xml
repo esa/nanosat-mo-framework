@@ -111,9 +111,9 @@
                 </includes>
             </resource>
             <resource>
-                <directory>${basedir}/src/main/java</directory>
+                <directory>${basedir}/resources</directory>
                 <includes>
-                    <include>esa/mo/fw/configurationtool/stuff/mo_pic.png</include>
+                    <include>mo_pic.png</include>
                 </includes>
             </resource>
         </resources>
