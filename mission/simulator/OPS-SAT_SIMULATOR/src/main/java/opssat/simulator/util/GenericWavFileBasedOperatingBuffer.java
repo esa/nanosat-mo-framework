@@ -22,16 +22,10 @@
 package opssat.simulator.util;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.RandomAccessFile;
 
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.threading.SimulatorNode;
@@ -91,7 +85,8 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
             */
             String absolutePath=SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader());
             
-            this.dataFilePath = Paths.get(absolutePath).toString();
+//            this.dataFilePath = Paths.get(absolutePath).toString();
+            this.dataFilePath = absolutePath;
             
             WavFile wavFile;
             try {
@@ -118,7 +113,20 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
 
     @Override
     public boolean preparePath(String path) {
-        if (Files.exists(Paths.get(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path), LinkOption.NOFOLLOW_LINKS)) {
+        //        boolean fileExists = Files.exists(Paths.get(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path), LinkOption.NOFOLLOW_LINKS);
+        boolean fileExists = true;
+        
+        try {
+            RandomAccessFile f = new RandomAccessFile(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path, "r");
+            f.close();
+        } catch (FileNotFoundException ex) {
+            fileExists = false;
+        } catch (IOException ex) {
+            Logger.getLogger(GenericFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+        if (fileExists) {
             this.dataFilePath = path;
             return true;
         } else {

@@ -36,7 +36,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1038,6 +1037,7 @@ public class SimulatorNode extends TaskNode {
             if (sortingRequired) {
                 this.logger.log(Level.WARNING, "Sorting of the scheduler entries is required.");
             }
+            /*
             schedulerData.sort(new Comparator<SimulatorSchedulerPiece>() {
                 @Override
                 public int compare(SimulatorSchedulerPiece o1, SimulatorSchedulerPiece o2) {
@@ -1050,6 +1050,20 @@ public class SimulatorNode extends TaskNode {
                     }
                 }
             });
+            */
+            java.util.Collections.sort(schedulerData, new Comparator<SimulatorSchedulerPiece>() {
+                @Override
+                public int compare(SimulatorSchedulerPiece o1, SimulatorSchedulerPiece o2) {
+                    if (o1.getTime() > o2.getTime()) {
+                        return 1;
+                    } else if (o1.getTime() == o2.getTime()) {
+                        return 0;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
+            
             writeSchedulerToFile(schedulerData);
             printSchedulerData();
         } else {
@@ -1058,7 +1072,8 @@ public class SimulatorNode extends TaskNode {
                 try {
                     outScheduler.close();
                     outScheduler = null;
-                    Files.delete(schedulerFile.toPath());
+//                    Files.delete(schedulerFile.toPath());
+                    schedulerFile.delete();
                 } catch (IOException ex) {
                     Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
                 }

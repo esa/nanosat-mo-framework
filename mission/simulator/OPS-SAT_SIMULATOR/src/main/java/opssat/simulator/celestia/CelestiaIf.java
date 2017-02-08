@@ -28,7 +28,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -45,7 +44,6 @@ public class CelestiaIf implements Runnable {
 
     final boolean PRINT_EVENTS = true;
 
-    //final String MISSION_ID = "NetSat";
     final String PROTOCOL_VERSION = "1.1";
     ArrayList<String> SPACECRAFT_ID;
     final int portOpsSat = 5909;
@@ -104,7 +102,7 @@ public class CelestiaIf implements Runnable {
             try {
                 do {
                     Object data = this.sendQueue.poll();
-                    while (this.sendQueue.peek()!=null) {
+                    while (this.sendQueue.peek() != null) {
                         data = this.sendQueue.poll();
                     }
                     if (data instanceof CelestiaData) {
@@ -180,7 +178,6 @@ public class CelestiaIf implements Runnable {
         try {
 
             //1. create a socket
-            
             this.socket = new ServerSocket(this.port, 10);
             logger.log(Level.INFO, "Created ServerSocket for Celestia on port [" + this.port + "] ");
             //this.socket.setReuseAddress(true); // set reusable socket address     
@@ -227,7 +224,7 @@ public class CelestiaIf implements Runnable {
             retries = 0;
 
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error establishing connection1"+e.toString());
+            logger.log(Level.SEVERE, "Error establishing connection1" + e.toString());
             return false;
         }
         return true;
@@ -264,12 +261,21 @@ public class CelestiaIf implements Runnable {
         float[] rv = data.getRv();//{-7000,0,0,4,5,6}; // [x, y, z, vx, vy, vz]
         //LocalDateTime dateTime = LocalDateTime.now();  
 
-        LocalDateTime dateTime = LocalDateTime.parse(data.getYears() + "-" + String.format("%02d", data.getMonths()) + "-" + String.format("%02d", data.getDays()) + "T" + String.format("%02d", data.getHours()) + ":" + String.format("%02d", data.getMinutes()) + ":" + String.format("%02d", data.getSeconds()));
+        /*
+        LocalDateTime dateTime = LocalDateTime.parse(
+                data.getYears()
+                + "-" + String.format("%02d", data.getMonths())
+                + "-" + String.format("%02d", data.getDays())
+                + "T" + String.format("%02d", data.getHours())
+                + ":" + String.format("%02d", data.getMinutes())
+                + ":" + String.format("%02d", data.getSeconds()));
+*/
+        
         float[] q = {data.getQ()[0], data.getQ()[1], data.getQ()[2], data.getQ()[3]}; // [qs, q1, q2, q3]
-        LocalDateTime anxTime = LocalDateTime.parse("2015-08-09T10:00:00");
-        LocalDateTime dnxTime = LocalDateTime.parse("2015-08-09T10:45:33");
-        LocalDateTime aosKirTime = LocalDateTime.parse("2015-08-09T11:49:00");
-        LocalDateTime losKirTime = LocalDateTime.parse("2015-08-09T12:01:00");
+//        LocalDateTime anxTime = LocalDateTime.parse("2015-08-09T10:00:00");
+//        LocalDateTime dnxTime = LocalDateTime.parse("2015-08-09T10:45:33");
+//        LocalDateTime aosKirTime = LocalDateTime.parse("2015-08-09T11:49:00");
+//        LocalDateTime losKirTime = LocalDateTime.parse("2015-08-09T12:01:00");
 
         ListIterator<String> iter = this.SPACECRAFT_ID.listIterator();
 
@@ -281,12 +287,21 @@ public class CelestiaIf implements Runnable {
             // epoch        
             dataStringSc = dataStringSc + " " + scId;
             dataStringParam = dataStringParam + " " + "SIM_EPOCH_TIME";
+            /*
             dataStringValue = dataStringValue + " " + dateTime.getYear() + "/"
-                + dateTime.getMonthValue() + "/"
-                + dateTime.getDayOfMonth() + "-"
-                + dateTime.getHour() + ":"
-                + dateTime.getMinute() + ":"
-                + dateTime.getSecond();
+                    + dateTime.getMonthValue() + "/"
+                    + dateTime.getDayOfMonth() + "-"
+                    + dateTime.getHour() + ":"
+                    + dateTime.getMinute() + ":"
+                    + dateTime.getSecond();
+            */
+            dataStringValue = dataStringValue + " " + data.getYears() + "/"
+                    + data.getMonths() + "/"
+                    + data.getDays() + "-"
+                    + data.getHours() + ":"
+                    + data.getMinutes() + ":"
+                    + data.getSeconds();
+            
             dataStringUnit = dataStringUnit + " " + "UTC";
 
             // ICF position and velocity        
@@ -299,9 +314,9 @@ public class CelestiaIf implements Runnable {
             dataStringSc = dataStringSc + " " + scId + " " + scId + " " + scId + " " + scId;
             dataStringParam = dataStringParam + " " + "QS_ICF QX_ICF QY_ICF QZ_ICF";
             dataStringValue = dataStringValue + " " + q[0] + " " // scalar part  --> order to be checked with MO message
-                + q[1] + " "
-                + q[2] + " "
-                + q[3];
+                    + q[1] + " "
+                    + q[2] + " "
+                    + q[3];
             dataStringUnit = dataStringUnit + " " + "- - - -";
 
             if (this.PRINT_EVENTS) {

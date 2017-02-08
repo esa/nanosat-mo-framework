@@ -21,12 +21,9 @@
  */
 package opssat.simulator.util;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Paths;
+import java.io.RandomAccessFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.threading.SimulatorNode;
@@ -53,7 +50,15 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
     public boolean loadFromPath(String path) {
         try {
             String absolutePath = SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader());
-            this.dataBuffer = Files.readAllBytes(Paths.get(absolutePath));
+//            this.dataBuffer = Files.readAllBytes(Paths.get(absolutePath));
+            
+            RandomAccessFile f = new RandomAccessFile(absolutePath, "r");
+            if (f.length() > Integer.MAX_VALUE) {
+                throw new IOException("File is too large");
+            }
+            byte[] data = new byte[(int) f.length()];
+            f.readFully(data);
+            this.dataBuffer = data;
 
         } catch (IOException ex) {
             return false;
@@ -63,7 +68,20 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
 
     @Override
     public boolean preparePath(String path) {
-        if (Files.exists(Paths.get(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path), LinkOption.NOFOLLOW_LINKS)) {
+        //        boolean fileExists = Files.exists(Paths.get(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path), LinkOption.NOFOLLOW_LINKS);
+        boolean fileExists = true;
+        
+        try {
+            RandomAccessFile f = new RandomAccessFile(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path, "r");
+            f.close();
+        } catch (FileNotFoundException ex) {
+            fileExists = false;
+        } catch (IOException ex) {
+            Logger.getLogger(GenericFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+        if (fileExists) {
             this.dataFilePath = path;
             return true;
         } else {

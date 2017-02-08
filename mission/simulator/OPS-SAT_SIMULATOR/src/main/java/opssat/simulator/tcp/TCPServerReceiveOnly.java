@@ -129,7 +129,7 @@ public class TCPServerReceiveOnly extends Thread {
     }
     
     public static void main(String argv[]) {
-        TCPServerReceiveOnly tcpServer = new TCPServerReceiveOnly(10500,Logger.getGlobal());
+        TCPServerReceiveOnly tcpServer = new TCPServerReceiveOnly(10500,Logger.getLogger(Logger.GLOBAL_LOGGER_NAME));
         tcpServer.start();
     }
 }

@@ -22,6 +22,7 @@
 package opssat.simulator.peripherals;
 
 
+import static java.lang.Double.SIZE;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -56,6 +57,12 @@ import opssat.simulator.interfaces.InternalData;
         "float[3]:angularVelocity"
     })
 public class PFineADCS extends GenericPeripheral implements IFineADCS {
+    
+    public static final int DOUBLE_BYTES = Double.SIZE / Byte.SIZE;
+    public static final int FLOAT_BYTES = Float.SIZE / Byte.SIZE;
+    public static final int INTEGER_BYTES = Integer.SIZE / Byte.SIZE;
+    public static final int LONG_BYTES = Long.SIZE / Byte.SIZE;
+    
     public static class FWRefFineADCS {
         //Below are indexes to the fields in the resulting byte arrays
         public static class SENSORTM_IDX{
@@ -166,15 +173,15 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         
         public static byte [] long2ByteArray (long value)
         {
-            return ByteBuffer.allocate(Long.BYTES).putLong(value).array();
+            return ByteBuffer.allocate(LONG_BYTES).putLong(value).array();
         }
         public static byte [] int2ByteArray (int value)
         {  
-             return ByteBuffer.allocate(Integer.BYTES).putInt(value).array();
+             return ByteBuffer.allocate(INTEGER_BYTES).putInt(value).array();
         }
         public static byte [] int16_2ByteArray (int value)
         {  
-             byte[] temp=ByteBuffer.allocate(Integer.BYTES).putInt(value).array();
+             byte[] temp=ByteBuffer.allocate(INTEGER_BYTES).putInt(value).array();
              byte[] result=new byte[2];
              result[0]=temp[2];
              result[1]=temp[3];
@@ -182,41 +189,41 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         }
         public static byte [] float2ByteArray (float value)
         {  
-             return ByteBuffer.allocate(Float.BYTES).putFloat(value).array();
+             return ByteBuffer.allocate(FLOAT_BYTES).putFloat(value).array();
         }
         public static byte [] double2ByteArray (double value)
         {  
-             return ByteBuffer.allocate(Double.BYTES).putDouble(value).array();
+             return ByteBuffer.allocate(DOUBLE_BYTES).putDouble(value).array();
         }
         
         public static void putFloatInByteArray(float value, int byteOffset, byte[] target)
         {
             byte [] tempByte=float2ByteArray(value);
-            for (int i=0;i<=Float.BYTES-1;i++)
+            for (int i=0;i<=FLOAT_BYTES-1;i++)
             {
                 target[byteOffset+i]=tempByte[i];
             }
         }
         public static float getFloatFromByteArray(byte[] source, int byteOffset)
         {
-            return ByteBuffer.wrap(source,byteOffset,Float.BYTES).order(ByteOrder.BIG_ENDIAN).getFloat();
+            return ByteBuffer.wrap(source,byteOffset,FLOAT_BYTES).order(ByteOrder.BIG_ENDIAN).getFloat();
         }
         public static void putDoubleInByteArray(double value, int byteOffset, byte[] target)
         {
             byte [] tempByte=double2ByteArray(value);
-            for (int i=0;i<=Double.BYTES-1;i++)
+            for (int i=0;i<=DOUBLE_BYTES-1;i++)
             {
                 target[byteOffset+i]=tempByte[i];
             }
         }
         public static double getDoubleFromByteArray(byte[] source, int byteOffset)
         {
-            return ByteBuffer.wrap(source,byteOffset,Double.BYTES).order(ByteOrder.BIG_ENDIAN).getDouble();
+            return ByteBuffer.wrap(source,byteOffset,DOUBLE_BYTES).order(ByteOrder.BIG_ENDIAN).getDouble();
         }
         public static void putIntInByteArray(int value, int byteOffset, byte[] target)
         {
             byte [] tempByte=int2ByteArray(value);
-            for (int i=0;i<=Integer.BYTES-1;i++)
+            for (int i=0;i<=INTEGER_BYTES-1;i++)
             {
                 target[byteOffset+i]=tempByte[i];
             }
@@ -230,33 +237,33 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         public static void putInt16InByteArray(int value, int byteOffset, byte[] target)
         {
             byte [] tempByte=int2ByteArray(value);
-            for (int i=0;i<=Integer.BYTES-1-2;i++)
+            for (int i=0;i<=INTEGER_BYTES-1-2;i++)
             {
                 target[byteOffset+i]=tempByte[i+2];
             }
         }
         public static int getIntFromByteArray(byte[] source, int byteOffset)
         {
-            return ByteBuffer.wrap(source,byteOffset,Integer.BYTES).order(ByteOrder.BIG_ENDIAN).getInt();
+            return ByteBuffer.wrap(source,byteOffset,INTEGER_BYTES).order(ByteOrder.BIG_ENDIAN).getInt();
         }
         public static int getInt16FromByteArray(byte[] source, int byteOffset)
         {
-            byte[] temp=new byte[Integer.BYTES];
+            byte[] temp=new byte[INTEGER_BYTES];
             temp[2]=source[byteOffset];
             temp[3]=source[byteOffset+1];
-            return ByteBuffer.wrap(temp,byteOffset,Integer.BYTES).order(ByteOrder.BIG_ENDIAN).getInt();
+            return ByteBuffer.wrap(temp,byteOffset,INTEGER_BYTES).order(ByteOrder.BIG_ENDIAN).getInt();
         }
         public static void putLongInByteArray(long value, int byteOffset, byte[] target)
         {
             byte [] tempByte=long2ByteArray(value);
-            for (int i=0;i<=Long.BYTES-1;i++)
+            for (int i=0;i<=LONG_BYTES-1;i++)
             {
                 target[byteOffset+i]=tempByte[i];
             }
         }
         public static long getLongFromByteArray(byte[] source, int byteOffset)
         {
-            return ByteBuffer.wrap(source,byteOffset,Long.BYTES).order(ByteOrder.BIG_ENDIAN).getLong();
+            return ByteBuffer.wrap(source,byteOffset,LONG_BYTES).order(ByteOrder.BIG_ENDIAN).getLong();
         }
     
     }
