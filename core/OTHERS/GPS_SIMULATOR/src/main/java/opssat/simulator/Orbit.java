@@ -131,7 +131,6 @@ public class Orbit {
         try {
             Epoch = df.parse(initialEpoch);
         } catch (ParseException ex) {
-
             Logger.getLogger(Orbit.class.getName()).log(Level.SEVERE, null, ex);
         }
 

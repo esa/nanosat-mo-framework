@@ -126,8 +126,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         return (AppDetails) this.getDef(input);
     }
 
-    protected Long add(AppDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
-        
+    protected Long add(final AppDetails definition, final ObjectId source, 
+            final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long objId = null;
         Long related = null;
         
@@ -182,7 +182,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         return null;
     }
 
-    protected boolean update(Long objId, AppDetails definition, SingleConnectionDetails connectionDetails, MALInteraction interaction) { // requirement: 3.3.2.5
+    protected boolean update(Long objId, AppDetails definition, 
+            SingleConnectionDetails connectionDetails, MALInteraction interaction) { // requirement: 3.3.2.5
         Boolean success = this.updateDef(objId, definition);
 
         if (super.getArchiveService() != null) {  // It should also update on the COM Archive
@@ -227,7 +228,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         File[] fList = apps_folder_path.listFiles();
 
         if (fList == null) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "The directory could not be found: {0}", apps_folder_path.toString());
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, 
+                    "The directory could not be found: {0}", apps_folder_path.toString());
 
             // Create?
             // ????
@@ -257,7 +259,8 @@ public class AppsLauncherManager extends DefinitionsManager {
 
             // It didn't exist...
             if (previousAppDetails == null) {
-                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "New app found! Adding new app: " + single_app.getName().getValue());
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, 
+                        "New app found! Adding new app: " + single_app.getName().getValue());
 
                 // Either is the first time running or it is a newly installed app!
                 ObjectId source = null;
@@ -293,11 +296,14 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     protected boolean isAppRunning(final Long appId) {
-        AppDetails app = (AppDetails) this.getDef(appId); // get it from the list of available apps
+        // get it from the list of available apps
+        AppDetails app = (AppDetails) this.getDef(appId);
         ProcessExecutionHandler handler = handlers.get(appId);
 
         if (handler == null) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "The Process handler could not be found!");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, 
+                    "The Process handler could not be found!");
+            
             app.setRunning(false);
             return false;
         }
@@ -305,13 +311,16 @@ public class AppsLauncherManager extends DefinitionsManager {
         return this.get(appId).getRunning();
     }
 
-    protected void startAppProcess(ProcessExecutionHandler handler, MALInteraction interaction) throws IOException {
-        AppDetails app = (AppDetails) this.getDef(handler.getAppInstId()); // get it from the list of available apps
+    protected void startAppProcess(final ProcessExecutionHandler handler, 
+            final MALInteraction interaction) throws IOException {
+        // get it from the list of available apps
+        AppDetails app = (AppDetails) this.getDef(handler.getAppInstId());
 
         // Go to the folder where the app are installed
         String app_folder = apps_folder_path + File.separator + app.getName().getValue();
         final String full_path = app_folder + File.separator + runnable_filename;
-        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, "Reading and initializing '" + app.getName().getValue() + "' app on path: " + full_path);
+        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, 
+                "Reading and initializing '" + app.getName().getValue() + "' app on path: " + full_path);
 
         BufferedReader brTest = new BufferedReader(new FileReader(new File(full_path)));
         String text = brTest.readLine();
@@ -336,7 +345,8 @@ public class AppsLauncherManager extends DefinitionsManager {
             handlers.put(handler.getAppInstId(), handler);
             this.setRunning(handler.getAppInstId(), true, handler.getSingleConnectionDetails(), interaction); // Update the Archive
         } else {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "The process is null! Something is wrong...");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
+                    "The process is null! Something is wrong...");
         }
     }
 
@@ -376,7 +386,9 @@ public class AppsLauncherManager extends DefinitionsManager {
             // Subscribe to events
             // Select all object numbers from the Apps Launcher service Events
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
-            Subscription eventSub = ConnectionConsumer.subscriptionKeys(new Identifier("AppClosingEvent" + random.nextInt()), new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
+            Subscription eventSub = ConnectionConsumer.subscriptionKeys(
+                    new Identifier("AppClosingEvent" + random.nextInt()), 
+                    new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
 
             try {
                 EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.get(i));
@@ -391,7 +403,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         ObjectIdList sourceList = new ObjectIdList();
 
         for (Long appInstId : appInstIds) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, "Sending event to app: " + appInstId);
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Sending event to app: " + appInstId);
             this.setRunning(appInstId, false, connection.getConnectionDetails(), interaction.getInteraction());
             sourceList.add(super.getCOMServices().getActivityTrackingService().storeCOMOperationActivity(interaction.getInteraction(), null));
         }
@@ -511,7 +523,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         return -1;
     }
 
-    private static boolean isJustRunningStatusChange(AppDetails previousAppDetails, AppDetails single_app) {
+    private static boolean isJustRunningStatusChange(final AppDetails previousAppDetails, final AppDetails single_app) {
         if (!previousAppDetails.getCategory().equals(single_app.getCategory())
                 || !previousAppDetails.getDescription().equals(single_app.getDescription())
                 || !previousAppDetails.getName().equals(single_app.getName())
@@ -530,7 +542,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         return previousAppDetails.getRunning().booleanValue() != single_app.getRunning().booleanValue();
     }
 
-    private AppDetails readAppDescriptorFromFolder(File app_folder) {
+    private AppDetails readAppDescriptorFromFolder(final File app_folder) {
         // Hard-coded values for now
         final AppDetails app = new AppDetails();
         app.setName(new Identifier(app_folder.getName()));
@@ -539,7 +551,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         app.setVersion("1.0");
         app.setExtraInfo("");
         
-        File cat = new File(app_folder.getAbsolutePath() + ".." + File.separator); // go up one folder
+        // go up one folder
+        File cat = new File(app_folder.getAbsolutePath() + ".." + File.separator);
         app.setCategory(new Identifier(cat.getName()));
         app.setRunAtStartup(false);
         app.setRunning(false); // Default values
