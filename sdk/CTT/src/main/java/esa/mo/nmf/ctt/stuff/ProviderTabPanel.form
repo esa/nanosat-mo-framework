@@ -65,6 +65,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="status">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Unknown"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lastReceived">
         </Component>

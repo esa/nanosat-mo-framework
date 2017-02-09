@@ -56,13 +56,12 @@ public class ProviderTabPanel extends javax.swing.JPanel {
     private final GroundMOAdapter services;
 
     /**
-     * Creates new form ObjectsDisplay
+     * Creates a new tab for a Provider and populates it.
      *
      * @param provider
      */
     public ProviderTabPanel(final ProviderSummary provider) {
         services = new GroundMOAdapter(provider);
-
         this.insertTabs(); // Insert all the tabs
     }
 
@@ -107,7 +106,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
                     // COM
                     if (services.getCOMServices() != null) {
-
                         if (services.getCOMServices().getArchiveService() != null) {
                             serviceTabs.insertTab("Archive Manager", null, new ArchiveConsumerManagerPanel(services.getCOMServices().getArchiveService()), "Archive Tab", serviceTabs.getTabCount());
                         }
@@ -115,12 +113,10 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                         if (services.getCOMServices().getEventService() != null) {
                             serviceTabs.insertTab("Event service", null, new EventConsumerPanel(services.getCOMServices().getEventService(), services.getCOMServices().getArchiveService()), "Event Tab", serviceTabs.getTabCount());
                         }
-
                     }
 
                     // MC
                     if (services.getMCServices() != null) {
-
                         if (services.getMCServices().getActionService() != null) {
                             serviceTabs.insertTab("Action service", null, new ActionConsumerPanel(services.getMCServices().getActionService()), "Action Tab", serviceTabs.getTabCount());
                         }
@@ -145,18 +141,14 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                         if (services.getMCServices().getStatisticService() != null) {
                             serviceTabs.insertTab("Statistic service", null, new StatisticConsumerPanel(services.getMCServices().getStatisticService(), services.getMCServices().getParameterService()), "Statistic Tab", serviceTabs.getTabCount());
                         }
-
                     }
 
                     // Common
                     if (services.getCommonServices() != null) {
-
                         if (services.getCommonServices().getConfigurationService() != null) {
                             serviceTabs.insertTab("Configuration service", null, new ConfigurationConsumerPanel(services.getCommonServices().getConfigurationService()), "Configuration Tab", serviceTabs.getTabCount());
                         }
-
                     }
-
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MALException ex) {
@@ -168,7 +160,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         };
 
         t1.start();
-
     }
 
     /**
@@ -202,6 +193,8 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
         jLabel3.setText("Provider Status: ");
         providerStatus.add(jLabel3);
+
+        status.setText("Unknown");
         providerStatus.add(status);
         providerStatus.add(lastReceived);
 
@@ -218,7 +211,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
     private class ProviderStatusAdapter extends HeartbeatAdapter {
 
-        private static final long DELTA = 2 * 1000; // 2 seconds = 2000 milliseconds
+        private static final long DELTA_ERROR = 2 * 1000; // 2 seconds = 2000 milliseconds
         private final long period; // In seconds
         private final Timer timer;
         private Time lastBeatAt = HelperTime.getTimestampMillis();
@@ -231,11 +224,13 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 @Override
                 public void run() {
                     final Time currentTime = HelperTime.getTimestampMillis();
-                    
-                    // If the current time has passed the ast beat + the beat period + a delta error
-                    if(currentTime.getValue() > lastBeatAt.getValue() + period + DELTA){
+
+                    // If the current time has passed the last beat + the beat period + a delta error
+                    long threshold = lastBeatAt.getValue() + period + DELTA_ERROR;
+
+                    if (currentTime.getValue() > threshold) {
                         // Then the provider is unresponsive
-                        status.setText("Unresponsive! ");
+                        status.setText("Unresponsive!");
                         status.setForeground(Color.RED);
                     }
                 }
@@ -244,14 +239,18 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void beatNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.mal.structures.Identifier _Identifier0, org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1, java.util.Map qosProperties) {
+        public synchronized void beatNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+                org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1,
+                java.util.Map qosProperties) {
             lastBeatAt = HelperTime.getTimestampMillis();
             final Time onboardTime = msgHeader.getTimestamp();
             final long iDiff = lastBeatAt.getValue() - onboardTime.getValue();
 
             status.setText("Alive! ");
             status.setForeground(Color.BLUE);
-            lastReceived.setText("(last beat received at: " + HelperTime.time2readableString(lastBeatAt) + ")");
+            lastReceived.setText("(Clocks diff: " + iDiff + " ms"
+                    + " | Last beat received at: " + HelperTime.time2readableString(lastBeatAt) + ")");
         }
 
     }
