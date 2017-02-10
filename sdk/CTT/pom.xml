@@ -111,7 +111,7 @@
                 </includes>
             </resource>
             <resource>
-                <directory>${basedir}/resources</directory>
+                <directory>${basedir}/src/main/resources</directory>
                 <includes>
                     <include>mo_pic.png</include>
                 </includes>
