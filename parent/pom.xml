@@ -103,7 +103,7 @@
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>NMF_HELPER_TOOLS</artifactId>
+                <artifactId>HELPER_TOOLS</artifactId>
                 <version>${esa.nmf.helper.version}</version>
             </dependency>
 
