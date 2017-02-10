@@ -22,7 +22,6 @@ package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.tools.mowindow.MOWindow;
@@ -59,7 +58,6 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
     private ParameterConsumerServiceImpl serviceMCParameter;
     private ParameterTablePanel parameterTable;
-    private ConfigurationProvider configuration = new ConfigurationProvider();
 
     /**
      *

@@ -24,7 +24,6 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.StatisticConsumerServiceImpl;
-import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
@@ -58,7 +57,6 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
     private StatisticConsumerServiceImpl serviceMCStatistic;
     private ParameterConsumerServiceImpl serviceMCParameter;
     private StatisticLinkTablePanel statisticTable;
-    private ConfigurationProvider configuration = new ConfigurationProvider();
 
     /**
      *

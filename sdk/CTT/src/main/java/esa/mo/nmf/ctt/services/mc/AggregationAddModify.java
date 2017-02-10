@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.ctt.services.mc;
 
-import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl_old;
 import java.awt.Dimension;
 import java.util.Arrays;
@@ -49,7 +48,6 @@ public class AggregationAddModify extends javax.swing.JFrame {
     private AggregationConsumerServiceImpl_old aggregationService;
     private Boolean isAddDef = false;
     private int aggregationDefinitionSelectedIndex = 0;
-    private ConfigurationProvider configuration = new ConfigurationProvider();
     private DefaultTableModel parameterTableData;
     private DefaultTableModel aggregationTableData;
     private DefaultTableModel parameterSetsTableData;

@@ -22,7 +22,6 @@ package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl_old;
-import esa.mo.helpertools.connections.ConfigurationProvider;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +57,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
     private DefaultTableModel parameterTableData;
     private Boolean isAddDef = false;
     private int parameterDefinitionSelectedIndex = 0;
-    private ConfigurationProvider providerConfiguration = new ConfigurationProvider();
 
     private static transient COMService service;
 

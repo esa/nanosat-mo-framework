@@ -23,7 +23,6 @@ package esa.mo.nmf.ctt.services.mc;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.tools.mowindow.MOWindow;
-import esa.mo.helpertools.connections.ConfigurationProvider;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import java.io.InterruptedIOException;
 import java.util.List;
@@ -52,7 +51,6 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
     private AlertConsumerServiceImpl serviceMCAlert;
     private AlertTablePanel alertTable;
-    private ConfigurationProvider configuration = new ConfigurationProvider();
 
     /**
      *
