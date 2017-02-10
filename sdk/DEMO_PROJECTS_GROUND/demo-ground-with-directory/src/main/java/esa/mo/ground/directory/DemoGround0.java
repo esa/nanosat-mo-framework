@@ -39,7 +39,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class DemoGround0 {
 
     private GroundMOAdapter moGroundAdapter;
-//    private final static URI DIRECTORY_URI = new URI("rmi://131.176.85.51:1024/1024-GPSData-Directory");
     private final static URI DIRECTORY_URI = new URI("malspp:247/1/12");
 
     public DemoGround0() {

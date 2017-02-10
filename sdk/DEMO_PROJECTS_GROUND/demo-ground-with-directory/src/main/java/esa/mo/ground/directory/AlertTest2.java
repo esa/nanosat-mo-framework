@@ -84,9 +84,9 @@ detailsRelated:	null
  */
 public class AlertTest2 {
 
-    //static final String URL_DIRECTORY_SERVICE = "rmi://131.176.53.64:1024/1024-MEX_MO_Provider-Directory";
-//    static final String URL_DIRECTORY_SERVICE = "malhttp://131.176.53.64:61616/MEX_MO_Provider-Directory";
-    static final String URL_DIRECTORY_SERVICE = "tcpip://mitydev2:1024-NanoSat_MO_Supervisor-Directory";
+    //static final String URL_DIRECTORY_SERVICE = "rmi://x.x.x.x:1024/1024-MEX_MO_Provider-Directory";
+//    static final String URL_DIRECTORY_SERVICE = "malhttp://x.x.x.x:61616/MEX_MO_Provider-Directory";
+    static final String URL_DIRECTORY_SERVICE = "tcpip://x:1024-NanoSat_MO_Supervisor-Directory";
 
     public final GroundMOAdapter groundAdapter;
 
