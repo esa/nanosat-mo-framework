@@ -22,7 +22,7 @@ package esa.mo.reconfigurable.service;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
@@ -44,7 +44,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class PersistLatestServiceConfigurationAdapter implements ConfigurationNotificationInterface {
 
-    private ConfigurationProvider configuration = new ConfigurationProvider();
     private final ArchiveInheritanceSkeleton archiveService;
     private Long configObjId;
 
@@ -78,18 +77,18 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
         // Update the configuration in the Archive!!
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
-                ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), configObjId);
+                ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), configObjId);
 
         // Stuff to feed the update operation from the Archive...
         ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, 
-                configuration.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
+                ConfigurationProviderSingleton.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
         ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
         confObjsList.add(serviceImpl.getCurrentConfiguration());
 
         try {
             this.archiveService.update(
                     ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                    configuration.getDomain(),
+                    ConfigurationProviderSingleton.getDomain(),
                     details,
                     confObjsList,
                     null);
@@ -110,20 +109,21 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
             LongList objIds1 = archiveService.store(
                     true,
                     ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                    configuration.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI("")),
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(null, null, ConfigurationProviderSingleton.getNetwork(), new URI("")),
                     archObj1,
                     null);
 
             // Store the Service Configuration
             ServiceKeyList serviceKeyList = new ServiceKeyList();
-            serviceKeyList.add(new ServiceKey(service.getCOMService().getArea().getNumber(), service.getCOMService().getNumber(), service.getCOMService().getArea().getVersion()));
+            serviceKeyList.add(new ServiceKey(service.getCOMService().getArea().getNumber(), 
+                    service.getCOMService().getNumber(), service.getCOMService().getArea().getVersion()));
 
             LongList objIds2 = archiveService.store(
                     true,
                     ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
-                    configuration.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, configuration.getNetwork(), new URI(""), defaultObjId),
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, ConfigurationProviderSingleton.getNetwork(), new URI(""), defaultObjId),
                     serviceKeyList,
                     null);
 

@@ -22,7 +22,7 @@ package esa.mo.reconfigurable.provider;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.reconfigurable.service.PersistLatestServiceConfigurationAdapter;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.logging.Level;
@@ -48,7 +48,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class PersistProviderConfiguration {
 
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final ArchiveInheritanceSkeleton archiveService;
 
     public PersistProviderConfiguration(ReconfigurableProviderImplInterface provider, ObjectId confId, ArchiveInheritanceSkeleton archiveService) {
@@ -88,7 +87,7 @@ public class PersistProviderConfiguration {
             ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails();
             ConfigurationObjectSetList setList = new ConfigurationObjectSetList();
             ConfigurationObjectSet set = new ConfigurationObjectSet();
-            set.setDomain(configuration.getDomain());
+            set.setDomain(ConfigurationProviderSingleton.getDomain());
             set.setObjType(ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE);
             set.setObjInstIds(objIds);
 
@@ -99,14 +98,15 @@ public class PersistProviderConfiguration {
             LongList objIds3 = this.archiveService.store(
                     true,
                     ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                    configuration.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI("")),
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(null, null, ConfigurationProviderSingleton.getNetwork(), new URI("")),
                     archObj,
                     null);
 
             // Store the provider configuration
             // Related points to the Provider's Configuration Object
-            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), null, configuration.getNetwork(), new URI(""));
+            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), 
+                    null, ConfigurationProviderSingleton.getNetwork(), new URI(""));
             details.get(0).setInstId(confId.getKey().getInstId());
             IdentifierList providerNameList = new IdentifierList();
             providerNameList.add(provider.getProviderName());
@@ -114,7 +114,7 @@ public class PersistProviderConfiguration {
             this.archiveService.store(
                     false,
                     ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
-                    configuration.getDomain(),
+                    ConfigurationProviderSingleton.getDomain(),
                     details,
                     providerNameList,
                     null);

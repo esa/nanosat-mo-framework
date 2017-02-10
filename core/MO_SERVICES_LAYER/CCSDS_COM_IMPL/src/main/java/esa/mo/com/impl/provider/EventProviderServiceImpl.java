@@ -21,7 +21,7 @@
 package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
@@ -76,7 +76,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     private final Object lock = new Object();
     private boolean isRegistered = false;
     private MonitorEventPublisher publisher;
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final ConnectionProvider connection = new ConnectionProvider();
     private ArchiveProviderServiceImpl archiveService;
 
@@ -105,8 +104,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         this.archiveService = archiveService;
 
-        publisher = createMonitorEventPublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createMonitorEventPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,
@@ -415,7 +414,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             if (network != null) {
                 archiveDetails.setNetwork(network);
             } else {
-                archiveDetails.setNetwork(configuration.getNetwork());
+                archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
             }
 
             if (uri != null) {
@@ -500,7 +499,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         if (network != null) {
             archiveDetails.setNetwork(network);
         } else {
-            archiveDetails.setNetwork(configuration.getNetwork());
+            archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
         }
 
         if (uri != null) {

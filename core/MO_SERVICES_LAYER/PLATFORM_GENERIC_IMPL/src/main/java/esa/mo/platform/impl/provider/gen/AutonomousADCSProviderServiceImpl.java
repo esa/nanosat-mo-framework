@@ -21,7 +21,7 @@
 package esa.mo.platform.impl.provider.gen;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
@@ -84,7 +84,6 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     private final Object lock = new Object();
     private AutonomousADCSManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private AutonomousADCSAdapterInterface adapter;
     private boolean adcsInUse;
     private Timer publishTimer = new Timer();
@@ -122,8 +121,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             }
         }
 
-        publisher = createMonitorAttitudePublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,
@@ -451,12 +450,12 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             return false;
         }
         
-        return manager.reloadConfiguration(configuration.getDomain(), configurationObjectDetails);
+        return manager.reloadConfiguration(ConfigurationProviderSingleton.getDomain(), configurationObjectDetails);
     }
 
     @Override
     public ConfigurationObjectDetails getCurrentConfiguration() {
-        return manager.getCurrentConfiguration(configuration.getDomain());
+        return manager.getCurrentConfiguration(ConfigurationProviderSingleton.getDomain());
     }
 
     @Override

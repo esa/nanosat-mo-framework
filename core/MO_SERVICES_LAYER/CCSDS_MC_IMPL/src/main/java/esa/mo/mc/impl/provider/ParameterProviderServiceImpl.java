@@ -22,7 +22,7 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
@@ -99,7 +99,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private ParameterManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
     private EventConsumerServiceImpl eventServiceConsumer;
     private ConfigurationNotificationInterface configurationAdapter;
@@ -139,8 +138,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         }
 
-        publisher = createMonitorValuePublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createMonitorValuePublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,
@@ -932,7 +931,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         // Confirm the domain
-        if (!confSet.getDomain().equals(configuration.getDomain())) {
+        if (!confSet.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
@@ -948,7 +947,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         ParameterDefinitionDetailsList pDefs = (ParameterDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                configuration.getDomain(),
+                ConfigurationProviderSingleton.getDomain(),
                 confSet.getObjInstIds());
 
         manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
@@ -965,7 +964,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
 
         ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(configuration.getDomain());
+        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
         objsSet.setObjInstIds(currentObjIds);

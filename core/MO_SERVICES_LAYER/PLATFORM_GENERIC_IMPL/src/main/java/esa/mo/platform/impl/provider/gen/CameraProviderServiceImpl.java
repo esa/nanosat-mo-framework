@@ -21,7 +21,7 @@
 package esa.mo.platform.impl.provider.gen;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import java.awt.image.BufferedImage;
@@ -84,7 +84,6 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     private final Object lock = new Object();
     private boolean isRegistered = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private Timer publishTimer = new Timer();
     private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
     private CameraAdapterInterface adapter;
@@ -119,8 +118,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             }
         }
 
-        publisher = createStreamPicturesPublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createStreamPicturesPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,

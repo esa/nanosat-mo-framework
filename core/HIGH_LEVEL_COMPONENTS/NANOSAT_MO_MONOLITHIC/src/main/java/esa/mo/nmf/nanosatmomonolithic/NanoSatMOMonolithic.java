@@ -64,16 +64,16 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
         HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
-        this.providerName = System.getProperty(HelperMisc.MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
+        super.providerName = System.getProperty(HelperMisc.MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
 
-        this.platformServices = platformServices;
+        super.platformServices = platformServices;
 
         try {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.FINE, "Initializing services...");
 
             comServices.init();
             heartbeatService.init();
-            this.startMCServices(mcAdapter);
+            super.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
             directoryService.init(comServices);
         } catch (MALException ex) {
@@ -91,7 +91,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
             if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
                 try {
-                    this.loadConfigurations();
+                    super.loadConfigurations();
                 } catch (NMFException ex) {
                     Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
                 }

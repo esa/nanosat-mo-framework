@@ -22,7 +22,7 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
@@ -77,7 +77,6 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     private boolean running = false;
     private AlertManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
     private ConfigurationNotificationInterface configurationAdapter;
 
@@ -187,7 +186,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                 enableInstance = enableInstances.get(index);
 
                 if (isGroupIds) {
-                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(configuration.getDomain(), enableInstances.get(index).getId());
+                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(
+                            ConfigurationProviderSingleton.getDomain(), enableInstances.get(index).getId());
 
                     if (group == null) {
                         invIndexList.add(new UInteger(index)); // requirement: 3.4.8.h
@@ -504,8 +504,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         // COM usage
         // requirement: 3.4.7.b
-        Long objId = manager.getEventService().generateAndStoreEvent(AlertHelper.ALERTEVENT_OBJECT_TYPE, configuration.getDomain(), alertEvent, objIdDef, source, interaction);
-
+        Long objId = manager.getEventService().generateAndStoreEvent(AlertHelper.ALERTEVENT_OBJECT_TYPE, 
+                ConfigurationProviderSingleton.getDomain(), alertEvent, objIdDef, source, interaction);
 
         // requirement: 3.4.5.a and 3.4.5.b and 3.4.5.c
         AlertEventDetailsList alertEvents = new AlertEventDetailsList();

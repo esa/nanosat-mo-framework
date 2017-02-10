@@ -138,7 +138,7 @@ public class ConnectionProvider {
 
         primaryConnectionDetails.setProviderURI(serviceProvider.getURI());
         primaryConnectionDetails.setBrokerURI(serviceProvider.getBrokerURI());
-        primaryConnectionDetails.setDomain(new ConfigurationProvider().getDomain());
+        primaryConnectionDetails.setDomain(ConfigurationProviderSingleton.getDomain());
         primaryConnectionDetails.setServiceKey(serviceKey);
 
         Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE,
@@ -180,7 +180,7 @@ public class ConnectionProvider {
 
             secondaryConnectionDetails.setProviderURI(serviceProvider2.getURI());
             secondaryConnectionDetails.setBrokerURI(serviceProvider2.getBrokerURI());
-            secondaryConnectionDetails.setDomain(new ConfigurationProvider().getDomain());
+            secondaryConnectionDetails.setDomain(ConfigurationProviderSingleton.getDomain());
             secondaryConnectionDetails.setServiceKey(serviceKey);
 
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE,

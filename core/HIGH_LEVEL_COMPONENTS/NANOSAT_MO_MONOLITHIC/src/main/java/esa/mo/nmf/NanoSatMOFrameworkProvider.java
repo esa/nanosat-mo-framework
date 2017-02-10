@@ -24,7 +24,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.mc.impl.provider.ParameterManager;
@@ -78,7 +78,6 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public final static String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
     public final static String NANOSAT_MO_SUPERVISOR_NAME = "NanoSat_MO_Supervisor";
     public final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
-    public final ConfigurationProvider configuration = new ConfigurationProvider();
     public final COMServicesProvider comServices = new COMServicesProvider();
     public final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
     public final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
@@ -163,7 +162,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) throws NMFException {
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
-                ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), serviceObjId);
+                ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), serviceObjId);
 
         if (comObject == null) { // Could not be found, return
             Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE,
@@ -174,7 +173,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         // Retrieve it from the Archive
         ConfigurationObjectDetails configurationObjectDetails = (ConfigurationObjectDetails) HelperArchive.getObjectBodyFromArchive(
                 comServices.getArchiveService(), ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                configuration.getDomain(), comObject.getArchiveDetails().getDetails().getRelated());
+                ConfigurationProviderSingleton.getDomain(), comObject.getArchiveDetails().getDetails().getRelated());
 
         if (configurationObjectDetails == null) { // Could not be found, throw error!
             // If the object above exists, this one should also!
@@ -191,7 +190,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         // Activate the previous configuration
         ObjectId confId = new ObjectId();  // Select the default configuration
         confId.setType(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE);
-        confId.setKey(new ObjectKey(configuration.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+        confId.setKey(new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
         /*---------------------------------------------------*/
         // Create the adapter that stores the configurations "onChange"

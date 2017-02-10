@@ -20,7 +20,7 @@
  */
 package esa.mo.sm.impl.provider;
 
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import java.util.Map;
@@ -65,7 +65,6 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     private final Object lock = new Object();
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final Timer timer = new Timer();
     protected long period = 10000; // 10 seconds
 
@@ -91,8 +90,8 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             }
         }
 
-        publisher = createBeatPublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,

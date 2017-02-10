@@ -33,7 +33,7 @@ public class SingleConnectionDetails {
     private URI brokerURI;
     private IdentifierList domain;
     private IntegerList serviceKey = new IntegerList();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
+//    private final ConfigurationProviderSingleton configuration = new ConfigurationProviderSingleton();
 
     public void setProviderURI(String providerURI) {
         this.providerURI = new URI(providerURI);
@@ -75,8 +75,8 @@ public class SingleConnectionDetails {
         return this.serviceKey;
     }
 
-    public ConfigurationProvider getConfiguration() {
-        return this.configuration;
+    public ConfigurationProviderSingleton getConfiguration() {
+        return ConfigurationProviderSingleton.getInstance();
     }
 
 }

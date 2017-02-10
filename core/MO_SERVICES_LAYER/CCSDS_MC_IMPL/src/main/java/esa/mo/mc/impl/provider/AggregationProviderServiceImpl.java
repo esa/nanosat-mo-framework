@@ -22,7 +22,7 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
@@ -99,7 +99,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     private PeriodicReportingManager periodicReportingManager;
     private PeriodicSamplingManager periodicSamplingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
     private ConfigurationNotificationInterface configurationAdapter;
 
@@ -138,8 +137,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             }
         }
 
-        publisher = createMonitorValuePublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createMonitorValuePublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,
@@ -311,7 +310,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 enableInstance = enableInstances.get(index);
 
                 if (isGroupIds) {
-                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(configuration.getDomain(), enableInstances.get(index).getId());
+                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(
+                            ConfigurationProviderSingleton.getDomain(), enableInstances.get(index).getId());
 
                     if (group == null) {
                         invIndexList.add(new UInteger(index)); // requirement: 3.4.8.h

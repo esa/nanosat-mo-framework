@@ -22,7 +22,7 @@ package esa.mo.platform.impl.provider.gen;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.platform.impl.util.PositionsCalculator;
@@ -95,7 +95,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     private GPSManager manager;
     private PeriodicReportingManager periodicReporting;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private GPSAdapterInterface adapter;
     private ConfigurationNotificationInterface configurationAdapter;
     
@@ -132,8 +131,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             }
         }
 
-        publisher = createNearbyPositionPublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createNearbyPositionPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,
@@ -445,7 +444,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         // Confirm the domain
-        if (!confSet.getDomain().equals(configuration.getDomain())) {
+        if (!confSet.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
         
@@ -460,7 +459,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         PositionList pDefs = (PositionList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
-                configuration.getDomain(),
+                ConfigurationProviderSingleton.getDomain(),
                 confSet.getObjInstIds());
 
         manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
@@ -475,7 +474,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
 
         ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(configuration.getDomain());
+        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
         objsSet.setObjInstIds(currentObjIds);

@@ -21,7 +21,7 @@
 package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -60,7 +60,6 @@ public class ActivityTrackingProviderServiceImpl {
     private boolean running = false;
     private ArchiveProviderServiceImpl archiveService;
     private EventProviderServiceImpl eventService;
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final ExecutorService executor = Executors.newFixedThreadPool(2);
 
     /**
@@ -188,14 +187,14 @@ public class ActivityTrackingProviderServiceImpl {
         final Long objId;
 
         if (interaction != null) {
-            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, configuration.getDomain(), ael, related, source, interaction);
+            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), ael, related, source, interaction);
             eventService.publishEvent(interaction, objId, ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, related, source, ael);
         } else {
-            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, configuration.getDomain(), ael, related, source, uri, network);
+            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), ael, related, source, uri, network);
             eventService.publishEvent(uri, objId, ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, related, source, ael);
         }
 
-        final ObjectKey key = new ObjectKey(configuration.getDomain(), objId);
+        final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), objId);
 
         return new ObjectId(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, key);
     }
@@ -226,10 +225,10 @@ public class ActivityTrackingProviderServiceImpl {
         Long objId;
 
         if (interaction != null) {
-            objId = eventService.generateAndStoreEvent(objType, configuration.getDomain(), atl, null, source, interaction);
+            objId = eventService.generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(), atl, null, source, interaction);
             eventService.publishEvent(interaction, objId, objType, null, source, atl);
         } else {
-            objId = eventService.generateAndStoreEvent(objType, configuration.getDomain(), atl, null, source, uri, network);
+            objId = eventService.generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(), atl, null, source, uri, network);
             eventService.publishEvent(uri, objId, objType, null, source, atl);
         }
 
@@ -257,10 +256,10 @@ public class ActivityTrackingProviderServiceImpl {
         Long objId;
 
         if (interaction != null) {
-            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, configuration.getDomain(), aal, related, source, interaction);
+            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), aal, related, source, interaction);
             eventService.publishEvent(interaction, objId, ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, null, source, aal);
         } else {
-            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, configuration.getDomain(), aal, related, source, uri, network);
+            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), aal, related, source, uri, network);
             eventService.publishEvent(uri, objId, ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, null, source, aal);
         }
 

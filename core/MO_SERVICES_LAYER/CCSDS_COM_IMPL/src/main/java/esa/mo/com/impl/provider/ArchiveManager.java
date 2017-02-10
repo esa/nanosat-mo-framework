@@ -24,7 +24,7 @@ import esa.mo.com.impl.archive.db.BackendInteractionsProcessor;
 import esa.mo.com.impl.archive.fast.FastObjId;
 import esa.mo.com.impl.archive.fast.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.fast.FastNetwork;
@@ -82,7 +82,6 @@ public class ArchiveManager {
     private final FastObjectType fastObjectType;
 
     private EventProviderServiceImpl eventService;
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
 
     /**
      * Initializes the Archive manager
@@ -542,10 +541,11 @@ public class ArchiveManager {
             return;
         }
 
-        Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "\nobjType: " + objType.toString() + "\nDomain: " + configuration.getDomain().toString() + "\nSourceList: " + sourceList.toString());
+        Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "\nobjType: " + objType.toString() 
+                + "\nDomain: " + ConfigurationProviderSingleton.getDomain().toString() + "\nSourceList: " + sourceList.toString());
 
         // requirement: 3.4.2.4
-        final LongList eventObjIds = eventService.generateAndStoreEvents(objType, configuration.getDomain(), null, sourceList, interaction);
+        final LongList eventObjIds = eventService.generateAndStoreEvents(objType, ConfigurationProviderSingleton.getDomain(), null, sourceList, interaction);
         Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
 
         URI sourceURI = new URI("");

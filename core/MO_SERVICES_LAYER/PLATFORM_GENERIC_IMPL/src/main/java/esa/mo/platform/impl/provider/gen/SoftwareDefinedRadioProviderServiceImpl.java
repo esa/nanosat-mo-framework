@@ -20,7 +20,7 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import java.util.Map;
@@ -70,7 +70,6 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     private final Object lock = new Object();
     private boolean isRegistered = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private Timer publishTimer = new Timer();
     private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
     private SoftwareDefinedRadioAdapterInterface adapter;
@@ -102,8 +101,8 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             }
         }
 
-        publisher = createStreamRadioPublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createStreamRadioPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,

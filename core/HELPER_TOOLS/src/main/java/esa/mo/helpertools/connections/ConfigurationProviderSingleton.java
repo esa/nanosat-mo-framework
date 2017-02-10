@@ -29,26 +29,48 @@ import org.ccsds.moims.mo.mal.structures.SessionType;
  *
  * @author Cesar Coelho
  */
-public class ConfigurationProvider {
+public final class ConfigurationProviderSingleton {
 
-    private final Identifier network;
-    private final SessionType session;
-    private IdentifierList domain = new IdentifierList();
+    private static final ConfigurationProviderSingleton INSTANCE = new ConfigurationProviderSingleton();
+    private static boolean isInitialized = false;
+    private static Identifier NETWORK = new Identifier();
+    private static SessionType SESSION;
+    private static final IdentifierList DOMAIN = new IdentifierList();
 
-    public IdentifierList getDomain() {
-        return this.domain;
+    private ConfigurationProviderSingleton() {
+        // Exists only to defeat instantiation.
     }
 
-    public Identifier getNetwork() {
-        return this.network;
+    public static IdentifierList getDomain() {
+        initializeIfNeeded();
+        return DOMAIN;
     }
 
-    public SessionType getSession() {
-        return this.session;
+    public static Identifier getNetwork() {
+        initializeIfNeeded();
+        return NETWORK;
+    }
+
+    public static SessionType getSession() {
+        initializeIfNeeded();
+        return SESSION;
+    }
+    
+    private static synchronized void initializeIfNeeded(){
+        if (!isInitialized){
+            init();
+            isInitialized = true;
+        }
+    }
+    
+
+    public static ConfigurationProviderSingleton getInstance() {
+        return INSTANCE;
     }
 
     /**
-     * Initializes the class with the values made available in the PROPERTIES.
+     * Initializes the class ConfigurationProviderSingleton
+     * with the values made available in the properties files.
      * This includes the generation of the domain from the PROPERTY_DOMAIN
      * property or from a composition of the properties: ORGANIZATION_NAME,
      * MISSION_NAME, MO_APP_NAME
@@ -58,7 +80,7 @@ public class ConfigurationProvider {
      *
      * Additionally, it sets the session to SessionType.LIVE
      */
-    public ConfigurationProvider() {
+    private static void init() {
         if (System.getProperty(HelperMisc.ORGANIZATION_NAME) == null) {  // The property does not exist? 
             HelperMisc.loadPropertiesFile(); // try to load the properties from the file...
         }
@@ -66,21 +88,21 @@ public class ConfigurationProvider {
         // ------------------------Domain------------------------
         if (System.getProperty(HelperMisc.PROPERTY_DOMAIN) != null) {
             // Get directly the domain from the property
-            this.domain = HelperMisc.domainId2domain(System.getProperty(HelperMisc.PROPERTY_DOMAIN));
+            DOMAIN.addAll(HelperMisc.domainId2domain(System.getProperty(HelperMisc.PROPERTY_DOMAIN)));
         } else {
             // Or generate it for the provider
             if (System.getProperty(HelperMisc.ORGANIZATION_NAME) != null) {  // Include the name of the organization in the Domain
-                this.domain.add(new Identifier(System.getProperty(HelperMisc.ORGANIZATION_NAME)));
+                DOMAIN.add(new Identifier(System.getProperty(HelperMisc.ORGANIZATION_NAME)));
             } else {
-                this.domain.add(new Identifier("domainNotFoundInPropertiesFile"));
+                DOMAIN.add(new Identifier("domainNotFoundInPropertiesFile"));
             }
 
             if (System.getProperty(HelperMisc.MISSION_NAME) != null) {  // Include the name of the mission in the Domain
-                this.domain.add(new Identifier(System.getProperty(HelperMisc.MISSION_NAME)));
+                DOMAIN.add(new Identifier(System.getProperty(HelperMisc.MISSION_NAME)));
             }
 
             if (System.getProperty(HelperMisc.MO_APP_NAME) != null) {  // Include the name of the app in the Domain
-                this.domain.add(new Identifier(System.getProperty(HelperMisc.MO_APP_NAME)));
+                DOMAIN.add(new Identifier(System.getProperty(HelperMisc.MO_APP_NAME)));
             }
         }
 
@@ -121,10 +143,10 @@ public class ConfigurationProvider {
             }
         }
 
-        this.network = new Identifier(networkString);
-        // -------------------------------------------------------
+        NETWORK = new Identifier(networkString);
 
-        this.session = SessionType.LIVE;
+        // -------------------------------------------------------
+        SESSION = SessionType.LIVE;
     }
 
 }

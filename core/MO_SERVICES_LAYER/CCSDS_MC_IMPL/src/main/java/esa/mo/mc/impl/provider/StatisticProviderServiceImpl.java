@@ -22,7 +22,7 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
@@ -101,7 +101,6 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton i
     private StatisticManager manager;
     private MonitorStatisticsPublisher publisher;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private PeriodicReportingManager periodicReportingManager;
     private PeriodicCollectionManager periodicCollectionManager;
     private PeriodicSamplingManager periodicSamplingManager;
@@ -147,8 +146,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton i
             }
         }
 
-        publisher = createMonitorStatisticsPublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createMonitorStatisticsPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,
@@ -1036,7 +1035,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton i
         }
 
         // Confirm the domain
-        if (!confSet.getDomain().equals(configuration.getDomain())) {
+        if (!confSet.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
         
@@ -1054,7 +1053,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton i
         StatisticParameterDetailsList links = (StatisticParameterDetailsList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getCOMservices().getArchiveService(),
                 StatisticHelper.STATISTICLINK_OBJECT_TYPE,
-                configuration.getDomain(),
+                ConfigurationProviderSingleton.getDomain(),
                 confSet.getObjInstIds());
 
         manager.reconfigureLinks(confSet.getObjInstIds(), links);   // Reconfigures the Manager
@@ -1073,7 +1072,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton i
         HashMap<Long, StatisticParameterDetails> defObjs = manager.getStatisticLinks();
 
         ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(configuration.getDomain());
+        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
         objsSet.setObjInstIds(currentObjIds);

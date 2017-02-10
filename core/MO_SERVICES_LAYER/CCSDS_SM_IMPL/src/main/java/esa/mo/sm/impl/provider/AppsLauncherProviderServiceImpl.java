@@ -22,7 +22,7 @@ package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
@@ -96,7 +96,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     private boolean isRegistered = false;
     private final Object lock = new Object();
     private AppsLauncherManager manager;
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final ConnectionProvider connection = new ConnectionProvider();
     private COMServicesProvider comServices;
     private DirectoryInheritanceSkeleton directoryService;
@@ -130,8 +129,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             }
         }
 
-        publisher = createMonitorExecutionPublisher(configuration.getDomain(),
-                configuration.getNetwork(),
+        publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
                 new Identifier("LIVE"),
                 QoSLevel.BESTEFFORT,

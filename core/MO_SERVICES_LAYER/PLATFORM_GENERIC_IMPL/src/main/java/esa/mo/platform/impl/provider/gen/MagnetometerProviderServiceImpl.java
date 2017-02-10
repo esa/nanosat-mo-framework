@@ -20,7 +20,7 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +45,6 @@ public class MagnetometerProviderServiceImpl extends MagnetometerInheritanceSkel
     private boolean initialiased = false;
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private MagnetometerAdapterInterface adapter;
 
     /**

@@ -23,7 +23,7 @@ package esa.mo.nmf;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
@@ -69,7 +69,6 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     public static Long DEFAULT_OBJID_ALERT_SERVICE = (long) 3;
     public static Long DEFAULT_OBJID_AGGREGATION_SERVICE = (long) 4;
 
-    private ConfigurationProvider configuration = new ConfigurationProvider();
     private final ExecutorService executor = Executors.newSingleThreadExecutor(); // Guarantees sequential order
     private final COMServicesProvider comServices;
 
@@ -101,7 +100,8 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             return;
         }
 
-        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, "There were no previous configurations stored in the Archive. Creating configurations...");
+        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, 
+                "There were no previous configurations stored in the Archive. Creating configurations...");
 
         // It doesn't exist... create all the necessary objects...
         try {
@@ -130,7 +130,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             objIds.add(objIdAlert);
             objIds.add(objIdAggregation);
 
-            set.setDomain(configuration.getDomain());
+            set.setDomain(ConfigurationProviderSingleton.getDomain());
             set.setObjType(ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE);
             set.setObjInstIds(objIds);
 
@@ -141,14 +141,14 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             LongList objIds3 = comServices.getArchiveService().store(
                     true,
                     ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                    configuration.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI("")),
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(null, null, ConfigurationProviderSingleton.getNetwork(), new URI("")),
                     archObj,
                     null);
 
             // Store the provider configuration
             // Related points to the Provider's Configuration Objects
-            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), null, configuration.getNetwork(), new URI(""));
+            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), null, ConfigurationProviderSingleton.getNetwork(), new URI(""));
             details.get(0).setInstId(confId.getKey().getInstId());
             IdentifierList providerNameList = new IdentifierList();
             providerNameList.add(providerName);
@@ -156,7 +156,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             comServices.getArchiveService().store(
                     false,
                     ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
-                    configuration.getDomain(),
+                    ConfigurationProviderSingleton.getDomain(),
                     details,
                     providerNameList,
                     null);
@@ -197,7 +197,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             public void run() {
                 // Retrieve the COM object of the service
                 ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
-                        ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, configuration.getDomain(), objId);
+                        ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), objId);
 
                 if (comObject == null) {
                     Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE,
@@ -206,14 +206,15 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
                 }
 
                 // Stuff to feed the update operation from the Archive...
-                ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
+                ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, 
+                        ConfigurationProviderSingleton.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
                 ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
                 confObjsList.add(serviceImpl.getCurrentConfiguration());
 
                 try {
                     comServices.getArchiveService().update(
                             ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                            configuration.getDomain(),
+                            ConfigurationProviderSingleton.getDomain(),
                             details,
                             confObjsList,
                             null);
@@ -240,8 +241,8 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             LongList objIds1 = comServices.getArchiveService().store(
                     true,
                     ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                    configuration.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, configuration.getNetwork(), new URI("")),
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(null, null, ConfigurationProviderSingleton.getNetwork(), new URI("")),
                     archObj1,
                     null);
 
@@ -253,8 +254,8 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             comServices.getArchiveService().store(
                     false,
                     ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
-                    configuration.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, configuration.getNetwork(), new URI(""), defaultObjId),
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, ConfigurationProviderSingleton.getNetwork(), new URI(""), defaultObjId),
                     serviceKeyList,
                     null);
 

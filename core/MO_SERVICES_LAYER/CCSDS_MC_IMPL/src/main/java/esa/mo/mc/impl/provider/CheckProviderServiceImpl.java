@@ -23,7 +23,7 @@ package esa.mo.mc.impl.provider;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProvider;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
@@ -90,7 +90,6 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
     private boolean running = false;
     private CheckManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ConfigurationProvider configuration = new ConfigurationProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
     private PeriodicReportingMaxManager periodicReportingManager;
     private PeriodicCheckingManager periodicCheckingManager;
@@ -172,12 +171,12 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
         // Store the event in the Archive
         Long eventObjId = this.manager.getCOMservices().getEventService().generateAndStoreEvent(
                 CheckHelper.CHECKTRANSITION_OBJECT_TYPE, 
-                this.configuration.getDomain(), 
+                ConfigurationProviderSingleton.getDomain(), 
                 checkResult, 
                 related, 
                 source, 
                 null, 
-                this.configuration.getNetwork());
+                ConfigurationProviderSingleton.getNetwork());
         
         CheckResultList checkResults = new CheckResultList();
         checkResults.add(checkResult);
@@ -907,8 +906,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
         }
 
         // Confirm the domain
-        if (!confSet0.getDomain().equals(configuration.getDomain())
-                || !confSet1.getDomain().equals(configuration.getDomain())) {
+        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain())
+                || !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
@@ -918,7 +917,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
                 CheckLinkDetailsList links = (CheckLinkDetailsList) HelperArchive.getObjectBodyListFromArchive(
                         manager.getCOMservices().getArchiveService(),
                         set.getObjType(),
-                        configuration.getDomain(),
+                        ConfigurationProviderSingleton.getDomain(),
                         set.getObjInstIds());
 
                 manager.reconfigureLinkDetails(set.getObjInstIds(), links);
@@ -926,7 +925,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
                 List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(
                         manager.getCOMservices().getArchiveService(),
                         set.getObjType(),
-                        configuration.getDomain(),
+                        ConfigurationProviderSingleton.getDomain(),
                         set.getObjInstIds());
                 
                 ObjectDetailsList linklinks = new ObjectDetailsList();
@@ -946,7 +945,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
                 List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(
                         manager.getCOMservices().getArchiveService(),
                         set.getObjType(),
-                        configuration.getDomain(),
+                        ConfigurationProviderSingleton.getDomain(),
                         set.getObjInstIds());
 
                 LongList objIds = set.getObjInstIds();
@@ -1006,7 +1005,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
 
         // Definitions
         ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(configuration.getDomain());
+        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(manager.getCheckDefs().keySet());
         objsSet.setObjInstIds(currentObjIds);
@@ -1014,7 +1013,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
 
         // Links
         ConfigurationObjectSet objsSet2 = new ConfigurationObjectSet();
-        objsSet2.setDomain(configuration.getDomain());
+        objsSet2.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds2 = new LongList();
         currentObjIds2.addAll(manager.getCheckLinksLinks().keySet());
         objsSet2.setObjInstIds(currentObjIds2);
