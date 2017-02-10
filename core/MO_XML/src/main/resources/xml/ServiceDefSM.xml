@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<mal:area comment="Provides a set of services for software management onboard of a spacecraft.&#10;The Memory Management service is a low-level service intended to be used to load, dump and check memory addresses.&#10;The Software Images service is intended to manage Software Images and Software Patches by allowing the generation of new Software Images from a patch.&#10;The Package Management service allows the management of software packages on modern operating systems using the concept of packages.&#10;The Apps Launcher service allows the management of runnable applications in a system." name="SoftwareManagement" number="7" version="1">
+	<mal:area comment="The Software Management set of services contains services for on-board software management of a spacecraft. The following services are contained in the Software Management set:&#10;&lt;li&gt;The Memory Management service is a low-level service intended to be used to load, dump and check memory addresses.&lt;/li&gt;&#10;&lt;li&gt;The Software Image service is intended to manage Software Images and Software Patches by allowing the generation of new Software Images from a patch.&lt;/li&gt;&#10;&lt;li&gt;The Package Management service allows the management of software packages on modern operating systems using the concept of packages.&lt;/li&gt;&#10;&lt;li&gt;The Apps Launcher service allows the management of runnable applications in a system.&lt;/li&gt;&#10;&lt;li&gt;The Heartbeat service publishes a periodic beat to the consumers that are listening.&lt;/li&gt;&#10;&#10;This section details the Software Management services. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport." name="SoftwareManagement" number="7" version="1">
 		<mal:service comment="The Memory Management service provides the ability to load, dump and check binary data blocks in known memory addresses from/to a certain memory device." name="MemoryManagement" number="1" xsi:type="com:ExtendedServiceType">
       <mal:documentation name="High Level Requirements" order="1">The Memory Management service shall provide:
 &lt;ol&gt;
@@ -153,7 +153,13 @@
 			<com:features/>
 		</mal:service>		
 		<mal:service comment="The Software Image service provides the ability to deploy, list, generate, delete, clone and check the integrity of Software Images.&#10;This service can be used to manage Software Images on-board of a spacecraft or to manage Software Images in virtual machines that might run on-board of a spacecraft.&#10;The service supports the generation of a new Image from a previous baseline Image with an additional delta. This allows patching software Images without the need to transfer the complete new Image." name="SoftwareImage" number="2" xsi:type="com:ExtendedServiceType">
-			<mal:documentation name="High Level Requirements" order="1">All on-board application software shall be updatable by the Ground at any time during the mission.
+			<mal:documentation name="High Level Requirements" order="1">The Software Image service shall provide:
+&lt;ol&gt;
+&lt;li&gt;to be done;&lt;/li&gt;
+&lt;li&gt;to be done;&lt;/li&gt;
+&lt;li&gt;to be done.&lt;/li&gt;
+&lt;/ol&gt;
+All on-board application software shall be updatable by the Ground at any time during the mission.
 On-board application software images shall be stored on-board in non-volatile memory.
 It shall be possible to add or remove patches to on-board software images stored on-board without the need to reload the entire original image.
 In presence of any single failure, the remaining non-volatile memory used to store on-board software images shall have enough space to store at least two different versions of the same software.
@@ -334,25 +340,25 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
-				<mal:composite comment="" name="ImageDefinition" shortFormPart="3">
+				<mal:composite comment="The ImageDefinition structure holds the definition information of an image." name="ImageDefinition" shortFormPart="3">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="true" comment="" name="name">
+					<mal:field canBeNull="true" comment="The name of the image." name="name">
 						<mal:type area="MAL" list="false" name="Identifier"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="" name="description">
+					<mal:field canBeNull="true" comment="The description of the image." name="description">
 						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="" name="PatchDefinition" shortFormPart="5">
+				<mal:composite comment="The PatchDefinition structure holds the definition information of a patch." name="PatchDefinition" shortFormPart="5">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="true" comment="" name="name">
+					<mal:field canBeNull="true" comment="The name of the patch." name="name">
 					<mal:type area="MAL" list="false" name="Identifier"/>
           </mal:field>
-					<mal:field canBeNull="true" comment="" name="description">
+					<mal:field canBeNull="true" comment="The description of the patch." name="description">
 						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
 				</mal:composite>
@@ -420,7 +426,14 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 		</mal:service>
 		
 		<mal:service comment="The Package Management service provides the ability to install, uninstall, upgrade, list, check packages. The service shall optionally support verification of packages, verification of digital signatures, upgrade software, manage dependencies.&#10;Packages can be organized in different categories in order to facilitate the management of software." name="PackageManagement" number="3" xsi:type="com:ExtendedServiceType">
-      <mal:documentation name="High Level Requirements" order="1"/>
+      <mal:documentation name="High Level Requirements" order="1">The Package Management service shall provide:
+&lt;ol&gt;
+&lt;li&gt;the capability for listing, installing and uninstalling packages;&lt;/li&gt;
+&lt;li&gt;the capability for upgrading packages;&lt;/li&gt;
+&lt;li&gt;the capability for checking the integrity of a package;&lt;/li&gt;
+&lt;li&gt;the capability for listing the package categories available on the provider.&lt;/li&gt;
+&lt;/ol&gt;
+			</mal:documentation>
       <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
 				<mal:requestIP comment="The listPackage operation allows a consumer to list the available packages on the provider." name="listPackage" number="1" supportInReplay="true">
@@ -515,34 +528,34 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:requestIP>
 			</mal:capabilitySet>
       <mal:dataTypes>
-        <mal:composite comment="The package definition structure." name="PackageDefinition" shortFormPart="7">
+        <mal:composite comment="The PackageDefinition structure holds the definition information of a package." name="PackageDefinition" shortFormPart="7">
           <mal:extends>
             <mal:type area="MAL" list="false" name="Composite"/>
           </mal:extends>
-        <mal:field canBeNull="false" comment="" name="name">
+        <mal:field canBeNull="false" comment="The name of the package." name="name">
             <mal:type area="MAL" list="false" name="Identifier"/>
           </mal:field>
-          <mal:field canBeNull="false" comment="" name="category">
-            <mal:type area="MAL" list="false" name="Identifier"/>
-          </mal:field>
-          <mal:field canBeNull="false" comment="" name="path">
-            <mal:type area="MAL" list="false" name="File"/>
-          </mal:field>
-        <mal:field canBeNull="true" comment="" name="publisher">
+        <mal:field canBeNull="true" comment="The description of the package." name="description">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
-        <mal:field canBeNull="true" comment="" name="description">
+          <mal:field canBeNull="false" comment="The category of the package." name="category">
+            <mal:type area="MAL" list="false" name="Identifier"/>
+          </mal:field>
+          <mal:field canBeNull="false" comment="The path of the file where the package is located." name="path">
+            <mal:type area="MAL" list="false" name="File"/>
+          </mal:field>
+        <mal:field canBeNull="true" comment="The publisher of the package. It can be, for example, a company or group of people." name="publisher">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
         </mal:composite>
-      <mal:composite comment="" name="InstallationDetails" shortFormPart="8">
+      <mal:composite comment="The InstallationDetails structure holds the installation details of a certain package." name="InstallationDetails" shortFormPart="8">
           <mal:extends>
             <mal:type area="MAL" list="false" name="Composite"/>
           </mal:extends>
-          <mal:field canBeNull="true" comment="" name="installed">
+          <mal:field canBeNull="true" comment="The status information about whether a package is/was installed or not." name="installed">
             <mal:type area="MAL" list="false" name="Boolean"/>
           </mal:field>
-          <mal:field canBeNull="true" comment="" name="folderLocation">
+          <mal:field canBeNull="true" comment="To be done..." name="folderLocation">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
         </mal:composite>
@@ -655,46 +668,53 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:requestIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
-				<mal:composite comment="It holds the information of a certain process." name="ProcessInformation" shortFormPart="6">
+				<mal:composite comment="The ProcessInformation structure holds the information of a certain process." name="ProcessInformation" shortFormPart="6">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="true" comment="Percentage of CPU time." name="cpuPercentage">
+					<mal:field canBeNull="true" comment="The percentage of CPU time." name="cpuPercentage">
 						<mal:type area="MAL" list="false" name="Float"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="Percentage of Memory used." name="memoryPercentage">
+					<mal:field canBeNull="true" comment="The percentage of Memory used." name="memoryPercentage">
 					<mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
 					<mal:field canBeNull="true" comment="The priority of the process." name="priority">
 					<mal:type area="MAL" list="false" name="Integer"/>
           </mal:field>
-					<mal:field canBeNull="true" comment="Virtual memory used." name="virt">
+					<mal:field canBeNull="true" comment="The virtual memory used." name="virt">
             <mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
-					<mal:field canBeNull="true" comment="Physical memory used." name="res">
+					<mal:field canBeNull="true" comment="The physical memory used." name="res">
             <mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
-					<mal:field canBeNull="true" comment="Shared memory used." name="shr">
+					<mal:field canBeNull="true" comment="The shared memory used." name="shr">
 					<mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
-					<mal:field canBeNull="true" comment="There are five types:&#10;          'D' = uninterruptible sleep&#10;          'R' = running&#10;          'S' = sleeping&#10;          'T' = traced or stopped&#10;          'Z' = zombie" name="status">
-						<mal:type area="MAL" list="false" name="String"/>
-					</mal:field>
+				<mal:field canBeNull="true" comment="The state of the process." name="status">
+            <mal:type area="SoftwareManagement" list="false" name="ProcessState" service="ProcessManagement"/>
+          </mal:field>
 					<mal:field canBeNull="true" comment="Total CPU Time." name="timeCPU">
 					<mal:type area="MAL" list="false" name="Duration"/>
           </mal:field>
 					<mal:field canBeNull="true" comment="Command name." name="command">
 						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
-				</mal:composite>
-			</mal:dataTypes>
+        </mal:composite>
+			<mal:enumeration comment="The ProcessState enumeration holds a set of process state codes." name="ProcessState" shortFormPart="9">
+          <mal:item comment="The running or runnable state." nvalue="1" value="Running"/>
+        <mal:item comment="The uninterruptible sleep state." nvalue="2" value="UninterruptibleSleep"/>
+          <mal:item comment="The interruptible sleep state." nvalue="3" value="InterruptibleSleep"/>
+          <mal:item comment="The zombie/defunct stated. Terminated but not reap by its parent." nvalue="4" value="Zombie"/>
+          <mal:item comment="The stopped state. Either by a job control signal or because it is being traced." nvalue="5" value="Stopped"/>
+        </mal:enumeration>
+      </mal:dataTypes>
 		<com:features/>
     </mal:service>		
-		<mal:service comment="The Apps Launcher service provides the ability to monitor the execution, run, stop, kill and list applications software on-board of a spacecraft. The apps can be organized in categories. " name="AppsLauncher" number="5" xsi:type="com:ExtendedServiceType">
+		<mal:service comment="The Apps Launcher service provides the ability to monitor the execution, run, stop, kill and list applications software on-board of a spacecraft. The apps can be organized in categories.&#10;The service is independent from any particular Operating System or platform. " name="AppsLauncher" number="5" xsi:type="com:ExtendedServiceType">
       <mal:documentation name="High Level Requirements" order="1">The Apps Launcher service shall provide:
 &lt;ol&gt;
 &lt;li&gt;the capability for periodic monitoring of the applications output;&lt;/li&gt;
-&lt;li&gt;the capability for starting and killing applications;&lt;/li&gt;
+&lt;li&gt;the capability for running and killing applications;&lt;/li&gt;
 &lt;li&gt;the capability for stopping applications;&lt;/li&gt;
 &lt;li&gt;the capability for listing the object instance identifiers for the available apps.&lt;/li&gt;
 &lt;/ol&gt;
@@ -818,7 +838,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="false" comment="App name. Must not be empty or wildcard value." name="name">
+					<mal:field canBeNull="false" comment="The name of the app. Must not be empty or wildcard value." name="name">
 						<mal:type area="MAL" list="false" name="Identifier"/>
 					</mal:field>
         <mal:field canBeNull="false" comment="The description of the app." name="description">
@@ -833,10 +853,16 @@ The process of loading a software image from non-volatile memory to RAM upon boo
         <mal:field canBeNull="false" comment="Controls whether the app runs at startup." name="runAtStartup">
           <mal:type area="MAL" list="false" name="Boolean"/>
           </mal:field>
-				<mal:field canBeNull="false" comment="Current app running state." name="running">
+				<mal:field canBeNull="false" comment="The current running state of the app." name="running">
           <mal:type area="MAL" list="false" name="Boolean"/>
           </mal:field>
         <mal:field canBeNull="true" comment="Additional information that might be implementation-specific." name="extraInfo">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
+        <mal:field canBeNull="true" comment="The copyright of the app." name="copyright">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
+          <mal:field canBeNull="true" comment="The icon location path of the app. It can be either to a remote link or to a local file." name="iconPath">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
         </mal:composite>
@@ -901,7 +927,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
             </svg:g>
           </svg:svg>
         </mal:diagram>
-				<com:objects comment="An App COM object represents an on-board application. The COM object body shall hold the details of the application.">
+				<com:objects comment="An App COM object represents an on-board application. The COM object body shall hold the details of the application.&#10;&lt;ol&gt;&#10;&lt;li&gt;The App COM object source link should point to the package from where the app was installed.&lt;/li&gt;&#10;&lt;/ol&gt;">
 					<com:object comment="" name="App" number="1">
             <com:objectType>
               <mal:type area="SoftwareManagement" list="false" name="AppDetails" service="AppsLauncher"/>
@@ -913,7 +939,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 					</com:object>
 				
 				</com:objects>
-				<com:events comment="A StopApp COM event represents a request to stop a certain application.&#10;&#9;The StopApp COM event related link shall point to the App COM object.&#10;&#9;The StopApp COM event source link should point to the object that caused it to be created, most likely a COM OperationActivity object.&#10;&#9;The StopApp COM event shall be generated by the stopApp operation.&#10;A Stopping COM event represents an acknowledgement that the application is stopping its execution.&#10;&#9;The Stopping COM event source link shall point to the StopApp COM event that requested the application to stop or to null if there was no request.&#10;&#9;The Stopping COM event shall be generated by the application when it is stopping its execution.">
+				<com:events comment="A StopApp COM event represents a request to stop a certain application.&#10;&lt;ol&gt;&#10;&lt;li&gt;The StopApp COM event related link shall point to the App COM object.&lt;/li&gt;&#10;&lt;li&gt;The StopApp COM event source link should point to the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;li&gt;The StopApp COM event shall be generated by the stopApp operation.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;A Stopping COM event represents an acknowledgement that the application is stopping its execution.&#10;&lt;ol&gt;&#10;&lt;li&gt;The Stopping COM event source link shall point to the StopApp COM event that requested the application to stop or to null if there was no request.&lt;/li&gt;&#10;&lt;li&gt;The Stopping COM event shall be generated by the application when it is stopping its execution.&lt;/li&gt;&#10;&lt;/ol&gt;">
 					<com:event comment="This event is generated upon a request to stop a certain app." name="StopApp" number="2">
 						<com:relatedObject comment="">
 							<com:objectType area="SoftwareManagement" number="1" service="AppsLauncher"/>
@@ -933,7 +959,11 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 			</com:features>
 		</mal:service>
 		<mal:service comment="The Heartbeat service provides the ability to periodically publish a heartbeat message. Additionally it is possible to get the period of the beat." name="Heartbeat" number="6" xsi:type="com:ExtendedServiceType">
-			<mal:documentation name="High Level Requirements" order="1">//Mention that the first heartbeat will be after the period set and not right upon startup.
+			<mal:documentation name="High Level Requirements" order="1">The Apps Launcher service shall provide:
+&lt;ol&gt;
+&lt;li&gt;the capability for periodic monitoring of the beat;&lt;/li&gt;
+&lt;li&gt;the capability for retrieving the period of the beat.&lt;/li&gt;
+&lt;/ol&gt;
 			</mal:documentation>
       <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
@@ -960,11 +990,11 @@ The process of loading a software image from non-volatile memory to RAM upon boo
     </mal:service>
 
 		<mal:dataTypes>
-			<mal:enumeration comment="" name="CHECKSUM" shortFormPart="1">
-				<mal:item comment="" nvalue="1" value="MD5"/>
-				<mal:item comment="" nvalue="2" value="SHA1"/>
-				<mal:item comment="" nvalue="3" value="SHA256"/>
-				<mal:item comment="" nvalue="4" value="CRC"/>
+			<mal:enumeration comment="The Checksum enumeration holds common checksums." name="Checksum" shortFormPart="1">
+				<mal:item comment="The MD5 checksum." nvalue="1" value="MD5"/>
+				<mal:item comment="The SHA1 checksum." nvalue="2" value="SHA1"/>
+				<mal:item comment="The SHA256 checksum." nvalue="3" value="SHA256"/>
+				<mal:item comment="The CRC checksum." nvalue="4" value="CRC"/>
 			</mal:enumeration>
 		</mal:dataTypes>
 		<mal:errors>

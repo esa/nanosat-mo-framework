@@ -64,7 +64,7 @@
     <modules>
         <module>MO_XML</module>
         <module>CCSDS_MO_APIS</module>
-        <module>NMF_HELPER_TOOLS</module>
+        <module>HELPER_TOOLS</module>
         <module>TRANSPORT_LAYER</module>
         <module>MO_SERVICES_LAYER</module>
         <module>HIGH_LEVEL_COMPONENTS</module>

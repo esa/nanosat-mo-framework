@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" comment="">
-	<mal:area comment="This section details the Platform services; the structures used by the service are&#10;detailed in section 4. The area and structures are defined in terms of the MO Message&#10;Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and&#10;message transport." name="Platform" number="105" version="1">
+	<mal:area comment="The Software Management set of services contains services for on-board software management of a spacecraft. The following services are contained in the Software Management set:&#10;&lt;li&gt;The Camera service is intended to let consumers take and stream pictures.&lt;/li&gt;&#10;&lt;li&gt;The GPS service.&lt;/li&gt;&#10;&lt;li&gt;The AutonomousADCS service.&lt;/li&gt;&#10;&lt;li&gt;The SoftwareDefinedRadio service.&lt;/li&gt;&#10;&lt;li&gt;The OpticalDataReceiver service.&lt;/li&gt;&#10;&lt;li&gt;The GenericDevice service.&lt;/li&gt;&#10;&lt;li&gt;The Magnetometer service.&lt;/li&gt;&#10;&lt;li&gt;The PowerControl service.&lt;/li&gt;&#10;&#10;This section details the Platform services. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport." name="Platform" number="105" version="1">
 		<mal:service comment="The Camera service provides a generic interface to acquire pictures and control a standard camera from a Platform. The service is responsible for providing pictures to the consumer. The consumer can select the desired format in which the pictures shall be returned." name="Camera" number="1" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1">The Camera service shall provide:
 &lt;ol&gt;
@@ -873,7 +873,7 @@
             </svg:g>
           </svg:svg>
 				</mal:diagram>
-        <com:objects comment="An AttitudeDefinitionBDot COM object represents the definition of a BDot attitude. The object body shall hold an AttitudeDefinitionBDot structure.&#10;&#9;The AttitudeDefinitionBDot COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&#10;An AttitudeDefinitionSingleSpinning COM object represents the definition of a Single Spinning attitude. The object body shall hold an AttitudeDefinitionSingleSpinning structure.&#10;&#9;The AttitudeDefinitionSingleSpinning COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&#10;An AttitudeDefinitionSunPointing COM object represents the definition of a Sun Pointing attitude. The object body shall hold an AttitudeDefinitionSunPointing structure.&#10;&#9;The AttitudeDefinitionSunPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&#10;An AttitudeDefinitionTargetTracking COM object represents the definition of a Target Tracking attitude. The object body shall hold an AttitudeDefinitionTargetTracking structure.&#10;&#9;The AttitudeDefinitionTargetTracking COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&#10;An AttitudeDefinitionNadirPointing COM object represents the definition of a Nadir Pointing attitude. The object body shall hold an AttitudeDefinitionNadirPointing structure.&#10;&#9;The AttitudeDefinitionNadirPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.">
+        <com:objects comment="An AttitudeDefinitionBDot COM object represents the definition of a BDot attitude. The object body shall hold an AttitudeDefinitionBDot structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionBDot COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionSingleSpinning COM object represents the definition of a Single Spinning attitude. The object body shall hold an AttitudeDefinitionSingleSpinning structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionSingleSpinning COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionSunPointing COM object represents the definition of a Sun Pointing attitude. The object body shall hold an AttitudeDefinitionSunPointing structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionSunPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionTargetTracking COM object represents the definition of a Target Tracking attitude. The object body shall hold an AttitudeDefinitionTargetTracking structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionTargetTracking COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionNadirPointing COM object represents the definition of a Nadir Pointing attitude. The object body shall hold an AttitudeDefinitionNadirPointing structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionNadirPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;">
           <com:object comment="" name="AttitudeDefinitionBDot" number="2">
             <com:objectType>
               <mal:type area="Platform" list="false" name="AttitudeDefinitionBDot" service="AutonomousADCS"/>
@@ -911,7 +911,7 @@
             <com:sourceObject comment=""/>
           </com:object>
         </com:objects>
-				<com:events comment="An ADCSProblemDetected COM event represents the detection of a problem on the ADCS. The object body can hold a blob of data containing implementation-specific data.&#10;&#9;The ADCSProblemDetected COM event shall be generated upon the detection of a problem with the ADCS.">
+				<com:events comment="An ADCSProblemDetected COM event represents the detection of a problem on the ADCS. The object body can hold a blob of data containing implementation-specific data.&#10;&lt;ol&gt;&#10;&lt;li&gt;The ADCSProblemDetected COM event shall be generated upon the detection of a problem with the ADCS.&lt;/li&gt;&#10;&lt;/ol&gt;">
 					<com:event comment="The Event body is implementation-specific." name="ADCSProblemDetected" number="1">
 						<com:objectType>
 							<mal:type area="MAL" list="false" name="Blob"/>
@@ -979,26 +979,26 @@
         </mal:submitIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
-				<mal:composite comment="" name="SDRConfiguration" shortFormPart="1">
+				<mal:composite comment="It holds a configuration for the SDR." name="SDRConfiguration" shortFormPart="1">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="true" comment="Local Oscillator Frequency" name="LOFrequency">
+					<mal:field canBeNull="true" comment="Local Oscillator Frequency." name="LOFrequency">
 						<mal:type area="MAL" list="false" name="Double"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="Low-noise Amplifier Gain" name="LNA">
+					<mal:field canBeNull="true" comment="Low-noise Amplifier Gain." name="LNA">
 						<mal:type area="MAL" list="false" name="Integer"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="Variable Gain Amplifier 1" name="VGA1">
+					<mal:field canBeNull="true" comment="Variable Gain Amplifier 1." name="VGA1">
 						<mal:type area="MAL" list="false" name="Integer"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="Variable Gain Amplifier 2" name="VGA2">
+					<mal:field canBeNull="true" comment="Variable Gain Amplifier 2." name="VGA2">
 						<mal:type area="MAL" list="false" name="Integer"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="Low Pass Filter frequency in GHz" name="LPF">
+					<mal:field canBeNull="true" comment="Low Pass Filter frequency in GHz." name="LPF">
 						<mal:type area="MAL" list="false" name="Double"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="The frequency in MHz" name="sampleRate">
+					<mal:field canBeNull="true" comment="The frequency in MHz." name="sampleRate">
 						<mal:type area="MAL" list="false" name="Double"/>
 					</mal:field>
 				</mal:composite>
@@ -1068,7 +1068,7 @@
 				</mal:submitIP>
 			</mal:capabilitySet>
       <mal:capabilitySet comment="" number="3">
-        <mal:requestIP comment="" name="getDataForCommand" number="3" supportInReplay="false">
+        <mal:requestIP comment="" name="getDataFromCommand" number="3" supportInReplay="false">
           <mal:messages>
             <mal:request comment="">
               <mal:field canBeNull="true" comment="" name="command">
@@ -1099,7 +1099,7 @@
         </mal:requestIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
-				<mal:composite comment="An instance of the magnetic field vector" name="MagneticFieldInstance" shortFormPart="1">
+				<mal:composite comment="An instance of the magnetic field vector." name="MagneticFieldInstance" shortFormPart="1">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>

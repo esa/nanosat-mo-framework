@@ -75,7 +75,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>NMF_HELPER_TOOLS</artifactId>
+            <artifactId>HELPER_TOOLS</artifactId>
         </dependency>
     </dependencies>
   

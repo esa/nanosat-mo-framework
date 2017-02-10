@@ -87,16 +87,16 @@
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>NMF_HELPER_TOOLS</artifactId>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>HELPER_TOOLS</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>CCSDS_COM_IMPL</artifactId>
         </dependency>
 <!--
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>ENCODING_XML</artifactId>
             <version>1.0.1</version>
         </dependency>

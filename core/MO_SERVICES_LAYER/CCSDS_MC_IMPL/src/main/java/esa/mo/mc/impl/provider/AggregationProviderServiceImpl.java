@@ -614,13 +614,13 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     
     /**
      *
-     * The pushSingleParameterValueAttribute operation allows an external
-     * entity to push Attribute values through the monitorValue operation of
-     * the Parameter service. If there is no parameter definition with the
-     * submitted name, the method shall automatically create the parameter
-     * definition in the Parameter service.
+     * The pushAggregationSetValue operation allows an external
+     * entity to push Aggregation values through the monitorValue operation of
+     * the Aggregation service. If there is no aggregation definition with the
+     * submitted name, the method shall automatically create the aggregation
+     * definition in the Aggregation service service.
      *
-     * @param objId The name of the Parameter as set in the parameter definition
+     * @param objId The name of the Aggregation as set in the aggregation definition
      * @param aSetVal The list of aggregation set values to be pushed
      * @param source The source of the aggregation. Can be null
      * @param timestamp The timestamp of the aggregation. If null, the method
@@ -642,7 +642,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * Aggregation values through the monitorValue operation of the Aggregation
      * service. 
      *
-     * @param objId The name of the Parameter as set in the parameter definition
+     * @param objId The name of the Aggregation as set in the aggregation definition
      * @param aVal The aggregation value to be pushed
      * @param source The source of the aggregation. Can be null
      * @param timestamp The timestamp of the aggregation. If null, the method
@@ -1025,27 +1025,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
     }
-/*
-    public Boolean reloadDefinitions(LongList objIds){
-
-        if (objIds == null){
-            return false;
-        }
-        
-        AggregationDefinitionDetailsList pDefs = (AggregationDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
-                manager.getArchiveService(), 
-                AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, 
-                connection.getConnectionDetails().getDomain(), 
-                objIds  );
-        
-        manager.reconfigureDefinitions(objIds, pDefs);   // Reconfigures the Manager
-        periodicReportingManager.refreshAll();  // Refresh the reporting
-        periodicSamplingManager.refreshAll();
-        
-        return true;
-        
-    }
-*/    
 
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
