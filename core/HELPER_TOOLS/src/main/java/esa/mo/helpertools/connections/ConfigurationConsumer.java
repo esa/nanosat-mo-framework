@@ -30,19 +30,18 @@ import org.ccsds.moims.mo.mal.structures.SessionType;
  */
 public class ConfigurationConsumer {
 
-//    private final IdentifierList domain = new IdentifierList();
     private final Identifier network;
     private final SessionType session;
     private final Identifier sessionName;
-    private final static String NETWORK = "helpertools.configurations.ground.Network";
+//    private final static String NETWORK = "helpertools.configurations.ground.Network";
     private final static String SESSION_NAME = "helpertools.configurations.ground.SessionName";
 
     // Advanced Networks
-    private final static String ORGANIZATION_NAME = "helpertools.configurations.ground.OrganizationName";
-    private final static String MISSION_NAME = "helpertools.configurations.ground.MissionName";
-    private final static String MO_APP_NAME = "helpertools.configurations.ground.MOappName";
-    private final static String NETWORK_ZONE = "helpertools.configurations.ground.NetworkZone";
-    private final static String DEVICE_NAME = "helpertools.configurations.ground.DeviceName";
+//    private final static String ORGANIZATION_NAME = "helpertools.configurations.ground.OrganizationName";
+//    private final static String MISSION_NAME = "helpertools.configurations.ground.MissionName";
+//    private final static String MO_APP_NAME = "helpertools.configurations.ground.MOappName";
+//    private final static String NETWORK_ZONE = "helpertools.configurations.ground.NetworkZone";
+//    private final static String DEVICE_NAME = "helpertools.configurations.ground.DeviceName";
 
     
     /**
@@ -78,60 +77,41 @@ public class ConfigurationConsumer {
      * session name as LIVE.
      */
     public ConfigurationConsumer() {
-        if (System.getProperty(ORGANIZATION_NAME) == null) {  // The property does not exist? 
+        if (System.getProperty(HelperMisc.ORGANIZATION_NAME) == null) {  // The property does not exist? 
             HelperMisc.loadPropertiesFile(); // try to load the properties from the file...
         }
 
-        // ------------------------Domain-----------------------------
-        // The consumer sidde does not have a domain!!!
-        /*        
-        if (System.getProperty(ORGANIZATION_NAME) != null) {  // Include the name of the organization in the Domain
-            this.domain.add(new Identifier(System.getProperty(ORGANIZATION_NAME)));
-        } else {
-            this.domain.add(new Identifier("domainNotFoundInPropertiesFile"));
-        }
-
-        if (System.getProperty(MO_APP_NAME) != null) {  // Include the name of the app in the Domain
-            this.domain.add(new Identifier(System.getProperty(MO_APP_NAME)));
-        }
-         */
- /*
-         this.domain.add(new Identifier("esa"));
-         this.domain.add(new Identifier("OPS-SAT"));
-         this.domain.add(new Identifier("Demo1"));
-         */
-        // -----------------------------------------------------------
         // ------------------------Network----------------------------
         String networkString = "";
-        if (System.getProperty(NETWORK) != null) {
-            networkString = System.getProperty(NETWORK);
+        if (System.getProperty(HelperMisc.NETWORK) != null) {
+            networkString = System.getProperty(HelperMisc.NETWORK);
         } else {
-            if (System.getProperty(ORGANIZATION_NAME) != null) {
-                networkString = networkString.concat(System.getProperty(ORGANIZATION_NAME));
+            if (System.getProperty(HelperMisc.ORGANIZATION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.ORGANIZATION_NAME));
             } else {
                 networkString += "OrganizationName";
             }
 
             networkString += ".";
 
-            if (System.getProperty(MISSION_NAME) != null) {
-                networkString = networkString.concat(System.getProperty(MISSION_NAME));
+            if (System.getProperty(HelperMisc.MISSION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.MISSION_NAME));
             } else {
                 networkString += "MissionName";
             }
 
             networkString += ".";
 
-            if (System.getProperty(NETWORK_ZONE) != null) {
-                networkString = networkString.concat(System.getProperty(NETWORK_ZONE));
+            if (System.getProperty(HelperMisc.NETWORK_ZONE) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.NETWORK_ZONE));
             } else {
                 networkString += "NetworkZone";
             }
 
             networkString += ".";
 
-            if (System.getProperty(DEVICE_NAME) != null) {
-                networkString = networkString.concat(System.getProperty(DEVICE_NAME));
+            if (System.getProperty(HelperMisc.DEVICE_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.DEVICE_NAME));
             } else {
                 networkString += "DeviceName";
             }
@@ -146,7 +126,6 @@ public class ConfigurationConsumer {
         } else {
             this.sessionName = new Identifier("LIVE"); // Default it to "LIVE"
         }
-
     }
 
 }

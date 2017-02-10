@@ -178,7 +178,8 @@ public class BackendInteractionsProcessor {
                     final COMObjectEntity perObj = perObjs.get(i); // The object to be stored  // 0.255 ms
                     dbBackend.getEM().persist(perObj);  // object    // 0.240 ms
                 } else {
-                    Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, "The Archive could not store the object: " + perObjs.get(i).toString(), new Throwable());
+                    Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE,
+                            "The Archive could not store the object: " + perObjs.get(i).toString(), new Throwable());
                 }
             } else {
                 dbBackend.getEM().persist(perObjs.get(i));  // object
@@ -187,7 +188,8 @@ public class BackendInteractionsProcessor {
             // Flush every 1k objects...
             if (i != 0) {
                 if ((i % 1000) == 0) {
-                    Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.FINE, "Flushing the data after 1000 serial stores...");
+                    Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.FINE,
+                            "Flushing the data after 1000 serial stores...");
                     dbBackend.getEM().flush();
                     dbBackend.getEM().clear();
                 }
@@ -419,7 +421,8 @@ public class BackendInteractionsProcessor {
                 public void run() {
                     try {
                         this.wait(10 * 1000); // 10 seconds
-                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "The query is taking longer than 10 seconds. The query might be too broad to be handled by the database.");
+                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                                "The query is taking longer than 10 seconds. The query might be too broad to be handled by the database.");
                     } catch (InterruptedException ex) {
                     } catch (IllegalMonitorStateException ex) {
                     }

@@ -152,7 +152,8 @@ public class ArchiveManager {
         this.dbProcessor.resetMainTable(new ResetMainTableRunnable());
     }
 
-    protected synchronized ArchivePersistenceObject getPersistenceObject(final ObjectType objType, final IdentifierList domain, final Long objId) {
+    protected synchronized ArchivePersistenceObject getPersistenceObject(final ObjectType objType, 
+            final IdentifierList domain, final Long objId) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         COMObjectEntity comEntity = this.dbProcessor.getCOMObject(objTypeId, domainId, objId);
@@ -164,7 +165,8 @@ public class ArchiveManager {
         return this.convert2ArchivePersistenceObject(comEntity, domain, objId);
     }
 
-    private ArchivePersistenceObject convert2ArchivePersistenceObject(COMObjectEntity comEntity, IdentifierList domain, Long objId) {
+    private ArchivePersistenceObject convert2ArchivePersistenceObject(final COMObjectEntity comEntity, 
+            final IdentifierList domain, final Long objId) {
         Identifier network = null;
         URI providerURI = null;
         ObjectType objType = null;
@@ -356,7 +358,6 @@ public class ArchiveManager {
         Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
         Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
         SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
-
 
         ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objTypeId, archiveQuery, domainId, providerURIId, networkId, sourceLink);
 

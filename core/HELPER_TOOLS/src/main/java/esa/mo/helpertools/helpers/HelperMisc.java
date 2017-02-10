@@ -58,13 +58,15 @@ public class HelperMisc {
     public static final String PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME = "providerURIsSecondary.properties";
     public static final String PROPERTY_SHARED_BROKER_URI = "esa.mo.helpertools.connections.SharedBrokerURI";
 
+    public static final String MO_APP_NAME = "helpertools.configurations.MOappName";
     public static final String PROPERTY_DOMAIN = "helpertools.configurations.provider.Domain";
-    public static final String ORGANIZATION_NAME = "helpertools.configurations.provider.OrganizationName";
-    public static final String MISSION_NAME = "helpertools.configurations.provider.MissionName";
-    public static final String MO_APP_NAME = "helpertools.configurations.provider.MOappName";
-
-    public static final String NETWORK_ZONE = "helpertools.configurations.provider.NetworkZone";
-    public static final String DEVICE_NAME = "helpertools.configurations.provider.DeviceName";
+    public static final String NETWORK = "helpertools.configurations.Network";
+    
+    // Fine-tunning Network properties (only works if the NETWORK is not set)
+    public static final String ORGANIZATION_NAME = "helpertools.configurations.OrganizationName";
+    public static final String MISSION_NAME = "helpertools.configurations.MissionName";
+    public static final String NETWORK_ZONE = "helpertools.configurations.NetworkZone";
+    public static final String DEVICE_NAME = "helpertools.configurations.DeviceName";
 
     private static final String PROP_TRANSPORT_ID = "helpertools.configurations.provider.transportfilepath";
     private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";

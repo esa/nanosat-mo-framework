@@ -30,6 +30,7 @@ import org.ccsds.moims.mo.mal.structures.SessionType;
  * @author Cesar Coelho
  */
 public class ConfigurationProvider {
+
     private final Identifier network;
     private final SessionType session;
     private IdentifierList domain = new IdentifierList();
@@ -48,9 +49,9 @@ public class ConfigurationProvider {
 
     /**
      * Initializes the class with the values made available in the PROPERTIES.
-     * This includes the generation of the domain from the PROPERTY_DOMAIN property
-     * or from a composition of the properties: ORGANIZATION_NAME, MISSION_NAME, 
-     * MO_APP_NAME
+     * This includes the generation of the domain from the PROPERTY_DOMAIN
+     * property or from a composition of the properties: ORGANIZATION_NAME,
+     * MISSION_NAME, MO_APP_NAME
      *
      * It also generates the network zone field from the properties:
      * ORGANIZATION_NAME, MISSION_NAME, NETWORK_ZONE, DEVICE_NAME
@@ -86,34 +87,38 @@ public class ConfigurationProvider {
         // -------------------------------------------------------
         // ------------------------Network------------------------
         String networkString = "";
-        if (System.getProperty(HelperMisc.ORGANIZATION_NAME) != null) {
-            networkString = networkString.concat(System.getProperty(HelperMisc.ORGANIZATION_NAME));
+        if (System.getProperty(HelperMisc.NETWORK) != null) {
+            networkString = System.getProperty(HelperMisc.NETWORK);
         } else {
-            networkString += "OrganizationName";
-        }
+            if (System.getProperty(HelperMisc.ORGANIZATION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.ORGANIZATION_NAME));
+            } else {
+                networkString += "OrganizationName";
+            }
 
-        networkString += ".";
+            networkString += ".";
 
-        if (System.getProperty(HelperMisc.MISSION_NAME) != null) {
-            networkString = networkString.concat(System.getProperty(HelperMisc.MISSION_NAME));
-        } else {
-            networkString += "MissionName";
-        }
+            if (System.getProperty(HelperMisc.MISSION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.MISSION_NAME));
+            } else {
+                networkString += "MissionName";
+            }
 
-        networkString += ".";
+            networkString += ".";
 
-        if (System.getProperty(HelperMisc.NETWORK_ZONE) != null) {
-            networkString = networkString.concat(System.getProperty(HelperMisc.NETWORK_ZONE));
-        } else {
-            networkString += "NetworkZone";
-        }
+            if (System.getProperty(HelperMisc.NETWORK_ZONE) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.NETWORK_ZONE));
+            } else {
+                networkString += "NetworkZone";
+            }
 
-        networkString += ".";
+            networkString += ".";
 
-        if (System.getProperty(HelperMisc.DEVICE_NAME) != null) {
-            networkString = networkString.concat(System.getProperty(HelperMisc.DEVICE_NAME));
-        } else {
-            networkString += "DeviceName";
+            if (System.getProperty(HelperMisc.DEVICE_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.DEVICE_NAME));
+            } else {
+                networkString += "DeviceName";
+            }
         }
 
         this.network = new Identifier(networkString);
