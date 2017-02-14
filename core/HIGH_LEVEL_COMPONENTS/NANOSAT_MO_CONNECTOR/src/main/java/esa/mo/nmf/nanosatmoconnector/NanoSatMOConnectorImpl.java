@@ -106,6 +106,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
         DirectoryConsumerServiceImpl directoryServiceConsumer = null;
 
+        // Connect to the Central Directory service
         if (centralDirectoryURI != null) {
             try {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Attempting to connect to Central Directory service...");
@@ -157,10 +158,9 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                         PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
                     }
 
-                    // Select the best transport for IPC
+                    // Select the best transport for IPC and convert to a ConnectionConsumer object
                     final ProviderSummary filteredConnections = this.selectBestIPCTransport(supervisorConnections.get(0));
-
-                    ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(filteredConnections);
+                    final ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(filteredConnections);
 
                     // Connect to them...
                     platformServices = new PlatformServicesConsumer();
@@ -184,9 +184,9 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             }
         }
 
+        // Initialize the MO services
         try {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.FINE, "Initializing services...");
-
             comServices.init();
             heartbeatService.init();
             this.startMCServices(mcAdapter);
@@ -197,11 +197,12 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             return;
         }
 
-        // Populate the Directory service with the entries from the URIs File
+        // Populate the local Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                "Populating Local Directory service...");
+                "Populating local Directory service...");
         PublishDetails publishDetails = directoryService.autoLoadURIsFile(this.providerName);
 
+        // Load previous configurations
         if (mcAdapter != null) {
             // Are the dynamic changes enabled?
             if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
@@ -219,14 +220,14 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             mcAdapter.initialRegistrations(registration);
         }
 
+        // Populate the provider list of services in the Central Directory service
         if (centralDirectoryURI != null) {
             try {
-                // Register the services in the Central Directory service...
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                         "Populating Central Directory service on URI: " + centralDirectoryURI.getValue());
 
                 if (directoryServiceConsumer != null) {
-                    PublishProviderResponse response = directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
+                    final PublishProviderResponse response = directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
                     this.appDirectoryServiceId = response.getBodyElement0();
                     directoryServiceConsumer.closeConnection(); // Close the connection to the Directory service
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
@@ -240,10 +241,10 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             }
         }
 
-        final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
+        final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "NanoSat MO Connector initialized! URI: " + uri + "\n");
-        
+
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory
         NanoSatMOFrameworkProvider.hintGC();
@@ -285,7 +286,8 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 newAddresses.add(addresses.get(bestIndex));
                 cap.setServiceAddresses(newAddresses);
             } catch (IOException ex) {
-                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
+                        "The best IPC service address index could not be determined!", ex);
             }
 
             newCapabilities.add(cap);

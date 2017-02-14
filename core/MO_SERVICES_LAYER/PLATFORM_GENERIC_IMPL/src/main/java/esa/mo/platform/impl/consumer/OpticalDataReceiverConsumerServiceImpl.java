@@ -59,8 +59,8 @@ public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl 
         return new OpticalDataReceiverStub(tmConsumer);
     }
 
-    public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-
+    public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 

@@ -62,7 +62,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     private SoftwareDefinedRadioConsumerServiceImpl sdrService;
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
-
         SingleConnectionDetails details;
 
         try {
@@ -101,7 +100,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
             if(details != null){
                 sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices);
             }
-
         } catch (MALException  ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException  ex) {

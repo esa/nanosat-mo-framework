@@ -59,8 +59,8 @@ public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl
         return new SoftwareDefinedRadioStub(tmConsumer);
     }
 
-    public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-
+    public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 

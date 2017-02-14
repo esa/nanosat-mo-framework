@@ -59,8 +59,8 @@ public class MagnetometerConsumerServiceImpl extends ConsumerServiceImpl {
         return new MagnetometerStub(tmConsumer);
     }
 
-    public MagnetometerConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-
+    public MagnetometerConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 

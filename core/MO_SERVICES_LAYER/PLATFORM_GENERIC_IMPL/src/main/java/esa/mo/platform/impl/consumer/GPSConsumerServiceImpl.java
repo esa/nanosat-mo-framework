@@ -59,8 +59,8 @@ public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
         return new GPSStub(tmConsumer);
     }
 
-    public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-
+    public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 

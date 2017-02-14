@@ -59,8 +59,8 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
         return new CameraStub(tmConsumer);
     }
 
-    public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-
+    public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 

@@ -467,7 +467,7 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws IOException {
         if (addresses.isEmpty()) {
-            throw new IOException();
+            throw new IllegalArgumentException("The addresses argument cannot be null.");
         }
 
         if (addresses.size() == 1) { // Well, there is only one...

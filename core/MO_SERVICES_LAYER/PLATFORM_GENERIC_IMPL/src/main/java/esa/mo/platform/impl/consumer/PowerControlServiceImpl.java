@@ -59,8 +59,8 @@ public class PowerControlServiceImpl extends ConsumerServiceImpl {
         return new PowerControlStub(tmConsumer);
     }
 
-    public PowerControlServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-
+    public PowerControlServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
