@@ -243,6 +243,10 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "NanoSat MO Connector initialized! URI: " + uri + "\n");
+        
+        // We just loaded everything, it is a good time to 
+        // hint the garbage collector and clean up some memory
+        NanoSatMOFrameworkProvider.hintGC();
     }
 
     @Override

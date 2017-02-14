@@ -151,7 +151,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         parameterValue.setConvertedValue(null);
         parameterValue.setValid(true);
         parameterValue.setInvalidSubState(new UOctet((short) 0));
-        
+
         ParameterInstance instance = new ParameterInstance(new Identifier(name), parameterValue, null, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
         parameters.add(instance);
@@ -263,6 +263,15 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     public CloseAppListener getCloseAppListener() {
         return this.closeAppAdapter;
+    }
+    
+    /**
+     * Hints the GC to do Garbage Collection and also hints it to go 
+     * through the finalization method of the pending finalization objects.
+     */
+    public static void hintGC(){
+        System.gc();
+        System.runFinalization();
     }
 
     public final URI readCentralDirectoryServiceURI() {

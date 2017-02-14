@@ -680,9 +680,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
             hdrlst.add(new UpdateHeader(time, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
             objectIdlst.add(source); // requirement: 3.7.5.2.7 (3.7.5.2.6 not necessary)
+            aValLst.add(aVal);
             
             publisher.publish(hdrlst, objectIdlst, aValLst); // requirement: 3.7.2.15
-
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
             return false;

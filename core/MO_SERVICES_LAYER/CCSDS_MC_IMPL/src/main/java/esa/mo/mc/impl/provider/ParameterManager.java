@@ -24,6 +24,7 @@ import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
@@ -198,7 +199,7 @@ public class ParameterManager extends DefinitionsManager {
              */
 
             archiveDetails.setDetails(new ObjectDetails(related, null));
-            archiveDetails.setNetwork(connectionDetails.getConfiguration().getNetwork());
+            archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
             archiveDetails.setTimestamp(HelperTime.getTimestamp());
             archiveDetails.setProvider(connectionDetails.getProviderURI());
             archiveDetailsList.add(archiveDetails);

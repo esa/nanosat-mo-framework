@@ -63,11 +63,10 @@ public class HelperAttributes {
 
     public static Byte SERIAL_OBJECT_RAW_TYPE = (byte) 127;  // Selected value to represent a Serialized object
     public static String SERIAL_OBJECT_STRING = "SerializedObject";  // Selected the String to represent a Serialized object
-    
-    
+
     /**
      * Converts any MAL Attribute data type to a Double java type
-     * 
+     *
      * @param in The MAL Attribute data type
      * @return The convert Double value
      */
@@ -166,7 +165,7 @@ public class HelperAttributes {
 
     /**
      * Converts any MAL Attribute data type to a String java type
-     * 
+     *
      * @param in The MAL Attribute data type
      * @return The convert String value
      */
@@ -259,7 +258,7 @@ public class HelperAttributes {
             } catch (MALException ex) {
             }
         }
-        
+
         if (in instanceof ULong) {
             return String.valueOf(((ULong) in).getValue());
         }
@@ -289,7 +288,7 @@ public class HelperAttributes {
 
     /**
      * Creates an instance of a MAL attribute from attribute name
-     * 
+     *
      * @param attributeName The Attribute name
      * @return The Attribute object
      */
@@ -349,7 +348,7 @@ public class HelperAttributes {
         if (attributeName.equals("URI")) {
             return new URI();
         }
-        if(attributeName.equals(SERIAL_OBJECT_STRING)){
+        if (attributeName.equals(SERIAL_OBJECT_STRING)) {
             return new Blob();
         }
 
@@ -357,10 +356,10 @@ public class HelperAttributes {
     }
 
     /**
-     * Sets a value into any MAL Attribute object. The value provided must be a 
+     * Sets a value into any MAL Attribute object. The value provided must be a
      * string. The method takes care of doing the appropriate conversion to fit
      * the correct set type.
-     * 
+     *
      * @param in The object to be set
      * @param value The string value to be used for the set
      * @return The final object with the selected value
@@ -512,12 +511,12 @@ public class HelperAttributes {
 
     /**
      * Converts a Java data type into a MAL data type if possible
-     * 
+     *
      * @param obj The object in the Java data type
      * @return The object in the MAL data type or the original object
      */
     public static Object javaType2Attribute(Object obj) {
-        
+
         if (obj instanceof java.lang.Boolean) {
             return new Union((Boolean) obj);
         }
@@ -555,13 +554,13 @@ public class HelperAttributes {
 
     /**
      * Converts a MAL data type into a Java data type
-     * 
+     *
      * @param obj The object in the MAL data type
      * @return The object in the Java data type
      */
     public static Object attribute2JavaType(Object obj) {
 
-        if (obj instanceof Union){
+        if (obj instanceof Union) {
             Integer typeShortForm = ((Union) obj).getTypeShortForm();
 
             if (typeShortForm.intValue() == Attribute.BOOLEAN_TYPE_SHORT_FORM.intValue()) {
@@ -599,15 +598,15 @@ public class HelperAttributes {
 
         return obj;
     }
-    
+
     /**
      * Generates the correct Element List based on the Java type
-     * 
+     *
      * @param obj The object in the Java data type
      * @return A MAL data type Elements List
      */
     public static ElementList generateElementListFromJavaType(Object obj) {
-        
+
         if (obj instanceof java.lang.Boolean) {
             return new BooleanList();
         }
@@ -642,10 +641,10 @@ public class HelperAttributes {
 
         return null;
     }
-    
+
     /**
      * Translates the type short form number into the name of the element
-     * 
+     *
      * @param typeShortForm The type short form number
      * @return The name of the MAL Attribute
      */
@@ -705,7 +704,7 @@ public class HelperAttributes {
         if (typeShortForm == 18) {
             return "URI";
         }
-        if(typeShortForm == SERIAL_OBJECT_RAW_TYPE.intValue()){
+        if (typeShortForm == SERIAL_OBJECT_RAW_TYPE.intValue()) {
             return SERIAL_OBJECT_STRING;
         }
 
@@ -713,8 +712,8 @@ public class HelperAttributes {
     }
 
     /**
-     * Translates the name of the element into the type short form number 
-     * 
+     * Translates the name of the element into the type short form number
+     *
      * @param attributeName The name of the MAL Attribute
      * @return The type short form number
      */
@@ -774,16 +773,16 @@ public class HelperAttributes {
         if (attributeName.equals("URI")) {
             return 18;
         }
-        if(attributeName.equals(SERIAL_OBJECT_STRING)){
+        if (attributeName.equals(SERIAL_OBJECT_STRING)) {
             return SERIAL_OBJECT_RAW_TYPE.intValue();
         }
 
         return null;
     }
-    
+
     /**
      * Serializes an object and fits it into a Blob attribute
-     * 
+     *
      * @param obj The object to be serialized
      * @return The Blob with the serialized object inside
      * @throws java.io.IOException When the serialization of the object fails
@@ -791,12 +790,12 @@ public class HelperAttributes {
     public static Blob serialObject2blobAttribute(Serializable obj) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutput out = null;
+        byte[] serialBytesOut = null;
 
         try {
             out = new ObjectOutputStream(baos);
             out.writeObject(obj);
-            return new Blob(baos.toByteArray());
-
+            serialBytesOut = baos.toByteArray();
         } finally {
             try {
                 if (out != null) {
@@ -811,11 +810,13 @@ public class HelperAttributes {
                 // ignore close exception
             }
         }
+
+        return new Blob(serialBytesOut);
     }
-    
+
     /**
      * Tries to deserialize an object inside a Blob
-     * 
+     *
      * @param obj The object to be serialized
      * @return The deserialized object
      * @throws java.io.IOException When the deserialization of the object fails
@@ -823,14 +824,14 @@ public class HelperAttributes {
     public static Serializable blobAttribute2serialObject(Blob obj) throws IOException {
 
         ByteArrayInputStream bis = null;
+        Object o = null;
+
         try {
             bis = new ByteArrayInputStream(obj.getValue());
             ObjectInput in = null;
             try {
                 in = new ObjectInputStream(bis);
-                Object o = in.readObject();
-                return (Serializable) o;
-
+                o = in.readObject();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(HelperAttributes.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -847,7 +848,6 @@ public class HelperAttributes {
                     // ignore close exception
                 }
             }
-
         } catch (MALException ex) {
             Logger.getLogger(HelperAttributes.class.getName()).log(Level.SEVERE, null, ex);
             return obj;  // the object could not be Deserialized, so, just deliver the Blob itself
@@ -860,8 +860,7 @@ public class HelperAttributes {
             }
         }
 
-        return null;
-
+        return (Serializable) o;
     }
-    
+
 }

@@ -48,7 +48,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 public class HelperMisc {
 
     private static final Set LOADED_PROPERTIES = new TreeSet();
-    
+
     public static final String TRANSPORT_PROPERTIES_FILE = "transport.properties";
     public static final String PROVIDER_PROPERTIES_FILE = "provider.properties";
     public static final String CONSUMER_PROPERTIES_FILE = "consumer.properties";
@@ -61,7 +61,7 @@ public class HelperMisc {
     public static final String MO_APP_NAME = "helpertools.configurations.MOappName";
     public static final String PROPERTY_DOMAIN = "helpertools.configurations.provider.Domain";
     public static final String NETWORK = "helpertools.configurations.Network";
-    
+
     // Fine-tunning Network properties (only works if the NETWORK is not set)
     public static final String ORGANIZATION_NAME = "helpertools.configurations.OrganizationName";
     public static final String MISSION_NAME = "helpertools.configurations.MissionName";
@@ -72,7 +72,7 @@ public class HelperMisc {
     private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";
 
     public final static String SECONDARY_PROTOCOL = "org.ccsds.moims.mo.mal.transport.secondary.protocol";
-    
+
     /**
      * Clears the list of loaded property files.
      */
@@ -115,10 +115,10 @@ public class HelperMisc {
             sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "consumer.properties"));
         } else {
             throw new IOException("The file " + file.getName() + " does not exist.");
-/*
+            /*
             Logger.getLogger(HelperMisc.class.getName()).log(Level.INFO,
                     "The file " + file.getName() + " does not exist.");
-*/
+             */
         }
 
         System.setProperties(sysProps);
@@ -153,7 +153,7 @@ public class HelperMisc {
                 LOADED_PROPERTIES.add(url.toString());
             } catch (IOException ex) {
                 Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-                        "Failed to load properties " + url , ex);
+                        "Failed to load properties " + url, ex);
             }
         }
 
@@ -294,7 +294,10 @@ public class HelperMisc {
             MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(ll);
 
             if (eleFact == null) {
-                Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE, "The element could not be found in the MAL ElementFactory! The object type is: '" + obj.getClass().getSimpleName() + "'. Maybe the service Helper for this object was not initialized. Try initializing the Service Helper of this object.");
+                Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
+                        "The element could not be found in the MAL ElementFactory! The object type is: '"
+                        + obj.getClass().getSimpleName()
+                        + "'. Maybe the service Helper for this object was not initialized. Try initializing the Service Helper of this object.");
             }
 
             return (ElementList) eleFact.createElement();
@@ -380,20 +383,22 @@ public class HelperMisc {
      * @return The name of the service
      * @throws org.ccsds.moims.mo.mal.MALException The area/service is Unknown
      */
-    public static String serviceKey2name(UShort area, UOctet areaVersion, UShort service)  throws MALException {
+    public static String serviceKey2name(UShort area, UOctet areaVersion, UShort service) throws MALException {
 
         MALArea malArea = MALContextFactory.lookupArea(area, areaVersion);
-        
-        if (malArea == null){
-            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," + service.getValue() + ") " + "Unknown area to the MAL! Maybe the API was not initialized.");
+
+        if (malArea == null) {
+            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," 
+                    + service.getValue() + ") " + "Unknown area to the MAL! Maybe the API was not initialized.");
         }
-        
+
         MALService malSer = malArea.getServiceByNumber(service);
 
-        if (malSer == null){
-            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," + service.getValue() + ") " + "Unknown service to the MAL! Maybe the API was not initialized.");
+        if (malSer == null) {
+            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," 
+                    + service.getValue() + ") " + "Unknown service to the MAL! Maybe the API was not initialized.");
         }
-        
+
         return malSer.getName().toString();
     }
 

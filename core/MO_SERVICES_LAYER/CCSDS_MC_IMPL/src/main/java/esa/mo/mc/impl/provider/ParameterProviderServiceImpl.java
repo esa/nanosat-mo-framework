@@ -793,7 +793,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * of true will be returned because not error happened.
      */
     public Boolean pushMultipleParameterValues(final List<ParameterInstance> parameters, final boolean storeIt) {
-
         try {
             synchronized(lock){
                 if (!isRegistered) {

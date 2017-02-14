@@ -105,6 +105,8 @@ public class DatabaseBackend {
         final Thread startDatabase = new Thread() {
             @Override
             public void run() {
+                this.setName("DatabaseBackend_startBackendDatabase()");
+                
                 try {
                     emAvailability.acquire();
                 } catch (InterruptedException ex) {
@@ -117,7 +119,8 @@ public class DatabaseBackend {
                 createEMFactory();
                 emAvailability.release();
 
-                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO, "The database was initialized and the Archive service is ready!");
+                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO, 
+                        "The database was initialized and the Archive service is ready!");
             }
         };
 

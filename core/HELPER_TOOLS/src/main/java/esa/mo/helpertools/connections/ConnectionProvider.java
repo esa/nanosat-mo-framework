@@ -100,7 +100,9 @@ public class ConnectionProvider {
         try {
             malFactory = MALContextFactory.newFactory();
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.SEVERE, "Check if the MAL implementation is included in your project!! This error usually happens when the MAL layer is missing.", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.SEVERE,
+                    "Check if the MAL implementation is included in your project!! "
+                    + "This error usually happens when the MAL layer is missing.", ex);
         }
 
         mal = malFactory.createMALContext(System.getProperties());
@@ -261,8 +263,8 @@ public class ConnectionProvider {
         BufferedWriter wrt = null;
         try {
             wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false));
-            
-            if(System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null){
+
+            if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
                 wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
             }
         } catch (IOException ex) {
