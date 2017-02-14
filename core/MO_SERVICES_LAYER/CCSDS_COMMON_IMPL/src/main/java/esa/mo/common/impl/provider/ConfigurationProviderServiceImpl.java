@@ -25,6 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import java.io.FileOutputStream;
@@ -57,8 +58,6 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -121,13 +120,13 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
         }
 
         service = ConfigurationHelper.CONFIGURATION_SERVICE;
-        configurationServiceProvider = connection.startService(ConfigurationHelper.CONFIGURATION_SERVICE_NAME.toString(), ConfigurationHelper.CONFIGURATION_SERVICE, false, this);
+        configurationServiceProvider = connection.startService(ConfigurationHelper.CONFIGURATION_SERVICE_NAME.toString(), 
+                ConfigurationHelper.CONFIGURATION_SERVICE, false, this);
         this.comServices = comServices;
 
         running = true;
         initialiased = true;
         Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).info("Configuration service READY");
-
     }
 
     /**
@@ -142,13 +141,13 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
     @Override
     public void activate(ObjectId configObjId, MALInteraction interaction) throws MALInteractionException, MALException {
-
         ObjectIdList objBodies = new ObjectIdList();
         objBodies.add(configObjId);
 
@@ -158,7 +157,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
         // Store Event in the Archive
         Long objId = this.comServices.getEventService().generateAndStoreEvent(
                 ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_TYPE,
-                connection.getConnectionDetails().getDomain(),
+                ConfigurationProviderSingleton.getDomain(),
                 objBodies,
                 related,
                 source,
@@ -167,22 +166,23 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
         // Send Activation event
         this.comServices.getEventService().publishEvent(interaction, objId,
                 ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_TYPE, related, source, objBodies);
-
     }
 
     @Override
-    public ObjectId getCurrent(ServiceProviderKey service, ConfigurationType type, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectId getCurrent(ServiceProviderKey service, ConfigurationType type, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void add(ObjectId configObj, ObjectIdList configObjIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void add(ObjectId configObj, ObjectIdList configObjIds, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void storeCurrent(ServiceProviderKey service, ConfigurationType type, Boolean autoAdd, StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
-
+    public void storeCurrent(ServiceProviderKey service, ConfigurationType type, Boolean autoAdd, 
+            StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         if (this.comServices.getEventService() == null) {  // If there is no event service then we can't really do anything...
@@ -229,7 +229,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             IdentifierList subIds = new IdentifierList();
             subIds.add(subId);
             eventServiceConsumer.getEventStub().monitorEventDeregister(subIds);
-
         } catch (MALException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             interaction.sendError(null);
@@ -240,11 +239,11 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             interaction.sendError(null);
         }
-
     }
 
     @Override
-    public org.ccsds.moims.mo.mal.structures.File exportXML(ObjectId confObjId, Boolean getComplete, MALInteraction interaction) throws MALInteractionException, MALException {
+    public org.ccsds.moims.mo.mal.structures.File exportXML(ObjectId confObjId, Boolean getComplete, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
 
         // Configuration COM object
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(), confObjId.getType(), confObjId.getKey().getDomain(), confObjId.getKey().getInstId());
@@ -294,9 +293,10 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public ObjectId importXML(org.ccsds.moims.mo.mal.structures.File xmlFile, MALInteraction interaction) throws MALInteractionException, MALException {
-
+    public ObjectId importXML(org.ccsds.moims.mo.mal.structures.File xmlFile, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
         FileInputStream fis;
+        
         try {
             // Create the file
             java.io.File file = new java.io.File("temporary_file.xml");
@@ -378,7 +378,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
         public synchronized void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
                 UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList,
                 ElementList objects, Map qosProperties) {
-
             if (objectDetailsList.size() != 1) {
                 return;
             }
@@ -389,11 +388,9 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
                 this.notify();
                 available = true;
             }
-
         }
 
         public synchronized ObjectId getResponseFromService() {
-
             if (available) {
                 return objectId;
             }
@@ -405,7 +402,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             }
 
             return objectId;
-
         }
 
     }

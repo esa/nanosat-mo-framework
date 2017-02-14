@@ -21,6 +21,7 @@
 package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
 import java.util.ArrayList;
@@ -63,8 +64,8 @@ public class HelperArchive {
     }
 
     /**
-     * Checks if the archiveDetails structure contains a null value in any of the
-     * following fields: network, timestamp or provider
+     * Checks if the archiveDetails structure contains a null value in any of
+     * the following fields: network, timestamp or provider
      *
      * @param archiveDetails
      * @return The boolean value of the comparison
@@ -78,9 +79,9 @@ public class HelperArchive {
 
     /**
      * Checks if the archiveDetails structure contains a wildcard in any of the
-     * following fields: network, timestamp or provider
-     * Null, "*" and 0 are considered wildcards
-     * 
+     * following fields: network, timestamp or provider Null, "*" and 0 are
+     * considered wildcards
+     *
      * @param archiveDetails
      * @return The boolean value of the comparison
      */
@@ -115,23 +116,24 @@ public class HelperArchive {
     /**
      * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
      * The object instance identifier will be set as 0. The operation will use
-     * the submitted related, source and interaction fields to fill-in the object.
+     * the submitted related, source and interaction fields to fill-in the
+     * object.
      *
      * @param related Related field
      * @param source Source field
      * @param interaction Interaction
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source, final MALInteraction interaction) {
-
-        ArchiveDetails archiveDetails = new ArchiveDetails();
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final MALInteraction interaction) {
+        final ArchiveDetails archiveDetails = new ArchiveDetails();
         archiveDetails.setInstId(new Long(0));
         archiveDetails.setDetails(new ObjectDetails(related, source));
         archiveDetails.setNetwork(interaction.getMessageHeader().getNetworkZone());
         archiveDetails.setTimestamp(HelperTime.getTimestamp());
         archiveDetails.setProvider(interaction.getMessageHeader().getURIFrom());
 
-        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
         return archiveDetailsList;
     }
@@ -139,24 +141,24 @@ public class HelperArchive {
     /**
      * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
      * The object instance identifier will be set as 0. The operation will use
-     * the submitted related, source and connectionDetails fields to fill-in 
-     * the object.
+     * the submitted related, source and connectionDetails fields to fill-in the
+     * object.
      *
      * @param related Related field
      * @param source Source field
      * @param connectionDetails The details of the connection
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source, final SingleConnectionDetails connectionDetails) {
-
-        ArchiveDetails archiveDetails = new ArchiveDetails();
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final SingleConnectionDetails connectionDetails) {
+        final ArchiveDetails archiveDetails = new ArchiveDetails();
         archiveDetails.setInstId(new Long(0));
         archiveDetails.setDetails(new ObjectDetails(related, source));
-        archiveDetails.setNetwork(connectionDetails.getConfiguration().getNetwork());
+        archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
         archiveDetails.setTimestamp(HelperTime.getTimestamp());
         archiveDetails.setProvider(connectionDetails.getProviderURI());
 
-        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
         return archiveDetailsList;
     }
@@ -164,8 +166,8 @@ public class HelperArchive {
     /**
      * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
      * The object instance identifier will be set as 0. The operation will use
-     * the submitted related, source, network and provider fields to fill-in the object.
-     * The fields network and provider are not set.
+     * the submitted related, source, network and provider fields to fill-in the
+     * object. The fields network and provider are not set.
      *
      * @param related Related field
      * @param source Source field
@@ -173,16 +175,16 @@ public class HelperArchive {
      * @param provider Provider field
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source, Identifier network, URI provider) {
-
-        ArchiveDetails archiveDetails = new ArchiveDetails();
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final Identifier network, final URI provider) {
+        final ArchiveDetails archiveDetails = new ArchiveDetails();
         archiveDetails.setInstId(new Long(0));
         archiveDetails.setDetails(new ObjectDetails(related, source));
         archiveDetails.setNetwork(network);
         archiveDetails.setTimestamp(HelperTime.getTimestamp());
         archiveDetails.setProvider(provider);
 
-        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
         return archiveDetailsList;
     }
@@ -190,8 +192,8 @@ public class HelperArchive {
     /**
      * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
      * The object instance identifier will be set as 0. The operation will use
-     * the submitted related, source, network, provider and objId fields to fill-in the object.
-     * The fields network and provider are not set.
+     * the submitted related, source, network, provider and objId fields to
+     * fill-in the object. The fields network and provider are not set.
      *
      * @param related Related field
      * @param source Source field
@@ -200,9 +202,9 @@ public class HelperArchive {
      * @param objId Object instance identifier field
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source, Identifier network, URI provider, Long objId) {
-        
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, network, provider);
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final Identifier network, final URI provider, final Long objId) {
+        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, network, provider);
         archiveDetailsList.get(0).setInstId(objId);
 
         return archiveDetailsList;
@@ -217,21 +219,25 @@ public class HelperArchive {
      * @param objId The object instance identifier of the COM object
      * @return The object body of the retrieved COM object
      */
-    public static Element getObjectBodyFromArchive(Object archiveService,
+    public static Element getObjectBodyFromArchive(final Object archiveService,
             final ObjectType objType, final IdentifierList domain, final Long objId) {
-        LongList objIds = new LongList();
+        final LongList objIds = new LongList();
         objIds.add(objId);
-        ElementList objs = (ElementList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.OBJECT_BODY);
+        final ElementList objs = (ElementList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.OBJECT_BODY);
 
+        return (objs != null) ? (Element) objs.get(0) : null;
+        /*
         if (objs != null) {
             return (Element) objs.get(0);
         } else {
             return null;
         }
+         */
     }
 
     /**
-     * Get a List of object bodies of a retrieved List of COM objects from the Archive
+     * Get a List of object bodies of a retrieved List of COM objects from the
+     * Archive
      *
      * @param archiveService The Archive
      * @param objType The object Type of the COM object
@@ -255,10 +261,10 @@ public class HelperArchive {
      */
     public static ArchiveDetails getArchiveDetailsFromArchive(Object archiveService,
             final ObjectType objType, final IdentifierList domain, final Long objId) {
-        LongList objIds = new LongList();
+        final LongList objIds = new LongList();
         objIds.add(objId);
-        ArchiveDetailsList archiveDetailsList = (ArchiveDetailsList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.ARCHIVE_DETAILS);
-        
+        final ArchiveDetailsList archiveDetailsList = (ArchiveDetailsList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.ARCHIVE_DETAILS);
+
         return archiveDetailsList.get(0);
     }
 
@@ -282,7 +288,8 @@ public class HelperArchive {
      * @param archiveService The Archive
      * @param objType The object Type of the COM object
      * @param domain The domain of the COM object
-     * @param objId The object instance identifier of the COM object to be retrieved
+     * @param objId The object instance identifier of the COM object to be
+     * retrieved
      * @return The COM object
      */
     public static ArchivePersistenceObject getArchiveCOMObject(Object archiveService,
@@ -305,7 +312,8 @@ public class HelperArchive {
      * @param archiveService The Archive
      * @param objType The object Type of the COM object
      * @param domain The domain of the COM object
-     * @param objIds The List of object instance identifiers of the COM objects to be retrieved
+     * @param objIds The List of object instance identifiers of the COM objects
+     * to be retrieved
      * @return The list of COM objects
      */
     public static List<ArchivePersistenceObject> getArchiveCOMObjectList(Object archiveService,
@@ -313,9 +321,8 @@ public class HelperArchive {
         return (List<ArchivePersistenceObject>) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.COM_OBJECT);
     }
 
-    private static Object getFromArchive(Object archiveService,
-            final ObjectType objType, final IdentifierList domain, final LongList objIds, ToBeReturned toBeReturned) {
-
+    private static Object getFromArchive(final Object archiveService, final ObjectType objType,
+            final IdentifierList domain, final LongList objIds, final ToBeReturned toBeReturned) {
         if (archiveService == null) { // If there's no archive...
             Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO, "The Archive service provided contains a null pointer!");
             return null;
@@ -443,7 +450,7 @@ public class HelperArchive {
                 semaphore.release();
             }
 
-            public ElementList getObject(){
+            public ElementList getObject() {
                 return this.obj;
             }
 
@@ -497,14 +504,15 @@ public class HelperArchive {
             Object obj = null;
             // Retrieve the object
             synchronized (adapter) {
-
                 try {
                     ((ArchiveHandler) archiveService).retrieve(objType, domain, objIds, adapter);
                 } catch (MALInteractionException ex2) {
-                    Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO, "(debug code: 01) The object could not be retrieved from the Archive! A null will be returned!");
+                    Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO,
+                            "(debug code: 01) The object could not be retrieved from the Archive! A null will be returned!");
                     return null;
                 } catch (MALException ex2) {
-                    Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO, "(debug code: 02) The object could not be retrieved from the Archive! A null will be returned! {0}", ex2);
+                    Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO,
+                            "(debug code: 02) The object could not be retrieved from the Archive! A null will be returned! {0}", ex2);
                     return null;
                 }
 
@@ -519,7 +527,6 @@ public class HelperArchive {
                 if (toBeReturned == ToBeReturned.COM_OBJECT) {
                     obj = adapter.getCOMobject();
                 }
-
             }
 
             return obj;
@@ -527,17 +534,19 @@ public class HelperArchive {
 
         // The submitted Archive is a consumer instance...
         if (archiveService instanceof ArchiveStub) {
-
             ArchiveRetrieveAdapter2 adapter = new ArchiveRetrieveAdapter2();
             Object obj = null;
 
             try {
                 ((ArchiveStub) archiveService).retrieve(objType, domain, objIds, adapter);
             } catch (MALInteractionException ex2) {
-                Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO, "(debug code: 03) The object could not be retrieved from the Archive! A null will be returned! This problem usually occurs when there is a race condition on the layers below, either MAL or Transport Layer.");
+                Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO,
+                        "(debug code: 03) The object could not be retrieved from the Archive! A null will be returned! "
+                        + "This problem usually occurs when there is a race condition on the layers below, either MAL or Transport Layer.");
                 return null;
             } catch (MALException ex2) {
-                Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO, "(debug code: 04) The object could not be retrieved from the Archive! A null will be returned! {0}", ex2);
+                Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO,
+                        "(debug code: 04) The object could not be retrieved from the Archive! A null will be returned! {0}", ex2);
                 return null;
             }
 

@@ -23,6 +23,7 @@ package esa.mo.mc.impl.provider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.util.logging.Level;
@@ -56,7 +57,7 @@ public final class ActionManager extends DefinitionsManager {
     
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private Long uniqueObjIdAIns;
-    private final transient ActionInvocationListener actions;   // transient: marks members that won't be serialized.
+    private final ActionInvocationListener actions;
 
 
     public ActionManager (COMServicesProvider comServices, ActionInvocationListener actions){
@@ -87,7 +88,8 @@ public final class ActionManager extends DefinitionsManager {
         return (ActionDefinitionDetails) this.getDef(input);
     }
     
-    public Long storeAndGenerateAInsobjId(ActionInstanceDetails aIns, Long related, SingleConnectionDetails connectionDetails){ 
+    public Long storeAndGenerateAInsobjId(final ActionInstanceDetails aIns, 
+            final Long related, final SingleConnectionDetails connectionDetails){ 
         if (super.getArchiveService() == null) {
             uniqueObjIdAIns++;
 ///            if (uniqueObjIdAIns % SAVING_PERIOD  == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
@@ -125,8 +127,8 @@ public final class ActionManager extends DefinitionsManager {
         return (ActionDefinitionDetailsList) this.getAllDefs();
     }
 
-    public Long add(ActionDefinitionDetails definition, ObjectId source, SingleConnectionDetails connectionDetails){ // requirement: 3.3.2.5
-
+    public Long add(final ActionDefinitionDetails definition, final ObjectId source, 
+            final SingleConnectionDetails connectionDetails){ // requirement: 3.3.2.5
         if (super.getArchiveService() == null) {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
@@ -150,7 +152,6 @@ public final class ActionManager extends DefinitionsManager {
                     this.addDef(objIds.get(0), definition);
                     return objIds.get(0);
                 }
-
             } catch (MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
@@ -161,8 +162,9 @@ public final class ActionManager extends DefinitionsManager {
         return null;
     }
       
-    public boolean update(Long objId, ActionDefinitionDetails definition, SingleConnectionDetails connectionDetails){ // requirement: 3.3.2.5
-        Boolean success = this.updateDef(objId, definition);  // requirement: 3.7.2.13
+    public boolean update(final Long objId, final ActionDefinitionDetails definition, 
+            final SingleConnectionDetails connectionDetails){ // requirement: 3.3.2.5
+        final Boolean success = this.updateDef(objId, definition);  // requirement: 3.7.2.13
 
         if (super.getArchiveService() != null) {  // It should also update on the COM Archive
             try {
@@ -195,13 +197,9 @@ public final class ActionManager extends DefinitionsManager {
         return success;
     }
 
-    public boolean delete(Long objId){ // requirement: 3.3.2.5
-
-        if (!this.deleteDef(objId)) {
-            return false;
-        }
-        
-        return true;
+    public boolean delete(Long objId){
+        // requirement: 3.3.2.5
+        return this.deleteDef(objId);
     }
     
     protected boolean isActionDefinitionValid(ActionDefinitionDetails oldDef, ActionDefinitionDetails newDef) {
@@ -320,8 +318,8 @@ public final class ActionManager extends DefinitionsManager {
 
     }
 
-    protected void forward(final Long actionInstId, final ActionInstanceDetails actionDetails, final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-
+    protected void forward(final Long actionInstId, final ActionInstanceDetails actionDetails, 
+            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         Thread t = new Thread() {
             
             @Override
@@ -340,7 +338,8 @@ public final class ActionManager extends DefinitionsManager {
                     
                     // Reception
                     ObjectId sourceRec = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                    getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]), interaction.getMessageHeader().getNetworkZone(), true, null, uriNextDestination, sourceRec);
+                    getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]), 
+                            interaction.getMessageHeader().getNetworkZone(), true, null, uriNextDestination, sourceRec);
             
                     UInteger errorNumber;
 
@@ -354,7 +353,8 @@ public final class ActionManager extends DefinitionsManager {
                     
                     // Publish forward success
                     ObjectId sourceFor = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                    getActivityTrackingService().publishForwardEvent(new URI(nodes[0]), interaction.getMessageHeader().getNetworkZone(), (errorNumber == null), null, uriNextDestination, sourceFor);
+                    getActivityTrackingService().publishForwardEvent(new URI(nodes[0]), interaction.getMessageHeader().getNetworkZone(), 
+                            (errorNumber == null), null, uriNextDestination, sourceFor);
                     
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -370,7 +370,6 @@ public final class ActionManager extends DefinitionsManager {
     
     protected void execute(final Long actionInstId, final ActionInstanceDetails actionDetails, 
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-
         Thread t = new Thread() {
             
             @Override
@@ -379,7 +378,8 @@ public final class ActionManager extends DefinitionsManager {
             
                 // Publish Event stating that the execution was initialized
                 if (actionDetails.getStageStartedRequired()){  // ActionInstanceDetails field requirement
-                    reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
+                    reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(), 
+                            actionInstId, interaction, connectionDetails);
                 }
 
                 UInteger errorNumber;
@@ -394,9 +394,9 @@ public final class ActionManager extends DefinitionsManager {
                 
                 // Publish Event stating that the execution was finished
                 if (actionDetails.getStageCompletedRequired()){  // ActionInstanceDetails field requirement
-                    reportExecutionComplete( (errorNumber == null) , errorNumber, actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
+                    reportExecutionComplete( (errorNumber == null) , errorNumber, 
+                            actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
                 }
-                
             }
         };
         
@@ -406,16 +406,15 @@ public final class ActionManager extends DefinitionsManager {
     protected void reportActivityExecutionEvent(final boolean success, final UInteger errorNumber, 
             final int executionStage, final int stageCount, final Long actionInstId, 
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-
         ObjectKey key = new ObjectKey (connectionDetails.getDomain(), actionInstId);
         ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
         
         try {
 
             if (this.getActivityTrackingService() != null){
-                ObjectId executionEventLink;
-                    // requirement 3.2.5.a
-                    executionEventLink = this.getActivityTrackingService().publishExecutionEventOperation(connectionDetails.getProviderURI(), connectionDetails.getConfiguration().getNetwork(), success, executionStage, stageCount, null, source);
+                // requirement 3.2.5.a
+                final ObjectId executionEventLink = this.getActivityTrackingService().publishExecutionEventOperation(connectionDetails.getProviderURI(), 
+                            ConfigurationProviderSingleton.getNetwork(), success, executionStage, stageCount, null, source);
 
                 if (!success){ // requirement 3.2.5.c
                     this.publishActionFailureEvent(errorNumber, actionInstId, executionEventLink, interaction, connectionDetails);
@@ -432,8 +431,7 @@ public final class ActionManager extends DefinitionsManager {
 
     private void publishActionFailureEvent(final UInteger errorNumber, final Long related, 
             final ObjectId source, final MALInteraction interaction, final SingleConnectionDetails connectionDetails){
-        
-        UIntegerList errorNumbers = new UIntegerList();
+        final UIntegerList errorNumbers = new UIntegerList();
         errorNumbers.add(errorNumber);
 
         // requirement: 3.2.5.c and 3.2.5.d and 3.2.5.e
@@ -453,9 +451,11 @@ public final class ActionManager extends DefinitionsManager {
     }
     
     private void reportExecutionStart(final boolean success, final UInteger errorNumber, 
-            final int totalNumberOfProgressStages, final Long actionInstId, final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+            final int totalNumberOfProgressStages, final Long actionInstId, 
+            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.i
-        reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
+        reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages, 
+                actionInstId, interaction, connectionDetails);
     }
 
     /**
@@ -466,9 +466,11 @@ public final class ActionManager extends DefinitionsManager {
      * @param actionInstId
      */
     private void reportExecutionComplete(final boolean success, final UInteger errorNumber, 
-            final int totalNumberOfProgressStages, final Long actionInstId, final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+            final int totalNumberOfProgressStages, final Long actionInstId, 
+            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.k
-        reportActivityExecutionEvent(success, errorNumber, 2 + totalNumberOfProgressStages, 2 + totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
+        reportActivityExecutionEvent(success, errorNumber, 2 + totalNumberOfProgressStages, 
+                2 + totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
     }
     
     

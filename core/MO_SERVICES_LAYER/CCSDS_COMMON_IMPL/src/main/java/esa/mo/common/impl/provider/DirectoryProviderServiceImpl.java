@@ -23,6 +23,7 @@ package esa.mo.common.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.ServicesConnectionDetails;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -462,10 +463,10 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         PublishDetails newProviderDetails = new PublishDetails();
         newProviderDetails.setProviderName(new Identifier(providerName));
-        newProviderDetails.setDomain(connection.getConnectionDetails().getDomain());
-        newProviderDetails.setSessionType(connection.getConnectionDetails().getConfiguration().getSession());
-        newProviderDetails.setSourceSessionName(null);
-        newProviderDetails.setNetwork(connection.getConnectionDetails().getConfiguration().getNetwork());
+        newProviderDetails.setDomain(ConfigurationProviderSingleton.getDomain());
+        newProviderDetails.setSessionType(ConfigurationProviderSingleton.getSession());
+        newProviderDetails.setSourceSessionName(ConfigurationProviderSingleton.getSourceSessionName());
+        newProviderDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
         newProviderDetails.setProviderDetails(serviceDetails);
 
         try {
@@ -480,7 +481,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         return null;
     }
 
-    private static AddressDetails getServiceAddressDetails(SingleConnectionDetails conn) {
+    private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn) {
         QoSLevelList qos = new QoSLevelList();
         qos.add(QoSLevel.ASSURED);
         NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
@@ -515,8 +516,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                             && serviceName.equals(((Identifier) serviceProp.getValue()).getValue())) {
                         return capability.getServiceAddresses();
                     }
-                    
-
                 }
             }
         }
