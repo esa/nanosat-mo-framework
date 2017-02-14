@@ -73,8 +73,8 @@ public class PushClock {
     }
 
     public void pushClock() throws NMFException {
-        Date now = new Date();
-        Calendar calendar = GregorianCalendar.getInstance();
+        final Date now = new Date();
+        final Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(now);
 
         if (minutes != calendar.get(Calendar.MINUTE)) {
