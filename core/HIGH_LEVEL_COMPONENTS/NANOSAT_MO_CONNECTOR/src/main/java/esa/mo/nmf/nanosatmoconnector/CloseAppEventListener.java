@@ -45,7 +45,6 @@ public class CloseAppEventListener extends EventReceivedListener {
 
     @Override
     public void onDataReceived(EventCOMObject eventCOMObject) {
-
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "New Close Event Received!");
 
         // Make sure that it is indeed a Close App event for us!
@@ -62,7 +61,8 @@ public class CloseAppEventListener extends EventReceivedListener {
         // Close the app...
         // Make a call on the app layer to close nicely...
         if (provider.closeAppAdapter != null) {
-            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "Triggering the closeAppAdapter of the app business logic...");
+            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
+                    "Triggering the closeAppAdapter of the app business logic...");
             provider.closeAppAdapter.onClose(); // Time to sleep, boy!
         }
 
@@ -79,7 +79,9 @@ public class CloseAppEventListener extends EventReceivedListener {
             } catch (MalformedURLException ex) {
                 Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "There was a problem while connectin to the Central Directory service on URI: " + centralDirectoryURI.getValue() + "\nException: " + ex);
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
+                        "There was a problem while connectin to the Central Directory service on URI: "
+                        + centralDirectoryURI.getValue() + "\nException: " + ex);
             }
         }
 
@@ -87,7 +89,8 @@ public class CloseAppEventListener extends EventReceivedListener {
 //        provider.getMCServices().closeServices();
 //        provider.getCOMServices().closeServices();
         // Exit the Java application
-        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "Success! The currently running Java Virtual Machine will now terminate.");
+        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
+                "Success! The currently running Java Virtual Machine will now terminate.");
         System.exit(0);
 
     }

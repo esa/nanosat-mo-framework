@@ -52,7 +52,6 @@ public class ConnectionProvider {
     private MALProviderManager providerMgr;
     private MALProvider primaryMALServiceProvider = null;
     private MALProvider secondaryMALServiceProvider = null;
-//    private final SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
     private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
     private SingleConnectionDetails secondaryConnectionDetails = null;
 
@@ -222,7 +221,8 @@ public class ConnectionProvider {
                 mal.close();
             }
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -240,7 +240,8 @@ public class ConnectionProvider {
                 secondaryMALServiceProvider.close();
             }
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+                    "Exception during close down of the provider {0}", ex);
         }
 
         try {
@@ -252,7 +253,8 @@ public class ConnectionProvider {
                 mal.close();
             }
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -268,7 +270,8 @@ public class ConnectionProvider {
                 wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
             }
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+                    "Unable to reset URI information from properties file {0}", ex);
         } finally {
             if (wrt != null) {
                 try {

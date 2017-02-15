@@ -18,22 +18,18 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-
 package esa.mo.common.impl.util;
 
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
 
 /**
- *  Listens for a Configuration change event from the Event service
- * 
+ * Listens for a Configuration change event from the Event service
+ *
  */
 public class ConfigurationsListener {
-    
-    
-    public ConfigurationsListener(EventProviderServiceImpl eventService){
+
+    public ConfigurationsListener(EventProviderServiceImpl eventService) {
 
     }
-    
-    
-    
+
 }

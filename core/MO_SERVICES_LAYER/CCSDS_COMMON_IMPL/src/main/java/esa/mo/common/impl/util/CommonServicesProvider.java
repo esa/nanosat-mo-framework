@@ -35,10 +35,8 @@ public class CommonServicesProvider {
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     
     public void init(COMServicesProvider comServices) throws MALException {
-
         configurationService.init(comServices);
         directoryService.init(comServices);
-
     }
 
     public ConfigurationProviderServiceImpl getConfigurationService() {

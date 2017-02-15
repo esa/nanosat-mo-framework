@@ -49,10 +49,10 @@ public class HelperCommon {
      * @return ConnectionConsumer The ConnectionConsumer object
      */
     public static ConnectionConsumer providerSummaryToConnectionConsumer(ProviderSummary provider) {
-        ConnectionConsumer connection = new ConnectionConsumer();
+        final ConnectionConsumer connection = new ConnectionConsumer();
 
-        ServicesConnectionDetails serviceDetails = new ServicesConnectionDetails();
-        HashMap<String, SingleConnectionDetails> services = new HashMap<String, SingleConnectionDetails>();
+        final ServicesConnectionDetails serviceDetails = new ServicesConnectionDetails();
+        final HashMap<String, SingleConnectionDetails> services = new HashMap<String, SingleConnectionDetails>();
 
         // Cycle all the services in the provider and put them in the serviceDetails object
         for (ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {

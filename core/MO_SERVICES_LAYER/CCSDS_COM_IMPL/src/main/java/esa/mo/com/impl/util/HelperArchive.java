@@ -139,16 +139,15 @@ public class HelperArchive {
     }
 
     /**
-     * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
-     * The object instance identifier will be set as 0. The operation will use
-     * the submitted related, source and connectionDetails fields to fill-in the
-     * object.
+     * Please consider using the same method but with the provider URI directly
+     * as argument instead of the connectionDetails object
      *
      * @param related Related field
      * @param source Source field
      * @param connectionDetails The details of the connection
      * @return The ArchiveDetailsList object
      */
+    @Deprecated
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final SingleConnectionDetails connectionDetails) {
         final ArchiveDetails archiveDetails = new ArchiveDetails();
@@ -163,6 +162,32 @@ public class HelperArchive {
         return archiveDetailsList;
     }
 
+    /**
+     * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
+     * The object instance identifier will be set as 0. The operation will use
+     * the submitted related, source and connectionDetails fields to fill-in the
+     * object. It will use the provider's network to fill in the network's field.
+     *
+     * @param related Related field
+     * @param source Source field
+     * @param uri URI field
+     * @param connectionDetails The details of the connection
+     * @return The ArchiveDetailsList object
+     */
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final URI uri) {
+        final ArchiveDetails archiveDetails = new ArchiveDetails();
+        archiveDetails.setInstId(new Long(0));
+        archiveDetails.setDetails(new ObjectDetails(related, source));
+        archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
+        archiveDetails.setTimestamp(HelperTime.getTimestamp());
+        archiveDetails.setProvider(uri);
+
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        archiveDetailsList.add(archiveDetails);
+        return archiveDetailsList;
+    }
+    
     /**
      * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
      * The object instance identifier will be set as 0. The operation will use
