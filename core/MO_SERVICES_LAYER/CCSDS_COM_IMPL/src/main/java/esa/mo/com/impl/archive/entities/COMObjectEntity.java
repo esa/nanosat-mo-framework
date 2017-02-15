@@ -126,6 +126,7 @@ public class COMObjectEntity implements Serializable {
                 be.encodeLong(ele.getShortForm());
                 be.encodeNullableElement(ele);
                 this.obj = bodyBaos.toByteArray();
+                be.close();
             } catch (MALException ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
                         "Could not encode COM object with object body class: " + ele.getClass().getSimpleName(), ex);
@@ -191,11 +192,14 @@ public class COMObjectEntity implements Serializable {
                 final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(binDec.decodeLong());
                 elem = binDec.decodeNullableElement((Element) eleFact.createElement());
             } catch (MALException ex) {
-                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE, 
-                        "The object body could not be decoded! Usually happens when there's an update in the APIs. (1)" + this.toString(), ex);
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
+                        "The object body could not be decoded! Usually happens when there's an update in the APIs. (1) " + this.toString(), ex);
+            } catch (IllegalArgumentException ex) {
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
+                        "The object body could not be decoded! Usually happens when there's an update in the APIs. (2) " + this.toString(), ex);
             } catch (Exception ex) {
-                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE, 
-                        "The object body could not be decoded! Usually happens when there's an update in the APIs. (2)" + this.toString(), ex);
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
+                        "The object body could not be decoded! Usually happens when there's an update in the APIs. (3) " + this.toString(), ex);
             }
         }
 
@@ -206,5 +210,5 @@ public class COMObjectEntity implements Serializable {
     public String toString() {
         return "COM Object: this.objectTypeId=" + this.objectTypeId + ", this.domainId=" + this.domainId + ", this.objId=" + this.objId;
     }
-    
+
 }

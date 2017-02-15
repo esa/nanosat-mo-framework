@@ -418,7 +418,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             serviceNames = connsMap.keySet().toArray();
 
             for (Object serviceName : serviceNames) {
-//                String serviceName = (String) serviceName1;
                 SingleConnectionDetails conn2 = connsMap.get((String) serviceName);
                 AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn2);
                 ServiceKey key2 = DirectoryProviderServiceImpl.generateServiceKey(conn2.getServiceKey());
