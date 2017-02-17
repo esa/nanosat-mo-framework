@@ -142,16 +142,16 @@ public class ArchiveManager {
 
     /**
      * Needs to be synchronized with the insertEntries method because the fast
-     * objects are being called simultaneously. The Testbeds don't pass without 
+     * objects are being called simultaneously. The Testbeds don't pass without
      * the synchronization.
-     * 
+     *
      */
     protected synchronized void resetTable() {
         Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).info("Reset table triggered!");
         this.dbProcessor.resetMainTable(new ResetMainTableRunnable());
     }
 
-    protected synchronized ArchivePersistenceObject getPersistenceObject(final ObjectType objType, 
+    protected synchronized ArchivePersistenceObject getPersistenceObject(final ObjectType objType,
             final IdentifierList domain, final Long objId) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
@@ -164,7 +164,7 @@ public class ArchiveManager {
         return this.convert2ArchivePersistenceObject(comEntity, domain, objId);
     }
 
-    private ArchivePersistenceObject convert2ArchivePersistenceObject(final COMObjectEntity comEntity, 
+    private ArchivePersistenceObject convert2ArchivePersistenceObject(final COMObjectEntity comEntity,
             final IdentifierList domain, final Long objId) {
         Identifier network = null;
         URI providerURI = null;
@@ -228,8 +228,8 @@ public class ArchiveManager {
             if (source.getKey().getDomain() != null) {
                 sourceDomainId = this.fastDomain.getDomainId(source.getKey().getDomain());
             }
-            
-            if(source.getType() != null){
+
+            if (source.getType() != null) {
                 sourceObjectTypeId = this.fastObjectType.getObjectTypeId(source.getType());
             }
 
@@ -241,7 +241,7 @@ public class ArchiveManager {
 
     protected synchronized LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
-        final LongList outIds = new LongList();
+        final LongList objIds = new LongList();
         final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<COMObjectEntity>();
         final int domainId = this.fastDomain.getDomainId(domain);
         final int objTypeId = this.fastObjectType.getObjectTypeId(objType);
@@ -267,22 +267,26 @@ public class ArchiveManager {
                     objBody);
 
             perObjsEntities.add(perObjEntity);
-            outIds.add(objId);
+            objIds.add(objId);
         }
 
+        /*
         Thread publishEvents = new Thread() {
             @Override
             public void run() {
                 // Generate and Publish the Events - requirement: 3.4.2.1
                 generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, 
-                        ArchiveManager.generateSources(objType, domain, outIds), 
+                        ArchiveManager.generateSources(objType, domain, objIds), 
                         interaction);
             }
         };
+         */
+        Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE,
+                objType, domain, objIds, interaction);
 
         this.dbProcessor.insert(perObjsEntities, publishEvents);
 
-        return outIds;
+        return objIds;
     }
 
     protected void updateEntries(final ObjectType objType, final IdentifierList domain,
@@ -316,6 +320,7 @@ public class ArchiveManager {
             objIds.add(lArchiveDetails.get(i).getInstId());
         }
 
+        /*
         Thread publishEvents = new Thread() {
             @Override
             public void run() {
@@ -325,6 +330,9 @@ public class ArchiveManager {
                         interaction);
             }
         };
+         */
+        Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE,
+                objType, domain, objIds, interaction);
 
         this.dbProcessor.update(newObjs, publishEvents);
     }
@@ -334,6 +342,7 @@ public class ArchiveManager {
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final int domainId = this.fastDomain.getDomainId(domain);
 
+        /*
         Thread publishEvents = new Thread() {
             @Override
             public void run() {
@@ -343,6 +352,9 @@ public class ArchiveManager {
                         interaction);
             }
         };
+         */
+        Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE,
+                objType, domain, objIds, interaction);
 
         this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
         this.fastObjId.delete(objTypeId, domainId);
@@ -416,7 +428,7 @@ public class ArchiveManager {
 
     private ArrayList<COMObjectEntity> filterByObjectIdMask(
             final ArrayList<COMObjectEntity> perObjs,
-            final ObjectType objectTypeMask, 
+            final ObjectType objectTypeMask,
             final boolean isSource) throws Exception {
         final long bitMask = ArchiveManager.objectType2Mask(objectTypeMask);
         final long objTypeId = HelperCOM.generateSubKey(objectTypeMask);
@@ -457,7 +469,7 @@ public class ArchiveManager {
     }
 
     protected static ArrayList<ArchivePersistenceObject> filterQuery(
-            final ArrayList<ArchivePersistenceObject> perObjs, 
+            final ArrayList<ArchivePersistenceObject> perObjs,
             final CompositeFilterSet filterSet) throws MALInteractionException {
         if (filterSet == null) {
             return perObjs;
@@ -541,7 +553,7 @@ public class ArchiveManager {
             return;
         }
 
-        Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "\nobjType: " + objType.toString() 
+        Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "\nobjType: " + objType.toString()
                 + "\nDomain: " + ConfigurationProviderSingleton.getDomain().toString() + "\nSourceList: " + sourceList.toString());
 
         // requirement: 3.4.2.4
@@ -649,6 +661,38 @@ public class ArchiveManager {
         }
 
         return true;
+    }
+
+    /* This method needs to be changed to Runnable, to stop it from creating a bunch of threads */
+    private Runnable generatePublishEventsThread(final ObjectType comObject, final ObjectType objType,
+            final IdentifierList domain, final LongList objIds, final MALInteraction interaction) {
+        return new COMEventFromArchiveRunnable(comObject, objType, domain, objIds, interaction);
+    }
+
+    private class COMEventFromArchiveRunnable implements Runnable {
+
+        private final ObjectType comObject;
+        private final ObjectType objType;
+        private final IdentifierList domain;
+        private final LongList objIds;
+        private final MALInteraction interaction;
+
+        public COMEventFromArchiveRunnable(final ObjectType comObject, final ObjectType objType,
+                final IdentifierList domain, final LongList objIds, final MALInteraction interaction) {
+            this.comObject = comObject;
+            this.objType = objType;
+            this.domain = domain;
+            this.objIds = objIds;
+            this.interaction = interaction;
+        }
+
+        @Override
+        public void run() {
+            // Generate and Publish the Events - requirement: 3.4.2.1
+            generateAndPublishEvents(comObject,
+                    ArchiveManager.generateSources(objType, domain, objIds),
+                    interaction);
+        }
     }
 
 }

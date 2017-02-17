@@ -26,9 +26,11 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
 import java.io.BufferedReader;
@@ -38,7 +40,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -60,6 +64,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
@@ -75,19 +80,19 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     private static final String RUN_LIN_FILENAME = "runAppLin.sh";
     private static final String RUN_WIN_FILENAME = "runAppWin.bat";
-    private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.sm.impl.appslauncher.FolderLocation";
+    private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.sm.impl.provider.appslauncher.FolderLocation";
     private static final String APPS_DIRECTORY_NAME = "apps";  // dir name
     private File apps_folder_path = new File(".." + File.separator + ".." + File.separator + APPS_DIRECTORY_NAME);  // Location of the folder
     private final String runnable_filename;
     private final HashMap<Long, ProcessExecutionHandler> handlers = new HashMap<Long, ProcessExecutionHandler>();
 
-    private Long uniqueObjIdDef; // Counter (different for every Definition)
-    private Long uniqueObjIdPVal;
+    private AtomicLong uniqueObjIdDef; // Counter
 
     public AppsLauncherManager(COMServicesProvider comServices) {
         super(comServices);
 
-        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) { // If there is a property for that, then use it!! 
+        // If there is a property for that, then use it!! 
+        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
             apps_folder_path = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
         }
 
@@ -99,9 +104,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         }
 
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdPVal = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-//            this.load(); // Load the file
+            this.uniqueObjIdDef = new AtomicLong(0);
         } else {
             // With Archive...
         }
@@ -126,28 +129,29 @@ public class AppsLauncherManager extends DefinitionsManager {
         return (AppDetails) this.getDef(input);
     }
 
-    protected Long add(final AppDetails definition, final ObjectId source, 
-            final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    protected Long add(final AppDetails definition, final ObjectId source, final URI uri) {
         Long objId = null;
         Long related = null;
-        
-        if(definition.getExtraInfo() != null){
-            // To do:
-            
+        Properties props = null;
+
+        if (definition.getExtraInfo() != null) {
+            // Read the provider.properties of the app
+            String url = definition.getExtraInfo();
+            props = HelperMisc.loadProperties(url, null);
+
             // Look up for apid
-            int apid = 0;
-            
+            String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
+            int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
+            objId = new Long(apid);
+
             // Look up for the packageId
             related = new Long(1234);
-            
-            // If so, tag as apid
-            objId = new Long(apid);
+
         }
-        
+
         if (super.getArchiveService() == null) {
-            if (objId == null){
-                uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-                objId = uniqueObjIdDef;
+            if (objId == null) {
+                objId = uniqueObjIdDef.incrementAndGet();
             }
             this.addDef(objId, definition);
             return objId;
@@ -156,13 +160,13 @@ public class AppsLauncherManager extends DefinitionsManager {
             defs.add(definition);
 
             try {
-                ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, connectionDetails);
+                final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, uri);
                 archDetails.get(0).setInstId(objId);
 
                 LongList objIds = super.getArchiveService().store(
                         true,
                         AppsLauncherHelper.APP_OBJECT_TYPE,
-                        connectionDetails.getDomain(),
+                        ConfigurationProviderSingleton.getDomain(),
                         archDetails,
                         defs,
                         null);
@@ -171,7 +175,6 @@ public class AppsLauncherManager extends DefinitionsManager {
                     this.addDef(objIds.get(0), definition);
                     return objIds.get(0);
                 }
-
             } catch (MALException ex) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
@@ -182,16 +185,15 @@ public class AppsLauncherManager extends DefinitionsManager {
         return null;
     }
 
-    protected boolean update(Long objId, AppDetails definition, 
-            SingleConnectionDetails connectionDetails, MALInteraction interaction) { // requirement: 3.3.2.5
+    protected boolean update(final Long objId, final AppDetails definition,
+            final MALInteraction interaction) { // requirement: 3.3.2.5
         Boolean success = this.updateDef(objId, definition);
 
         if (super.getArchiveService() != null) {  // It should also update on the COM Archive
             try {
                 AppDetailsList defs = new AppDetailsList();
                 defs.add(definition);
-                
-                final IdentifierList domain = connectionDetails.getDomain();
+                final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
                 ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.getArchiveService(),
                         AppsLauncherHelper.APP_OBJECT_TYPE, domain, objId);
@@ -205,7 +207,6 @@ public class AppsLauncherManager extends DefinitionsManager {
                         archiveDetailsList,
                         defs,
                         interaction);
-
             } catch (MALException ex) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
@@ -222,13 +223,13 @@ public class AppsLauncherManager extends DefinitionsManager {
         return this.deleteDef(objId);
     }
 
-    protected void refreshAvailableAppsList(SingleConnectionDetails connectionDetails) {
+    protected void refreshAvailableAppsList(final URI providerURI) {
         // Go to all the "apps folder" and check if there are new folders
         // get all the files from a directory
         File[] fList = apps_folder_path.listFiles();
 
         if (fList == null) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, 
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
                     "The directory could not be found: {0}", apps_folder_path.toString());
 
             // Create?
@@ -239,12 +240,12 @@ public class AppsLauncherManager extends DefinitionsManager {
         boolean anyChanges = false;
         AppDetailsList apps = new AppDetailsList();
 
-        for (File app_folder : fList) { // Roll all the apps inside the apps folder
-            if (app_folder.isDirectory()) {
-                for (File file : app_folder.listFiles()) { // Roll all the files inside each app folder
+        for (File folder : fList) { // Roll all the apps inside the apps folder
+            if (folder.isDirectory()) {
+                for (File file : folder.listFiles()) { // Roll all the files inside each app folder
                     // Check if the folder contains the app executable
                     if (runnable_filename.equals(file.getName())) {
-                        AppDetails app = this.readAppDescriptorFromFolder(app_folder);
+                        AppDetails app = this.readAppDescriptorFromFolder(folder);
                         apps.add(app);
                     }
                 }
@@ -253,46 +254,44 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         // Compare with the defs list!
         // Are there any differences?
-        for (AppDetails single_app : apps) {
-            final Long id = super.list(single_app.getName());
+        for (AppDetails singleApp : apps) {
+            final Long id = super.list(singleApp.getName());
             AppDetails previousAppDetails = this.get(id);
 
             // It didn't exist...
             if (previousAppDetails == null) {
-                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, 
-                        "New app found! Adding new app: " + single_app.getName().getValue());
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
+                        "New app found! Adding new app: " + singleApp.getName().getValue());
 
                 // Either is the first time running or it is a newly installed app!
                 ObjectId source = null;
-                this.add(single_app, source, connectionDetails);
+                this.add(singleApp, source, providerURI);
                 anyChanges = true;
                 continue; // Check the next one...
             }
 
             // It did exist before. Are there any differences from the previous?
-            if (!previousAppDetails.equals(single_app)) {
+            if (!previousAppDetails.equals(singleApp)) {
                 // Is it a difference just in the Running status?
-                if (AppsLauncherManager.isJustRunningStatusChange(previousAppDetails, single_app)) {
+                if (AppsLauncherManager.isJustRunningStatusChange(previousAppDetails, singleApp)) {
                     continue;
                 }
 
                 // Then we have to update it...
-
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                        "New update found on app: " + single_app.getName().getValue()
+                        "New update found on app: " + singleApp.getName().getValue()
                         + "\nPrevious: " + previousAppDetails.toString()
-                        + "\nNew: " + single_app.toString());
+                        + "\nNew: " + singleApp.toString());
 
-                this.update(id, single_app, connectionDetails, null);
+                this.update(id, singleApp, null);
                 anyChanges = true;
             }
         }
-        
-        if(anyChanges){
-            // Do something!!
-            
-        }
 
+        if (anyChanges) {
+            // Do something!!
+
+        }
     }
 
     protected boolean isAppRunning(final Long appId) {
@@ -301,17 +300,17 @@ public class AppsLauncherManager extends DefinitionsManager {
         ProcessExecutionHandler handler = handlers.get(appId);
 
         if (handler == null) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, 
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                     "The Process handler could not be found!");
-            
+
             app.setRunning(false);
             return false;
         }
-        
+
         return this.get(appId).getRunning();
     }
 
-    protected void startAppProcess(final ProcessExecutionHandler handler, 
+    protected void startAppProcess(final ProcessExecutionHandler handler,
             final MALInteraction interaction) throws IOException {
         // get it from the list of available apps
         AppDetails app = (AppDetails) this.getDef(handler.getAppInstId());
@@ -319,7 +318,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         // Go to the folder where the app are installed
         String app_folder = apps_folder_path + File.separator + app.getName().getValue();
         final String full_path = app_folder + File.separator + runnable_filename;
-        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, 
+        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                 "Reading and initializing '" + app.getName().getValue() + "' app on path: " + full_path);
 
         BufferedReader brTest = new BufferedReader(new FileReader(new File(full_path)));
@@ -343,14 +342,14 @@ public class AppsLauncherManager extends DefinitionsManager {
 //        if (proc.isAlive()) {
         if (proc != null) {
             handlers.put(handler.getAppInstId(), handler);
-            this.setRunning(handler.getAppInstId(), true, handler.getSingleConnectionDetails(), interaction); // Update the Archive
+            this.setRunning(handler.getAppInstId(), true, interaction); // Update the Archive
         } else {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
                     "The process is null! Something is wrong...");
         }
     }
 
-    protected boolean killAppProcess(final Long appInstId, SingleConnectionDetails connectionDetails, MALInteraction interaction) {
+    protected boolean killAppProcess(final Long appInstId, MALInteraction interaction) {
         AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
         ProcessExecutionHandler handler = handlers.get(appInstId);
@@ -367,34 +366,35 @@ public class AppsLauncherManager extends DefinitionsManager {
 
 //        if (handler.getProcess().isAlive()) {
         handler.close();
-        this.setRunning(handler.getAppInstId(), false, handler.getSingleConnectionDetails(), interaction); // Update the Archive
+        this.setRunning(handler.getAppInstId(), false, interaction); // Update the Archive
         handlers.remove(appInstId); // Get rid of it!
-        
+
 //        app.setRunning(false);
 //        this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
 //        }
-
         return true;
     }
 
     protected void stopApps(final LongList appInstIds, final ArrayList<SingleConnectionDetails> appConnections,
-            final ConnectionProvider connection, final StopAppInteraction interaction) throws MALException, MALInteractionException {
-        Random random = new Random();
+            final ConnectionProvider connection, final StopAppInteraction interaction)
+            throws MALException, MALInteractionException {
+        Random random = new Random(); // to avoid registrations with the same name
 
         // Register on the Event service of the respective apps
         for (int i = 0; i < appConnections.size(); i++) {
-            // Subscribe to events
             // Select all object numbers from the Apps Launcher service Events
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
             Subscription eventSub = ConnectionConsumer.subscriptionKeys(
-                    new Identifier("AppClosingEvent" + random.nextInt()), 
+                    new Identifier("AppClosingEvent" + random.nextInt()),
                     new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
 
-            try {
+            try { // Subscribe to events
                 EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.get(i));
-                eventServiceConsumer.addEventReceivedListener(eventSub, new ClosingAppListener(interaction, eventServiceConsumer, appInstIds.get(i)));
+                eventServiceConsumer.addEventReceivedListener(eventSub,
+                        new ClosingAppListener(interaction, eventServiceConsumer, appInstIds.get(i)));
             } catch (MalformedURLException ex) {
-                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, "Could not connect to the app!");
+                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                        "Could not connect to the app!");
             }
         }
 
@@ -403,34 +403,38 @@ public class AppsLauncherManager extends DefinitionsManager {
         ObjectIdList sourceList = new ObjectIdList();
 
         for (Long appInstId : appInstIds) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Sending event to app: " + appInstId);
-            this.setRunning(appInstId, false, connection.getConnectionDetails(), interaction.getInteraction());
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO,
+                    "Sending event to app: " + appInstId);
+            this.setRunning(appInstId, false, interaction.getInteraction());
             sourceList.add(super.getCOMServices().getActivityTrackingService().storeCOMOperationActivity(interaction.getInteraction(), null));
         }
 
         // Generate, store and publish the events to stop the Apps...
-        LongList objIds = super.getCOMServices().getEventService().generateAndStoreEvents(objType, connection.getConnectionDetails().getDomain(), appInstIds, sourceList, interaction.getInteraction());
-        super.getCOMServices().getEventService().publishEvents(connection.getConnectionDetails().getProviderURI(), objIds, objType, appInstIds, sourceList, null);
+        LongList objIds = super.getCOMServices().getEventService().generateAndStoreEvents(objType,
+                ConfigurationProviderSingleton.getDomain(), appInstIds, sourceList, interaction.getInteraction());
+
+        final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();
+        super.getCOMServices().getEventService().publishEvents(uri, objIds, objType, appInstIds, sourceList, null);
     }
 
-    public void setRunning(Long appInstId, boolean running, SingleConnectionDetails details, MALInteraction interaction) {
+    public void setRunning(Long appInstId, boolean running, MALInteraction interaction) {
         this.get(appInstId).setRunning(running);
-        this.update(appInstId, this.get(appInstId), details, interaction); // Update the Archive
+        this.update(appInstId, this.get(appInstId), interaction); // Update the Archive
     }
 
     public static SingleConnectionDetails getSingleConnectionDetailsFromProviderSummaryList(ProviderSummaryList providersList) throws IOException {
         if (providersList.isEmpty()) { // Throw error!
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
-                    "The app could not be found in the Directory service... Possible reasons: " 
-                            + "1. The property 'MOappName' of the app might not match its folder name " 
-                            + "2. Not a NMF app! If so, one needs to use killApp!");
-            throw new IOException();
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
+                    "The app could not be found in the Directory service... Possible reasons: "
+                    + "1. The property 'MOappName' of the app might not match its folder name "
+                    + "2. Not a NMF app! If so, one needs to use killApp!");
+            throw new IllegalArgumentException();
         }
 
         if (providersList.size() != 1) { // Throw error!
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
-                    "Why do we have a bunch of registrations from the same App? Weirddddd...");
-            throw new IOException();
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
+                    "Why do we have a bunch of registrations from the same App?");
+            throw new IllegalArgumentException();
         }
 
         // Get the service address details lists
@@ -438,34 +442,28 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         // How many addresses do we have?
         if (capabilities.isEmpty()) { // Throw an error
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
                     "We don't have any services...");
             throw new IOException();
         }
 
         if (capabilities.size() != 1) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
                     "We have more than 1 service...");
             throw new IOException();
         }
 
         AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
 
-        try {
-            int bestIndex = AppsLauncherManager.getBestIPCServiceAddressIndex(addresses);
-            SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
-            connectionDetails.setProviderURI(addresses.get(bestIndex).getServiceURI());
-            connectionDetails.setBrokerURI(addresses.get(bestIndex).getBrokerURI());
-            connectionDetails.setDomain(providersList.get(0).getProviderKey().getDomain());
-            return connectionDetails;
-        } catch (IOException ex) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        throw new IOException();
+        int bestIndex = AppsLauncherManager.getBestIPCServiceAddressIndex(addresses);
+        SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
+        connectionDetails.setProviderURI(addresses.get(bestIndex).getServiceURI());
+        connectionDetails.setBrokerURI(addresses.get(bestIndex).getBrokerURI());
+        connectionDetails.setDomain(providersList.get(0).getProviderKey().getDomain());
+        return connectionDetails;
     }
 
-    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws IOException {
+    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws IllegalArgumentException {
         if (addresses.isEmpty()) {
             throw new IllegalArgumentException("The addresses argument cannot be null.");
         }
@@ -542,17 +540,18 @@ public class AppsLauncherManager extends DefinitionsManager {
         return previousAppDetails.getRunning().booleanValue() != single_app.getRunning().booleanValue();
     }
 
-    private AppDetails readAppDescriptorFromFolder(final File app_folder) {
+    private AppDetails readAppDescriptorFromFolder(final File appFolder) {
         // Hard-coded values for now
         final AppDetails app = new AppDetails();
-        app.setName(new Identifier(app_folder.getName()));
-        
+        app.setName(new Identifier(appFolder.getName()));
+
         app.setDescription("A simple description");
         app.setVersion("1.0");
-        app.setExtraInfo("");
-        
+        app.setExtraInfo(appFolder.getAbsolutePath() + File.separator + "provider.properties");
+        app.setCopyright("European Space Agency");
+
         // go up one folder
-        File cat = new File(app_folder.getAbsolutePath() + ".." + File.separator);
+        File cat = new File(appFolder.getAbsolutePath() + ".." + File.separator);
         app.setCategory(new Identifier(cat.getName()));
         app.setRunAtStartup(false);
         app.setRunning(false); // Default values

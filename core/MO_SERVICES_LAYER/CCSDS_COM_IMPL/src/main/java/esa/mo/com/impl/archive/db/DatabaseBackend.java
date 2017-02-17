@@ -63,38 +63,6 @@ public class DatabaseBackend {
         this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
     }
 
-    /*
-    public void startBackendDatabase() {
-        final Semaphore sem = new Semaphore(0);
-
-        final Thread startDatabase = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    emAvailability.acquire();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                sem.release();
-
-                startServer();
-                createEMFactory();
-                emAvailability.release();
-
-                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO, "The database was initialized and the Archive service is ready!");
-            }
-        };
-
-        startDatabase.start();
-
-        try {
-            sem.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-     */
     public Semaphore getEmAvailability() {
         return emAvailability;
     }
@@ -106,7 +74,7 @@ public class DatabaseBackend {
             @Override
             public void run() {
                 this.setName("DatabaseBackend_startBackendDatabase()");
-                
+
                 try {
                     emAvailability.acquire();
                 } catch (InterruptedException ex) {
@@ -119,7 +87,7 @@ public class DatabaseBackend {
                 createEMFactory();
                 emAvailability.release();
 
-                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO, 
+                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
                         "The database was initialized and the Archive service is ready!");
             }
         };
@@ -137,7 +105,8 @@ public class DatabaseBackend {
 //        System.setProperty("derby.drda.startNetworkServer", "true");
         // Loads a new instance of the database driver
         try {
-            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO, "Creating a new instance of the database driver: " + DRIVER_CLASS_NAME);
+            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
+                    "Creating a new instance of the database driver: " + DRIVER_CLASS_NAME);
             Class.forName(DRIVER_CLASS_NAME).newInstance();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
@@ -153,26 +122,32 @@ public class DatabaseBackend {
 
         try {
             // Connect to the database
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Attempting to establish a connection to the database: " + url2);
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                    "Attempting to establish a connection to the database: " + url2);
             serverConnection = DriverManager.getConnection(url2);
         } catch (SQLException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                    "There was an SQLException, maybe the " + DATABASE_LOCATION_NAME + " folder/file does not exist. Attempting to create it...");
+                    "There was an SQLException, maybe the " + DATABASE_LOCATION_NAME
+                    + " folder/file does not exist. Attempting to create it...");
 
             try {
                 // Connect to the database but also create the database if it does not exist
                 serverConnection = DriverManager.getConnection(url2 + ";create=true");
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Successfully created!");
             } catch (SQLException ex2) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Derby connection already exists! Error: {0}", ex2);
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Most likely there is another instance of the same application already running. Two instances of the same application are not allowed. The application will exit.");
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                        "Derby connection already exists! Error: {0}", ex2);
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                        "Most likely there is another instance of the same application already running. "
+                        + "Two instances of the same application are not allowed. The application will exit.");
                 System.exit(0);
             }
         }
     }
 
     private void createEMFactory() {
-        boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));  // Is the status of the dropTable flag on?
+        // Is the status of the dropTable flag on?
+        boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));
         Map<String, String> persistenceMap = new HashMap<String, String>();
 
         // Add the url property of the connection to the database
@@ -180,7 +155,8 @@ public class DatabaseBackend {
 
         if (dropTable) {
             persistenceMap.put("javax.persistence.schema-generation.database.action", "drop-and-create");
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "The droptable flag in the properties file is enabled! The table will be dropped upon start-up.");
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                    "The droptable flag in the properties file is enabled! The table will be dropped upon start-up.");
         }
 
         Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Creating Entity Manager Factory...");
@@ -224,7 +200,8 @@ public class DatabaseBackend {
         try {  // This is where the db takes longer!!
             this.em.getTransaction().commit(); // 1.220 ms
         } catch (Exception ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING, "The object could not be commited! Waiting 500 ms and trying again...");
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING,
+                    "The object could not be commited! Waiting 500 ms and trying again...");
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ex1) {
@@ -234,7 +211,8 @@ public class DatabaseBackend {
             try {
                 this.em.getTransaction().commit(); // 1.220 ms
             } catch (Exception ex2) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "The objects could not be commited on the second try!", ex2);
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE,
+                        "The objects could not be commited on the second try!", ex2);
             }
         }
     }

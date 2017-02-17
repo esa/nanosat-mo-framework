@@ -31,7 +31,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;
@@ -46,10 +48,15 @@ public class BackendInteractionsProcessor {
 
     private static final String QUERY_SELECT_ALL = "SELECT PU.objId FROM COMObjectEntity PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId";
 
-    private static final Boolean SAFE_MODE = true;
+    private static final Boolean SAFE_MODE = false;
     private static final Class<COMObjectEntity> CLASS_ENTITY = COMObjectEntity.class;
     private final DatabaseBackend dbBackend;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor(); // Guarantees sequential order
+    
+    // This executor is responsible for the interactions with the db
+    private final ExecutorService dbInteractionsExecutor = Executors.newSingleThreadExecutor(new DBBackendThreadFactory("COMArchiveBackendProcessor")); // Guarantees sequential order
+
+    // This executor is expecting "short-lived" runnables that generate Events. 2 Threads just for parallelism
+    private final ExecutorService publishEventsExecutor = Executors.newFixedThreadPool(2, new DBBackendThreadFactory("PublishEventsProcessor"));
     private final AtomicBoolean sequencialStoring;
 
     private final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;
@@ -81,7 +88,7 @@ public class BackendInteractionsProcessor {
     public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final GetCOMObjectCallable task = new GetCOMObjectCallable(COMObjectEntity.generatePK(objTypeId, domain, objId));
-        Future<COMObjectEntity> future = executor.submit(task);
+        Future<COMObjectEntity> future = dbInteractionsExecutor.submit(task);
 
         try {
             return future.get();
@@ -121,7 +128,7 @@ public class BackendInteractionsProcessor {
     public LongList getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final GetAllCOMObjectsCallable task = new GetAllCOMObjectsCallable(objTypeId, domainId);
-        Future<LongList> future = executor.submit(task);
+        Future<LongList> future = dbInteractionsExecutor.submit(task);
 
         try {
             return future.get();
@@ -136,10 +143,10 @@ public class BackendInteractionsProcessor {
 
     private class InsertCOMObjectRunnable implements Runnable {
 
-        private final Thread publishEventsThread;
+        private final Runnable publishEvents;
 
-        public InsertCOMObjectRunnable(final Thread publishEventsThread) {
-            this.publishEventsThread = publishEventsThread;
+        public InsertCOMObjectRunnable(final Runnable publishEvents) {
+            this.publishEvents = publishEvents;
         }
 
         @Override
@@ -165,7 +172,7 @@ public class BackendInteractionsProcessor {
                 dbBackend.closeEntityManager(); // 0.410 ms
             }
 
-            publishEventsThread.start();
+            publishEventsExecutor.submit(publishEvents);
         }
     }
 
@@ -197,9 +204,9 @@ public class BackendInteractionsProcessor {
         }
     }
 
-    public void insert(final ArrayList<COMObjectEntity> perObjs, final Thread publishEventsThread) {
+    public void insert(final ArrayList<COMObjectEntity> perObjs, final Runnable publishEvents) {
         final boolean isSequential = this.sequencialStoring.get();
-        StoreCOMObjectsContainer container = new StoreCOMObjectsContainer(perObjs, isSequential);
+        final StoreCOMObjectsContainer container = new StoreCOMObjectsContainer(perObjs, isSequential);
 
         this.sequencialStoring.set(true);
 
@@ -209,8 +216,8 @@ public class BackendInteractionsProcessor {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        final InsertCOMObjectRunnable task = new InsertCOMObjectRunnable(publishEventsThread);
-        executor.execute(task);
+        final InsertCOMObjectRunnable task = new InsertCOMObjectRunnable(publishEvents);
+        dbInteractionsExecutor.execute(task);
     }
 
     private class RemoveCOMObjectRunnable implements Runnable {
@@ -218,14 +225,14 @@ public class BackendInteractionsProcessor {
         private final Integer objTypeId;
         private final Integer domainId;
         private final LongList objIds;
-        private final Thread publishEventsThread;
+        private final Runnable publishEvents;
 
         public RemoveCOMObjectRunnable(final Integer objTypeId, final Integer domainId,
-                final LongList objIds, final Thread publishEventsThread) {
+                final LongList objIds, final Runnable publishEvents) {
             this.objTypeId = objTypeId;
             this.domainId = domainId;
             this.objIds = objIds;
-            this.publishEventsThread = publishEventsThread;
+            this.publishEvents = publishEvents;
         }
 
         @Override
@@ -243,27 +250,27 @@ public class BackendInteractionsProcessor {
 
             dbBackend.closeEntityManager(); // 0.410 ms
 
-            publishEventsThread.start();
+            publishEventsExecutor.submit(publishEvents);
         }
     }
 
     public void remove(final Integer objTypeId, final Integer domainId,
-            final LongList objIds, final Thread publishEventsThread) {
+            final LongList objIds, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final RemoveCOMObjectRunnable task = new RemoveCOMObjectRunnable(
-                objTypeId, domainId, objIds, publishEventsThread);
-        executor.execute(task);
+                objTypeId, domainId, objIds, publishEvents);
+        dbInteractionsExecutor.execute(task);
     }
 
     private class UpdateCOMObjectRunnable implements Runnable {
 
         private final ArrayList<COMObjectEntity> newObjs;
-        private final Thread publishEventsThread;
+        private final Runnable publishEvents;
 
         public UpdateCOMObjectRunnable(final ArrayList<COMObjectEntity> newObjs,
-                final Thread publishEventsThread) {
+                final Runnable publishEvents) {
             this.newObjs = newObjs;
-            this.publishEventsThread = publishEventsThread;
+            this.publishEvents = publishEvents;
         }
 
         @Override
@@ -286,15 +293,14 @@ public class BackendInteractionsProcessor {
 
             dbBackend.closeEntityManager(); // 0.410 ms
 
-            publishEventsThread.start();
-
+            publishEventsExecutor.submit(publishEvents);
         }
     }
 
-    public void update(final ArrayList<COMObjectEntity> newObjs, final Thread publishEventsThread) {
+    public void update(final ArrayList<COMObjectEntity> newObjs, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        final UpdateCOMObjectRunnable task = new UpdateCOMObjectRunnable(newObjs, publishEventsThread);
-        executor.execute(task);
+        final UpdateCOMObjectRunnable task = new UpdateCOMObjectRunnable(newObjs, publishEvents);
+        dbInteractionsExecutor.execute(task);
     }
 
     private class QueryCallable implements Callable {
@@ -422,7 +428,8 @@ public class BackendInteractionsProcessor {
                     try {
                         this.wait(10 * 1000); // 10 seconds
                         Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                                "The query is taking longer than 10 seconds. The query might be too broad to be handled by the database.");
+                                "The query is taking longer than 10 seconds. "
+                                + "The query might be too broad to be handled by the database.");
                     } catch (InterruptedException ex) {
                     } catch (IllegalMonitorStateException ex) {
                     }
@@ -449,7 +456,7 @@ public class BackendInteractionsProcessor {
         final QueryCallable task = new QueryCallable(objTypeId, archiveQuery,
                 domainId, providerURIId, networkId, sourceLink);
 
-        Future<ArrayList<COMObjectEntity>> future = executor.submit(task);
+        Future<ArrayList<COMObjectEntity>> future = dbInteractionsExecutor.submit(task);
 
         try {
             return future.get();
@@ -464,7 +471,7 @@ public class BackendInteractionsProcessor {
 
     public void resetMainTable(final Callable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        Future<Integer> nullValue = executor.submit(task);
+        Future<Integer> nullValue = dbInteractionsExecutor.submit(task);
         Logger.getLogger(BackendInteractionsProcessor.class.getName()).info("Reset table submitted!");
 
         try {
@@ -474,6 +481,36 @@ public class BackendInteractionsProcessor {
             Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
             Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * The database backend thread factory
+     */
+    static class DBBackendThreadFactory implements ThreadFactory {
+
+        private final ThreadGroup group;
+        private final AtomicInteger threadNumber = new AtomicInteger(1);
+        private final String namePrefix;
+
+        DBBackendThreadFactory(String prefix) {
+            SecurityManager s = System.getSecurityManager();
+            group = (s != null) ? s.getThreadGroup()
+                    : Thread.currentThread().getThreadGroup();
+            namePrefix = prefix + "-thread-";
+        }
+
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(group, r,
+                    namePrefix + threadNumber.getAndIncrement(),
+                    0);
+            if (t.isDaemon()) {
+                t.setDaemon(false);
+            }
+            if (t.getPriority() != Thread.NORM_PRIORITY) {
+                t.setPriority(Thread.NORM_PRIORITY);
+            }
+            return t;
         }
     }
 

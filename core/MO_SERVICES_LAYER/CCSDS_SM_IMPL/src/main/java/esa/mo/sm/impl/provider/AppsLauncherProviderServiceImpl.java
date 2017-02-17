@@ -108,7 +108,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
      * @param directoryService
      * @throws MALException On initialization error.
      */
-    public synchronized void init(COMServicesProvider comServices, DirectoryInheritanceSkeleton directoryService) throws MALException {
+    public synchronized void init(final COMServicesProvider comServices, 
+            final DirectoryInheritanceSkeleton directoryService) throws MALException {
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -185,13 +186,15 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
             outputList.add(outputText);
             publisher.publish(hdrlst, outputList);
-
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during publishing process on the provider {0}", ex);
         } catch (MALException ex) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during publishing process on the provider {0}", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during publishing process on the provider {0}", ex);
         }
     }
 
@@ -205,7 +208,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Refresh the list of available Apps
-        this.manager.refreshAvailableAppsList(connection.getConnectionDetails());
+        this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
 
         for (int index = 0; index < appInstIds.size(); index++) {
             AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index)); // get it from the list of available apps
@@ -254,7 +257,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Refresh the list of available Apps
-        this.manager.refreshAvailableAppsList(connection.getConnectionDetails());
+        this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
 
         for (int index = 0; index < appInstIds.size(); index++) {
             AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index)); // get it from the list of available apps
@@ -283,13 +286,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Kill the apps!
         for (int i = 0; i < appInstIds.size(); i++) {
-            manager.killAppProcess(appInstIds.get(i), connection.getConnectionDetails(), interaction);
+            manager.killAppProcess(appInstIds.get(i), interaction);
         }
-
     }
 
     @Override
-    public void stopApp(LongList appInstIds, StopAppInteraction interaction) throws MALInteractionException, MALException {
+    public void stopApp(final LongList appInstIds, final StopAppInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList intIndexList = new UIntegerList();
@@ -300,7 +302,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Refresh the list of available Apps
-        this.manager.refreshAvailableAppsList(connection.getConnectionDetails());
+        this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
 
         for (int i = 0; i < appInstIds.size(); i++) {
             AppDetails app = (AppDetails) this.manager.get(appInstIds.get(i)); // get it from the list of available apps
@@ -322,13 +324,15 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             IdentifierList domain = new IdentifierList();
             domain.add(new Identifier("*"));
             COMService eventCOM = EventHelper.EVENT_SERVICE;
-            ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(), eventCOM.getNumber(), eventCOM.getArea().getVersion());
-            ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"), null, new Identifier("*"), serviceKey, new UIntegerList());
+            ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(), 
+                    eventCOM.getNumber(), eventCOM.getArea().getVersion());
+            ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"), 
+                    null, new Identifier("*"), serviceKey, new UIntegerList());
 
             // Do a lookup on the Central Drectory service for the app that we want
             ProviderSummaryList providersList = this.directoryService.lookupProvider(sf, interaction.getInteraction());
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER, "providersList object: " + providersList.toString());
-//            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "providersList object: " + providersList.toString());
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER, 
+                    "providersList object: " + providersList.toString());
 
             try {
                 SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
@@ -358,7 +362,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public ListAppResponse listApp(IdentifierList appNames, Identifier category, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ListAppResponse listApp(final IdentifierList appNames, final Identifier category, 
+            final MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         ListAppResponse outList = new ListAppResponse();
 
@@ -367,7 +372,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Refresh the list of available Apps
-        manager.refreshAvailableAppsList(connection.getConnectionDetails());
+        manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
         LongList ids = new LongList();
         BooleanList runningApps = new BooleanList();
 
@@ -399,7 +404,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void setConfigurationAdapter(esa.mo.reconfigurable.service.ConfigurationNotificationInterface configurationAdapter) {
+    public void setConfigurationAdapter(final ConfigurationNotificationInterface configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
 
@@ -427,7 +432,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Confirm the domain
-        if (!confSet.getDomain().equals(connection.getConnectionDetails().getDomain())) {
+        if (!confSet.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
@@ -442,7 +447,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         AppDetailsList pDefs = (AppDetailsList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 AppsLauncherHelper.APP_OBJECT_TYPE,
-                connection.getConnectionDetails().getDomain(),
+                ConfigurationProviderSingleton.getDomain(),
                 confSet.getObjInstIds());
 
         manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
@@ -457,7 +462,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
 
         ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(connection.getConnectionDetails().getDomain());
+        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
         objsSet.setObjInstIds(currentObjIds);
@@ -512,16 +517,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         private final Long appObjId;
         private Thread collectStream1;
         private Thread collectStream2;
-//        private BufferedReader br1;
-//        private BufferedReader br2;
         private Process process = null;
 
         public ProcessExecutionHandler(Long appId) {
             this.appObjId = appId;
-        }
-
-        public SingleConnectionDetails getSingleConnectionDetails() {
-            return connection.getConnectionDetails();
         }
 
         public Long getAppInstId() {
@@ -534,21 +533,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         public void close() {
             timer.cancel();
-
-//            try {
             process.destroy();
-//                br1.close();
-//                br2.close();
-//            } catch (IOException ex) {
-//                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-//            }
         }
 
         public void startPublishing(final Process process) {
             this.process = process;
 
-//            br1 = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//            br2 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             final StringBuilder buffer = new StringBuilder();
 
             // Every PERIOD_PUB seconds, publish the String data

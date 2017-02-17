@@ -70,9 +70,11 @@ public class HelperMisc {
 
     private static final String PROP_TRANSPORT_ID = "helpertools.configurations.provider.transportfilepath";
     private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";
+    public static final String SECONDARY_PROTOCOL = "org.ccsds.moims.mo.mal.transport.secondary.protocol";
 
-    public final static String SECONDARY_PROTOCOL = "org.ccsds.moims.mo.mal.transport.secondary.protocol";
-
+    public static final String PROPERTY_APID_QUALIFIER = "org.ccsds.moims.mo.malspp.apidQualifier";
+    public static final String PROPERTY_APID = "org.ccsds.moims.mo.malspp.apid";
+    
     /**
      * Clears the list of loaded property files.
      */

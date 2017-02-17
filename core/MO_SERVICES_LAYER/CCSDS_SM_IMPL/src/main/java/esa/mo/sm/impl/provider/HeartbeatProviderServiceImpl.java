@@ -41,7 +41,6 @@ import org.ccsds.moims.mo.mal.structures.EntityKeyList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
-import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
@@ -80,11 +79,12 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try{
+            try {
                 HeartbeatHelper.init(MALContextFactory.getElementFactoryRegistry());
             } catch (MALException ex) { // nothing to be done..
             }
@@ -103,21 +103,22 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             connection.closeAll();
         }
 
-        heartbeatServiceProvider = connection.startService(HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(), HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
+        heartbeatServiceProvider = connection.startService(HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(),
+                HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
 
         running = true;
         initialiased = true;
         Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).info("Heartbeat service READY");
-        
+
         // Start the timer to publish the heartbeat
         timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    if (running) {
-                        publishHeartbeat();
-                    }
+            @Override
+            public void run() {
+                if (running) {
+                    publishHeartbeat();
                 }
-            }, period, period);
+            }
+        }, period, period);
     }
 
     /**
@@ -132,13 +133,14 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
     private void publishHeartbeat() {
         try {
-            synchronized(lock){
+            synchronized (lock) {
                 if (!isRegistered) {
                     final EntityKeyList lst = new EntityKeyList();
                     lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -147,32 +149,35 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
                 }
             }
 
-            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.FINER,
-                    "Generating Heartbeat update...");
-
-            final EntityKey ekey = new EntityKey(null, null, null, null);
-            final Time timestamp = HelperTime.getTimestampMillis(); //  Include the current time
-
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
+            hdrlst.add(
+                    new UpdateHeader(
+                            HelperTime.getTimestampMillis(),
+                            null,
+                            UpdateType.UPDATE,
+                            new EntityKey(null, null, null, null)
+                    )
+            );
 
             publisher.publish(hdrlst);
-
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider (0)");
         } catch (MALException ex) {
-            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider (1)");
         } catch (MALInteractionException ex) {
-            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider (2)");
         }
     }
-    
+
     @Override
     public Duration getPeriod(MALInteraction interaction) throws MALInteractionException, MALException {
         // Convert to seconds and return the value
-        return new Duration(period/1000);
+        return new Duration(period / 1000);
     }
-    
+
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
@@ -201,5 +206,5 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
-    
+
 }

@@ -285,7 +285,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 AddressDetailsList newAddresses = new AddressDetailsList();
                 newAddresses.add(addresses.get(bestIndex));
                 cap.setServiceAddresses(newAddresses);
-            } catch (IOException ex) {
+            } catch (IllegalArgumentException ex) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
                         "The best IPC service address index could not be determined!", ex);
             }

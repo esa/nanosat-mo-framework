@@ -24,6 +24,8 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -60,7 +62,7 @@ public class ActivityTrackingProviderServiceImpl {
     private boolean running = false;
     private ArchiveProviderServiceImpl archiveService;
     private EventProviderServiceImpl eventService;
-    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+    private final ExecutorService executor = Executors.newFixedThreadPool(2, new ActivityTrackingThreadFactory());
 
     /**
      * Initializes the service
@@ -315,5 +317,36 @@ public class ActivityTrackingProviderServiceImpl {
         final ObjectKey key = new ObjectKey(interaction.getMessageHeader().getDomain(), objId);
         return new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, key);
     }
+    
+    /**
+     * The database backend thread factory
+     */
+    static class ActivityTrackingThreadFactory implements ThreadFactory {
+
+        private final ThreadGroup group;
+        private final AtomicInteger threadNumber = new AtomicInteger(1);
+        private final String namePrefix;
+
+        ActivityTrackingThreadFactory() {
+            SecurityManager s = System.getSecurityManager();
+            group = (s != null) ? s.getThreadGroup()
+                    : Thread.currentThread().getThreadGroup();
+            namePrefix = "ActivityTrackingProcessor-thread-";
+        }
+
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(group, r,
+                    namePrefix + threadNumber.getAndIncrement(),
+                    0);
+            if (t.isDaemon()) {
+                t.setDaemon(false);
+            }
+            if (t.getPriority() != Thread.NORM_PRIORITY) {
+                t.setPriority(Thread.NORM_PRIORITY);
+            }
+            return t;
+        }
+    }
+    
 
 }

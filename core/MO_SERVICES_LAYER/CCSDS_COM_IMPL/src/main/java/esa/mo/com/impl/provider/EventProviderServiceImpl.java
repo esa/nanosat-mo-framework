@@ -296,11 +296,14 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             publisher.publish(hdrlst, objectDetailsList, eventBodies); // requirement: 3.7.2.15
 
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider (0)", ex);
         } catch (MALException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider (1)", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider (2)", ex);
         }
     }
 
@@ -367,19 +370,20 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             }
 
             publisher.publish(hdrlst, objectDetailsList, eventBodies); // requirement: 3.7.2.15
-
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider (0)", ex);
         } catch (MALException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider (1)", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider (2)", ex);
         }
     }
 
     public LongList generateAndStoreEvents(final ObjectType objType, final IdentifierList domain,
             final LongList relateds, final ObjectIdList sourceList, final MALInteraction interaction) {
-
         ObjectDetailsList objectDetailsList = new ObjectDetailsList();
 
         for (int i = 0; i < sourceList.size(); i++) {
