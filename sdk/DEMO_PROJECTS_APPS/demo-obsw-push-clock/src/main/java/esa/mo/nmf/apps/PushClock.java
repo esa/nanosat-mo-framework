@@ -49,16 +49,18 @@ public class PushClock {
 
     private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
 //    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
-    private final Timer timer = new Timer();
+    private final Timer timer = new Timer("PushClockTimerThread");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
     private int hours = 0;
     private int minutes = 0;
     private int seconds = 0;
     private String day_of_the_week = "";
     private static final int REFRESH_RATE = 1; // 1 second
+    
+    private Calendar calendar;
+    private Date date;
 
     public PushClock() {
-
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -69,16 +71,16 @@ public class PushClock {
                 }
             }
         }, 0, REFRESH_RATE * 1000); // conversion to milliseconds
-
     }
 
     public void pushClock() throws NMFException {
-        final Date now = new Date();
-        final Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(now);
+        calendar = GregorianCalendar.getInstance();
+        date = new Date();
+        
+        calendar.setTime(date);
 
         if (minutes != calendar.get(Calendar.MINUTE)) {
-            day_of_the_week = dateFormat.format(now);
+            day_of_the_week = dateFormat.format(date);
             nanoSatMOFramework.pushParameterValue("Day of the week", day_of_the_week);
 
             hours = calendar.get(Calendar.HOUR_OF_DAY);

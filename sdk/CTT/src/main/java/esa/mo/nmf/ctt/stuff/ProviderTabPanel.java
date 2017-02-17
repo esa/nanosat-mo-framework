@@ -70,11 +70,11 @@ public class ProviderTabPanel extends javax.swing.JPanel {
     }
 
     public final void insertTabs() {
+        initComponents();
+        
         Thread t1 = new Thread() {
             @Override
             public void run() {
-                initComponents();
-
                 try {
                     // Software Management
                     if (services.getSMServices() != null) {

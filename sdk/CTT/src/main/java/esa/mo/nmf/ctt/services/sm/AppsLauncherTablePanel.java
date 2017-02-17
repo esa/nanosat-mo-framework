@@ -42,7 +42,8 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     public void addEntry(ArchivePersistenceObject comObject) {
 
         if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, 
+                    "The table cannot process a null COM Object.");
             return;
         }
 

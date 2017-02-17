@@ -29,12 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TableColumnModelEvent;
-import javax.swing.event.TableColumnModelListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -78,9 +72,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             public void mouseReleased(MouseEvent e) {
                 // If there is a concrete row selected...
                 if (appsTable.getSelectedRow() != -1) {
-                    Long objId = appsTable.getCOMObjects().get(appsTable.getSelectedRow()).getArchiveDetails().getInstId();
-                    javax.swing.JTextArea textArea = textAreas.get(objId);
-                    jScrollPane1.setViewportView(textArea);
+                    final Long objId = appsTable.getCOMObjects().get(appsTable.getSelectedRow()).getArchiveDetails().getInstId();
+                    jScrollPane1.setViewportView(textAreas.get(objId));
                 }
             }
 
@@ -238,14 +231,14 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listAppAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAppAllButtonActionPerformed
-
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
         ListAppResponse output;
         try {
             output = this.serviceSMAppsLauncher.getAppsLauncherStub().listApp(idList, new Identifier("*"));
-            appsTable.refreshTableWithIds(output.getBodyElement0(), serviceSMAppsLauncher.getConnectionDetails().getDomain(), AppsLauncherHelper.APP_OBJECT_TYPE);
+            appsTable.refreshTableWithIds(output.getBodyElement0(), 
+                    serviceSMAppsLauncher.getConnectionDetails().getDomain(), AppsLauncherHelper.APP_OBJECT_TYPE);
 
             for (int i = 0; i < output.getBodyElement0().size(); i++) {
                 Long objId = output.getBodyElement0().get(i);
@@ -269,11 +262,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-
     }//GEN-LAST:event_listAppAllButtonActionPerformed
 
     private void killAppButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_killAppButtonActionPerformed
-
         if (appsTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -292,11 +283,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_killAppButtonActionPerformed
 
     private void stopAppButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopAppButtonActionPerformed
-
         if (appsTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -315,11 +304,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_stopAppButtonActionPerformed
 
     private void runAppButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runAppButtonActionPerformed
-
         if (appsTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -338,7 +325,6 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_runAppButtonActionPerformed
 
     private void defaultTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_defaultTableComponentAdded
@@ -372,7 +358,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties){
+        public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+                org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties){
             appsTable.reportStatus("Unable to stop");
 
         }
