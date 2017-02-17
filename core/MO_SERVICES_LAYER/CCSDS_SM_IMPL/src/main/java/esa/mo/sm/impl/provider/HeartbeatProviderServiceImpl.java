@@ -153,7 +153,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             hdrlst.add(
                     new UpdateHeader(
                             HelperTime.getTimestampMillis(),
-                            null,
+                            connection.getConnectionDetails().getProviderURI(),
                             UpdateType.UPDATE,
                             new EntityKey(null, null, null, null)
                     )
