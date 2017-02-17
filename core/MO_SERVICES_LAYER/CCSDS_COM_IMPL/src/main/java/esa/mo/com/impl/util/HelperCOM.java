@@ -98,7 +98,7 @@ public class HelperCOM {
         String rightHandSideString = null;
         String leftHandSideString = null;
         Double rightHandSideDouble = null;
-        Double  leftHandSideDouble = null;
+        Double leftHandSideDouble = null;
         
         if (stringComparison){
             rightHandSideString = HelperAttributes.attribute2string(rightHandSide);
@@ -256,7 +256,7 @@ public class HelperCOM {
         }
 
         for (Identifier part : receivedDomain) {
-            if (part.getValue().equals("*")) {
+            if ("*".equals(part.getValue())) {
                 return true;
             }
         }
@@ -280,7 +280,7 @@ public class HelperCOM {
         for (int i = 0; i < wilcardDomain.size(); i++) {  // cycle through the parts of the domains
             Identifier domainPart1 = wilcardDomain.get(i);
 
-            if (domainPart1.toString().equals("*")) {
+            if ("*".equals(domainPart1.toString())) {
                 return true;  // Wildcard found!
             }
 

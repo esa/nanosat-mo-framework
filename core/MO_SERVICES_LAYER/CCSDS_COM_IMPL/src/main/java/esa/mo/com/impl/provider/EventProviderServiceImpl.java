@@ -330,11 +330,11 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 }
             }
 
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.FINE,
-                    //            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO,
+            /* Used only for debugging
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO,
                     "Publishing Event for the Event objIds: {0}; with Event Object Numbers: {1}",
                     new Object[]{objIds, objType.getNumber()});
-
+             */
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             final ObjectDetailsList objectDetailsList = new ObjectDetailsList();
 

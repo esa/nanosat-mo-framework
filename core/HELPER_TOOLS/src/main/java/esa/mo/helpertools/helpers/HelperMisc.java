@@ -74,7 +74,7 @@ public class HelperMisc {
 
     public static final String PROPERTY_APID_QUALIFIER = "org.ccsds.moims.mo.malspp.apidQualifier";
     public static final String PROPERTY_APID = "org.ccsds.moims.mo.malspp.apid";
-    
+
     /**
      * Clears the list of loaded property files.
      */
@@ -147,7 +147,9 @@ public class HelperMisc {
 
                 final Properties subProps = loadProperties(myProps.getProperty(chainProperty), chainProperty);
 
-                String loadingString = (LOADED_PROPERTIES.contains(url.toString())) ? "Reloading properties " + url.toString() : "Loading properties " + url.toString();
+                String loadingString = (LOADED_PROPERTIES.contains(url.toString()))
+                        ? "Reloading properties " + url.toString()
+                        : "Loading properties " + url.toString();
 
                 Logger.getLogger(HelperMisc.class.getName()).log(Level.INFO, loadingString);
                 topProps.putAll(subProps);
@@ -299,7 +301,8 @@ public class HelperMisc {
                 Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
                         "The element could not be found in the MAL ElementFactory! The object type is: '"
                         + obj.getClass().getSimpleName()
-                        + "'. Maybe the service Helper for this object was not initialized. Try initializing the Service Helper of this object.");
+                        + "'. Maybe the service Helper for this object was not initialized. "
+                        + "Try initializing the Service Helper of this object.");
             }
 
             return (ElementList) eleFact.createElement();
@@ -326,7 +329,11 @@ public class HelperMisc {
         MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(ll);
 
         if (eleFact == null) {
-            Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE, "The element could not be found in the MAL ElementFactory! The object type is: '" + obj.getClass().getSimpleName() + "'. Maybe the service Helper for this object was not initialized. Try initializing the Service Helper of this object.");
+            Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
+                    "The element could not be found in the MAL ElementFactory! The object type is: '"
+                    + obj.getClass().getSimpleName()
+                    + "'. Maybe the service Helper for this object was not initialized. "
+                    + "Try initializing the Service Helper of this object.");
         }
 
         return (Element) eleFact.createElement();
@@ -390,14 +397,14 @@ public class HelperMisc {
         MALArea malArea = MALContextFactory.lookupArea(area, areaVersion);
 
         if (malArea == null) {
-            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," 
+            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + ","
                     + service.getValue() + ") " + "Unknown area to the MAL! Maybe the API was not initialized.");
         }
 
         MALService malSer = malArea.getServiceByNumber(service);
 
         if (malSer == null) {
-            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," 
+            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + ","
                     + service.getValue() + ") " + "Unknown service to the MAL! Maybe the API was not initialized.");
         }
 

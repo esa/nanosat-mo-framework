@@ -83,7 +83,8 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
-            <version>2.5.2</version>
+            <!-- Version 2.5.2 works well! -->
+            <version>2.6.4</version>
         </dependency>
 
         <!-- Used to encode/decode the elements before/after inserting and

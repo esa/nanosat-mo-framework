@@ -553,12 +553,18 @@ public class ArchiveManager {
             return;
         }
 
+        /* Just use it for debugging
         Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "\nobjType: " + objType.toString()
                 + "\nDomain: " + ConfigurationProviderSingleton.getDomain().toString() + "\nSourceList: " + sourceList.toString());
+        */
 
         // requirement: 3.4.2.4
-        final LongList eventObjIds = eventService.generateAndStoreEvents(objType, ConfigurationProviderSingleton.getDomain(), null, sourceList, interaction);
+        final LongList eventObjIds = eventService.generateAndStoreEvents(objType, 
+                ConfigurationProviderSingleton.getDomain(), null, sourceList, interaction);
+
+        /* Just use it for debugging
         Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
+        */
 
         URI sourceURI = new URI("");
 
