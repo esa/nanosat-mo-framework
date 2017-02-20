@@ -110,7 +110,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
-        this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
+        this.getMCServices().getActionService().reportExecutionProgress(success, 
+                new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
     }
 
     @Override
@@ -119,7 +120,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
-        return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName), argumentValues, null, null);
+        return this.getMCServices().getAlertService().publishAlertEvent(null, 
+                new Identifier(alertDefinitionName), argumentValues, null, null);
     }
 
     @Override
@@ -159,7 +161,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
     
-    private void reloadServiceConfiguration(ReconfigurableServiceImplInterface service, Long serviceObjId) throws NMFException {
+    private void reloadServiceConfiguration(final ReconfigurableServiceImplInterface service, 
+            final Long serviceObjId) throws NMFException {
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
                 ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), serviceObjId);

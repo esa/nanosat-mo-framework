@@ -22,7 +22,7 @@ package esa.mo.nmf;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
@@ -47,6 +48,9 @@ import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
+import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetailsList;
+import org.ccsds.moims.mo.mc.conversion.structures.PolyConversionDetailsList;
+import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 
@@ -57,6 +61,8 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList
  *
  */
 public class MCRegistration {
+    
+    private final static URI PROVIDER_URI = new URI("NMF_Registration");
 
     public enum RegistrationMode {
         UPDATE_IF_EXISTS, DONT_UPDATE_IF_EXISTS
@@ -246,33 +252,37 @@ public class MCRegistration {
 
         // Discrete Conversion:
         if (conversions instanceof DiscreteConversionDetailsList) {
-            return this.registerConversionsDiscrete((DiscreteConversionDetailsList) conversions);
+//            return this.registerConversionsDiscrete((DiscreteConversionDetailsList) conversions);
+            return this.registerConversionsGen(conversions, ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE);
         }
-        /*
+        
         // Line Conversion:
-        if (conversion instanceof LineConversionDetailsList) {
-            return this.applyLineConversion((LineConversionDetails) conversionDetails, value);
+        if (conversions instanceof LineConversionDetailsList) {
+//            return this.applyLineConversion((LineConversionDetails) conversionDetails, value);
+            return this.registerConversionsGen(conversions, ConversionHelper.LINECONVERSION_OBJECT_TYPE);
         }
 
         // Polynomial Conversion:
-        if (conversion instanceof PolyConversionDetailsList) {
-            return this.applyPolyConversion((PolyConversionDetails) conversionDetails, value);
+        if (conversions instanceof PolyConversionDetailsList) {
+//            return this.applyPolyConversion((PolyConversionDetails) conversionDetails, value);
+            return this.registerConversionsGen(conversions, ConversionHelper.POLYCONVERSION_OBJECT_TYPE);
         }
 
         // Range Conversion:
-        if (conversion instanceof RangeConversionDetailsList) {
-            return this.applyRangeConversion((RangeConversionDetails) conversionDetails, value);
+        if (conversions instanceof RangeConversionDetailsList) {
+//            return this.applyRangeConversion((RangeConversionDetails) conversionDetails, value);
+            return this.registerConversionsGen(conversions, ConversionHelper.RANGECONVERSION_OBJECT_TYPE);
         }
-         */
+
         throw new NMFException("The conversion object didn't match any type of Conversion.");
     }
 
-    private ObjectIdList registerConversionsDiscrete(DiscreteConversionDetailsList conversions) throws MALException, MALInteractionException {
-        SingleConnectionDetails connectionDetails = parameterService.getConnectionProvider().getConnectionDetails();
-
-        ObjectType objType = ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE;
-        IdentifierList domain = connectionDetails.getDomain();
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, connectionDetails);
+    /*
+    private ObjectIdList registerConversionsDiscrete(final DiscreteConversionDetailsList conversions) 
+            throws MALException, MALInteractionException {
+        final ObjectType objType = ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE;
+        final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, PROVIDER_URI);
 
         for (int i = 1; i < conversions.size(); i++) { // There's already 1 object in the list
             archiveDetailsList.add(archiveDetailsList.get(0));
@@ -293,5 +303,32 @@ public class MCRegistration {
 
         return output;
     }
+    */
 
+    private ObjectIdList registerConversionsGen(final ElementList conversions, 
+            final ObjectType objType) throws MALException, MALInteractionException {
+        final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, PROVIDER_URI);
+
+        for (int i = 1; i < conversions.size(); i++) { // There's already 1 object in the list
+            archiveDetailsList.add(archiveDetailsList.get(0));
+        }
+
+        final LongList objIds = comServices.getArchiveService().store(
+                true,
+                objType,
+                domain,
+                archiveDetailsList,
+                conversions,
+                null);
+
+        ObjectIdList output = new ObjectIdList();
+
+        for (Long objId : objIds) {
+            output.add(new ObjectId(objType, new ObjectKey(domain, objId)));
+        }
+
+        return output;
+    }
+    
 }
