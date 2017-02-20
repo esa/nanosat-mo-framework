@@ -247,7 +247,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
 
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory
-        NanoSatMOFrameworkProvider.hintGC();
+//        NanoSatMOFrameworkProvider.hintGC();
     }
 
     @Override

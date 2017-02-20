@@ -221,7 +221,7 @@ public class ConnectionProvider {
                 mal.close();
             }
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
     }
@@ -240,7 +240,7 @@ public class ConnectionProvider {
                 secondaryMALServiceProvider.close();
             }
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
 
@@ -253,7 +253,7 @@ public class ConnectionProvider {
                 mal.close();
             }
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
     }
@@ -265,12 +265,8 @@ public class ConnectionProvider {
         BufferedWriter wrt = null;
         try {
             wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false));
-
-            if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
-                wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
-            }
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
         } finally {
             if (wrt != null) {
@@ -280,6 +276,24 @@ public class ConnectionProvider {
                 }
             }
         }
+
+        if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
+            BufferedWriter wrt2 = null;
+            try {
+                wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
+            } catch (IOException ex) {
+                Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                        "Unable to reset URI information from properties file {0}", ex);
+            } finally {
+                if (wrt2 != null) {
+                    try {
+                        wrt2.close();
+                    } catch (IOException ex) {
+                    }
+                }
+            }
+        }
+
     }
 
     /**

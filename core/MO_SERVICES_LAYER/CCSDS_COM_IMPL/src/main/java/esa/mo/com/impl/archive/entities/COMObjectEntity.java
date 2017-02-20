@@ -22,9 +22,9 @@ package esa.mo.com.impl.archive.entities;
 
 import esa.mo.com.impl.archive.db.COMObjectEntityPK;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
+import esa.mo.com.impl.archive.encoding.BinaryDecoder;
+import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.mal.encoder.binary.BinaryDecoder;
-import esa.mo.mal.encoder.binary.BinaryEncoder;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -123,7 +123,8 @@ public class COMObjectEntity implements Serializable {
             try {
                 final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
                 final BinaryEncoder be = new BinaryEncoder(bodyBaos);
-                be.encodeLong(ele.getShortForm());
+//                final SplitBinaryEncoder be = new SplitBinaryEncoder(bodyBaos);
+                be.encodeLong(ele.getShortForm()); 
                 be.encodeNullableElement(ele);
                 this.obj = bodyBaos.toByteArray();
                 be.close();
@@ -189,6 +190,7 @@ public class COMObjectEntity implements Serializable {
         if (this.obj != null) {
             try {
                 final BinaryDecoder binDec = new BinaryDecoder(this.obj);
+//                final SplitBinaryDecoder binDec = new SplitBinaryDecoder(this.obj);
                 final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(binDec.decodeLong());
                 elem = binDec.decodeNullableElement((Element) eleFact.createElement());
             } catch (MALException ex) {

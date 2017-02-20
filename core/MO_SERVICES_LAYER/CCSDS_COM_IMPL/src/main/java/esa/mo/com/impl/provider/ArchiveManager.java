@@ -199,8 +199,7 @@ public class ArchiveManager {
                 comEntity.getTimestamp(),
                 providerURI);
 
-        return new ArchivePersistenceObject(objType, domain,
-                objId, archiveDetails, comEntity.getObject());
+        return new ArchivePersistenceObject(objType, domain, objId, archiveDetails, comEntity.getObject());
     }
 
     protected Object getObject(final ObjectType objType, final IdentifierList domain, final Long objId) {

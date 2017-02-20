@@ -195,11 +195,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     continue;
                 }
 
-            } else // Direct match...
-            {
-                if (!inputDomain.equals(provider.getDomain())) {
-                    continue;
-                }
+            } else if (!inputDomain.equals(provider.getDomain())) {
+                continue;
             }
 
             // Check session type
@@ -288,7 +285,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public PublishProviderResponse publishProvider(PublishDetails newProviderDetails, 
+    public PublishProviderResponse publishProvider(PublishDetails newProviderDetails,
             MALInteraction interaction) throws MALInteractionException, MALException {
 
         Identifier serviceProviderName = newProviderDetails.getProviderName();
@@ -317,7 +314,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         LongList returnedServProvObjIds = comServices.getArchiveService().store(
                 true,
                 DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE,
-                connection.getConnectionDetails().getDomain(),
+                ConfigurationProviderSingleton.getDomain(),
                 archDetails,
                 objBodies,
                 null
