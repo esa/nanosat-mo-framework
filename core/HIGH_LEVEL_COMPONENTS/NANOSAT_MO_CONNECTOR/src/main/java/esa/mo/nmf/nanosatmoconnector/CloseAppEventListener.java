@@ -23,9 +23,11 @@ package esa.mo.nmf.nanosatmoconnector;
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -44,7 +46,7 @@ public class CloseAppEventListener extends EventReceivedListener {
     }
 
     @Override
-    public void onDataReceived(EventCOMObject eventCOMObject) {
+    public void onDataReceived(final EventCOMObject eventCOMObject) {
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "New Close Event Received!");
 
         // Make sure that it is indeed a Close App event for us!
@@ -56,8 +58,19 @@ public class CloseAppEventListener extends EventReceivedListener {
 
         // Acknowledge the reception of the request to close (Closing...)
         // To be done...
-//        Long eventId = provider.getCOMServices().getEventService().generateAndStoreEvent(objType, domain, eventObjBody, Long.MIN_VALUE, source, interaction);
-//        provider.getCOMServices().getEventService().publishEvent(interaction, Long.MIN_VALUE, objType, Long.MIN_VALUE, source, eventBodies);
+        final ObjectId source = eventCOMObject.getObjectId();
+        
+        Long eventId = provider.getCOMServices().getEventService().generateAndStoreEvent(
+                AppsLauncherHelper.STOPPING_OBJECT_TYPE, 
+                ConfigurationProviderSingleton.getDomain(), 
+                null, 
+                null, 
+                source, 
+                null);
+        
+        provider.getCOMServices().getEventService().publishEvent(eventCOMObject.getSourceURI(), 
+                eventId, AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+        
         // Close the app...
         // Make a call on the app layer to close nicely...
         if (provider.closeAppAdapter != null) {
@@ -88,6 +101,18 @@ public class CloseAppEventListener extends EventReceivedListener {
         // Should close them safely as well...
 //        provider.getMCServices().closeServices();
 //        provider.getCOMServices().closeServices();
+
+        Long eventId2 = provider.getCOMServices().getEventService().generateAndStoreEvent(
+                AppsLauncherHelper.STOPPED_OBJECT_TYPE, 
+                ConfigurationProviderSingleton.getDomain(), 
+                null, 
+                null, 
+                source, 
+                null);
+        
+        provider.getCOMServices().getEventService().publishEvent(eventCOMObject.getSourceURI(), 
+                eventId2, AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+
         // Exit the Java application
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
                 "Success! The currently running Java Virtual Machine will now terminate.");

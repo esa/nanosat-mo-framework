@@ -358,7 +358,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         interaction.sendAcknowledgement();
 
         manager.stopApps(appInstIds, appConnections, connection, interaction);
-
     }
 
     @Override
@@ -519,7 +518,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         private Thread collectStream2;
         private Process process = null;
 
-        public ProcessExecutionHandler(Long appId) {
+        public ProcessExecutionHandler(final Long appId) {
             this.appObjId = appId;
         }
 

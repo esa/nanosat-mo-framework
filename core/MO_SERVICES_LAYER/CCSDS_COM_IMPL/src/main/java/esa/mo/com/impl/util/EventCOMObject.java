@@ -21,6 +21,7 @@
 package esa.mo.com.impl.util;
 
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -49,10 +50,9 @@ public class EventCOMObject {
     public EventCOMObject(){
     }
     
-    public EventCOMObject(final IdentifierList domain, final ObjectType objType, 
-            final Long objId, final ObjectId source, final Long related,
-            final Element body, final Time timestamp) {
-        
+    public EventCOMObject(final IdentifierList domain, final ObjectType objType, final Long objId, 
+            final ObjectId source, final Long related, final Element body, 
+            final Time timestamp, final Identifier networkZone, final URI sourceURI) {
         this.domain = domain;
         this.objType = objType;
         this.objId = objId;
@@ -60,6 +60,10 @@ public class EventCOMObject {
         this.source = source;
         this.related = related;
         this.body = body;
+
+        this.timestamp = timestamp;
+        this.networkZone = networkZone;
+        this.sourceURI = sourceURI;
     }
     
     public IdentifierList getDomain() {
@@ -132,6 +136,10 @@ public class EventCOMObject {
 
     public void setSourceURI(URI sourceURI) {
         this.sourceURI = sourceURI;
+    }
+    
+    public ObjectId getObjectId(){
+        return new ObjectId(this.objType, new ObjectKey(this.domain, this.objId));
     }
 
 }

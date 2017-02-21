@@ -376,8 +376,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     protected void stopApps(final LongList appInstIds, final ArrayList<SingleConnectionDetails> appConnections,
-            final ConnectionProvider connection, final StopAppInteraction interaction)
-            throws MALException, MALInteractionException {
+            final ConnectionProvider connection, final StopAppInteraction interaction) throws MALException, MALInteractionException {
         Random random = new Random(); // to avoid registrations with the same name
 
         // Register on the Event service of the respective apps
@@ -453,7 +452,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             throw new IOException();
         }
 
-        AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
+        final AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
 
         int bestIndex = AppsLauncherManager.getBestIPCServiceAddressIndex(addresses);
         SingleConnectionDetails connectionDetails = new SingleConnectionDetails();

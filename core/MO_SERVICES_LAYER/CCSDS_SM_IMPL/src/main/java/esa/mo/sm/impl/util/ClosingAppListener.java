@@ -27,11 +27,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 
 /**
  * Create the listeners for the returned event by the app, acknowledging the
  * action to close itself.
+ *
  * @author Cesar Coelho
  */
 public class ClosingAppListener extends EventReceivedListener {
@@ -40,7 +42,7 @@ public class ClosingAppListener extends EventReceivedListener {
     private final EventConsumerServiceImpl eventService;
     private final Long objId;
 
-    public ClosingAppListener(final StopAppInteraction interaction, 
+    public ClosingAppListener(final StopAppInteraction interaction,
             final EventConsumerServiceImpl eventService, final Long objId) {
         this.interaction = interaction;
         this.eventService = eventService;
@@ -50,21 +52,32 @@ public class ClosingAppListener extends EventReceivedListener {
     @Override
     public void onDataReceived(EventCOMObject eventCOMObject) {
         // Is it the ack from the app?
-        if(true){ // To do: better comparison
-            Logger.getLogger(ClosingAppListener.class.getName()).log(Level.INFO, "The app with objId " + objId + " is now closing...");
+        if (true) { // To do: better comparison
+            Logger.getLogger(ClosingAppListener.class.getName()).log(Level.INFO,
+                    "The app with objId " + objId + " is now closing...");
         }
-        
-        // If so, then close the connection to the service
-        eventService.closeConnection();
 
-        try { 
-            // Send update to consumer stating that the app is closing...
-            interaction.sendUpdate(objId);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
+        if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPING_OBJECT_TYPE)) {
+            try { // Send update to consumer stating that the app is stopping...
+                interaction.sendUpdate(objId);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPED_OBJECT_TYPE)) {
+            try { // Send update to consumer stating that the app is stopped
+                interaction.sendResponse();
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            // If so, then close the connection to the service
+            eventService.closeConnection();
         }
     }
-
 }
