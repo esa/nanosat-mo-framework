@@ -119,7 +119,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
     public ArchivePersistenceObject getFirstCOMObject() {
         if (comObjects != null){
-            if (comObjects.size() != 0){
+            if (!comObjects.isEmpty()){
                 return comObjects.get(0);
             }
         }
@@ -128,7 +128,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
     public ArchivePersistenceObject getSourceFromFirstCOMObject() {
         if (comObjects != null){
-            if (comObjects.size() != 0){
+            if (!comObjects.isEmpty()){
                 ArchivePersistenceObject source = HelperArchive.getArchiveCOMObject(
                         archiveService,
                         comObjects.get(0).getArchiveDetails().getDetails().getSource().getType(), 

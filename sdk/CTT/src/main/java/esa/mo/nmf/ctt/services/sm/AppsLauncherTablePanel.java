@@ -102,17 +102,40 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
-    public void reportStatus(String text){
+    public void reportStatus(final String text, final int appId){
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 6 because it is where the status field is!
-        tableData.setValueAt(text, this.getSelectedRow(), 6);
+        
+        int index;
+        try {
+            index = this.findIndex(appId);
+            
+            // 6 because it is where the status field is!
+            tableData.setValueAt(text, index, 6);
+        } catch (Exception ex) {
+            Logger.getLogger(AppsLauncherTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         semaphore.release();
+    }
+    
+    public int findIndex(int appId) throws Exception{
+        
+        final int max = tableData.getRowCount() - 1;
+        
+        for(int i=0; i < max; i++){
+            Long value = (Long) tableData.getValueAt(i, 0);
+            
+            if(value.intValue() == appId){
+                return i;
+            }
+        }
+        
+        throw new Exception("The appId could not be found on the table.");
     }
     
     @Override

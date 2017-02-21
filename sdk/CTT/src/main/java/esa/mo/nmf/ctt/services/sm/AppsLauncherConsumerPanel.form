@@ -89,17 +89,56 @@
                 <Column editable="true" title="Obj Inst Id" type="java.lang.Integer"/>
                 <Column editable="true" title="name" type="java.lang.String"/>
                 <Column editable="true" title="description" type="java.lang.String"/>
-                <Column editable="true" title="rawType" type="java.lang.Object"/>
-                <Column editable="true" title="rawUnit" type="java.lang.String"/>
-                <Column editable="true" title="generationEnabled" type="java.lang.Boolean">
+                <Column editable="true" title="category" type="java.lang.String"/>
+                <Column editable="true" title="runAtStartup" type="java.lang.Boolean"/>
+                <Column editable="true" title="running" type="java.lang.Boolean">
                   <Data value="true"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="updateInterval" type="java.lang.Float"/>
+                <Column editable="true" title="Status" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="autoResizeMode" type="int" value="4"/>
             <Property name="autoscrolls" type="boolean" value="false"/>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Default Cursor"/>
             </Property>

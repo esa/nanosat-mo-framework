@@ -144,11 +144,11 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
+                "Obj Inst Id", "name", "description", "category", "runAtStartup", "running", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -297,6 +297,10 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, new StopAdapter());
             appsTable.switchEnabledstatus(false);
+            
+            for(Long id : ids){
+                appsTable.reportStatus("Stop request sent", id.intValue());
+            }
         } catch (MALInteractionException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -318,6 +322,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
             appsTable.switchEnabledstatus(true);
+            for(Long id : ids){
+                appsTable.reportStatus("Starting...", id.intValue());
+            }
         } catch (MALInteractionException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -354,19 +361,23 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void stopAppAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
-            appsTable.reportStatus("Stopping...");
+            appsTable.reportStatus("(1) Stopping...", 1);
+        }
+
+        @Override
+        public void stopAppUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, Long appClosing, java.util.Map qosProperties) {
+            appsTable.reportStatus("(2) The app is stopping...", appClosing.intValue());
         }
 
         @Override
         public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
                 org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties){
-            appsTable.reportStatus("Unable to stop");
-
+            appsTable.reportStatus("(3) Unable to stop", 1);
         }
 
         @Override
         public void stopAppResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
-            appsTable.reportStatus("Successfully Closed!");
+            appsTable.reportStatus("(4) Successfully Closed!", 1);
         }
 
     }
