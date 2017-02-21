@@ -135,7 +135,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
             }
         }
         
-        throw new Exception("The appId could not be found on the table.");
+        throw new Exception("The appId could not be found on the table. AppId: " + appId);
     }
     
     @Override

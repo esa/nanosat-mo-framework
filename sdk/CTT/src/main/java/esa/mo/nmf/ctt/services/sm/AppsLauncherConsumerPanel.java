@@ -276,6 +276,10 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().killApp(ids);
             appsTable.switchEnabledstatus(false);
+            
+            for(Long id : ids){
+                appsTable.reportStatus("I shot the sheriff!", id.intValue());
+            }
         } catch (MALInteractionException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -361,18 +365,18 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void stopAppAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
-            appsTable.reportStatus("(1) Stopping...", 1);
+            appsTable.reportStatus("Stopping...", 1);
         }
 
         @Override
         public void stopAppUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, Long appClosing, java.util.Map qosProperties) {
-            appsTable.reportStatus("(2) The app is stopping...", appClosing.intValue());
+            appsTable.reportStatus("Stopped!", appClosing.intValue());
         }
 
         @Override
         public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
                 org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties){
-            appsTable.reportStatus("(3) Unable to stop", 1);
+            appsTable.reportStatus("Unable to stop... :S", 1);
         }
 
         @Override
