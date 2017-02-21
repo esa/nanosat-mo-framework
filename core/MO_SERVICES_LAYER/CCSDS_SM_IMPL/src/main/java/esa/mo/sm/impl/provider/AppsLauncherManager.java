@@ -431,9 +431,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         }
 
         if (providersList.size() != 1) { // Throw error!
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
-                    "Why do we have a bunch of registrations from the same App?");
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("There are more than 1 provider rergistered for this app! "
+                    + "Most likely the app was forcefully killed before.");
         }
 
         // Get the service address details lists

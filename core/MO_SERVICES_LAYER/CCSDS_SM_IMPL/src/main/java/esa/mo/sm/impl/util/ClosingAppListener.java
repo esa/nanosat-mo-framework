@@ -41,33 +41,36 @@ public class ClosingAppListener extends EventReceivedListener {
     private final StopAppInteraction interaction;
     private final EventConsumerServiceImpl eventService;
     private final Long objId;
+    private boolean appClosed;
 
     public ClosingAppListener(final StopAppInteraction interaction,
             final EventConsumerServiceImpl eventService, final Long objId) {
         this.interaction = interaction;
         this.eventService = eventService;
         this.objId = objId;
+        this.appClosed = false;
     }
 
     @Override
     public void onDataReceived(EventCOMObject eventCOMObject) {
-        // Is it the ack from the app?
-        if (true) { // To do: better comparison
+        if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPING_OBJECT_TYPE)) {
+            // Is it the ack from the app?
             Logger.getLogger(ClosingAppListener.class.getName()).log(Level.INFO,
-                    "The app with objId " + objId + " is now closing...");
+                    "The app with objId " + objId + " is closing...");
         }
 
-        if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPING_OBJECT_TYPE)) {
-            try { // Send update to consumer stating that the app is stopping...
+        if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPED_OBJECT_TYPE)) {
+            Logger.getLogger(ClosingAppListener.class.getName()).log(Level.INFO,
+                    "The app with objId " + objId + " is now closed!");
+            
+            try { // Send update to consumer stating that the app is stopped
                 interaction.sendUpdate(objId);
             } catch (MALInteractionException ex) {
                 Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-
-        if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPED_OBJECT_TYPE)) {
+/*
             try { // Send update to consumer stating that the app is stopped
                 interaction.sendResponse();
             } catch (MALInteractionException ex) {
@@ -75,9 +78,16 @@ public class ClosingAppListener extends EventReceivedListener {
             } catch (MALException ex) {
                 Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
             }
+*/
 
             // If so, then close the connection to the service
             eventService.closeConnection();
+            
+            this.appClosed = true;
         }
+    }
+    
+    public boolean isAppClosed(){
+        return this.appClosed;
     }
 }

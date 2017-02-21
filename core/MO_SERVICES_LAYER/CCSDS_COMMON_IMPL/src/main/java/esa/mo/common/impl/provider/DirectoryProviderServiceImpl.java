@@ -287,18 +287,28 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     @Override
     public PublishProviderResponse publishProvider(PublishDetails newProviderDetails,
             MALInteraction interaction) throws MALInteractionException, MALException {
-
         Identifier serviceProviderName = newProviderDetails.getProviderName();
         IdentifierList objBodies = new IdentifierList();
         objBodies.add(serviceProviderName);
 
-        ArchiveDetailsList archDetails;
+        // Do we already have this provider in the Directory service?
+        synchronized (MUTEX) {
+            for (Long key : providersAvailable.keySet()) {
+                PublishDetails provider = this.providersAvailable.get(key);
 
-        if (interaction == null) {
-            archDetails = HelperArchive.generateArchiveDetailsList(null, null, connection.getConnectionDetails());
-        } else {
-            archDetails = HelperArchive.generateArchiveDetailsList(null, null, interaction);
+                if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
+                    // It is repeated!!
+                    Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).info(
+                            "There was already a provider with the same name. "
+                            + "Removing the old one and adding the new one...");
+                    this.providersAvailable.remove(key); // Remove the provider...
+                }
+            }
         }
+
+        ArchiveDetailsList archDetails = (interaction == null)
+                ? HelperArchive.generateArchiveDetailsList(null, null, connection.getPrimaryConnectionDetails().getProviderURI())
+                : HelperArchive.generateArchiveDetailsList(null, null, interaction);
 
         // Check if there are comServices...
         if (comServices == null) {
@@ -330,7 +340,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         // related contains the objId of the ServiceProvider object
         ArchiveDetailsList archDetails1 = (interaction == null)
-                ? HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getConnectionDetails())
+                ? HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getPrimaryConnectionDetails().getProviderURI())
                 : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
 
         ProviderDetailsList capabilities = new ProviderDetailsList();
@@ -366,7 +376,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
             }
 
-            providersAvailable.remove(providerObjectKey); // Remove the provider...
+            this.providersAvailable.remove(providerObjectKey); // Remove the provider...
         }
     }
 

@@ -98,14 +98,14 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                 final IdentifierList subLst = new IdentifierList();
                 subLst.add(subscriptionId);
 
-                for(Subscription sub : subs){
+                for (Subscription sub : subs) {
                     subLst.add(sub.getSubscriptionId());
                 }
-                
+
                 if (eventService != null) {
                     eventService.monitorEventDeregister(subLst);
                 }
-                
+
                 subs = new SubscriptionList();
                 tmConsumer.close();
             } catch (MALException ex) {
@@ -130,41 +130,41 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         class EventReceivedAdapter extends EventAdapter {
 
             @Override
-            public void monitorEventNotifyReceived(final MALMessageHeader msgHeader, 
-                final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList, 
-                final ObjectDetailsList objectDetailsList, final ElementList elementList, 
-                Map qosProperties) {
-                
+            public void monitorEventNotifyReceived(final MALMessageHeader msgHeader,
+                    final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+                    final ObjectDetailsList objectDetailsList, final ElementList elementList,
+                    Map qosProperties) {
+
                 if (objectDetailsList.size() == lUpdateHeaderList.size()) { // Something is wrong
                     for (int i = 0; i < lUpdateHeaderList.size(); i++) {
-                        
+
                         Identifier entityKey1 = lUpdateHeaderList.get(i).getKey().getFirstSubKey();
                         Long entityKey2 = lUpdateHeaderList.get(i).getKey().getSecondSubKey();
                         Long entityKey3 = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
                         Long entityKey4 = lUpdateHeaderList.get(i).getKey().getFourthSubKey(); // ObjType of the source
-                        
+
                         // (UShort area, UShort service, UOctet version, UShort number)
                         // (UShort area, UShort service, UOctet version, 0)
                         ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
                         objType.setNumber(new UShort(Integer.parseInt(entityKey1.toString())));
-                        
+
                         Element body = (Element) ((elementList == null) ? null : elementList.get(i));
-                        
+
                         // ----
-                        EventCOMObject newEvent = new EventCOMObject();
+                        final EventCOMObject newEvent = new EventCOMObject();
                         newEvent.setDomain(msgHeader.getDomain());
                         newEvent.setObjType(objType);
                         newEvent.setObjId(entityKey3);
-                        
+
                         newEvent.setSource(objectDetailsList.get(i).getSource());
                         newEvent.setRelated(objectDetailsList.get(i).getRelated());
                         newEvent.setBody(body);
-                        
+
                         newEvent.setTimestamp(lUpdateHeaderList.get(i).getTimestamp());
                         newEvent.setSourceURI(lUpdateHeaderList.get(i).getSourceURI());
                         newEvent.setNetworkZone(msgHeader.getNetworkZone());
                         // ----
-                        
+
                         // Push the data to the listener
                         eventReceivedListener.onDataReceived(newEvent);
                     }
@@ -181,7 +181,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Closes the tmConsumer connection
      *
@@ -192,11 +192,11 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         if (tmConsumer != null) {
             try {
                 final IdentifierList subLst = new IdentifierList();
-                
-                for(Subscription sub : subs){
+
+                for (Subscription sub : subs) {
                     subLst.add(sub.getSubscriptionId());
                 }
-                
+
                 if (eventService != null) {
                     try {
                         eventService.monitorEventDeregister(subLst);
@@ -204,12 +204,12 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                         Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                
+
                 tmConsumer.close();
             } catch (MALException ex) {
                 Logger.getLogger(ConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-    
+
 }
