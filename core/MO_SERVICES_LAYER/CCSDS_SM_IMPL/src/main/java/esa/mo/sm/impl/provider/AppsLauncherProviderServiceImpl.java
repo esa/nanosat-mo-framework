@@ -108,7 +108,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
      * @param directoryService
      * @throws MALException On initialization error.
      */
-    public synchronized void init(final COMServicesProvider comServices, 
+    public synchronized void init(final COMServicesProvider comServices,
             final DirectoryInheritanceSkeleton directoryService) throws MALException {
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -187,13 +187,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             outputList.add(outputText);
             publisher.publish(hdrlst, outputList);
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         } catch (MALException ex) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         }
     }
@@ -324,18 +324,18 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             IdentifierList domain = new IdentifierList();
             domain.add(new Identifier("*"));
             COMService eventCOM = EventHelper.EVENT_SERVICE;
-            ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(), 
+            ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(),
                     eventCOM.getNumber(), eventCOM.getArea().getVersion());
-            ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"), 
+            ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"),
                     null, new Identifier("*"), serviceKey, new UIntegerList());
 
             // Do a lookup on the Central Drectory service for the app that we want
             ProviderSummaryList providersList = this.directoryService.lookupProvider(sf, interaction.getInteraction());
-            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER, 
+            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER,
                     "providersList object: " + providersList.toString());
 
             try {
-                SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
+                final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
                 appConnections.add(connectionDetails);
             } catch (IOException ex) {
                 intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
@@ -361,7 +361,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public ListAppResponse listApp(final IdentifierList appNames, final Identifier category, 
+    public ListAppResponse listApp(final IdentifierList appNames, final Identifier category,
             final MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         ListAppResponse outList = new ListAppResponse();
@@ -458,20 +458,20 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     public ConfigurationObjectDetails getCurrentConfiguration() {
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
-        HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
+        final HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
 
-        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
+        final ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
         objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
         objsSet.setObjInstIds(currentObjIds);
         objsSet.setObjType(AppsLauncherHelper.APP_OBJECT_TYPE);
 
-        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
+        final ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(objsSet);
 
         // Needs the Common API here!
-        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
+        final ConfigurationObjectDetails set = new ConfigurationObjectDetails();
         set.setConfigObjects(list);
 
         return set;
@@ -551,7 +551,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         buffer.delete(0, size);
 
                         // Publish what's on the buffer every PERIOD_PUB milliseconds
-                        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE, output);
+                        // Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE, output);
                         publishExecutionMonitoring(appObjId, output);
                     }
                 }

@@ -110,6 +110,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             if (null != archiveServiceProvider) {
                 archiveServiceProvider.close();
             }
+            
+            manager.close();
 
             connection.closeAll();
             running = false;

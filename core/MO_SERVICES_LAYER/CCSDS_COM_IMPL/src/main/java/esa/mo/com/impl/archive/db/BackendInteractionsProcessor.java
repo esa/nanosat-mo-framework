@@ -484,6 +484,19 @@ public class BackendInteractionsProcessor {
         }
     }
 
+    public void stopInteractions(final Callable task) {
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+        Future<Integer> nullValue = dbInteractionsExecutor.submit(task);
+
+        try {
+            Integer dummyInt = nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
+        } catch (InterruptedException ex) {
+            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * The database backend thread factory
      */

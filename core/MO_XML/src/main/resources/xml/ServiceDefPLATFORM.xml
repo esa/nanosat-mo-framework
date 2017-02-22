@@ -20,7 +20,7 @@
 							</mal:field>
 						</mal:publishNotify>
 					</mal:messages>
-        </mal:pubsubIP>
+				</mal:pubsubIP>
 				<mal:submitIP comment="The setStreaming operation allows a consumer to set the rate, dimension and format of the Pictures being streamed." name="setStreaming" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
@@ -33,47 +33,50 @@
 							<mal:field canBeNull="true" comment="The format field shall hold the desired streaming picture format." name="format">
 								<mal:type area="Platform" list="false" name="PictureFormat" service="Camera"/>
 							</mal:field>
-						<mal:field canBeNull="true" comment="The firstEntityKey field holds the first entity key that will be present during the broadcast of the streamPictures operation.&#10;The firstEntityKey field must not empty, nor be NULL nor the wildcard '*'. An INVALID error shall be returned in this case." name="firstEntityKey">
-                <mal:type area="MAL" list="false" name="Identifier"/>
-              </mal:field>
-            <mal:field canBeNull="true" comment="The exposureTime field shall hold the exposure time of each frame." name="exposureTime">
-                <mal:type area="MAL" list="false" name="Duration"/>
-              </mal:field>
-            </mal:submit>
+							<mal:field canBeNull="true" comment="The firstEntityKey field holds the first entity key that will be present during the broadcast of the streamPictures operation.&#10;The firstEntityKey field must not empty, nor be NULL nor the wildcard '*'. An INVALID error shall be returned in this case." name="firstEntityKey">
+								<mal:type area="MAL" list="false" name="Identifier"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The exposureTime field shall hold the exposure time of each frame." name="exposureTime">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:field>
+						</mal:submit>
 					</mal:messages>
 					<mal:errors>
-					<mal:errorRef comment="The requested streaming rate is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            <mal:extraInformation comment="The extra information fied shall hold the minimum duration that can be selected.">
-                <mal:type area="MAL" list="false" name="Duration"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          <mal:errorRef comment="The requested resolution is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            <mal:extraInformation comment="The extra information fied shall hold the list of available resolutions.">
-                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-            <mal:errorRef comment="The requested format is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information fied shall hold the list of available formats.">
-                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          <mal:errorRef comment="The firstEntityKey field cannot be a null nor a wildcard.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            </mal:errorRef>
-          <mal:errorRef comment="The Camera is currently being used. Use the unsetStreaming operation in order to manually unset the streaming and try again.">
-              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
-            </mal:errorRef>
-          </mal:errors>
+						<mal:errorRef comment="The Camera is currently being used. Use the unsetStreaming operation in order to manually unset the streaming and try again.">
+							<mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+						</mal:errorRef>
+						<mal:errorRef comment="The Camera unit is not available.">
+							<mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+						</mal:errorRef>
+						<mal:errorRef comment="The requested streaming rate is not supported.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="The extra information fied shall hold the minimum duration that can be selected.">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+						<mal:errorRef comment="The requested resolution is not supported.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="The extra information fied shall hold the list of available resolutions.">
+								<mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+						<mal:errorRef comment="The requested format is not supported.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="The extra information fied shall hold the list of available formats.">
+								<mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+						<mal:errorRef comment="The firstEntityKey field cannot be a null nor a wildcard.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+						</mal:errorRef>
+					</mal:errors>
 				</mal:submitIP>
-			<mal:submitIP comment="" name="unsetStreaming" number="3" supportInReplay="false">
-          <mal:messages>
-            <mal:submit comment=""/>
-          </mal:messages>
-        </mal:submitIP>
-      </mal:capabilitySet>
+				<mal:submitIP comment="" name="unsetStreaming" number="3" supportInReplay="false">
+					<mal:messages>
+						<mal:submit comment=""/>
+					</mal:messages>
+				</mal:submitIP>
+			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
 				<mal:requestIP comment="The previewPicture operation allows a consumer to quickly get a raw picture from the camera with a lower quality. This operation intendes to  provide a quick snap of what the camera is observing." name="previewPicture" number="4" supportInReplay="false">
 					<mal:messages>
@@ -84,12 +87,15 @@
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="The Camera is currently being used. Use the unsetStreaming operation in order to manually unset the streaming and try again.">
-              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:requestIP>
+					<mal:errors>
+						<mal:errorRef comment="The Camera is currently being used. Use the unsetStreaming operation in order to manually unset the streaming and try again.">
+							<mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+						</mal:errorRef>
+						<mal:errorRef comment="The Camera unit is not available.">
+							<mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:requestIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
 				<mal:invokeIP comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected." name="takePicture" number="5" supportInReplay="false">
@@ -101,10 +107,10 @@
 							<mal:field canBeNull="true" comment="The format field shall hold the desired streaming picture format." name="format">
 								<mal:type area="Platform" list="false" name="PictureFormat" service="Camera"/>
 							</mal:field>
-						<mal:field canBeNull="true" comment="The exposureTime field shall hold the exposure time of the camera." name="exposureTime">
-                <mal:type area="MAL" list="false" name="Duration"/>
-              </mal:field>
-            </mal:invoke>
+							<mal:field canBeNull="true" comment="The exposureTime field shall hold the exposure time of the camera." name="exposureTime">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:field>
+						</mal:invoke>
 						<mal:acknowledgement comment=""/>
 						<mal:response comment="">
 							<mal:field canBeNull="true" comment="The picture field shall hold the picture." name="picture">
@@ -112,40 +118,43 @@
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="The Camera is currently being used. Use the unsetStreaming operation in order to manually unset the streaming and try again.">
-              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
-            </mal:errorRef>
-          <mal:errorRef comment="The requested resolution is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            <mal:extraInformation comment="The extra information fied shall hold the list of available resolutions.">
-                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-            <mal:errorRef comment="The requested format is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            <mal:extraInformation comment="The extra information fied shall hold the list of available formats.">
-                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:invokeIP>
+					<mal:errors>
+						<mal:errorRef comment="The Camera is currently being used. Use the unsetStreaming operation in order to manually unset the streaming and try again.">
+							<mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+						</mal:errorRef>
+						<mal:errorRef comment="The Camera unit is not available.">
+							<mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+						</mal:errorRef>
+						<mal:errorRef comment="The requested resolution is not supported.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="The extra information fied shall hold the list of available resolutions.">
+								<mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+						<mal:errorRef comment="The requested format is not supported.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="The extra information fied shall hold the list of available formats.">
+								<mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
 				<mal:requestIP comment="The getProperties operation allows a consumer to request the properties of the service and camera. The service shall provide information about the available resolutions, formats and some extra information." name="getProperties" number="6" supportInReplay="true">
 					<mal:messages>
 						<mal:request comment=""/>
 						<mal:response comment="">
-						<mal:field canBeNull="true" comment="The availableResolutions field shall hold the list of the available resolutions by the camera." name="availableResolutions">
-                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
-              </mal:field>
-              <mal:field canBeNull="true" comment="The availableFormats field shall hold a list of available formats by the service." name="availableFormats">
-                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
-              </mal:field>
+							<mal:field canBeNull="true" comment="The availableResolutions field shall hold the list of the available resolutions by the camera." name="availableResolutions">
+								<mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="The availableFormats field shall hold a list of available formats by the service." name="availableFormats">
+								<mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
+							</mal:field>
 							<mal:field canBeNull="true" comment="The info field shall hold additional properties of the camera. The actual content is undefined." name="extraInfo">
 								<mal:type area="MAL" list="false" name="String"/>
 							</mal:field>
-            </mal:response>
+						</mal:response>
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>
@@ -183,7 +192,7 @@
 					<mal:item comment="Bitmap format." nvalue="3" value="BMP"/>
 					<mal:item comment="PNG format." nvalue="4" value="PNG"/>
 					<mal:item comment="JPG format." nvalue="5" value="JPG"/>
-        </mal:enumeration>
+				</mal:enumeration>
 			</mal:dataTypes>
 			<com:features/>
 		</mal:service>
@@ -213,15 +222,15 @@
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="The requested sentence identifier is invalid.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            </mal:errorRef>
-            <mal:errorRef comment="The GPS unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:invokeIP>
+					<mal:errors>
+						<mal:errorRef comment="The requested sentence identifier is invalid.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+						</mal:errorRef>
+						<mal:errorRef comment="The GPS unit is not available.">
+							<mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
 				<mal:requestIP comment="The getLastKnownPosition operation allows a consumer to retrieve the last known position that was provided by the GPS unit." name="getLastKnownPosition" number="2" supportInReplay="false">
@@ -239,25 +248,25 @@
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>
-      <mal:capabilitySet comment="" number="3">
-        <mal:invokeIP comment="The getPosition operation allows a consumer to obtain a position from the GPS unit." name="getPosition" number="3" supportInReplay="false">
-          <mal:messages>
-            <mal:invoke comment="">
-            </mal:invoke>
-            <mal:acknowledgement comment=""/>
-            <mal:response comment="">
-              <mal:field canBeNull="true" comment="The position field shall hold the current position." name="position">
-                <mal:type area="Platform" list="false" name="Position" service="GPS"/>
-              </mal:field>
-            </mal:response>
-          </mal:messages>
-        <mal:errors>
-            <mal:errorRef comment="The GPS unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:invokeIP>
-      </mal:capabilitySet>
+			<mal:capabilitySet comment="" number="3">
+				<mal:invokeIP comment="The getPosition operation allows a consumer to obtain a position from the GPS unit." name="getPosition" number="3" supportInReplay="false">
+					<mal:messages>
+						<mal:invoke comment="">
+						</mal:invoke>
+						<mal:acknowledgement comment=""/>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="The position field shall hold the current position." name="position">
+								<mal:type area="Platform" list="false" name="Position" service="GPS"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+					<mal:errors>
+						<mal:errorRef comment="The GPS unit is not available.">
+							<mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:invokeIP>
+			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
 				<mal:invokeIP comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS." name="getSatellitesInfo" number="4" supportInReplay="false">
 					<mal:messages>
@@ -269,15 +278,15 @@
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="The GPS unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:invokeIP>
+					<mal:errors>
+						<mal:errorRef comment="The GPS unit is not available.">
+							<mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:invokeIP>
 			</mal:capabilitySet>
-			
-			
+
+
 			<mal:capabilitySet comment="" number="5">
 				<mal:requestIP comment="The listNearbyPositionEvent operation allows a consumer to request the object instance identifiers of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive which holds the actual nearby position objects." name="listNearbyPosition" number="5" supportInReplay="false">
 					<mal:messages>
@@ -294,37 +303,37 @@
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>			
-			
-			
+
+
 			<mal:capabilitySet comment="" number="6">
 				<mal:requestIP comment="The addNearbyPositionEvent operation allows a consumer to define a list of nearby position events in the service.The new NearbyPosition objects are expected to be stored in the COM Archive by the provider of the GPS service." name="addNearbyPosition" number="6" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
-            <mal:field canBeNull="true" comment="The nearbyPosition field shall hold the definition of a position." name="nearbyPositionDefinitions">
-                <mal:type area="Platform" list="true" name="NearbyPositionDefinition" service="GPS"/>
-              </mal:field>
-            </mal:request>
+							<mal:field canBeNull="true" comment="The nearbyPosition field shall hold the definition of a position." name="nearbyPositionDefinitions">
+								<mal:type area="Platform" list="true" name="NearbyPositionDefinition" service="GPS"/>
+							</mal:field>
+						</mal:request>
 						<mal:response comment="">
 							<mal:field canBeNull="true" comment="The objInstIds field shall hold a list of the corresponding object instance identifiers for the selected names." name="objInstIds">
 								<mal:type area="MAL" list="true" name="Long"/>
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-        <mal:errors>
-            <mal:errorRef comment="One of the supplied attitudeDefinitions objects contains an invalid name.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-              <mal:type area="MAL" list="true" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          <mal:errorRef comment="One or more of the nearbyPosition objects being added has a name that is already in use in the domain.">
-              <mal:type area="COM" list="false" name="DUPLICATE"/>
-              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                <mal:type area="MAL" list="false" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:requestIP>
+					<mal:errors>
+						<mal:errorRef comment="One of the supplied attitudeDefinitions objects contains an invalid name.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
+								<mal:type area="MAL" list="true" name="UInteger"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+						<mal:errorRef comment="One or more of the nearbyPosition objects being added has a name that is already in use in the domain.">
+							<mal:type area="COM" list="false" name="DUPLICATE"/>
+							<mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
+								<mal:type area="MAL" list="false" name="UInteger"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:requestIP>
 				<mal:submitIP comment="The removeNearbyPositionEvent operation allows a consumer to remove a list of nearby position events set in the service." name="removeNearbyPosition" number="7" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
@@ -333,15 +342,15 @@
 							</mal:field>
 						</mal:submit>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="One of the supplied NearbyPosition object instance identifiers is unknown.">
-              <mal:type area="MAL" list="false" name="UNKNOWN"/>
-              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:submitIP>
+					<mal:errors>
+						<mal:errorRef comment="One of the supplied NearbyPosition object instance identifiers is unknown.">
+							<mal:type area="MAL" list="false" name="UNKNOWN"/>
+							<mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+								<mal:type area="MAL" list="true" name="UInteger"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="7">
 				<mal:pubsubIP comment="The nearbyPosition allows a consumer to subscribe to nearby position notifications. The notifications shall be generated upon entering or exiting a nearby position." name="nearbyPosition" number="8" supportInReplay="false">
@@ -402,99 +411,99 @@
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-				<mal:field canBeNull="true" comment="UTC time status of position." name="utc">
-            <mal:type area="MAL" list="false" name="Time"/>
-          </mal:field>
+					<mal:field canBeNull="true" comment="UTC time status of position." name="utc">
+						<mal:type area="MAL" list="false" name="Time"/>
+					</mal:field>
 					<mal:field canBeNull="true" comment="Fix Quality:&#10;0 = Invalid; &#10;1 = GPS fix;&#10;2 = DGPS fix." name="fixQuality">
-					<mal:type area="MAL" list="false" name="Integer"/>
-          </mal:field>
+						<mal:type area="MAL" list="false" name="Integer"/>
+					</mal:field>
 					<mal:field canBeNull="true" comment="The number of satellites in view for this position." name="numberOfSatellites">
-					<mal:type area="MAL" list="false" name="Integer"/>
-          </mal:field>
+						<mal:type area="MAL" list="false" name="Integer"/>
+					</mal:field>
 					<mal:field canBeNull="true" comment="Horizontal Dilution of Precision. The relative accuracy of horizontal position." name="hdop">
-					<mal:type area="MAL" list="false" name="Float"/>
-          </mal:field>
+						<mal:type area="MAL" list="false" name="Float"/>
+					</mal:field>
 					<mal:field canBeNull="true" comment="The relationship between the geoid and the WGS84 ellipsoid. The unit is meters." name="undulation">
-					<mal:type area="MAL" list="false" name="Float"/>
-          </mal:field>
-        </mal:composite>
-			<mal:composite comment="The NearbyPositionDefinition structure holds a definition of a certain Position." name="NearbyPositionDefinition" shortFormPart="26">
-          <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
-          </mal:extends>
-          <mal:field canBeNull="true" comment="The name of the definition." name="name">
-            <mal:type area="MAL" list="false" name="Identifier"/>
-          </mal:field>
-          <mal:field canBeNull="true" comment="A textual description of the definition." name="description">
-            <mal:type area="MAL" list="false" name="String"/>
-          </mal:field>
-        <mal:field canBeNull="true" comment="The distance boundary of this definition. The distance boundary shall define a spherical zone around the position. The unit is meters." name="distanceBoundary">
-            <mal:type area="MAL" list="false" name="Double"/>
-          </mal:field>
-        <mal:field canBeNull="true" comment="The position of the definition." name="position">
-            <mal:type area="Platform" list="false" name="Position" service="GPS"/>
-          </mal:field>
-        </mal:composite>
-      </mal:dataTypes>
+						<mal:type area="MAL" list="false" name="Float"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="The NearbyPositionDefinition structure holds a definition of a certain Position." name="NearbyPositionDefinition" shortFormPart="26">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="The name of the definition." name="name">
+						<mal:type area="MAL" list="false" name="Identifier"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="A textual description of the definition." name="description">
+						<mal:type area="MAL" list="false" name="String"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The distance boundary of this definition. The distance boundary shall define a spherical zone around the position. The unit is meters." name="distanceBoundary">
+						<mal:type area="MAL" list="false" name="Double"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The position of the definition." name="position">
+						<mal:type area="Platform" list="false" name="Position" service="GPS"/>
+					</mal:field>
+				</mal:composite>
+			</mal:dataTypes>
 			<com:features>
-        <mal:diagram name="GPSObjects">
-          <svg:svg height="100" version="1.1" width="700">
-            <svg:defs>
-              <svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
-                <svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
-                <svg:stop offset="100%" style="stop-color:rgb(249,239,224);stop-opacity:1"/>
-              </svg:linearGradient>
-              <svg:marker id="sourceArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
-                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(255,0,0)"/>
-              </svg:marker>
-              <svg:marker id="relatedArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
-                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
-              </svg:marker>
-            </svg:defs>
-            <svg:path d="M130,50 L242,50 L355,50" end="NearbyPosition" fill="none" marker-mid="url(#relatedArrow)" start="NearbyPositionEntered" stroke="rgb(0,0,0)" stroke-width="1"/>
-            <svg:path d="M570,50 L463,50 L355,50" end="NearbyPosition" fill="none" marker-mid="url(#relatedArrow)" start="NearbyPositionExited" stroke="rgb(0,0,0)" stroke-width="1"/>
-            <svg:g id="NearbyPositionEntered" transform="translate(50,20)">
-              <svg:rect fill="rgb(190,190,190)" height="60" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="60" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">NearbyPositionEntered</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">2</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65"/>
-            </svg:g>
-            <svg:g id="NearbyPosition" transform="translate(300,10)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="110" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="110"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="55" y="25">NearbyPosition</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="55" y="45">1</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="55" y="65">MAL::Identifier</svg:text>
-            </svg:g>
-            <svg:g id="NearbyPositionExited" transform="translate(490,20)">
-              <svg:rect fill="rgb(190,190,190)" height="60" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="60" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">NearbyPositionExited</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">3</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65"/>
-            </svg:g>
-          </svg:svg>
-        </mal:diagram>
+				<mal:diagram name="GPSObjects">
+					<svg:svg height="100" version="1.1" width="700">
+						<svg:defs>
+							<svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
+								<svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
+								<svg:stop offset="100%" style="stop-color:rgb(249,239,224);stop-opacity:1"/>
+							</svg:linearGradient>
+							<svg:marker id="sourceArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+								<svg:path d="M0,0 V10 L15,5 Z" fill="rgb(255,0,0)"/>
+							</svg:marker>
+							<svg:marker id="relatedArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
+								<svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
+							</svg:marker>
+						</svg:defs>
+						<svg:path d="M130,50 L242,50 L355,50" end="NearbyPosition" fill="none" marker-mid="url(#relatedArrow)" start="NearbyPositionEntered" stroke="rgb(0,0,0)" stroke-width="1"/>
+						<svg:path d="M570,50 L463,50 L355,50" end="NearbyPosition" fill="none" marker-mid="url(#relatedArrow)" start="NearbyPositionExited" stroke="rgb(0,0,0)" stroke-width="1"/>
+						<svg:g id="NearbyPositionEntered" transform="translate(50,20)">
+							<svg:rect fill="rgb(190,190,190)" height="60" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="60" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">NearbyPositionEntered</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">2</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65"/>
+						</svg:g>
+						<svg:g id="NearbyPosition" transform="translate(300,10)">
+							<svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="110" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="110"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="55" y="25">NearbyPosition</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="55" y="45">1</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="55" y="65">MAL::Identifier</svg:text>
+						</svg:g>
+						<svg:g id="NearbyPositionExited" transform="translate(490,20)">
+							<svg:rect fill="rgb(190,190,190)" height="60" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="60" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">NearbyPositionExited</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">3</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65"/>
+						</svg:g>
+					</svg:svg>
+				</mal:diagram>
 				<com:objects comment="">
 					<com:object comment="The positions markers for the events shall be represented as NearbyPosition COM objects. " name="NearbyPosition" number="1">
-            <com:objectType>
-              <mal:type area="Platform" list="false" name="NearbyPositionDefinition" service="GPS"/>
-            </com:objectType>
+						<com:objectType>
+							<mal:type area="Platform" list="false" name="NearbyPositionDefinition" service="GPS"/>
+						</com:objectType>
 						<com:relatedObject comment=""/>
 						<com:sourceObject comment="The source link of the NearbyPosition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
 						</com:sourceObject>
 					</com:object>
-				<com:object comment="The body shall contain a boolean value " name="NearbyPositionAlert" number="2">
-            <com:objectType>
-              <mal:type area="MAL" list="false" name="Boolean"/>
-            </com:objectType>
-            <com:relatedObject comment="">
-            <com:objectType area="Platform" number="1" service="GPS"/>
-            </com:relatedObject>
-            <com:sourceObject comment=""/>
-          </com:object>
-        </com:objects>
+					<com:object comment="The body shall contain a boolean value " name="NearbyPositionAlert" number="2">
+						<com:objectType>
+							<mal:type area="MAL" list="false" name="Boolean"/>
+						</com:objectType>
+						<com:relatedObject comment="">
+							<com:objectType area="Platform" number="1" service="GPS"/>
+						</com:relatedObject>
+						<com:sourceObject comment=""/>
+					</com:object>
+				</com:objects>
 				<com:archiveUsage comment="NearbyPosition objects should be stored in the COM archive.&#10;When a nearby event is published, the NearbyPosition object should be stored in the COM archive by the publisher."/>
 			</com:features>
 		</mal:service>
@@ -513,10 +522,10 @@
 				<mal:pubsubIP comment="The monitorAttitude operation allows a consumer to subscribe for the satellite's current attitude.&#10;The pointingTo field shall contain the attitude instance in a reference frame.&#10;The MAL EntityKey.firstSubKey shall contain the AttitudeDefinition name.&#10;The MAL EntityKey.secondSubKey shall contain the AttitudeDefinition object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall contain the numeric value of the AttitudeMode of the AttitudeDefinition.&#10;The MAL EntityKey.fourthSubKey shall be NULL.&#10;The timestamp of the update shall be on-board clock at the time of the sampling.&#10;The ObjectId shall be set to NULL." name="monitorAttitude" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-            <mal:field canBeNull="true" comment="The attitudeInstance filed shall hold the instance of the current attitude." name="attitudeInstance">
-                <mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
-              </mal:field>
-            </mal:publishNotify>
+							<mal:field canBeNull="true" comment="The attitudeInstance filed shall hold the instance of the current attitude." name="attitudeInstance">
+								<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+							</mal:field>
+						</mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
 			</mal:capabilitySet>
@@ -530,40 +539,40 @@
 							<mal:field canBeNull="true" comment="The autoUnset field holds the duration after which the attitude definition shall be automatically unset.&#10;If the field is null, then the attitude definition won't be automatically unset, in this case the manual unsetAttitude operation must be used to disengage it." name="autoUnset">
 								<mal:type area="MAL" list="false" name="Duration"/>
 							</mal:field>
-						<mal:field canBeNull="true" comment="The streamingRate field shall contain the publishing frequency. " name="streamingRate">
-                <mal:type area="MAL" list="false" name="Duration"/>
-              </mal:field>
-            </mal:submit>
+							<mal:field canBeNull="true" comment="The streamingRate field shall contain the publishing frequency. " name="streamingRate">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:field>
+						</mal:submit>
 					</mal:messages>
 					<mal:errors>
 						<mal:errorRef comment="The ADCS unit is not available.">
 							<mal:type area="Platform" list="false" name="ADCS_NOT_AVAILABLE" service="AutonomousADCS"/>
 						</mal:errorRef>
-            <mal:errorRef comment="The submited object instance identifier is unknown.">
-              <mal:type area="MAL" list="false" name="UNKNOWN"/>
-            </mal:errorRef>
-          <mal:errorRef comment="The selected attitude definition contains an invalid argument.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="Contains the field name of the first field that did not pass the validation checks of the attitude definition.">
-                <mal:type area="MAL" list="false" name="String"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          <mal:errorRef comment="The ADCS is currently being used.">
-              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
-              <mal:extraInformation comment="The service will unset the current selected attitude definition in the duration provided in the extra information field. If the extra information field is set to null, then the attitude definition shall not be automatically unset. The consumer should use the unsetAttitude operation to manually disengage it.">
-                <mal:type area="MAL" list="false" name="Duration"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          <mal:errorRef comment="The selected attitude definition is unsupported by the current implementation of the service.">
-              <mal:type area="MAL" list="false" name="UNSUPPORTED_OPERATION"/>
-            </mal:errorRef>
-          <mal:errorRef comment="The streamingRate is out of limits.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The minimum valid streamingRate.">
-                <mal:type area="MAL" list="false" name="Duration"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
+						<mal:errorRef comment="The submited object instance identifier is unknown.">
+							<mal:type area="MAL" list="false" name="UNKNOWN"/>
+						</mal:errorRef>
+						<mal:errorRef comment="The selected attitude definition contains an invalid argument.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="Contains the field name of the first field that did not pass the validation checks of the attitude definition.">
+								<mal:type area="MAL" list="false" name="String"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+						<mal:errorRef comment="The ADCS is currently being used.">
+							<mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+							<mal:extraInformation comment="The service will unset the current selected attitude definition in the duration provided in the extra information field. If the extra information field is set to null, then the attitude definition shall not be automatically unset. The consumer should use the unsetAttitude operation to manually disengage it.">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+						<mal:errorRef comment="The selected attitude definition is unsupported by the current implementation of the service.">
+							<mal:type area="MAL" list="false" name="UNSUPPORTED_OPERATION"/>
+						</mal:errorRef>
+						<mal:errorRef comment="The streamingRate is out of limits.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="The minimum valid streamingRate.">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+					</mal:errors>
 				</mal:submitIP>
 				<mal:submitIP comment="The unsetAttitude operation allows a consumer to unset the spacecraft's attitude from the current selected attitude definition. This operation is expected to be used after a certain attitude definition is set by the setDesiredAttitude operation. If the attitude was set with the automatic unsetting enabled, then the unsetAttitude operation will override it and the attitude will be unset immediately. " name="unsetAttitude" number="3" supportInReplay="false">
 					<mal:messages>
@@ -590,15 +599,15 @@
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="One of the supplied AttitudeDefinition object instance identifiers is unknown.">
-              <mal:type area="MAL" list="false" name="UNKNOWN"/>
-            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:requestIP>
+					<mal:errors>
+						<mal:errorRef comment="One of the supplied AttitudeDefinition object instance identifiers is unknown.">
+							<mal:type area="MAL" list="false" name="UNKNOWN"/>
+							<mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+								<mal:type area="MAL" list="true" name="UInteger"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:requestIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
 				<mal:requestIP comment="The addAttitudeDefinition operation allows a consumer to define one or more attitude definitions that do not currently exist. The new AttitudeDefinition object is expected to be stored in the COM archive by the provider of the AutonomousADCS service." name="addAttitudeDefinition" number="5" supportInReplay="false">
@@ -614,27 +623,27 @@
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="One of the supplied attitudeDefinitions objects contains an invalid name.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-            <mal:errorRef comment="One or more of the attitudeDefinitions objects being added has supplied a parameter name that is already in use in the domain.">
-              <mal:type area="COM" list="false" name="DUPLICATE"/>
-              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating request list.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-            <mal:errorRef comment="The selected attitude definition contains an invalid argument.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            <mal:extraInformation comment="Contains the field name of the first field that did not pass the validation checks of the attitude definition.">
-                <mal:type area="MAL" list="false" name="String"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:requestIP>
+					<mal:errors>
+						<mal:errorRef comment="One of the supplied attitudeDefinitions objects contains an invalid name.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
+								<mal:type area="MAL" list="true" name="UInteger"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+						<mal:errorRef comment="One or more of the attitudeDefinitions objects being added has supplied a parameter name that is already in use in the domain.">
+							<mal:type area="COM" list="false" name="DUPLICATE"/>
+							<mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating request list.">
+								<mal:type area="MAL" list="true" name="UInteger"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+						<mal:errorRef comment="The selected attitude definition contains an invalid argument.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+							<mal:extraInformation comment="Contains the field name of the first field that did not pass the validation checks of the attitude definition.">
+								<mal:type area="MAL" list="false" name="String"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:requestIP>
 				<mal:submitIP comment="The removeAttitudeDefinition operation allows a consumer to remove one or more attitude definitions from the list of attitudes supported by the service.&#10;The operation does not remove the attitude definitions object from the COM archive, merely removes the object from the provider." name="removeAttitudeDefinition" number="6" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
@@ -643,15 +652,15 @@
 							</mal:field>
 						</mal:submit>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="One of the supplied AttitudeDefinition object instance identifiers is unknown.">
-              <mal:type area="MAL" list="false" name="UNKNOWN"/>
-              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
-              </mal:extraInformation>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:submitIP>
+					<mal:errors>
+						<mal:errorRef comment="One of the supplied AttitudeDefinition object instance identifiers is unknown.">
+							<mal:type area="MAL" list="false" name="UNKNOWN"/>
+							<mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+								<mal:type area="MAL" list="true" name="UInteger"/>
+							</mal:extraInformation>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
 				<mal:enumeration comment="AttitudeMode is an enumeration definition holding the attitude modes." name="AttitudeMode" shortFormPart="4">
@@ -667,101 +676,101 @@
 					<mal:item comment="Rotation Matrix reference frame." nvalue="3" value="ROTATION_MATRIX"/>
 				</mal:enumeration>
 				<mal:composite comment="" name="AttitudeInstance">
-          <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
-          </mal:extends>
-        </mal:composite>		
-      <mal:composite comment="" name="AttitudeInstanceBDot" shortFormPart="11">
-          <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
-          </mal:extends>
-          <mal:field canBeNull="false" comment="" name="magneticField">
-            <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-          <mal:field canBeNull="true" comment="" name="wheelSpeed">
-          <mal:type area="Platform" list="false" name="WheelSpeed"/>
-          </mal:field>
-          <mal:field canBeNull="true" comment="" name="mtqDipoleMomentum">
-          <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-        </mal:composite>
-      <mal:composite comment="" name="AttitudeInstanceSunPointing" shortFormPart="12">
-          <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
-          </mal:extends>
-        <mal:field canBeNull="false" comment="" name="sunVector">
-            <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-          <mal:field canBeNull="false" comment="" name="valid">
-            <mal:type area="MAL" list="false" name="Boolean"/>
-          </mal:field>
-          <mal:field canBeNull="true" comment="" name="wheelSpeed">
-          <mal:type area="Platform" list="false" name="WheelSpeed"/>
-          </mal:field>
-          <mal:field canBeNull="true" comment="This value shall not be used" name="mtqDipoleMomentum">
-          <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-        </mal:composite>
-      <mal:composite comment="" name="AttitudeInstanceSingleSpinning" shortFormPart="13">
-          <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
-          </mal:extends>
-        <mal:field canBeNull="false" comment="" name="sunVector">
-            <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-          <mal:field canBeNull="false" comment="" name="magneticField">
-            <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-          <mal:field canBeNull="false" comment="" name="currentQuaternions">
-            <mal:type area="Platform" list="false" name="Quaternions"/>
-          </mal:field>
-          <mal:field canBeNull="true" comment="" name="angularMomentum">
-            <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-        <mal:field canBeNull="true" comment="" name="mtqDipoleMomentum">
-            <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-        </mal:composite>
-        <mal:composite comment="" name="AttitudeInstanceTargetTracking" shortFormPart="14">
-          <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
-          </mal:extends>
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+				</mal:composite>		
+				<mal:composite comment="" name="AttitudeInstanceBDot" shortFormPart="11">
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+					</mal:extends>
+					<mal:field canBeNull="false" comment="" name="magneticField">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="wheelSpeed">
+						<mal:type area="Platform" list="false" name="WheelSpeed"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="mtqDipoleMomentum">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="AttitudeInstanceSunPointing" shortFormPart="12">
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+					</mal:extends>
+					<mal:field canBeNull="false" comment="" name="sunVector">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="false" comment="" name="valid">
+						<mal:type area="MAL" list="false" name="Boolean"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="wheelSpeed">
+						<mal:type area="Platform" list="false" name="WheelSpeed"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="This value shall not be used" name="mtqDipoleMomentum">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="AttitudeInstanceSingleSpinning" shortFormPart="13">
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+					</mal:extends>
+					<mal:field canBeNull="false" comment="" name="sunVector">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="false" comment="" name="magneticField">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="false" comment="" name="currentQuaternions">
+						<mal:type area="Platform" list="false" name="Quaternions"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="angularMomentum">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="" name="mtqDipoleMomentum">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="AttitudeInstanceTargetTracking" shortFormPart="14">
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+					</mal:extends>
 					<mal:field canBeNull="false" comment="The quaternions of the current attitude instance." name="currentQuaternions">
 						<mal:type area="Platform" list="false" name="Quaternions"/>
 					</mal:field>
-				<mal:field canBeNull="false" comment="The quaternions of the target attitude instance." name="targetQuaternions">
-            <mal:type area="Platform" list="false" name="Quaternions"/>
-          </mal:field>
-          <mal:field canBeNull="true" comment="The wheels speed instance." name="wheelSpeed">
-            <mal:type area="Platform" list="false" name="WheelSpeed"/>
-          </mal:field>
-        <mal:field canBeNull="true" comment="WGS84 reference." name="positionVector">
-            <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-        <mal:field canBeNull="true" comment="The angular velocity in rpm." name="angularVelocity">
-          <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-        </mal:composite>
-        <mal:composite comment="" name="AttitudeInstanceNadirPointing" shortFormPart="15">
-          <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
-          </mal:extends>
+					<mal:field canBeNull="false" comment="The quaternions of the target attitude instance." name="targetQuaternions">
+						<mal:type area="Platform" list="false" name="Quaternions"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The wheels speed instance." name="wheelSpeed">
+						<mal:type area="Platform" list="false" name="WheelSpeed"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="WGS84 reference." name="positionVector">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The angular velocity in rpm." name="angularVelocity">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+				</mal:composite>
+				<mal:composite comment="" name="AttitudeInstanceNadirPointing" shortFormPart="15">
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
+					</mal:extends>
 					<mal:field canBeNull="false" comment="The quaternions of the current attitude instance." name="currentQuaternions">
 						<mal:type area="Platform" list="false" name="Quaternions"/>
 					</mal:field>
-				<mal:field canBeNull="false" comment="The quaternions of the target attitude instance." name="targetQuaternions">
-            <mal:type area="Platform" list="false" name="Quaternions"/>
-          </mal:field>
-          <mal:field canBeNull="true" comment="The wheels speed instance." name="speed">
-            <mal:type area="Platform" list="false" name="WheelSpeed"/>
-          </mal:field>
-        <mal:field canBeNull="true" comment="WGS84" name="positionVector">
-          <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-          <mal:field canBeNull="true" comment="The angular velocity in rpm." name="angularVelocity">
-          <mal:type area="Platform" list="false" name="Vector3D"/>
-          </mal:field>
-        </mal:composite>
+					<mal:field canBeNull="false" comment="The quaternions of the target attitude instance." name="targetQuaternions">
+						<mal:type area="Platform" list="false" name="Quaternions"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The wheels speed instance." name="speed">
+						<mal:type area="Platform" list="false" name="WheelSpeed"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="WGS84" name="positionVector">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The angular velocity in rpm." name="angularVelocity">
+						<mal:type area="Platform" list="false" name="Vector3D"/>
+					</mal:field>
+				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinition">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
@@ -774,43 +783,43 @@
 					</mal:field>
 				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinitionBDot" shortFormPart="21">
-          <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
-          </mal:extends>
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
+					</mal:extends>
 				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinitionSingleSpinning" shortFormPart="22">
-          <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
-          </mal:extends>
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
+					</mal:extends>
 					<mal:field canBeNull="false" comment="The axis defined in the body reference frame for spinning." name="bodyAxis">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
 					<mal:field canBeNull="false" comment="The magnitude of the angular velocity of the spinning in rpm. The right-hand rule shall be followed to indicate the positive direction of the angular velocity." name="angularVelocity">
-					<mal:type area="MAL" list="false" name="Double"/>
-          </mal:field>
+						<mal:type area="MAL" list="false" name="Double"/>
+					</mal:field>
 				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinitionSunPointing" shortFormPart="23">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
 					</mal:extends>
-        </mal:composite>
+				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinitionTargetTracking" shortFormPart="24">
-          <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
-          </mal:extends>
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
+					</mal:extends>
 					<mal:field canBeNull="false" comment="The latitude of the target to be tracked. The unit is in decimal degrees." name="latitude">
-					<mal:type area="MAL" list="false" name="Double"/>
-          </mal:field>
+						<mal:type area="MAL" list="false" name="Double"/>
+					</mal:field>
 					<mal:field canBeNull="false" comment="The longitude of the target to be tracked. The unit is in decimal degrees." name="longitude">
-					<mal:type area="MAL" list="false" name="Double"/>
-          </mal:field>
+						<mal:type area="MAL" list="false" name="Double"/>
+					</mal:field>
 				</mal:composite>
 				<mal:composite comment="" name="AttitudeDefinitionNadirPointing" shortFormPart="25">
-          <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
-          </mal:extends>
+					<mal:extends>
+						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
+					</mal:extends>
 				</mal:composite>
-      </mal:dataTypes>
+			</mal:dataTypes>
 			<mal:errors>
 				<mal:error comment="The ADCS is not available." name="ADCS_NOT_AVAILABLE" number="10"/>
 			</mal:errors>
@@ -829,88 +838,88 @@
 								<svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
 							</svg:marker>
 						</svg:defs>
-            <svg:g id="AttitudeDefinitionNadirPointing" transform="translate(96,108)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="205" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="205"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="102" y="25">AttitudeDefinitionNadirPointing</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="102" y="45">6</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="102" y="65">AttitudeDefinitionNadirPointing</svg:text>
-            </svg:g>
-            <svg:g id="AttitudeDefinitionSunPointing" transform="translate(410,110)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="200" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="200"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="100" y="25">AttitudeDefinitionSunPointing</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="100" y="45">4</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="100" y="65">AttitudeDefinitionSunPointing</svg:text>
-            </svg:g>
-            <svg:g id="AttitudeDefinitionBDot" transform="translate(431,9)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="155" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="155"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="77" y="25">AttitudeDefinitionBDot</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="77" y="45">2</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="77" y="65">AttitudeDefinitionBDot</svg:text>
-            </svg:g>
-            <svg:g id="ADCSProblemDetected" transform="translate(118,7)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">ADCSProblemDetected</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">1</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65">MAL::Blob</svg:text>
-            </svg:g>
-            <svg:g id="AttitudeDefinitionTargetTracking" transform="translate(93,205)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="215" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="215"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="107" y="25">AttitudeDefinitionTargetTracking</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="107" y="45">5</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="107" y="65">AttitudeDefinitionTargetTracking</svg:text>
-            </svg:g>
-            <svg:g id="AttitudeDefinitionSingleSpinning" transform="translate(407,206)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="215" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="215"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="107" y="25">AttitudeDefinitionSingleSpinning</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="107" y="45">3</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="107" y="65">AttitudeDefinitionSingleSpinning</svg:text>
-            </svg:g>
-          </svg:svg>
+						<svg:g id="AttitudeDefinitionNadirPointing" transform="translate(96,108)">
+							<svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="205" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="205"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="102" y="25">AttitudeDefinitionNadirPointing</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="102" y="45">6</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="102" y="65">AttitudeDefinitionNadirPointing</svg:text>
+						</svg:g>
+						<svg:g id="AttitudeDefinitionSunPointing" transform="translate(410,110)">
+							<svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="200" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="200"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="100" y="25">AttitudeDefinitionSunPointing</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="100" y="45">4</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="100" y="65">AttitudeDefinitionSunPointing</svg:text>
+						</svg:g>
+						<svg:g id="AttitudeDefinitionBDot" transform="translate(431,9)">
+							<svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="155" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="155"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="77" y="25">AttitudeDefinitionBDot</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="77" y="45">2</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="77" y="65">AttitudeDefinitionBDot</svg:text>
+						</svg:g>
+						<svg:g id="ADCSProblemDetected" transform="translate(118,7)">
+							<svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">ADCSProblemDetected</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">1</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65">MAL::Blob</svg:text>
+						</svg:g>
+						<svg:g id="AttitudeDefinitionTargetTracking" transform="translate(93,205)">
+							<svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="215" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="215"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="107" y="25">AttitudeDefinitionTargetTracking</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="107" y="45">5</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="107" y="65">AttitudeDefinitionTargetTracking</svg:text>
+						</svg:g>
+						<svg:g id="AttitudeDefinitionSingleSpinning" transform="translate(407,206)">
+							<svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="215" x="4" y="4"/>
+							<svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="215"/>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="107" y="25">AttitudeDefinitionSingleSpinning</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="107" y="45">3</svg:text>
+							<svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="107" y="65">AttitudeDefinitionSingleSpinning</svg:text>
+						</svg:g>
+					</svg:svg>
 				</mal:diagram>
-        <com:objects comment="An AttitudeDefinitionBDot COM object represents the definition of a BDot attitude. The object body shall hold an AttitudeDefinitionBDot structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionBDot COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionSingleSpinning COM object represents the definition of a Single Spinning attitude. The object body shall hold an AttitudeDefinitionSingleSpinning structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionSingleSpinning COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionSunPointing COM object represents the definition of a Sun Pointing attitude. The object body shall hold an AttitudeDefinitionSunPointing structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionSunPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionTargetTracking COM object represents the definition of a Target Tracking attitude. The object body shall hold an AttitudeDefinitionTargetTracking structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionTargetTracking COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionNadirPointing COM object represents the definition of a Nadir Pointing attitude. The object body shall hold an AttitudeDefinitionNadirPointing structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionNadirPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;">
-          <com:object comment="" name="AttitudeDefinitionBDot" number="2">
-            <com:objectType>
-              <mal:type area="Platform" list="false" name="AttitudeDefinitionBDot" service="AutonomousADCS"/>
-            </com:objectType>
-            <com:relatedObject comment=""/>
-            <com:sourceObject comment="">
-            </com:sourceObject>
-          </com:object>
-        <com:object comment="" name="AttitudeDefinitionSingleSpinning" number="3">
-            <com:objectType>
-              <mal:type area="Platform" list="false" name="AttitudeDefinitionSingleSpinning" service="AutonomousADCS"/>
-            </com:objectType>
-            <com:relatedObject comment=""/>
-            <com:sourceObject comment=""/>
-          </com:object>
-          <com:object comment="" name="AttitudeDefinitionSunPointing" number="4">
-            <com:objectType>
-              <mal:type area="Platform" list="false" name="AttitudeDefinitionSunPointing" service="AutonomousADCS"/>
-            </com:objectType>
-            <com:relatedObject comment=""/>
-            <com:sourceObject comment=""/>
-          </com:object>
-          <com:object comment="" name="AttitudeDefinitionTargetTracking" number="5">
-            <com:objectType>
-              <mal:type area="Platform" list="false" name="AttitudeDefinitionTargetTracking" service="AutonomousADCS"/>
-            </com:objectType>
-            <com:relatedObject comment=""/>
-            <com:sourceObject comment=""/>
-          </com:object>
-          <com:object comment="" name="AttitudeDefinitionNadirPointing" number="6">
-            <com:objectType>
-              <mal:type area="Platform" list="false" name="AttitudeDefinitionNadirPointing" service="AutonomousADCS"/>
-            </com:objectType>
-            <com:relatedObject comment=""/>
-            <com:sourceObject comment=""/>
-          </com:object>
-        </com:objects>
+				<com:objects comment="An AttitudeDefinitionBDot COM object represents the definition of a BDot attitude. The object body shall hold an AttitudeDefinitionBDot structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionBDot COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionSingleSpinning COM object represents the definition of a Single Spinning attitude. The object body shall hold an AttitudeDefinitionSingleSpinning structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionSingleSpinning COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionSunPointing COM object represents the definition of a Sun Pointing attitude. The object body shall hold an AttitudeDefinitionSunPointing structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionSunPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionTargetTracking COM object represents the definition of a Target Tracking attitude. The object body shall hold an AttitudeDefinitionTargetTracking structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionTargetTracking COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;An AttitudeDefinitionNadirPointing COM object represents the definition of a Nadir Pointing attitude. The object body shall hold an AttitudeDefinitionNadirPointing structure.&#10;&lt;ol&gt;&#10;&lt;li&gt;The AttitudeDefinitionNadirPointing COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;/ol&gt;">
+					<com:object comment="" name="AttitudeDefinitionBDot" number="2">
+						<com:objectType>
+							<mal:type area="Platform" list="false" name="AttitudeDefinitionBDot" service="AutonomousADCS"/>
+						</com:objectType>
+						<com:relatedObject comment=""/>
+						<com:sourceObject comment="">
+						</com:sourceObject>
+					</com:object>
+					<com:object comment="" name="AttitudeDefinitionSingleSpinning" number="3">
+						<com:objectType>
+							<mal:type area="Platform" list="false" name="AttitudeDefinitionSingleSpinning" service="AutonomousADCS"/>
+						</com:objectType>
+						<com:relatedObject comment=""/>
+						<com:sourceObject comment=""/>
+					</com:object>
+					<com:object comment="" name="AttitudeDefinitionSunPointing" number="4">
+						<com:objectType>
+							<mal:type area="Platform" list="false" name="AttitudeDefinitionSunPointing" service="AutonomousADCS"/>
+						</com:objectType>
+						<com:relatedObject comment=""/>
+						<com:sourceObject comment=""/>
+					</com:object>
+					<com:object comment="" name="AttitudeDefinitionTargetTracking" number="5">
+						<com:objectType>
+							<mal:type area="Platform" list="false" name="AttitudeDefinitionTargetTracking" service="AutonomousADCS"/>
+						</com:objectType>
+						<com:relatedObject comment=""/>
+						<com:sourceObject comment=""/>
+					</com:object>
+					<com:object comment="" name="AttitudeDefinitionNadirPointing" number="6">
+						<com:objectType>
+							<mal:type area="Platform" list="false" name="AttitudeDefinitionNadirPointing" service="AutonomousADCS"/>
+						</com:objectType>
+						<com:relatedObject comment=""/>
+						<com:sourceObject comment=""/>
+					</com:object>
+				</com:objects>
 				<com:events comment="An ADCSProblemDetected COM event represents the detection of a problem on the ADCS. The object body can hold a blob of data containing implementation-specific data.&#10;&lt;ol&gt;&#10;&lt;li&gt;The ADCSProblemDetected COM event shall be generated upon the detection of a problem with the ADCS.&lt;/li&gt;&#10;&lt;/ol&gt;">
 					<com:event comment="The Event body is implementation-specific." name="ADCSProblemDetected" number="1">
 						<com:objectType>
@@ -920,7 +929,7 @@
 						<com:sourceObject comment=""/>
 					</com:event>
 				</com:events>
-        <com:archiveUsage comment="AttitudeDefinitionBDot COM objects should be stored in the COM archive.&#10;AttitudeDefinitionSingleSpinning COM objects should be stored in the COM archive.&#10;AttitudeDefinitionSunPointing COM objects should be stored in the COM archive.&#10;AttitudeDefinitionTargetTracking COM objects should be stored in the COM archive.&#10;AttitudeDefinitionNadirPointing COM objects should be stored in the COM archive."/>
+				<com:archiveUsage comment="AttitudeDefinitionBDot COM objects should be stored in the COM archive.&#10;AttitudeDefinitionSingleSpinning COM objects should be stored in the COM archive.&#10;AttitudeDefinitionSunPointing COM objects should be stored in the COM archive.&#10;AttitudeDefinitionTargetTracking COM objects should be stored in the COM archive.&#10;AttitudeDefinitionNadirPointing COM objects should be stored in the COM archive."/>
 			</com:features>
 		</mal:service>
 		<mal:service comment="The Software-defined Radio provides an generic interface to set, configure and receive data from a Software-defined Radio device.  " name="SoftwareDefinedRadio" number="4" xsi:type="com:ExtendedServiceType">
@@ -930,10 +939,10 @@
 				<mal:pubsubIP comment="The streamRadio operation allows a consumer to subscribe for Software-defined Radio data updates." name="streamRadio" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-            <mal:field canBeNull="true" comment="The iqComponents field shall hold the in-phase and quadrature data from the Software-defined Radio unit." name="iqComponents">
-                <mal:type area="Platform" list="false" name="IQComponents" service="SoftwareDefinedRadio"/>
-              </mal:field>
-            </mal:publishNotify>
+							<mal:field canBeNull="true" comment="The iqComponents field shall hold the in-phase and quadrature data from the Software-defined Radio unit." name="iqComponents">
+								<mal:type area="Platform" list="false" name="IQComponents" service="SoftwareDefinedRadio"/>
+							</mal:field>
+						</mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
 			</mal:capabilitySet>
@@ -944,23 +953,23 @@
 							<mal:field canBeNull="true" comment="The enable field shall hold the flag status to enable/disable the Software-defined Radio.&#10;If the enable field is true then the Software-defined Radio shall be enabled otherwise disabled." name="enable">
 								<mal:type area="MAL" list="false" name="Boolean"/>
 							</mal:field>
-						<mal:field canBeNull="true" comment="The  initialConfiguration field shall hold the configuration to be set right after the SDR is enabled." name="initialConfiguration">
-                <mal:type area="Platform" list="false" name="SDRConfiguration" service="SoftwareDefinedRadio"/>
-              </mal:field>
-            <mal:field canBeNull="true" comment="" name="publishingPeriod">
-                <mal:type area="MAL" list="false" name="Duration"/>
-              </mal:field>
-            </mal:submit>
+							<mal:field canBeNull="true" comment="The  initialConfiguration field shall hold the configuration to be set right after the SDR is enabled." name="initialConfiguration">
+								<mal:type area="Platform" list="false" name="SDRConfiguration" service="SoftwareDefinedRadio"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="publishingPeriod">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:field>
+						</mal:submit>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="The provided configuration is invalid.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            </mal:errorRef>
-            <mal:errorRef comment="The Software-defined Radio could not be enabled.">
-              <mal:type area="MAL" list="false" name="INTERNAL"/>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:submitIP>
+					<mal:errors>
+						<mal:errorRef comment="The provided configuration is invalid.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+						</mal:errorRef>
+						<mal:errorRef comment="The Software-defined Radio could not be enabled.">
+							<mal:type area="MAL" list="false" name="INTERNAL"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
 				<mal:submitIP comment="The setConfiguration operation allows a consumer to set a configuration to the Software-defined Radio." name="updateConfiguration" number="3" supportInReplay="false">
@@ -971,12 +980,12 @@
 							</mal:field>
 						</mal:submit>
 					</mal:messages>
-				<mal:errors>
-            <mal:errorRef comment="The provided configuration is invalid.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-            </mal:errorRef>
-          </mal:errors>
-        </mal:submitIP>
+					<mal:errors>
+						<mal:errorRef comment="The provided configuration is invalid.">
+							<mal:type area="COM" list="false" name="INVALID"/>
+						</mal:errorRef>
+					</mal:errors>
+				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
 				<mal:composite comment="It holds a configuration for the SDR." name="SDRConfiguration" shortFormPart="1">
@@ -1002,18 +1011,18 @@
 						<mal:type area="MAL" list="false" name="Double"/>
 					</mal:field>
 				</mal:composite>
-			<mal:composite comment="It holds the In-phase and Quadrature components." name="IQComponents" shortFormPart="27">
-          <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
-          </mal:extends>
-        <mal:field canBeNull="true" comment="The in-phase component." name="inPhase">
-            <mal:type area="MAL" list="true" name="Double"/>
-          </mal:field>
-        <mal:field canBeNull="true" comment="The quadrature component." name="quadrature">
-            <mal:type area="MAL" list="true" name="Double"/>
-          </mal:field>
-        </mal:composite>
-      </mal:dataTypes>
+				<mal:composite comment="It holds the In-phase and Quadrature components." name="IQComponents" shortFormPart="27">
+					<mal:extends>
+						<mal:type area="MAL" list="false" name="Composite"/>
+					</mal:extends>
+					<mal:field canBeNull="true" comment="The in-phase component." name="inPhase">
+						<mal:type area="MAL" list="true" name="Double"/>
+					</mal:field>
+					<mal:field canBeNull="true" comment="The quadrature component." name="quadrature">
+						<mal:type area="MAL" list="true" name="Double"/>
+					</mal:field>
+				</mal:composite>
+			</mal:dataTypes>
 			<com:features/>
 		</mal:service>
 		<mal:service comment="The Optical Data Receiver service provides an interface to receive messages from an Optical Data Receiver device." name="OpticalDataReceiver" number="5" xsi:type="com:ExtendedServiceType">
@@ -1029,17 +1038,17 @@
 						</mal:publishNotify>
 					</mal:messages>
 				</mal:pubsubIP>
-			<mal:requestIP comment="The setPublishingFrequency operation allows a consumer to set the publishing frequency or disable it." name="setPublishingFrequency" number="2" supportInReplay="false">
-          <mal:messages>
-            <mal:request comment="">
-              <mal:field canBeNull="true" comment="The publishingPeriod field shall hold the period of updates to be streamed.&#10;If set to 0, then no updates will be generated." name="publishingPeriod">
-                <mal:type area="MAL" list="false" name="Duration"/>
-              </mal:field>
-            </mal:request>
-            <mal:response comment=""/>
-          </mal:messages>
-        </mal:requestIP>
-      </mal:capabilitySet>
+				<mal:requestIP comment="The setPublishingFrequency operation allows a consumer to set the publishing frequency or disable it." name="setPublishingFrequency" number="2" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="The publishingPeriod field shall hold the period of updates to be streamed.&#10;If set to 0, then no updates will be generated." name="publishingPeriod">
+								<mal:type area="MAL" list="false" name="Duration"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment=""/>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
 			<com:features/>
 		</mal:service>
 		<mal:service comment="The Generic Device service provides a generic interface to interact with any possible device. The service achieves this by providing two simple operations, one to receive data and other to send data." name="GenericDevice" number="6" xsi:type="com:ExtendedServiceType">
@@ -1067,36 +1076,36 @@
 					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
-      <mal:capabilitySet comment="" number="3">
-        <mal:requestIP comment="" name="getDataFromCommand" number="3" supportInReplay="false">
-          <mal:messages>
-            <mal:request comment="">
-              <mal:field canBeNull="true" comment="" name="command">
-                <mal:type area="MAL" list="false" name="Blob"/>
-              </mal:field>
-            </mal:request>
-            <mal:response comment="">
-              <mal:field canBeNull="true" comment="" name="data">
-                <mal:type area="MAL" list="false" name="Blob"/>
-              </mal:field>
-            </mal:response>
-          </mal:messages>
-        </mal:requestIP>
-      </mal:capabilitySet>
-		<com:features/>
-    </mal:service>
+			<mal:capabilitySet comment="" number="3">
+				<mal:requestIP comment="" name="getDataFromCommand" number="3" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="" name="command">
+								<mal:type area="MAL" list="false" name="Blob"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="" name="data">
+								<mal:type area="MAL" list="false" name="Blob"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<com:features/>
+		</mal:service>
 		<mal:service comment="" name="Magnetometer" number="7" xsi:type="com:ExtendedServiceType">
 			<mal:capabilitySet comment="" number="1">
 				<mal:requestIP comment="The getMagneticField operation allows a consumer to retrieve the magnetic field instance from a magnetometer unit." name="getMagneticField" number="1" supportInReplay="false">
-          <mal:messages>
-            <mal:request comment=""/>
-            <mal:response comment="">
-              <mal:field canBeNull="true" comment="The magneticField field shall hold the magnetic field instance of the magnetometer." name="magneticField">
-                <mal:type area="Platform" list="false" name="MagneticFieldInstance" service="Magnetometer"/>
-              </mal:field>
-            </mal:response>
-          </mal:messages>
-        </mal:requestIP>
+					<mal:messages>
+						<mal:request comment=""/>
+						<mal:response comment="">
+							<mal:field canBeNull="true" comment="The magneticField field shall hold the magnetic field instance of the magnetometer." name="magneticField">
+								<mal:type area="Platform" list="false" name="MagneticFieldInstance" service="Magnetometer"/>
+							</mal:field>
+						</mal:response>
+					</mal:messages>
+				</mal:requestIP>
 			</mal:capabilitySet>
 			<mal:dataTypes>
 				<mal:composite comment="An instance of the magnetic field vector." name="MagneticFieldInstance" shortFormPart="1">
@@ -1116,32 +1125,32 @@
 			</mal:dataTypes>
 			<com:features/>
 		</mal:service>
-    <mal:service comment="" name="PowerControl" number="8" xsi:type="com:ExtendedServiceType">
-      <mal:capabilitySet comment="" number="1">
-        <mal:requestIP comment="" name="listUnitsAvailable" number="1" supportInReplay="false">
-          <mal:messages>
-            <mal:request comment=""/>
-            <mal:response comment=""/>
-          </mal:messages>
-        </mal:requestIP>
-      </mal:capabilitySet>
-      <mal:capabilitySet comment="" number="2">
-        <mal:requestIP comment="" name="enableUnit" number="2" supportInReplay="false">
-          <mal:messages>
-            <mal:request comment="">
-              <mal:field canBeNull="true" comment="" name="enable">
-                <mal:type area="MAL" list="false" name="Boolean"/>
-              </mal:field>
-              <mal:field canBeNull="true" comment="" name="unitObjInstIds">
-                <mal:type area="MAL" list="false" name="Long"/>
-              </mal:field>
-            </mal:request>
-            <mal:response comment=""/>
-          </mal:messages>
-        </mal:requestIP>
-      </mal:capabilitySet>
-      <com:features/>
-    </mal:service>
+		<mal:service comment="" name="PowerControl" number="8" xsi:type="com:ExtendedServiceType">
+			<mal:capabilitySet comment="" number="1">
+				<mal:requestIP comment="" name="listUnitsAvailable" number="1" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment=""/>
+						<mal:response comment=""/>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<mal:capabilitySet comment="" number="2">
+				<mal:requestIP comment="" name="enableUnit" number="2" supportInReplay="false">
+					<mal:messages>
+						<mal:request comment="">
+							<mal:field canBeNull="true" comment="" name="enable">
+								<mal:type area="MAL" list="false" name="Boolean"/>
+							</mal:field>
+							<mal:field canBeNull="true" comment="" name="unitObjInstIds">
+								<mal:type area="MAL" list="false" name="Long"/>
+							</mal:field>
+						</mal:request>
+						<mal:response comment=""/>
+					</mal:messages>
+				</mal:requestIP>
+			</mal:capabilitySet>
+			<com:features/>
+		</mal:service>
 		<mal:dataTypes>
 			<mal:composite comment="" name="Vector3D" shortFormPart="17">
 				<mal:extends>
@@ -1162,8 +1171,8 @@
 					<mal:type area="MAL" list="false" name="Composite"/>
 				</mal:extends>
 				<mal:field canBeNull="false" comment="Velocity of the wheels. &lt;Units must be defined here&gt;" name="velocity">
-				<mal:type area="MAL" list="true" name="Double"/>
-        </mal:field>
+					<mal:type area="MAL" list="true" name="Double"/>
+				</mal:field>
 			</mal:composite>
 			<mal:composite comment="" name="Quaternions" shortFormPart="16">
 				<mal:extends>
@@ -1183,9 +1192,9 @@
 				</mal:field>
 			</mal:composite>
 		</mal:dataTypes>
-    <mal:errors>
-      <mal:error comment="The device is currently in use." name="DEVICE_IN_USE" number="10509"/>
-    <mal:error comment="The device is currently not available." name="DEVICE_NOT_AVAILABLE" number="10510"/>
-    </mal:errors>
+		<mal:errors>
+			<mal:error comment="The device is currently in use." name="DEVICE_IN_USE" number="10509"/>
+			<mal:error comment="The device is currently not available." name="DEVICE_NOT_AVAILABLE" number="10510"/>
+		</mal:errors>
 	</mal:area>
 </mal:specification>

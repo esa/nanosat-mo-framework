@@ -41,7 +41,6 @@ public class COMServicesProvider {
      * @throws org.ccsds.moims.mo.mal.MALException
      */
     public void init() throws MALException {
-
         eventService = new EventProviderServiceImpl();
         archiveService = new ArchiveProviderServiceImpl();
         activityTrackingService = new ActivityTrackingProviderServiceImpl();
@@ -57,7 +56,6 @@ public class COMServicesProvider {
 
         // Start Activity Tracking Service
         activityTrackingService.init(archiveService, eventService);
-
     }
 
     public EventProviderServiceImpl getEventService() {
@@ -97,6 +95,10 @@ public class COMServicesProvider {
      */
     public void setActivityTrackingService(ActivityTrackingProviderServiceImpl activityTrackingService) {
         this.activityTrackingService = activityTrackingService;
+    }
+    
+    public void closeAll(){
+        this.archiveService.close();
     }
 
 }

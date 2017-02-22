@@ -119,6 +119,21 @@ public class ArchiveManager {
         this.eventService = eventService;
     }
 
+    private class WaitUntillAllFlushedRunnable implements Callable {
+
+        @Override
+        public Integer call() {
+            dbBackend.createEntityManager();
+            dbBackend.closeEntityManager();
+            return null;
+        }
+    }
+
+    void close() {
+        // Forces the code to wait until all the stores are flushed
+        this.dbProcessor.stopInteractions(new WaitUntillAllFlushedRunnable());
+    }
+
     private class ResetMainTableRunnable implements Callable {
 
         @Override

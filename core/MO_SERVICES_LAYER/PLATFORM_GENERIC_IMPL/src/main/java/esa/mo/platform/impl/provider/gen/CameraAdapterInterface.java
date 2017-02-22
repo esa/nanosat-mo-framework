@@ -25,10 +25,8 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
-
 
 /**
  *
@@ -44,7 +42,7 @@ public interface CameraAdapterInterface {
      */
     public PixelResolutionList getAvailableResolutions();
     
-    public Picture getPicturePreview();
+    public Picture getPicturePreview() throws IOException;
 
     public Picture takePicture(PixelResolution resolution, PictureFormat format, Duration exposureTime) throws IOException;    
 

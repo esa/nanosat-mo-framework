@@ -212,7 +212,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     
     @Override
     public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction) throws MALInteractionException, MALException {
-
         if (!adapter.isUnitAvailable()){ // Is the unit available?
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
@@ -225,7 +224,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         } catch (IOException ex) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
-        
     }
 
     @Override
@@ -248,7 +246,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void getPosition(GetPositionInteraction interaction) throws MALInteractionException, MALException {
-
         if (!adapter.isUnitAvailable()){ // Is the unit available?
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
@@ -263,12 +260,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         interaction.sendResponse(position);
-        
     }
 
     @Override
     public void getSatellitesInfo(GetSatellitesInfoInteraction interaction) throws MALInteractionException, MALException {
-        
         if (!adapter.isUnitAvailable()){ // Is the unit available?
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
@@ -277,7 +272,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         SatelliteInfoList sats =  adapter.getSatelliteInfoList();
         interaction.sendResponse(sats);
-
     }
 
     @Override

@@ -99,7 +99,6 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
      */
     public synchronized void init(COMServicesProvider comServices, CameraAdapterInterface adapter) throws MALException {
         if (!initialiased) {
-
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
@@ -158,7 +157,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during close down of the provider {0}", ex);
         }
     }
     
@@ -200,13 +200,15 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             PictureList picList = new PictureList();
             picList.add(picture);
             publisher.publish(hdrlst, picList);
-
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during publishing process on the provider {0}", ex);
         } catch (MALException ex) {
-            Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during publishing process on the provider {0}", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during publishing process on the provider {0}", ex);
         }
     }
 
@@ -285,7 +287,6 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 }
             }
         }, period, period);
-
     }
 
     @Override
@@ -302,8 +303,11 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         // Get some preview Picture from the camera...
         synchronized (lock) {
-            Picture preview = adapter.getPicturePreview();
-            return preview;
+            try{
+                return adapter.getPicturePreview();
+            }catch(IOException ex){
+                throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            }
         }
     }
 
@@ -364,7 +368,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 
                 picture = null;
             } catch (IOException ex) {
-                Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                interaction.sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
             }
         }
     }
@@ -413,6 +417,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         if (format.equals(PictureFormat.PNG)) {
             ImageIO.write(image, "PNG", stream);
             newPicture.setContent(new Blob(stream.toByteArray()));
+            stream.close();
             stream = null;
             newPicture.setFormat(PictureFormat.PNG);
             return newPicture;
@@ -421,6 +426,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         if (format.equals(PictureFormat.BMP)) {
             ImageIO.write(image, "BMP", stream);
             newPicture.setContent(new Blob(stream.toByteArray()));
+            stream.close();
             stream = null;
             newPicture.setFormat(PictureFormat.BMP);
             return newPicture;
@@ -429,6 +435,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         if (format.equals(PictureFormat.JPG)) {
             ImageIO.write(image, "JPEG", stream);
             newPicture.setContent(new Blob(stream.toByteArray()));
+            stream.close();
             stream = null;
             newPicture.setFormat(PictureFormat.JPG);
             return newPicture;
