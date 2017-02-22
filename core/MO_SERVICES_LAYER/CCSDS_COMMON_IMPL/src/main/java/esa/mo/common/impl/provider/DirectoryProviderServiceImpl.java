@@ -291,9 +291,14 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         IdentifierList objBodies = new IdentifierList();
         objBodies.add(serviceProviderName);
 
-        // Do we already have this provider in the Directory service?
+        PublishProviderResponse response = new PublishProviderResponse();
+
         synchronized (MUTEX) {
-            for (Long key : providersAvailable.keySet()) {
+            final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
+            list.putAll(providersAvailable);
+
+            // Do we already have this provider in the Directory service?
+            for (Long key : list.keySet()) {
                 PublishDetails provider = this.providersAvailable.get(key);
 
                 if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
@@ -304,65 +309,61 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     this.providersAvailable.remove(key); // Remove the provider...
                 }
             }
-        }
 
-        ArchiveDetailsList archDetails = (interaction == null)
-                ? HelperArchive.generateArchiveDetailsList(null, null, connection.getPrimaryConnectionDetails().getProviderURI())
-                : HelperArchive.generateArchiveDetailsList(null, null, interaction);
+            ArchiveDetailsList archDetails = (interaction == null)
+                    ? HelperArchive.generateArchiveDetailsList(null, null, connection.getPrimaryConnectionDetails().getProviderURI())
+                    : HelperArchive.generateArchiveDetailsList(null, null, interaction);
 
-        // Check if there are comServices...
-        if (comServices == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-        }
+            // Check if there are comServices...
+            if (comServices == null) {
+                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            }
 
-        // Check if the archive is available...
-        if (comServices.getArchiveService() == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-        }
+            // Check if the archive is available...
+            if (comServices.getArchiveService() == null) {
+                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            }
 
-        // Store in the Archive the ServiceProvider COM object and get an object instance identifier
-        LongList returnedServProvObjIds = comServices.getArchiveService().store(
-                true,
-                DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                archDetails,
-                objBodies,
-                null
-        );
+            // Store in the Archive the ServiceProvider COM object and get an object instance identifier
+            LongList returnedServProvObjIds = comServices.getArchiveService().store(
+                    true,
+                    DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    archDetails,
+                    objBodies,
+                    null
+            );
 
-        Long servProvObjId;
+            Long servProvObjId;
 
-        if (!returnedServProvObjIds.isEmpty()) {
-            servProvObjId = returnedServProvObjIds.get(0);
-        } else {  // Nothing was returned...
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-        }
+            if (!returnedServProvObjIds.isEmpty()) {
+                servProvObjId = returnedServProvObjIds.get(0);
+            } else {  // Nothing was returned...
+                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            }
 
-        // related contains the objId of the ServiceProvider object
-        ArchiveDetailsList archDetails1 = (interaction == null)
-                ? HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getPrimaryConnectionDetails().getProviderURI())
-                : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
+            // related contains the objId of the ServiceProvider object
+            ArchiveDetailsList archDetails1 = (interaction == null)
+                    ? HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getPrimaryConnectionDetails().getProviderURI())
+                    : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
 
-        ProviderDetailsList capabilities = new ProviderDetailsList();
-        capabilities.add(newProviderDetails.getProviderDetails());
+            ProviderDetailsList capabilities = new ProviderDetailsList();
+            capabilities.add(newProviderDetails.getProviderDetails());
 
-        // Store in the Archive the ProviderCapabilities COM object and get an object instance identifier
-        comServices.getArchiveService().store(
-                false,
-                DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                archDetails1,
-                capabilities,
-                null
-        );
+            // Store in the Archive the ProviderCapabilities COM object and get an object instance identifier
+            comServices.getArchiveService().store(
+                    false,
+                    DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    archDetails1,
+                    capabilities,
+                    null
+            );
 
-        synchronized (MUTEX) {
             this.providersAvailable.put(servProvObjId, newProviderDetails);
+            response.setBodyElement0(servProvObjId);
+            response.setBodyElement1(null); // All capabilities (does null really mean that?)
         }
-
-        PublishProviderResponse response = new PublishProviderResponse();
-        response.setBodyElement0(servProvObjId);
-        response.setBodyElement1(null); // All capabilities (does null really mean that?)
 
         return response;
     }

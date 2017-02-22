@@ -53,19 +53,15 @@ public class ClosingAppListener extends EventReceivedListener {
 
     @Override
     public void onDataReceived(EventCOMObject eventCOMObject) {
-        Logger.getLogger(ClosingAppListener.class.getName()).log(Level.INFO,
-                "Data received on the adapter: " + eventCOMObject.getObjType().toString()
-                + "And.. " + eventCOMObject.toString());
-
         if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPING_OBJECT_TYPE)) {
             // Is it the ack from the app?
             Logger.getLogger(ClosingAppListener.class.getName()).log(Level.INFO,
-                    "The app with objId " + objId + " is closing...");
+                    "The app with objId " + objId + " is stopping...");
         }
 
         if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPED_OBJECT_TYPE)) {
             Logger.getLogger(ClosingAppListener.class.getName()).log(Level.INFO,
-                    "The app with objId " + objId + " is now closed!");
+                    "The app with objId " + objId + " is now stopped!");
 
             try { // Send update to consumer stating that the app is stopped
                 interaction.sendUpdate(objId);
@@ -74,19 +70,9 @@ public class ClosingAppListener extends EventReceivedListener {
             } catch (MALException ex) {
                 Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
             }
-            /*
-            try { // Send update to consumer stating that the app is stopped
-                interaction.sendResponse();
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
-                Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
-            }
-             */
 
             // If so, then close the connection to the service
             eventService.closeConnection();
-
             this.appClosed = true;
         }
     }

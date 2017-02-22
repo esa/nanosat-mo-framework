@@ -56,7 +56,7 @@ public class CloseAppEventListener extends EventReceivedListener {
 
         long startTime = System.currentTimeMillis();
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "New StopApp Event Received!");
-/*
+
         // Acknowledge the reception of the request to close (Closing...)
         final ObjectId source = eventCOMObject.getObjectId();
 
@@ -68,8 +68,9 @@ public class CloseAppEventListener extends EventReceivedListener {
                 source,
                 null);
 
-        provider.getCOMServices().getEventService().publishEvent(eventCOMObject.getSourceURI(),
-                eventId, AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+        final URI uri = provider.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
+        provider.getCOMServices().getEventService().publishEvent(uri, eventId,
+                AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
 
         // Close the app...
         // Make a call on the app layer to close nicely...
@@ -106,20 +107,20 @@ public class CloseAppEventListener extends EventReceivedListener {
                 source,
                 null);
 
-        provider.getCOMServices().getEventService().publishEvent(eventCOMObject.getSourceURI(),
-                eventId2, AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+        provider.getCOMServices().getEventService().publishEvent(uri, eventId2,
+                AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
 
         // Should close them safely as well...
 //        provider.getMCServices().closeServices();
 //        provider.getCOMServices().closeServices();
         provider.getCOMServices().closeAll();
-*/
+
         // Exit the Java application
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
                 "Success! The currently running Java Virtual Machine will now terminate. "
-                + "(in: " + (System.currentTimeMillis() - startTime) + " ms)");
-        System.exit(0);
+                + "(App closed in: " + (System.currentTimeMillis() - startTime) + " ms)");
 
+        System.exit(0);
     }
 
 }

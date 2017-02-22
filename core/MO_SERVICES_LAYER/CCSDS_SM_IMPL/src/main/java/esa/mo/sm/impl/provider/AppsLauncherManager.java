@@ -376,17 +376,17 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     protected void stopApps(final LongList appInstIds, final ArrayList<SingleConnectionDetails> appConnections,
-            final ConnectionProvider connection, final StopAppInteraction interaction) throws MALException, MALInteractionException {
+            final StopAppInteraction interaction) throws MALException, MALInteractionException {
         Random random = new Random(); // to avoid registrations with the same name
 
         // Register on the Event service of the respective apps
         for (int i = 0; i < appConnections.size(); i++) {
             // Select all object numbers from the Apps Launcher service Events
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
+            
             Subscription eventSub = ConnectionConsumer.subscriptionKeys(
-                    new Identifier("AppClosingEvent" + random.nextInt()),
+                    new Identifier("ClosingAppEvents" + random.nextInt()),
                     new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
-
             try { // Subscribe to events
                 EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.get(i));
                 eventServiceConsumer.addEventReceivedListener(eventSub,
@@ -409,7 +409,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         }
 
         // Generate, store and publish the events to stop the Apps...
-        LongList objIds = super.getCOMServices().getEventService().generateAndStoreEvents(objType,
+        final LongList objIds = super.getCOMServices().getEventService().generateAndStoreEvents(objType,
                 ConfigurationProviderSingleton.getDomain(), appInstIds, sourceList, interaction.getInteraction());
 
         final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();

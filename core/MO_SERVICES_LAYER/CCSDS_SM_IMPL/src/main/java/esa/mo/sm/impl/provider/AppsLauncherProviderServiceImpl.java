@@ -357,7 +357,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         interaction.sendAcknowledgement();
 
-        manager.stopApps(appInstIds, appConnections, connection, interaction);
+        manager.stopApps(appInstIds, appConnections, interaction);
     }
 
     @Override

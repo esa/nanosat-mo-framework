@@ -211,6 +211,9 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     }
 
     /**
+     * This method is deprecated! The sourceURI should be explicitly stated. The
+     * extraction of it from the interaction object should happen on the layers 
+     * above. The broker won't publish the event if the source is not correct.
      * Publishes an Event through the Event service.
      *
      * @param interaction Interaction object
@@ -220,6 +223,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param source Source link
      * @param eventBodies Bodies of the event
      */
+    @Deprecated
     public void publishEvent(final MALInteraction interaction, final Long objId, final ObjectType objType,
             final Long related, final ObjectId source, final ElementList eventBodies) {
 
@@ -236,7 +240,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     }
 
     /**
-     * Publishes an Event through the Event service.
+     * Publishes an Event through the Event service. The source URI must match
+     * the source otherwise the event won't be published
      *
      * @param sourceURI Source URI
      * @param objId Object instance identifier
