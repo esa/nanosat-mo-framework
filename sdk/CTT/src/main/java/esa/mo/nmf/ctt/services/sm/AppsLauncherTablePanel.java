@@ -125,7 +125,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     
     public int findIndex(int appId) throws Exception{
         
-        final int max = tableData.getRowCount() - 1;
+        final int max = tableData.getRowCount();
         
         for(int i=0; i < max; i++){
             Long value = (Long) tableData.getValueAt(i, 0);

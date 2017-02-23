@@ -278,7 +278,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             appsTable.switchEnabledstatus(false);
             
             for(Long id : ids){
-                appsTable.reportStatus("I shot the sheriff!", id.intValue());
+                appsTable.reportStatus("Killed!", id.intValue());
             }
         } catch (MALInteractionException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
@@ -381,7 +381,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void stopAppResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
-            appsTable.reportStatus("(4) Successfully Closed!", 1);
+            appsTable.reportStatus("(4) All apps have been closed!", 1);
         }
 
     }
