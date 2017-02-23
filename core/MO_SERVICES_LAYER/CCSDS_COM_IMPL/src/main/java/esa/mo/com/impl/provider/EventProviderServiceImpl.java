@@ -533,4 +533,21 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         return null;
     }
 
+    /**
+     * Closes all running threads and releases the MAL resources.
+     */
+    public void close() {
+        try {
+            if (null != eventServiceProvider) {
+                eventServiceProvider.close();
+            }
+            
+            connection.closeAll();
+            running = false;
+        } catch (MALException ex) {
+            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during close down of the provider.", ex);
+        }
+    }
+    
 }

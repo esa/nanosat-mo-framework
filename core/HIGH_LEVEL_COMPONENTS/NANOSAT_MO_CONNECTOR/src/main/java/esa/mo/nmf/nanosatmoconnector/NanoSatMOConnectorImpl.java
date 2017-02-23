@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.util.HelperCommon;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -44,6 +45,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.EventHelper;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderDetails;
@@ -109,7 +111,8 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         // Connect to the Central Directory service
         if (centralDirectoryURI != null) {
             try {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Attempting to connect to Central Directory service...");
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
+                        "Attempting to connect to Central Directory service...");
 
                 // Connect to the Central Directory service...
                 directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
@@ -171,8 +174,8 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                             "Successfully connected to Platform services on: " + supervisorConnections.get(0).getProviderName());
                 } else {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
-                            "The NanoSat MO Connector was expecting a single NanoSat MO Supervisor provider! Instead it found "
-                            + supervisorConnections.size() + ".");
+                            "The NanoSat MO Connector was expecting a single NanoSat MO Supervisor provider! "
+                            + "Instead it found " + supervisorConnections.size() + ".");
                 }
             } catch (MALException ex) {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -296,6 +299,81 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         details.setServiceCapabilities(newCapabilities);
 
         return newSummary;
+    }
+
+    /**
+     * It closes the App gracefully.
+     *
+     * @param source The source of the triggering. Can be null
+     */
+    public final void closeGracefully(final ObjectId source) {
+        long startTime = System.currentTimeMillis();
+
+        // We can close the connection to the Supervisor
+        this.serviceCOMEvent.closeConnection();
+
+        // Acknowledge the reception of the request to close (Closing...)
+        Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
+                AppsLauncherHelper.STOPPING_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                null,
+                null,
+                source,
+                null);
+
+        final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
+        this.getCOMServices().getEventService().publishEvent(uri, eventId,
+                AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+
+        // Close the app...
+        // Make a call on the app layer to close nicely...
+        if (this.closeAppAdapter != null) {
+            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
+                    "Triggering the closeAppAdapter of the app business logic...");
+            this.closeAppAdapter.onClose(); // Time to sleep, boy!
+        }
+
+        // Unregister the provider from the Central Directory service...
+        URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
+
+        if (centralDirectoryURI != null) {
+            try {
+                DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+                directoryServiceConsumer.getDirectoryStub().withdrawProvider(this.getAppDirectoryId());
+                directoryServiceConsumer.closeConnection();
+            } catch (MALException ex) {
+                Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
+                        "There was a problem while connectin to the Central Directory service on URI: "
+                        + centralDirectoryURI.getValue() + "\nException: " + ex);
+            }
+        }
+
+        Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
+                AppsLauncherHelper.STOPPED_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                null,
+                null,
+                source,
+                null);
+
+        this.getCOMServices().getEventService().publishEvent(uri, eventId2,
+                AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+
+        // Should close them safely as well...
+//        provider.getMCServices().closeServices();
+//        provider.getCOMServices().closeServices();
+        this.getCOMServices().closeAll();
+
+        // Exit the Java application
+        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
+                "Success! The currently running Java Virtual Machine will now terminate. "
+                + "(App closed in: " + (System.currentTimeMillis() - startTime) + " ms)");
+
+        System.exit(0);
     }
 
 }

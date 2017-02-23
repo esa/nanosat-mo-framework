@@ -23,6 +23,7 @@ package esa.mo.platform.impl.provider.gen;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -34,6 +35,7 @@ import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinition;
 import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
@@ -102,7 +104,7 @@ public final class GPSManager extends DefinitionsManager {
                 LongList objIds = super.getArchiveService().store(
                         true,
                         GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
-                        connectionDetails.getDomain(),
+                        ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(null, source, connectionDetails),
                         defs,
                         null);
@@ -135,7 +137,7 @@ public final class GPSManager extends DefinitionsManager {
     }
 
     protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside, 
-            final Long objId, final SingleConnectionDetails connectionDetails) {
+            final Long objId, final URI uri) {
         if (super.getArchiveService() != null) {
             BooleanList isEnteringList = new BooleanList();
             isEnteringList.add(inside);
@@ -144,8 +146,8 @@ public final class GPSManager extends DefinitionsManager {
                 LongList objIds = super.getArchiveService().store(
                         true,
                         GPSHelper.NEARBYPOSITIONALERT_OBJECT_TYPE,
-                        connectionDetails.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(objId, null, connectionDetails),
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(objId, null, uri),
                         isEnteringList,
                         null);
 

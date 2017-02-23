@@ -99,6 +99,7 @@ public class COMServicesProvider {
     
     public void closeAll(){
         this.archiveService.close();
+        this.eventService.close();
     }
 
 }

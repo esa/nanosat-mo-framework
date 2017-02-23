@@ -62,6 +62,7 @@ import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.structures.UpdateType;
@@ -188,13 +189,14 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                         objId, new Identifier(manager.get(objId).getName().toString())
                     });
 
-            final Long pValObjId = manager.storeAndGenerateNearbyPositionAlertId(isInside, objId, connection.getConnectionDetails());
+            final URI uri = connection.getConnectionDetails().getProviderURI();
+            final Long pValObjId = manager.storeAndGenerateNearbyPositionAlertId(isInside, objId, uri);
 
             final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, pValObjId, null);
             final Time timestamp = HelperTime.getTimestampMillis();
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
+            hdrlst.add(new UpdateHeader(timestamp, uri, UpdateType.UPDATE, ekey));
 
             BooleanList bools = new BooleanList();
             bools.add(isInside);
@@ -495,7 +497,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         private static final int PERIOD = 5000; // 5 Seconds
 
         public PeriodicReportingManager() {
-            timer = new Timer();
+            timer = new Timer("GPS_PeriodicReportingManager");
         }
 
         public void start() {
