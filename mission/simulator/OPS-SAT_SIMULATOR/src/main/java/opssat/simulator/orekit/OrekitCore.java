@@ -32,6 +32,10 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.threading.SimulatorNode;
@@ -153,6 +157,7 @@ public class OrekitCore {
     final LinkedList<GPSSatInView> gpsSatsInView;
     private final Object constellationPropagationCounterMutex=new Object();
     private int constellationPropagationCounter;
+    private ExecutorService executor = Executors.newCachedThreadPool(new SimThreadFactory("SimProcessorOrekit"));
 
     private double getDecimalYear(AbsoluteDate extrapDate) {
         try {
@@ -810,7 +815,8 @@ public class OrekitCore {
         this.gpsExtrapDate=this.extrapDate;
         this.gpsCurrentSCState=this.spacecraftState;
         
-        new Thread("sim-GPS_Constellation") {
+        
+        executor.submit( new Runnable() {
                 @Override
                 public void run() {
                     //logger.log(Level.INFO,"Propagating constellation..");
@@ -849,7 +855,7 @@ public class OrekitCore {
                         } catch (PropagationException ex) {
                            logger.log(Level.SEVERE, null, ex);
                         }
-                    };
+                    }
                     
                     synchronized (gpsSatsInView) {
                         gpsSatsInView.clear();
@@ -862,7 +868,7 @@ public class OrekitCore {
                     gpsOneShotDistances=false;
                     propagatingConstellation=false;
                 }
-            }.start();
+            });
     }
     public LinkedList<GPSSatInView> getSatsInViewAsList()
     {
@@ -1090,5 +1096,36 @@ public class OrekitCore {
         }
         return null;
     }
+    
+    /**
+     * The database backend thread factory
+     */
+    static class SimThreadFactory implements ThreadFactory {
+
+        private final ThreadGroup group;
+        private final AtomicInteger threadNumber = new AtomicInteger(1);
+        private final String namePrefix;
+
+        SimThreadFactory(String prefix) {
+            SecurityManager s = System.getSecurityManager();
+            group = (s != null) ? s.getThreadGroup()
+                    : Thread.currentThread().getThreadGroup();
+            namePrefix = prefix + "-thread-";
+        }
+
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(group, r,
+                    namePrefix + threadNumber.getAndIncrement(),
+                    0);
+            if (t.isDaemon()) {
+                t.setDaemon(false);
+            }
+            if (t.getPriority() != Thread.NORM_PRIORITY) {
+                t.setPriority(Thread.NORM_PRIORITY);
+            }
+            return t;
+        }
+    }
+    
 
 }
