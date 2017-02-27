@@ -23,6 +23,7 @@ package esa.mo.nmf;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 
 
 /**
@@ -60,5 +61,13 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      * to close the app
      */
     public void addCloseAppListener(CloseAppListener closeAppAdapter);
+    
+    /**
+     * Closes the app gracefully.
+     *
+     * @param source The source object that triggered the close operation. Can
+     * be null.
+     */
+    public void closeGracefully(final ObjectId source);
     
 }

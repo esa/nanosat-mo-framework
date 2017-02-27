@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nanosatmosupervisor;
 
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.nmf.nanosatmomonolithic.NanoSatMOMonolithic;
 import esa.mo.nmf.NanoSatMOFrameworkProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
@@ -36,9 +37,13 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PackageManagementBackendInterface;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
  * A Provider of MO services composed by COM, M&C and Platform services. Selects
@@ -132,12 +137,67 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory
-        NanoSatMOFrameworkProvider.hintGC();
+        // NanoSatMOFrameworkProvider.hintGC();
     }
 
     @Override
-    public void addCloseAppListener(CloseAppListener closeAppAdapter) {
-        // To do...
+    public void addCloseAppListener(final CloseAppListener closeAppAdapter) {
+        this.closeAppAdapter = closeAppAdapter;
     }
 
+    /**
+     * It closes the App gracefully.
+     *
+     * @param source The source of the triggering. Can be null
+     */
+    @Override
+    public final void closeGracefully(final ObjectId source) {
+        long startTime = System.currentTimeMillis();
+
+        // Acknowledge the reception of the request to close (Closing...)
+        Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
+                AppsLauncherHelper.STOPPING_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                null,
+                null,
+                source,
+                null);
+
+        final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
+        this.getCOMServices().getEventService().publishEvent(uri, eventId,
+                AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+
+        // Close the app...
+        // Make a call on the app layer to close nicely...
+        if (this.closeAppAdapter != null) {
+            Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
+                    "Triggering the closeAppAdapter of the app business logic...");
+            this.closeAppAdapter.onClose(); // Time to sleep, boy!
+        }
+
+        Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
+                AppsLauncherHelper.STOPPED_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                null,
+                null,
+                source,
+                null);
+
+        this.getCOMServices().getEventService().publishEvent(uri, eventId2,
+                AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+
+        // Should close them safely as well...
+//        provider.getMCServices().closeServices();
+//        provider.getCOMServices().closeServices();
+        this.getCOMServices().closeAll();
+
+        // Exit the Java application
+        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
+                "Success! The currently running Java Virtual Machine will now terminate. "
+                + "(NanoSat MO Supervisor closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
+
+        System.exit(0);
+    } 
+    
+    
 }

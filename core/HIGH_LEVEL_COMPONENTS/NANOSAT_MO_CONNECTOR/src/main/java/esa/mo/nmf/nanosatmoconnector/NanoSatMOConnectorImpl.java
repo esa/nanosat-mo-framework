@@ -306,6 +306,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
      *
      * @param source The source of the triggering. Can be null
      */
+    @Override
     public final void closeGracefully(final ObjectId source) {
         long startTime = System.currentTimeMillis();
 
@@ -328,7 +329,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         // Close the app...
         // Make a call on the app layer to close nicely...
         if (this.closeAppAdapter != null) {
-            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                     "Triggering the closeAppAdapter of the app business logic...");
             this.closeAppAdapter.onClose(); // Time to sleep, boy!
         }
@@ -342,9 +343,9 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 directoryServiceConsumer.getDirectoryStub().withdrawProvider(this.getAppDirectoryId());
                 directoryServiceConsumer.closeConnection();
             } catch (MALException ex) {
-                Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MalformedURLException ex) {
-                Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
                         "There was a problem while connectin to the Central Directory service on URI: "
@@ -369,9 +370,9 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         this.getCOMServices().closeAll();
 
         // Exit the Java application
-        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
+        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "Success! The currently running Java Virtual Machine will now terminate. "
-                + "(App closed in: " + (System.currentTimeMillis() - startTime) + " ms)");
+                + "(App closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
 
         System.exit(0);
     }
