@@ -22,8 +22,6 @@ package esa.mo.nmf.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.nanosatmomonolithic.NanoSatMOMonolithic;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
@@ -42,22 +40,6 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic {
 
     private PlatformServicesProviderSoftSim provider;
     
-    /**
-     * To initialize the NanoSat MO Monolithic with this method, it is necessary
-     * to implement the ActionInvocationListener interface and the
-     * ParameterStatusListener interface.
-     *
-     * @param actionAdapter The adapter to connect the actions to the
-     * corresponding method of a specific entity.
-     * @param parameterAdapter The adapter to connect the parameters to the
-     * corresponding variable of a specific entity.
-     */
-    /*
-    public NanoSatMOMonolithicSim(ActionInvocationListener actionAdapter, ParameterStatusListener parameterAdapter) {
-        super(actionAdapter, parameterAdapter, new PlatformServicesConsumer());
-    }
-    */
-
     /**
      * To initialize the NanoSat MO Monolithic with this method, it is necessary
      * to extend the MonitorAndControlAdapter adapter class. The

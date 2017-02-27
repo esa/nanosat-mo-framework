@@ -84,5 +84,5 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
             Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
 }
