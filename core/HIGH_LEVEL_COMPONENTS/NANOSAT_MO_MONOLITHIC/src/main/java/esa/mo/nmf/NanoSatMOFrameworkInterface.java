@@ -37,14 +37,14 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      *
      * @return The COM services
      */
-    public COMServicesProvider getCOMServices();
+    public COMServicesProvider getCOMServices() throws NMFException;
 
     /**
      * Requests the MC services available in the NanoSat MO Framework provider.
      *
      * @return The MC services
      */
-    public MCServicesProvider getMCServices();
+    public MCServicesProvider getMCServices() throws NMFException;
 
     /**
      * Requests the Platform services available in the NanoSat MO Framework
@@ -52,7 +52,7 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      *
      * @return The Platform services
      */
-    public PlatformServicesConsumer getPlatformServices();
+    public PlatformServicesConsumer getPlatformServices() throws NMFException;
     
     /**
      * Adds a listener for when the app is requested to be closed.

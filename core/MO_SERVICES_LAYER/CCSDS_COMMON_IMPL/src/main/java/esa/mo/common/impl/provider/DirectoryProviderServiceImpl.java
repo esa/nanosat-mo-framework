@@ -380,8 +380,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             this.providersAvailable.remove(providerObjectKey); // Remove the provider...
         }
     }
+    
+    public PublishDetails loadURIs(final String providerName){
+        return this.autoLoadURIsFile(providerName);
+    }
 
-    public PublishDetails autoLoadURIsFile(final String providerName) {
+    private PublishDetails autoLoadURIsFile(final String providerName) {
         ServicesConnectionDetails primaryConnectionDetails = new ServicesConnectionDetails();
         ServicesConnectionDetails secondaryAddresses = new ServicesConnectionDetails();
 

@@ -88,7 +88,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
 
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Populating Directory service...");
-        directoryService.autoLoadURIsFile(this.providerName);
+        directoryService.loadURIs(this.providerName);
 
         if (mcAdapter != null) {
             // Are the dynamic changes enabled?
@@ -101,15 +101,15 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
                 }
             }
 
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), 
+            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
-        
+
         final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "NanoSat MO Monolithic initialized! URI: " + uri + "\n");
     }
-    
+
     /**
      * It closes the App gracefully.
      *
@@ -117,49 +117,53 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
      */
     @Override
     public final void closeGracefully(final ObjectId source) {
-        long startTime = System.currentTimeMillis();
+        try {
+            long startTime = System.currentTimeMillis();
 
-        // Acknowledge the reception of the request to close (Closing...)
-        Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPING_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                null,
-                null,
-                source,
-                null);
+            // Acknowledge the reception of the request to close (Closing...)
+            Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
+                    AppsLauncherHelper.STOPPING_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    null,
+                    null,
+                    source,
+                    null);
 
-        final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
-        this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
+            this.getCOMServices().getEventService().publishEvent(uri, eventId,
+                    AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
 
-        // Close the app...
-        // Make a call on the app layer to close nicely...
-        if (this.closeAppAdapter != null) {
-            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
-                    "Triggering the closeAppAdapter of the app business logic...");
-            this.closeAppAdapter.onClose(); // Time to sleep, boy!
-        }
+            // Close the app...
+            // Make a call on the app layer to close nicely...
+            if (this.closeAppAdapter != null) {
+                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
+                        "Triggering the closeAppAdapter of the app business logic...");
+                this.closeAppAdapter.onClose(); // Time to sleep, boy!
+            }
 
-        Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPED_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                null,
-                null,
-                source,
-                null);
+            Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
+                    AppsLauncherHelper.STOPPED_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    null,
+                    null,
+                    source,
+                    null);
 
-        this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+            this.getCOMServices().getEventService().publishEvent(uri, eventId2,
+                    AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
 
-        // Should close them safely as well...
+            // Should close them safely as well...
 //        provider.getMCServices().closeServices();
 //        provider.getCOMServices().closeServices();
-        this.getCOMServices().closeAll();
+            this.getCOMServices().closeAll();
 
-        // Exit the Java application
-        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
-                "Success! The currently running Java Virtual Machine will now terminate. "
-                + "(App closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
+            // Exit the Java application
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
+                    "Success! The currently running Java Virtual Machine will now terminate. "
+                    + "(App closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
+        } catch (NMFException ex) {
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         System.exit(0);
     }

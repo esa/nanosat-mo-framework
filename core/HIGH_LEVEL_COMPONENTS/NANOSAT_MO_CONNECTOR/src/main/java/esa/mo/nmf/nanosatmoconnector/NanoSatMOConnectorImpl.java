@@ -131,7 +131,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 // Register for CloseApp Events...
                 try {
                     // Convert provider to connectionDetails...
-                    SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
+                    final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
                 } catch (IOException ex) {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Something went wrong...");
@@ -150,8 +150,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 // Lookup for the Platform services on the NanoSat MO Supervisor
                 final ServiceKey sk = new ServiceKey(PlatformHelper.PLATFORM_AREA_NUMBER,
                         new UShort(0), new UOctet((short) 0));
-                final ServiceFilter sf2 = new ServiceFilter(
-                        new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME),
+                final ServiceFilter sf2 = new ServiceFilter(new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), null, new Identifier("*"), sk, new UIntegerList());
                 final ProviderSummaryList supervisorConnections = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf2);
 
@@ -203,7 +202,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         // Populate the local Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "Populating local Directory service...");
-        PublishDetails publishDetails = directoryService.autoLoadURIsFile(this.providerName);
+        PublishDetails publishDetails = directoryService.loadURIs(this.providerName);
 
         // Load previous configurations
         if (mcAdapter != null) {
@@ -308,71 +307,75 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
      */
     @Override
     public final void closeGracefully(final ObjectId source) {
-        long startTime = System.currentTimeMillis();
+        try {
+            long startTime = System.currentTimeMillis();
 
-        // We can close the connection to the Supervisor
-        this.serviceCOMEvent.closeConnection();
+            // We can close the connection to the Supervisor
+            this.serviceCOMEvent.closeConnection();
 
-        // Acknowledge the reception of the request to close (Closing...)
-        Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPING_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                null,
-                null,
-                source,
-                null);
+            // Acknowledge the reception of the request to close (Closing...)
+            Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
+                    AppsLauncherHelper.STOPPING_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    null,
+                    null,
+                    source,
+                    null);
 
-        final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
-        this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
+            this.getCOMServices().getEventService().publishEvent(uri, eventId,
+                    AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
 
-        // Close the app...
-        // Make a call on the app layer to close nicely...
-        if (this.closeAppAdapter != null) {
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                    "Triggering the closeAppAdapter of the app business logic...");
-            this.closeAppAdapter.onClose(); // Time to sleep, boy!
-        }
-
-        // Unregister the provider from the Central Directory service...
-        URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
-
-        if (centralDirectoryURI != null) {
-            try {
-                DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
-                directoryServiceConsumer.getDirectoryStub().withdrawProvider(this.getAppDirectoryId());
-                directoryServiceConsumer.closeConnection();
-            } catch (MALException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
-                        "There was a problem while connectin to the Central Directory service on URI: "
-                        + centralDirectoryURI.getValue() + "\nException: " + ex);
+            // Close the app...
+            // Make a call on the app layer to close nicely...
+            if (this.closeAppAdapter != null) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
+                        "Triggering the closeAppAdapter of the app business logic...");
+                this.closeAppAdapter.onClose(); // Time to sleep, boy!
             }
-        }
 
-        Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPED_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                null,
-                null,
-                source,
-                null);
+            // Unregister the provider from the Central Directory service...
+            URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
 
-        this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+            if (centralDirectoryURI != null) {
+                try {
+                    DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+                    directoryServiceConsumer.getDirectoryStub().withdrawProvider(this.getAppDirectoryId());
+                    directoryServiceConsumer.closeConnection();
+                } catch (MALException ex) {
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
+                            "There was a problem while connectin to the Central Directory service on URI: "
+                            + centralDirectoryURI.getValue() + "\nException: " + ex);
+                }
+            }
 
-        // Should close them safely as well...
+            Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
+                    AppsLauncherHelper.STOPPED_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    null,
+                    null,
+                    source,
+                    null);
+
+            this.getCOMServices().getEventService().publishEvent(uri, eventId2,
+                    AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+
+            // Should close them safely as well...
 //        provider.getMCServices().closeServices();
 //        provider.getCOMServices().closeServices();
-        this.getCOMServices().closeAll();
+            this.getCOMServices().closeAll();
 
-        // Exit the Java application
-        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                "Success! The currently running Java Virtual Machine will now terminate. "
-                + "(App closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
+            // Exit the Java application
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
+                    "Success! The currently running Java Virtual Machine will now terminate. "
+                    + "(App closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
+        } catch (NMFException ex) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         System.exit(0);
     }

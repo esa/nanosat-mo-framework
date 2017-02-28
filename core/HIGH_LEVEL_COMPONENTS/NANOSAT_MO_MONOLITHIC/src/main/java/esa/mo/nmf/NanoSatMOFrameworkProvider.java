@@ -89,17 +89,29 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public String providerName;
 
     @Override
-    public COMServicesProvider getCOMServices() {
+    public COMServicesProvider getCOMServices() throws NMFException {
+        if (this.comServices == null) {
+            throw new NMFException("The COM services are not available.");
+        }
+
         return comServices;
     }
 
     @Override
-    public MCServicesProvider getMCServices() {
+    public MCServicesProvider getMCServices() throws NMFException {
+        if (this.mcServices == null) {
+            throw new NMFException("The Monitor and Control services are not available.");
+        }
+
         return mcServices;
     }
 
     @Override
-    public PlatformServicesConsumer getPlatformServices() {
+    public PlatformServicesConsumer getPlatformServices() throws NMFException {
+        if (this.platformServices == null) {
+            throw new NMFException("The Platform services are not available.");
+        }
+
         return platformServices;
     }
 
@@ -110,7 +122,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
-        this.getMCServices().getActionService().reportExecutionProgress(success, 
+        this.getMCServices().getActionService().reportExecutionProgress(success,
                 new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
     }
 
@@ -120,7 +132,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
-        return this.getMCServices().getAlertService().publishAlertEvent(null, 
+        return this.getMCServices().getAlertService().publishAlertEvent(null,
                 new Identifier(alertDefinitionName), argumentValues, null, null);
     }
 
@@ -148,7 +160,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
         final ParameterValue parameterValue = new ParameterValue();
         parameterValue.setRawValue((Attribute) obj);
-        
+
         // To do: Add the Conversion service here and put the value in the convertedValue field
         parameterValue.setConvertedValue(null);
         parameterValue.setValid(true);
@@ -157,11 +169,11 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         ParameterInstance instance = new ParameterInstance(new Identifier(name), parameterValue, null, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
         parameters.add(instance);
-        
+
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
-    
-    private void reloadServiceConfiguration(final ReconfigurableServiceImplInterface service, 
+
+    private void reloadServiceConfiguration(final ReconfigurableServiceImplInterface service,
             final Long serviceObjId) throws NMFException {
         // Retrieve the COM object of the service
         ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
@@ -182,7 +194,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             // If the object above exists, this one should also!
             throw new NMFException("An error happened while reloading the service configuration: " + service.getCOMService().getName());
         }
-        
+
         // Reload the previous Configuration
         service.reloadConfiguration(configurationObjectDetails);
     }
@@ -198,7 +210,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         /*---------------------------------------------------*/
         // Create the adapter that stores the configurations "onChange"
         MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
-        
+
         // Reload the previous Configurations
         this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
         this.reloadServiceConfiguration(mcServices.getParameterService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_PARAMETER_SERVICE);
@@ -223,7 +235,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             mcServices.getAggregationService().init(comServices, parameterManager);
         }
     }
-    
+
     @Override
     public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
         this.providerConfigurationAdapter = configurationAdapter;
@@ -267,12 +279,12 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public CloseAppListener getCloseAppListener() {
         return this.closeAppAdapter;
     }
-    
+
     /**
-     * Hints the GC to do Garbage Collection and also hints it to go 
-     * through the finalization method of the pending finalization objects.
+     * Hints the GC to do Garbage Collection and also hints it to go through the
+     * finalization method of the pending finalization objects.
      */
-    public static void hintGC(){
+    public static void hintGC() {
         System.gc();
         System.runFinalization();
     }
@@ -300,26 +312,26 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
                 Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.WARNING,
                     "The File " + file.getPath() + " could not be found!");
             return null;
         }
 
         return null;
     }
-    
+
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
         BufferedWriter wrt = null;
         try { // Reset the file
             wrt = new BufferedWriter(new FileWriter(FILENAME_CENTRAL_DIRECTORY_SERVICE, false));
-            if(secondaryURI != null){
+            if (secondaryURI != null) {
                 wrt.write(secondaryURI);
                 wrt.write("\n");
             }
 
             wrt.write(centralDirectoryURI);
         } catch (IOException ex) {
-            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
         } finally {
             if (wrt != null) {
@@ -330,5 +342,5 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             }
         }
     }
-    
+
 }

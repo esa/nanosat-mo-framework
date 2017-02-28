@@ -31,13 +31,10 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
-import static esa.mo.nmf.NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PackageManagementBackendInterface;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -79,7 +76,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         HelperMisc.setInputProcessorsProperty();
-        
+
         // Enforce the App Name property to be HelperMisc.NMF_NMS_NAME
         System.setProperty(HelperMisc.MO_APP_NAME, HelperNMF.NMF_NMS_NAME);
 
@@ -91,9 +88,8 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         try {
             this.comServices.init();
             this.heartbeatService.init();
-            
+
             // Change transport to start on both RMI and SPP
-            
             this.directoryService.init(comServices);
             this.applicationsManagerService.init(comServices, directoryService);
             this.packageManagementService.init(comServices, packageManagementBackend);
@@ -107,34 +103,34 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
-        this.directoryService.autoLoadURIsFile(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME);
+        this.directoryService.loadURIs(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME);
 
         if (mcAdapter != null) {
             // Are the dynamic changes enabled?
-            if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, 
+            if ("true".equals(System.getProperty(NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY))) {
+                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
                         "Loading previous configurations...");
-                
+
                 try {
                     this.loadConfigurations();
                 } catch (NMFException ex) {
-                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, 
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
                             "The configurations could not be loaded!", ex);
                 }
             }
 
-            final MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), 
+            final MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
-        
+
         final String primaryURI = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
-        
+
         final SingleConnectionDetails det = this.directoryService.getConnection().getSecondaryConnectionDetails();
         final String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
         this.writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + primaryURI + "\n");
-        
+
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory
         // NanoSatMOFrameworkProvider.hintGC();
@@ -152,52 +148,56 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
      */
     @Override
     public final void closeGracefully(final ObjectId source) {
-        long startTime = System.currentTimeMillis();
+        try {
+            long startTime = System.currentTimeMillis();
 
-        // Acknowledge the reception of the request to close (Closing...)
-        Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPING_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                null,
-                null,
-                source,
-                null);
+            // Acknowledge the reception of the request to close (Closing...)
+            Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
+                    AppsLauncherHelper.STOPPING_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    null,
+                    null,
+                    source,
+                    null);
 
-        final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
-        this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
+            this.getCOMServices().getEventService().publishEvent(uri, eventId,
+                    AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
 
-        // Close the app...
-        // Make a call on the app layer to close nicely...
-        if (this.closeAppAdapter != null) {
-            Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
-                    "Triggering the closeAppAdapter of the app business logic...");
-            this.closeAppAdapter.onClose(); // Time to sleep, boy!
-        }
+            // Close the app...
+            // Make a call on the app layer to close nicely...
+            if (this.closeAppAdapter != null) {
+                Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
+                        "Triggering the closeAppAdapter of the app business logic...");
+                this.closeAppAdapter.onClose(); // Time to sleep, boy!
+            }
 
-        Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPED_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                null,
-                null,
-                source,
-                null);
+            Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
+                    AppsLauncherHelper.STOPPED_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    null,
+                    null,
+                    source,
+                    null);
 
-        this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+            this.getCOMServices().getEventService().publishEvent(uri, eventId2,
+                    AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
 
-        // Should close them safely as well...
+            // Should close them safely as well...
 //        provider.getMCServices().closeServices();
 //        provider.getCOMServices().closeServices();
-        this.getCOMServices().closeAll();
+            this.getCOMServices().closeAll();
 
-        // Exit the Java application
-        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
-                "Success! The currently running Java Virtual Machine will now terminate. "
-                + "(NanoSat MO Supervisor closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
+            // Exit the Java application
+            Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
+                    "Success! The currently running Java Virtual Machine will now terminate. "
+                    + "(NanoSat MO Supervisor closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
+
+        } catch (NMFException ex) {
+            Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         System.exit(0);
-    } 
-    
-    
+    }
+
 }

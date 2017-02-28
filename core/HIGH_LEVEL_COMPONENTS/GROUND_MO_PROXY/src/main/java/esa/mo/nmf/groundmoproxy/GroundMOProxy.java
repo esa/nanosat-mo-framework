@@ -22,6 +22,7 @@ package esa.mo.nmf.groundmoproxy;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.common.impl.proxy.DirectoryProxyServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
@@ -31,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  * A Consumer of MO services composed by COM, M&C and Platform services.
@@ -44,25 +46,29 @@ import org.ccsds.moims.mo.mal.MALException;
  */
 public class GroundMOProxy {
 
-    private final COMServicesProvider comServicesProxy = new COMServicesProvider();
+    private final COMServicesProvider localCOMServices = new COMServicesProvider();
+    
+    private final DirectoryProxyServiceImpl directoryService = new DirectoryProxyServiceImpl();
 
     // Have a list of providers
     private final HashMap<String, GroundMOAdapter> myProviders = new HashMap<String, GroundMOAdapter>();
 
     public void init() {
 
-        // Initialize the extension bridge services and expose them using TCP/IP !
+        // Initialize the protocol bridge services and expose them using TCP/IP !
 
         try {
-            comServicesProxy.init();
+            localCOMServices.init();
+            directoryService.init(localCOMServices);
         } catch (MALException ex) {
             Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
         // Initialize the pure protocol bridge for the services without extension
-        // HERE
-        
+        final URI centralDirectoryServiceURI = new URI("ffffd"); 
+        directoryService.fetchAndLoadFromRemoteDirectoryService(centralDirectoryServiceURI);
+
     }
 
     /**

@@ -73,7 +73,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     private final COMServicesProvider comServices;
 
     public MCStoreLastConfigurationAdapter(NanoSatMOFrameworkInterface provider,
-            final ObjectId confId, final Identifier providerName) {
+            final ObjectId confId, final Identifier providerName) throws NMFException {
 
         try {
             ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
