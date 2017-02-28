@@ -23,6 +23,7 @@ package esa.mo.nmf.apps;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
@@ -208,6 +209,8 @@ public class DemoGPSData {
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NMFException ex) {
+                    Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 if (PARAMETER_GPS_N_SATS_IN_VIEW.equals(identifier.getValue())) {
@@ -229,6 +232,8 @@ public class DemoGPSData {
                     try {
                         nanoSatMOFramework.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
                     } catch (IOException ex) {
+                        Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NMFException ex) {
                         Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                     }
 

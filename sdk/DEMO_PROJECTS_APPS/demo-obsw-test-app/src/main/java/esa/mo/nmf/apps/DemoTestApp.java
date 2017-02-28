@@ -21,10 +21,12 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.util.logging.Level;
@@ -39,6 +41,7 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
@@ -61,89 +64,88 @@ public class DemoTestApp {
 
     public DemoTestApp() {
 
-        AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
-        AggregationDefinitionDetails def = new AggregationDefinitionDetails();
-
-        def.setName(new Identifier("fsfdsd"));
-        def.setDescription("dfvgdf");
-        def.setCategory(AggregationCategory.GENERAL);
-        def.setGenerationEnabled(true);
-        def.setUpdateInterval(new Duration(45));
-        def.setFilterEnabled(false);
-        def.setFilteredTimeout(new Duration(54));
-        AggregationParameterSetList aaa = new AggregationParameterSetList();
-        AggregationParameterSet aa = new AggregationParameterSet();
-        aa.setDomain(null);
-        LongList lissssst = new LongList();
-        lissssst.add(new Long(65));
-        aa.setParameters(lissssst);
-        aa.setSampleInterval(new Duration(43));
-        aa.setPeriodicFilter(null);
-        aaa.add(aa);
-
-        def.setParameterSets(aaa);
-
-        for (int i = 0; i < NUMBER_OF_OBJS; i++) {
-            defs.add(def);
-        }
-
-        ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
-        for (int i = 0; i < NUMBER_OF_OBJS - 1; i++) {
-            archDetails.add(HelperArchive.generateArchiveDetailsList(null, null, nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails()).get(0));
-        }
-/*        
-        archDetails.get(0).setInstId((long) 1);
-        archDetails.get(1).setInstId((long) 2);
-*/
-        long startTime = System.nanoTime();
-        
-        nanoSatMOFramework.getCOMServices().getArchiveService().reset();
-
         try {
-            LongList objIds = nanoSatMOFramework.getCOMServices().getArchiveService().store(
-                    true,
-                    AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                    nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
-                    archDetails,
-                    defs,
-                    null);
-            
-            objIds = null;
-
-        } catch (MALException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-/*
-        try {
-
-            for (int i = 0; i < defs.size(); i++) {
-                ArchiveDetailsList xxx = new ArchiveDetailsList();
-                AggregationDefinitionDetailsList yyy = new AggregationDefinitionDetailsList();
-                xxx.add(archDetails.get(0));
-                yyy.add(defs.get(i));
-
-                nanoSatMOFramework.getCOMServices().getArchiveService().store(
+            AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
+            AggregationDefinitionDetails def = new AggregationDefinitionDetails();
+            def.setName(new Identifier("fsfdsd"));
+            def.setDescription("dfvgdf");
+            def.setCategory(AggregationCategory.GENERAL);
+            def.setGenerationEnabled(true);
+            def.setUpdateInterval(new Duration(45));
+            def.setFilterEnabled(false);
+            def.setFilteredTimeout(new Duration(54));
+            AggregationParameterSetList aaa = new AggregationParameterSetList();
+            AggregationParameterSet aa = new AggregationParameterSet();
+            aa.setDomain(null);
+            LongList lissssst = new LongList();
+            lissssst.add(new Long(65));
+            aa.setParameters(lissssst);
+            aa.setSampleInterval(new Duration(43));
+            aa.setPeriodicFilter(null);
+            aaa.add(aa);
+            def.setParameterSets(aaa);
+            for (int i = 0; i < NUMBER_OF_OBJS; i++) {
+                defs.add(def);
+            }
+            URI uri = nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getProviderURI();
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, uri);
+            for (int i = 0; i < NUMBER_OF_OBJS - 1; i++) {
+                archDetails.add(HelperArchive.generateArchiveDetailsList(null, null, uri).get(0));
+            }
+            /*
+            archDetails.get(0).setInstId((long) 1);
+            archDetails.get(1).setInstId((long) 2);
+            */
+            long startTime = System.nanoTime();
+            nanoSatMOFramework.getCOMServices().getArchiveService().reset();
+            try {
+                LongList objIds = nanoSatMOFramework.getCOMServices().getArchiveService().store(
                         true,
                         AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                        nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
-                        xxx,
-                        yyy,
+                        ConfigurationProviderSingleton.getDomain(),
+                        archDetails,
+                        defs,
                         null);
 
+                objIds = null;
+                
+            } catch (MALException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
+            /*
+            try {
+            
+            for (int i = 0; i < defs.size(); i++) {
+            ArchiveDetailsList xxx = new ArchiveDetailsList();
+            AggregationDefinitionDetailsList yyy = new AggregationDefinitionDetailsList();
+            xxx.add(archDetails.get(0));
+            yyy.add(defs.get(i));
+            
+            nanoSatMOFramework.getCOMServices().getArchiveService().store(
+            true,
+            AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
+            nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
+            xxx,
+            yyy,
+            null);
+            
+            }
+            
+            } catch (MALException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            */
+            
+            long estimatedTime = System.nanoTime() - startTime;
+            Logger.getLogger(DemoTestApp.class.getName()).log(Level.INFO, "time: " + estimatedTime + " nanoseconds");
 
-        } catch (MALException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NMFException ex) {
+            Logger.getLogger(DemoTestApp.class.getName()).log(Level.SEVERE, null, ex);
         }
-*/
-
-        long estimatedTime = System.nanoTime() - startTime;
-        Logger.getLogger(DemoTestApp.class.getName()).log(Level.INFO, "time: " + estimatedTime + " nanoseconds");
 
     }
 

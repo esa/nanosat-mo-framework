@@ -434,6 +434,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     nmf.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
                 } catch (IOException ex) {
                     Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NMFException ex) {
+                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 try {
@@ -471,6 +473,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NMFException ex) {
+                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -493,6 +497,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         return (Attribute) HelperAttributes.javaType2Attribute(magField.getZ());
                     }
                 } catch (IOException ex) {
+                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NMFException ex) {
                     Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -552,6 +558,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             } catch (MALException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
+            } catch (NMFException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
             }
 
         }
@@ -581,6 +590,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             } catch (MALException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
+            } catch (NMFException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
             }
         }
 
@@ -591,17 +603,17 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 }
             }
 
-            // if PUSH_USING_PARAMETER_SERVICE
-            pushAdcsModeParam(AttitudeMode.BDOT);
-            // else
-            //try {
-            //nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) AttitudeMode.BDOT.getOrdinal()));
-            //} catch (IOException ex) {
-            //Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            //}
-            // endif
-
             try {
+                // if PUSH_USING_PARAMETER_SERVICE
+                pushAdcsModeParam(AttitudeMode.BDOT);
+                // else
+                //try {
+                //nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) AttitudeMode.BDOT.getOrdinal()));
+                //} catch (IOException ex) {
+                //Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                //}
+                // endif
+            
                 System.out.println(ACTION_UNSET + " was called");
                 nmf.getPlatformServices().getAutonomousADCSService().unsetAttitude();
             } catch (MALInteractionException ex) {
@@ -610,6 +622,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             } catch (IOException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
+                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                return new UInteger(0);
+            } catch (NMFException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             }
@@ -668,6 +683,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             }
         } catch (MALException ex) {
             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NMFException ex) {
+            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
@@ -678,6 +695,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         } catch (MALInteractionException ex) {
             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
+            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NMFException ex) {
             Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -753,7 +772,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     }
 
     // push a sample of the ADCS Mode using the Parameter Service
-    private void pushAdcsModeParam(AttitudeMode attMode) {
+    private void pushAdcsModeParam(AttitudeMode attMode) throws NMFException {
         Identifier name = new Identifier(PARAMETER_ADCS_MODE);
         ObjectId source = null;
         Boolean isValid = true;
