@@ -23,6 +23,7 @@ package esa.mo.nmf.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmomonolithic.NanoSatMOMonolithic;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
@@ -74,6 +75,8 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic {
             connectionConsumer.loadURIs();
             super.getPlatformServices().init(connectionConsumer, null);
         } catch (MalformedURLException ex) {
+            Logger.getLogger(NanoSatMOMonolithicSim.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NMFException ex) {
             Logger.getLogger(NanoSatMOMonolithicSim.class.getName()).log(Level.SEVERE, null, ex);
         }
 

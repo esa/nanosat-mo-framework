@@ -22,6 +22,7 @@ package esa.mo.nmf.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
 import esa.mo.nmf.packager.PackageManagementBackendNMFPackage;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
@@ -81,6 +82,8 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
             connectionConsumer.loadURIs();
             super.getPlatformServices().init(connectionConsumer, null);
         } catch (MalformedURLException ex) {
+            Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NMFException ex) {
             Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
