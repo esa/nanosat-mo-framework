@@ -21,8 +21,6 @@
 package esa.mo.common.impl.proxy;
 
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
-import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  *
@@ -30,16 +28,5 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
 
-
-    public PublishDetails fetchAndLoadFromRemoteDirectoryService(final URI centralDirectoryServiceURI) {
-        // To be done...
-        
-        // Generate the PublishDetails object from the Central Directory URI
-        
-        // Connect there, and retrieve the list
-        
-        
-        return null;
-    }
 
 }

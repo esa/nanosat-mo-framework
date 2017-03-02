@@ -114,8 +114,9 @@ public class MOServicesConsumer {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file " + 
-                    HelperMisc.CONSUMER_PROPERTIES_FILE + 
-                    " could not be found! This error can happen if the user is trying to run the application from a different folder other than the one where the file is.", ex);
+                    HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! "
+                    + "This error can happen if the user is trying to run the application from "
+                    + "a different folder other than the one where the file is.", ex);
         }
 
         initCOMServices();
@@ -238,8 +239,8 @@ public class MOServicesConsumer {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file " + 
-                    HelperMisc.CONSUMER_PROPERTIES_FILE + 
-                    " could not be found! This error can happen if the user is trying to run the application from a different folder other than the one where the file is.", ex);
+                    HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! This error can happen if the user is "
+                    + "trying to run the application from a different folder other than the one where the file is.", ex);
         }
 
         DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI);
@@ -257,7 +258,7 @@ public class MOServicesConsumer {
         filter.setServiceProviderName(new Identifier("*"));
 
         // Do the lookup
-        ProviderSummaryList summaryList = directoryService.getDirectoryStub().lookupProvider(filter);
+        final ProviderSummaryList summaryList = directoryService.getDirectoryStub().lookupProvider(filter);
         directoryService.closeConnection();  // close the connection
 
         return summaryList;

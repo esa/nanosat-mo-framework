@@ -61,6 +61,10 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>GROUND_MO_ADAPTER</artifactId>
         </dependency>
     </dependencies>

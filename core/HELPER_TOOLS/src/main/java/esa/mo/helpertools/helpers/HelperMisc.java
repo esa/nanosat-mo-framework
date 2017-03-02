@@ -109,7 +109,6 @@ public class HelperMisc {
      * @throws IOException The file consumer properties file does no exist
      */
     public static void loadConsumerProperties() throws MalformedURLException, IOException {
-
         final Properties sysProps = System.getProperties();
         final File file = new File(System.getProperty("consumer.properties", CONSUMER_PROPERTIES_FILE));
 
@@ -117,10 +116,6 @@ public class HelperMisc {
             sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "consumer.properties"));
         } else {
             throw new IOException("The file " + file.getName() + " does not exist.");
-            /*
-            Logger.getLogger(HelperMisc.class.getName()).log(Level.INFO,
-                    "The file " + file.getName() + " does not exist.");
-             */
         }
 
         System.setProperties(sysProps);

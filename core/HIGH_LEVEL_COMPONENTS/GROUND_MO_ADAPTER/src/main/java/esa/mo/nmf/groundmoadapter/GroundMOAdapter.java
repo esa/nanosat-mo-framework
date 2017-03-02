@@ -198,8 +198,6 @@ public class GroundMOAdapter extends MOServicesConsumer implements SimpleCommand
                             } catch (IOException ex) {
                                 // Didn't work? Well, maybe it is just a normal Blob...
                                 object = (Serializable) HelperAttributes.attribute2JavaType(parameterValue);
-
-//                                Logger.getLogger(GroundMOAdapter.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         } else {
                             // Not a Blob?

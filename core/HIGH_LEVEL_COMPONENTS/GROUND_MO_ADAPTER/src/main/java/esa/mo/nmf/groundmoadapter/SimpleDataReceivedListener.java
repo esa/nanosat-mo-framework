@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.groundmoadapter;
 
-import esa.mo.nmf.groundmoadapter.DataReceivedListener;
 import java.io.Serializable;
 
 /**

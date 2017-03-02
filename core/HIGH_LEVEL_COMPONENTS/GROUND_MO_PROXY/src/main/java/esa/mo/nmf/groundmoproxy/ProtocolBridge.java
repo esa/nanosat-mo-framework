@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.groundmoproxy;
 
+import esa.mo.mal.impl.transport.TransportSingleton;
 import java.util.Map;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALStandardError;
@@ -35,43 +36,56 @@ import org.ccsds.moims.mo.mal.transport.MALTransportFactory;
 
 public class ProtocolBridge {
 
-    public void init() throws MALException, Exception {
+    private MALTransport transportA;
+    private MALTransport transportB;
+    private MALEndpoint epA;
+    private MALEndpoint epB;
 
-        String protocolA = "rmi";
-        String protocolB = "rmi";
+    public void init(final String protocolA, final String protocolB) throws MALException, Exception {
 
-        MALTransport transportA = createTransport(protocolA);
-        MALTransport transportB = createTransport(protocolB);
-
-        MALEndpoint epA = createEndpoint(protocolA, transportA);
-        MALEndpoint epB = createEndpoint(protocolB, transportB);
+        transportA = createTransport(protocolA, null);
+        transportB = createTransport(protocolB, null);
+        
+//        transportA = TransportSingleton.instance(protocolA, null);
+//        transportB = TransportSingleton.instance(protocolB, null);
+        
+        epA = createEndpoint(protocolA, transportA);
+        epB = createEndpoint(protocolB, transportB);
 
 //        storeURIs(System.getProperty("protocolA.uri.filename"), epA.getURI());
 //        storeURIs(System.getProperty("protocolB.uri.filename"), epB.getURI());
 //        wrapURIs(System.getProperty("protocolA.wrap.filename"), System.getProperty("protocolA.wrap.filename") + ".wrapped", epA.getURI());
 //        wrapURIs(System.getProperty("protocolB.wrap.filename"), System.getProperty("protocolB.wrap.filename") + ".wrapped", epB.getURI());
-        System.out.println("Linking transports");
+        System.out.println("Linking transports...");
         epA.setMessageListener(new BridgeMessageHandler(epB));
         epB.setMessageListener(new BridgeMessageHandler(epA));
 
-        System.out.println("Staring message delivery");
+        System.out.println("Starting message delivery...");
         epA.startMessageDelivery();
         epB.startMessageDelivery();
 
     }
 
-    protected static MALTransport createTransport(String protocol) throws Exception {
+    protected static MALTransport createTransport(final String protocol, final Map properties) throws Exception {
         System.out.println("Creating transport " + protocol);
         return MALTransportFactory.newFactory(protocol).createTransport(null, null);
     }
 
     protected static MALEndpoint createEndpoint(String protocol, MALTransport trans) throws Exception {
-        System.out.println("Creating end point for transport " + protocol);
-        MALEndpoint ep = trans.createEndpoint("BRIDGE", null);
+        System.out.println("Creating endpoint for transport " + protocol);
+        MALEndpoint ep = trans.createEndpoint("ProtocolBridge", null);
 
         System.out.println("Transport " + protocol + " URI is " + ep.getURI().getValue());
 
         return ep;
+    }
+
+    public URI getRoutingProtocolA() {
+        return epA.getURI();
+    }
+
+    public URI getRoutingProtocolB() {
+        return epB.getURI();
     }
 
     protected static class BridgeMessageHandler implements MALMessageListener {

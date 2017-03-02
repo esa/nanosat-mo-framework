@@ -312,7 +312,8 @@ public class ConnectionProvider {
             wrt.append(serviceName + HelperConnections.SUFFIX_SERVICE_KEY + "=" + connectionDetails.getServiceKey());
             wrt.newLine();
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to write URI information to properties file {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+                    "Unable to write URI information to properties file {0}", ex);
         } finally {
             if (wrt != null) {
                 try {

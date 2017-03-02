@@ -21,7 +21,6 @@
 package esa.mo.nmf.groundmoadapter;
 
 import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.nmf.groundmoadapter.DataReceivedListener;
 
 /**
  * An abstract class that pushes the received data from the Parameter service
