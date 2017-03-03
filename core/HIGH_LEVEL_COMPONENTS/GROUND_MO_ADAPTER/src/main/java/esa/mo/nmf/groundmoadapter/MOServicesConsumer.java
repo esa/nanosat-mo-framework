@@ -27,6 +27,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.mc.impl.util.MCServicesConsumer;
+import esa.mo.nmf.NanoSatMOFrameworkProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.util.SMServicesConsumer;
 import java.io.IOException;
@@ -82,7 +83,7 @@ public class MOServicesConsumer {
         this.commonServices = new CommonServicesConsumer();
         this.smServices = new SMServicesConsumer();
 
-        this.initHelpers();
+        MOServicesConsumer.initHelpers();
         this.init();
     }
 
@@ -99,7 +100,7 @@ public class MOServicesConsumer {
         this.commonServices = new CommonServicesConsumer();
         this.smServices = new SMServicesConsumer();
 
-        this.initHelpers(); // The Helpers need to be initialized before conversion
+        MOServicesConsumer.initHelpers(); // The Helpers need to be initialized before conversion
 
         // Grab the provider variable and put it into a ConnectionConsumer
         this.connection = HelperCommon.providerSummaryToConnectionConsumer(provider);
@@ -124,36 +125,6 @@ public class MOServicesConsumer {
         initSMServices();
         initPlatformServices();
         initCommonServices();
-    }
-
-    private void initHelpers() {
-        // Load the MAL factories for the supported services
-        try {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
-                SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) == null) {
-                PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-        } catch (MALException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void initCOMServices() {
@@ -263,5 +234,35 @@ public class MOServicesConsumer {
 
         return summaryList;
     }
+    
+    public static void initHelpers() {
+        // Load the MAL factories for the supported services
+        try {
+            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
+
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
+                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
+                MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
+                CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) == null) {
+                PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            }
+
+        } catch (MALException ex) {
+            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    
   
 }

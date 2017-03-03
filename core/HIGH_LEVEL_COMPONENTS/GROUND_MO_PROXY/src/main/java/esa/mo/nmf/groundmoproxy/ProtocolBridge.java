@@ -20,8 +20,9 @@
  */
 package esa.mo.nmf.groundmoproxy;
 
-import esa.mo.mal.impl.transport.TransportSingleton;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -41,10 +42,10 @@ public class ProtocolBridge {
     private MALEndpoint epA;
     private MALEndpoint epB;
 
-    public void init(final String protocolA, final String protocolB) throws MALException, Exception {
+    public void init(final String protocolA, final String protocolB, final Map properties) throws MALException, Exception {
 
-        transportA = createTransport(protocolA, null);
-        transportB = createTransport(protocolB, null);
+        transportA = createTransport(protocolA, properties);
+        transportB = createTransport(protocolB, properties);
         
 //        transportA = TransportSingleton.instance(protocolA, null);
 //        transportB = TransportSingleton.instance(protocolB, null);
@@ -52,10 +53,6 @@ public class ProtocolBridge {
         epA = createEndpoint(protocolA, transportA);
         epB = createEndpoint(protocolB, transportB);
 
-//        storeURIs(System.getProperty("protocolA.uri.filename"), epA.getURI());
-//        storeURIs(System.getProperty("protocolB.uri.filename"), epB.getURI());
-//        wrapURIs(System.getProperty("protocolA.wrap.filename"), System.getProperty("protocolA.wrap.filename") + ".wrapped", epA.getURI());
-//        wrapURIs(System.getProperty("protocolB.wrap.filename"), System.getProperty("protocolB.wrap.filename") + ".wrapped", epB.getURI());
         System.out.println("Linking transports...");
         epA.setMessageListener(new BridgeMessageHandler(epB));
         epB.setMessageListener(new BridgeMessageHandler(epA));
@@ -68,7 +65,7 @@ public class ProtocolBridge {
 
     protected static MALTransport createTransport(final String protocol, final Map properties) throws Exception {
         System.out.println("Creating transport " + protocol);
-        return MALTransportFactory.newFactory(protocol).createTransport(null, null);
+        return MALTransportFactory.newFactory(protocol).createTransport(null, properties);
     }
 
     protected static MALEndpoint createEndpoint(String protocol, MALTransport trans) throws Exception {
@@ -113,11 +110,14 @@ public class ProtocolBridge {
 
                 // copy source message into destination message format
                 MALMessage dMsg = cloneForwardMessage(destination, srcMessage);
+                System.out.println("Injecting message...");
                 destination.sendMessage(dMsg);
             } catch (MALException ex) {
-                // ToDo need to bounce this back to source
+                Logger.getLogger(ProtocolBridge.class.getName()).log(Level.SEVERE, null, ex);
+                // ToDo need to bounce this back to source... maybe
             } catch (MALTransmitErrorException ex) {
-                // ToDo need to bounce this back to source
+                Logger.getLogger(ProtocolBridge.class.getName()).log(Level.SEVERE, null, ex);
+                // ToDo need to bounce this back to source... maybe
             }
         }
 
@@ -140,13 +140,13 @@ public class ProtocolBridge {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
 
-        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "    :    " + sourceHdr.getURITo());
+        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
         endpointUriPart = endpointUriPart.substring(iSecond + 1, endpointUriPart.length());
         URI to = new URI(endpointUriPart);
         URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
-        System.out.println("cloneForwardMessage      : " + from + "    :    " + to);
+        System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
 
         MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),

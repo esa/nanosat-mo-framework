@@ -66,6 +66,9 @@ public class GroundMOProxy {
     public GroundMOProxy() {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+
+        // Initializae the Helpers for the APIs
+        MOServicesConsumer.initHelpers();
     }
 
     public void init(final URI centralDirectoryServiceURI, final URI routedURI) {
@@ -162,6 +165,10 @@ public class GroundMOProxy {
             }
         }
 
+    }
+
+    public URI getDirectoryServiceURI() {
+        return directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI();
     }
 
 }
