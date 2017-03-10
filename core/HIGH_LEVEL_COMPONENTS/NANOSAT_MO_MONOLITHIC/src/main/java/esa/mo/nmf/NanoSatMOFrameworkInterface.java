@@ -44,7 +44,7 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      *
      * @return The MC services
      */
-    public MCServicesProvider getMCServices() throws NMFException;
+    public MCServicesProviderNMF getMCServices() throws NMFException;
 
     /**
      * Requests the Platform services available in the NanoSat MO Framework

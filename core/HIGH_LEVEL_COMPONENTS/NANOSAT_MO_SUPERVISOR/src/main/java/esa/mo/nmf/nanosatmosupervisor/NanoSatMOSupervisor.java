@@ -129,7 +129,8 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         final SingleConnectionDetails det = this.directoryService.getConnection().getSecondaryConnectionDetails();
         final String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
         this.writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
-        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "NanoSat MO Supervisor initialized! URI: " + primaryURI + "\n");
+        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
+                "NanoSat MO Supervisor initialized! URI: " + primaryURI + "\n");
 
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory

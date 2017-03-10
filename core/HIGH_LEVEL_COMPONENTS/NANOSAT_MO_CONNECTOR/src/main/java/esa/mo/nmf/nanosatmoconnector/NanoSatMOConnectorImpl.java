@@ -335,7 +335,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             }
 
             // Unregister the provider from the Central Directory service...
-            URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
+            final URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
 
             if (centralDirectoryURI != null) {
                 try {

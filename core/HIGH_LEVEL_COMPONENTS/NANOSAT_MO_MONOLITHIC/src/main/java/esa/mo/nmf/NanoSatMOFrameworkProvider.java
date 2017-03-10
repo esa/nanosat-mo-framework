@@ -27,8 +27,6 @@ import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.mc.impl.provider.ParameterManager;
-import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
@@ -47,25 +45,18 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
-import org.ccsds.moims.mo.platform.PlatformHelper;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
 /**
  * A Provider of MO services composed by COM, M&C and Platform services. Selects
@@ -88,8 +79,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public final COMServicesProvider comServices = new COMServicesProvider();
     public final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
     public final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
-    public MCServicesProvider mcServices;
-    public ParameterManager parameterManager;
+    public MCServicesProviderNMF mcServices;
+//    public ParameterManager parameterManager;
     public PlatformServicesConsumer platformServices;
     public CloseAppListener closeAppAdapter = null;
     public ConfigurationNotificationInterface providerConfigurationAdapter = null;
@@ -105,7 +96,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     }
 
     @Override
-    public MCServicesProvider getMCServices() throws NMFException {
+    public MCServicesProviderNMF getMCServices() throws NMFException {
         if (this.mcServices == null) {
             throw new NMFException("The Monitor and Control services are not available.");
         }
@@ -233,13 +224,18 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
         if (mcAdapter != null) {
-            mcServices = new MCServicesProvider();
+            /*
+            mcServices = new MCServicesProviderNMF();
             parameterManager = new ParameterManager(comServices, mcAdapter);
 
             mcServices.getParameterService().init(parameterManager);
             mcServices.getActionService().init(comServices, mcAdapter);
             mcServices.getAlertService().init(comServices);
             mcServices.getAggregationService().init(comServices, parameterManager);
+            */
+            
+            mcServices = new MCServicesProviderNMF();
+            mcServices.init(comServices, mcAdapter);
         }
     }
 

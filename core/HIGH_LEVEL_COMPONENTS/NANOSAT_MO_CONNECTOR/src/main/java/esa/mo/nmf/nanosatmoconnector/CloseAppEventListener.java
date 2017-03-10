@@ -42,6 +42,16 @@ public class CloseAppEventListener extends EventReceivedListener {
     @Override
     public void onDataReceived(final EventCOMObject eventCOMObject) {
         // Make sure that it is indeed a Close App event for us!
+
+        final Long related = eventCOMObject.getRelated();
+
+        if (!eventCOMObject.getRelated().equals(provider.getAppDirectoryId())) {
+            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "This Event is not for us! "
+                    + "App Directory Id: " + provider.getAppDirectoryId() + " , Related: " + related);
+            
+            return; // If not, get out..
+        }
+
         // Even thought the subscription will guarantee that...
         // We need to check if it really is a Close App Event request...
         if (!eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPAPP_OBJECT_TYPE)) {
