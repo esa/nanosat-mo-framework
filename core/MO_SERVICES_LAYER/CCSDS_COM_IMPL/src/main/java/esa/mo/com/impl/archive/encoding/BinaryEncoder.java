@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.archive.encoding;
 
-import esa.mo.mal.encoder.gen.GENEncoder;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;

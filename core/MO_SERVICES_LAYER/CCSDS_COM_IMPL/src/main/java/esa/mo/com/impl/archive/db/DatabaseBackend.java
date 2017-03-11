@@ -200,10 +200,15 @@ public class DatabaseBackend {
         try {  // This is where the db takes longer!!
             this.em.getTransaction().commit(); // 1.220 ms
         } catch (Exception ex) {
+            if (ex instanceof java.lang.IllegalStateException){
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING,
+                    "The database file might be locked by another application...");
+            }
+            
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING,
-                    "The object could not be commited! Waiting 500 ms and trying again...");
+                    "The object could not be commited! Waiting 2500 ms and trying again...");
             try {
-                Thread.sleep(500);
+                Thread.sleep(2500);
             } catch (InterruptedException ex1) {
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex1);
             }

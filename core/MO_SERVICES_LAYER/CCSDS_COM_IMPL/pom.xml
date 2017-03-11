@@ -87,13 +87,6 @@
             <version>2.6.4</version>
         </dependency>
 
-        <!-- Used to encode/decode the elements before/after inserting and
-        removing from the Persistence Unit -->
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>ENCODING_GEN</artifactId>
-        </dependency>
-
 <!--
         <dependency>
             <groupId>org.hibernate</groupId>
