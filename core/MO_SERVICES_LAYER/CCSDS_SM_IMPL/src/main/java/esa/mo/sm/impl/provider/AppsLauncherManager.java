@@ -374,7 +374,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         return true;
     }
 
-    protected void stopApps(final LongList appInstIds, final ArrayList<SingleConnectionDetails> appConnections,
+    protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryNames, final ArrayList<SingleConnectionDetails> appConnections,
             final StopAppInteraction interaction) throws MALException, MALInteractionException {
         Random random = new Random(); // to avoid registrations with the same name
 
@@ -400,9 +400,11 @@ public class AppsLauncherManager extends DefinitionsManager {
         ObjectType objType = AppsLauncherHelper.STOPAPP_OBJECT_TYPE;
         ObjectIdList sourceList = new ObjectIdList();
 
-        for (Long appInstId : appInstIds) {
+        for (int i = 0; i < appInstIds.size(); i++) {
+            Long appInstId = appInstIds.get(i);
+            Identifier appDirectoryName = appDirectoryNames.get(i);
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO,
-                    "Sending event to app: " + appInstId);
+                    "Sending event to app: " + appInstId + " (Name: " + appDirectoryName + ")");
             this.setRunning(appInstId, false, interaction.getInteraction());
             sourceList.add(super.getCOMServices().getActivityTrackingService().storeCOMOperationActivity(interaction.getInteraction(), null));
         }
@@ -412,7 +414,8 @@ public class AppsLauncherManager extends DefinitionsManager {
                 ConfigurationProviderSingleton.getDomain(), appInstIds, sourceList, interaction.getInteraction());
 
         final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();
-        super.getCOMServices().getEventService().publishEvents(uri, objIds, objType, appInstIds, sourceList, null);
+//        super.getCOMServices().getEventService().publishEvents(uri, objIds, objType, appInstIds, sourceList, null);
+        super.getCOMServices().getEventService().publishEvents(uri, objIds, objType, appInstIds, sourceList, appDirectoryNames);
     }
 
     public void setRunning(Long appInstId, boolean running, MALInteraction interaction) {

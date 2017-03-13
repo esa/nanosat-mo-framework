@@ -31,7 +31,6 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALService;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -51,7 +50,6 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UpgradeI
  */
 public class PackageManagementProviderServiceImpl extends PackageManagementInheritanceSkeleton {
 
-    private final static MALService SERVICE = PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE;
     private MALProvider packageManagementServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
@@ -115,7 +113,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -134,17 +133,31 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void install(Long packageObjInstId, InstallInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
+        File file = null;
+        backend.install(file);
+        
     }
 
     @Override
     public void uninstall(Long instId, Boolean leaveConfigurationsIntact, UninstallInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        // Add validation
+
+        File file = null;
+        backend.uninstall(file);
+        
     }
 
     @Override
     public void upgrade(LongList packageObjInstIds, UpgradeInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        // Add validation
+
+        File file = null;
+        backend.upgrade(file);
+
     }
 
     @Override

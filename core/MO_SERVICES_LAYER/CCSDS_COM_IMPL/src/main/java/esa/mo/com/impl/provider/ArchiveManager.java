@@ -132,6 +132,7 @@ public class ArchiveManager {
     void close() {
         // Forces the code to wait until all the stores are flushed
         this.dbProcessor.stopInteractions(new WaitUntillAllFlushedRunnable());
+        this.eventService = null; // Remove the pointer to avoid publishing more stuff
     }
 
     private class ResetMainTableRunnable implements Callable {
@@ -295,7 +296,7 @@ public class ArchiveManager {
             }
         };
          */
-        Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE,
+        final Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE,
                 objType, domain, objIds, interaction);
 
         this.dbProcessor.insert(perObjsEntities, publishEvents);

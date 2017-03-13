@@ -303,6 +303,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Refresh the list of available Apps
         this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
+        
+        IdentifierList appDirectoryNames = new IdentifierList();
 
         for (int i = 0; i < appInstIds.size(); i++) {
             AppDetails app = (AppDetails) this.manager.get(appInstIds.get(i)); // get it from the list of available apps
@@ -333,10 +335,17 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             ProviderSummaryList providersList = this.directoryService.lookupProvider(sf, interaction.getInteraction());
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER,
                     "providersList object: " + providersList.toString());
-
+            
             try {
                 final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
                 appConnections.add(connectionDetails);
+                
+                // Add to the list of Directory service Obj Ids
+                if(!providersList.isEmpty()){
+                    appDirectoryNames.add(providersList.get(0).getProviderName());
+                }else{
+                    appDirectoryNames.add(null);
+                }
             } catch (IOException ex) {
                 intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
             }
@@ -357,7 +366,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         interaction.sendAcknowledgement();
 
-        manager.stopApps(appInstIds, appConnections, interaction);
+        manager.stopApps(appInstIds, appDirectoryNames, appConnections, interaction);
     }
 
     @Override

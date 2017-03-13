@@ -29,5 +29,11 @@ import java.io.File;
 public interface PackageManagementBackendInterface {
 
     public File[] getListOfPackages();
+
+    public void install(final File file);
+
+    public void uninstall(final File file);
+
+    public void upgrade(final File file);
     
 }

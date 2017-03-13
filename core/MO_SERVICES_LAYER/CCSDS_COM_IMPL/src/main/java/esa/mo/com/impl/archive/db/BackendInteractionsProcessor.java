@@ -490,6 +490,7 @@ public class BackendInteractionsProcessor {
 
         try {
             Integer dummyInt = nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
+            publishEventsExecutor.shutdown();
         } catch (InterruptedException ex) {
             Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
