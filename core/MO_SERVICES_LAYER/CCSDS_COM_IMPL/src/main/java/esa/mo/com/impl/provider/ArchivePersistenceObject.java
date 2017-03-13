@@ -22,7 +22,6 @@ package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.Serializable;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
@@ -38,70 +37,36 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-//@Entity
-//@IdClass(COMObjectPK.class)
-//@Table(name = "ArchivePersistenceObject", 
-//       indexes = {
-//                  @Index(name = "index_related",  columnList="relatedLink", unique = false),
-//                  @Index(name = "index_network", columnList="network",     unique = false),  
-//                  @Index(name = "index_timestampArchiveDetails",  columnList="timestampArchiveDetails", unique = false),
-//                  @Index(name = "index_providerURI",  columnList="providerURI", unique = false)
-//                } )
 public class ArchivePersistenceObject implements Serializable{
 
-//    @Id
-//    @Column(name = "objectTypeId")
-    private Long objectTypeId;
-    
-//    @Id
-//    @Column(name = "domainId")
-    private String domainId;
-    
-//    @Id
-//    @Column(name = "objId")
+    private ObjectType objectType;
+    private IdentifierList domainId;
     private Long objId;
 
     // ---------------------    
     
-//    @Column(name = "sourceLink")
-//    private COMObjectPK sourceLink;
     private ObjectId sourceLink;
-    
-//    @Column(name = "relatedLink")
     private Long relatedLink;
-
-//    @Column(name = "network")
     private String network;
 
-//    @Column(name = "timestampArchiveDetails")
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private java.util.Date timestampArchiveDetails;
     private Long timestampArchiveDetails;
-
-//    @Column(name = "nanosecondsFraction")
-    private int nanos;
-            
-//    @Column(name = "providerURI")
     private String providerURI;
-//    @ManyToOne
-//    @JoinColumn(name = "providerURI", referencedColumnName = "id")
-//    private ProviderURITable providerURI;
-    
-//    @OneToOne (cascade = {CascadeType.PERSIST})
-//    @JoinColumn(name = "obj")
-//    private ObjectBodyHolder obj;
 
     private Element obj;
     
-//    @Column(name = "storeTimestamp")
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private java.util.Date storeTimestamp;
     private Long storeTimestamp;
     
-    public ObjectType getObjectType(){ return HelperCOM.objectTypeId2objectType(this.objectTypeId); }
-    public Long getObjectTypeId(){ return this.objectTypeId; }
-    public IdentifierList getDomain(){ return HelperMisc.domainId2domain(this.domainId); }
-    public String getDomainId(){ return this.domainId; }
+//    public ObjectType getObjectType(){ return HelperCOM.objectTypeId2objectType(this.objectTypeId); }
+    public ObjectType getObjectType(){ return this.objectType; }
+//    public Long getObjectTypeId(){ return this.objectTypeId; }
+    public Long getObjectTypeId(){ return HelperCOM.generateSubKey(this.objectType); }
+    
+//    public IdentifierList getDomain(){ return HelperMisc.domainId2domain(this.domainId); }
+//    public String getDomainId(){ return this.domainId; }
+    public IdentifierList getDomain(){ return this.domainId; }
+    /*
+    public String getDomainId(){ return HelperMisc.domain2domainId(this.domainId); }
+    */
     public Long getObjectId(){ return this.objId; }
 //    public Object getObject(){ return HelperAttributes.attribute2JavaType(obj.getObjectBody()); }
     public Object getObject(){ return HelperAttributes.attribute2JavaType(obj);  }
@@ -122,8 +87,7 @@ public class ArchivePersistenceObject implements Serializable{
 
     }
 
-//    protected java.util.Date getStoreTimestamp(){ return storeTimestamp; }
-    protected Long getStoreTimestamp(){ return storeTimestamp; }
+//    protected Long getStoreTimestamp(){ return storeTimestamp; }
 
     protected ArchivePersistenceObject() {
     }
@@ -131,8 +95,10 @@ public class ArchivePersistenceObject implements Serializable{
     public ArchivePersistenceObject (ObjectType objectType, IdentifierList domain,
             Long objId, ArchiveDetails archiveDetails, Object object){
 
-        this.objectTypeId = HelperCOM.generateSubKey(objectType);
-        this.domainId = HelperMisc.domain2domainId(domain);
+//        this.objectTypeId = HelperCOM.generateSubKey(objectType);
+        this.objectType = objectType;
+//        this.domainId = HelperMisc.domain2domainId(domain);
+        this.domainId = domain;
         this.objId = objId;
         
 //        java.sql.Timestamp ts = new java.sql.Timestamp(HelperTime.fromNanoToMilli(archiveDetails.getTimestamp().getValue()));
