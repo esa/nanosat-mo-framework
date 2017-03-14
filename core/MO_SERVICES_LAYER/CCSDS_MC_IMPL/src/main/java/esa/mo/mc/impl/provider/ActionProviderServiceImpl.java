@@ -22,6 +22,7 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
@@ -179,7 +180,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         boolean accepted = manager.checkActionInstanceDetails(actionDetails, invIndexList);
         
         ObjectType type = ActionHelper.ACTIONINSTANCE_OBJECT_TYPE;
-        ObjectKey key = new ObjectKey(connection.getConnectionDetails().getDomain(), actionInstId);
+        ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
         ObjectId source2 = new ObjectId(type, key);  // requirement: 3.2.8.f
 
         // Publish the Acceptance event
@@ -450,7 +451,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         // Confirm the domain
-        if (!confSet.getDomain().equals(connection.getConnectionDetails().getDomain())) {
+        if (!confSet.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
@@ -465,7 +466,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         ActionDefinitionDetailsList pDefs = (ActionDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 ActionHelper.ACTIONDEFINITION_OBJECT_TYPE,
-                connection.getConnectionDetails().getDomain(),
+                ConfigurationProviderSingleton.getDomain(),
                 confSet.getObjInstIds());
 
         manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
@@ -480,7 +481,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
 
         ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(connection.getConnectionDetails().getDomain());
+        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
         objsSet.setObjInstIds(currentObjIds);

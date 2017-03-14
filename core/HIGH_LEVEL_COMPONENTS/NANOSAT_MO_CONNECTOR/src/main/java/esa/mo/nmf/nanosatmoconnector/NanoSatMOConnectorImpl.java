@@ -97,8 +97,8 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
      * corresponding methods and variables of a specific entity.
      */
     public NanoSatMOConnectorImpl(MonitorAndControlNMFAdapter mcAdapter) {
-        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...

@@ -43,19 +43,18 @@ public class CloseAppEventListener extends EventReceivedListener {
     @Override
     public void onDataReceived(final EventCOMObject eventCOMObject) {
         // Make sure that it is indeed a Close App event for us!
-
         final Identifier name = (Identifier) eventCOMObject.getBody();
 
         if (!provider.providerName.equals(name.getValue())) {
-            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINER,
+            Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINE,
                     "This Event is not for us! App Directory Id: " + provider.getAppDirectoryId()
                     + " , Related: " + eventCOMObject.getRelated() + " name: " + name.getValue());
 
             return; // If not, get out..
         }
 
-        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINER,
-                "This Event is not for us! App Directory Id: " + provider.getAppDirectoryId()
+        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINE,
+                "This Event is for us! App Directory Id: " + provider.getAppDirectoryId()
                 + " , Related: " + eventCOMObject.getRelated() + " name: " + name.getValue());
 
         // Even thought the subscription will guarantee that...
@@ -64,8 +63,8 @@ public class CloseAppEventListener extends EventReceivedListener {
             return; // If not, get out..
         }
 
-        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "New StopApp Event Received!"
-                + "For provider: '" + name.getValue() + " (Related link: " + eventCOMObject.getRelated() + ")");
+        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "New StopApp Event Received! "
+                + "For provider: '" + name.getValue() + "' (Related link: " + eventCOMObject.getRelated() + ")");
 
         final ObjectId source = eventCOMObject.getObjectId();
         this.provider.closeGracefully(source);

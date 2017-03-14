@@ -402,9 +402,8 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         for (int i = 0; i < appInstIds.size(); i++) {
             Long appInstId = appInstIds.get(i);
-            Identifier appDirectoryName = appDirectoryNames.get(i);
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO,
-                    "Sending event to app: " + appInstId + " (Name: " + appDirectoryName + ")");
+                    "Sending event to app: " + appInstId + " (Name: '" + appDirectoryNames.get(i) + "')");
             this.setRunning(appInstId, false, interaction.getInteraction());
             sourceList.add(super.getCOMServices().getActivityTrackingService().storeCOMOperationActivity(interaction.getInteraction(), null));
         }

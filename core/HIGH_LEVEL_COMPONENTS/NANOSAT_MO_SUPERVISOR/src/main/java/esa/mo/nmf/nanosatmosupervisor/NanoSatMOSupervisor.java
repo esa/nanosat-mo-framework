@@ -73,8 +73,8 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
     public NanoSatMOSupervisor(MonitorAndControlNMFAdapter mcAdapter,
             PlatformServicesConsumer platformServices,
             PackageManagementBackendInterface packageManagementBackend) {
-        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();
 
         // Enforce the App Name property to be HelperMisc.NMF_NMS_NAME

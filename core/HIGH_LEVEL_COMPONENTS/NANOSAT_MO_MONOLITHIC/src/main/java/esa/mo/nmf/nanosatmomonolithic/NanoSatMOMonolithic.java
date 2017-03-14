@@ -63,8 +63,8 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
      */
     public NanoSatMOMonolithic(MonitorAndControlNMFAdapter mcAdapter,
             PlatformServicesConsumer platformServices) {
-        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
