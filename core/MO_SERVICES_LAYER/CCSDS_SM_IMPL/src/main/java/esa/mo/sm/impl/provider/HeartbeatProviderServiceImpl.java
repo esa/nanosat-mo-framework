@@ -189,7 +189,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties)
                 throws MALException {
-            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
+            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
@@ -199,11 +199,8 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header,
-                final MALErrorBody body,
-                final Map qosProperties)
-                throws MALException {
-            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
+            Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 

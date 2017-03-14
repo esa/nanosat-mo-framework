@@ -580,7 +580,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
@@ -590,7 +590,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 

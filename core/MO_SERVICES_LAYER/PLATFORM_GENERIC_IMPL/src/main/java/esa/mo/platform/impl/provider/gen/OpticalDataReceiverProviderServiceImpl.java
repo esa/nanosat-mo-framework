@@ -201,7 +201,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties)
                 throws MALException {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
+            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
@@ -212,7 +212,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
+            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 

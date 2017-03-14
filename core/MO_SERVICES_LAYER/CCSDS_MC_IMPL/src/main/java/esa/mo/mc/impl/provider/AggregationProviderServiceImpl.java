@@ -711,7 +711,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
@@ -721,7 +721,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 

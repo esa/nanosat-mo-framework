@@ -474,7 +474,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties)
                 throws MALException {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
+            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
@@ -485,7 +485,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
+            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 

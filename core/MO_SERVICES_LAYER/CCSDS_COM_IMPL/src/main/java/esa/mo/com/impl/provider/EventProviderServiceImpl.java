@@ -456,7 +456,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
@@ -466,7 +466,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 
