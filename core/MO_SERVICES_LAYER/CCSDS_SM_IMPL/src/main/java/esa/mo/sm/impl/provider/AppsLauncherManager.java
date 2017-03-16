@@ -44,6 +44,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -134,9 +135,18 @@ public class AppsLauncherManager extends DefinitionsManager {
         Properties props = null;
 
         if (definition.getExtraInfo() != null) {
-            // Read the provider.properties of the app
-            String url = definition.getExtraInfo();
-            props = HelperMisc.loadProperties(url, null);
+            try { // Read the provider.properties of the app
+                File fileProps = new File(apps_folder_path.getCanonicalPath() + File.separator
+                        + definition.getName().getValue() + File.separator + definition.getExtraInfo());
+
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "file:" + fileProps.getAbsolutePath() + "\n" + fileProps.getCanonicalPath());
+                props = HelperMisc.loadProperties(fileProps.getCanonicalPath());
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "props:" + props.size());
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             // Look up for apid
             String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
@@ -177,7 +187,14 @@ public class AppsLauncherManager extends DefinitionsManager {
             } catch (MALException ex) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
-                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
+                if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)){
+                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, 
+                            "The App COM object already exists in the Archive!");
+                    
+                    return objId;
+                }else{
+                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
@@ -374,8 +391,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         return true;
     }
 
-    protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryNames, 
-            final ArrayList<SingleConnectionDetails> appConnections, 
+    protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryNames,
+            final ArrayList<SingleConnectionDetails> appConnections,
             final StopAppInteraction interaction) throws MALException, MALInteractionException {
         Random random = new Random(); // to avoid registrations with the same name
 
@@ -383,7 +400,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         for (int i = 0; i < appConnections.size(); i++) {
             // Select all object numbers from the Apps Launcher service Events
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
-            
+
             Subscription eventSub = ConnectionConsumer.subscriptionKeys(
                     new Identifier("ClosingAppEvents" + random.nextInt()),
                     new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
@@ -416,7 +433,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                 ConfigurationProviderSingleton.getDomain(), appInstIds, sourceList, interaction.getInteraction());
 
         final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();
-        
+
         try {
             super.getCOMServices().getEventService().publishEvents(uri, objIds, objType, appInstIds, sourceList, appDirectoryNames);
         } catch (IOException ex) {
@@ -551,14 +568,20 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         app.setDescription("A simple description");
         app.setVersion("1.0");
-        app.setExtraInfo(appFolder.getAbsolutePath() + File.separator + "provider.properties");
-        app.setCopyright("European Space Agency");
+        try {
+            app.setExtraInfo("provider.properties");
+            app.setCopyright("European Space Agency");
 
-        // go up one folder
-        File cat = new File(appFolder.getAbsolutePath() + ".." + File.separator);
-        app.setCategory(new Identifier(cat.getName()));
-        app.setRunAtStartup(false);
-        app.setRunning(false); // Default values
+            // go up one folder
+//            File cat = new File(appFolder.getCanonicalPath() + File.separator + ".." + File.separator);
+            File cat2 = new File(appFolder.getParentFile().getCanonicalPath());
+            app.setCategory(new Identifier(cat2.getName()));
+            app.setRunAtStartup(false);
+            app.setRunning(false); // Default values
+        } catch (IOException ex) {
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         return app;
     }
 

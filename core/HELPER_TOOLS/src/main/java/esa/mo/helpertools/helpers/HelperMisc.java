@@ -22,6 +22,7 @@ package esa.mo.helpertools.helpers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.Properties;
 import java.util.Set;
@@ -92,7 +93,7 @@ public class HelperMisc {
      * file to load.
      * @return The loaded properties or an empty list if no file loaded.
      */
-    public static Properties loadProperties(final String configFile, final String chainProperty) {
+    private static Properties loadProperties(final String configFile, final String chainProperty) {
         Properties topProps = new Properties();
 
         if (null != configFile) {
@@ -134,11 +135,12 @@ public class HelperMisc {
     public static Properties loadProperties(final java.net.URL url, final String chainProperty) {
         final Properties topProps = new Properties();
 
-//        if ((null != url) && (!LOADED_PROPERTIES.contains(url.toString()))) {
         if (null != url) {
             try {
                 final Properties myProps = new Properties();
-                myProps.load(url.openStream());
+                InputStream stream = url.openStream();
+                myProps.load(stream);
+                stream.close();
 
                 final Properties subProps = loadProperties(myProps.getProperty(chainProperty), chainProperty);
 
@@ -157,6 +159,28 @@ public class HelperMisc {
         }
 
         return topProps;
+    }
+
+    /**
+     * Loads in a property file.
+     *
+     * @param path The path of the property file to load.
+     * @return The loaded properties or an empty list if no file loaded.
+     * @throws MalformedURLException The file could not be loaded.
+     */
+    public static Properties loadProperties(final String path) throws MalformedURLException, IOException {
+        final File file = new File(path);
+        final java.net.URL url = file.toURI().toURL();
+
+        if (null != url) {
+                final Properties myProps = new Properties();
+                InputStream stream = url.openStream();
+                myProps.load(url.openStream());
+                stream.close();
+                return myProps;
+        }
+        
+        throw new IOException("The URL of the file is null.");
     }
 
     /**
