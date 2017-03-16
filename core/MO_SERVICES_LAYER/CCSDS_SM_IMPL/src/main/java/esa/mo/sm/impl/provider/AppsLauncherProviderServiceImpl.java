@@ -303,7 +303,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Refresh the list of available Apps
         this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
-        
+
         IdentifierList appDirectoryNames = new IdentifierList();
 
         for (int i = 0; i < appInstIds.size(); i++) {
@@ -322,10 +322,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             }
 
             // Define the filter in order to get the Event service URI of the app
-            Identifier serviceProviderName = new Identifier(PROVIDER_PREFIX_NAME + app.getName());
-            IdentifierList domain = new IdentifierList();
+            final Identifier serviceProviderName = new Identifier(PROVIDER_PREFIX_NAME + app.getName());
+            final IdentifierList domain = new IdentifierList();
             domain.add(new Identifier("*"));
-            COMService eventCOM = EventHelper.EVENT_SERVICE;
+            final COMService eventCOM = EventHelper.EVENT_SERVICE;
             ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(),
                     eventCOM.getNumber(), eventCOM.getArea().getVersion());
             ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"),
@@ -335,15 +335,17 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             ProviderSummaryList providersList = this.directoryService.lookupProvider(sf, interaction.getInteraction());
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINER,
                     "providersList object: " + providersList.toString());
-            
+
             try {
+                // Add here the filtering for the best IPC!!!
+
                 final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
                 appConnections.add(connectionDetails);
-                
+
                 // Add to the list of Directory service Obj Ids
-                if(!providersList.isEmpty()){
+                if (!providersList.isEmpty()) {
                     appDirectoryNames.add(providersList.get(0).getProviderName());
-                }else{
+                } else {
                     appDirectoryNames.add(null);
                 }
             } catch (IOException ex) {
@@ -560,7 +562,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         buffer.delete(0, size);
 
                         // Publish what's on the buffer every PERIOD_PUB milliseconds
-                        // Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE, output);
+                        // Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, output);
                         publishExecutionMonitoring(appObjId, output);
                     }
                 }

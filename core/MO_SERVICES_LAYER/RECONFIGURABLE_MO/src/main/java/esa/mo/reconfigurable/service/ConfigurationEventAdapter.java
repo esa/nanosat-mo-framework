@@ -23,8 +23,11 @@ package esa.mo.reconfigurable.service;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.helpers.HelperTime;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
@@ -59,7 +62,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
     private final URI providerURI;
 
     public ConfigurationEventAdapter(COMServicesProvider comServices,
-            ReconfigurableServiceImplInterface serviceImpl, 
+            ReconfigurableServiceImplInterface serviceImpl,
             IdentifierList providerDomain,
             URI providerURI) {
         this.comServices = comServices;
@@ -172,21 +175,24 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
     }
 
     private void publishConfigurationStoredFailure(Long related) {
-
         // Publish event: Failure with the objId of the Configuration stored
         ObjectType objTypeEvent = ConfigurationHelper.CONFIGURATIONSTORED_OBJECT_TYPE;
         BooleanList bool = new BooleanList();
         bool.add(false);  // Failure
         ObjectId eventSource = null;  // It was not stored...
 
-        comServices.getEventService().publishEvent(
-                providerURI,
-                null,
-                objTypeEvent,
-                related,
-                eventSource,
-                bool
-        );
+        try {
+            comServices.getEventService().publishEvent(
+                    providerURI,
+                    null,
+                    objTypeEvent,
+                    related,
+                    eventSource,
+                    bool
+            );
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigurationEventAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -200,15 +206,18 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
         eventSource.setType(ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE);
         eventSource.setKey(new ObjectKey(providerDomain, objId));
 
-        comServices.getEventService().publishEvent(
-                providerURI,
-                objId,
-                objTypeEvent,
-                related,
-                eventSource,
-                bool
-        );
-
+        try {
+            comServices.getEventService().publishEvent(
+                    providerURI,
+                    objId,
+                    objTypeEvent,
+                    related,
+                    eventSource,
+                    bool
+            );
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigurationEventAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

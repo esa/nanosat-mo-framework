@@ -35,6 +35,7 @@ import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PackageManagementBackendInterface;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -162,8 +163,13 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
                     null);
 
             final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
-            this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                    AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+            
+            try {
+                this.getCOMServices().getEventService().publishEvent(uri, eventId,
+                        AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             // Close the app...
             // Make a call on the app layer to close nicely...
@@ -181,8 +187,12 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
                     source,
                     null);
 
-            this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                    AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+            try {
+                this.getCOMServices().getEventService().publishEvent(uri, eventId2,
+                        AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             // Should close them safely as well...
 //        provider.getMCServices().closeServices();

@@ -25,6 +25,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
+import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -212,7 +213,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
     /**
      * This method is deprecated! The sourceURI should be explicitly stated. The
-     * extraction of it from the interaction object should happen on the layers 
+     * extraction of it from the interaction object should happen on the layers
      * above. The broker won't publish the event if the source is not correct.
      * Publishes an Event through the Event service.
      *
@@ -225,8 +226,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      */
     @Deprecated
     public void publishEvent(final MALInteraction interaction, final Long objId, final ObjectType objType,
-            final Long related, final ObjectId source, final ElementList eventBodies) {
-
+            final Long related, final ObjectId source, final ElementList eventBodies) throws IOException {
         URI sourceURI = new URI("");
 
         if (interaction != null) {
@@ -251,8 +251,13 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param eventBodies Bodies of the event
      */
     public void publishEvent(final URI sourceURI, final Long objId, final ObjectType objType,
-            final Long related, final ObjectId source, ElementList eventBodies) {
+            final Long related, final ObjectId source, ElementList eventBodies) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
+        if (!running) {
+            throw new IOException("The Event service is not running.");
+//            return;
+        }
+
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -323,8 +328,14 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param eventBodies Bodies of the event
      */
     public void publishEvents(final URI sourceURI, final LongList objIds, final ObjectType objType,
-            final LongList relateds, final ObjectIdList sources, ElementList eventBodies) {
+            final LongList relateds, final ObjectIdList sources, ElementList eventBodies) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
+
+        if (!running) {
+            throw new IOException("The Event service is not running.");
+//            return;
+        }
+
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -475,7 +486,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      */
     private Long storeEventOnArchive(final ObjectDetailsList objectDetailsList, final IdentifierList domain,
             final ObjectType objType, final ElementList events, final MALInteraction interaction) {
-
         if (interaction != null) {
             return this.storeEventOnArchive(objectDetailsList, domain, objType,
                     events, interaction.getMessageHeader().getURIFrom(), interaction.getMessageHeader().getNetworkZone());
@@ -483,7 +493,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             return this.storeEventOnArchive(objectDetailsList, domain, objType,
                     events, null, null);
         }
-
     }
 
     /**
@@ -541,13 +550,23 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             if (null != eventServiceProvider) {
                 eventServiceProvider.close();
             }
-            
+
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider.", ex);
         }
     }
-    
+
+    public static URI convertMALInteractionToURI(final MALInteraction interaction) {
+        if (interaction != null) {
+            if (interaction.getMessageHeader() != null) {
+                return interaction.getMessageHeader().getURITo();
+            }
+        }
+
+        return new URI("");
+    }
+
 }

@@ -60,12 +60,33 @@ public class ConnectionProvider {
         return primaryConnectionDetails;
     }
 
+    /**
+     * Returns the primary connection details.
+     *
+     * @return The primary connection details.
+     */
     public SingleConnectionDetails getPrimaryConnectionDetails() {
         return primaryConnectionDetails;
     }
 
+    /**
+     * Returns the secondary connection details.
+     *
+     * @return The secondary connection details.
+     */
     public SingleConnectionDetails getSecondaryConnectionDetails() {
         return secondaryConnectionDetails;
+    }
+
+    /**
+     * Returns the connection details of the inter-process communication (ipc).
+     * This is usually the "secondary" connection but if we only have a "primary" 
+     * connection then this is the one to be returned.
+     *
+     * @return The ipc connection details
+     */
+    public SingleConnectionDetails getIPCConnectionDetails() {
+        return (secondaryConnectionDetails != null) ? secondaryConnectionDetails : primaryConnectionDetails;
     }
 
     /**

@@ -74,5 +74,10 @@ public class SingleConnectionDetails {
     public IntegerList getServiceKey() {
         return this.serviceKey;
     }
+    
+    @Override
+    public String toString(){
+        return "providerURI=" + providerURI + ", brokerURI=" + brokerURI + ", domain=" + domain;
+    }
 
 }

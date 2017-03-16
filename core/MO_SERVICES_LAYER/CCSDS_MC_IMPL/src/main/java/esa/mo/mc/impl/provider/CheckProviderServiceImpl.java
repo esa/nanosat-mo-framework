@@ -27,6 +27,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -181,14 +182,18 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton implement
         CheckResultList checkResults = new CheckResultList();
         checkResults.add(checkResult);
 
-        // Publish the Event
-        manager.getCOMservices().getEventService().publishEvent(
-                this.connection.getConnectionDetails().getProviderURI(), 
-                eventObjId, 
-                CheckHelper.CHECKTRANSITION_OBJECT_TYPE, 
-                related, 
-                source, 
-                checkResults);
+        try {
+            // Publish the Event
+            manager.getCOMservices().getEventService().publishEvent(
+                    this.connection.getConnectionDetails().getProviderURI(),
+                    eventObjId,
+                    CheckHelper.CHECKTRANSITION_OBJECT_TYPE,
+                    related,
+                    source,
+                    checkResults);
+        } catch (IOException ex) {
+            Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
                 
         return eventObjId;
     }

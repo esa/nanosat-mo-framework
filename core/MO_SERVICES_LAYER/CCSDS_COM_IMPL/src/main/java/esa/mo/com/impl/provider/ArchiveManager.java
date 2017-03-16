@@ -32,6 +32,7 @@ import esa.mo.com.impl.archive.fast.FastProviderURI;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastObjectType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -589,7 +590,11 @@ public class ArchiveManager {
             }
         }
 
-        eventService.publishEvents(sourceURI, eventObjIds, objType, null, sourceList, null);
+        try {
+            eventService.publishEvents(sourceURI, eventObjIds, objType, null, sourceList, null);
+        } catch (IOException ex) {
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     protected static ObjectId archivePerObj2source(final ArchivePersistenceObject obj) {

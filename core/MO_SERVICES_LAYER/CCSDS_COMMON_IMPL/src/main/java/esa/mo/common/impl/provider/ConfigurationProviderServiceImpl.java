@@ -163,9 +163,13 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
                 source,
                 interaction);
 
-        // Send Activation event
-        this.comServices.getEventService().publishEvent(interaction, objId,
-                ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_TYPE, related, source, objBodies);
+        try {
+            // Send Activation event
+            this.comServices.getEventService().publishEvent(interaction, objId,
+                    ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_TYPE, related, source, objBodies);
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -195,7 +199,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
         // Store Event in the Archive
         Long objId = this.comServices.getEventService().generateAndStoreEvent(
                 ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_TYPE,
-                connection.getConnectionDetails().getDomain(),
+                ConfigurationProviderSingleton.getDomain(),
                 null,
                 related,
                 source,
@@ -217,9 +221,13 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             EventConsumerConfigurationCallbackAdapter adapter = new EventConsumerConfigurationCallbackAdapter(objId);
             eventServiceConsumer.getEventStub().monitorEventRegister(subscription, adapter);
 
-            // Send Store event
-            this.comServices.getEventService().publishEvent(interaction.getInteraction(), objId,
-                    ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_TYPE, related, source, null);
+            try {
+                // Send Store event
+                this.comServices.getEventService().publishEvent(interaction.getInteraction(), objId,
+                        ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_TYPE, related, source, null);
+            } catch (IOException ex) {
+                Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             // Wait for the reply...
             ObjectId response = adapter.getResponseFromService();

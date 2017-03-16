@@ -161,7 +161,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     }
 
                     // Select the best transport for IPC and convert to a ConnectionConsumer object
-                    final ProviderSummary filteredConnections = this.selectBestIPCTransport(supervisorConnections.get(0));
+                    final ProviderSummary filteredConnections = NanoSatMOConnectorImpl.selectBestIPCTransport(supervisorConnections.get(0));
                     final ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(filteredConnections);
 
                     // Connect to them...
@@ -261,7 +261,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
         return this.appDirectoryServiceId;
     }
 
-    private ProviderSummary selectBestIPCTransport(ProviderSummary provider) {
+    private static ProviderSummary selectBestIPCTransport(ProviderSummary provider) {
         final ProviderSummary newSummary = new ProviderSummary();
         newSummary.setProviderKey(provider.getProviderKey());
         newSummary.setProviderName(provider.getProviderName());
@@ -322,9 +322,18 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     source,
                     null);
 
-            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
-            this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                    AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getIPCConnectionDetails().getProviderURI();
+//            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
+
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
+                        "Publishing event to uri: " + uri);
+
+            try {
+                this.getCOMServices().getEventService().publishEvent(uri, eventId,
+                        AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             // Close the app...
             // Make a call on the app layer to close nicely...
@@ -361,8 +370,12 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     source,
                     null);
 
-            this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                    AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+            try {
+                this.getCOMServices().getEventService().publishEvent(uri, eventId2,
+                        AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             // Should close them safely as well...
 //        provider.getMCServices().closeServices();

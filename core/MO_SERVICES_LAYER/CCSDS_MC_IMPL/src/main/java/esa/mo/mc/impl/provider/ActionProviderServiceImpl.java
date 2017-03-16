@@ -283,7 +283,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
             if (manager.list(tempActionDefinitionDetails.getName()) == null) { // Is the supplied name unique? requirement: 3.2.12.2.c
                 ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.b
-                newObjInstIds.add(manager.add(tempActionDefinitionDetails, source, connection.getConnectionDetails())); //  requirement: 3.2.12.2.e
+                newObjInstIds.add(manager.add(tempActionDefinitionDetails, source, connection.getConnectionDetails().getProviderURI())); //  requirement: 3.2.12.2.e
 
                 if (configurationAdapter != null){
                     configurationAdapter.configurationChanged(this);

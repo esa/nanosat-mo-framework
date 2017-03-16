@@ -374,7 +374,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         return true;
     }
 
-    protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryNames, final ArrayList<SingleConnectionDetails> appConnections,
+    protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryNames, 
+            final ArrayList<SingleConnectionDetails> appConnections, 
             final StopAppInteraction interaction) throws MALException, MALInteractionException {
         Random random = new Random(); // to avoid registrations with the same name
 
@@ -388,6 +389,8 @@ public class AppsLauncherManager extends DefinitionsManager {
                     new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
             try { // Subscribe to events
                 EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.get(i));
+                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                        "Connected to: " + appConnections.get(i).toString());
                 eventServiceConsumer.addEventReceivedListener(eventSub,
                         new ClosingAppListener(interaction, eventServiceConsumer, appInstIds.get(i)));
             } catch (MalformedURLException ex) {
@@ -413,8 +416,12 @@ public class AppsLauncherManager extends DefinitionsManager {
                 ConfigurationProviderSingleton.getDomain(), appInstIds, sourceList, interaction.getInteraction());
 
         final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();
-//        super.getCOMServices().getEventService().publishEvents(uri, objIds, objType, appInstIds, sourceList, null);
-        super.getCOMServices().getEventService().publishEvents(uri, objIds, objType, appInstIds, sourceList, appDirectoryNames);
+        
+        try {
+            super.getCOMServices().getEventService().publishEvents(uri, objIds, objType, appInstIds, sourceList, appDirectoryNames);
+        } catch (IOException ex) {
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void setRunning(Long appInstId, boolean running, MALInteraction interaction) {
@@ -441,14 +448,12 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         // How many addresses do we have?
         if (capabilities.isEmpty()) { // Throw an error
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
-                    "We don't have any services...");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "We don't have any services...");
             throw new IOException();
         }
 
         if (capabilities.size() != 1) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
-                    "We have more than 1 service...");
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "We have more than 1 service...");
             throw new IOException();
         }
 

@@ -20,12 +20,14 @@
  */
 package esa.mo.mc.impl.provider;
 
+import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +54,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
@@ -497,10 +500,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             }
         }
 
-        AlertEventDetails alertEvent = new AlertEventDetails();
-        alertEvent.setArgumentValues(argumentValues);
-        alertEvent.setArgumentIds(argumentIds);
-
+        AlertEventDetails alertEvent = new AlertEventDetails(argumentValues, argumentIds);
 
         // COM usage
         // requirement: 3.4.7.b
@@ -510,7 +510,13 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // requirement: 3.4.5.a and 3.4.5.b and 3.4.5.c
         AlertEventDetailsList alertEvents = new AlertEventDetailsList();
         alertEvents.add(alertEvent);
-        manager.getEventService().publishEvent(interaction, objId, AlertHelper.ALERTEVENT_OBJECT_TYPE, objIdDef, source, alertEvents);
+        final URI uri = EventProviderServiceImpl.convertMALInteractionToURI(interaction);
+        
+        try {
+            manager.getEventService().publishEvent(uri, objId, AlertHelper.ALERTEVENT_OBJECT_TYPE, objIdDef, source, alertEvents);
+        } catch (IOException ex) {
+            Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return objId;
 
@@ -540,7 +546,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         // Confirm the domain
-        if (!confSet.getDomain().equals(connection.getConnectionDetails().getDomain())) {
+        if (!confSet.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
@@ -555,7 +561,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         AlertDefinitionDetailsList pDefs = (AlertDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 AlertHelper.ALERTDEFINITION_OBJECT_TYPE,
-                connection.getConnectionDetails().getDomain(),
+                ConfigurationProviderSingleton.getDomain(),
                 confSet.getObjInstIds());
 
         manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
@@ -569,13 +575,13 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
         HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
-
-        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(connection.getConnectionDetails().getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
-        objsSet.setObjInstIds(currentObjIds);
+
+        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
         objsSet.setObjType(AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
+        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
+        objsSet.setObjInstIds(currentObjIds);
 
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(objsSet);

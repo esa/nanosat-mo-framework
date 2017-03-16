@@ -22,6 +22,7 @@ package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -188,15 +189,22 @@ public class ActivityTrackingProviderServiceImpl {
         ael.add(activityExecutionInstance);
         final Long objId;
 
+        URI sourceURI = uri;
+
         if (interaction != null) {
             objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), ael, related, source, interaction);
-            eventService.publishEvent(interaction, objId, ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, related, source, ael);
+            sourceURI = (interaction.getMessageHeader() != null) ? interaction.getMessageHeader().getURITo() : new URI("");
         } else {
             objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), ael, related, source, uri, network);
-            eventService.publishEvent(uri, objId, ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, related, source, ael);
         }
 
         final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), objId);
+
+        try {
+            eventService.publishEvent(sourceURI, objId, ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, related, source, ael);
+        } catch (IOException ex) {
+            Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return new ObjectId(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, key);
     }
@@ -219,19 +227,23 @@ public class ActivityTrackingProviderServiceImpl {
 
         // Produce ActivityTransferList
         ActivityTransferList atl = new ActivityTransferList();
-        ActivityTransfer at = new ActivityTransfer();
-        at.setSuccess(success);
-        at.setEstimateDuration(duration);
-        at.setNextDestination(nextDestination);
+        ActivityTransfer at = new ActivityTransfer(success, duration, nextDestination);
         atl.add(at);
-        Long objId;
+        
+        final Long objId;
+        URI sourceURI = uri;
 
         if (interaction != null) {
             objId = eventService.generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(), atl, null, source, interaction);
-            eventService.publishEvent(interaction, objId, objType, null, source, atl);
+            sourceURI = (interaction.getMessageHeader() != null) ? interaction.getMessageHeader().getURITo() : new URI("");
         } else {
             objId = eventService.generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(), atl, null, source, uri, network);
-            eventService.publishEvent(uri, objId, objType, null, source, atl);
+        }
+
+        try {
+            eventService.publishEvent(sourceURI, objId, objType, null, source, atl);
+        } catch (IOException ex) {
+            Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, "Could not publish the Event!");
         }
 
         return objId;
@@ -249,20 +261,24 @@ public class ActivityTrackingProviderServiceImpl {
 
     public Long publishAcceptanceEventOperation(MALInteraction interaction, final URI uri, final Identifier network,
             boolean success, final Long related, final ObjectId source) throws MALInteractionException, MALException {
-
-        // Produce ActivityAcceptanceList
+        // Create ActivityAcceptanceList
         ActivityAcceptanceList aal = new ActivityAcceptanceList();
-        ActivityAcceptance aa = new ActivityAcceptance();
-        aa.setSuccess(success);
-        aal.add(aa);
-        Long objId;
+        aal.add(new ActivityAcceptance(success));
+        
+        final Long objId;
+        URI sourceURI = uri;
 
         if (interaction != null) {
             objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), aal, related, source, interaction);
-            eventService.publishEvent(interaction, objId, ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, null, source, aal);
+            sourceURI = (interaction.getMessageHeader() != null) ? interaction.getMessageHeader().getURITo() : new URI("");
         } else {
             objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), aal, related, source, uri, network);
-            eventService.publishEvent(uri, objId, ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, null, source, aal);
+        }
+
+        try {
+            eventService.publishEvent(sourceURI, objId, ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, null, source, aal);
+        } catch (IOException ex) {
+            Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, "Could not publish the Event!");
         }
 
         return objId;
@@ -311,13 +327,13 @@ public class ActivityTrackingProviderServiceImpl {
                 }
             }
         }
-        
+
         executor.execute(new StoreCOMOperationActivityHandler());
-        
+
         final ObjectKey key = new ObjectKey(interaction.getMessageHeader().getDomain(), objId);
         return new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, key);
     }
-    
+
     /**
      * The database backend thread factory
      */
@@ -334,6 +350,7 @@ public class ActivityTrackingProviderServiceImpl {
             namePrefix = "ActivityTrackingProcessor-thread-";
         }
 
+        @Override
         public Thread newThread(Runnable r) {
             Thread t = new Thread(group, r,
                     namePrefix + threadNumber.getAndIncrement(),
@@ -347,6 +364,5 @@ public class ActivityTrackingProviderServiceImpl {
             return t;
         }
     }
-    
 
 }
