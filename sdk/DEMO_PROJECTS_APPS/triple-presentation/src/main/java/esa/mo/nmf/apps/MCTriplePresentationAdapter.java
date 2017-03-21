@@ -396,7 +396,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 new Identifier(ACTION_5_STAGES),
                 "Example of an Action with 5 stages.",
                 Severity.INFORMATIONAL,
-                new UShort(0),
+                new UShort(5),
                 //                detailsList,
                 new ArgumentDefinitionDetailsList(),
                 null
