@@ -60,8 +60,6 @@
     
     <properties>
         <app.artifactid>snapNMF</app.artifactid>
-        <playground.folder.output>${basedir}/../../Playground</playground.folder.output>
-        <playground.folder.app>${playground.folder.output}/apps/${app.artifactid}</playground.folder.app>
     </properties>
         
     <build>

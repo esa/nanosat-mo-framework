@@ -89,7 +89,6 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
         // Subscribe to ParametersValues
         final Subscription subscription = ConnectionConsumer.subscriptionWildcard();
         parameterService.getParameterStub().monitorValueRegister(subscription, new ParameterConsumerAdapter());
-        
     }
 
     public class ParameterConsumerAdapter extends ParameterAdapter {

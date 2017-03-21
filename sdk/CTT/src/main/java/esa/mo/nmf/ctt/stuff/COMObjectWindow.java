@@ -87,7 +87,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         this.tfObjectType3.setEditable(editable);
         this.tfObjectType4.setEditable(editable);
 
-        this.tfDomain.setText(comObject.getDomainId());
+        this.tfDomain.setText(HelperMisc.domain2domainId(comObject.getDomain()));
         this.tfObjId.setText(comObject.getObjectId().toString());
 
         this.tfObjectType.setText(HelperCOM.objType2string(comObject.getObjectType()));
@@ -167,7 +167,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         }
 
         this.setVisible(true);
-
     }
 
     /**

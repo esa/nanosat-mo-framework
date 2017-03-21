@@ -70,7 +70,7 @@ public class PushClock {
                     Logger.getLogger(PushClock.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }, 0, REFRESH_RATE * 1000); // conversion to milliseconds
+        }, 5*1000, REFRESH_RATE * 1000); // conversion to milliseconds
     }
 
     public void pushClock() throws NMFException {
