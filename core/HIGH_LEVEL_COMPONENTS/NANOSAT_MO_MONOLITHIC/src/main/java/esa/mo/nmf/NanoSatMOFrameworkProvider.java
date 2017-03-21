@@ -120,8 +120,12 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
-        this.getMCServices().getActionService().reportExecutionProgress(success,
-                new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
+        try {
+            this.getMCServices().getActionService().reportExecutionProgress(success,
+                    new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
+        } catch (IOException ex) {
+            throw new NMFException("The action execution progress could not be reported!", ex);
+        }
     }
 
     @Override

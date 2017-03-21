@@ -27,6 +27,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -59,6 +60,7 @@ public final class ActionManager extends DefinitionsManager {
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private Long uniqueObjIdAIns;
     private final ActionInvocationListener actions;
+    private final HashMap<Long, ActionInstanceDetails> actionInstances = new HashMap<Long, ActionInstanceDetails>();
 
     public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {
         super(comServices);
@@ -178,7 +180,7 @@ public final class ActionManager extends DefinitionsManager {
 
                 super.getArchiveService().update(
                         ActionHelper.ACTIONDEFINITION_OBJECT_TYPE,
-                        connectionDetails.getDomain(),
+                        ConfigurationProviderSingleton.getDomain(),
                         archiveDetailsList,
                         defs,
                         null);
@@ -325,7 +327,7 @@ public final class ActionManager extends DefinitionsManager {
             public void run() {
                 try {
                     final ActionDefinitionDetails actionDefinition = get(actionDetails.getDefInstId());
-                    ObjectKey key = new ObjectKey(connectionDetails.getDomain(), actionInstId);
+                    ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
 
                     URI uriTo = interaction.getMessageHeader().getURITo();
                     URI uriNextDestination = null;
@@ -369,6 +371,9 @@ public final class ActionManager extends DefinitionsManager {
 
     protected void execute(final Long actionInstId, final ActionInstanceDetails actionDetails,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+        
+        actionInstances.put(actionInstId, actionDetails);
+        
         Thread t = new Thread() {
 
             @Override
@@ -396,10 +401,16 @@ public final class ActionManager extends DefinitionsManager {
                     reportExecutionComplete((errorNumber == null), errorNumber,
                             actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
                 }
+                
+                actionInstances.remove(actionInstId);
             }
         };
 
         t.start();
+    }
+    
+    protected ActionInstanceDetails getActionInstance(final Long id){
+        return actionInstances.get(id);
     }
 
     protected void reportActivityExecutionEvent(final boolean success, final UInteger errorNumber,
@@ -442,7 +453,7 @@ public final class ActionManager extends DefinitionsManager {
                     interaction);
 
             try {
-                this.getEventService().publishEvent(new URI(""), objId,
+                this.getEventService().publishEvent(new URI(""), objId, 
                         ActionHelper.ACTIONFAILURE_OBJECT_TYPE, related, source, errorNumbers);
             } catch (IOException ex) {
                 Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);

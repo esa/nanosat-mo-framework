@@ -27,6 +27,7 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +53,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
@@ -420,11 +422,36 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @param totalNumberOfProgressStages The total number of stages.
      * @param actionInstId The actions instance identifier. This value allows the
      * consumer to know which action generated this report.
+     * @throws IOException if the definition has a totalNumberOfProgressStages
+     * different from the on supplied
      */
     public void reportExecutionProgress(final boolean success, final UInteger errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages, final Long actionInstId) {
+            final int progressStage, final int totalNumberOfProgressStages, final Long actionInstId) throws IOException {
+        // Some validation
+        if(progressStage < 1){
+            throw new IOException("The first progress stage must be 1.");
+        }
+
+        final ActionInstanceDetails actionInstance = manager.getActionInstance(actionInstId);
+        
+        if(actionInstance != null){
+            // Aditional validation can be performed!
+            final ActionDefinitionDetails actionDefinition = manager.get(actionInstance.getDefInstId());
+
+            if(actionDefinition == null){
+                throw new IOException("The submitted actionInstId could not be found.");
+            }
+
+            UShort totalSteps = actionDefinition.getProgressStepCount();
+
+            if(totalSteps.getValue() == 0){
+                throw new IOException("The Action Definition includes 0 progress step count and so, it cannot be reported on it.");
+            }
+        }
+        
         // requirement: 3.2.8.h and 3.2.8.j
-        manager.reportActivityExecutionEvent(success, errorNumber, 1 + progressStage, 2 + totalNumberOfProgressStages, actionInstId, null, connection.getConnectionDetails());
+        manager.reportActivityExecutionEvent(success, errorNumber, 1 + progressStage, 
+                2 + totalNumberOfProgressStages, actionInstId, null, connection.getConnectionDetails());
     }
 
     @Override
