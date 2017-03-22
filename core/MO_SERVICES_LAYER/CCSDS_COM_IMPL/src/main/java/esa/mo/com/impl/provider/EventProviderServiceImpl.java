@@ -108,7 +108,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         publisher = createMonitorEventPublisher(ConfigurationProviderSingleton.getDomain(),
                 ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
-                new Identifier("LIVE"),
+                ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));
@@ -304,7 +304,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             }
 
             publisher.publish(hdrlst, objectDetailsList, eventBodies); // requirement: 3.7.2.15
-
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider (0)", ex);

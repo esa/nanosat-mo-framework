@@ -102,18 +102,16 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
             return;
         }
 
-        // Populate the Directory service with the entries from the URIs File
-        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
-        this.directoryService.loadURIs(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME);
-
+        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
+        
+        // The Apps Launcher Configuration needs to be loaded here!
+        
+        
         if (mcAdapter != null) {
             // Are the dynamic changes enabled?
             if ("true".equals(System.getProperty(NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY))) {
-                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
-                        "Loading previous configurations...");
-
                 try {
-                    this.loadConfigurations();
+                    this.loadMCConfigurations();
                 } catch (NMFException ex) {
                     Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
                             "The configurations could not be loaded!", ex);
@@ -124,6 +122,10 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
+
+        // Populate the Directory service with the entries from the URIs File
+        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
+        this.directoryService.loadURIs(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME);
 
         final String primaryURI = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
 

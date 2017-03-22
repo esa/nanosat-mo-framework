@@ -135,7 +135,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         publisher = createNearbyPositionPublisher(ConfigurationProviderSingleton.getDomain(),
                 ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
-                new Identifier("LIVE"),
+                ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));

@@ -124,7 +124,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
                 ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
-                new Identifier("LIVE"),
+                ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));

@@ -36,6 +36,7 @@ public final class ConfigurationProviderSingleton {
     private static Identifier NETWORK = new Identifier();
     private static SessionType SESSION;
     private static final IdentifierList DOMAIN = new IdentifierList();
+    private static final Identifier SESSION_NAME = HelperMisc.SESSION_NAME;
 
     private ConfigurationProviderSingleton() {
         // Exists only to defeat instantiation.
@@ -57,7 +58,7 @@ public final class ConfigurationProviderSingleton {
     }
     
     public static Identifier getSourceSessionName() {
-        return null;
+        return SESSION_NAME;
     }
 
     private static synchronized void initializeIfNeeded(){

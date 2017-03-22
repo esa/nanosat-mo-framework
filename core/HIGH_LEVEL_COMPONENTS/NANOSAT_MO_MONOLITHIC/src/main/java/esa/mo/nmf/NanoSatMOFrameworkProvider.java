@@ -203,11 +203,10 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     public abstract void initPlatformServices(COMServicesProvider comServices);
 
-    public final void loadConfigurations() throws NMFException {
+    public final void loadMCConfigurations() throws NMFException {
         // Activate the previous configuration
-        ObjectId confId = new ObjectId();  // Select the default configuration
-        confId.setType(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE);
-        confId.setKey(new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+        ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
         /*---------------------------------------------------*/
         // Create the adapter that stores the configurations "onChange"
@@ -236,8 +235,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             mcServices.getActionService().init(comServices, mcAdapter);
             mcServices.getAlertService().init(comServices);
             mcServices.getAggregationService().init(comServices, parameterManager);
-            */
-            
+             */
+
             mcServices = new MCServicesProviderNMF();
             mcServices.init(comServices, mcAdapter);
         }
@@ -309,10 +308,10 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             // Get the text out of that file...
             InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
             BufferedReader br = new BufferedReader(isr);
-
             try {
                 String line;
                 while ((line = br.readLine()) != null) {
+                    br.close();
                     return new URI(line);
                 }
             } catch (IOException ex) {
@@ -349,5 +348,5 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             }
         }
     }
-    
+
 }

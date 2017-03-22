@@ -211,7 +211,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                         "Loading previous configurations...");
                 try {
-                    this.loadConfigurations();
+                    this.loadMCConfigurations();
                 } catch (NMFException ex) {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -323,7 +323,6 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     null);
 
             final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getIPCConnectionDetails().getProviderURI();
-//            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
 
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                         "Publishing event to uri: " + uri);

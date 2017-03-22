@@ -139,9 +139,9 @@ public class AppsLauncherManager extends DefinitionsManager {
                 File fileProps = new File(apps_folder_path.getCanonicalPath() + File.separator
                         + definition.getName().getValue() + File.separator + definition.getExtraInfo());
 
-                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "file:" + fileProps.getAbsolutePath() + "\n" + fileProps.getCanonicalPath());
+//                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "file:" + fileProps.getAbsolutePath() + "\n" + fileProps.getCanonicalPath());
                 props = HelperMisc.loadProperties(fileProps.getCanonicalPath());
-                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "props:" + props.size());
+//                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "props:" + props.size());
             } catch (MalformedURLException ex) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

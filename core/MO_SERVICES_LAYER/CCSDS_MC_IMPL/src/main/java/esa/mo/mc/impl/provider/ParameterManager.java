@@ -509,7 +509,8 @@ public class ParameterManager extends DefinitionsManager {
 
     }
 
-    protected boolean update(final Long objId, final ParameterDefinitionDetails definition, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    protected boolean update(final Long objId, final ParameterDefinitionDetails definition, 
+            final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Boolean success = this.updateDef(objId, definition);
 
         class UpdateHandler implements Runnable {
@@ -519,15 +520,15 @@ public class ParameterManager extends DefinitionsManager {
                 try {
                     ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
                     defs.add(definition);
-                    ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(getArchiveService(),
-                            ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, connectionDetails.getDomain(), objId);
+                    final ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(getArchiveService(),
+                            ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), objId);
 
                     ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
                     archiveDetailsList.add(archiveDetails);
 
                     getArchiveService().update(
                             ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                            connectionDetails.getDomain(),
+                            ConfigurationProviderSingleton.getDomain(),
                             archiveDetailsList,
                             defs,
                             null);

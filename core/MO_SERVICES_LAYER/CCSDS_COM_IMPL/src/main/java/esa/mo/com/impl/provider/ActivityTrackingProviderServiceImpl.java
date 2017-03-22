@@ -308,6 +308,7 @@ public class ActivityTrackingProviderServiceImpl {
         archiveDetails.get(0).setNetwork(interaction.getMessageHeader().getNetworkZone());  // RID raised to create this requirement!
         archiveDetails.get(0).setProvider(interaction.getMessageHeader().getURIFrom());     // RID raised to create this requirement!
 
+        /*
         class StoreCOMOperationActivityHandler implements Runnable {
 
             @Override
@@ -329,6 +330,26 @@ public class ActivityTrackingProviderServiceImpl {
         }
 
         executor.execute(new StoreCOMOperationActivityHandler());
+        */
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    archiveService.store(
+                            false,
+                            ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
+                            interaction.getMessageHeader().getDomain(),
+                            archiveDetails,
+                            opActivityList,
+                            interaction); // requirement: 3.5.2.3 & 3.5.2.5
+                } catch (MALException ex) {
+                    Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
 
         final ObjectKey key = new ObjectKey(interaction.getMessageHeader().getDomain(), objId);
         return new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, key);

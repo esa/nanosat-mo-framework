@@ -104,7 +104,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
         publisher = createStreamRadioPublisher(ConfigurationProviderSingleton.getDomain(),
                 ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
-                new Identifier("LIVE"),
+                ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));

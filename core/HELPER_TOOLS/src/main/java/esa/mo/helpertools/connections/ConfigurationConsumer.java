@@ -34,7 +34,7 @@ public class ConfigurationConsumer {
     private final SessionType session;
     private final Identifier sessionName;
 //    private final static String NETWORK = "helpertools.configurations.ground.Network";
-    private final static String SESSION_NAME = "helpertools.configurations.ground.SessionName";
+//    private final static String SESSION_NAME = "helpertools.configurations.ground.SessionName";
 
     // Advanced Networks
 //    private final static String ORGANIZATION_NAME = "helpertools.configurations.ground.OrganizationName";
@@ -121,11 +121,15 @@ public class ConfigurationConsumer {
         // -----------------------------------------------------------
 
         this.session = SessionType.LIVE;
+        this.sessionName = HelperMisc.SESSION_NAME; // Default it to "LIVE"
+        
+        /*
         if (System.getProperty(SESSION_NAME) != null) {
             this.sessionName = new Identifier(System.getProperty(SESSION_NAME));
         } else {
             this.sessionName = new Identifier("LIVE"); // Default it to "LIVE"
         }
+        */
     }
 
 }

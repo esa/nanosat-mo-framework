@@ -96,7 +96,7 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
             if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
                 try {
-                    super.loadConfigurations();
+                    super.loadMCConfigurations();
                 } catch (NMFException ex) {
                     Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
                 }

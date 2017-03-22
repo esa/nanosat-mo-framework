@@ -109,7 +109,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         publisher = createMonitorValuePublisher(configuration.getDomain(),
                 configuration.getNetwork(),
                 SessionType.LIVE,
-                new Identifier("LIVE"),
+                ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));

@@ -460,7 +460,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         newProviderDetails.setProviderName(new Identifier(providerName));
         newProviderDetails.setDomain(ConfigurationProviderSingleton.getDomain());
         newProviderDetails.setSessionType(ConfigurationProviderSingleton.getSession());
-        newProviderDetails.setSourceSessionName(ConfigurationProviderSingleton.getSourceSessionName());
+//        newProviderDetails.setSourceSessionName(ConfigurationProviderSingleton.getSourceSessionName());
+        newProviderDetails.setSourceSessionName(null); // It just takes bandwidth, so just null it
         newProviderDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
         newProviderDetails.setProviderDetails(serviceDetails);
 

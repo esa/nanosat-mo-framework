@@ -51,7 +51,7 @@ public class BackendInteractionsProcessor {
     private static final Boolean SAFE_MODE = false;
     private static final Class<COMObjectEntity> CLASS_ENTITY = COMObjectEntity.class;
     private final DatabaseBackend dbBackend;
-    
+
     // This executor is responsible for the interactions with the db
     private final ExecutorService dbInteractionsExecutor = Executors.newSingleThreadExecutor(new DBBackendThreadFactory("COMArchiveBackendProcessor")); // Guarantees sequential order
 
@@ -141,6 +141,7 @@ public class BackendInteractionsProcessor {
         return null;
     }
 
+    /*
     private class InsertCOMObjectRunnable implements Runnable {
 
         private final Runnable publishEvents;
@@ -175,7 +176,7 @@ public class BackendInteractionsProcessor {
             publishEventsExecutor.submit(publishEvents);
         }
     }
-
+     */
     private void persistObjects(final ArrayList<COMObjectEntity> perObjs) {
         for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
             if (SAFE_MODE) {
@@ -216,10 +217,40 @@ public class BackendInteractionsProcessor {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        /*
         final InsertCOMObjectRunnable task = new InsertCOMObjectRunnable(publishEvents);
         dbInteractionsExecutor.execute(task);
+         */
+        dbInteractionsExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                StoreCOMObjectsContainer container = storeQueue.poll();
+
+                if (container != null) {
+                    dbBackend.createEntityManager();  // 0.166 ms
+                    dbBackend.getEM().getTransaction().begin(); // 0.480 ms
+                    persistObjects(container.getPerObjs()); // store
+
+                    while (true) {
+                        container = storeQueue.peek(); // get next if there is one available
+                        if (container != null && container.isContinuous()) {
+                            container = storeQueue.poll();
+                            persistObjects(container.getPerObjs()); // store
+                        } else {
+                            break;
+                        }
+                    }
+
+                    dbBackend.safeCommit();
+                    dbBackend.closeEntityManager(); // 0.410 ms
+                }
+
+                publishEventsExecutor.submit(publishEvents);
+            }
+        });
     }
 
+    /*
     private class RemoveCOMObjectRunnable implements Runnable {
 
         private final Integer objTypeId;
@@ -253,15 +284,37 @@ public class BackendInteractionsProcessor {
             publishEventsExecutor.submit(publishEvents);
         }
     }
-
+     */
     public void remove(final Integer objTypeId, final Integer domainId,
             final LongList objIds, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+        /*
         final RemoveCOMObjectRunnable task = new RemoveCOMObjectRunnable(
                 objTypeId, domainId, objIds, publishEvents);
         dbInteractionsExecutor.execute(task);
+         */
+        dbInteractionsExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dbBackend.createEntityManager();  // 0.166 ms
+
+                // Generate the object Ids if needed and the persistence objects to be removed
+                for (int i = 0; i < objIds.size(); i++) {
+                    final COMObjectEntityPK id = COMObjectEntity.generatePK(objTypeId, domainId, objIds.get(i));
+                    COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY, id);
+                    dbBackend.getEM().getTransaction().begin();
+                    dbBackend.getEM().remove(perObj);
+                    dbBackend.getEM().getTransaction().commit();
+                }
+
+                dbBackend.closeEntityManager(); // 0.410 ms
+
+                publishEventsExecutor.submit(publishEvents);
+            }
+        });
     }
 
+    /*
     private class UpdateCOMObjectRunnable implements Runnable {
 
         private final ArrayList<COMObjectEntity> newObjs;
@@ -296,11 +349,38 @@ public class BackendInteractionsProcessor {
             publishEventsExecutor.submit(publishEvents);
         }
     }
-
+     */
     public void update(final ArrayList<COMObjectEntity> newObjs, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+        /*
         final UpdateCOMObjectRunnable task = new UpdateCOMObjectRunnable(newObjs, publishEvents);
         dbInteractionsExecutor.execute(task);
+         */
+
+        dbInteractionsExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dbBackend.createEntityManager();  // 0.166 ms
+
+                for (int i = 0; i < newObjs.size(); i++) {
+                    final COMObjectEntityPK id = newObjs.get(i).getPrimaryKey();
+                    COMObjectEntity previousObj = dbBackend.getEM().find(CLASS_ENTITY, id);
+
+                    dbBackend.getEM().getTransaction().begin();
+                    dbBackend.getEM().remove(previousObj);
+                    dbBackend.getEM().getTransaction().commit();
+
+                    // Maybe we can replace the 3 lines below with a persistObjects(newObjs) after the for loop
+                    dbBackend.getEM().getTransaction().begin();
+                    dbBackend.getEM().persist(newObjs.get(i));
+                    dbBackend.getEM().getTransaction().commit();
+                }
+
+                dbBackend.closeEntityManager(); // 0.410 ms
+
+                publishEventsExecutor.submit(publishEvents);
+            }
+        });
     }
 
     private class QueryCallable implements Callable {
@@ -497,7 +577,7 @@ public class BackendInteractionsProcessor {
             Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * The database backend thread factory
      */
@@ -514,6 +594,7 @@ public class BackendInteractionsProcessor {
             namePrefix = prefix + "-thread-";
         }
 
+        @Override
         public Thread newThread(Runnable r) {
             Thread t = new Thread(group, r,
                     namePrefix + threadNumber.getAndIncrement(),

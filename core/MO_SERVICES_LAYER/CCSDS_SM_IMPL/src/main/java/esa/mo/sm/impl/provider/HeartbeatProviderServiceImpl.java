@@ -93,7 +93,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
         publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(),
                 ConfigurationProviderSingleton.getNetwork(),
                 SessionType.LIVE,
-                new Identifier("LIVE"),
+                ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));

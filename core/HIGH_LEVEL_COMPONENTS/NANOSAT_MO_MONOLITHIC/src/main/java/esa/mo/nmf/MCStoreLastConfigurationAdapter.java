@@ -99,7 +99,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
             return;
         }
 
-        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO, 
+        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO,
                 "There were no previous configurations stored in the Archive. Creating configurations...");
 
         // It doesn't exist... create all the necessary objects...
@@ -190,6 +190,46 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     }
 
     private void updateConfigurationInArchive(final ReconfigurableServiceImplInterface serviceImpl, final Long objId) {
+        // Submit the task to update the configuration in the COM Archive
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // Retrieve the COM object of the service
+                ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
+                        ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), objId);
+
+                if (comObject == null) {
+                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                            serviceImpl.getCOMService().getName()
+                            + " service: The service configuration object could not be found! objectId: " + objId);
+
+                    // Maybe we can use storeDefaultServiceConfiguration() here!
+                }
+
+                // Stuff to feed the update operation from the Archive...
+                ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
+                        ConfigurationProviderSingleton.getNetwork(), new URI(""), comObject.getArchiveDetails().getDetails().getRelated());
+                ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
+                confObjsList.add(serviceImpl.getCurrentConfiguration());
+
+                try {
+                    comServices.getArchiveService().update(
+                            ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                            ConfigurationProviderSingleton.getDomain(),
+                            details,
+                            confObjsList,
+                            null);
+                } catch (MALException ex) {
+                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                            serviceImpl.getCOMService().getName()
+                            + " service: The configuration could not be updated! objectId: " + objId, ex);
+                }
+            }
+
+        });
+        /*        
         class UpdateConfigurationHandler implements Runnable {
 
             @Override
@@ -202,6 +242,8 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
                     Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE,
                             serviceImpl.getCOMService().getName()
                             + " service: The service configuration object could not be found! objectId: " + objId);
+                    
+                    // Maybe we can use storeDefaultServiceConfiguration() here!
                 }
 
                 // Stuff to feed the update operation from the Archive...
@@ -228,6 +270,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         }
 
         executor.execute(new UpdateConfigurationHandler());
+         */
     }
 
     private Long storeDefaultServiceConfiguration(final Long defaultObjId,
