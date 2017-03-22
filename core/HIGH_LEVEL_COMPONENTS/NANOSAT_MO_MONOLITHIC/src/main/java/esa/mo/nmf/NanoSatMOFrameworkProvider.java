@@ -28,6 +28,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
+import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
@@ -71,8 +72,8 @@ import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
  */
 public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProviderImplInterface, NanoSatMOFrameworkInterface {
 
-    private final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
     public final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
+    private final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
     public final static String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
     public final static String NANOSAT_MO_SUPERVISOR_NAME = "NanoSat_MO_Supervisor";
     public final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
@@ -85,6 +86,9 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public CloseAppListener closeAppAdapter = null;
     public ConfigurationNotificationInterface providerConfigurationAdapter = null;
     public String providerName;
+    
+    public PersistProviderConfiguration providerConfiguration;
+    public final ArrayList<ReconfigurableServiceImplInterface> reconfigurableServices = new ArrayList<ReconfigurableServiceImplInterface>();
 
     @Override
     public COMServicesProvider getCOMServices() throws NMFException {
@@ -205,12 +209,12 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     public final void loadMCConfigurations() throws NMFException {
         // Activate the previous configuration
-        ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
+        final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
                 new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
         /*---------------------------------------------------*/
         // Create the adapter that stores the configurations "onChange"
-        MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
+        final MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
 
         // Reload the previous Configurations
         this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
@@ -239,6 +243,10 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
             mcServices = new MCServicesProviderNMF();
             mcServices.init(comServices, mcAdapter);
+            this.reconfigurableServices.add(mcServices.getActionService());
+            this.reconfigurableServices.add(mcServices.getAggregationService());
+            this.reconfigurableServices.add(mcServices.getAlertService());
+            this.reconfigurableServices.add(mcServices.getParameterService());
         }
     }
 
@@ -249,14 +257,12 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
     @Override
     public ArrayList<ReconfigurableServiceImplInterface> getServices() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        // To be done
-//        you need a list of services here...
+        return reconfigurableServices;
     }
-
+    
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("The provider does no support reconfiguration.");
 
         // To be done
 //        you also need to plug the current configuration here...

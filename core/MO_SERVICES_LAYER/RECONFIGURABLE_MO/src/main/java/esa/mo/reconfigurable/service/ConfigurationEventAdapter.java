@@ -75,10 +75,8 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
     public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
             UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList,
             ElementList objects, Map qosProperties) {
-
         // Notification received from the Configuration serviceImpl...
         for (int i = 0; i < objectDetailsList.size(); i++) {
-
             Identifier eventObjNumber = updateHeaderList.get(i).getKey().getFirstSubKey();
 
             // Check if it is a "Configuration switch Request" or a "Current Configuration Store"
@@ -119,9 +117,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                     } else {
                         // Publish failure
                     }
-
                 }
-
             }
 
             // -----------------------------------------------------------
@@ -169,9 +165,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                     publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
                 }
             }
-
         }
-
     }
 
     private void publishConfigurationStoredFailure(Long related) {
@@ -193,11 +187,9 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationEventAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void publishConfigurationStoredSuccess(Long objId, Long related) {
-
         // Publish event: Success with the objId of the Configuration stored
         ObjectType objTypeEvent = ConfigurationHelper.CONFIGURATIONSTORED_OBJECT_TYPE;
         BooleanList bool = new BooleanList();

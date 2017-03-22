@@ -208,8 +208,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Refresh the list of available Apps
-        this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
+        boolean anyChanges = this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
 
+        if (anyChanges) {
+            // Update the Configuration available on the COM Archive
+            configurationAdapter.configurationChanged(this);
+        }
+        
         for (int index = 0; index < appInstIds.size(); index++) {
             AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index)); // get it from the list of available apps
 
@@ -257,8 +262,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Refresh the list of available Apps
-        this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
+        boolean anyChanges = this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
 
+        if (anyChanges) {
+            // Update the Configuration available on the COM Archive
+            configurationAdapter.configurationChanged(this);
+        }
+        
         for (int index = 0; index < appInstIds.size(); index++) {
             AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index)); // get it from the list of available apps
 
@@ -302,8 +312,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Refresh the list of available Apps
-        this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
+        boolean anyChanges = this.manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
 
+        if (anyChanges) {
+            // Update the Configuration available on the COM Archive
+            configurationAdapter.configurationChanged(this);
+        }
+        
         IdentifierList appDirectoryNames = new IdentifierList();
 
         for (int i = 0; i < appInstIds.size(); i++) {
@@ -382,7 +397,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // Refresh the list of available Apps
-        manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
+        boolean anyChanges = manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
+        
+        if (anyChanges) {
+            // Update the Configuration available on the COM Archive
+            configurationAdapter.configurationChanged(this);
+        }
+        
+        
         LongList ids = new LongList();
         BooleanList runningApps = new BooleanList();
 
@@ -596,7 +618,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                                 + " has been closed.");
 
                         close();
-                        manager.refreshAvailableAppsList(null);
                     }
                 }
             };

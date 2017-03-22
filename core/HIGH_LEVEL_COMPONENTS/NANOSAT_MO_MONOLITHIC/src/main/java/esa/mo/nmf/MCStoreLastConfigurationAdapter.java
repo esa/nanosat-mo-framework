@@ -284,7 +284,8 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
                     true,
                     ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, ConfigurationProviderSingleton.getNetwork(), new URI("")),
+                    HelperArchive.generateArchiveDetailsList(null, null,
+                            ConfigurationProviderSingleton.getNetwork(), new URI("")),
                     archObj1,
                     null);
 
@@ -297,12 +298,12 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
                     false,
                     ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, ConfigurationProviderSingleton.getNetwork(), new URI(""), defaultObjId),
+                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null,
+                            ConfigurationProviderSingleton.getNetwork(), new URI(""), defaultObjId),
                     serviceKeyList,
                     null);
 
             return defaultObjId;
-
         } catch (MALException ex) {
             Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             return defaultObjId;

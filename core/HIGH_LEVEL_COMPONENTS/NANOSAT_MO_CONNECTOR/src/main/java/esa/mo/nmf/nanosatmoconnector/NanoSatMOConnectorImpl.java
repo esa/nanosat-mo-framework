@@ -35,7 +35,9 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NanoSatMOFrameworkProvider;
+import static esa.mo.nmf.NanoSatMOFrameworkProvider.DEFAULT_PROVIDER_CONFIGURATION_OBJID;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
+import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.IOException;
@@ -46,6 +48,8 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderDetails;
@@ -192,6 +196,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             comServices.init();
             heartbeatService.init();
             this.startMCServices(mcAdapter);
+
             directoryService.init(comServices);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
@@ -204,7 +209,33 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 "Populating local Directory service...");
         PublishDetails publishDetails = directoryService.loadURIs(this.providerName);
 
+        // Are the dynamic changes enabled?
+        if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
+                    "Loading previous configurations...");
+
+            // Activate the previous configuration
+            final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                    new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+
+            super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());
+            
+            try {
+                super.providerConfiguration.loadPreviousConfigurations();
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        if (mcAdapter != null) {
+            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
+                    mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
+            mcAdapter.initialRegistrations(registration);
+        }
+
         // Load previous configurations
+        /*
         if (mcAdapter != null) {
             // Are the dynamic changes enabled?
             if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
@@ -221,7 +252,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
-
+         */
         // Populate the provider list of services in the Central Directory service
         if (centralDirectoryURI != null) {
             try {
@@ -325,7 +356,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
             final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getIPCConnectionDetails().getProviderURI();
 
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                        "Publishing event to uri: " + uri);
+                    "Publishing event to uri: " + uri);
 
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId,

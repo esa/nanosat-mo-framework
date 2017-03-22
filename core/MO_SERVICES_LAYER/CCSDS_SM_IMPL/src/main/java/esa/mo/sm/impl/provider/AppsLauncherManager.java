@@ -30,6 +30,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
 import java.io.BufferedReader;
@@ -239,7 +240,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         return this.deleteDef(objId);
     }
 
-    protected void refreshAvailableAppsList(final URI providerURI) {
+    protected boolean refreshAvailableAppsList(final URI providerURI) {
         // Go to all the "apps folder" and check if there are new folders
         // get all the files from a directory
         File[] fList = apps_folder_path.listFiles();
@@ -248,9 +249,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
                     "The directory could not be found: {0}", apps_folder_path.toString());
 
-            // Create?
-            // ????
-            return;
+            return false;
         }
 
         boolean anyChanges = false;
@@ -303,11 +302,11 @@ public class AppsLauncherManager extends DefinitionsManager {
                 anyChanges = true;
             }
         }
+        
+        // Also needs to check if we removed a folder!
+        
 
-        if (anyChanges) {
-            // Do something!!
-
-        }
+        return anyChanges;
     }
 
     protected boolean isAppRunning(final Long appId) {

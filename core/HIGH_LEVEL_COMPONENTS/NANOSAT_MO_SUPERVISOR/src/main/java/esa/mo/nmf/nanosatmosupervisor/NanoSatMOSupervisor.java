@@ -31,7 +31,10 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
+import static esa.mo.nmf.NanoSatMOFrameworkProvider.DEFAULT_PROVIDER_CONFIGURATION_OBJID;
+import static esa.mo.nmf.NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
+import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PackageManagementBackendInterface;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
@@ -39,6 +42,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
@@ -94,6 +99,8 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
             this.directoryService.init(comServices);
             this.applicationsManagerService.init(comServices, directoryService);
             this.packageManagementService.init(comServices, packageManagementBackend);
+            super.reconfigurableServices.add(this.applicationsManagerService);
+//            super.reconfigurableServices.add(this.packageManagementService);
             this.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
         } catch (MALException ex) {
@@ -102,11 +109,33 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
             return;
         }
 
-        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
+        // Are the dynamic changes enabled?
+        if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
+            Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
+                    "Loading previous configurations...");
+
+            // Activate the previous configuration
+            final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                    new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+
+            super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());
+            
+            try {
+                super.providerConfiguration.loadPreviousConfigurations();
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (mcAdapter != null) {
+            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
+                    mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
+            mcAdapter.initialRegistrations(registration);
+        }
         
         // The Apps Launcher Configuration needs to be loaded here!
-        
-        
+//        this.loadSMConfigurations();
+        /*
         if (mcAdapter != null) {
             // Are the dynamic changes enabled?
             if ("true".equals(System.getProperty(NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY))) {
@@ -122,6 +151,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
+        */
 
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
@@ -211,6 +241,10 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         }
 
         System.exit(0);
+    }
+
+    private void loadSMConfigurations() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
