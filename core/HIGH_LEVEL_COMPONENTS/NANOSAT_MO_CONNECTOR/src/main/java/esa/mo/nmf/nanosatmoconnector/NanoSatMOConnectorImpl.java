@@ -35,7 +35,6 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NanoSatMOFrameworkProvider;
-import static esa.mo.nmf.NanoSatMOFrameworkProvider.DEFAULT_PROVIDER_CONFIGURATION_OBJID;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherManager;

@@ -21,7 +21,6 @@
 package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.nmf.nanosatmomonolithic.NanoSatMOMonolithic;
 import esa.mo.nmf.NanoSatMOFrameworkProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -31,8 +30,6 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
-import static esa.mo.nmf.NanoSatMOFrameworkProvider.DEFAULT_PROVIDER_CONFIGURATION_OBJID;
-import static esa.mo.nmf.NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
@@ -241,10 +238,6 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
         }
 
         System.exit(0);
-    }
-
-    private void loadSMConfigurations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

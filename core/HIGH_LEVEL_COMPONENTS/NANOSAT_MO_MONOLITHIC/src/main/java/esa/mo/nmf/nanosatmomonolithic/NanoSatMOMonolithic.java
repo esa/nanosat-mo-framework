@@ -28,10 +28,13 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
+import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
@@ -91,17 +94,25 @@ public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
         Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Populating Directory service...");
         directoryService.loadURIs(this.providerName);
 
-        if (mcAdapter != null) {
-            // Are the dynamic changes enabled?
-            if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
-                try {
-                    super.loadMCConfigurations();
-                } catch (NMFException ex) {
-                    Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        // Are the dynamic changes enabled?
+        if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
+                    "Loading previous configurations...");
 
+            // Activate the previous configuration
+            final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                    new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+
+            super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());
+            
+            try {
+                super.providerConfiguration.loadPreviousConfigurations();
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (mcAdapter != null) {
             MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);

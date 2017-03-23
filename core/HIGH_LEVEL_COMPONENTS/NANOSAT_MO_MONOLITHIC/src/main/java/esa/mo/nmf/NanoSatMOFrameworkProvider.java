@@ -179,6 +179,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
+    /*
     private void reloadServiceConfiguration(final ReconfigurableServiceImplInterface service,
             final Long serviceObjId) throws NMFException {
         // Retrieve the COM object of the service
@@ -204,15 +205,16 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         // Reload the previous Configuration
         service.reloadConfiguration(configurationObjectDetails);
     }
+    */
 
     public abstract void initPlatformServices(COMServicesProvider comServices);
 
+/*    
     public final void loadMCConfigurations() throws NMFException {
         // Activate the previous configuration
         final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
                 new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
-        /*---------------------------------------------------*/
         // Create the adapter that stores the configurations "onChange"
         final MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
 
@@ -228,7 +230,8 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         mcServices.getAlertService().setConfigurationAdapter(confAdapter);
         mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
     }
-
+*/
+    
     public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
         if (mcAdapter != null) {
             /*
