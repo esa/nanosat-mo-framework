@@ -212,7 +212,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
-            configurationAdapter.configurationChanged(this);
+            if(this.configurationAdapter != null){
+                this.configurationAdapter.configurationChanged(this);
+            }
         }
         
         for (int index = 0; index < appInstIds.size(); index++) {
@@ -266,7 +268,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
-            configurationAdapter.configurationChanged(this);
+            if(this.configurationAdapter != null){
+                this.configurationAdapter.configurationChanged(this);
+            }
         }
         
         for (int index = 0; index < appInstIds.size(); index++) {
@@ -316,7 +320,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
-            configurationAdapter.configurationChanged(this);
+            if(this.configurationAdapter != null){
+                this.configurationAdapter.configurationChanged(this);
+            }
         }
         
         IdentifierList appDirectoryNames = new IdentifierList();
@@ -401,7 +407,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
-            configurationAdapter.configurationChanged(this);
+            if(this.configurationAdapter != null){
+                this.configurationAdapter.configurationChanged(this);
+            }
         }
         
         

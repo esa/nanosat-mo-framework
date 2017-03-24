@@ -188,12 +188,12 @@ public class AppsLauncherManager extends DefinitionsManager {
             } catch (MALException ex) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
-                if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)){
-                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO, 
+                if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
+                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                             "The App COM object already exists in the Archive!");
-                    
+
                     return objId;
-                }else{
+                } else {
                     Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -302,9 +302,33 @@ public class AppsLauncherManager extends DefinitionsManager {
                 anyChanges = true;
             }
         }
-        
+
         // Also needs to check if we removed a folder!
-        
+        final LongList ids = this.listAll();
+        final AppDetailsList localApps = this.getAll();
+        for (int i = 0; i < ids.size(); i++) { // Roll all the apps inside the apps folder
+            AppDetails localApp = localApps.get(i);
+            boolean appStillIntact = false;
+            for (File folder : fList) { // Roll all the apps inside the apps folder
+                if (folder.isDirectory()) {
+                    if (folder.getName().equals(localApp.getName().getValue())) {
+                        for (File file : folder.listFiles()) { // Roll all the files inside each app folder
+                            // Check if the folder contains the app executable
+                            if (runnable_filename.equals(file.getName())) {
+                                // All Good!
+                                appStillIntact = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!appStillIntact) {
+                this.delete(ids.get(i));
+                anyChanges = true;
+            }
+        }
 
         return anyChanges;
     }
