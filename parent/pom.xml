@@ -95,14 +95,22 @@
         <esa.nmf.components.gma.version>1.0-SNAPSHOT</esa.nmf.components.gma.version>
         <esa.nmf.components.gmp.version>1.0-SNAPSHOT</esa.nmf.components.gmp.version>
 
-        <!-- NMF Sweeteners -->
+        <!-- NMF Packager -->
         <esa.nmf.packager.version>1.0-SNAPSHOT</esa.nmf.packager.version>
+
+        <!-- NMF Artifacts -->
+        <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
+        <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}</esa.nmf.artifact.app.folder>
+        
+        <!-- NMF Playground -->
+        <playground.folder.output>${basedir}/../../../Playground</playground.folder.output>
+        <playground.folder.app>${playground.folder.output}/apps/${esa.nmf.artifact.app.artifactid}</playground.folder.app>
     </properties>
   
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>${project.groupId}</groupId>
+                <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>HELPER_TOOLS</artifactId>
                 <version>${esa.nmf.helper.version}</version>
             </dependency>
