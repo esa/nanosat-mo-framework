@@ -101,7 +101,7 @@
                                 </artifactItem>
                             </artifactItems>
                             <includeScope></includeScope>
-                            <outputDirectory>${basedir}/../../Playground/libs/NanoSat_MO_Framework</outputDirectory>
+                            <outputDirectory>${playground.folder.output}/libs/NanoSat_MO_Framework</outputDirectory>
                             <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
@@ -122,8 +122,8 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/../../Playground</outputDirectory>
-                            <resources>          
+                            <outputDirectory>${playground.folder.output}</outputDirectory>
+                            <resources>
                                 <resource>
                                     <directory>${basedir}/src/mainDirectory</directory>
                                     <filtering>true</filtering>
