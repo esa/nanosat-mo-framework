@@ -226,7 +226,6 @@ public class SortByField implements Comparator {
         }
 
         return ((String) c1).compareToIgnoreCase((String) c2);
-
     }
 
     public static ArrayList<ArchivePersistenceObject> sortPersistenceObjects(

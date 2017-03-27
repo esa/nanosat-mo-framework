@@ -257,8 +257,8 @@ public class ArchiveManager {
 
     protected synchronized LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
-        final LongList objIds = new LongList();
-        final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<COMObjectEntity>();
+        final LongList objIds = new LongList(lArchiveDetails.size());
+        final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<COMObjectEntity>(lArchiveDetails.size());
         final int domainId = this.fastDomain.getDomainId(domain);
         final int objTypeId = this.fastObjectType.getObjectTypeId(objType);
 
@@ -543,7 +543,7 @@ public class ArchiveManager {
 
     private static ObjectIdList generateSources(final ObjectType objType,
             final IdentifierList domain, final LongList objIds) {
-        final ObjectIdList sourceList = new ObjectIdList();
+        final ObjectIdList sourceList = new ObjectIdList(objIds.size());
 
         for (int i = 0; i < objIds.size(); i++) {
             final ObjectId source = new ObjectId(objType, new ObjectKey(domain, objIds.get(i)));

@@ -181,7 +181,7 @@ public class ParameterManager extends DefinitionsManager {
             return out;
         }
 
-        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList(relatedList.size());
         final LongList out = new LongList();
 
         for (Long related : relatedList) {

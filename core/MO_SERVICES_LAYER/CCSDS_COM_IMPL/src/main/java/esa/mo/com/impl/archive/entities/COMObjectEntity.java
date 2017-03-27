@@ -90,6 +90,9 @@ public class COMObjectEntity implements Serializable {
     private Long sourceLinkObjId;
     // ---------------------    
 
+    /**
+     * Exists because Eclipse Link needs the constructor without parameters 
+     */
     protected COMObjectEntity() {
     }
 

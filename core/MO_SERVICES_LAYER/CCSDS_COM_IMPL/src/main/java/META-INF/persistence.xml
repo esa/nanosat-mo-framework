@@ -34,6 +34,9 @@
 
         <property name="eclipselink.logging.level" value="WARNING"/>
 
+        <!--  -->
+        <property name="eclipselink.cache.shared.default" value="false"/>
+        
       <!--      In case of problems roll it to "Database", it is the generic value
         <property name="eclipselink.target-database" value="Database"/>
         <property name="eclipselink.platform.class.name" value="org.eclipse.persistence.platform.database.SQLServerPlatform"/>

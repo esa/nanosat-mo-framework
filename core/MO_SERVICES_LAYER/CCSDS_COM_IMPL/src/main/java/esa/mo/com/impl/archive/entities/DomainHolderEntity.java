@@ -28,7 +28,7 @@ import javax.persistence.*;
  * @author Cesar Coelho
  */
 @Entity
-public class DomainHolderEntity implements Serializable{
+public class DomainHolderEntity implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -36,21 +36,21 @@ public class DomainHolderEntity implements Serializable{
 
     @Column(name = "domainString")
     private String domainString;
-  
+
     protected DomainHolderEntity() {
     }
 
-    public DomainHolderEntity (final int id, final String domainString){
+    public DomainHolderEntity(final int id, final String domainString) {
         this.id = id;
         this.domainString = domainString;
     }
-    
-    public int getId(){
+
+    public int getId() {
         return this.id;
     }
 
-    public String getDomainString(){
+    public String getDomainString() {
         return this.domainString;
     }
-  
+
 }

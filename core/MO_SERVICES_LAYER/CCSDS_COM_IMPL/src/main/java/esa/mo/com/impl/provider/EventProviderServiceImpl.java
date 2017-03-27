@@ -350,8 +350,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                     "Publishing Event for the Event objIds: {0}; with Event Object Numbers: {1}",
                     new Object[]{objIds, objType.getNumber()});
              */
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            final ObjectDetailsList objectDetailsList = new ObjectDetailsList();
+            final UpdateHeaderList hdrlst = new UpdateHeaderList(objIds.size());
+            final ObjectDetailsList objectDetailsList = new ObjectDetailsList(objIds.size());
 
             for (int i = 0; i < objIds.size(); i++) {
                 // 0xFFFF FFFF FF00 0000
@@ -399,7 +399,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
     public LongList generateAndStoreEvents(final ObjectType objType, final IdentifierList domain,
             final LongList relateds, final ObjectIdList sourceList, final MALInteraction interaction) {
-        ObjectDetailsList objectDetailsList = new ObjectDetailsList();
+        ObjectDetailsList objectDetailsList = new ObjectDetailsList(sourceList.size());
 
         for (int i = 0; i < sourceList.size(); i++) {
             if (relateds != null) {

@@ -173,7 +173,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         parameterValue.setInvalidSubState(new UOctet((short) 0));
 
         ParameterInstance instance = new ParameterInstance(new Identifier(name), parameterValue, null, null);
-        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
+        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1); // We just add 1 element
         parameters.add(instance);
 
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);

@@ -528,7 +528,7 @@ public class BackendInteractionsProcessor {
         }
     }
 
-    public ArrayList<COMObjectEntity> query(final Integer objTypeId,
+    public ArrayList<COMObjectEntity> query(final Integer objTypeId, 
             final ArchiveQuery archiveQuery, final Integer domainId,
             final Integer providerURIId, final Integer networkId,
             final SourceLinkContainer sourceLink) {

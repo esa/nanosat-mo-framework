@@ -803,9 +803,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 }
             }
 
-            final LongList outIds = new LongList();
-            final ParameterValueList parameterValueList = new ParameterValueList();
-            final List<ParameterInstance> parameterInstances = new ArrayList<ParameterInstance>();
+            final LongList outIds = new LongList(parameters.size());
+            final ParameterValueList parameterValueList = new ParameterValueList(parameters.size());
+            final List<ParameterInstance> parameterInstances = new ArrayList<ParameterInstance>(parameters.size());
 
             for (int i = 0; i < parameters.size(); i++) {
                 Long objId = manager.list(parameters.get(i).getName());  // Does the submitted name exists in the manager?

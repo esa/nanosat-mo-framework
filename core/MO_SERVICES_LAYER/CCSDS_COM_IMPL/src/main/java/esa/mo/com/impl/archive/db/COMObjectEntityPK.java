@@ -23,7 +23,7 @@ package esa.mo.com.impl.archive.db;
 import java.io.Serializable;
 
 /**
- * Archive Persistence Object Primary Key 2
+ * Archive Persistence Object Primary Key
  * @author Cesar Coelho
  */
 public class COMObjectEntityPK implements Serializable {
