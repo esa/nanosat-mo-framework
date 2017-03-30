@@ -71,7 +71,8 @@
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>CCSDS_MC_IMPL</artifactId>
+            <artifactId>CCSDS_MC_IMPL_DLR_NO_FAT</artifactId>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>

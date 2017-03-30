@@ -213,7 +213,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             manager.execute(actionInstId, actionDetails, interaction, connection.getConnectionDetails()); // The execution events are generated within the execute method
         }
         
-        
     }
 
     @Override
@@ -528,6 +527,5 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     public COMService getCOMService() {
         return ActionHelper.ACTION_SERVICE;
     }
-
 
 }

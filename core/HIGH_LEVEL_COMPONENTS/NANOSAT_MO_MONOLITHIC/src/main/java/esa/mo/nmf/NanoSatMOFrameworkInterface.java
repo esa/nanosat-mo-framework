@@ -21,7 +21,6 @@
 package esa.mo.nmf;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.mc.impl.util.MCServicesProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 

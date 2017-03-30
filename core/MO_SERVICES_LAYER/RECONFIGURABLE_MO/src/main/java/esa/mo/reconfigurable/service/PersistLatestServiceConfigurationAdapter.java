@@ -68,10 +68,8 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
 
         this.archiveService = archiveService;
         this.configObjId = configObjId;
-        this.executor = Executors.newSingleThreadExecutor(new NamedConfigurationThreadFactory(service.getCOMService().getName().toString())); // Guarantees sequential order
-
-        // Store a service Configuration object in the Archive
-        this.storeDefaultServiceConfiguration(configObjId, service);
+        this.executor = Executors.newSingleThreadExecutor(new NamedConfigurationThreadFactory(
+                service.getCOMService().getName().toString())); // Guarantees sequential order
     }
 
     public Long getConfigurationObjectInstId() {
@@ -85,8 +83,9 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
             @Override
             public void run() {
                 // Retrieve the COM object of the service
-                ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
-                        ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), configObjId);
+                ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                        archiveService, ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(), configObjId);
 
                 if (comObject == null) {
                     Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
@@ -95,6 +94,8 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
                             + configObjId);
 
                     // Maybe we can use storeDefaultServiceConfiguration() here!? To handle better the error...
+
+                    return;
                 }
 
                 // Stuff to feed the update operation from the Archive...
@@ -122,7 +123,8 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
         });
     }
 
-    public final void storeDefaultServiceConfiguration(final Long defaultObjId, final ReconfigurableServiceImplInterface service) {
+    public final void storeDefaultServiceConfiguration(final Long defaultObjId,
+            final ReconfigurableServiceImplInterface service) {
         try {
             // Store the Service Configuration objects
             ConfigurationObjectDetailsList archObj1 = new ConfigurationObjectDetailsList();

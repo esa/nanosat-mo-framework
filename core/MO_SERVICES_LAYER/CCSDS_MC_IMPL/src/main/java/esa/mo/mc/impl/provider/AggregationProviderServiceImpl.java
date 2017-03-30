@@ -221,7 +221,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             aValLst.add(aVal);
 
             publisher.publish(hdrlst, objectIdlst, aValLst); // requirement: 3.7.2.15
-
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         } catch (MALException ex) {

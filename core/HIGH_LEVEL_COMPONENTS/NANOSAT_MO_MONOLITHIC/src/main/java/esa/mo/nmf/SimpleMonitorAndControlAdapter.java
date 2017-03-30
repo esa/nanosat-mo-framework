@@ -46,12 +46,12 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
 
     @Override
     public void initialRegistrations(MCRegistration registrationObject) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // To be overwritten
     }
 
     @Override
-    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-
+    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, 
+            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         Serializable[] values = new Serializable[attributeValues.size()];
 
         for (int i = 0; i < attributeValues.size(); i++) {

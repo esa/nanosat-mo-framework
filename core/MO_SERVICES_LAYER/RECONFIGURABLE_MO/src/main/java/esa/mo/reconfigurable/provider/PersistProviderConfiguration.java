@@ -27,12 +27,12 @@ import esa.mo.reconfigurable.service.PersistLatestServiceConfigurationAdapter;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetailsList;
@@ -41,7 +41,6 @@ import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -55,6 +54,8 @@ public class PersistProviderConfiguration {
     private final ArchiveInheritanceSkeleton archiveService;
     private final ObjectId confId;
     private final ArrayList<ReconfigurableServiceImplInterface> reconfigurableServices;
+//    private final ArrayList<PersistLatestServiceConfigurationAdapter> serviceAdapters = new ArrayList<PersistLatestServiceConfigurationAdapter>();
+    private LongList objIds;
 
     public PersistProviderConfiguration(final ReconfigurableProviderImplInterface provider,
             final ObjectId confId, final ArchiveInheritanceSkeleton archiveService) {
@@ -67,39 +68,43 @@ public class PersistProviderConfiguration {
         this.archiveService = archiveService;
         this.confId = confId;
         this.reconfigurableServices = provider.getServices();
-        
-//    }
 
-//    public void init() {
-        final ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+        final ArchivePersistenceObject comObjectProvider = HelperArchive.getArchiveCOMObject(
                 archiveService,
                 ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
                 confId.getKey().getDomain(),
                 confId.getKey().getInstId());
 
         // Does the providerConfiguration object exists?
-        if (comObject != null) {
+        if (comObjectProvider != null) {
+            final ArchivePersistenceObject comObjectConfs = HelperArchive.getArchiveCOMObject(
+                    archiveService,
+                    ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                    confId.getKey().getDomain(),
+                    comObjectProvider.getArchiveDetails().getDetails().getRelated());
+            objIds = ((ConfigurationObjectDetails) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
             return;
         }
 
         // It doesn't exist... create all the necessary objects...
         try {
             // Store the Default Service Configuration objects
-            final LongList objIds = new LongList();
+            objIds = new LongList(reconfigurableServices.size());
 
             for (int i = 0; i < reconfigurableServices.size(); i++) {
-                ReconfigurableServiceImplInterface providerService = reconfigurableServices.get(i);
-                final PersistLatestServiceConfigurationAdapter latest
-                        = new PersistLatestServiceConfigurationAdapter(providerService, new Long(i + 1), this.archiveService);
+                Long confObjId = new Long(i + 1);
+                final PersistLatestServiceConfigurationAdapter persistLatestConfig
+                        = new PersistLatestServiceConfigurationAdapter(reconfigurableServices.get(i), confObjId, this.archiveService);
 
-                providerService.setConfigurationAdapter(latest);
-                objIds.add(latest.getConfigurationObjectInstId());
+                persistLatestConfig.storeDefaultServiceConfiguration(confObjId, reconfigurableServices.get(i));
+//                serviceAdapters.add(i, persistLatestConfig);
+                objIds.add(confObjId); // Will work for now
             }
 
             // Store the provider configuration objects
-            ConfigurationObjectDetailsList archObj = new ConfigurationObjectDetailsList();
+            ConfigurationObjectDetailsList archObj = new ConfigurationObjectDetailsList(1);
             ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails();
-            ConfigurationObjectSetList setList = new ConfigurationObjectSetList();
+            ConfigurationObjectSetList setList = new ConfigurationObjectSetList(1);
             ConfigurationObjectSet set = new ConfigurationObjectSet();
             set.setDomain(ConfigurationProviderSingleton.getDomain());
             set.setObjType(ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE);
@@ -122,7 +127,7 @@ public class PersistProviderConfiguration {
             ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0),
                     null, ConfigurationProviderSingleton.getNetwork(), new URI(""));
             details.get(0).setInstId(confId.getKey().getInstId());
-            IdentifierList providerNameList = new IdentifierList();
+            IdentifierList providerNameList = new IdentifierList(1);
             providerNameList.add(provider.getProviderName());
 
             this.archiveService.store(
@@ -132,7 +137,6 @@ public class PersistProviderConfiguration {
                     details,
                     providerNameList,
                     null);
-
         } catch (MALException ex) {
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
@@ -141,38 +145,39 @@ public class PersistProviderConfiguration {
     }
 
     public void loadPreviousConfigurations() throws IOException {
-
         // Activate the previous configuration
 
         /*---------------------------------------------------*/
-        // Create the adapter that stores the configurations "onChange"
-//        final MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
+ /*
+        for (int i = 0; i < reconfigurableServices.size(); i++) {
+            ReconfigurableServiceImplInterface providerService = reconfigurableServices.get(i);
+            this.reloadServiceConfiguration(providerService, new Long(i + 1));
 
-            for (int i = 0; i < reconfigurableServices.size(); i++) {
-                ReconfigurableServiceImplInterface providerService = reconfigurableServices.get(i);
-                this.reloadServiceConfiguration(providerService, new Long(i + 1));
-                /*
-                final PersistLatestServiceConfigurationAdapter latest
-                        = new PersistLatestServiceConfigurationAdapter(providerService, new Long(i + 1), this.archiveService);
-
-                providerService.setConfigurationAdapter(latest);
-                objIds.add(latest.getConfigurationObjectInstId());
-                */
+            final PersistLatestServiceConfigurationAdapter persistLatestConfig;
+            
+            if(serviceAdapters.isEmpty()){
+                persistLatestConfig = new PersistLatestServiceConfigurationAdapter(reconfigurableServices.get(i), new Long(i + 1), this.archiveService);
+                serviceAdapters.add(persistLatestConfig);
+            }else{
+                persistLatestConfig = serviceAdapters.get(i);
             }
 
-        // Reload the previous Configurations
-        /*
-        this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
-        this.reloadServiceConfiguration(mcServices.getParameterService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_PARAMETER_SERVICE);
-        this.reloadServiceConfiguration(mcServices.getAlertService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ALERT_SERVICE);
-        this.reloadServiceConfiguration(mcServices.getAggregationService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_AGGREGATION_SERVICE);
+            providerService.setConfigurationAdapter(persistLatestConfig);
+        }
+         */
+        this.reloadServiceConfigurations(reconfigurableServices, objIds);
 
-        // Send the adapter into each service to save configuration changes when they happen
-        mcServices.getActionService().setConfigurationAdapter(confAdapter);
-        mcServices.getParameterService().setConfigurationAdapter(confAdapter);
-        mcServices.getAlertService().setConfigurationAdapter(confAdapter);
-        mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
-        */
+        Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE,
+                    "The size of the objIds list is: " + objIds.size()
+                    + " and the size of the reconfigurableServices is: " + reconfigurableServices.size());
+
+        for (int i = 0; i < objIds.size(); i++) {
+            ReconfigurableServiceImplInterface providerService = reconfigurableServices.get(i);
+            final PersistLatestServiceConfigurationAdapter persistLatestConfig
+                    = new PersistLatestServiceConfigurationAdapter(providerService, objIds.get(i), this.archiveService);
+            providerService.setConfigurationAdapter(persistLatestConfig);
+        }
+
     }
 
     private void reloadServiceConfiguration(final ReconfigurableServiceImplInterface service,
@@ -202,6 +207,45 @@ public class PersistProviderConfiguration {
 
         // Reload the previous Configuration
         service.reloadConfiguration(configurationObjectDetails);
+    }
+
+    private void reloadServiceConfigurations(final ArrayList<ReconfigurableServiceImplInterface> services,
+            final LongList objIds) throws IOException {
+        // Retrieve the COM object of the service
+        List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(archiveService,
+                ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(), objIds);
+
+        if (comObjects == null) { // Could not be found, return
+            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE,
+                    "The configuration object of one of the services does not exist in the Archive.");
+            return;
+        }
+
+        final LongList relateds = new LongList();
+
+        // Get all of the related links to retrieve from the archive
+        for (ArchivePersistenceObject comObject : comObjects) {
+            relateds.add(comObject.getArchiveDetails().getDetails().getRelated());
+        }
+
+        // Retrieve it from the Archive
+        List<ArchivePersistenceObject> confObjs = HelperArchive.getArchiveCOMObjectList(
+                archiveService, ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(), relateds);
+
+        for (int i = 0; i < confObjs.size(); i++) {
+            ConfigurationObjectDetails configurationObjectDetails = (ConfigurationObjectDetails) confObjs.get(i).getObject();
+
+            if (configurationObjectDetails == null) { // Could not be found, throw error!
+                // If the object above exists, this one should also!
+                throw new IOException("An error happened while reloading the service configuration: "
+                        + services.get(i).getCOMService().getName());
+            }
+
+            // Reload the previous Configuration
+            services.get(i).reloadConfiguration(configurationObjectDetails);
+        }
     }
 
 }

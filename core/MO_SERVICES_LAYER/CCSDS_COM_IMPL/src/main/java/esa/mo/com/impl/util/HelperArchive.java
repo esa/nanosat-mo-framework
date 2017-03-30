@@ -441,7 +441,8 @@ public class HelperArchive {
             @Override
             public void retrieveAckErrorReceived(MALMessageHeader msgHeader,
                     MALStandardError error, Map qosProperties) {
-                Logger.getLogger(HelperArchive.class.getName()).log(Level.SEVERE, "The Archive returned the following error: {0}", error.toString());
+                Logger.getLogger(HelperArchive.class.getName()).log(Level.SEVERE, 
+                        "The Archive returned the following error: {0}", error.toString());
                 semaphore.release();
             }
 

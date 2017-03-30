@@ -717,7 +717,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * of true will be returned because not error happened.
      */
     public Boolean pushSingleParameterValueAttribute(final Identifier name, final Attribute value, final ObjectId source, final Time timestamp) {
-
         final ParameterValue parameterValue = new ParameterValue();
         parameterValue.setRawValue(value);
         parameterValue.setConvertedValue(null);
@@ -751,7 +750,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      */
     @Deprecated
     public Boolean pushParameterValue(final Identifier name, final ParameterValue parameterValue, final ObjectId source, final Time timestamp) {
-
         ParameterInstance instance = new ParameterInstance(name, parameterValue, source, timestamp);
         ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
         parameters.add(instance);

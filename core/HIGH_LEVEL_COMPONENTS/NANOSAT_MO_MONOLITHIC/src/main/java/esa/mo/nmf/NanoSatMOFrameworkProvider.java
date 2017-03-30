@@ -20,11 +20,8 @@
  */
 package esa.mo.nmf;
 
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
@@ -46,9 +43,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
@@ -58,6 +52,7 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
+import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
  * A Provider of MO services composed by COM, M&C and Platform services. Selects
@@ -133,13 +128,13 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     }
 
     @Override
-    public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) throws NMFException {
+    public Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         return this.getMCServices().getAlertService().publishAlertEvent(null,
-                new Identifier(alertDefinitionName), argumentValues, null, null);
+                new Identifier(alertDefinitionName), attributeValues, null, null);
     }
 
     @Override

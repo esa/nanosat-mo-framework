@@ -21,7 +21,7 @@
 package esa.mo.nmf;
 
 import java.io.Serializable;
-import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
+import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
  * The SimpleMonitorAndControlListener interface provides a simpler way to
@@ -53,13 +53,13 @@ public interface SimpleMonitoringInterface {
      * publish Alert events through the Alert service
      *
      * @param alertDefinitionName The Alert Definition name
-     * @param argumentValues The argument values to be published, the complete
+     * @param attributeValues The attribute values to be published, the complete
      * list can be replaced with a null.
      * @return Returns the object instance identifier of the published event.
      * If there is any error, then a null shall be returned instead
      * @throws NMFException
      */
-    public Long publishAlertEvent(final String alertDefinitionName, final ArgumentValueList argumentValues) throws NMFException;
+    public Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues) throws NMFException;
     
     /**
      * The pushParameterValue operation allows an external software 

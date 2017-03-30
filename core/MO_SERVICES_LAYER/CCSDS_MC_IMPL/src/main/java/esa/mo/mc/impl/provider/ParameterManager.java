@@ -170,7 +170,8 @@ public class ParameterManager extends DefinitionsManager {
      * Archive service for objects storage. In this case, the unique identifier
      * must be retrieved from the Archive during storage
      */
-    protected LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals, final LongList relatedList, final SingleConnectionDetails connectionDetails) {
+    protected LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals, 
+            final LongList relatedList, final SingleConnectionDetails connectionDetails) {
         if (this.getArchiveService() == null) {  // No Archive
             LongList out = new LongList();
 
