@@ -72,12 +72,11 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.ArgumentValue;
-import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
+import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
-import org.ccsds.moims.mo.mc.structures.Severity;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionNadirPointing;
@@ -133,12 +132,12 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                ArgumentValueList args = new ArgumentValueList();
-                ArgumentValue arg = new ArgumentValue(false, new Union("Hello from the other side!"));
-                args.add(arg);
+                AttributeValueList atts = new AttributeValueList();
+                AttributeValue att = new AttributeValue(new Union("Hello from the other side!"));
+                atts.add(att);
 
                 try {
-                    nmf.publishAlertEvent("10SecondsAlert", args);
+                    nmf.publishAlertEvent("10SecondsAlert", atts);
                 } catch (NMFException ex) {
                     Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -174,15 +173,16 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 ObjectId objId = objIds.get(0);
 
                 ParameterExpression paramExpr = null;
-                ConditionalReference condition = new ConditionalReference(paramExpr, objId);
 
-                ConditionalReferenceList conversionConditions = new ConditionalReferenceList();
-                conversionConditions.add(condition);
+                ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getKey());
+
+                ConditionalConversionList conditionalConversions = new ConditionalConversionList();
+                conditionalConversions.add(condition);
 
                 Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
                 String convertedUnit = "n/a";
 
-                paramConversion = new ParameterConversion(convertedType, convertedUnit, conversionConditions);
+                paramConversion = new ParameterConversion(convertedType, convertedUnit, conditionalConversions);
             }
         } catch (Throwable ex) {
             // ooops, ignore the parameter conversion
@@ -302,10 +302,12 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
                 "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
                 new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
-                true,
                 new Duration(10),
+                true,
+                false,
                 false,
                 new Duration(20),
+                false,
                 new AggregationParameterSetList()
         );
         aggNames.add(new Identifier(AGGREGATION_GPS));
@@ -320,11 +322,13 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         // Create the Aggregation Magnetometer
         AggregationDefinitionDetails defMagAgg = new AggregationDefinitionDetails(
                 "Aggregates Magnetometer components: X, Y, Z.",
-                AggregationCategory.GENERAL,
-                true,
+                new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
                 new Duration(10),
+                true,
+                false,
                 false,
                 new Duration(20),
+                false,
                 new AggregationParameterSetList()
         );
         aggNames.add(new Identifier(AGGREGATION_MAG));
@@ -342,6 +346,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         // ------------------ Actions ------------------
         ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        IdentifierList actionNames = new IdentifierList();
 
         ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
         {
@@ -355,63 +360,49 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         }
 
         ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
-                new Identifier(ACTION_SUN_POINTING_MODE),
                 "Changes the spacecraft's attitude to sun pointing mode.",
-                Severity.INFORMATIONAL,
+                new UOctet((short) 0),
                 new UShort(0),
                 arguments1,
                 null
         );
-        /*
-        ArgumentDefinitionDetailsList arguments2 = new ArgumentDefinitionDetailsList();
-        {
-            Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
-            String rawUnit = "seconds";
-            ConditionalReferenceList conversionCondition = null;
-            Byte convertedType = null;
-            String convertedUnit = null;
-
-            arguments2.add(new ArgumentDefinitionDetails(rawType, rawUnit, conversionCondition, convertedType, convertedUnit));
-        }
-         */
+        actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
+            
         ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
-                new Identifier(ACTION_NADIR_POINTING_MODE),
                 "Changes the spacecraft's attitude to nadir pointing mode.",
-                Severity.INFORMATIONAL,
+                new UOctet((short) 0),
                 new UShort(0),
                 //                arguments2,
                 arguments1,
                 null
         );
+        actionNames.add(new Identifier(ACTION_NADIR_POINTING_MODE));
 
-//        ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
-//        detailsList.add(null);
         ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails(
-                new Identifier(ACTION_UNSET),
                 "Unsets the spacecraft's attitude.",
-                Severity.INFORMATIONAL,
+                new UOctet((short) 0),
                 new UShort(0),
                 //                detailsList,
                 new ArgumentDefinitionDetailsList(),
                 null
         );
+        actionNames.add(new Identifier(ACTION_UNSET));
 
         ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails(
-                new Identifier(ACTION_5_STAGES),
                 "Example of an Action with 5 stages.",
-                Severity.INFORMATIONAL,
+                new UOctet((short) 0),
                 new UShort(5),
                 //                detailsList,
                 new ArgumentDefinitionDetailsList(),
                 null
         );
+        actionNames.add(new Identifier(ACTION_5_STAGES));
 
         actionDefs.add(actionDef1);
         actionDefs.add(actionDef2);
         actionDefs.add(actionDef3);
         actionDefs.add(actionDef4);
-        LongList actionObjIds = registration.registerActions(actionDefs);
-
+        LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
     }
 
     @Override
@@ -611,7 +602,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 //Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 //}
                 // endif
-            
+
                 System.out.println(ACTION_UNSET + " was called");
                 nmf.getPlatformServices().getAutonomousADCSService().unsetAttitude();
             } catch (MALInteractionException ex) {

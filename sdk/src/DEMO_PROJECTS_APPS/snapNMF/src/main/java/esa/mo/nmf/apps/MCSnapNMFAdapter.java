@@ -42,19 +42,21 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalReferenceList;
-import org.ccsds.moims.mo.mc.structures.Severity;
+import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
@@ -89,9 +91,9 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         // ------------------ Parameters ------------------
         ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+        IdentifierList paramNames = new IdentifierList();
 
         defs.add(new ParameterDefinitionDetails(
-                new Identifier(PARAMETER_SNAPS_TAKEN),
                 "The number of snaps taken.",
                 Union.STRING_SHORT_FORM.byteValue(),
                 "",
@@ -100,43 +102,44 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
-
-        registration.registerParameters(defs);
+        paramNames.add(new Identifier(PARAMETER_SNAPS_TAKEN));
+        registration.registerParameters(paramNames, defs);
 
         // ------------------ Actions ------------------
         ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        IdentifierList actionNames = new IdentifierList();
 
         ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
         {
             Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
             String rawUnit = "Image Format";
-            ConditionalReferenceList conversionCondition = null;
+            ConditionalConversionList conditionalConversions = null;
             Byte convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, 
-                    conversionCondition, convertedType, convertedUnit));
+            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit,
+                    conditionalConversions, convertedType, convertedUnit));
         }
 
         actionDefs.add(new ActionDefinitionDetails(
-                new Identifier(ACTION_TAKE_PICTURE_RAW),
                 "Uses the NMF Camera service to take a picture.",
-                Severity.INFORMATIONAL,
+                new UOctet((short) 0),
                 new UShort(0),
                 arguments1,
                 null
         ));
+        actionNames.add(new Identifier(ACTION_TAKE_PICTURE_RAW));
 
         actionDefs.add(new ActionDefinitionDetails(
-                new Identifier(ACTION_TAKE_PICTURE_JPG),
                 "Uses the NMF Camera service to take a picture.",
-                Severity.INFORMATIONAL,
+                new UOctet((short) 0),
                 new UShort(0),
                 arguments1,
                 null
         ));
+        actionNames.add(new Identifier(ACTION_TAKE_PICTURE_JPG));
 
-        LongList actionObjIds = registration.registerActions(actionDefs);
+        LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
     }
 
     @Override
@@ -153,12 +156,12 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Boolean onSetValue(Identifier identifier, Attribute value) {
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
         return false;  // to confirm that the variable was set
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, 
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         if (nmf == null) {
             return new UInteger(0);
@@ -168,7 +171,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             PixelResolution resolution = new PixelResolution(new UInteger(width), new UInteger(height));
 
             try {
-                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.RAW, 
+                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.RAW,
                         new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
                 return null; // Success!
             } catch (MALInteractionException ex) {
@@ -181,12 +184,12 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         if (ACTION_TAKE_PICTURE_JPG.equals(name.getValue())) {
             PixelResolution resolution = new PixelResolution(new UInteger(width), new UInteger(height));
 
             try {
-                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.JPG, 
+                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.JPG,
                         new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
                 return null; // Success!
             } catch (MALInteractionException ex) {
@@ -199,7 +202,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return new UInteger(0);  // Action service not integrated
     }
 
@@ -223,7 +226,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         @Override
-        public void takePictureResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+        public void takePictureResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.platform.camera.structures.Picture picture, java.util.Map qosProperties) {
             // The picture was received!
             snapsTaken.incrementAndGet();
@@ -289,7 +292,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         @Override
-        public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+        public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
             try {
                 nmf.reportActionExecutionProgress(false, 1, STAGE_ACK, TOTAL_STAGES, actionInstanceObjId);
@@ -300,7 +303,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         @Override
-        public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+        public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
             try {
                 nmf.reportActionExecutionProgress(false, 1, STAGE_RSP, TOTAL_STAGES, actionInstanceObjId);
