@@ -22,54 +22,41 @@ package esa.mo.nmf;
 
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.DurationList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
 /**
- * The MonitorAndControlAdapter implements the Back-End interfaces from the 
- * MO Monitor and Control services composed by the ActionInvocationListener 
+ * The MonitorAndControlAdapter implements the Back-End interfaces from the MO
+ * Monitor and Control services composed by the ActionInvocationListener
  * interface and the the ParameterStatusListener interface.
- * 
+ *
  */
 public abstract class MonitorAndControlNMFAdapter implements ActionInvocationListener, ParameterStatusListener {
-    
+
     public abstract void initialRegistrations(MCRegistration registration);
-    
+
     @Override
-    public boolean preCheck(ActionDefinitionDetails defDetails, ActionInstanceDetails instDetails, UIntegerList errorList){
+    public boolean preCheck(ActionDefinitionDetails defDetails, ActionInstanceDetails instDetails, UIntegerList errorList) {
         return true;
     }
 
     @Override
     public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinitionDetails pDef) {
+        // No idea what this is...
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean isReadOnly(Identifier name) {
+        // We'll see about this one...
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void setValidityStateOptions(Boolean customMechanisms, Boolean customValue) throws MALException, MALInteractionException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setReadOnlyParameter(Identifier name, Boolean value) throws MALException, MALInteractionException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     
 }
