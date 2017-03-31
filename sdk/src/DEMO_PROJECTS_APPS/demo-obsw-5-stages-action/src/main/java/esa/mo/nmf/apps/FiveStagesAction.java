@@ -30,16 +30,18 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalReferenceList;
-import org.ccsds.moims.mo.mc.structures.Severity;
+import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
  * A simple demo that reports 5 stages of an Action every 2 seconds
@@ -70,29 +72,30 @@ public class FiveStagesAction {
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
             ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+            IdentifierList names = new IdentifierList();
 
             ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
             {
                 Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
                 String rawUnit = "seconds";
-                ConditionalReferenceList conversionCondition = null;
+                ConditionalConversionList conditionalConversions = null;
                 Byte convertedType = null;
                 String convertedUnit = null;
 
-                arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, conversionCondition, convertedType, convertedUnit));
+                arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
             }
 
             ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
-                    new Identifier(ACTION5STAGES),
                     "Example of an Action with 5 stages.",
-                    Severity.INFORMATIONAL,
+                    new UOctet((short) 0),
                     new UShort(0),
                     arguments1,
                     null
             );
+            names.add(new Identifier(ACTION5STAGES));
 
             actionDefs.add(actionDef1);
-            LongList actionObjIds = registrationObject.registerActions(actionDefs);
+            LongList actionObjIds = registrationObject.registerActions(names, actionDefs);
         }
 
         @Override
@@ -101,13 +104,13 @@ public class FiveStagesAction {
         }
 
         @Override
-        public Boolean onSetValue(Identifier identifier, Attribute value) {
+        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
             return false;  // to confirm that no variable was set
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, 
+                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
             if (ACTION5STAGES.equals(name.getValue())) { try {
                 // action1 was called?
                 fiveStepsAction(actionInstanceObjId);

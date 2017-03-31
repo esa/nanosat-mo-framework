@@ -58,6 +58,10 @@
         </developer>
     </developers>
     
+    <properties>
+        <esa.nmf.artifact.global.folderpath>${playground.folder.output}</esa.nmf.artifact.global.folderpath>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
@@ -101,7 +105,7 @@
                                 </artifactItem>
                             </artifactItems>
                             <includeScope></includeScope>
-                            <outputDirectory>${playground.folder.output}/libs/NanoSat_MO_Framework</outputDirectory>
+                            <outputDirectory>${esa.nmf.artifact.global.folderpath}/libs/NanoSat_MO_Framework</outputDirectory>
                             <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
@@ -122,7 +126,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${playground.folder.output}</outputDirectory>
+                            <outputDirectory>${esa.nmf.artifact.global.folderpath}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/src/mainDirectory</directory>

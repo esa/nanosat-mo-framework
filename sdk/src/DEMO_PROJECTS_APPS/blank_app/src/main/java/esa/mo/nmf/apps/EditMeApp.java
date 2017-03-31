@@ -32,28 +32,30 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalReferenceList;
-import org.ccsds.moims.mo.mc.structures.Severity;
+import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
  * This class provides a blank template for starting the development of an app
  */
-public class BlankApp {
+public class EditMeApp {
 
     private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
     private String parameterX = "Hi!";
 
-    public BlankApp() {
+    public EditMeApp() {
     }
 
     /**
@@ -63,7 +65,7 @@ public class BlankApp {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        BlankApp demo = new BlankApp();
+        EditMeApp demo = new EditMeApp();
     }
 
     public class MCAdapter extends MonitorAndControlNMFAdapter {
@@ -78,9 +80,9 @@ public class BlankApp {
 
             // ------------------ Parameters ------------------
             ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+            IdentifierList paramNames = new IdentifierList();
 
             defsOther.add(new ParameterDefinitionDetails(
-                    new Identifier(PARAMETER_X),
                     "The ADCS mode operation",
                     Union.STRING_SHORT_FORM.byteValue(),
                     "",
@@ -89,35 +91,36 @@ public class BlankApp {
                     null,
                     null
             ));
+            paramNames.add(new Identifier(PARAMETER_X));
 
-            registrationObject.registerParameters(defsOther);
+            registrationObject.registerParameters(paramNames, defsOther);
 
             // ------------------ Actions ------------------
             ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+            IdentifierList actionNames = new IdentifierList();
 
             ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
             {
                 Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
                 String rawUnit = "seconds";
-                ConditionalReferenceList conversionCondition = null;
+                ConditionalConversionList conditionalConversions = null;
                 Byte convertedType = null;
                 String convertedUnit = null;
 
-                arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, conversionCondition, convertedType, convertedUnit));
+                arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
             }
 
             ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
-                    new Identifier(ACTION_1),
                     "An action that reports 1 execution progress stage.",
-                    Severity.INFORMATIONAL,
+                    new UOctet((short) 0),
                     new UShort(0),
                     arguments1,
                     null
             );
+            actionNames.add(new Identifier(ACTION_1));
 
             actionDefs.add(actionDef1);
-            registrationObject.registerActions(actionDefs);
-
+            registrationObject.registerActions(actionNames, actionDefs);
         }
 
         @Override
@@ -131,10 +134,9 @@ public class BlankApp {
         }
 
         @Override
-        public Boolean onSetValue(Identifier identifier, Attribute value) {
-
-            if (PARAMETER_X.equals(identifier.toString())) { // parameterX was called?
-                parameterX = value.toString();
+        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+            if (PARAMETER_X.equals(identifiers.get(0).toString())) { // parameterX was called?
+                parameterX = values.get(0).getRawValue().toString();
                 return true;
             }
 
@@ -142,20 +144,18 @@ public class BlankApp {
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
+                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
             if (ACTION_1.equals(name.getValue())) {
                 try {
                     nanoSatMOFramework.reportActionExecutionProgress(true, 0, 1, 1, actionInstanceObjId);
                 } catch (NMFException ex) {
-                    Logger.getLogger(BlankApp.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(EditMeApp.class.getName()).log(Level.SEVERE, null, ex);
                     return new UInteger(0);
                 }
             }
 
             return null;  // Action service not integrated
         }
-
     }
-
 }

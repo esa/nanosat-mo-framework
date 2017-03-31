@@ -59,7 +59,8 @@
     </developers>
     
     <properties>
-        <app.artifactid>snapNMF</app.artifactid>
+        <esa.nmf.artifact.app.artifactid>snapNMF</esa.nmf.artifact.app.artifactid>
+        <esa.nmf.artifact.global.folderpath>${playground.folder.output}</esa.nmf.artifact.global.folderpath>
     </properties>
         
     <build>
@@ -91,12 +92,12 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
-                                    <artifactId>${app.artifactid}</artifactId>
+                                    <artifactId>${esa.nmf.artifact.app.artifactid}</artifactId>
                                     <version>1.0-SNAPSHOT</version>
                                 </artifactItem>
                             </artifactItems>
                             <includeScope></includeScope>
-                            <outputDirectory>${playground.folder.app}</outputDirectory>
+                            <outputDirectory>${esa.nmf.artifact.app.folder}</outputDirectory>
                             <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
@@ -117,7 +118,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${playground.folder.app}</outputDirectory>
+                            <outputDirectory>${esa.nmf.artifact.app.folder}</outputDirectory>
                             <resources>          
                                 <resource>
                                     <directory>${basedir}/src/appDirectory</directory>

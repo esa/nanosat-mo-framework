@@ -62,7 +62,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
         }
 
         final String name = System.getProperty("application.name", "CTT: Consumer Test Tool");
-        final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name);
+        final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name, "");
 
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -77,7 +77,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
      *
      * @param name The name to display on the title bar of the form.
      */
-    public ConsumerTestToolGUI(final String name) {
+    public ConsumerTestToolGUI(final String name, final String defaultURI) {
         initComponents();
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mo_pic.png")));
 
@@ -102,9 +102,13 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
             Logger.getLogger(ConsumerTestToolGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(connection, tabs);
+        
         tabs.insertTab("Communication Settings (Directory)", null,
-                new DirectoryConnectionConsumerPanel(connection, tabs),
+                directoryTab,
                 "Communications Tab (Directory)", tabs.getTabCount());
+        
+        directoryTab.setURITextbox(defaultURI);
     }
 
     /**

@@ -36,9 +36,11 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
@@ -47,6 +49,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
@@ -106,10 +109,10 @@ public class DemoGPSData {
 
             // ------------------ Parameters ------------------
             ParameterDefinitionDetailsList defsGPS = new ParameterDefinitionDetailsList();
+            IdentifierList paramNames = new IdentifierList();
 
             // Create the GPS.Latitude
             defsGPS.add(new ParameterDefinitionDetails(
-                    new Identifier(PARAMETER_GPS_LATITUDE),
                     "The GPS Latitude",
                     Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                     "degrees",
@@ -118,10 +121,10 @@ public class DemoGPSData {
                     null,
                     null
             ));
+            paramNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
             // Create the GPS.Longitude
             defsGPS.add(new ParameterDefinitionDetails(
-                    new Identifier(PARAMETER_GPS_LONGITUDE),
                     "The GPS Longitude",
                     Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                     "degrees",
@@ -130,10 +133,10 @@ public class DemoGPSData {
                     null,
                     null
             ));
+            paramNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
             // Create the GPS.Altitude
             defsGPS.add(new ParameterDefinitionDetails(
-                    new Identifier(PARAMETER_GPS_ALTITUDE),
                     "The GPS Altitude",
                     Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                     "meters",
@@ -142,9 +145,9 @@ public class DemoGPSData {
                     null,
                     null
             ));
+            paramNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
             defsGPS.add(new ParameterDefinitionDetails(
-                    new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW),
                     "The number of satellites in view of GPS receiver.",
                     Union.INTEGER_SHORT_FORM.byteValue(),
                     "sats",
@@ -153,24 +156,28 @@ public class DemoGPSData {
                     null,
                     null
             ));
+            paramNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
-            registrationObject.registerParameters(defsGPS);
-            LongList parameterObjIdsGPS = registrationObject.registerParameters(defsGPS);
+//            registrationObject.registerParameters(paramNames, defsGPS);
+            LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, defsGPS);
 
             // ------------------ Aggregations ------------------
             AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
+            IdentifierList aggNames = new IdentifierList();
 
             // Create the Aggregation GPS
             AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
-                    new Identifier(AGGREGATION_GPS),
                     "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
-                    AggregationCategory.GENERAL,
-                    true,
+                    new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
                     new Duration(10),
+                    true,
+                    false,
                     false,
                     new Duration(20),
+                    true,
                     new AggregationParameterSetList()
             );
+            aggNames.add(new Identifier(AGGREGATION_GPS));
 
             defGPSAgg.getParameterSets().add(new AggregationParameterSet(
                     null,
@@ -180,13 +187,11 @@ public class DemoGPSData {
             ));
 
             aggs.add(defGPSAgg);
-            registrationObject.registerAggregations(aggs);
-
+            registrationObject.registerAggregations(aggNames, aggs);
         }
 
         @Override
         public Attribute onGetValue(Identifier identifier, Byte rawType) {
-
             try {
                 if (nanoSatMOFramework == null) {  // The framework is still not available
                     return null;
@@ -221,7 +226,7 @@ public class DemoGPSData {
                     class AdapterImpl extends GPSAdapter {
 
                         @Override
-                        public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+                        public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                                 org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
                             nOfSats.add(gpsSatellitesInfo.size());
 
@@ -256,12 +261,13 @@ public class DemoGPSData {
         }
 
         @Override
-        public Boolean onSetValue(Identifier identifier, Attribute value) {
+        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
             return false;  // To confirm that the variable was set
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, 
+                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
             return null;  // Action service not integrated
         }
     }

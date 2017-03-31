@@ -162,6 +162,10 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         providersList.addListSelectionListener(listSelectionListener);
         connectButton.setEnabled(false);
     }
+    
+    public void setURITextbox(final String uri){
+        uriServiceDirectory.setText(uri);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

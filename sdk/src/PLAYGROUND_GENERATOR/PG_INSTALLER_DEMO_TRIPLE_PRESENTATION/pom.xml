@@ -67,7 +67,7 @@
     </dependencies>
 
     <properties>
-        <app.artifactid>demo-triple-presentation</app.artifactid>
+        <esa.nmf.artifact.app.artifactid>demo-triple-presentation</esa.nmf.artifact.app.artifactid>
     </properties>
         
     <build>
@@ -99,13 +99,13 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
-                                    <artifactId>${app.artifactid}</artifactId>
+                                    <artifactId>${esa.nmf.artifact.app.artifactid}</artifactId>
                                     <version>1.0-SNAPSHOT</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
                             <includeScope></includeScope>
-                            <outputDirectory>${playground.folder.app}</outputDirectory>
+                            <outputDirectory>${esa.nmf.artifact.app.folder}</outputDirectory>
                             <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
@@ -126,7 +126,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${playground.folder.app}</outputDirectory>
+                            <outputDirectory>${esa.nmf.artifact.app.folder}</outputDirectory>
                             <resources>          
                                 <resource>
                                     <directory>${basedir}/src/appDirectory</directory>

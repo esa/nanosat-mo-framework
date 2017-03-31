@@ -33,10 +33,12 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -80,10 +82,10 @@ public class DemoHelloWorld {
             registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
-            ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+            final ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+            final IdentifierList names = new IdentifierList();
 
             defsOther.add(new ParameterDefinitionDetails(
-                    new Identifier(PARAMETER_HELLO),
                     "The ADCS mode operation",
                     Union.STRING_SHORT_FORM.byteValue(),
                     "",
@@ -92,9 +94,9 @@ public class DemoHelloWorld {
                     null,
                     null
             ));
+            names.add(new Identifier(PARAMETER_HELLO));
 
-            registrationObject.registerParameters(defsOther);
-
+            registrationObject.registerParameters(names, defsOther);
         }
 
         @Override
@@ -107,9 +109,9 @@ public class DemoHelloWorld {
         }
 
         @Override
-        public Boolean onSetValue(Identifier identifier, Attribute value) {
-            if (PARAMETER_HELLO.equals(identifier.getValue())) {
-                str = value.toString(); // Let's set the str variable
+        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+            if (PARAMETER_HELLO.equals(identifiers.get(0).getValue())) {
+                str = values.get(0).getRawValue().toString(); // Let's set the str variable
                 return true;  // to confirm that the variable was set                
             }
 

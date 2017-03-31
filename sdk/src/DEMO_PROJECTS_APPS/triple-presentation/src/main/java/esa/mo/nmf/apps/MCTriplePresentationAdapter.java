@@ -68,14 +68,14 @@ import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.ArgumentValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalReference;
-import org.ccsds.moims.mo.mc.structures.ConditionalReferenceList;
+import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 import org.ccsds.moims.mo.mc.structures.Severity;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
@@ -190,11 +190,13 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         // ------------------ Parameters ------------------
         ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+        IdentifierList paramOtherNames = new IdentifierList();
         ParameterDefinitionDetailsList defsGPS = new ParameterDefinitionDetailsList();
+        IdentifierList paramGPSNames = new IdentifierList();
         ParameterDefinitionDetailsList defsMag = new ParameterDefinitionDetailsList();
+        IdentifierList paramMagNames = new IdentifierList();
 
         defsOther.add(new ParameterDefinitionDetails(
-                new Identifier(PARAMETER_ADCS_MODE),
                 "The ADCS mode of operation",
                 Union.UOCTET_SHORT_FORM.byteValue(),
                 "",
@@ -203,9 +205,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 paramConversion
         ));
+        paramOtherNames.add(new Identifier(PARAMETER_ADCS_MODE));
 
         defsOther.add(new ParameterDefinitionDetails(
-                new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW),
                 "The number of satellites in view of GPS receiver.",
                 Union.INTEGER_SHORT_FORM.byteValue(),
                 "sats",
@@ -214,10 +216,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
+        paramOtherNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
         // Create the GPS.Latitude
         defsGPS.add(new ParameterDefinitionDetails(
-                new Identifier(PARAMETER_GPS_LATITUDE),
                 "The GPS Latitude",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                 "degrees",
@@ -226,10 +228,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
+        paramGPSNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
         // Create the GPS.Longitude
         defsGPS.add(new ParameterDefinitionDetails(
-                new Identifier(PARAMETER_GPS_LONGITUDE),
                 "The GPS Longitude",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                 "degrees",
@@ -238,10 +240,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
+        paramGPSNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
         // Create the GPS.Altitude
         defsGPS.add(new ParameterDefinitionDetails(
-                new Identifier(PARAMETER_GPS_ALTITUDE),
                 "The GPS Altitude",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                 "meters",
@@ -250,10 +252,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
+        paramGPSNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
         // Create the Magnetometer.X
         defsMag.add(new ParameterDefinitionDetails(
-                new Identifier(PARAMETER_MAG_X),
                 "The Magnetometer X component",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                 "microTesla",
@@ -262,10 +264,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
+        paramMagNames.add(new Identifier(PARAMETER_MAG_X));
 
         // Create the Magnetometer.Y
         defsMag.add(new ParameterDefinitionDetails(
-                new Identifier(PARAMETER_MAG_Y),
                 "The Magnetometer Y component",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                 "microTesla",
@@ -274,10 +276,10 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
+        paramMagNames.add(new Identifier(PARAMETER_MAG_Y));
 
         // Create the Magnetometer.Z
         defsMag.add(new ParameterDefinitionDetails(
-                new Identifier(PARAMETER_MAG_Z),
                 "The Magnetometer Z component",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                 "microTesla",
@@ -286,25 +288,27 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
+        paramMagNames.add(new Identifier(PARAMETER_MAG_Z));
 
-        registration.registerParameters(defsOther);
-        LongList parameterObjIdsGPS = registration.registerParameters(defsGPS);
-        LongList parameterObjIdsMag = registration.registerParameters(defsMag);
+        registration.registerParameters(paramOtherNames, defsOther);
+        LongList parameterObjIdsGPS = registration.registerParameters(paramGPSNames, defsGPS);
+        LongList parameterObjIdsMag = registration.registerParameters(paramMagNames, defsMag);
 
         // ------------------ Aggregations ------------------
         AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
+        IdentifierList aggNames = new IdentifierList();
 
         // Create the Aggregation GPS
         AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
-                new Identifier(AGGREGATION_GPS),
                 "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
-                AggregationCategory.GENERAL,
+                new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
                 true,
                 new Duration(10),
                 false,
                 new Duration(20),
                 new AggregationParameterSetList()
         );
+        aggNames.add(new Identifier(AGGREGATION_GPS));
 
         defGPSAgg.getParameterSets().add(new AggregationParameterSet(
                 null,
@@ -315,7 +319,6 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         // Create the Aggregation Magnetometer
         AggregationDefinitionDetails defMagAgg = new AggregationDefinitionDetails(
-                new Identifier(AGGREGATION_MAG),
                 "Aggregates Magnetometer components: X, Y, Z.",
                 AggregationCategory.GENERAL,
                 true,
@@ -324,6 +327,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 new Duration(20),
                 new AggregationParameterSetList()
         );
+        aggNames.add(new Identifier(AGGREGATION_MAG));
 
         defMagAgg.getParameterSets().add(new AggregationParameterSet(
                 null,
@@ -334,7 +338,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         aggs.add(defGPSAgg);
         aggs.add(defMagAgg);
-        registration.registerAggregations(aggs);
+        registration.registerAggregations(aggNames, aggs);
 
         // ------------------ Actions ------------------
         ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
@@ -343,11 +347,11 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         {
             Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
             String rawUnit = "seconds";
-            ConditionalReferenceList conversionCondition = null;
+            ConditionalConversionList conditionalConversions = null;
             Byte convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, conversionCondition, convertedType, convertedUnit));
+            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
         }
 
         ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
@@ -513,13 +517,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Boolean onSetValue(Identifier identifier, Attribute value) {
-        /*
-        if ("parameterX".equals(identifier.toString())) { // parameterX was called?
-            parameterX = value.toString();
-            return true;
-        }
-         */
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
         return false;  // to confirm that the variable was set
     }
 
@@ -775,12 +773,11 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     private void pushAdcsModeParam(AttitudeMode attMode) throws NMFException {
         Identifier name = new Identifier(PARAMETER_ADCS_MODE);
         ObjectId source = null;
-        Boolean isValid = true;
-        UOctet invalidSubState = new UOctet((short) 0);
+        UOctet validityState = new UOctet((short) 0);
         Attribute rawValue = new UOctet((short) attMode.getOrdinal());
         Attribute convertedValue = new Identifier(attMode.toString());
 
-        ParameterValue pValue = new ParameterValue(isValid, invalidSubState, rawValue, convertedValue);
+        ParameterValue pValue = new ParameterValue(validityState, rawValue, convertedValue);
 
         final ArrayList<ParameterInstance> instances = new ArrayList<ParameterInstance>();
         instances.add(new ParameterInstance(name, pValue, null, new Time(System.currentTimeMillis())));

@@ -32,7 +32,9 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -86,7 +88,7 @@ public class Demo10secAlert {
         }
 
         @Override
-        public Boolean onSetValue(Identifier idntfr, Attribute atrbt) {
+        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         

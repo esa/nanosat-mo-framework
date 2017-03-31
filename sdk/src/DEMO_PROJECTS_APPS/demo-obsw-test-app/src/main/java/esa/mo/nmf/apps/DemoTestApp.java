@@ -39,8 +39,10 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
@@ -48,6 +50,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -67,11 +70,10 @@ public class DemoTestApp {
         try {
             AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
             AggregationDefinitionDetails def = new AggregationDefinitionDetails();
-            def.setName(new Identifier("fsfdsd"));
             def.setDescription("dfvgdf");
-            def.setCategory(AggregationCategory.GENERAL);
+            def.setCategory(new UOctet((short) AggregationCategory.GENERAL.getOrdinal()));
             def.setGenerationEnabled(true);
-            def.setUpdateInterval(new Duration(45));
+            def.setReportInterval(new Duration(45));
             def.setFilterEnabled(false);
             def.setFilteredTimeout(new Duration(54));
             AggregationParameterSetList aaa = new AggregationParameterSetList();
@@ -81,7 +83,6 @@ public class DemoTestApp {
             lissssst.add(new Long(65));
             aa.setParameters(lissssst);
             aa.setSampleInterval(new Duration(43));
-            aa.setPeriodicFilter(null);
             aaa.add(aa);
             def.setParameterSets(aaa);
             for (int i = 0; i < NUMBER_OF_OBJS; i++) {
@@ -187,8 +188,8 @@ public class DemoTestApp {
         }
 
         @Override
-        public Boolean onSetValue(Identifier identifier, Attribute value) {
-            str = value.toString(); // Let's set the str variable
+        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+            str = values.get(0).getRawValue().toString(); // Let's set the str variable
             return true;  // to confirm that the variable was set
         }
 
