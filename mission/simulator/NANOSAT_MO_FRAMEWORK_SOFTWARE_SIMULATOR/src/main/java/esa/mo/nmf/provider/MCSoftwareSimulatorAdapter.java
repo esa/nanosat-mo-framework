@@ -25,15 +25,17 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
-// Specific OPS-SAT Monitoring and Control
+// Specific Software Simulator Monitoring and Control
 public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public void initialRegistrations(MCRegistration registrationObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Nothing to be done
     }
 
     @Override
@@ -42,13 +44,13 @@ public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Boolean onSetValue(Identifier identifier, Attribute value) {
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
         return false;  // to confirm that no variable was set
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, 
+            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         if ("Go".equals(name.getValue())) { // action1 was called?
 //                fiveStepsAction(actionInstanceObjId);
             return null;

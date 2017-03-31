@@ -23,10 +23,10 @@
         <relativePath/>
     </parent>
   
-    <artifactId>PLATFORM_SOFTWARE_SIMULATOR</artifactId>
+    <artifactId>NMF_MISSION_SOFTWARE_SIMULATOR</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>NMF Platform: Software Simulator</name>
+    <name>NMF Mission: Software Simulator</name>
 
     <organization>
         <name>ESA</name>
