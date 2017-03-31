@@ -285,7 +285,7 @@ public final class ActionManager extends DefinitionsManager {
 
     }
 
-    protected boolean checkActionInstanceDetails(ActionInstanceDetails actionInstance, UIntegerList errorList) {
+    public boolean checkActionInstanceDetails(ActionInstanceDetails actionInstance, UIntegerList errorList) {
         //TODO extend this method to support the external verification. create a new Interface -> actionservice
         ActionDefinitionDetails actionDef = this.getActionDefinitionFromDefId(actionInstance.getDefInstId());
 

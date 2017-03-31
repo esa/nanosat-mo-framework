@@ -21,17 +21,17 @@
 package esa.mo.mc.impl.interfaces;
 
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.DurationList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
 /**
  *
  *
  */
-public interface ParameterStatusListener extends ParameterTestStatusListener {
+public interface ParameterStatusListener {
 
     /**
      * The user must implement this interface in order to acquire a certain
@@ -56,13 +56,12 @@ public interface ParameterStatusListener extends ParameterTestStatusListener {
      * The user must implement this interface in order to set a certain
      * parameter value to a variable in the application
      *
-     * @param identifier Name of the Parameter
-     * @param value The raw value to be set at the parameter
-     * @param timestamp the timestamp when the value was set/created
+     * @param identifiers Name of the Parameters
+     * @param values The raw values to be set at the parameter
      * @return True if the value was set successfully, false if not
      */
 //    public Boolean onSetValue(Identifier identifier, Attribute value, Long timestamp);
-    public Boolean onSetValue(Identifier identifier, Attribute value);
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values);
 
     /**
      * this method allows to use implementation specific mechanisms to determine

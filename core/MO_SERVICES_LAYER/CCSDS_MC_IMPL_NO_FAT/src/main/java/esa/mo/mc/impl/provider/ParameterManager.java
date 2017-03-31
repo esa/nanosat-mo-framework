@@ -35,7 +35,6 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.DurationList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -600,6 +599,7 @@ public class ParameterManager extends DefinitionsManager {
      */
     protected ParameterValueList setValues(ParameterRawValueList newRawValues) {
         ParameterValueList paramValList = new ParameterValueList();
+        IdentifierList names = new IdentifierList(newRawValues.size());
 
         //each Raw Value shall be set
         for (ParameterRawValue newRawValue : newRawValues) {
@@ -608,8 +608,9 @@ public class ParameterManager extends DefinitionsManager {
             //TODO: what happens with the newly crated value? only raw value will be saved in the parameterApplication -> issue #140 
             ParameterValue newValue = generateNewParameterValue(newRawValue.getRawValue(), getParameterDefinition(identityId), false);
             paramValList.add(newValue);
+            names.add(getName(identityId));
 //            parametersMonitoring.onSetValue(getName(identityId), newRawValue.getRawValue(), timestamp);
-            parametersMonitoring.onSetValue(getName(identityId), newRawValue.getRawValue());
+//            parametersMonitoring.onSetValue(getName(identityId), newRawValue.getRawValue());
 //            Boolean success;
 //            if (parametersMonitoring != null) {
 //                success = 
@@ -618,7 +619,8 @@ public class ParameterManager extends DefinitionsManager {
 //            }
 //            successFlags.add(success);
         }
-        
+
+        parametersMonitoring.onSetValue(names, newRawValues);
         
         return paramValList;
     }

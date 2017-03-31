@@ -51,7 +51,6 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -164,8 +163,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
         // To do: Add the Conversion service here and put the value in the convertedValue field
         parameterValue.setConvertedValue(null);
-        parameterValue.setValid(true);
-        parameterValue.setInvalidSubState(new UOctet((short) 0));
+        parameterValue.setValidityState(new UOctet((short) 0));
 
         ParameterInstance instance = new ParameterInstance(new Identifier(name), parameterValue, null, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1); // We just add 1 element

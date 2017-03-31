@@ -21,6 +21,7 @@ package esa.mo.mc.impl.provider.mcprototype.parameter;
 
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+import esa.mo.mc.impl.interfaces.ParameterTestStatusListener;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +51,7 @@ public class ParameterTestProviderServiceImpl extends ParameterTestInheritanceSk
     private boolean initialiased = false;
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private transient ParameterStatusListener parameterApplication;   // transient: marks members that won't be serialized.
+    private transient ParameterTestStatusListener parameterApplication;   // transient: marks members that won't be serialized.
 
     /**
      * creates the MAL objects
@@ -58,7 +59,7 @@ public class ParameterTestProviderServiceImpl extends ParameterTestInheritanceSk
      * @param parameterApplication
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(ParameterStatusListener parameterApplication) throws MALException {
+    public synchronized void init(ParameterTestStatusListener parameterApplication) throws MALException {
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());

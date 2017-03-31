@@ -40,10 +40,15 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
+import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequest;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequestList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
+import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
@@ -51,8 +56,11 @@ import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList
 import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.structures.PolyConversionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
  * The MCRegistration class provides methods to be implemented by the
@@ -93,35 +101,46 @@ public class MCRegistration {
         this.mode = mode;
     }
 
-    public LongList registerParameters(final ParameterDefinitionDetailsList defs) {
-        IdentifierList names = new IdentifierList();
-
-        for (ParameterDefinitionDetails def : defs) {
-            names.add(def.getName());
-        }
-
+    /**
+     * The registerParameters operation registers a set of Parameter Definitions
+     * in the M&C Parameter service. This abstracts the NMF developer from the
+     * low-level details of MO.
+     *
+     * @param names The parameter name identifiers
+     * @param definitions The parameter definitions
+     * @return The parameter object instance identifiers of the ParameterIdentity
+     * objects.
+     */
+    public LongList registerParameters(final IdentifierList names, final ParameterDefinitionDetailsList definitions) {
         try {
-            LongList objIds = parameterService.listDefinition(names, null);
-            ParameterDefinitionDetailsList newDefs = new ParameterDefinitionDetailsList();
+            ObjectInstancePairList objIds = parameterService.listDefinition(names, null);
+            ParameterCreationRequestList newDefs = new ParameterCreationRequestList();
             ParameterDefinitionDetailsList duplicateDefs = new ParameterDefinitionDetailsList();
             LongList duplicateObjIds = new LongList();
 
-            for (int i = 0; i < objIds.size(); i++) {
+            for (int i = 0; i < objIds.size(); i++) { // Which ones already exist?
                 if (objIds.get(i) == null) {
-                    newDefs.add(defs.get(i));
+                    newDefs.add(new ParameterCreationRequest(names.get(i), definitions.get(i)));
                 } else {
-                    duplicateDefs.add(defs.get(i));
-                    duplicateObjIds.add(objIds.get(i));
+                    duplicateDefs.add(definitions.get(i));
+                    duplicateObjIds.add(objIds.get(i).getObjIdentityInstanceId());
                 }
             }
-
-            parameterService.addDefinition(newDefs, null);
+            
+            parameterService.addParameter(newDefs, null);
 
             if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
                 parameterService.updateDefinition(duplicateObjIds, duplicateDefs, null);
             }
 
-            return parameterService.listDefinition(names, null);
+            final ObjectInstancePairList newInstPairs = parameterService.listDefinition(names, null);
+            final LongList outs = new LongList(newInstPairs.size());
+            
+            for(ObjectInstancePair newInstPair : newInstPairs){
+                outs.add(newInstPair.getObjIdentityInstanceId());
+            }
+            
+            return outs;
         } catch (MALException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         } catch (MALInteractionException ex1) {
@@ -131,35 +150,46 @@ public class MCRegistration {
         return null;
     }
 
-    public LongList registerAggregations(AggregationDefinitionDetailsList defs) {
-        IdentifierList names = new IdentifierList();
-
-        for (AggregationDefinitionDetails def : defs) {
-            names.add(def.getName());
-        }
-
+    /**
+     * The registerAggregations operation registers a set of Aggregation Definitions
+     * in the M&C Aggregation service. This abstracts the NMF developer from the
+     * low-level details of MO.
+     *
+     * @param names The aggregation name identifiers
+     * @param definitions The aggregation definitions
+     * @return The aggregation object instance identifiers of the AggregationIdentity
+     * objects.
+     */
+    public LongList registerAggregations(final IdentifierList names, final AggregationDefinitionDetailsList definitions) {
         try {
-            LongList objIds = aggregationService.listDefinition(names, null);
-            AggregationDefinitionDetailsList newDefs = new AggregationDefinitionDetailsList();
+            ObjectInstancePairList objIds = aggregationService.listDefinition(names, null);
+            AggregationCreationRequestList newDefs = new AggregationCreationRequestList();
             AggregationDefinitionDetailsList duplicateDefs = new AggregationDefinitionDetailsList();
             LongList duplicateObjIds = new LongList();
 
             for (int i = 0; i < objIds.size(); i++) {
                 if (objIds.get(i) == null) {
-                    newDefs.add(defs.get(i));
+                    newDefs.add(new AggregationCreationRequest(names.get(i), definitions.get(i)));
                 } else {
-                    duplicateDefs.add(defs.get(i));
-                    duplicateObjIds.add(objIds.get(i));
+                    duplicateDefs.add(definitions.get(i));
+                    duplicateObjIds.add(objIds.get(i).getObjIdentityInstanceId());
                 }
             }
 
-            aggregationService.addDefinition(newDefs, null);
+            aggregationService.addAggregation(newDefs, null);
 
             if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
                 aggregationService.updateDefinition(duplicateObjIds, duplicateDefs, null);
             }
 
-            return aggregationService.listDefinition(names, null);
+            final ObjectInstancePairList newInstPairs = aggregationService.listDefinition(names, null);
+            final LongList outs = new LongList(newInstPairs.size());
+            
+            for(ObjectInstancePair newInstPair : newInstPairs){
+                outs.add(newInstPair.getObjIdentityInstanceId());
+            }
+            
+            return outs;
         } catch (MALException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         } catch (MALInteractionException ex1) {
@@ -169,35 +199,46 @@ public class MCRegistration {
         return null;
     }
 
-    public LongList registerAlerts(AlertDefinitionDetailsList defs) {
-        IdentifierList names = new IdentifierList();
-
-        for (AlertDefinitionDetails def : defs) {
-            names.add(def.getName());
-        }
-
+    /**
+     * The registerAlerts operation registers a set of Alert Definitions
+     * in the M&C Alert service. This abstracts the NMF developer from the
+     * low-level details of MO.
+     *
+     * @param names The alert name identifiers
+     * @param definitions The alert definitions
+     * @return The aggregation object instance identifiers of the AlertIdentity
+     * objects.
+     */
+    public LongList registerAlerts(final IdentifierList names, final AlertDefinitionDetailsList definitions) {
         try {
-            LongList objIds = alertService.listDefinition(names, null);
-            AlertDefinitionDetailsList newDefs = new AlertDefinitionDetailsList();
+            ObjectInstancePairList objIds = alertService.listDefinition(names, null);
+            AlertCreationRequestList newDefs = new AlertCreationRequestList();
             AlertDefinitionDetailsList duplicateDefs = new AlertDefinitionDetailsList();
             LongList duplicateObjIds = new LongList();
 
             for (int i = 0; i < objIds.size(); i++) {
                 if (objIds.get(i) == null) {
-                    newDefs.add(defs.get(i));
+                    newDefs.add(new AlertCreationRequest(names.get(i), definitions.get(i)));
                 } else {
-                    duplicateDefs.add(defs.get(i));
-                    duplicateObjIds.add(objIds.get(i));
+                    duplicateDefs.add(definitions.get(i));
+                    duplicateObjIds.add(objIds.get(i).getObjIdentityInstanceId());
                 }
             }
 
-            alertService.addDefinition(newDefs, null);
+            alertService.addAlert(newDefs, null);
 
             if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
                 alertService.updateDefinition(duplicateObjIds, duplicateDefs, null);
             }
 
-            return alertService.listDefinition(names, null);
+            final ObjectInstancePairList newInstPairs = alertService.listDefinition(names, null);
+            final LongList outs = new LongList(newInstPairs.size());
+            
+            for(ObjectInstancePair newInstPair : newInstPairs){
+                outs.add(newInstPair.getObjIdentityInstanceId());
+            }
+            
+            return outs;
         } catch (MALException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         } catch (MALInteractionException ex1) {
@@ -207,35 +248,46 @@ public class MCRegistration {
         return null;
     }
 
-    public LongList registerActions(ActionDefinitionDetailsList defs) {
-        IdentifierList names = new IdentifierList();
-
-        for (ActionDefinitionDetails def : defs) {
-            names.add(def.getName());
-        }
-
+    /**
+     * The registerActions operation registers a set of Actions Definitions
+     * in the M&C Action service. This abstracts the NMF developer from the
+     * low-level details of MO.
+     *
+     * @param names The action name identifiers
+     * @param definitions The action definitions
+     * @return The aggregation object instance identifiers of the ActionIdentity
+     * objects.
+     */
+    public LongList registerActions(final IdentifierList names, final ActionDefinitionDetailsList definitions) {
         try {
-            LongList objIds = actionService.listDefinition(names, null);
-            ActionDefinitionDetailsList newDefs = new ActionDefinitionDetailsList();
+            ObjectInstancePairList objIds = actionService.listDefinition(names, null);
+            ActionCreationRequestList newDefs = new ActionCreationRequestList();
             ActionDefinitionDetailsList duplicateDefs = new ActionDefinitionDetailsList();
             LongList duplicateObjIds = new LongList();
 
             for (int i = 0; i < objIds.size(); i++) {
                 if (objIds.get(i) == null) {
-                    newDefs.add(defs.get(i));
+                    newDefs.add(new ActionCreationRequest(names.get(i), definitions.get(i)));
                 } else {
-                    duplicateDefs.add(defs.get(i));
-                    duplicateObjIds.add(objIds.get(i));
+                    duplicateDefs.add(definitions.get(i));
+                    duplicateObjIds.add(objIds.get(i).getObjIdentityInstanceId());
                 }
             }
 
-            actionService.addDefinition(newDefs, null);
+            actionService.addAction(newDefs, null);
 
             if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
                 actionService.updateDefinition(duplicateObjIds, duplicateDefs, null);
             }
 
-            return actionService.listDefinition(names, null);
+            final ObjectInstancePairList newInstPairs = alertService.listDefinition(names, null);
+            final LongList outs = new LongList(newInstPairs.size());
+            
+            for(ObjectInstancePair newInstPair : newInstPairs){
+                outs.add(newInstPair.getObjIdentityInstanceId());
+            }
+            
+            return outs;
         } catch (MALException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         } catch (MALInteractionException ex1) {

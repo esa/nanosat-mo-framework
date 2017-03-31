@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
  *
  * @author Vorwerg
  */
-public interface ParameterTestStatusListener {
+public interface ParameterTestStatusListener extends ParameterStatusListener {
 
     /**
      * Pushes a new value of a parameter. This creates a parameterValue-Update

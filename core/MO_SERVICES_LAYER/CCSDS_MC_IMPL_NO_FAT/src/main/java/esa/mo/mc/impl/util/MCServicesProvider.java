@@ -27,6 +27,7 @@ import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.AggregationTriggerListener;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+import esa.mo.mc.impl.interfaces.ParameterTestStatusListener;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
@@ -62,7 +63,7 @@ public class MCServicesProvider {
     private final AggregationTestProviderServiceImpl aggregationTestService = new AggregationTestProviderServiceImpl();
 
     public void init(COMServicesProvider comServices, ActionInvocationListener actions,
-            ParameterStatusListener monitoringParameters, AggregationTriggerListener aggregationTriggerListener, ExternalStatisticFunctionsInterface statisticFunctions) {
+            ParameterTestStatusListener monitoringParameters, AggregationTriggerListener aggregationTriggerListener, ExternalStatisticFunctionsInterface statisticFunctions) {
 
         try {
             parameterManager = new ParameterManager(comServices, monitoringParameters);

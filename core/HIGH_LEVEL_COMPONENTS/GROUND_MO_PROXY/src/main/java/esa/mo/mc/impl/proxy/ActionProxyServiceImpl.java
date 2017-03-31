@@ -21,22 +21,14 @@
 package esa.mo.mc.impl.proxy;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.provider.ActionManager;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -44,18 +36,16 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
+import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
  *
@@ -158,9 +148,11 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
         UIntegerList invIndexList = new UIntegerList();
 
         // 3.2.10.3.2
+        /*
         if (!manager.exists(actionDetails.getDefInstId())) {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
+        s*/
 
         // 3.2.10.2.c
         boolean accepted = manager.checkActionInstanceDetails(actionDetails, invIndexList);
@@ -172,35 +164,26 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
         
         return accepted;
 
+    }    
+
+    @Override
+    public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public LongList listDefinition(final IdentifierList actionNames, final MALInteraction interaction) throws MALException, MALInteractionException {
-
-        // Errors
-        // The operation does not return any errors.
-        return new LongList();
+    public ObjectInstancePairList addAction(ActionCreationRequestList acrl, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public LongList addDefinition(ActionDefinitionDetailsList actionDefDetails, MALInteraction interaction) throws MALInteractionException, MALException {
-
-        // requirement: 3.2.12.2.d
-        return new LongList(); // requirement: 3.2.12.2.e
+    public LongList updateDefinition(LongList ll, ActionDefinitionDetailsList addl, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void updateDefinition(LongList actionDefInstIds, ActionDefinitionDetailsList actionDefDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
-
-
+    public void removeAction(LongList ll, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void removeDefinition(final LongList actionDefInstIds, final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.7.12.2.1
-
-    }
-
-    
     
 }

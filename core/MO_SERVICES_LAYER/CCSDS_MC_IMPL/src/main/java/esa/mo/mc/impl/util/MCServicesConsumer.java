@@ -63,7 +63,6 @@ public class MCServicesConsumer {
      * @param comServices COM services
      */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices){
-    
         SingleConnectionDetails details;
 
         try {
@@ -110,7 +109,6 @@ public class MCServicesConsumer {
         } catch (MALInteractionException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
     }
   
     public ActionConsumerServiceImpl getActionService(){ return this.actionService; }
@@ -174,6 +172,4 @@ public class MCServicesConsumer {
             this.aggregationService.closeConnection();
         }
     }
-    
-    
 }

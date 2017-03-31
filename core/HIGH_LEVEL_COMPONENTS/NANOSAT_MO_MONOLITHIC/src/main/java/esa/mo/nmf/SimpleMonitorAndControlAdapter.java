@@ -29,7 +29,9 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
@@ -103,10 +105,16 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
     }
 
     @Override
-    public Boolean onSetValue(Identifier identifier, Attribute value) {
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        // Validation
+        if(identifiers.isEmpty() || values.isEmpty()){
+            return false;
+        }
 
+        final Identifier identifier = identifiers.get(0);
+        final Attribute value = values.get(0).getRawValue();
         Serializable obj;
-
+        
         if (value instanceof Blob) {
             // Try to unserialize it!
             try {

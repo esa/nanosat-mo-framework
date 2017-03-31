@@ -54,79 +54,150 @@ public class MCServicesConsumer {
     private StatisticConsumerServiceImpl statisticService;
     private AggregationConsumerServiceImpl aggregationService;
 
-
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices){
-    
+    /**
+     * Initializes the Monitor and Control services
+     *
+     * @param connectionConsumer Connection details
+     * @param comServices COM services
+     */
+    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
         SingleConnectionDetails details;
 
         try {
-            //TODO: services not needed -> settings
             // Initialize the Action service
-//            details = connectionConsumer.getServicesDetails().get(ActionHelper.ACTION_SERVICE_NAME);
-//            actionService = new ActionConsumerServiceImpl(details, comServices);
+            details = connectionConsumer.getServicesDetails().get(ActionHelper.ACTION_SERVICE_NAME);
+            if (details != null) {
+                actionService = new ActionConsumerServiceImpl(details, comServices);
+            }
 
             // Initialize the Parameter service
             details = connectionConsumer.getServicesDetails().get(ParameterHelper.PARAMETER_SERVICE_NAME);
-            parameterService = new ParameterConsumerServiceImpl(details, comServices);
+            if (details != null) {
+                parameterService = new ParameterConsumerServiceImpl(details, comServices);
+            }
 
             // Initialize the Alert service
-//            details = connectionConsumer.getServicesDetails().get(AlertHelper.ALERT_SERVICE_NAME);
-//            alertService = new AlertConsumerServiceImpl(details, comServices);
+            details = connectionConsumer.getServicesDetails().get(AlertHelper.ALERT_SERVICE_NAME);
+            if (details != null) {
+                alertService = new AlertConsumerServiceImpl(details, comServices);
+            }
 
             // Initialize the Check service
-//            details = connectionConsumer.getServicesDetails().get(CheckHelper.CHECK_SERVICE_NAME);
-//            checkService = new CheckConsumerServiceImpl(details, comServices);
+            details = connectionConsumer.getServicesDetails().get(CheckHelper.CHECK_SERVICE_NAME);
+            if (details != null) {
+                checkService = new CheckConsumerServiceImpl(details, comServices);
+            }
 
             // Initialize the Statistic service
-//            details = connectionConsumer.getServicesDetails().get(StatisticHelper.STATISTIC_SERVICE_NAME);
-//            statisticService = new StatisticConsumerServiceImpl(details, comServices);
+            details = connectionConsumer.getServicesDetails().get(StatisticHelper.STATISTIC_SERVICE_NAME);
+            if (details != null) {
+                statisticService = new StatisticConsumerServiceImpl(details, comServices);
+            }
 
             // Initialize the Aggregation service
-//            details = connectionConsumer.getServicesDetails().get(AggregationHelper.AGGREGATION_SERVICE_NAME);
-//            aggregationService = new AggregationConsumerServiceImpl(details, comServices);
-            
+            details = connectionConsumer.getServicesDetails().get(AggregationHelper.AGGREGATION_SERVICE_NAME);
+            if (details != null) {
+                aggregationService = new AggregationConsumerServiceImpl(details, comServices);
+            }
         } catch (MALException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException  ex) {
+        } catch (MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
     }
-  
-    public ActionConsumerServiceImpl getActionService(){ return this.actionService; }
-    public ParameterConsumerServiceImpl getParameterService(){ return this.parameterService; }
-    public AlertConsumerServiceImpl getAlertService(){ return this.alertService; }
-    public CheckConsumerServiceImpl getCheckService(){ return this.checkService; }
-    public StatisticConsumerServiceImpl getStatisticService(){ return this.statisticService; }
-    public AggregationConsumerServiceImpl getAggregationService(){ return this.aggregationService; }
-    
-    
-    
+
+    public ActionConsumerServiceImpl getActionService() {
+        return this.actionService;
+    }
+
+    public ParameterConsumerServiceImpl getParameterService() {
+        return this.parameterService;
+    }
+
+    public AlertConsumerServiceImpl getAlertService() {
+        return this.alertService;
+    }
+
+    public CheckConsumerServiceImpl getCheckService() {
+        return this.checkService;
+    }
+
+    public StatisticConsumerServiceImpl getStatisticService() {
+        return this.statisticService;
+    }
+
+    public AggregationConsumerServiceImpl getAggregationService() {
+        return this.aggregationService;
+    }
+
     public void setServices(
             ActionConsumerServiceImpl actionService,
             ParameterConsumerServiceImpl parameterService,
             AlertConsumerServiceImpl alertService,
             CheckConsumerServiceImpl checkService,
             StatisticConsumerServiceImpl statisticService,
-            AggregationConsumerServiceImpl aggregationService        ){
+            AggregationConsumerServiceImpl aggregationService) {
         this.actionService = actionService;
         this.parameterService = parameterService;
-        this.alertService = alertService; 
+        this.alertService = alertService;
         this.checkService = checkService;
         this.statisticService = statisticService;
-        this.aggregationService = aggregationService; 
+        this.aggregationService = aggregationService;
     }
 
-    public void setActionService(ActionConsumerServiceImpl actionService){ this.actionService = actionService; }
-    public void setParameterService(ParameterConsumerServiceImpl parameterService){ this.parameterService = parameterService; }
-    public void setAlertService(AlertConsumerServiceImpl alertService){ this.alertService = alertService; }
-    public void setCheckService(CheckConsumerServiceImpl checkService){ this.checkService = checkService; }
-    public void setStatisticService(StatisticConsumerServiceImpl statisticService){ this.statisticService = statisticService; }
-    public void setAggregationService(AggregationConsumerServiceImpl aggregationService){ this.aggregationService = aggregationService; }
+    public void setActionService(ActionConsumerServiceImpl actionService) {
+        this.actionService = actionService;
+    }
 
-    
-    
-    
+    public void setParameterService(ParameterConsumerServiceImpl parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setAlertService(AlertConsumerServiceImpl alertService) {
+        this.alertService = alertService;
+    }
+
+    public void setCheckService(CheckConsumerServiceImpl checkService) {
+        this.checkService = checkService;
+    }
+
+    public void setStatisticService(StatisticConsumerServiceImpl statisticService) {
+        this.statisticService = statisticService;
+    }
+
+    public void setAggregationService(AggregationConsumerServiceImpl aggregationService) {
+        this.aggregationService = aggregationService;
+    }
+
+    /**
+     * Closes the service consumer connections
+     *
+     */
+    public void closeConnections() {
+        if (this.actionService != null) {
+            this.actionService.closeConnection();
+        }
+
+        if (this.parameterService != null) {
+            this.parameterService.closeConnection();
+        }
+
+        if (this.alertService != null) {
+            this.alertService.closeConnection();
+        }
+
+        if (this.checkService != null) {
+            this.checkService.closeConnection();
+        }
+
+        if (this.statisticService != null) {
+            this.statisticService.closeConnection();
+        }
+
+        if (this.aggregationService != null) {
+            this.aggregationService.closeConnection();
+        }
+    }
 }

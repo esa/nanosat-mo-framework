@@ -36,20 +36,14 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.QoSLevel;
-import org.ccsds.moims.mo.mal.structures.SessionType;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
-import org.ccsds.moims.mo.mc.parameter.body.GetValueResponse;
 import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.parameter.structures.*;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
  *
@@ -129,8 +123,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public GetValueResponse getValue(final LongList lLongList, final MALInteraction interaction) throws MALException, MALInteractionException {
-
+    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction) throws MALInteractionException, MALException {
         // In this case, the object this.consumer represents the connection 
         // between the consumer part of the proxy to the provider on Space
         
@@ -187,12 +180,12 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 // Publish FORWARD Event back to the consumer (runs inside a thread)
                 
                 // Makes a call to the provider on Space
-                GetValueResponse response = this.consumer.getParameterStub().getValue(lLongList);
+//                GetValueResponse response = this.consumer.getParameterStub().getValue(lLongList);
 
                 // returns the answer to the connected consumer
-                return response;
-
-            }
+//                return response;
+                return null;
+          }
         }
 
     }
@@ -203,44 +196,32 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     }
 
-    @Override
-    public void setValue(final LongList paramDefInstId, final ParameterValueList newValues,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
-
-    }
-
-    @Override
-    public LongList listDefinition(final IdentifierList lIdentifier, final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.3.8.2.1
-        LongList outLongLst = new LongList();
-
-        // Errors
-        // The operation does not return any errors.
-        return outLongLst;
-    }
-
-    @Override
-    public LongList addDefinition(final ParameterDefinitionDetailsList lParameterDefinitionList,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
-        LongList outLongLst = new LongList();
-        UIntegerList invIndexList = new UIntegerList();
-        UIntegerList dupIndexList = new UIntegerList();
-        ParameterDefinitionDetails tempParameterDefinition;
-
-        return outLongLst; // requirement: 3.3.9.2.4
-    }
-
-    @Override
-    public void updateDefinition(LongList paramDefInstIds, ParameterDefinitionDetailsList paramDefDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.3.10.2.1
-
-    }
-
-    @Override
-    public void removeDefinition(final LongList lLongList, final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.3.11.2.1
-
-    }
-
     private URI removePrefix(URI uriTo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setValue(ParameterRawValueList prvl, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ObjectInstancePairList addParameter(ParameterCreationRequestList pcrl, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeParameter(LongList ll, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public LongList updateDefinition(LongList ll, ParameterDefinitionDetailsList pddl, MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
