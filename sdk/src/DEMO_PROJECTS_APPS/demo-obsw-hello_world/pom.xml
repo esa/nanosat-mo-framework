@@ -70,9 +70,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</artifactId>
-            <version>${project.version}</version>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
 <!--
             <scope>provided</scope>
 -->            

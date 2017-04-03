@@ -100,10 +100,6 @@ import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     private final ArchiveConsumerServiceImpl serviceCOMArchive;
-//    private final ConversionConsumerServiceImpl conversionService = new ConversionConsumerServiceImpl();
-
-//    public final transient ObjectType OBJTYPE_AGGS_AGGREGATIONDEFINITION = HelperCOM.generateCOMObjectType(4, 6, 1, 1);
-    public ObjectType OBJTYPE_AGGS_AGGREGATIONDEFINITION;
 
     /**
      * Creates new form ArchiveConsumerPanel
@@ -113,16 +109,16 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     public ArchiveConsumerManagerPanel(ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         serviceCOMArchive = archiveService;
-        
-        OBJTYPE_AGGS_AGGREGATIONDEFINITION = AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE;
-        
     }
 
     public static AggregationDefinitionDetails generateAggregationDefinition(String name) {
         // AgregationDefinition
         AggregationDefinitionDetails aggDef = new AggregationDefinitionDetails();
-        aggDef.setCategory(new UOctet((short) 0));
         aggDef.setDescription("This is a description");
+        aggDef.setCategory(new UOctet((short) 0));
+        aggDef.setReportInterval(new Duration(0));
+        aggDef.setSendUnchanged(Boolean.FALSE);
+        aggDef.setSendDefinitions(Boolean.FALSE);
         aggDef.setFilterEnabled(Boolean.FALSE);
         aggDef.setFilteredTimeout(new Duration(0));
         aggDef.setGenerationEnabled(Boolean.FALSE);
@@ -135,7 +131,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         aggParamSet.setParameters(objIdParams);
         aggParamSetList.add(aggParamSet);
         aggDef.setParameterSets(aggParamSetList);
-        aggDef.setReportInterval(new Duration(0));
 
         return aggDef;
     }
@@ -261,7 +256,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
              */
 
             this.refreshTabCounter();
-            
+
             tabs.addTab("", archiveTablePanel);
 
             tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
@@ -294,12 +289,12 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             }
 
             tabs.setTabComponentAt(index, pnlTab);
-            pnlTab.revalidate(); 
+            pnlTab.revalidate();
             pnlTab.repaint();  // not working
             tabs.revalidate();
             tabs.repaint();    // not working
         }
-        
+
         public synchronized void finalizeAdapter() {
             try {
                 this.finalize();
@@ -402,7 +397,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     public class CloseMouseHandler implements MouseListener {
 
-        private ArchiveConsumerAdapter adapter;
+        private final ArchiveConsumerAdapter adapter;
 
         CloseMouseHandler(ArchiveConsumerAdapter adapter) {
             this.adapter = adapter;
@@ -418,7 +413,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                     tabs.remove(i);
                     adapter.finalizeAdapter();
 //                    panel = null; // Free up the memory
-                    
+
                     try {
                         super.finalize();
                     } catch (Throwable ex) {
@@ -644,18 +639,15 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonStoreAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreAggregationActionPerformed
-
-//        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
 
-        ObjectType objType = this.OBJTYPE_AGGS_AGGREGATIONDEFINITION;
         AggregationDefinitionDetailsList objList = new AggregationDefinitionDetailsList();
         objList.add(ArchiveConsumerManagerPanel.generateAggregationDefinition("AggregationStore"));
 
         try {
-            LongList outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList);
+            LongList outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE,
+                    AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                    serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList);
             Long received = outObjId.get(0);
             TBoxStore.setText(received.toString());
         } catch (MALInteractionException ex) {
@@ -663,11 +655,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_jButtonStoreAggregationActionPerformed
 
     private void jButtonGetAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetAllActionPerformed
-
         ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter("Get All");
 
         UShort shorty = new UShort(0);
@@ -696,16 +686,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_jButtonGetAllActionPerformed
 
 
     private void jButtonQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQueryActionPerformed
-
         ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter("Query...");
 
         // Object Type
-        ObjectType objType = this.OBJTYPE_AGGS_AGGREGATIONDEFINITION;
+        ObjectType objType = AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE;
         MOWindow genObjType = new MOWindow(objType, true);
         try {
             objType = (ObjectType) genObjType.getObject();
@@ -770,7 +758,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     private void jButtonRetrieveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetrieveActionPerformed
 
         // Object Type
-        ObjectType objType = this.OBJTYPE_AGGS_AGGREGATIONDEFINITION;
+        ObjectType objType = AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE;
         MOWindow genObjType = new MOWindow(objType, true);
         try {
             objType = (ObjectType) genObjType.getObject();
@@ -835,7 +823,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     private void jButtonCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCountActionPerformed
 
         // Object Type
-        ObjectType objType = this.OBJTYPE_AGGS_AGGREGATIONDEFINITION;
+        ObjectType objType = AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE;
         MOWindow genObjType = new MOWindow(objType, true);
         try {
             objType = (ObjectType) genObjType.getObject();
@@ -901,7 +889,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
 //        archiveDetailsList = new ArchiveDetailsList();
 //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         objType = ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE;
         DiscreteConversionDetailsList objList1 = new DiscreteConversionDetailsList();

@@ -25,7 +25,6 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.tools.mowindow.MOWindow;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import java.io.InterruptedIOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -53,8 +52,8 @@ import org.ccsds.moims.mo.mc.structures.Severity;
  */
 public class AlertConsumerPanel extends javax.swing.JPanel {
 
-    private AlertConsumerServiceImpl serviceMCAlert;
-    private AlertTablePanel alertTable;
+    private final AlertConsumerServiceImpl serviceMCAlert;
+    private final AlertTablePanel alertTable;
 
     /**
      *
@@ -320,7 +319,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         MOWindow moObject = new MOWindow(obj.getObject(), true);
 
         LongList objIds = new LongList();
-        objIds.add(alertTable.getSelectedObjId());
+        objIds.add(alertTable.getSelectedIdentityObjId());
 
         AlertDefinitionDetailsList defs = new AlertDefinitionDetailsList();
         try {
@@ -344,7 +343,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Long objId = alertTable.getSelectedObjId();
+        Long objId = alertTable.getSelectedIdentityObjId();
         LongList longlist = new LongList();
         longlist.add(objId);
 

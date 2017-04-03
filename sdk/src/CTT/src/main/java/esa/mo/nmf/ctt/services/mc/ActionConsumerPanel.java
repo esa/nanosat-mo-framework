@@ -255,7 +255,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         }
         
         ActionInstanceDetails actionInstanceDetails = new ActionInstanceDetails();
-        actionInstanceDetails.setDefInstId(actionTable.getSelectedObjId());
+        actionInstanceDetails.setDefInstId(actionTable.getSelectedDefinitionObjId());
 
         actionInstanceDetails.setStageStartedRequired(true);
         actionInstanceDetails.setStageProgressRequired(true);
@@ -388,7 +388,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         MOWindow moObject = new MOWindow(obj.getObject(), true);
         
         LongList objIds = new LongList();
-        objIds.add(actionTable.getSelectedObjId());
+        objIds.add(actionTable.getSelectedIdentityObjId());
         
         ActionDefinitionDetailsList defs = new ActionDefinitionDetailsList();
         try {
@@ -412,9 +412,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Long objId = actionTable.getSelectedObjId();
         LongList longlist = new LongList();
-        longlist.add(objId);
+        longlist.add(actionTable.getSelectedIdentityObjId());
 
         try {
             this.serviceMCAction.getActionStub().removeAction(longlist);
@@ -465,13 +464,12 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
 
     private void preCheckActionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preCheckActionButtonActionPerformed
-
         if (actionTable.getSelectedRow() == -1){ // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
         
         ActionInstanceDetails actionInstanceDetails = new ActionInstanceDetails();
-        actionInstanceDetails.setDefInstId(actionTable.getSelectedObjId());
+        actionInstanceDetails.setDefInstId(actionTable.getSelectedDefinitionObjId());
         MOWindow genericObject = new MOWindow(actionInstanceDetails, true);
         try {
             actionInstanceDetails = (ActionInstanceDetails) genericObject.getObject();
@@ -490,7 +488,6 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         }
 
         JOptionPane.showMessageDialog(null, "The action instance was successfully submitted.", "Success", JOptionPane.PLAIN_MESSAGE);
-
     }//GEN-LAST:event_preCheckActionButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded

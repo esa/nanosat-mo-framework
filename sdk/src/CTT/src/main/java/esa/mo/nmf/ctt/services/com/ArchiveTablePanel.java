@@ -144,7 +144,6 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
     }
 
     private void addEntry(final ArchivePersistenceObject comObject) {
-
         String domain = "";
         String objType = "";
         String timestamp = "";

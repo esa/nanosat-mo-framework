@@ -314,7 +314,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         MOWindow moObject = new MOWindow(obj.getObject(), true);
 
         LongList objIds = new LongList();
-        objIds.add(parameterTable.getSelectedObjId());
+        objIds.add(parameterTable.getSelectedIdentityObjId());
 
         ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
         try {
@@ -338,7 +338,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Long objId = parameterTable.getSelectedObjId();
+        Long objId = parameterTable.getSelectedIdentityObjId();
         LongList longlist = new LongList();
         longlist.add(objId);
 
@@ -427,7 +427,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
         Boolean curState = ((ParameterDefinitionDetails) parameterTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair(parameterTable.getSelectedObjId(), !curState));  // Zero is the wildcard
+        BoolPairList.add(new InstanceBooleanPair(parameterTable.getSelectedIdentityObjId(), !curState));  // Zero is the wildcard
 
         try {
             this.serviceMCParameter.getParameterStub().enableGeneration(false, BoolPairList);

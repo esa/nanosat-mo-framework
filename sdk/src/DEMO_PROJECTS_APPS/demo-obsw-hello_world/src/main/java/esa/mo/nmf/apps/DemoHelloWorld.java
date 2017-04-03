@@ -27,7 +27,7 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.io.Serializable;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
@@ -47,7 +47,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class DemoHelloWorld {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapterSimple());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapterSimple());
     private static final String PARAMETER_HELLO = "A_Parameter";
     private String str = "Hello World!";
 //    public final COMServicesProvider comServices = new COMServicesProvider();

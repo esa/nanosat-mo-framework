@@ -372,7 +372,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         MOWindow moObject = new MOWindow(obj.getObject(), true);
 
         LongList objIds = new LongList();
-        objIds.add(aggregationTable.getSelectedObjId());
+        objIds.add(aggregationTable.getSelectedIdentityObjId());
 
         AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
         try {
@@ -396,9 +396,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Long objId = aggregationTable.getSelectedObjId();
         LongList longlist = new LongList();
-        longlist.add(objId);
+        longlist.add(aggregationTable.getSelectedIdentityObjId());
 
         try {
             this.serviceMCAggregation.getAggregationStub().removeAggregation(longlist);

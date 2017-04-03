@@ -151,8 +151,12 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         return this.archiveService;
     }
 
-    public Long getSelectedObjId() {
+    public Long getSelectedDefinitionObjId() {
         return comObjects.get(getSelectedRow()).getObjectId();
+    }
+
+    public Long getSelectedIdentityObjId() {
+        return comObjects.get(getSelectedRow()).getArchiveDetails().getDetails().getRelated();
     }
 
     public List<ArchivePersistenceObject> getCOMObjects() {

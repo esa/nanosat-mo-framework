@@ -434,7 +434,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         MOWindow moObject = new MOWindow(obj.getObject(), true);
 
         LongList objIds = new LongList();
-        objIds.add(checkDefsTable.getSelectedObjId());
+        objIds.add(checkDefsTable.getSelectedIdentityObjId());
         CheckDefinitionDetailsList checkDefinitionList;
 
         try {
@@ -454,7 +454,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
         
-        Long objId = checkDefsTable.getSelectedObjId();
+        Long objId = checkDefsTable.getSelectedIdentityObjId();
         LongList longlist = new LongList();
         longlist.add(objId);
 
@@ -645,7 +645,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
         
-        Long objId = checkLinksTable.getSelectedObjId();
+        Long objId = checkLinksTable.getSelectedDefinitionObjId();
         LongList longlist = new LongList();
         longlist.add(objId);
 

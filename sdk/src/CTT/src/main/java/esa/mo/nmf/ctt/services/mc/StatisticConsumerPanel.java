@@ -321,7 +321,6 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addLinkButtonActionPerformed
 
     private void updateLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateLinkButtonActionPerformed
-
         if (statisticTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -330,7 +329,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         MOWindow moObject = new MOWindow(obj.getObject(), true);
 
         LongList objIds = new LongList();
-        objIds.add(statisticTable.getSelectedObjId());
+        objIds.add(statisticTable.getSelectedDefinitionObjId());
 
         StatisticLinkDetailsList links = new StatisticLinkDetailsList();
         try {
@@ -356,9 +355,8 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Long objId = statisticTable.getSelectedObjId();
         LongList longlist = new LongList();
-        longlist.add(objId);
+        longlist.add(statisticTable.getSelectedDefinitionObjId());
 
         try {
             this.serviceMCStatistic.getStatisticStub().removeParameterEvaluation(longlist);

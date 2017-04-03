@@ -68,6 +68,7 @@
 
     <properties>
         <esa.nmf.artifact.app.artifactid>demo-triple-presentation</esa.nmf.artifact.app.artifactid>
+        <esa.nmf.artifact.global.folderpath>${playground.folder.output}</esa.nmf.artifact.global.folderpath>
     </properties>
         
     <build>
