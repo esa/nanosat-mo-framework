@@ -25,6 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.ctt.stuff.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 
 /**
@@ -38,8 +39,7 @@ public class AggregationTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(ArchivePersistenceObject comObject) {
-
+    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null){
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
@@ -55,18 +55,17 @@ public class AggregationTablePanel extends SharedTablePanel {
         
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
-            pDef.getName(),
+            name.toString(),
             pDef.getDescription(),
             pDef.getCategory().toString(),
             pDef.getGenerationEnabled(),
-            pDef.getUpdateInterval().toString(),
+            pDef.getReportInterval().toString(),
             pDef.getFilterEnabled(),
             pDef.getFilteredTimeout().getValue()
         });
 
         comObjects.add(comObject);
         semaphore.release();
-
     }
 
     public void switchEnabledstatus(boolean status){

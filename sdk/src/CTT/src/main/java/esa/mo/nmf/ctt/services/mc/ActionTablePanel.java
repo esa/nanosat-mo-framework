@@ -25,6 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.ctt.stuff.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 
 /**
@@ -38,9 +39,8 @@ public class ActionTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(ArchivePersistenceObject comObject) {
-
-        if (comObject == null){
+    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+        if (comObject == null) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
         }
@@ -52,47 +52,44 @@ public class ActionTablePanel extends SharedTablePanel {
         }
 
         ActionDefinitionDetails pDef = (ActionDefinitionDetails) comObject.getObject();
-        
+
         tableData.addRow(new Object[]{
+            comObject.getArchiveDetails().getDetails().getRelated(),
             comObject.getArchiveDetails().getInstId(),
-            pDef.getName(),
+            name.toString(),
             pDef.getDescription(),
-            pDef.getSeverity().toString(),
+            String.valueOf(pDef.getCategory().getValue()),
             pDef.getProgressStepCount().toString()
         });
 
         comObjects.add(comObject);
-
         semaphore.release();
-
     }
 
     @Override
     public void defineTableContent() {
-    
         String[] tableCol = new String[]{
-            "Obj Inst Id", "name", "description", "Severity", "progressStepCount" };
+            "Identity", "Obj Inst Id", "name", "description", "Category", "progressStepCount"};
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {
-                    Class[] types = new Class[]{
-                        java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
-                        java.lang.String.class, java.lang.String.class
-                    };
+            Class[] types = new Class[]{
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, 
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
 
-                    @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                    @Override
-                    public Class getColumnClass(int columnIndex) {
-                        return types[columnIndex];
-                    }
-                };
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
 
         super.getTable().setModel(tableData);
-
     }
-    
+
 }

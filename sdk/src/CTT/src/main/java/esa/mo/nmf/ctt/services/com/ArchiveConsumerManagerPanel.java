@@ -24,10 +24,7 @@ import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.mc.impl.consumer.ConversionConsumerServiceImpl;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
 import java.awt.Component;
 import java.awt.Font;
@@ -48,7 +45,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
@@ -57,7 +53,6 @@ import org.ccsds.moims.mo.com.archive.structures.CompositeFilterList;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSet;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSetList;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -78,7 +73,6 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
@@ -96,10 +90,8 @@ import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetailsList;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetailsList;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.Severity;
 
 /**
  *
@@ -129,12 +121,11 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     public static AggregationDefinitionDetails generateAggregationDefinition(String name) {
         // AgregationDefinition
         AggregationDefinitionDetails aggDef = new AggregationDefinitionDetails();
-        aggDef.setCategory(AggregationCategory.GENERAL);
+        aggDef.setCategory(new UOctet((short) 0));
         aggDef.setDescription("This is a description");
         aggDef.setFilterEnabled(Boolean.FALSE);
         aggDef.setFilteredTimeout(new Duration(0));
         aggDef.setGenerationEnabled(Boolean.FALSE);
-        aggDef.setName(new Identifier(name));
 
         AggregationParameterSetList aggParamSetList = new AggregationParameterSetList();
         AggregationParameterSet aggParamSet = new AggregationParameterSet();
@@ -144,7 +135,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         aggParamSet.setParameters(objIdParams);
         aggParamSetList.add(aggParamSet);
         aggDef.setParameterSets(aggParamSetList);
-        aggDef.setUpdateInterval(new Duration(0));
+        aggDef.setReportInterval(new Duration(0));
 
         return aggDef;
     }
@@ -192,7 +183,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     }
 
     private DiscreteConversionDetails generateDiscreteConversionDetails() {
-
         PairList mapping = new PairList();
 
         Pair pair0 = new Pair();
@@ -992,9 +982,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         ActionDefinitionDetails actionDefinition = new ActionDefinitionDetails();
-        actionDefinition.setName(new Identifier("Take_Picture"));
+//        actionDefinition.setName(new Identifier("Take_Picture"));
         actionDefinition.setDescription("The action takes a picture and stores it in a the 'picture' parameter.");
-        actionDefinition.setSeverity(Severity.INFORMATIONAL);
         actionDefinition.setProgressStepCount(new UShort(1));
 
         ArgumentDefinitionDetails argument = new ArgumentDefinitionDetails();
@@ -1007,9 +996,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         actionDefinition.setArgumentIds(null);
 
         ActionDefinitionDetails actionDefinition1 = new ActionDefinitionDetails();
-        actionDefinition1.setName(new Identifier("Take_Picture"));
+//        actionDefinition1.setName(new Identifier("Take_Picture"));
         actionDefinition1.setDescription("The action takes a picture and stores it in a the 'picture' parameter.");
-        actionDefinition1.setSeverity(Severity.INFORMATIONAL);
         actionDefinition1.setProgressStepCount(new UShort(1));
 
         ArgumentDefinitionDetails argument1 = new ArgumentDefinitionDetails();
@@ -1063,7 +1051,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         GroupDetails group = new GroupDetails();
         GroupDetailsList groupList = new GroupDetailsList();
 
-        group.setName(new Identifier("Group1"));
+//        group.setName(new Identifier("Group1"));
         group.setDescription("A group of the 3 first Parameter Definitions.");
         ObjectType objTypeParameterDef = new ObjectType(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(1));
         group.setObjectType(objTypeParameterDef);

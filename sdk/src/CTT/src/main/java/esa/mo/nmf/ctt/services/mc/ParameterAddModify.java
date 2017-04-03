@@ -21,7 +21,7 @@
 package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl_old;
+import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -41,10 +42,13 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.ConditionalReference;
-import org.ccsds.moims.mo.mc.structures.ConditionalReferenceList;
+import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
+import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 
 /**
@@ -53,7 +57,7 @@ import org.ccsds.moims.mo.mc.structures.ParameterExpression;
  */
 public class ParameterAddModify extends javax.swing.JFrame {
 
-    private ParameterConsumerServiceImpl_old serviceMCParameter;
+    private ParameterConsumerServiceImpl serviceMCParameter;
     private DefaultTableModel parameterTableData;
     private Boolean isAddDef = false;
     private int parameterDefinitionSelectedIndex = 0;
@@ -68,20 +72,21 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
     /**
      * Creates new form ParameterAddModify
+     *
      * @param parameterService
      */
-    public ParameterAddModify(ParameterConsumerServiceImpl_old parameterService) {
+    public ParameterAddModify(final ParameterConsumerServiceImpl parameterService,
+            final DefaultTableModel parameterTableData) {
         initComponents();
 
         this.serviceMCParameter = parameterService;
-        this.parameterTableData = parameterService.getParameterTableData();
+        this.parameterTableData = parameterTableData;
 
         // Set window size for the Add and Modify Parameter Definition
         this.setSize(400, 590);
         this.setPreferredSize(new Dimension(400, 590));
         this.setResizable(false);
         this.setVisible(false);
-        
 
         try {
             ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -96,25 +101,23 @@ public class ParameterAddModify extends javax.swing.JFrame {
         OBJ_TYPE_CS_LINECONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(2));
         OBJ_TYPE_CS_POLYCONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(3));
         OBJ_TYPE_CS_RANGECONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(4));
-        
-        
+
     }
 
     public void setParameterDefinitionSelectedIndex(int in) {
         this.parameterDefinitionSelectedIndex = in;
     }
 
-    public ParameterDefinitionDetails makeNewParameterDefinition(String name, int rawType, String rawUnit, String description,
-            boolean generationEnabled, float interval, ParameterExpression validityExpression, ParameterConversion conversion) {
+    public ParameterDefinitionDetails makeNewParameterDefinition(int rawType,
+            String rawUnit, String description, boolean generationEnabled, float interval,
+            ParameterExpression validityExpression, ParameterConversion conversion) {
         ParameterDefinitionDetails PDef = new ParameterDefinitionDetails();
-
-        PDef.setName(new Identifier(name));
         PDef.setDescription(description);
         PDef.setRawType((byte) rawType);
         PDef.setRawUnit(rawUnit);
         PDef.setDescription(description);
         PDef.setGenerationEnabled(generationEnabled);  // shall not matter, because when we add it it will be false!
-        PDef.setUpdateInterval(makeDuration(interval));
+        PDef.setReportInterval(makeDuration(interval));
         PDef.setValidityExpression(validityExpression);
         PDef.setConversion(conversion);
 
@@ -537,11 +540,11 @@ public class ParameterAddModify extends javax.swing.JFrame {
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
 
         if (nameTF.getText().equals("")
-            || descriptionTF.getText().equals("")
-            || descriptionTF.getText().equals("")
-            || rawTypeCB.getSelectedIndex() == 0
-            || rawUnitTF.getText().equals("")
-            || updateIntervalTF.getText().equals("")) {
+                || descriptionTF.getText().equals("")
+                || descriptionTF.getText().equals("")
+                || rawTypeCB.getSelectedIndex() == 0
+                || rawUnitTF.getText().equals("")
+                || updateIntervalTF.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!", JOptionPane.PLAIN_MESSAGE);
             return;
         }
@@ -569,86 +572,112 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         ParameterConversion pConv;
 
-        if (conversionCB.isSelected()){
+        if (conversionCB.isSelected()) {
             // Reference to the conversion Object
             ObjectId referenceId = new ObjectId();
-            referenceId.setKey(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), new Long (referenceObjIdTF.getText())));  // Get the first objId
+            referenceId.setKey(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(),
+                    new Long(referenceObjIdTF.getText())));  // Get the first objId
 
             int index = objTypeCB.getSelectedIndex();
-            
-            switch(index){
-                case 1  :          referenceId.setType( OBJ_TYPE_CS_DISCRETECONVERSION );
+
+            switch (index) {
+                case 1:
+                    referenceId.setType(OBJ_TYPE_CS_DISCRETECONVERSION);
                     break;
-                case 2  :          referenceId.setType( OBJ_TYPE_CS_LINECONVERSION );
+                case 2:
+                    referenceId.setType(OBJ_TYPE_CS_LINECONVERSION);
                     break;
-                case 3  :          referenceId.setType( OBJ_TYPE_CS_POLYCONVERSION );
+                case 3:
+                    referenceId.setType(OBJ_TYPE_CS_POLYCONVERSION);
                     break;
-                case 4  :          referenceId.setType( OBJ_TYPE_CS_RANGECONVERSION );
+                case 4:
+                    referenceId.setType(OBJ_TYPE_CS_RANGECONVERSION);
                     break;
-                default   :          referenceId.setType( null );
+                default:
+                    referenceId.setType(null);
                     break;
             }
 
-            ConditionalReferenceList conversionConditions = new ConditionalReferenceList();
-
-            ConditionalReference conversionCondition = new ConditionalReference();
+            ConditionalConversionList conversionConditions = new ConditionalConversionList();
+            ConditionalConversion conversionCondition = new ConditionalConversion();
             conversionCondition.setCondition(null);
-            conversionCondition.setReferenceId(referenceId);
-        
+            conversionCondition.setConversionId(referenceId.getKey());
             conversionConditions.add(conversionCondition);
-        
+
             pConv = new ParameterConversion();
             pConv.setConvertedType((byte) rawTypeCB.getSelectedIndex());
             pConv.setConvertedUnit(convertedUnit.getText());
-            pConv.setConversionConditions(conversionConditions);
-            
-        }else{
+            pConv.setConditionalConversions(conversionConditions);
+
+        } else {
             pConv = null;
         }
-        
-        
 
         ParameterDefinitionDetails Pdef;
-        Pdef = makeNewParameterDefinition(nameTF.getText(),
-            rawTypeCB.getSelectedIndex(),
-            rawUnitTF.getText(),
-            descriptionTF.getText(),
-            generationEnabledCB.isSelected(),
-            Float.parseFloat(updateIntervalTF.getText()),
-            PExp,
-            pConv);
+        Pdef = makeNewParameterDefinition(
+                rawTypeCB.getSelectedIndex(),
+                rawUnitTF.getText(),
+                descriptionTF.getText(),
+                generationEnabledCB.isSelected(),
+                Float.parseFloat(updateIntervalTF.getText()),
+                PExp,
+                pConv);
 
         ParameterDefinitionDetailsList PDefs = new ParameterDefinitionDetailsList();
         PDefs.add(Pdef);
 
+        ParameterCreationRequest request = new ParameterCreationRequest();
+        request.setName(new Identifier(nameTF.getText()));
+        request.setParamDefDetails(Pdef);
+
+        ParameterCreationRequestList requestList = new ParameterCreationRequestList();
+        requestList.add(request);
+
         this.setVisible(false);
 
-        if (isAddDef) {  // Are we adding a new definition?
-            Logger.getLogger(ParameterAddModify.class.getName()).info("addDefinition started");
-            LongList output = serviceMCParameter.addDefinition(PDefs);
-            Logger.getLogger(ParameterAddModify.class.getName()).log(Level.INFO, "addDefinition returned {0} object instance identifiers", output.size());
-            parameterTableData.addRow(
-                new Object[]{output.get(0).intValue(), Pdef.getName(), Pdef.getDescription(),
-                    rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef.getRawUnit(), Pdef.getGenerationEnabled(), Pdef.getUpdateInterval().getValue()}
-            );
-        } else {  // Well, then we are updating a previous selected definition
-            Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition started");
-            LongList objIds = new LongList();
-            objIds.add(new Long(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
-            serviceMCParameter.updateDefinition(objIds, PDefs);  // Execute the update
-            parameterTableData.removeRow(parameterDefinitionSelectedIndex);
-            parameterTableData.insertRow(parameterDefinitionSelectedIndex,
-                new Object[]{objIds.get(0).intValue(), Pdef.getName(), Pdef.getDescription(),
-                    rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef.getRawUnit(), Pdef.getGenerationEnabled(), Pdef.getUpdateInterval().getValue()}
-            );
-            Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
+        if (isAddDef) {
+            try {
+                // Are we adding a new definition?
+                Logger.getLogger(ParameterAddModify.class.getName()).info("addDefinition started");
+                ObjectInstancePairList output = serviceMCParameter.getParameterStub().addParameter(requestList);
+                Logger.getLogger(ParameterAddModify.class.getName()).log(Level.INFO,
+                        "addDefinition returned {0} object instance identifiers", output.size());
+
+                parameterTableData.addRow(
+                        new Object[]{output.get(0).getObjDefInstanceId().intValue(), request.getName().toString(), Pdef.getDescription(),
+                            rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef.getRawUnit(),
+                            Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()}
+                );
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                // Well, then we are updating a previous selected definition
+                Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition started");
+                LongList objIds = new LongList();
+                objIds.add(new Long(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
+                serviceMCParameter.getParameterStub().updateDefinition(objIds, PDefs);
+                parameterTableData.removeRow(parameterDefinitionSelectedIndex);
+                parameterTableData.insertRow(parameterDefinitionSelectedIndex,
+                        new Object[]{objIds.get(0).intValue(), request.getName().toString(), Pdef.getDescription(),
+                            rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef.getRawUnit(),
+                            Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()}
+                );
+                Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_submitButtonActionPerformed
 
     private void objTypeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objTypeCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_objTypeCBActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

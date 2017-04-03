@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.nmf.ctt.stuff.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mc.check.structures.CheckDefinitionDetails;
 
 /**
@@ -39,8 +40,7 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(ArchivePersistenceObject comObject) {
-
+    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null){
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
@@ -65,7 +65,7 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
         
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
-            checkDef.getName().toString(),
+            name.toString(),
             checkDef.getDescription().toString(),
             checkDef.getCheckSeverity().toString(),
             checkDef.getMaxReportingInterval().toString(),
@@ -76,9 +76,7 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
         });
 
         comObjects.add(comObject);
-
         semaphore.release();
-
     }
 
     @Override
@@ -109,7 +107,6 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
                 };
 
         super.getTable().setModel(tableData);
-
     }
     
 }

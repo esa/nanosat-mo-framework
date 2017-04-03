@@ -82,7 +82,8 @@ public class FiveStagesAction {
                 Byte convertedType = null;
                 String convertedUnit = null;
 
-                arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+                arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit,
+                        conditionalConversions, convertedType, convertedUnit));
             }
 
             ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
@@ -109,16 +110,17 @@ public class FiveStagesAction {
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, 
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
                 Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-            if (ACTION5STAGES.equals(name.getValue())) { try {
-                // action1 was called?
-                fiveStepsAction(actionInstanceObjId);
+            if (ACTION5STAGES.equals(name.getValue())) {
+                try {
+                    // action1 was called?
+                    fiveStepsAction(actionInstanceObjId);
                 } catch (NMFException ex) {
                     Logger.getLogger(FiveStagesAction.class.getName()).log(Level.SEVERE, null, ex);
                     return new UInteger(0);
                 }
-            
+
                 return null;
             }
 

@@ -38,15 +38,16 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
 import org.ccsds.moims.mo.mc.alert.structures.AlertEventDetails;
 import org.ccsds.moims.mo.mc.alert.consumer.Alert;
-import org.ccsds.moims.mo.mc.structures.ArgumentValue;
-import org.ccsds.moims.mo.mc.structures.ArgumentValueList;
+import org.ccsds.moims.mo.mc.structures.AttributeValue;
+import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 
 /*
@@ -113,9 +114,10 @@ public class AlertTest2 {
         IdentifierList alertDefNames = new IdentifierList();
         alertDefNames.add(new Identifier("*"));
 
-        LongList moAlertDefIds = alertConsumer.listDefinition(alertDefNames);
+        ObjectInstancePairList moAlertDefIds = alertConsumer.listDefinition(alertDefNames);
 
-        for (Long moAlertDefId : moAlertDefIds) {
+        for (ObjectInstancePair pair : moAlertDefIds) {
+            Long moAlertDefId = pair.getObjIdentityInstanceId();
 
             // enable generation of this alert in the Alert Provider
             InstanceBooleanPairList enableInstance = new InstanceBooleanPairList();
@@ -140,7 +142,6 @@ public class AlertTest2 {
 
         @Override
         public void onDataReceived (EventCOMObject eventCOMObject) {
-
             Date date = new Date(eventCOMObject.getTimestamp().getValue());
             Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -162,16 +163,16 @@ public class AlertTest2 {
                 //String messageToDisplay = details.getName().getValue() + " ";
                 String messageToDisplay = "<TEST-MSG>" + " ";
 
-                ArgumentValueList argValues = receivedAlert.getArgumentValues();
+                AttributeValueList attValues = receivedAlert.getArgumentValues();
                 
-                if(argValues != null){
-                    if (argValues.size() == 1){
-                        messageToDisplay += argValues.get(0).getValue().toString();
+                if(attValues != null){
+                    if (attValues.size() == 1){
+                        messageToDisplay += attValues.get(0).getValue().toString();
                     }
-                    if (argValues.size() > 1){
-                        for(int i = 0 ; i < argValues.size(); i++){
-                            ArgumentValue argValue = argValues.get(i);
-                            messageToDisplay += "[" + i + "] " + argValue.getValue().toString() + "\n";
+                    if (attValues.size() > 1){
+                        for(int i = 0 ; i < attValues.size(); i++){
+                            AttributeValue attValue = attValues.get(i);
+                            messageToDisplay += "[" + i + "] " + attValue.getValue().toString() + "\n";
                         }
                     }
                 }

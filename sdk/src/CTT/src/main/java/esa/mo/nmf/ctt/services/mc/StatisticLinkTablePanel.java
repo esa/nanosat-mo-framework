@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.nmf.ctt.stuff.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkDetails;
 
@@ -40,8 +41,7 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(ArchivePersistenceObject comObject) {
-
+    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null){
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
@@ -65,7 +65,7 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
             comObject.getArchiveDetails().getDetails().getRelated().toString(),
-            pDef.getName().toString(),
+            name.toString(),
             statLink.getCollectionInterval().toString(),
             statLink.getReportingInterval().toString(),
             statLink.getSamplingInterval().toString(),

@@ -28,25 +28,32 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
 import java.io.InterruptedIOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.statistic.StatisticHelper;
 import org.ccsds.moims.mo.mc.statistic.consumer.StatisticAdapter;
+import org.ccsds.moims.mo.mc.statistic.structures.StatisticCreationRequest;
+import org.ccsds.moims.mo.mc.statistic.structures.StatisticCreationRequestList;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkDetails;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkDetailsList;
-import org.ccsds.moims.mo.mc.statistic.structures.StatisticParameterDetails;
-import org.ccsds.moims.mo.mc.statistic.structures.StatisticParameterDetailsList;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticValue;
+import org.ccsds.moims.mo.mc.statistic.structures.StatisticValueList;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
  *
@@ -254,11 +261,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
 
     private void addLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLinkButtonActionPerformed
-
         // Create and Show the Action Definition to the user
-        StatisticParameterDetails statLink = new StatisticParameterDetails();
-        statLink.setStatFuncInstId(new Long(1));
-        
         StatisticLinkDetails statLinkDetails = new StatisticLinkDetails();
         statLinkDetails.setCollectionInterval(new Duration(2));
         statLinkDetails.setReportingEnabled(true);
@@ -266,37 +269,45 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         statLinkDetails.setResetEveryCollection(true);
         statLinkDetails.setSamplingInterval(new Duration(1));
         
-        statLink.setLinkDetails(statLinkDetails);
+//        statLink.setLinkDetails(statLinkDetails);
         
         ObjectKey paramId = new ObjectKey();
         paramId.setDomain(serviceMCParameter.getConnectionDetails().getDomain());
         paramId.setInstId(new Long(3));
-        statLink.setParameterId(paramId);
+//        statLink.setParameterId(paramId);
         
-        MOWindow statDefinitionWindow = new MOWindow(statLink, true);
 
-        StatisticParameterDetailsList statLinkList = new StatisticParameterDetailsList();
+        StatisticCreationRequest request = new StatisticCreationRequest();
+        request.setLinkDetails(statLinkDetails);
+        request.setParameterId(paramId);
+        request.setStatFuncInstId(new Long(1));
+        
+        MOWindow statDefinitionWindow = new MOWindow(request, true);
+        
+        StatisticCreationRequestList statLinkList = new StatisticCreationRequestList();
         try {
-            statLinkList.add((StatisticParameterDetails) statDefinitionWindow.getObject());
+            statLinkList.add((StatisticCreationRequest) statDefinitionWindow.getObject());
         } catch (InterruptedIOException ex) {
             return;
         }
 
         try {
-            LongList objIds = this.serviceMCStatistic.getStatisticStub().addParameterEvaluation(statLinkList);
+            ObjectInstancePairList objIds = this.serviceMCStatistic.getStatisticStub().addParameterEvaluation(statLinkList);
 
-            if (objIds.size() == 0) {
+            if (objIds.isEmpty()) {
                 return;
             }
 
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCStatistic.getCOMServices().getArchiveService().getArchiveStub(),
-                    StatisticHelper.STATISTICLINK_OBJECT_TYPE, serviceMCStatistic.getConnectionDetails().getDomain(), objIds.get(0));
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                    this.serviceMCStatistic.getCOMServices().getArchiveService().getArchiveStub(),
+                    StatisticHelper.STATISTICLINK_OBJECT_TYPE,
+                    serviceMCStatistic.getConnectionDetails().getDomain(),
+                    objIds.get(0).getObjDefInstanceId());
 
             // Add the Statistic Link to the table
-            statisticTable.addEntry(comObject);
-
+            statisticTable.addEntry(new Identifier("MyStat!"), comObject);
         } catch (MALInteractionException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted statistic link.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -408,18 +419,16 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
         try {
-            this.serviceMCStatistic.getStatisticStub().enableGeneration(false, BoolPairList);
+            this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
 
     private void enableDefinitionButtonAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionButtonAggActionPerformed
-
         if (statisticTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -429,15 +438,13 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
         try {
-            this.serviceMCStatistic.getStatisticStub().enableGeneration(false, BoolPairList);
+            this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
 
     private void msgBoxOn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msgBoxOn2ActionPerformed
@@ -446,13 +453,10 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
     public class StatisticConsumerAdapter extends StatisticAdapter {
         @Override
-        public void monitorStatisticsNotifyReceived(
-                org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
-                org.ccsds.moims.mo.mal.structures.Identifier _Identifier0, 
-                org.ccsds.moims.mo.mal.structures.UpdateHeaderList lUpdateHeaderList, 
-                org.ccsds.moims.mo.com.structures.ObjectIdList _ObjectIdList2, 
-                org.ccsds.moims.mo.mc.statistic.structures.StatisticValueList _StatisticValueList3, 
-                java.util.Map qosProperties){
+    public void monitorStatisticsNotifyReceived(MALMessageHeader msgHeader, 
+            Identifier _Identifier0, UpdateHeaderList lUpdateHeaderList, 
+            LongList _LongList2, ObjectIdList _ObjectIdList3, 
+            StatisticValueList _StatisticValueList3, Map qosProperties) {
 
             final long iDiff = System.currentTimeMillis() - msgHeader.getTimestamp().getValue();
 
@@ -477,13 +481,8 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
             } catch (NumberFormatException ex) {
             }
-
         }
-
     }
-    
-    
-    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable actionDefinitionsTable;

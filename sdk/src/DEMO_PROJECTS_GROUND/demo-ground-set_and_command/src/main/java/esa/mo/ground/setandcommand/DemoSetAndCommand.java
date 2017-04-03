@@ -35,23 +35,21 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
  */
 public class DemoSetAndCommand {
 
-
     private final GroundMOAdapter moGroundAdapter;
-    
-    
+
     public DemoSetAndCommand() {
 
         ConnectionConsumer connection = new ConnectionConsumer();
-        
+
         try {
             connection.loadURIs();
         } catch (MalformedURLException ex) {
             Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         moGroundAdapter = new GroundMOAdapter(connection);
         moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
-        
+
         // Set a parameter with a double value
         Double parameterValue = 1.2345;
 //        moGroundAdapter.sendData("Parameter_name", parameterValue);
@@ -63,7 +61,7 @@ public class DemoSetAndCommand {
         Double[] values = new Double[1];
         values[0] = value;
         moGroundAdapter.invokeAction("Something", values);
-    
+
     }
 
     /**
@@ -76,15 +74,15 @@ public class DemoSetAndCommand {
         DemoSetAndCommand demo = new DemoSetAndCommand();
     }
 
-    
     class DataReceivedAdapter extends SimpleDataReceivedListener {
-    
+
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
-            Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName, data.toString()});
+            Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.INFO,
+                    "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
+                    new Object[]{parameterName, data.toString()});
         }
 
     }
-    
-    
+
 }

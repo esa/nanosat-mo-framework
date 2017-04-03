@@ -24,7 +24,7 @@ import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.nmf.ctt.stuff.COMObjectWindow;
+import esa.mo.com.impl.util.HelperCOM;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -35,10 +35,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
  *
@@ -59,10 +63,10 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     public SharedTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         this.archiveService = archiveService;
-        
+
         comObjects = new ArrayList<ArchivePersistenceObject>();
         this.defineTableContent();
-        
+
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -77,34 +81,76 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
                 }
             }
         });
-        
+
     }
-    
+
     public int getSelectedRow() {
         return table.getSelectedRow();
     }
 
-    public void refreshTableWithIds(LongList objIds, IdentifierList domain, ObjectType objType){
+    public void refreshTableWithIds(ObjectInstancePairList pairs, IdentifierList domain, ObjectType objType) {
         // RemoveAll
         this.removeAllEntries();
-        
+
+        LongList objIds = new LongList();
+        LongList identities = new LongList();
+
+        for (ObjectInstancePair pair : pairs) {
+            objIds.add(pair.getObjDefInstanceId());
+            identities.add(pair.getObjIdentityInstanceId());
+        }
+
         // Retrieve from the archive all the objects
-        List<ArchivePersistenceObject> archiveCOMobjectList = HelperArchive.getArchiveCOMObjectList(archiveService.getArchiveStub(), objType, domain, objIds);
-        
-        if (archiveCOMobjectList == null){
+        List<ArchivePersistenceObject> archiveCOMobjectList = HelperArchive.getArchiveCOMObjectList(
+                archiveService.getArchiveStub(), objType, domain, objIds);
+
+        if (archiveCOMobjectList == null) {
             return;
         }
-        
+
+        if (archiveCOMobjectList.isEmpty()) {
+            return;
+        }
+
+        COMObject comObjectInfo = HelperCOM.objType2COMObject(archiveCOMobjectList.get(0).getObjectType());
+
+        List<ArchivePersistenceObject> comIdentityList = HelperArchive.getArchiveCOMObjectList(
+                archiveService.getArchiveStub(), comObjectInfo.getRelatedType(), domain, identities);
+
         // Add them
-        for (ArchivePersistenceObject comObject : archiveCOMobjectList){
-            addEntry(comObject);
-        }        
+        for (int i = 0; i < archiveCOMobjectList.size(); i++) {
+            addEntry((Identifier) comIdentityList.get(i).getObject(), archiveCOMobjectList.get(i));
+        }
     }
 
-    protected ArchiveConsumerServiceImpl getArchiveService(){
-        return this.archiveService;
+    public void refreshTableWithIds(LongList objIds, IdentifierList domain, ObjectType objType) {
+        // RemoveAll
+        this.removeAllEntries();
+
+        // Retrieve from the archive all the objects
+        List<ArchivePersistenceObject> archiveCOMobjectList = HelperArchive.getArchiveCOMObjectList(
+                archiveService.getArchiveStub(), objType, domain, objIds);
+
+        if (archiveCOMobjectList == null) {
+            return;
+        }
+
+        if (archiveCOMobjectList.isEmpty()) {
+            return;
+        }
+
+        COMObject comObjectInfo = HelperCOM.objType2COMObject(archiveCOMobjectList.get(0).getObjectType());
+
+        // Add them
+        for (int i = 0; i < archiveCOMobjectList.size(); i++) {
+            addEntry(null, archiveCOMobjectList.get(i));
+        }
     }
     
+    protected ArchiveConsumerServiceImpl getArchiveService() {
+        return this.archiveService;
+    }
+
     public Long getSelectedObjId() {
         return comObjects.get(getSelectedRow()).getObjectId();
     }
@@ -112,14 +158,14 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     public List<ArchivePersistenceObject> getCOMObjects() {
         return comObjects;
     }
-    
+
     public ArchivePersistenceObject getSelectedCOMObject() {
         return comObjects.get(getSelectedRow());
     }
 
     public ArchivePersistenceObject getFirstCOMObject() {
-        if (comObjects != null){
-            if (!comObjects.isEmpty()){
+        if (comObjects != null) {
+            if (!comObjects.isEmpty()) {
                 return comObjects.get(0);
             }
         }
@@ -127,29 +173,29 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     }
 
     public ArchivePersistenceObject getSourceFromFirstCOMObject() {
-        if (comObjects != null){
-            if (!comObjects.isEmpty()){
+        if (comObjects != null) {
+            if (!comObjects.isEmpty()) {
                 ArchivePersistenceObject source = HelperArchive.getArchiveCOMObject(
                         archiveService,
-                        comObjects.get(0).getArchiveDetails().getDetails().getSource().getType(), 
-                        comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getDomain(), 
-                        comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getInstId()  );
-                
+                        comObjects.get(0).getArchiveDetails().getDetails().getSource().getType(),
+                        comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getDomain(),
+                        comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getInstId());
+
                 return source;
             }
         }
         return null;
     }
-    
+
     public JTable getTable() {
         return table;
     }
-    
+
     public void removeSelectedEntry() {
         comObjects.remove(this.getSelectedRow());
         tableData.removeRow(this.getSelectedRow());
     }
-    
+
     public void removeAllEntries() {
         while (tableData.getRowCount() != 0) {
             comObjects.remove(tableData.getRowCount() - 1);
@@ -157,8 +203,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
     }
 
-    protected final void addEntries(ArchiveCOMObjectsOutput archiveObjectOutput) {
-
+    protected final void addEntries(final IdentifierList names, final ArchiveCOMObjectsOutput archiveObjectOutput) {
         if (archiveObjectOutput == null) {
             return;
         }
@@ -168,26 +213,25 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-           
-            Element objects = (archiveObjectOutput.getObjectBodies() == null)? null: (Element) archiveObjectOutput.getObjectBodies().get(i);
+            Element objects = (archiveObjectOutput.getObjectBodies() == null) ? null : (Element) archiveObjectOutput.getObjectBodies().get(i);
 
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(
-                archiveObjectOutput.getObjectType(),
-                archiveObjectOutput.getDomain(),
-                archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
-                archiveObjectOutput.getArchiveDetailsList().get(i),
-                objects
+                    archiveObjectOutput.getObjectType(),
+                    archiveObjectOutput.getDomain(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i),
+                    objects
             );
 
-            addEntry(comObject);
+            addEntry(names.get(i), comObject);
         }
-
     }
 
-    public abstract void addEntry(ArchivePersistenceObject comObject);
+    public abstract void addEntry(final Identifier defName, final ArchivePersistenceObject comObject);
+
     public abstract void defineTableContent();
 
-/**
+    /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.

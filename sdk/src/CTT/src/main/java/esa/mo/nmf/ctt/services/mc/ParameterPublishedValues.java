@@ -41,7 +41,6 @@ import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 
-
 /**
  *
  * @author Cesar Coelho
@@ -116,7 +115,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
 //          pictureLabel.setIcon(map.addCoordinate(+37.0620, -7.8070));
                     if ((0 <= index) && (index < labels.length)) {
-                        UOctet validityState = parameterValue.getInvalidSubState();
+                        UOctet validityState = parameterValue.getValidityState();
 //            Validity validityString = Validity.fromNumericValue(new UInteger(validityState.getValue()));
 //                        Union rawValue = (Union) parameterValue.getRawValue();
                         String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());

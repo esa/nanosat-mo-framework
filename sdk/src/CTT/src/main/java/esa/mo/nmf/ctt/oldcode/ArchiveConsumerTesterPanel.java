@@ -98,16 +98,13 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
     }
 
     public class ArchiveConsumerAdapter extends ArchiveAdapter {
-
         @Override
         public void retrieveAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-
             populateTable(msgHeader, null, null, null);
         }
 
         @Override
         public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList _ArchiveDetailsList0, ElementList _ElementList1, Map qosProperties) {
-
             populateTable(msgHeader, null, null, _ElementList1);
 
             if (_ElementList1 == null) {
@@ -126,9 +123,10 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
                 if (obj == null) {
                     continue;
                 }
+                
                 AggregationDefinitionDetails agg = (AggregationDefinitionDetails) obj;
-                Identifier name = agg.getName();
-                TBoxRetrieve.setText(name.toString());
+//                Identifier name = agg.getName();
+                TBoxRetrieve.setText("Dummy name!");
             }
         }
 
@@ -140,7 +138,8 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
         }
         
         @Override
-        public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, 
+                IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
 
             populateTable(msgHeader, objType, domain, objBodies);
 

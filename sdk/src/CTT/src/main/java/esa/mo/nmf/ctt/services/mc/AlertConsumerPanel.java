@@ -37,10 +37,14 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
+import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
+import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.Severity;
 
 /**
@@ -226,7 +230,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         MOWindow actionNamesWindow = new MOWindow(actionNames, true);
 
         try {
-            LongList objIds;
+            ObjectInstancePairList objIds;
             try {
                 objIds = this.serviceMCAlert.getAlertStub().listDefinition((IdentifierList) actionNamesWindow.getObject());
             } catch (InterruptedIOException ex) {
@@ -234,8 +238,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             }
 
             String str = "Object instance identifiers on the provider: \n";
-            for (Long objId : objIds) {
-                str += objId.toString() + "\n";
+            for (ObjectInstancePair objId : objIds) {
+                    str += "ObjId Def: " + objId.getObjDefInstanceId().toString() 
+                            + "Identity: " + objId.getObjIdentityInstanceId().toString() + "\n";
             }
 
             JOptionPane.showMessageDialog(null, str, "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
@@ -249,10 +254,8 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
-
         // Create and Show the Action Definition to the user
         AlertDefinitionDetails alertDefinition = new AlertDefinitionDetails();
-        alertDefinition.setName(new Identifier("Alert1"));
         alertDefinition.setDescription("This Alert is generated 10 seconds after taking the picture.");
         alertDefinition.setSeverity(Severity.INFORMATIONAL);
         alertDefinition.setGenerationEnabled(true);
@@ -264,29 +267,38 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         detailsList.add(null);
         alertDefinition.setArguments(detailsList);
         alertDefinition.setArgumentIds(null);
-        MOWindow alertDefinitionWindow = new MOWindow(alertDefinition, true);
+        
+        AlertCreationRequest request = new AlertCreationRequest();
+        request.setAlertDefDetails(alertDefinition);
+        request.setName(new Identifier("Alert1"));
+        
+        MOWindow alertDefinitionWindow = new MOWindow(request, true);
 
-        AlertDefinitionDetailsList alertDefinitionList = new AlertDefinitionDetailsList();
+        AlertCreationRequestList requestList = new AlertCreationRequestList();
         try {
-            alertDefinitionList.add((AlertDefinitionDetails) alertDefinitionWindow.getObject());
+            requestList.add((AlertCreationRequest) alertDefinitionWindow.getObject());
         } catch (InterruptedIOException ex) {
             return;
         }
 
         try {
-            LongList objIds = this.serviceMCAlert.getAlertStub().addDefinition(alertDefinitionList);
+            ObjectInstancePairList objIds = this.serviceMCAlert.getAlertStub().addAlert(requestList);
 
-            if (objIds.size() == 0) {
+            if (objIds.isEmpty()) {
                 return;
             }
 
             Thread.sleep(500);
+            
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAlert.getCOMServices().getArchiveService().getArchiveStub(),
-                    AlertHelper.ALERTDEFINITION_OBJECT_TYPE, serviceMCAlert.getConnectionDetails().getDomain(), objIds.get(0));
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                    this.serviceMCAlert.getCOMServices().getArchiveService().getArchiveStub(),
+                    AlertHelper.ALERTDEFINITION_OBJECT_TYPE, 
+                    serviceMCAlert.getConnectionDetails().getDomain(), 
+                    objIds.get(0).getObjDefInstanceId());
 
             // Add the Action Definition to the table
-            alertTable.addEntry(comObject);
+            alertTable.addEntry(requestList.get(0).getName(), comObject);
 
         } catch (MALInteractionException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted alert instance.", "Error", JOptionPane.PLAIN_MESSAGE);
@@ -297,12 +309,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         } catch (InterruptedException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }//GEN-LAST:event_addDefinitionButtonActionPerformed
 
     private void updateDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDefinitionButtonActionPerformed
-
         if (alertTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -328,11 +337,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
 
     private void removeDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionButtonActionPerformed
-
         if (alertTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -342,14 +349,13 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         longlist.add(objId);
 
         try {
-            this.serviceMCAlert.getAlertStub().removeDefinition(longlist);
+            this.serviceMCAlert.getAlertStub().removeAlert(longlist);
             alertTable.removeSelectedEntry();
         } catch (MALInteractionException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
 
     private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
@@ -357,7 +363,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
-        LongList output;
+        ObjectInstancePairList output;
         try {
             output = this.serviceMCAlert.getAlertStub().listDefinition(idList);
             alertTable.refreshTableWithIds(output, serviceMCAlert.getConnectionDetails().getDomain(), AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
@@ -372,24 +378,21 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         }
 
         Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
-
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
     private void removeDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionAllButtonActionPerformed
-
         Long objId = (long) 0;
         LongList longlist = new LongList();
         longlist.add(objId);
 
         try {
-            this.serviceMCAlert.getAlertStub().removeDefinition(longlist);
+            this.serviceMCAlert.getAlertStub().removeAlert(longlist);
             alertTable.removeAllEntries();
         } catch (MALInteractionException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
@@ -397,7 +400,6 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_actionDefinitionsTableComponentAdded
 
     private void enableDefinitionAllAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionAllAggActionPerformed
-
         Boolean curState;
 
         String str;
@@ -423,11 +425,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
 
     private void enableDefinitionButtonAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionButtonAggActionPerformed
-
         if (alertTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -448,8 +448,6 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
 
 

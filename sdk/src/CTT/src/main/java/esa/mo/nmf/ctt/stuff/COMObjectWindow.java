@@ -590,7 +590,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     }//GEN-LAST:event_objectBodyButtonActionPerformed
 
     private void relatedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedButtonActionPerformed
-
         COMObject comObjectInfo = HelperCOM.objType2COMObject(comObject.getObjectType());
 
         ArchivePersistenceObject relatedCOMObject = HelperArchive.getArchiveCOMObject(

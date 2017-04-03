@@ -238,7 +238,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             output = this.serviceSMAppsLauncher.getAppsLauncherStub().listApp(idList, new Identifier("*"));
             appsTable.refreshTableWithIds(output.getBodyElement0(), 
-                    serviceSMAppsLauncher.getConnectionDetails().getDomain(), AppsLauncherHelper.APP_OBJECT_TYPE);
+                    serviceSMAppsLauncher.getConnectionDetails().getDomain(), 
+                    AppsLauncherHelper.APP_OBJECT_TYPE);
 
             for (int i = 0; i < output.getBodyElement0().size(); i++) {
                 Long objId = output.getBodyElement0().get(i);

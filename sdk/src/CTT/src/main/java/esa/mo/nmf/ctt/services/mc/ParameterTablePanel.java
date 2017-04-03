@@ -26,6 +26,7 @@ import esa.mo.nmf.ctt.stuff.SharedTablePanel;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 
 /**
@@ -39,7 +40,7 @@ public class ParameterTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(ArchivePersistenceObject comObject) {
+    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
 
         if (comObject == null){
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
@@ -56,12 +57,12 @@ public class ParameterTablePanel extends SharedTablePanel {
         
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
-            pDef.getName(),
+            name.toString(),
             pDef.getDescription(),
             HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()),
             pDef.getRawUnit(),
             pDef.getGenerationEnabled(),
-            pDef.getUpdateInterval().getValue()
+            pDef.getReportInterval().getValue()
         });
 
         comObjects.add(comObject);
@@ -70,7 +71,6 @@ public class ParameterTablePanel extends SharedTablePanel {
     }
 
     public void switchEnabledstatus(boolean status){
-        
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -82,11 +82,9 @@ public class ParameterTablePanel extends SharedTablePanel {
         ((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
         
         semaphore.release();
-        
     }
     
     public void switchEnabledstatusAll(boolean status){
-        
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -100,12 +98,10 @@ public class ParameterTablePanel extends SharedTablePanel {
         }
         
         semaphore.release();
-        
     }
     
     @Override
     public void defineTableContent() {
-    
         String[] tableCol = new String[]{
             "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"};
 
@@ -128,7 +124,6 @@ public class ParameterTablePanel extends SharedTablePanel {
                 };
 
         super.getTable().setModel(tableData);
-
     }
     
 }

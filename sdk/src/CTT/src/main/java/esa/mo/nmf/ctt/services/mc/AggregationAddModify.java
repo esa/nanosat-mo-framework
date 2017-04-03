@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.ctt.services.mc;
 
-import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl_old;
+import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
 import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.Vector;
@@ -31,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
@@ -45,11 +46,11 @@ import org.ccsds.moims.mo.mc.aggregation.structures.ThresholdType;
  */
 public class AggregationAddModify extends javax.swing.JFrame {
 
-    private AggregationConsumerServiceImpl_old aggregationService;
+    private final AggregationConsumerServiceImpl aggregationService;
     private Boolean isAddDef = false;
     private int aggregationDefinitionSelectedIndex = 0;
-    private DefaultTableModel parameterTableData;
-    private DefaultTableModel aggregationTableData;
+    private final DefaultTableModel parameterTableData;
+    private final DefaultTableModel aggregationTableData;
     private DefaultTableModel parameterSetsTableData;
     private String[] parameterSetsTableCol = new String[]{"Parameter", "sampleInterval", "th-type", "th-value"};
 
@@ -58,12 +59,13 @@ public class AggregationAddModify extends javax.swing.JFrame {
      *
      * @param aggregationService
      */
-    public AggregationAddModify(AggregationConsumerServiceImpl_old aggregationService) {
+    public AggregationAddModify(final AggregationConsumerServiceImpl aggregationService, 
+            final DefaultTableModel parameterTableData, final DefaultTableModel aggregationTableData) {
         initComponents();
 
         this.aggregationService = aggregationService;
-        this.aggregationTableData = aggregationService.getAggregationTableData();
-        this.parameterTableData = aggregationService.getParameterConsumer().getParameterTableData();
+        this.aggregationTableData = aggregationTableData;
+        this.parameterTableData = parameterTableData;
 
         // Set window size for the Add and Modify Parameter Definition
         this.setSize(400, 700);
@@ -84,6 +86,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
                 return new Long(parameterTableData.getValueAt(i, 0).toString());
             }
         }
+        
         return null; // Not found (it shouldn't occur...)
     }
 
@@ -91,24 +94,23 @@ public class AggregationAddModify extends javax.swing.JFrame {
     private Long getParameterSetsObjIdFromAggNameAndIndex(String name, int index) {
         for (int i = 0; i < aggregationTableData.getRowCount(); i++) {
             String aggregation = aggregationTableData.getValueAt(i, 1).toString();
+            /*
             if (aggregation.equals(name) && index <= aggregationService.getParameterSetsTableDataAll().get(i).getRowCount()) {
                 return getObjIdFromName(aggregationService.getParameterSetsTableDataAll().get(i).getValueAt(index, 0).toString());
             }
+            */
         }
         return null; // Not found (it shouldn't occur...)
     }
 
-    public AggregationDefinitionDetails makeNewAggregationDefinition(String name, String description, AggregationCategory category, boolean generationEnabled,
-            float updateInterval, boolean filterEnabled, float filteredTimeout, AggregationParameterSetList parameterSets) {
+    public AggregationDefinitionDetails makeNewAggregationDefinition(final String description, 
+            final AggregationCategory category, boolean generationEnabled, float updateInterval, 
+            boolean filterEnabled, float filteredTimeout, AggregationParameterSetList parameterSets) {
         AggregationDefinitionDetails aDef = new AggregationDefinitionDetails();
-
-        aDef.setName(new Identifier(name));
         aDef.setDescription(description);
-        aDef.setCategory(category);
+        aDef.setCategory(new UOctet((short) category.getOrdinal()));
         aDef.setGenerationEnabled(generationEnabled);
-
-        aDef.setUpdateInterval(new Duration(updateInterval));
-
+        aDef.setReportInterval(new Duration(updateInterval));
         aDef.setFilterEnabled(filterEnabled);  // shall not matter, because when we add it it will be false!
         aDef.setFilteredTimeout(new Duration(filteredTimeout));
         aDef.setParameterSets(parameterSets);
@@ -127,12 +129,12 @@ public class AggregationAddModify extends javax.swing.JFrame {
             aggRef.setParameters(longList);
             aggRef.setSampleInterval(new Duration(Float.parseFloat(parameterSetsTableData.getValueAt(i, 1).toString())));
             if (parameterSetsTableData.getValueAt(i, 2).equals("-")) {
-                aggRef.setPeriodicFilter(null);
+                aggRef.setReportFilter(null);
             } else {
                 ThresholdFilter periodicFilter = new ThresholdFilter();
                 periodicFilter.setThresholdType(ThresholdType.fromString(parameterSetsTableData.getValueAt(i, 2).toString()));
                 periodicFilter.setThresholdValue(new Duration(Float.parseFloat(parameterSetsTableData.getValueAt(i, 3).toString())));
-                aggRef.setPeriodicFilter(periodicFilter);
+                aggRef.setReportFilter(periodicFilter);
             }
             aggRefList.add(aggRef);
         }
@@ -161,14 +163,14 @@ public class AggregationAddModify extends javax.swing.JFrame {
         filterEnabledCB.setSelected(curState);
 
         parameterSetsTableData = new DefaultTableModel();
+        /*
         parameterSetsTableData.setDataVector(aggregationService.getParameterSetsTableDataAll().get(aggregationDefinitionSelectedIndex).getDataVector(),
                 new Vector<String>(Arrays.asList(parameterSetsTableCol)));
         parameterSetsTable.setModel(parameterSetsTableData);
-
+        */
+        
         refreshParametersComboBox();
-
         isAddDef = false;
-
     }
 
     public void setAddParameterForm() {
@@ -193,16 +195,15 @@ public class AggregationAddModify extends javax.swing.JFrame {
         refreshParametersComboBox();
         isAddDef = true;
     }
-    
+
     @SuppressWarnings("unchecked")
-    private void refreshParametersComboBox(){
+    private void refreshParametersComboBox() {
         parameterCB.removeAllItems();
-        for (int i = 0; i < parameterTableData.getRowCount(); i++ ){
+        for (int i = 0; i < parameterTableData.getRowCount(); i++) {
             parameterCB.addItem(parameterTableData.getValueAt(i, 1));
         }
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -515,7 +516,6 @@ public class AggregationAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_thresholdValueTBActionPerformed
 
     private void aggregateParameterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggregateParameterButtonActionPerformed
-
         if (sampleIntervalTB.getText().equals("")
                 || parameterCB.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!", JOptionPane.PLAIN_MESSAGE);
@@ -552,14 +552,12 @@ public class AggregationAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_aggregateParameterButtonActionPerformed
 
     private void removeParameterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeParameterActionPerformed
-        if (parameterSetsTable.getSelectedRow() != -1) // Did we select a parameter?
-        {
+        if (parameterSetsTable.getSelectedRow() != -1) { // Did we select a parameter?
             parameterSetsTableData.removeRow(parameterSetsTable.getSelectedRow());
         }
     }//GEN-LAST:event_removeParameterActionPerformed
 
     private void submitButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButton1ActionPerformed
-
         if (nameTF.getText().equals("")
                 || descriptionTF.getText().equals("")
                 || categoryCB.getSelectedIndex() == 0
@@ -579,7 +577,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         }
 
         AggregationDefinitionDetails aDef;
-        aDef = makeNewAggregationDefinition(nameTF.getText(),
+        aDef = makeNewAggregationDefinition(
                 descriptionTF.getText(),
                 AggregationCategory.fromOrdinal(categoryCB.getSelectedIndex()),
                 generationEnabledCB.isSelected(),
@@ -592,6 +590,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         aDefs.add(aDef);
         this.setVisible(false);
 
+        /*
         if (isAddDef) {  // Are we adding a new definition?
             Logger.getLogger(AggregationAddModify.class.getName()).log(Level.INFO, null, "addDefinition started (Aggregation)");
             LongList output = aggregationService.addDefinition(aDefs);
@@ -621,8 +620,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
             aggregationService.getParameterSetsTableDataAll().set(aggregationDefinitionSelectedIndex, tmp);
             Logger.getLogger(AggregationAddModify.class.getName()).log(Level.INFO, null, "updateDefinition executed (Aggregation)");
         }
-
-//        this.save2File();
+        */
     }//GEN-LAST:event_submitButton1ActionPerformed
 
 
