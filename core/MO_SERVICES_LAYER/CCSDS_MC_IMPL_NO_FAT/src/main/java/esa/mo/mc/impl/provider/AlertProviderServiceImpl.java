@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -155,7 +156,6 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     @Override
     public void enableGeneration(Boolean isGroupIds, InstanceBooleanPairList enableInstances,
             MALInteraction interaction) throws MALInteractionException, MALException {
-
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         InstanceBooleanPair enableInstance;
@@ -345,6 +345,10 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                     source, connection.getConnectionDetails())); //  requirement: 3.4.10.2.f
         }
 
+        if (configurationAdapter != null){
+            configurationAdapter.configurationChanged(this);
+        }
+
         return outPairLst; // requirement: 3.4.10.2.g
     }
 
@@ -392,6 +396,10 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                     source, connection.getConnectionDetails())); //requirement: 3.4.11.2.h Change in the manager/archive
         }
 
+        if (configurationAdapter != null){
+            configurationAdapter.configurationChanged(this);
+        }
+
         return outLst; //requirement: 3.4.11.2.i
     }
 
@@ -432,6 +440,9 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             manager.delete(removalId);  // COM archive is left untouched. requirement: 3.4.12.2.d
         }
 
+        if (configurationAdapter != null){
+            configurationAdapter.configurationChanged(this);
+        }
     }
 
     /**
@@ -584,41 +595,61 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             return false;
         }
 
-        // Is the size 1?
-        if (configurationObjectDetails.getConfigObjects().size() != 1) {  // 1 because we just have ParameterDefinitions as configuration objects in this service
+        // Is the size 2?
+        if (configurationObjectDetails.getConfigObjects().size() != 2) {
             return false;
         }
 
-        ConfigurationObjectSet confSet = configurationObjectDetails.getConfigObjects().get(0);
+        ConfigurationObjectSet confSet0 = configurationObjectDetails.getConfigObjects().get(0);
+        ConfigurationObjectSet confSet1 = configurationObjectDetails.getConfigObjects().get(1);
 
-        // Confirm the objType
-        if (!confSet.getObjType().equals(AlertHelper.ALERTDEFINITION_OBJECT_TYPE)) {
+        // Confirm the objTypes
+        if (!confSet0.getObjType().equals(AlertHelper.ALERTDEFINITION_OBJECT_TYPE) &&
+                !confSet1.getObjType().equals(AlertHelper.ALERTDEFINITION_OBJECT_TYPE)) {
+            return false;
+        }
+
+        if (!confSet0.getObjType().equals(AlertHelper.ALERTIDENTITY_OBJECT_TYPE) &&
+                !confSet1.getObjType().equals(AlertHelper.ALERTIDENTITY_OBJECT_TYPE)) {
             return false;
         }
 
         // Confirm the domain
-        if (!confSet.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
+        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain()) ||
+                !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
         // If the list is empty, reconfigure the service with nothing...
-        if(confSet.getObjInstIds().isEmpty()){
-//            manager.reconfigureDefinitions(new LongList(), new AlertDefinitionDetailsList());   // Reconfigures the Manager
+        if(confSet0.getObjInstIds().isEmpty() && confSet1.getObjInstIds().isEmpty()){
+            manager.reconfigureDefinitions(new LongList(), new IdentifierList(), 
+                    new LongList(), new AlertDefinitionDetailsList());   // Reconfigures the Manager
+
             return true;
         }
 
         // ok, we're good to go...
         // Load the Parameter Definitions from this configuration...
+        ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(AlertHelper.ALERTDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
+        
         AlertDefinitionDetailsList pDefs = (AlertDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 AlertHelper.ALERTDEFINITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
-                confSet.getObjInstIds());
+                confSetDefs.getObjInstIds());
 
-//        manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
+        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(AlertHelper.ALERTIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
+        
+        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
+                manager.getArchiveService(),
+                AlertHelper.ALERTIDENTITY_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                confSetIdents.getObjInstIds());
+        
+            manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, 
+                    confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
         return true;
-
     }
 
     @Override
@@ -637,9 +668,13 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 //        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
 //        list.add(objsSet);
 
+        ConfigurationObjectSetList list = manager.getCurrentConfiguration();
+        list.get(0).setObjType(AlertHelper.ALERTIDENTITY_OBJECT_TYPE);
+        list.get(1).setObjType(AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
+        
         // Needs the Common API here!
         ConfigurationObjectDetails set = new ConfigurationObjectDetails();
-//        set.setConfigObjects(list);
+        set.setConfigObjects(list);
 
         return set;
     }

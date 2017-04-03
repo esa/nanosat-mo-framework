@@ -149,7 +149,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
     }
 
     @Override
-    public void setConfigurationAdapter(esa.mo.reconfigurable.service.ConfigurationNotificationInterface configurationAdapter) {
+    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
     
@@ -520,7 +520,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
                 ConfigurationProviderSingleton.getDomain(),
                 confSetDefs.getObjInstIds());
 
-        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
+        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
         
         IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
@@ -528,7 +528,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
                 ConfigurationProviderSingleton.getDomain(),
                 confSetIdents.getObjInstIds());
         
-//        manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
             manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, 
                     confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
@@ -567,6 +566,5 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
     public COMService getCOMService() {
         return ActionHelper.ACTION_SERVICE;
     }
-
 
 }

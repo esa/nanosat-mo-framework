@@ -98,7 +98,6 @@ public class MOelementList extends MOelement{
         }
 
         super.middlePanel.add(buttonRemove);
-        
 
         if (objIsNull){
             super.makeFieldNull();
@@ -109,7 +108,6 @@ public class MOelementList extends MOelement{
 
     @Override
     public Object getObject() {
-        
         if (nullCB.isSelected()){
             return null;
         }else{
@@ -117,7 +115,6 @@ public class MOelementList extends MOelement{
             boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(this.object.getClass().getSimpleName()) != null);
             return (isAttribute) ? HelperAttributes.string2attribute(this.object, this.fieldValue.getText()) : HelperAttributes.attribute2JavaType(this.object);
         }
-        
     }
     
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {                                       

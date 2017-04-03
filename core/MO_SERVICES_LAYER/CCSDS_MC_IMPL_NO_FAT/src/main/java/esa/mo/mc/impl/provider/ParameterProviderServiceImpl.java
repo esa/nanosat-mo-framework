@@ -21,6 +21,7 @@
 package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
+import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
@@ -43,6 +44,8 @@ import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
+import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -107,6 +110,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private final ConnectionProvider connection = new ConnectionProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
     private EventConsumerServiceImpl eventServiceConsumer;
+    private ConfigurationNotificationInterface configurationAdapter;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -307,7 +311,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 periodicReportingManager.refresh(objIdToBeEnabled.get(index));
             }
         }
-
+        
+        if (configurationAdapter != null){
+            configurationAdapter.configurationChanged(this);
+        }
     }
 
     @Override
@@ -448,7 +455,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     @Override
     public ObjectInstancePairList addParameter(final ParameterCreationRequestList paramCreationReqList,
             final MALInteraction interaction) throws MALException, MALInteractionException {
-
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
@@ -506,7 +512,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             // Refresh the Periodic Reporting Manager for the added Definitions
             periodicReportingManager.refresh(newParamIds.getObjIdentityInstanceId());
         }
-
+        
+        if (configurationAdapter != null){
+            configurationAdapter.configurationChanged(this);
+        }
+        
         return outPairLst; // requirement: 3.3.12.2.h
     }
 
@@ -561,6 +571,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             newDefIds.add(manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index), source, connection.getConnectionDetails()));  // Change in the manager, requirement 3.3.13.2.d, g
             periodicReportingManager.refresh(paramIdentityInstIds.get(index));// then, refresh the Periodic updates
         }
+        
+        if (configurationAdapter != null){
+            configurationAdapter.configurationChanged(this);
+        }
 
         //requirement: 3.3.13.2.j
         return newDefIds;
@@ -606,27 +620,101 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             //requirement: 3.3.14.2.g: dont publish anymore values 
             periodicReportingManager.refresh(removalId);
         }
-
+        
+        if (configurationAdapter != null){
+            configurationAdapter.configurationChanged(this);
+        }
     }
 
     @Override
     public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.configurationAdapter = configurationAdapter;
     }
 
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Validate the returned configuration...
+        if (configurationObjectDetails == null) {
+            return false;
+        }
+
+        if (configurationObjectDetails.getConfigObjects() == null) {
+            return false;
+        }
+
+        // Is the size 2?
+        if (configurationObjectDetails.getConfigObjects().size() != 2) {
+            return false;
+        }
+
+        ConfigurationObjectSet confSet0 = configurationObjectDetails.getConfigObjects().get(0);
+        ConfigurationObjectSet confSet1 = configurationObjectDetails.getConfigObjects().get(1);
+
+        // Confirm the objTypes
+        if (!confSet0.getObjType().equals(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE)
+                && !confSet1.getObjType().equals(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE)) {
+            return false;
+        }
+
+        if (!confSet0.getObjType().equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)
+                && !confSet1.getObjType().equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)) {
+            return false;
+        }
+
+        // Confirm the domain
+        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain())
+                || !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
+            return false;
+        }
+
+        // If the list is empty, reconfigure the service with nothing...
+        if (confSet0.getObjInstIds().isEmpty() && confSet1.getObjInstIds().isEmpty()) {
+            manager.reconfigureDefinitions(new LongList(), new IdentifierList(),
+                    new LongList(), new ParameterDefinitionDetailsList());   // Reconfigures the Manager
+
+            return true;
+        }
+
+        // ok, we're good to go...
+        // Load the Parameter Definitions from this configuration...
+        ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
+
+        ParameterDefinitionDetailsList pDefs = (ParameterDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
+                manager.getArchiveService(),
+                ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                confSetDefs.getObjInstIds());
+
+        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
+
+        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
+                manager.getArchiveService(),
+                ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                confSetIdents.getObjInstIds());
+
+        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
+                confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
+
+        return true;
     }
 
     @Override
     public ConfigurationObjectDetails getCurrentConfiguration() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ConfigurationObjectSetList list = manager.getCurrentConfiguration();
+        list.get(0).setObjType(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE);
+        list.get(1).setObjType(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE);
+
+        // Needs the Common API here!
+        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
+        set.setConfigObjects(list);
+
+        return set;
     }
 
     @Override
     public COMService getCOMService() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ParameterHelper.PARAMETER_SERVICE;
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
