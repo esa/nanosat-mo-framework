@@ -224,7 +224,6 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionButtonActionPerformed
-
         IdentifierList actionNames = new IdentifierList();
         MOWindow actionNamesWindow = new MOWindow(actionNames, true);
 
@@ -239,17 +238,15 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             String str = "Object instance identifiers on the provider: \n";
             for (ObjectInstancePair objId : objIds) {
                     str += "ObjId Def: " + objId.getObjDefInstanceId().toString() 
-                            + "Identity: " + objId.getObjIdentityInstanceId().toString() + "\n";
+                            + " Identity: " + objId.getObjIdentityInstanceId().toString() + "\n";
             }
 
             JOptionPane.showMessageDialog(null, str, "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
-
         } catch (MALInteractionException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed

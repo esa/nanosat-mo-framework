@@ -297,7 +297,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             String str = "Object instance identifiers on the provider: \n";
             for (ObjectInstancePair objId : objIds) {
                 str += "ObjId Def: " + objId.getObjDefInstanceId().toString()
-                        + "Identity: " + objId.getObjIdentityInstanceId().toString() + "\n";
+                        + " Identity: " + objId.getObjIdentityInstanceId().toString() + "\n";
             }
 
             JOptionPane.showMessageDialog(null, str, "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);

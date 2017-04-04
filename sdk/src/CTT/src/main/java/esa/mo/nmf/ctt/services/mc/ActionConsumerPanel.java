@@ -311,7 +311,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             if (objIds != null){
                 for (ObjectInstancePair objId : objIds) {
                     str += "ObjId Def: " + objId.getObjDefInstanceId().toString() 
-                            + "Identity: " + objId.getObjIdentityInstanceId().toString() + "\n";
+                            + " Identity: " + objId.getObjIdentityInstanceId().toString() + "\n";
                 }
             }
 

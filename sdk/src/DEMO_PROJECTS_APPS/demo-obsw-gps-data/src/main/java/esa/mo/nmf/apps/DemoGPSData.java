@@ -167,7 +167,7 @@ public class DemoGPSData {
 
             // Create the Aggregation GPS
             AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
-                    "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
+                    "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude, GPS.NumberOfSatellitesInView.",
                     new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
                     new Duration(10),
                     true,
