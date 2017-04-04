@@ -41,7 +41,6 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
@@ -50,9 +49,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
@@ -61,8 +58,8 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class ParameterConsumerPanel extends javax.swing.JPanel {
 
-    private ParameterConsumerServiceImpl serviceMCParameter;
-    private ParameterTablePanel parameterTable;
+    private final ParameterConsumerServiceImpl serviceMCParameter;
+    private final ParameterTablePanel parameterTable;
 
     /**
      *
@@ -444,9 +441,8 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
         
-        Long objId = parameterTable.getSelectedCOMObject().getArchiveDetails().getInstId();
         LongList longlist = new LongList();
-        longlist.add(objId);
+        longlist.add(parameterTable.getSelectedIdentityObjId());
 
         ParameterValueDetailsList values;
         try {
@@ -483,10 +479,8 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Long objId = parameterTable.getSelectedCOMObject().getArchiveDetails().getInstId();
-
         ParameterRawValue newValue = new ParameterRawValue();
-        newValue.setParamInstId(objId);
+        newValue.setParamInstId(parameterTable.getSelectedIdentityObjId());
         
         MOWindow window = new MOWindow(newValue, true);
         try {

@@ -50,19 +50,10 @@ public class DemoHelloWorld {
     private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapterSimple());
     private static final String PARAMETER_HELLO = "A_Parameter";
     private String str = "Hello World!";
-//    public final COMServicesProvider comServices = new COMServicesProvider();
 
     public DemoHelloWorld() {
-
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        /*
-        try {
-            this.comServices.init();
-        } catch (MALException ex) {
-            Logger.getLogger(DemoHelloWorld.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
     }
 
     /**
@@ -119,13 +110,36 @@ public class DemoHelloWorld {
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
+                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
             return null;  // Action service not integrated
         }
 
     }
 
     public class MCAdapterSimple extends SimpleMonitorAndControlAdapter {
+
+        @Override
+        public void initialRegistrations(MCRegistration registrationObject) {
+            registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
+
+            // ------------------ Parameters ------------------
+            final ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+            final IdentifierList names = new IdentifierList();
+
+            defsOther.add(new ParameterDefinitionDetails(
+                    "My first parameter!",
+                    Union.STRING_SHORT_FORM.byteValue(),
+                    "",
+                    false,
+                    new Duration(3),
+                    null,
+                    null
+            ));
+            names.add(new Identifier(PARAMETER_HELLO));
+
+            registrationObject.registerParameters(names, defsOther);
+        }
 
         @Override
         public boolean actionArrivedSimple(String name, Serializable[] values, Long actionInstanceObjId) {

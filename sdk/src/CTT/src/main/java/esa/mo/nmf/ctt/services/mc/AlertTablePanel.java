@@ -54,7 +54,7 @@ public class AlertTablePanel extends SharedTablePanel {
         AlertDefinitionDetails pDef = (AlertDefinitionDetails) comObject.getObject();
         
         tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
+            comObject.getArchiveDetails().getDetails().getRelated(),
             name.toString(),
             pDef.getDescription(),
             pDef.getSeverity().toString(),
@@ -102,7 +102,7 @@ public class AlertTablePanel extends SharedTablePanel {
     public void defineTableContent() {
     
         String[] tableCol = new String[]{
-            "Obj Inst Id", "name", "description", "Severity", "generationEnabled" };
+            "Identity", "name", "description", "Severity", "generationEnabled" };
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {

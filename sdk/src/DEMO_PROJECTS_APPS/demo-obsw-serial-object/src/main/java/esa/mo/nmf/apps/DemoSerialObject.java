@@ -20,11 +20,18 @@
  */
 package esa.mo.nmf.apps;
 
+import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.io.Serializable;
+import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 
 /**
@@ -34,6 +41,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValue;
 public class DemoSerialObject {
 
     private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapter());
+    private final static String PARAMETER = "MyParameter";
 
     public DemoSerialObject() {
     }
@@ -49,6 +57,28 @@ public class DemoSerialObject {
     }
 
     public class MCAdapter extends SimpleMonitorAndControlAdapter {
+
+        @Override
+        public void initialRegistrations(MCRegistration registrationObject) {
+            registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
+
+            // ------------------ Parameters ------------------
+            final ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+            final IdentifierList names = new IdentifierList();
+
+            defsOther.add(new ParameterDefinitionDetails(
+                    "A single parameter.",
+                    Union.STRING_SHORT_FORM.byteValue(),
+                    "",
+                    true,
+                    new Duration(0),
+                    null,
+                    null
+            ));
+            names.add(new Identifier(PARAMETER));
+
+            registrationObject.registerParameters(names, defsOther);
+        }
 
         @Override
         public boolean actionArrivedSimple(String name, Serializable[] srlzbls, Long l) {

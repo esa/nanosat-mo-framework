@@ -41,7 +41,8 @@ public class AggregationTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, 
+                    "The table cannot process a null COM Object.");
             return;
         }
 
@@ -54,7 +55,7 @@ public class AggregationTablePanel extends SharedTablePanel {
         AggregationDefinitionDetails pDef = (AggregationDefinitionDetails) comObject.getObject();
         
         tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
+            comObject.getArchiveDetails().getDetails().getRelated(),
             name.toString(),
             pDef.getDescription(),
             pDef.getCategory().toString(),
@@ -143,7 +144,7 @@ public class AggregationTablePanel extends SharedTablePanel {
     public void defineTableContent() {
     
         String[] tableCol = new String[]{
-            "Obj Inst Id", "name", "description", "category", "generationEnabled", "updateInterval", "filterEnabled" };
+            "Identity", "name", "description", "category", "generationEnabled", "updateInterval", "filterEnabled" };
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {

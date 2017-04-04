@@ -56,7 +56,7 @@ public class ParameterTablePanel extends SharedTablePanel {
         ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) comObject.getObject();
         
         tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
+            comObject.getArchiveDetails().getDetails().getRelated(),
             name.toString(),
             pDef.getDescription(),
             HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()),
@@ -103,7 +103,7 @@ public class ParameterTablePanel extends SharedTablePanel {
     @Override
     public void defineTableContent() {
         String[] tableCol = new String[]{
-            "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"};
+            "Identity", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"};
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {
