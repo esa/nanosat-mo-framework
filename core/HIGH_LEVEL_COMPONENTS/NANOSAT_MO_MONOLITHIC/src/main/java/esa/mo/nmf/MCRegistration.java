@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
@@ -112,23 +113,56 @@ public class MCRegistration {
      * objects.
      */
     public LongList registerParameters(final IdentifierList names, final ParameterDefinitionDetailsList definitions) {
-        try {
-            ObjectInstancePairList objIds = parameterService.listDefinition(names, null);
-            ParameterCreationRequestList newDefs = new ParameterCreationRequestList();
-            ParameterDefinitionDetailsList duplicateDefs = new ParameterDefinitionDetailsList();
-            LongList duplicateObjIds = new LongList();
+        // Some validation
+        if(names == null || definitions == null){
+            return null;
+        }
 
-            for (int i = 0; i < objIds.size(); i++) { // Which ones already exist?
-                if (objIds.get(i) == null) {
-                    newDefs.add(new ParameterCreationRequest(names.get(i), definitions.get(i)));
-                } else {
-                    duplicateDefs.add(definitions.get(i));
-                    duplicateObjIds.add(objIds.get(i).getObjIdentityInstanceId());
+        if(names.isEmpty() || definitions.isEmpty()){
+            return null;
+        }
+        
+        try {
+            ObjectInstancePairList duplicateIds = new ObjectInstancePairList();
+            ParameterDefinitionDetailsList duplicateDefs = new ParameterDefinitionDetailsList();
+            duplicateDefs.addAll(definitions);
+            
+            try {
+                duplicateIds = parameterService.listDefinition(names, null);
+            } catch (MALException ex1) {
+                Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+            } catch (MALInteractionException ex1) {
+                // There are some new ones!
+                final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
+
+                //-------------New Definitions-------------
+                ParameterCreationRequestList newDefs = new ParameterCreationRequestList();
+                
+                for (int i = 0; i < extraInfo.size(); i++) { // Which ones already exist?
+                    int index = (short) extraInfo.get(i).getValue();
+                    newDefs.add(new ParameterCreationRequest(names.get(index), definitions.get(index)));
                 }
+
+                parameterService.addParameter(newDefs, null);
+
+                //-------------Duplicate Definitions-------------
+                IdentifierList requestAgain = new IdentifierList();
+                requestAgain.addAll(names);
+                
+                for(int i = extraInfo.size() - 1; i >= 0; i--){
+                    requestAgain.remove((int) extraInfo.get(i).getValue());
+                    duplicateDefs.remove((int) extraInfo.get(i).getValue());
+                }
+                
+                duplicateIds = parameterService.listDefinition(requestAgain, null);
             }
             
-            parameterService.addParameter(newDefs, null);
-
+            LongList duplicateObjIds = new LongList();
+            
+            for(int j = 0 ; j < duplicateIds.size(); j++){
+                duplicateObjIds.add(duplicateIds.get(j).getObjIdentityInstanceId());
+            }
+            
             if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
                 parameterService.updateDefinition(duplicateObjIds, duplicateDefs, null);
             }
@@ -161,6 +195,77 @@ public class MCRegistration {
      * objects.
      */
     public LongList registerAggregations(final IdentifierList names, final AggregationDefinitionDetailsList definitions) {
+        // Some validation
+        if(names == null || definitions == null){
+            return null;
+        }
+
+        if(names.isEmpty() || definitions.isEmpty()){
+            return null;
+        }
+
+        try {
+            ObjectInstancePairList duplicateIds = new ObjectInstancePairList();
+            AggregationDefinitionDetailsList duplicateDefs = new AggregationDefinitionDetailsList();
+            duplicateDefs.addAll(definitions);
+            
+            try {
+                duplicateIds = aggregationService.listDefinition(names, null);
+            } catch (MALException ex1) {
+                Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+            } catch (MALInteractionException ex1) {
+                // There are some new ones!
+                final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
+
+                //-------------New Definitions-------------
+                AggregationCreationRequestList newDefs = new AggregationCreationRequestList();
+                
+                for (int i = 0; i < extraInfo.size(); i++) { // Which ones already exist?
+                    int index = (short) extraInfo.get(i).getValue();
+                    newDefs.add(new AggregationCreationRequest(names.get(index), definitions.get(index)));
+                }
+
+                aggregationService.addAggregation(newDefs, null);
+
+                //-------------Duplicate Definitions-------------
+                IdentifierList requestAgain = new IdentifierList();
+                requestAgain.addAll(names);
+                
+                for(int i = extraInfo.size() - 1; i >= 0; i--){
+                    requestAgain.remove((int) extraInfo.get(i).getValue());
+                    duplicateDefs.remove((int) extraInfo.get(i).getValue());
+                }
+                
+                duplicateIds = aggregationService.listDefinition(requestAgain, null);
+            }
+            
+            LongList duplicateObjIds = new LongList();
+            
+            for(int j = 0 ; j < duplicateIds.size(); j++){
+                duplicateObjIds.add(duplicateIds.get(j).getObjIdentityInstanceId());
+            }
+            
+            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
+                aggregationService.updateDefinition(duplicateObjIds, duplicateDefs, null);
+            }
+
+            final ObjectInstancePairList newInstPairs = aggregationService.listDefinition(names, null);
+            final LongList outs = new LongList(newInstPairs.size());
+            
+            for(ObjectInstancePair newInstPair : newInstPairs){
+                outs.add(newInstPair.getObjIdentityInstanceId());
+            }
+            
+            return outs;
+        } catch (MALException ex1) {
+            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+        } catch (MALInteractionException ex1) {
+            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+
+        return null;
+        
+/*        
         try {
             ObjectInstancePairList objIds = aggregationService.listDefinition(names, null);
             AggregationCreationRequestList newDefs = new AggregationCreationRequestList();
@@ -197,6 +302,7 @@ public class MCRegistration {
         }
 
         return null;
+*/        
     }
 
     /**
@@ -210,6 +316,15 @@ public class MCRegistration {
      * objects.
      */
     public LongList registerAlerts(final IdentifierList names, final AlertDefinitionDetailsList definitions) {
+        // Some validation
+        if(names == null || definitions == null){
+            return null;
+        }
+
+        if(names.isEmpty() || definitions.isEmpty()){
+            return null;
+        }
+        
         try {
             ObjectInstancePairList objIds = alertService.listDefinition(names, null);
             AlertCreationRequestList newDefs = new AlertCreationRequestList();
@@ -259,6 +374,15 @@ public class MCRegistration {
      * objects.
      */
     public LongList registerActions(final IdentifierList names, final ActionDefinitionDetailsList definitions) {
+        // Some validation
+        if(names == null || definitions == null){
+            return null;
+        }
+
+        if(names.isEmpty() || definitions.isEmpty()){
+            return null;
+        }
+        
         try {
             ObjectInstancePairList objIds = actionService.listDefinition(names, null);
             ActionCreationRequestList newDefs = new ActionCreationRequestList();

@@ -272,7 +272,8 @@ public class ArchiveManager {
             // If there are no objects in the list, inject null...
             final Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
-            final COMObjectEntity perObjEntity = new COMObjectEntity(objTypeId,
+            final COMObjectEntity perObjEntity = new COMObjectEntity(
+                    objTypeId,
                     domainId,
                     objId,
                     lArchiveDetails.get(i).getTimestamp().getValue(),
@@ -286,17 +287,6 @@ public class ArchiveManager {
             objIds.add(objId);
         }
 
-        /*
-        Thread publishEvents = new Thread() {
-            @Override
-            public void run() {
-                // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, 
-                        ArchiveManager.generateSources(objType, domain, objIds), 
-                        interaction);
-            }
-        };
-         */
         final Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE,
                 objType, domain, objIds, interaction);
 
@@ -322,7 +312,8 @@ public class ArchiveManager {
 
             SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(lArchiveDetails.get(i).getDetails().getSource());
 
-            final COMObjectEntity newObj = new COMObjectEntity(objTypeId,
+            final COMObjectEntity newObj = new COMObjectEntity(
+                    objTypeId,
                     domainId,
                     lArchiveDetails.get(i).getInstId(),
                     lArchiveDetails.get(i).getTimestamp().getValue(),
@@ -336,17 +327,6 @@ public class ArchiveManager {
             objIds.add(lArchiveDetails.get(i).getInstId());
         }
 
-        /*
-        Thread publishEvents = new Thread() {
-            @Override
-            public void run() {
-                // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, 
-                        ArchiveManager.generateSources(objType, domain, objIds), 
-                        interaction);
-            }
-        };
-         */
         Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE,
                 objType, domain, objIds, interaction);
 
@@ -426,7 +406,7 @@ public class ArchiveManager {
         }
 
         // Convert to ArchivePersistenceObject
-        ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>();
+        ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>(perObjs.size());
         IdentifierList domain;
 
         for (COMObjectEntity perObj : perObjs) {

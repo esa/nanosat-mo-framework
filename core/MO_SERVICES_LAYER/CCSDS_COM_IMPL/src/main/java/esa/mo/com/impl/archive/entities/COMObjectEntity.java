@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 
 /**
+ * The entity class that holds COM objects in the database.
  *
  * @author Cesar Coelho
  */
@@ -91,12 +92,13 @@ public class COMObjectEntity implements Serializable {
     // ---------------------    
 
     /**
-     * Exists because Eclipse Link needs the constructor without parameters 
+     * Exists because Eclipse Link needs the constructor without parameters
      */
     protected COMObjectEntity() {
     }
 
-    public COMObjectEntity(Integer objectTypeId,
+    public COMObjectEntity(
+            Integer objectTypeId,
             Integer domain,
             Long objId,
             Long timestampArchiveDetails,
@@ -105,7 +107,6 @@ public class COMObjectEntity implements Serializable {
             SourceLinkContainer sourceLink,
             Long relatedLink,
             Object object) {
-
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;

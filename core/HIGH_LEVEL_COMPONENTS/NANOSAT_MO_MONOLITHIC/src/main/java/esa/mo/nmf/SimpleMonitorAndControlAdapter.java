@@ -47,11 +47,6 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
 
     @Override
-    public void initialRegistrations(MCRegistration registrationObject) {
-        // To be overwritten
-    }
-
-    @Override
     public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, 
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         Serializable[] values = new Serializable[attributeValues.size()];

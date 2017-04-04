@@ -414,11 +414,13 @@ public class ParameterManager extends DefinitionsManager {
         final Long expPIdentityId = validityExpression.getParameterId().getInstId();
         final Attribute expParamValue = parametersMonitoring.onGetValue(super.getName(expPIdentityId), null);
         final ParameterDefinitionDetails expPDef = getParameterDefinition(expPIdentityId);
-        final UOctet expPValState = generateValidityState(this.getParameterDefinition(expPIdentityId), expParamValue, getConvertedValue(expParamValue, expPDef), aggrExpired);
+        final UOctet expPValState = generateValidityState(this.getParameterDefinition(expPIdentityId), 
+                expParamValue, getConvertedValue(expParamValue, expPDef), aggrExpired);
         return expPValState;
     }
 
-    protected ObjectInstancePair add(Identifier name, ParameterDefinitionDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    protected ObjectInstancePair add(Identifier name, ParameterDefinitionDetails definition, 
+            ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair;
         
         if (super.getArchiveService() == null) {
@@ -426,7 +428,6 @@ public class ParameterManager extends DefinitionsManager {
             uniqueObjIdIdentity++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             newIdPair = new ObjectInstancePair(uniqueObjIdIdentity, uniqueObjIdDef);
-
         } else {
             try {
                 //requirement: 3.3.12.2.f: if a ParameterName ever existed before, use the old ParameterIdentity-Object by retrieving it from the archive
@@ -487,7 +488,8 @@ public class ParameterManager extends DefinitionsManager {
      * @param connectionDetails the given connectionDetails
      * @return the object instance identifier of the new parameter-definition
      */
-    protected Long update(Long identityId, ParameterDefinitionDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
+    protected Long update(Long identityId, ParameterDefinitionDetails definition, 
+            ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
         Long newDefId = null;
 
         if (super.getArchiveService() == null) { //only update locally
@@ -637,11 +639,13 @@ public class ParameterManager extends DefinitionsManager {
      * will be expired.
      * @return a filled ParameterValue
      */
-    private ParameterValue generateNewParameterValue(Attribute rawValue, ParameterDefinitionDetails pDef, boolean aggrExpired) {
+    private ParameterValue generateNewParameterValue(Attribute rawValue, 
+            ParameterDefinitionDetails pDef, boolean aggrExpired) {
         ParameterValue newPValue;
 
         //requirement: 3.3.3.q, 3.3.3.r         
-        //if implementation specific machanisms or deployment specific values should be used for evaluating the validity-state, use these, otherwise use the standard ones.
+        // if implementation specific machanisms or deployment specific values should be used 
+        // for evaluating the validity-state, use these, otherwise use the standard ones.
         newPValue = parametersMonitoring.getValueWithCustomValidityState(rawValue, pDef);
         if (newPValue != null) {
             return newPValue;

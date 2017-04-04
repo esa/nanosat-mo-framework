@@ -167,12 +167,12 @@ public class PersistProviderConfiguration {
          */
         this.reloadServiceConfigurations(reconfigurableServices, objIds);
 
-        Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE,
+        Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.FINER,
                     "The size of the objIds list is: " + objIds.size()
                     + " and the size of the reconfigurableServices is: " + reconfigurableServices.size());
 
         for (int i = 0; i < objIds.size(); i++) {
-            ReconfigurableServiceImplInterface providerService = reconfigurableServices.get(i);
+            final ReconfigurableServiceImplInterface providerService = reconfigurableServices.get(i);
             final PersistLatestServiceConfigurationAdapter persistLatestConfig
                     = new PersistLatestServiceConfigurationAdapter(providerService, objIds.get(i), this.archiveService);
             providerService.setConfigurationAdapter(persistLatestConfig);
@@ -180,6 +180,7 @@ public class PersistProviderConfiguration {
 
     }
 
+    /*
     private void reloadServiceConfiguration(final ReconfigurableServiceImplInterface service,
             final Long serviceObjId) throws IOException {
         // Retrieve the COM object of the service
@@ -208,6 +209,7 @@ public class PersistProviderConfiguration {
         // Reload the previous Configuration
         service.reloadConfiguration(configurationObjectDetails);
     }
+    */
 
     private void reloadServiceConfigurations(final ArrayList<ReconfigurableServiceImplInterface> services,
             final LongList objIds) throws IOException {

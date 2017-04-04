@@ -24,12 +24,10 @@ import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
 /**
@@ -49,14 +47,12 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
     @Override
     public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinitionDetails pDef) {
-        // No idea what this is...
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null; // Return null to work normally...
     }
 
     @Override
     public boolean isReadOnly(Identifier name) {
-        // We'll see about this one...
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false; // Force read and write to ALL
     }
     
 }

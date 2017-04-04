@@ -48,7 +48,6 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
@@ -436,24 +435,33 @@ public abstract class DefinitionsManager {
      * identifiers.
      */
     public synchronized ConfigurationObjectSetList getCurrentConfiguration() {
-/*
-        LongList currentObjIds0 = new LongList();
-        currentObjIds0.addAll(defObjs.keySet());
+        Set<Identity> ids = identityDefinitions.keySet();
+        Collection<Definition> defs = identityDefinitions.values();
+        
+        LongList idObjIds = new LongList();
+        LongList defObjIds = new LongList();
+        
+        for(Identity id : ids){
+            idObjIds.add(id.getId());
+        }
+
+        for(Definition def : defs){
+            defObjIds.add(def.getId());
+        }
+
         ConfigurationObjectSet idents = new ConfigurationObjectSet();
         idents.setDomain(ConfigurationProviderSingleton.getDomain());
-        idents.setObjInstIds(currentObjIds0);
-//        idents.setObjType(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE);
+        idents.setObjInstIds(idObjIds);
 
         LongList currentObjIds1 = new LongList();
-        currentObjIds1.addAll(defObjs.keySet());
-        ConfigurationObjectSet defs = new ConfigurationObjectSet();
-        defs.setDomain(ConfigurationProviderSingleton.getDomain());
-        defs.setObjInstIds(currentObjIds1);
-//        defs.setObjType(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
-  */      
+        currentObjIds1.addAll(defObjIds);
+        ConfigurationObjectSet defis = new ConfigurationObjectSet();
+        defis.setDomain(ConfigurationProviderSingleton.getDomain());
+        defis.setObjInstIds(currentObjIds1);
+      
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();
-//        list.add(idents);
-//        list.add(defs);
+        list.add(idents);
+        list.add(defis);
         
         return list;
     }

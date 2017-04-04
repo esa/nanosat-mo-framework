@@ -68,6 +68,12 @@
             <email>sam.cooper@scisys.co.uk</email>
             <url>https://github.com/SamCooper</url>
         </developer>
+        <developer>
+            <id>NicolasVorwerg</id>
+            <name>Nicolas Vorwerg</name>
+            <email>Nicolas.Vorwerg@dlr.de</email>
+            <url>https://github.com/NicolasVorwerg</url>
+        </developer>
     </developers>
 
 
@@ -88,7 +94,6 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>API_MC</artifactId>
-            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>

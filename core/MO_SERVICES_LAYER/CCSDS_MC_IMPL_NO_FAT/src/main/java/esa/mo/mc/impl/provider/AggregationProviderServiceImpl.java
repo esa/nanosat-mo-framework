@@ -84,8 +84,9 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 /**
  *
  */
-public class AggregationProviderServiceImpl extends AggregationInheritanceSkeleton  implements ReconfigurableServiceImplInterface {
+public class AggregationProviderServiceImpl extends AggregationInheritanceSkeleton implements ReconfigurableServiceImplInterface {
 
+    private final static double MIN_REPORTING_INTERVAL = 0.2;
     private MALProvider aggregationServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
@@ -180,10 +181,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter){
+    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
-    
+
     /**
      * publishes, a periodic update, meaning without a sourceId and with a newly
      * created timestamp
@@ -208,7 +209,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      */
     private boolean publishAggregationUpdate(final Long identityId, final AggregationValue aVal, final ObjectId source, final Time timestamp) {
         try {
-            synchronized(lock){
+            synchronized (lock) {
                 if (!isRegistered) {
                     final EntityKeyList lst = new EntityKeyList();
                     lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -311,16 +312,16 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // requirement: 3.7.8.2.e
         AggregationValueDetailsList outList = new AggregationValueDetailsList(inIdentityIds.size());
-        
+
         for (Long inIdentityId : inIdentityIds) {
             outList.add(new AggregationValueDetails(
-                    inIdentityId, 
-                    manager.getDefinitionId(inIdentityId), 
-                    HelperTime.getTimestampMillis(), 
+                    inIdentityId,
+                    manager.getDefinitionId(inIdentityId),
+                    HelperTime.getTimestampMillis(),
                     manager.getValue(inIdentityId))
             );
         }
-        
+
         return outList;
     }
 
@@ -367,8 +368,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 GroupRetrieval groupRetrievalInformation;
                 groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList, objIdToBeEnabled, valueToBeEnabled);
                 //get the group instances requirements: 3.7.9.2.g, h
-                groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances, 
-                        groupRetrievalInformation, AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, 
+                groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
+                        groupRetrievalInformation, AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(), manager.listAllIdentities());
 
                 //fill the existing lists with the modified lists
@@ -397,8 +398,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
             }
         }
-        
-        if (configurationAdapter != null){
+
+        if (configurationAdapter != null) {
             configurationAdapter.configurationChanged(this);
         }
     }
@@ -443,12 +444,12 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                     }
                 }
             } else {//the ids are group-definition-ids, req: 3.7.10.2.a, 3.9.4.g,h
-                GroupRetrieval groupRetrievalInformation = new GroupRetrieval(unkIndexList, 
+                GroupRetrieval groupRetrievalInformation = new GroupRetrieval(unkIndexList,
                         invIndexList, objIdToBeEnabled, valueToBeEnabled);
 
                 //get the group instances requirements: 3.7.10.2.g, h
-                groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances, 
-                        groupRetrievalInformation, AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE, 
+                groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
+                        groupRetrievalInformation, AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(), manager.listAllIdentities());
 
                 //fill the existing lists with the modified lists
@@ -478,7 +479,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             }
         }
 
-        if (configurationAdapter != null){
+        if (configurationAdapter != null) {
             configurationAdapter.configurationChanged(this);
         }
     }
@@ -518,7 +519,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
-        
+
         return outLongLst;
     }
 
@@ -550,24 +551,21 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
             //requirement: 3.7.10.2.c, 3.7.3.p requested intervals must be provided
             //updateInterval must be provided
-//            if (aDef.getReportInterval().getValue() != 0 && !manager.getProvidedIntervals().contains(aDef.getReportInterval())) {
-            if (aDef.getReportInterval().getValue() != 0) {
+            if (aDef.getReportInterval().getValue() != 0 && aDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
             //requirement: 3.7.10.2.c, 3.7.3.p
             //sample-interval must be provided
             for (AggregationParameterSet parameterSet : parameterSets) {
-//                if (parameterSet.getSampleInterval().getValue() != 0 && !manager.getProvidedIntervals().contains(parameterSet.getSampleInterval())) {
-                if (parameterSet.getSampleInterval().getValue() != 0) {
+                if (parameterSet.getSampleInterval().getValue() != 0 && parameterSet.getSampleInterval().getValue() < MIN_REPORTING_INTERVAL) {
                     invIndexList.add(new UInteger(index));
                     break;
                 }
             }
             //requirement: 3.7.3.p
             //filteredTimeout-interval must be provided
-//            if (aDef.getFilteredTimeout().getValue() != 0 && !manager.getProvidedIntervals().contains(aDef.getFilteredTimeout())) {
-            if (aDef.getFilteredTimeout().getValue() != 0) {
+            if (aDef.getFilteredTimeout().getValue() != 0 && aDef.getFilteredTimeout().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -601,8 +599,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             periodicReportingManager.refresh(outPairLst.get(0).getObjIdentityInstanceId()); // Refresh the Periodic Reporting Manager for the added Identities
             periodicSamplingManager.refresh(outPairLst.get(0).getObjIdentityInstanceId()); // Refresh the Periodic Sampling Manager for the added Identities
         }
-        
-        if (configurationAdapter != null){
+
+        if (configurationAdapter != null) {
             configurationAdapter.configurationChanged(this);
         }
 
@@ -637,24 +635,21 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             //requirement: 3.7.3.p, 3.7.13.2.f
             //TODO: check the updateInterval, filteredTimeout and sampleIntervals? -> issue #152
             //updateInterval must be provided
-//            if (aDef.getReportInterval().getValue() != 0 && !manager.getProvidedIntervals().contains(aDef.getReportInterval())) {
-            if (aDef.getReportInterval().getValue() != 0) {
+            if (aDef.getReportInterval().getValue() != 0 && aDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
             //requirement: 3.7.3.p, 3.7.13.2.f
             //sample-interval must be provided
             for (AggregationParameterSet parameterSet : parameterSets) {
-//                if (parameterSet.getSampleInterval().getValue() != 0 && !manager.getProvidedIntervals().contains(parameterSet.getSampleInterval())) {
-                if (parameterSet.getSampleInterval().getValue() != 0) {
+                if (parameterSet.getSampleInterval().getValue() != 0 && parameterSet.getSampleInterval().getValue() < MIN_REPORTING_INTERVAL) {
                     invIndexList.add(new UInteger(index));
                     break;
                 }
             }
             //requirement: 3.7.3.p
             //filteredTimeout-interval must be provided
-//            if (aDef.getFilteredTimeout().getValue() != 0 && !manager.getProvidedIntervals().contains(aDef.getFilteredTimeout())) {
-            if (aDef.getFilteredTimeout().getValue() != 0) {
+            if (aDef.getFilteredTimeout().getValue() != 0 && aDef.getFilteredTimeout().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -683,7 +678,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             periodicSamplingManager.refresh(identityId);//requirement: 3.7.3.k
         }
 
-        if (configurationAdapter != null){
+        if (configurationAdapter != null) {
             configurationAdapter.configurationChanged(this);
         }
 
@@ -733,8 +728,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         periodicReportingManager.refreshList(removalLst); // Refresh the Periodic Reporting Manager for the removed identities
         periodicSamplingManager.refreshList(removalLst); // Refresh the Periodic Sampling Manager for the removed identities
         // COM archive is left untouched. requirement: 3.7.14.2.e
-        
-        if (configurationAdapter != null){
+
+        if (configurationAdapter != null) {
             configurationAdapter.configurationChanged(this);
         }
     }
@@ -788,7 +783,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * will automatically use the System's time
      * @return Returns true if the push was successful. False otherwise.
      */
-    public Boolean pushAggregationSetValue(final Long identityId, final AggregationSetValueList aSetVal, 
+    public Boolean pushAggregationSetValue(final Long identityId, final AggregationSetValueList aSetVal,
             final ObjectId source, final Time timestamp) { //requirement: 3.7.4.i
 
         //check that the given aggregationSetValueList has the right amount of entries
@@ -1037,20 +1032,21 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                     if (active) {
                         AggregationDefinitionDetails def = manager.getAggregationDefinition(identityId);
                         checkSampleIntervalAndSampleParam(identityId, true);
-                        if (!def.getFilterEnabled()) {// The Filter is not enabled? // requirement: 3.7.2.a.a, 
-                            publishPeriodicAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
+                        if (!def.getFilterEnabled()) { // The Filter is not enabled? // requirement: 3.7.2.a.a, 
+                            publishPeriodicAggregationUpdate(identityId, 
+                                    manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
                             manager.resetAggregationSampleHelperVariables(identityId);
-                        } else { // requirement: 3.7.2.a.c, 
+                        } else {  // requirement: 3.7.2.a.c, 
                             if (manager.isFilterTriggered(identityId) == true) { // The Filter is on and triggered? requirement: 3.7.2.6
-                                publishPeriodicAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
+                                publishPeriodicAggregationUpdate(identityId, 
+                                        manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
                                 manager.resetAggregationSampleHelperVariables(identityId);
                                 resetFilterTimeoutTimer(identityId);        // Reset the timer
-
                             }
                         }
                     }
                 } // the time is being converted to milliseconds by multiplying by 1000 
-            }, 0, (int) (interval.getValue() * 1000)); // requirement: 3.7.3.g
+            }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000)); // requirement: 3.7.3.g
         }
 
         private void stopUpdatesTimer(final Long objId) {
@@ -1227,11 +1223,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
         // Validate the returned configuration...
-        if(configurationObjectDetails == null){
+        if (configurationObjectDetails == null) {
             return false;
         }
 
-        if(configurationObjectDetails.getConfigObjects() == null){
+        if (configurationObjectDetails.getConfigObjects() == null) {
             return false;
         }
 
@@ -1244,25 +1240,25 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         ConfigurationObjectSet confSet1 = configurationObjectDetails.getConfigObjects().get(1);
 
         // Confirm the objTypes
-        if (!confSet0.getObjType().equals(AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE) &&
-                !confSet1.getObjType().equals(AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE)) {
+        if (!confSet0.getObjType().equals(AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE)
+                && !confSet1.getObjType().equals(AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE)) {
             return false;
         }
 
-        if (!confSet0.getObjType().equals(AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE) &&
-                !confSet1.getObjType().equals(AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE)) {
+        if (!confSet0.getObjType().equals(AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE)
+                && !confSet1.getObjType().equals(AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE)) {
             return false;
         }
 
         // Confirm the domain
-        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain()) ||
-                !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
+        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain())
+                || !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
         // If the list is empty, reconfigure the service with nothing...
-        if(confSet0.getObjInstIds().isEmpty() && confSet1.getObjInstIds().isEmpty()){
-            manager.reconfigureDefinitions(new LongList(), new IdentifierList(), 
+        if (confSet0.getObjInstIds().isEmpty() && confSet1.getObjInstIds().isEmpty()) {
+            manager.reconfigureDefinitions(new LongList(), new IdentifierList(),
                     new LongList(), new AggregationDefinitionDetailsList());   // Reconfigures the Manager
 
             return true;
@@ -1271,7 +1267,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // ok, we're good to go...
         // Load the Parameter Definitions from this configuration...
         ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
-        
+
         AggregationDefinitionDetailsList pDefs = (AggregationDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
@@ -1279,15 +1275,15 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 confSetDefs.getObjInstIds());
 
         ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
-        
+
         IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
                 confSetIdents.getObjInstIds());
-        
-            manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, 
-                    confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
+
+        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
+                confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
         return true;
     }
@@ -1298,7 +1294,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         ConfigurationObjectSetList list = manager.getCurrentConfiguration();
         list.get(0).setObjType(AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE);
         list.get(1).setObjType(AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE);
-        
+
         // Needs the Common API here!
         ConfigurationObjectDetails set = new ConfigurationObjectDetails();
         set.setConfigObjects(list);
@@ -1310,5 +1306,5 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     public COMService getCOMService() {
         return AggregationHelper.AGGREGATION_SERVICE;
     }
-        
+
 }
