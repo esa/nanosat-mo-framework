@@ -39,7 +39,7 @@ public abstract interface SimpleMonitorAndControlListener extends EventListener 
      * @return Returns true if the action was successfully executed, false 
      * otherwise.
      */
-    public boolean actionArrivedSimple (String name, Serializable[] values, Long actionInstanceObjId);
+    boolean actionArrivedSimple (String name, Serializable[] values, Long actionInstanceObjId);
     
     /**
      * The user must implement this interface in order to acquire a certain 
@@ -47,7 +47,7 @@ public abstract interface SimpleMonitorAndControlListener extends EventListener 
      * @param name Name of the Parameter
      * @return The value of the parameter that was requested
      */
-    public Serializable onGetValueSimple (String name);
+    Serializable onGetValueSimple (String name);
     
     /**
      * The user must implement this interface in order to set a certain 
@@ -56,6 +56,6 @@ public abstract interface SimpleMonitorAndControlListener extends EventListener 
      * @param value The value to be set on the parameter
      * @return True if the value was set successfully, false otherwise.
      */
-    public boolean onSetValueSimple (String name, Serializable value);
+    boolean onSetValueSimple (String name, Serializable value);
     
 }

@@ -35,7 +35,7 @@ public interface FileStorageManagementInterface {
      * @param path The path of the folder
      * @return A list of Folders
      */
-    public ArrayList<String> listFolders(final boolean path);
+    ArrayList<String> listFolders(final boolean path);
     
     /**
      * Creates a folder in the specified path
@@ -43,7 +43,7 @@ public interface FileStorageManagementInterface {
      * @param path The path of the folder
      * @param name The name of the folder
      */
-    public void createFolder(final boolean path, final String name);
+    void createFolder(final boolean path, final String name);
 
     /**
      * Renames a folder in the specified path
@@ -52,7 +52,7 @@ public interface FileStorageManagementInterface {
      * @param oldName The old name of the folder
      * @param newName The new name of the folder
      */
-    public void renameFolder(final boolean path, final String oldName, final String newName);
+    void renameFolder(final boolean path, final String oldName, final String newName);
     
     /**
      * The publishAlertEvent operation allows an external software entity to
@@ -62,6 +62,6 @@ public interface FileStorageManagementInterface {
      * @return Returns the object instance identifier of the published event.
      * If there is any error, then a null shall be returned instead
      */
-    public Long getFolderUsageStats(final String path);
+    Long getFolderUsageStats(final String path);
     
 }

@@ -31,6 +31,6 @@ public interface ConfigurationNotificationInterface {
      * 
      * @param service The service which changed its configuration
      */
-    public void configurationChanged(ReconfigurableServiceImplInterface service);
+    void configurationChanged(ReconfigurableServiceImplInterface service);
 
 }

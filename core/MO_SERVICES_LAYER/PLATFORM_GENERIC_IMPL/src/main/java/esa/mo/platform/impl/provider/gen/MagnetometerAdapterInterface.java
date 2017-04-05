@@ -22,7 +22,6 @@ package esa.mo.platform.impl.provider.gen;
 
 import org.ccsds.moims.mo.platform.magnetometer.structures.MagneticFieldInstance;
 
-
 /**
  *
  * @author Cesar Coelho
@@ -31,9 +30,9 @@ public interface MagnetometerAdapterInterface {
 
     /**
      * Retrieves the magnetic field.
-     * 
+     *
      * @return The magnetic field
      */
-    public MagneticFieldInstance getMagneticField();
+    MagneticFieldInstance getMagneticField();
 
 }

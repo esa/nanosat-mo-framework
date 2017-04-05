@@ -36,7 +36,7 @@ public interface GPSAdapterInterface {
      *
      * @return
      */
-    public boolean isUnitAvailable();
+    boolean isUnitAvailable();
     
     /**
      * Request a NMEA sentence from a GPS unit.
@@ -45,21 +45,21 @@ public interface GPSAdapterInterface {
      * @return
      * @throws java.io.IOException
      */
-    public String getNMEASentence(final String identifier) throws IOException;
+    String getNMEASentence(final String identifier) throws IOException;
     
     /**
      * Request the current position from the GPS
      *
      * @return The Position
      */
-    public Position getCurrentPosition();
+    Position getCurrentPosition();
 
     /**
      * Requests the information of the satellites in view.
      *
      * @return The list of Satellites Information
      */
-    public SatelliteInfoList getSatelliteInfoList();
+    SatelliteInfoList getSatelliteInfoList();
     
 
     

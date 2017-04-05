@@ -45,7 +45,7 @@ public interface SimpleMonitoringInterface {
      * the consumer to match the action instance that initiated the action.
      * @throws NMFException
      */
-    public void reportActionExecutionProgress(final boolean success, final int errorNumber,
+    void reportActionExecutionProgress(final boolean success, final int errorNumber,
             final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws NMFException;
     
     /**
@@ -59,7 +59,7 @@ public interface SimpleMonitoringInterface {
      * If there is any error, then a null shall be returned instead
      * @throws NMFException
      */
-    public Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues) throws NMFException;
+    Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues) throws NMFException;
     
     /**
      * The pushParameterValue operation allows an external software 
@@ -74,7 +74,7 @@ public interface SimpleMonitoringInterface {
      * @return Returns the flag reporting if the push was successful
      * @throws NMFException
      */
-    public Boolean pushParameterValue(final String name, final Serializable content) throws NMFException;
+    Boolean pushParameterValue(final String name, final Serializable content) throws NMFException;
     
     /**
      * The pushParameterValue operation allows an external software 
@@ -90,6 +90,6 @@ public interface SimpleMonitoringInterface {
      * @return Returns the flag reporting if the push was successful
      * @throws NMFException
      */
-    public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws NMFException;
+    Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws NMFException;
     
 }

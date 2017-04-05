@@ -36,7 +36,7 @@ public interface ReconfigurableProviderImplInterface {
      * the service.
      * @param configurationAdapter The adapter to receive the notifications
      */
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter);
+    void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter);
 
     /**
      * Getter for COM services 
@@ -48,25 +48,25 @@ public interface ReconfigurableProviderImplInterface {
      * Get list of services available
      * @return A list of the services available
      */
-    public ArrayList<ReconfigurableServiceImplInterface> getServices();
+    ArrayList<ReconfigurableServiceImplInterface> getServices();
     
     /**
      * Reloads the service with the provided configuration
      * @param configurationObjectDetails The configuration
      * @return True if successfully reloaded, false otherwise.
      */
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails);
+    Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails);
 
     /**
      * Retrieves the current configuration set in the service provider
      * @return The configuration of the service
      */
-    public ConfigurationObjectDetails getCurrentConfiguration();
+    ConfigurationObjectDetails getCurrentConfiguration();
 
     /**
      * Retrieves the name of the provider
      * @return The name of the provider
      */
-    public Identifier getProviderName();
+    Identifier getProviderName();
 
 }

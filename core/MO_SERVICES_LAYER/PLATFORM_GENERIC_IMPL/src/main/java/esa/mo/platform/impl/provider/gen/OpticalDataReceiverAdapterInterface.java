@@ -26,6 +26,6 @@ package esa.mo.platform.impl.provider.gen;
  */
 public interface OpticalDataReceiverAdapterInterface {
 
-    public byte[] getOpticalReceiverData();
+    byte[] getOpticalReceiverData();
 
 }

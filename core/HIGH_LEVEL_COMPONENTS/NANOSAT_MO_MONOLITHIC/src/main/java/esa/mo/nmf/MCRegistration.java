@@ -43,14 +43,12 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequest;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequestList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
@@ -157,7 +155,7 @@ public class MCRegistration {
                 duplicateIds = parameterService.listDefinition(requestAgain, null);
             }
             
-            LongList duplicateObjIds = new LongList();
+            LongList duplicateObjIds = new LongList(duplicateIds.size());
             
             for(int j = 0 ; j < duplicateIds.size(); j++){
                 duplicateObjIds.add(duplicateIds.get(j).getObjIdentityInstanceId());
@@ -239,7 +237,7 @@ public class MCRegistration {
                 duplicateIds = aggregationService.listDefinition(requestAgain, null);
             }
             
-            LongList duplicateObjIds = new LongList();
+            LongList duplicateObjIds = new LongList(duplicateIds.size());
             
             for(int j = 0 ; j < duplicateIds.size(); j++){
                 duplicateObjIds.add(duplicateIds.get(j).getObjIdentityInstanceId());
@@ -324,7 +322,69 @@ public class MCRegistration {
         if(names.isEmpty() || definitions.isEmpty()){
             return null;
         }
+
+        try {
+            ObjectInstancePairList duplicateIds = new ObjectInstancePairList();
+            AlertDefinitionDetailsList duplicateDefs = new AlertDefinitionDetailsList();
+            duplicateDefs.addAll(definitions);
+            
+            try {
+                duplicateIds = alertService.listDefinition(names, null);
+            } catch (MALException ex1) {
+                Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+            } catch (MALInteractionException ex1) {
+                // There are some new ones!
+                final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
+
+                //-------------New Definitions-------------
+                AlertCreationRequestList newDefs = new AlertCreationRequestList();
+                
+                for (int i = 0; i < extraInfo.size(); i++) { // Which ones already exist?
+                    int index = (short) extraInfo.get(i).getValue();
+                    newDefs.add(new AlertCreationRequest(names.get(index), definitions.get(index)));
+                }
+
+                alertService.addAlert(newDefs, null);
+
+                //-------------Duplicate Definitions-------------
+                IdentifierList requestAgain = new IdentifierList();
+                requestAgain.addAll(names);
+                
+                for(int i = extraInfo.size() - 1; i >= 0; i--){
+                    requestAgain.remove((int) extraInfo.get(i).getValue());
+                    duplicateDefs.remove((int) extraInfo.get(i).getValue());
+                }
+                
+                duplicateIds = alertService.listDefinition(requestAgain, null);
+            }
+            
+            LongList duplicateObjIds = new LongList(duplicateIds.size());
+            
+            for(int j = 0 ; j < duplicateIds.size(); j++){
+                duplicateObjIds.add(duplicateIds.get(j).getObjIdentityInstanceId());
+            }
+            
+            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
+                alertService.updateDefinition(duplicateObjIds, duplicateDefs, null);
+            }
+
+            final ObjectInstancePairList newInstPairs = alertService.listDefinition(names, null);
+            final LongList outs = new LongList(newInstPairs.size());
+            
+            for(ObjectInstancePair newInstPair : newInstPairs){
+                outs.add(newInstPair.getObjIdentityInstanceId());
+            }
+            
+            return outs;
+        } catch (MALException ex1) {
+            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+        } catch (MALInteractionException ex1) {
+            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+
+        return null;
         
+        /*
         try {
             ObjectInstancePairList objIds = alertService.listDefinition(names, null);
             AlertCreationRequestList newDefs = new AlertCreationRequestList();
@@ -361,6 +421,7 @@ public class MCRegistration {
         }
 
         return null;
+        */
     }
 
     /**
@@ -383,6 +444,68 @@ public class MCRegistration {
             return null;
         }
         
+        try {
+            ObjectInstancePairList duplicateIds = new ObjectInstancePairList();
+            ActionDefinitionDetailsList duplicateDefs = new ActionDefinitionDetailsList();
+            duplicateDefs.addAll(definitions);
+            
+            try {
+                duplicateIds = actionService.listDefinition(names, null);
+            } catch (MALException ex1) {
+                Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+            } catch (MALInteractionException ex1) {
+                // There are some new ones!
+                final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
+
+                //-------------New Definitions-------------
+                ActionCreationRequestList newDefs = new ActionCreationRequestList();
+                
+                for (int i = 0; i < extraInfo.size(); i++) { // Which ones already exist?
+                    int index = (short) extraInfo.get(i).getValue();
+                    newDefs.add(new ActionCreationRequest(names.get(index), definitions.get(index)));
+                }
+
+                actionService.addAction(newDefs, null);
+
+                //-------------Duplicate Definitions-------------
+                IdentifierList requestAgain = new IdentifierList();
+                requestAgain.addAll(names);
+                
+                for(int i = extraInfo.size() - 1; i >= 0; i--){
+                    requestAgain.remove((int) extraInfo.get(i).getValue());
+                    duplicateDefs.remove((int) extraInfo.get(i).getValue());
+                }
+                
+                duplicateIds = actionService.listDefinition(requestAgain, null);
+            }
+            
+            LongList duplicateObjIds = new LongList(duplicateIds.size());
+            
+            for(int j = 0 ; j < duplicateIds.size(); j++){
+                duplicateObjIds.add(duplicateIds.get(j).getObjIdentityInstanceId());
+            }
+            
+            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
+                actionService.updateDefinition(duplicateObjIds, duplicateDefs, null);
+            }
+
+            final ObjectInstancePairList newInstPairs = actionService.listDefinition(names, null);
+            final LongList outs = new LongList(newInstPairs.size());
+            
+            for(ObjectInstancePair newInstPair : newInstPairs){
+                outs.add(newInstPair.getObjIdentityInstanceId());
+            }
+            
+            return outs;
+        } catch (MALException ex1) {
+            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+        } catch (MALInteractionException ex1) {
+            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+
+        return null;
+        
+        /*
         try {
             ObjectInstancePairList objIds = actionService.listDefinition(names, null);
             ActionCreationRequestList newDefs = new ActionCreationRequestList();
@@ -419,6 +542,7 @@ public class MCRegistration {
         }
 
         return null;
+        */
     }
 
     public ObjectIdList registerConversions(ElementList conversions) throws NMFException, MALException, MALInteractionException {

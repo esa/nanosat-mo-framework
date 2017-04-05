@@ -573,9 +573,9 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             identityId = returnedObjIds.get(0).getObjIdentityInstanceId();
 
             // Enable the Alert reporting!
-            InstanceBooleanPairList ids = new InstanceBooleanPairList();
-            ids.add(new InstanceBooleanPair(identityId, true));
-            this.enableGeneration(true, ids, interaction); // Enable the reporting for this Alert Definition
+//            InstanceBooleanPairList ids = new InstanceBooleanPairList();
+//            ids.add(new InstanceBooleanPair(identityId, true));
+//            this.enableGeneration(true, ids, interaction); // Enable the reporting for this Alert Definition
         } catch (MALInteractionException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -654,20 +654,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
     @Override
     public ConfigurationObjectDetails getCurrentConfiguration() {
-        // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
-//        HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
-//        LongList currentObjIds = new LongList();
-//        currentObjIds.addAll(defObjs.keySet());
-//
-//        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-//        objsSet.setObjType(AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
-//        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
-//        objsSet.setObjInstIds(currentObjIds);
-//
-//        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
-//        list.add(objsSet);
-
         ConfigurationObjectSetList list = manager.getCurrentConfiguration();
         list.get(0).setObjType(AlertHelper.ALERTIDENTITY_OBJECT_TYPE);
         list.get(1).setObjType(AlertHelper.ALERTDEFINITION_OBJECT_TYPE);

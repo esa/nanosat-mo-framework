@@ -33,20 +33,20 @@ public interface ReconfigurableServiceImplInterface {
      * the service.
      * @param configurationAdapter The adapter to receive the notifications
      */
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter);
+    void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter);
 
     /**
      * Reloads the service with the provided configuration
      * @param configurationObjectDetails The configuration
      * @return True if successfully reloaded, false otherwise.
      */
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails);
+    Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails);
 
     /**
      * Retrieves the current configuration set in the service provider
      * @return The configuration of the service
      */
-    public ConfigurationObjectDetails getCurrentConfiguration();
+    ConfigurationObjectDetails getCurrentConfiguration();
 
     /**
      * Retrieves the service key for the reconfigurable service
@@ -58,7 +58,7 @@ public interface ReconfigurableServiceImplInterface {
      * Retrieves the COMService object
      * @return The service key
      */
-    public COMService getCOMService();
+    COMService getCOMService();
     
     
 }

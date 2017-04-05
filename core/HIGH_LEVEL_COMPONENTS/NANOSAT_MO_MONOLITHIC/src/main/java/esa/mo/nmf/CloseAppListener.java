@@ -38,6 +38,6 @@ public interface CloseAppListener extends EventListener {
      * @return Returns true if everything was closed successfully, false 
      * otherwise.
      */
-    public Boolean onClose();
+    Boolean onClose();
     
 }

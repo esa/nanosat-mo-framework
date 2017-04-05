@@ -201,6 +201,10 @@ public class BinaryEncoder extends GENEncoder
     @Override
     public void addString(String value) throws IOException
     {
+//            Logger.getLogger(BinaryEncoder.class.getName()).log(Level.INFO,
+//                    "String: " + value);
+        // Todo: We can optimize the generation of strings by having 
+        // a HashMap holding the most commonly used ones
       addBytes(value.getBytes(UTF8_CHARSET));
     }
 

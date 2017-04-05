@@ -35,7 +35,7 @@ public interface AutonomousADCSAdapterInterface {
      *
      * @return
      */
-    public boolean isUnitAvailable();
+    boolean isUnitAvailable();
 
     /**
      * The setAttitudeDefinition operation shall set a certain attitude based
@@ -44,7 +44,7 @@ public interface AutonomousADCSAdapterInterface {
      * @param attitude
      * @throws IOException
      */
-    public void setDesiredAttitude(AttitudeDefinition attitude) throws IOException;
+    void setDesiredAttitude(AttitudeDefinition attitude) throws IOException;
 
     /**
      * The unset operation shall set a certain attitude based
@@ -52,7 +52,7 @@ public interface AutonomousADCSAdapterInterface {
      *
      * @throws IOException
      */
-    public void unset() throws IOException;
+    void unset() throws IOException;
     
     /**
      * The getAttitudeTM returns an object representing the information
@@ -61,7 +61,7 @@ public interface AutonomousADCSAdapterInterface {
      * @return The Attitude Telemetry from the ADCS
      * @throws IOException
      */
-    public AttitudeInstance getAttitudeInstance() throws IOException;
+    AttitudeInstance getAttitudeInstance() throws IOException;
     
     
 }

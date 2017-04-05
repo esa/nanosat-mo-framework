@@ -177,7 +177,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         // Filter...
         for (int i = 0; i < keys.size(); i++) { // Filter through all providers
-
             PublishDetails provider = list.get(keys.get(i));
             ProviderSummary providerOutput = new ProviderSummary();
 

@@ -344,7 +344,7 @@ public class GroundMOAdapter extends MOServicesConsumer implements SimpleCommand
             // Use action service to submit the action
             super.getMCServices().getActionService().getActionStub().submitAction(objId.getObjIdentityInstanceId(), action);
             
-            // This will not work because we need to do the trick of the actions...
+            // Todo: This will not work because we need to do the trick of the actions...
             
         } catch (MALInteractionException ex) {
             Logger.getLogger(GroundMOAdapter.class.getName()).log(Level.SEVERE, null, ex);

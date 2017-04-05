@@ -40,11 +40,11 @@ public interface CameraAdapterInterface {
      * 
      * @return The available resolutions
      */
-    public PixelResolutionList getAvailableResolutions();
+    PixelResolutionList getAvailableResolutions();
     
-    public Picture getPicturePreview() throws IOException;
+    Picture getPicturePreview() throws IOException;
 
-    public Picture takePicture(PixelResolution resolution, PictureFormat format, Duration exposureTime) throws IOException;    
+    Picture takePicture(PixelResolution resolution, PictureFormat format, Duration exposureTime) throws IOException;    
 
     /**
      * The getMinimumPeriod method shall return the duration of taking a picture.
@@ -56,10 +56,10 @@ public interface CameraAdapterInterface {
      * 
      * @return The minimum period of the stream. Or the duration of taking a picture.
      */
-    public Duration getMinimumPeriod();
+    Duration getMinimumPeriod();
     
-    public String getExtraInfo();
+    String getExtraInfo();
 
-    public BufferedImage getBufferedImageFromRaw(byte[] rawImage);
+    BufferedImage getBufferedImageFromRaw(byte[] rawImage);
     
 }

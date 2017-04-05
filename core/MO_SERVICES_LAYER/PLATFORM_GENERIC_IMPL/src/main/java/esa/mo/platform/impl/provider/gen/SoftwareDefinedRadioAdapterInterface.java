@@ -29,10 +29,10 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfigurat
  */
 public interface SoftwareDefinedRadioAdapterInterface {
 
-    public boolean setConfiguration(SDRConfiguration configuration);
+    boolean setConfiguration(SDRConfiguration configuration);
 
-    public boolean enableSDR(Boolean enable);
+    boolean enableSDR(Boolean enable);
 
-    public IQComponentsList getIQComponents();
+    IQComponentsList getIQComponents();
 
 }

@@ -36,14 +36,14 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      *
      * @return The COM services
      */
-    public COMServicesProvider getCOMServices() throws NMFException;
+    COMServicesProvider getCOMServices() throws NMFException;
 
     /**
      * Requests the MC services available in the NanoSat MO Framework provider.
      *
      * @return The MC services
      */
-    public MCServicesProviderNMF getMCServices() throws NMFException;
+    MCServicesProviderNMF getMCServices() throws NMFException;
 
     /**
      * Requests the Platform services available in the NanoSat MO Framework
@@ -51,7 +51,7 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      *
      * @return The Platform services
      */
-    public PlatformServicesConsumer getPlatformServices() throws NMFException;
+    PlatformServicesConsumer getPlatformServices() throws NMFException;
     
     /**
      * Adds a listener for when the app is requested to be closed.
@@ -59,7 +59,7 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      * @param closeAppAdapter The adapter that will be called after a request 
      * to close the app
      */
-    public void addCloseAppListener(CloseAppListener closeAppAdapter);
+    void addCloseAppListener(CloseAppListener closeAppAdapter);
     
     /**
      * Closes the app gracefully.
@@ -67,6 +67,6 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      * @param source The source object that triggered the close operation. Can
      * be null.
      */
-    public void closeGracefully(final ObjectId source);
+    void closeGracefully(final ObjectId source);
     
 }

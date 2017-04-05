@@ -52,7 +52,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class PersistProviderConfiguration {
 
     private final ArchiveInheritanceSkeleton archiveService;
-    private final ObjectId confId;
+//    private final ObjectId confId;
     private final ArrayList<ReconfigurableServiceImplInterface> reconfigurableServices;
 //    private final ArrayList<PersistLatestServiceConfigurationAdapter> serviceAdapters = new ArrayList<PersistLatestServiceConfigurationAdapter>();
     private LongList objIds;
@@ -66,7 +66,7 @@ public class PersistProviderConfiguration {
         }
 
         this.archiveService = archiveService;
-        this.confId = confId;
+//        this.confId = confId;
         this.reconfigurableServices = provider.getServices();
 
         final ArchivePersistenceObject comObjectProvider = HelperArchive.getArchiveCOMObject(

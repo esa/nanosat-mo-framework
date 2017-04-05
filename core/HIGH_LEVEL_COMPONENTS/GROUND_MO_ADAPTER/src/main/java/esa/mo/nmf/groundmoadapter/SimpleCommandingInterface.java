@@ -42,7 +42,7 @@ public interface SimpleCommandingInterface {
      * definition
      * @param content The content of the Parameter
      */
-    public void setParameter(String parameterName, Serializable content);
+    void setParameter(String parameterName, Serializable content);
 
     /**
      * The addDataReceivedListener method allows an external software entity to 
@@ -52,7 +52,7 @@ public interface SimpleCommandingInterface {
      *
      * @param dataReceivedListener The Listener where the data will be received
      */
-    public void addDataReceivedListener(DataReceivedListener dataReceivedListener);
+    void addDataReceivedListener(DataReceivedListener dataReceivedListener);
 
     /**
      * The invokeAction method allows an external software entity to submit an 
@@ -63,6 +63,6 @@ public interface SimpleCommandingInterface {
      * @param actionName The name of the Action to be executed
      * @param objects Implementer-specific data necessary to execute the action
      */
-    public void invokeAction(String actionName, Serializable[] objects);
+    void invokeAction(String actionName, Serializable[] objects);
 
 }

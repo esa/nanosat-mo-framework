@@ -258,20 +258,12 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
-        throw new UnsupportedOperationException("The provider does no support reconfiguration.");
-
-        // To be done
-//        you also need to plug the current configuration here...
-//        for our case, we have only a single configuration that never changes...
+        throw new UnsupportedOperationException("The NMF does no support reconfiguration.");
     }
 
     @Override
     public ConfigurationObjectDetails getCurrentConfiguration() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
-        // To be done
-//        you need to implement the getter for the current configuration
-//        Also, you will also retrieve the same because we have a single one
+        throw new UnsupportedOperationException("The NMF does no support reconfiguration.");
     }
 
     @Override
@@ -314,8 +306,9 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
                 String line;
                 while ((line = br.readLine()) != null) {
                     br.close();
-                    return new URI(line);
                 }
+                
+                return new URI(line);
             } catch (IOException ex) {
                 Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
             }
