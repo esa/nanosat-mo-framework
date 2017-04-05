@@ -112,7 +112,7 @@ public class ArchiveConsumerTesterPanel extends javax.swing.JPanel {
                 return;
             }
 
-            if (_ElementList1.size() != 0) {
+            if (!_ElementList1.isEmpty()) {
                 if (_ElementList1.get(0) == null) {
                 TBoxRetrieve.setText("");
                 return;

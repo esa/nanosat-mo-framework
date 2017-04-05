@@ -24,7 +24,7 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -43,7 +43,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class Demo10secAlert {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new Adapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new Adapter());
     private final Timer timer;
 
     public Demo10secAlert() {

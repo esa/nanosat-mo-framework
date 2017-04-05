@@ -47,11 +47,12 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class DemoHelloWorld {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapterSimple());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework;
     private static final String PARAMETER_HELLO = "A_Parameter";
     private String str = "Hello World!";
 
     public DemoHelloWorld() {
+        this.nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapterSimple());
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
     }

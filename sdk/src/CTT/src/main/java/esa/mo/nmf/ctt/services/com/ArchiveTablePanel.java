@@ -57,7 +57,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
      */
     public ArchiveTablePanel(ArchiveCOMObjectsOutput archiveObjectOutput, final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
-        
+
         comObjects = new ArrayList<ArchivePersistenceObject>();
 
         String[] archiveTableCol = new String[]{
@@ -66,21 +66,21 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         archiveTableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, archiveTableCol) {
-                    Class[] types = new Class[]{
-                        java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                        java.lang.String.class, java.lang.String.class, java.lang.String.class
-                    };
+            Class[] types = new Class[]{
+                java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
 
-                    @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                    @Override
-                    public Class getColumnClass(int columnIndex) {
-                        return types[columnIndex];
-                    }
-                };
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
 
         archiveTable.setModel(archiveTableData);
 
@@ -100,24 +100,21 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         });
 
         this.addEntries(archiveObjectOutput);
-
     }
 
     public int getSelectedRow() {
         return archiveTable.getSelectedRow();
     }
-    
+
     public ArchivePersistenceObject getSelectedCOMObject() {
         return this.comObjects.get(this.getSelectedRow());
     }
-    
+
     public List<ArchivePersistenceObject> getAllCOMObjects() {
         return this.comObjects;
     }
-    
 
     protected void addEntries(ArchiveCOMObjectsOutput archiveObjectOutput) {
-
         if (archiveObjectOutput == null) {
             return;
         }
@@ -127,15 +124,17 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-           
-            Element objects = (archiveObjectOutput.getObjectBodies() == null) ? null : (Element) archiveObjectOutput.getObjectBodies().get(i);
+
+            Element objects = (archiveObjectOutput.getObjectBodies() == null)
+                    ? null
+                    : (Element) archiveObjectOutput.getObjectBodies().get(i);
 
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(
-                archiveObjectOutput.getObjectType(),
-                archiveObjectOutput.getDomain(),
-                archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
-                archiveObjectOutput.getArchiveDetailsList().get(i),
-                objects
+                    archiveObjectOutput.getObjectType(),
+                    archiveObjectOutput.getDomain(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i),
+                    objects
             );
 
             addEntry(comObject);
@@ -149,7 +148,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         String timestamp = "";
         String source = "null";
         String related = "null";
-        
+
         if (comObject.getDomain() != null) {
             domain = HelperMisc.domain2domainId(comObject.getDomain());
         }
@@ -177,7 +176,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+
         archiveTableData.addRow(new Object[]{
             domain,
             objType,
@@ -190,11 +189,11 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         comObjects.add(comObject);
         semaphore.release();
     }
-    
+
     public void removeSelectedEntry() {
         archiveTableData.removeRow(this.getSelectedRow());
     }
-    
+
     public void removeAllEntries() {
         while (archiveTableData.getRowCount() != 0) {
             archiveTableData.removeRow(archiveTableData.getRowCount() - 1);

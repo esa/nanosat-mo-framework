@@ -24,7 +24,7 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NanoSatMOFrameworkInterface;
-import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
  */
 public class FiveStagesAction {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
     private final static int TOTAL_N_OF_STAGES = 5; // 5 stages
     private final static int SLEEP_TIME = 2; // 2 seconds
     private final static String ACTION5STAGES = "Go";
@@ -89,7 +89,7 @@ public class FiveStagesAction {
             ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
                     "Example of an Action with 5 stages.",
                     new UOctet((short) 0),
-                    new UShort(0),
+                    new UShort(5),
                     arguments1,
                     null
             );

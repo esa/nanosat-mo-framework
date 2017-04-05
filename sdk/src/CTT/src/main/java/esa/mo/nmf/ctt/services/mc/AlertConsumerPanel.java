@@ -355,7 +355,6 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
 
     private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
-
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
@@ -377,9 +376,8 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
     private void removeDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionAllButtonActionPerformed
-        Long objId = (long) 0;
         LongList longlist = new LongList();
-        longlist.add(objId);
+        longlist.add((long) 0);
 
         try {
             this.serviceMCAlert.getAlertStub().removeAlert(longlist);
