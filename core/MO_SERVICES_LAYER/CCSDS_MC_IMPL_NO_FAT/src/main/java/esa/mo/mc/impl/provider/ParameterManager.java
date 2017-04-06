@@ -116,7 +116,7 @@ public class ParameterManager extends DefinitionsManager {
 //    protected DurationList getProvidedIntervals() {
 //        return parametersMonitoring.getProvidedIntervals();
 //    }
-
+    
     /**
      * Gets the details of the definition with the given identity-id.
      *
@@ -141,7 +141,8 @@ public class ParameterManager extends DefinitionsManager {
      * Archive service for objects storage. In this case, the unique identifier
      * must be retrieved from the Archive during storage
      */
-    protected Long storeAndGeneratePValobjId(Long identityId, ParameterValue pVal, ObjectId source, SingleConnectionDetails connectionDetails, FineTime timestamp) {
+    protected Long storeAndGeneratePValobjId(Long identityId, ParameterValue pVal,
+            ObjectId source, SingleConnectionDetails connectionDetails, FineTime timestamp) {
         if (super.getArchiveService() == null) {
             uniqueObjIdPVal++;
             return this.uniqueObjIdPVal;
@@ -150,14 +151,15 @@ public class ParameterManager extends DefinitionsManager {
             pValList.add(pVal);
             final Long related = getDefinitionId(identityId);
 
-            //create the archive details(related/source link, ...). The timestamp must be same as the one that will be used later for publishing the ParameterValue
+            //create the archive details(related/source link, ...). The timestamp must 
+            //be same as the one that will be used later for publishing the ParameterValue
             final ArchiveDetailsList archiveDetailsList;
             if (timestamp == null) //ParameterValue-Object will not be published, generate a new timestamp then 
             {
                 archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, connectionDetails);
             } else { //use the timestamp given
                 archiveDetailsList = new ArchiveDetailsList();
-                archiveDetailsList.add(new ArchiveDetails(0L, new ObjectDetails(related, source), 
+                archiveDetailsList.add(new ArchiveDetails(0L, new ObjectDetails(related, source),
                         ConfigurationProviderSingleton.getNetwork(), timestamp, connectionDetails.getProviderURI()));
             }
 
@@ -186,7 +188,7 @@ public class ParameterManager extends DefinitionsManager {
      *
      * @param pVals
      * @param relatedList
-	 * @param sourcesList
+     * @param sourcesList
      * @param connectionDetails
      * @param timestamp a current timestamp. it will be used as the creation
      * time for all ParameterValues
@@ -194,8 +196,8 @@ public class ParameterManager extends DefinitionsManager {
      * Archive service for objects storage. In this case, the unique identifier
      * must be retrieved from the Archive during storage
      */
-    protected LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals, 
-            final LongList relatedList, final ObjectIdList sourcesList, 
+    protected LongList storeAndGenerateMultiplePValobjId(final ParameterValueList pVals,
+            final LongList relatedList, final ObjectIdList sourcesList,
             final SingleConnectionDetails connectionDetails, final FineTimeList timestamps) {
         if (super.getArchiveService() != null) {
 
@@ -278,8 +280,6 @@ public class ParameterManager extends DefinitionsManager {
     public ParameterValue getParameterValue(Long identityId) throws MALInteractionException {
         return getParameterValue(identityId, false);
     }
-    
-    
 
     /**
      * Creates a new ParameterValue object with the given value for the
@@ -295,8 +295,7 @@ public class ParameterManager extends DefinitionsManager {
         // Generate final Parameter Value
         return generateNewParameterValue(rawValue, pDef, false);
     }
-    */
-
+     */
     /**
      * Gets the current value of the parameter with the given identity-id
      *
@@ -356,7 +355,7 @@ public class ParameterManager extends DefinitionsManager {
      * will be expired.
      * @return the validityState
      */
-    protected UOctet generateValidityState(final ParameterDefinitionDetails pDef, 
+    protected UOctet generateValidityState(final ParameterDefinitionDetails pDef,
             final Attribute rawValue, final Attribute convertedValue, final boolean aggrExpired) {
 
         //parameter-aggregation has a timeout that is expired
@@ -416,15 +415,15 @@ public class ParameterManager extends DefinitionsManager {
         final Long expPIdentityId = validityExpression.getParameterId().getInstId();
         final Attribute expParamValue = parametersMonitoring.onGetValue(super.getName(expPIdentityId), null);
         final ParameterDefinitionDetails expPDef = getParameterDefinition(expPIdentityId);
-        final UOctet expPValState = generateValidityState(this.getParameterDefinition(expPIdentityId), 
+        final UOctet expPValState = generateValidityState(this.getParameterDefinition(expPIdentityId),
                 expParamValue, getConvertedValue(expParamValue, expPDef), aggrExpired);
         return expPValState;
     }
 
-    protected ObjectInstancePair add(Identifier name, ParameterDefinitionDetails definition, 
+    protected ObjectInstancePair add(Identifier name, ParameterDefinitionDetails definition,
             ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair;
-        
+
         if (super.getArchiveService() == null) {
             //add to providers local list
             uniqueObjIdIdentity++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
@@ -434,9 +433,9 @@ public class ParameterManager extends DefinitionsManager {
             try {
                 //requirement: 3.3.12.2.f: if a ParameterName ever existed before, use the old ParameterIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), 
+                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
                         name, ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE);
-                
+
                 //in case the ParameterName never existed before, create a new identity
                 if (identityId == null) {
                     IdentifierList names = new IdentifierList();
@@ -449,8 +448,8 @@ public class ParameterManager extends DefinitionsManager {
                             names,
                             null);
                     identityId = identityIds.get(0);
-                } 
-                
+                }
+
                 //not matter if the parameter was created or loaded, a new definition will be created
                 ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
                 defs.add(definition);
@@ -473,11 +472,10 @@ public class ParameterManager extends DefinitionsManager {
             }
         }
 
-        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), definition);
+//        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), definition);
+        this.addIdentityDefinition(name, newIdPair, definition);
         return newIdPair;
-
     }
-
 
     /**
      * updates the parameter-definition of the parameter-identity by adding a
@@ -490,7 +488,7 @@ public class ParameterManager extends DefinitionsManager {
      * @param connectionDetails the given connectionDetails
      * @return the object instance identifier of the new parameter-definition
      */
-    protected Long update(Long identityId, ParameterDefinitionDetails definition, 
+    protected Long update(Long identityId, ParameterDefinitionDetails definition,
             ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
         Long newDefId = null;
 
@@ -551,7 +549,7 @@ public class ParameterManager extends DefinitionsManager {
      * @return true if it was successfully updated. false if def is null or the
      * new bool value was the same as the current value.
      */
-    protected boolean setGenerationEnabled(Long identityId, Boolean bool, ObjectId source, 
+    protected boolean setGenerationEnabled(Long identityId, Boolean bool, ObjectId source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
         ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getParameterDefinition(identityId);
 
@@ -625,7 +623,7 @@ public class ParameterManager extends DefinitionsManager {
         }
 
         parametersMonitoring.onSetValue(names, newRawValues);
-        
+
         return paramValList;
     }
 
@@ -641,7 +639,7 @@ public class ParameterManager extends DefinitionsManager {
      * will be expired.
      * @return a filled ParameterValue
      */
-    private ParameterValue generateNewParameterValue(Attribute rawValue, 
+    private ParameterValue generateNewParameterValue(Attribute rawValue,
             final ParameterDefinitionDetails pDef, final boolean aggrExpired) {
         ParameterValue newPValue;
 
@@ -655,12 +653,12 @@ public class ParameterManager extends DefinitionsManager {
         newPValue = new ParameterValue();
         //convert the raw-value
         //requirement 3.3.3.p is implicitly met here. 
-        Attribute convertedValue = getConvertedValue(rawValue, pDef);
+        Attribute convertedValue = this.getConvertedValue(rawValue, pDef);
 
         //check the validity and set the state
         UOctet validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
         newPValue.setValidityState(validityState);
-        
+
         if (validityState.equals(getAsUOctet(ValidityState.INVALID_CONVERSION))) {
             convertedValue = null;  // requirement: 3.3.3.o
         }
@@ -683,21 +681,18 @@ public class ParameterManager extends DefinitionsManager {
      * @return the raw value. null if there is no parametersMonitoring
      */
     private Attribute getRawValue(Long identityId, ParameterDefinitionDetails pDef) {
-        Attribute rawValue;
-        if (parametersMonitoring != null) {
-            rawValue = parametersMonitoring.onGetValue(super.getName(identityId), pDef.getRawType());
-        } else {
-            rawValue = null;
-        }
-        return rawValue;
+        return (parametersMonitoring != null)
+                ? parametersMonitoring.onGetValue(super.getName(identityId), pDef.getRawType())
+                : null;
     }
 
     /**
-     * gets the timestamp of the current raw value of the parameter with the given identity-Id
-     * from the application
+     * gets the timestamp of the current raw value of the parameter with the
+     * given identity-Id from the application
      *
      * @param identityId the identity-id of the parameter
-     * @return the timestamp of the current parameters raw value. null if there is no parametersMonitoring
+     * @return the timestamp of the current parameters raw value. null if there
+     * is no parametersMonitoring
      */
     /*
     protected Long getParameterValuesTimestamp(Long identityId) {
@@ -709,7 +704,7 @@ public class ParameterManager extends DefinitionsManager {
         }
         return timestamp;
     }
-    */
+     */
     
     /**
      * gets the converted value of a raw value
@@ -719,14 +714,10 @@ public class ParameterManager extends DefinitionsManager {
      * @return the converted value. null if no conversionservice is available
      */
     private Attribute getConvertedValue(final Attribute rawValue, final ParameterDefinitionDetails pDef) {
-        Attribute convertedValue;
         // Is the Conversion service available for use?
-        if (conversionService != null) {
-            convertedValue = conversionService.generateConvertedValue(rawValue, pDef.getConversion());
-        } else {
-            convertedValue = null;
-        }
-        return convertedValue;
+        return (conversionService != null)
+                ? conversionService.generateConvertedValue(rawValue, pDef.getConversion())
+                : null;
     }
 
 }

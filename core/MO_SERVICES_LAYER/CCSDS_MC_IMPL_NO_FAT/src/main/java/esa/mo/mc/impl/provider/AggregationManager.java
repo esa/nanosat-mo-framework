@@ -107,16 +107,18 @@ public final class AggregationManager extends DefinitionsManager {
      *
      * @param identityId
      */
-    protected void createAggregationValuesList(Long identityId) {
-        periodicAggregationValuesLast.put(identityId, new AggregationValue());
-        periodicAggregationValuesCurrent.put(identityId, new AggregationValue());
-        isFilterTriggered.put(identityId, false);
-        //initialize timList with the amount of parameterSets
-        //final int parameterSetsCount = getAggregationDefinition(identityId).getParameterSets().size();
-        latestSampleTimeList.put(identityId, new TimeList());
-        sampleCountList.put(identityId, new ArrayList<Integer>());
+    protected void createAggregationValuesList(LongList identityIdList) {
+        for (Long identityId : identityIdList){
+            periodicAggregationValuesLast.put(identityId, new AggregationValue());
+            periodicAggregationValuesCurrent.put(identityId, new AggregationValue());
+            isFilterTriggered.put(identityId, false);
+            //initialize timList with the amount of parameterSets
+            //final int parameterSetsCount = getAggregationDefinition(identityId).getParameterSets().size();
+            latestSampleTimeList.put(identityId, new TimeList());
+            sampleCountList.put(identityId, new ArrayList<Integer>());
 
-        this.populateAggregationValues(identityId);
+            this.populateAggregationValues(identityId);
+        }
     }
 
     /**
@@ -825,8 +827,11 @@ public final class AggregationManager extends DefinitionsManager {
         }
         
         //add to internal lists
-        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), definition);
-        this.createAggregationValuesList(newIdPair.getObjIdentityInstanceId());
+//        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), definition);
+        this.addIdentityDefinition(name, newIdPair, definition);
+        final LongList identities = new LongList();
+        identities.add(newIdPair.getObjIdentityInstanceId());
+        this.createAggregationValuesList(identities);
 
         return newIdPair;
     }

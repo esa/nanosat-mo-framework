@@ -285,7 +285,8 @@ public final class CheckManager extends CheckLinksManager {
             }
         }
         //save ids and objects internally
-        super.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), new Identifier(name), newIdPair.getObjDefInstanceId(), checkDef);
+//        super.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), new Identifier(name), newIdPair.getObjDefInstanceId(), checkDef);
+        this.addIdentityDefinition(new Identifier(name), newIdPair, checkDef);
 
         //return object
         return newIdPair;

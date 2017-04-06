@@ -84,12 +84,13 @@ public final class ActionManager extends DefinitionsManager {
 
     }
 
+    // We could use generics to avoid doing this...
     public ActionDefinitionDetails getActionDefinitionFromIdentityId(Long identityId) {
         return (ActionDefinitionDetails) this.getDefinition(identityId);
     }
 
     public ActionDefinitionDetails getActionDefinitionFromDefId(Long defId) {
-        return (ActionDefinitionDetails) this.getDefinition(getIdentity(defId));
+        return (ActionDefinitionDetails) this.getDefinitionFromObjId(defId);
     }
 
     public Long storeAndGenerateAInsobjId(ActionInstanceDetails aIns, Long related, final URI uri) {
@@ -142,7 +143,7 @@ public final class ActionManager extends DefinitionsManager {
             try {
                 //requirement: 3.2.12.2.e: if an ActionName ever existed before, use the old ActionIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), 
+                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
                         name, ActionHelper.ACTIONIDENTITY_OBJECT_TYPE);
 
                 //in case the ActionName never existed before, create a new identity
@@ -179,7 +180,8 @@ public final class ActionManager extends DefinitionsManager {
             }
         }
         //add to internal lists
-        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), actionDefDetails);
+//        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), actionDefDetails);
+        this.addIdentityDefinition(name, newIdPair, actionDefDetails);
         return newIdPair;
     }
 
@@ -217,11 +219,9 @@ public final class ActionManager extends DefinitionsManager {
         return newDefId;
     }
 
-    public boolean delete(Long objId) { // requirement: 3.2.14.2.e
-        if (!this.deleteIdentity(objId)) {
-            return false;
-        }
-        return true;
+    public boolean delete(Long objId) {
+        // requirement: 3.2.14.2.e
+        return this.deleteIdentity(objId);
     }
 
     protected boolean isActionDefinitionValid(ActionDefinitionDetails oldDef, ActionDefinitionDetails newDef) {
@@ -377,10 +377,7 @@ public final class ActionManager extends DefinitionsManager {
             @Override
             public void run() {
                 try {
-
-                    final ActionDefinitionDetails actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
-
-                    ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
+                    final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
 
                     URI uriTo = interaction.getMessageHeader().getURITo();
                     URI uriNextDestination = null;
@@ -407,8 +404,9 @@ public final class ActionManager extends DefinitionsManager {
 
                     // Publish forward success
                     ObjectId sourceFor = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                    getActivityTrackingService().publishForwardEvent(new URI(nodes[0]), interaction.getMessageHeader().getNetworkZone(),
-                            (errorNumber == null), null, uriNextDestination, sourceFor);
+                    getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
+                            interaction.getMessageHeader().getNetworkZone(), (errorNumber == null),
+                            null, uriNextDestination, sourceFor);
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MALException ex) {
@@ -456,11 +454,13 @@ public final class ActionManager extends DefinitionsManager {
 
                 actionInstances.remove(actionInstId);
 
-//                //TODO: i think the failure was published in actionArrived method and only if it wasnt, the following completion event shall be published -> issue
+//                //TODO: i think the failure was published in actionArrived method and only if it wasnt, 
+                //the following completion event shall be published -> issue
 //                // Publish Event stating that the execution was finished
 //				success = actions.getFailureStage() != actionDefinition.getProgressStepCount().getValue() + 2;
 //                if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
-//                    reportExecutionComplete(success, success ? null : actions.getFailureCode(), actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
+//                    reportExecutionComplete(success, success ? null : actions.getFailureCode(), 
+//                        actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
 //                }
             }
         });

@@ -977,7 +977,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * of true will be returned because no error happened.
      */
     public Boolean pushMultipleParameterValues(final List<ParameterInstance> parameters) {
-        return this.pushMultipleParameterValues(parameters, false);
+        return this.pushMultipleParameterValues(parameters, true);
     }
 
     /**
@@ -1038,12 +1038,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                         objId = returnedObjIds.get(0);
                     } catch (MALInteractionException ex) {
                         Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        return false;
                     } catch (MALException ex) {
                         Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        return false;
                     }
                 }
 
-                // Todo: Improve the line below...
                 if (((ParameterDefinitionDetails) manager.getDefinition(objId.getObjIdentityInstanceId())).getGenerationEnabled()) {
                     outIds.add(objId); // Don't push the PVals that are not enabled...
                     parameterValueList.add(parameters.get(i).getParameterValue());

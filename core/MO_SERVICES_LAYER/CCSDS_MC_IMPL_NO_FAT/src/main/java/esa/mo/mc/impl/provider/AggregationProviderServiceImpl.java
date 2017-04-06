@@ -1285,6 +1285,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
                 confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
+        // The periodic reporting and sampling need to be refreshed
+        manager.createAggregationValuesList(confSetIdents.getObjInstIds());
+        periodicReportingManager.refreshAll();  // Refresh the reporting
+        periodicSamplingManager.refreshAll();
+        
         return true;
     }
 

@@ -28,10 +28,8 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.mc.impl.provider.model.GroupRetrieval;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
@@ -59,9 +57,10 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 public abstract class DefinitionsManager {
 
     //An Identity always has exactly one active Definition. Never 0 and never > 1.
-    private final HashMap<Identity, Definition> identityDefinitions;
-//    private final HashMap<Long, Identifier> identitiesMap;
-//    private final HashMap<Long, Element> definitionsMap;
+    private final HashMap<Long, Identifier> identitiesToNamesMap;
+    private final HashMap<Identifier, ObjectInstancePair> namesToPairsMap;
+    private final HashMap<Long, Element> objIdToDefMap;
+
     private final EventProviderServiceImpl eventService;
     private final ArchiveProviderServiceImpl archiveService;
     private final ActivityTrackingProviderServiceImpl activityTrackingService;
@@ -69,7 +68,9 @@ public abstract class DefinitionsManager {
     private final GroupServiceImpl groupService = new GroupServiceImpl();
 
     protected DefinitionsManager(COMServicesProvider comServices) {
-        this.identityDefinitions = new HashMap<Identity, Definition>();
+        this.identitiesToNamesMap = new HashMap<Long, Identifier>();
+        this.namesToPairsMap = new HashMap<Identifier, ObjectInstancePair>();
+        this.objIdToDefMap = new HashMap<Long, Element>();
 
         if (comServices != null) {
             this.eventService = comServices.getEventService();
@@ -106,76 +107,7 @@ public abstract class DefinitionsManager {
     public COMServicesProvider getCOMServices() {
         return this.comServices;
     }
-
-    /**
-     * instances of the identity-class will be persisted in the local provider
-     * list
-     */
-    protected class Identity {
-
-        public Identity() {
-        }
-
-        public Identity(Long id, Identifier name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        private Long id;
-        private Identifier name;
-
-        public Long getId() {
-            return id;
-        }
-
-        public Identifier getName() {
-            return name;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public void setName(Identifier name) {
-            this.name = name;
-        }
-    }
-
-    /**
-     * instances of the definitions-objects will be persisted in the local
-     * provider list
-     */
-    protected class Definition {
-
-        public Definition() {
-        }
-
-        public Definition(Long id, Element details) {
-            this.id = id;
-            this.details = details;
-        }
-
-        private Long id;
-        private Element details;
-
-        public Long getId() {
-            return id;
-        }
-
-        public Element getDetails() {
-            return details;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public void setDetails(Element details) {
-            this.details = details;
-        }
-
-    }
-
+    
     /**
      * Checks if a certain identity exists.
      *
@@ -183,14 +115,17 @@ public abstract class DefinitionsManager {
      * @return True if exists. False otherwise.
      */
     protected synchronized boolean existsIdentity(Long identityId) {
-        // Todo: This one can stay...
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            if (identity.getId().equals(identityId)) {
-                return true;
-            }
-        }
-        return false;
+        return this.identitiesToNamesMap.containsKey(identityId);
+    }
+
+    /**
+     * Checks if a certain object instance identifier definition exists.
+     *
+     * @param identityId The object instance identifier of the identity
+     * @return True if exists. False otherwise.
+     */
+    protected synchronized boolean existsDef(Long objId) {
+        return this.objIdToDefMap.containsKey(objId);
     }
 
     /**
@@ -201,33 +136,10 @@ public abstract class DefinitionsManager {
      * found.
      */
     public synchronized Long getIdentity(Identifier name) {
-        // Todo: This one can go slow... BUT, the publishing of Alerts has to change to use the getIdentityDefinition() and check for null, like it is done for parameters
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            if (identity.getName().equals(name)) {
-                return identity.getId();
-            }
-        }
-        return null; // Not found!
-    }
-
-    /**
-     * Lists the object instance identifier for an identity that will be looked
-     * for by the id of its current definition.
-     *
-     * @param defId the id of a current definition
-     * @return The object instance identifier of the identity. Null if defId not
-     * found.
-     */
-    public synchronized Long getIdentity(Long defId) {
-        // Todo: This one can be removed with clever coding!
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            if (identityDefinitions.get(identity).getId().equals(defId)) {
-                return identity.getId();
-            }
-        }
-        return null; // Not found!
+        // Todo: This one can go slow... BUT, the publishing of Alerts has to change 
+        // to use the getIdentityDefinition() and check for null, like it is done for parameters
+        final ObjectInstancePair pair = this.namesToPairsMap.get(name);
+        return (pair != null) ? pair.getObjIdentityInstanceId() : null;
     }
 
     /**
@@ -239,15 +151,7 @@ public abstract class DefinitionsManager {
      * found.
      */
     public synchronized ObjectInstancePair getIdentityDefinition(Identifier name) {
-        // Todo: This one needs to go fast
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            if (identity.getName().equals(name)) {
-                Definition def = identityDefinitions.get(identity);
-                return new ObjectInstancePair(identity.getId(), def.getId());
-            }
-        }
-        return null; // Not found!
+        return this.namesToPairsMap.get(name);
     }
 
     /**
@@ -270,14 +174,24 @@ public abstract class DefinitionsManager {
     public synchronized Element getDefinition(Long identityId) {
         // This must be fast!
 
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            if (identity.getId().equals(identityId)) {
-                Definition def = identityDefinitions.get(identity);
-                return def.getDetails();
-            }
+        // Needs further optimization...
+        final Identifier name = this.identitiesToNamesMap.get(identityId);
+
+        if (name == null) {
+            return null;
         }
-        return null; // Not found!
+
+        return this.objIdToDefMap.get(this.namesToPairsMap.get(name).getObjDefInstanceId());
+    }
+
+    /**
+     * Gets the details of the definition with the given objId.
+     *
+     * @param objId the id of the identity you want the details from
+     * @return the definition-details. Or Null if not found.
+     */
+    public synchronized Element getDefinitionFromObjId(Long objId) {
+        return this.objIdToDefMap.get(objId);
     }
 
     /**
@@ -288,14 +202,13 @@ public abstract class DefinitionsManager {
      * @return the definition-details. Or Null if not found.
      */
     public synchronized Long getDefinitionId(Long identityId) {
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            if (identity.getId().equals(identityId)) {
-                Definition def = identityDefinitions.get(identity);
-                return def.getId();
-            }
+        final Identifier name = this.identitiesToNamesMap.get(identityId);
+
+        if (name == null) {
+            return null;
         }
-        return null; // Not found!
+
+        return this.namesToPairsMap.get(name).getObjDefInstanceId();
     }
 
     /**
@@ -306,26 +219,10 @@ public abstract class DefinitionsManager {
      */
     public synchronized Identifier getName(Long identityId) {
         // Todo: Make it fast!
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            if (identity.getId().equals(identityId)) {
-                return identity.getName();
-            }
-        }
-        return null; // Not found!
+
+        return this.identitiesToNamesMap.get(identityId);
     }
 
-    /*
-    public synchronized Identifier getNameFromDefId(Long defId) {
-        for (Identity identity : identityDefinitions.keySet()) {
-            Definition definition = identityDefinitions.get(identity);
-            if (definition.id.equals(defId)) {
-                return identity.getName();
-            }
-        }
-        return null; // Not found!
-    }
-     */
     /**
      * Lists all the identities available.
      *
@@ -333,11 +230,7 @@ public abstract class DefinitionsManager {
      */
     public synchronized ObjectInstancePairList listAllIdentityDefinitions() {
         ObjectInstancePairList list = new ObjectInstancePairList();
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            Definition def = identityDefinitions.get(identity);
-            list.add(new ObjectInstancePair(identity.getId(), def.getId()));
-        }
+        list.addAll(this.namesToPairsMap.values());
         return list;
     }
 
@@ -348,12 +241,8 @@ public abstract class DefinitionsManager {
      */
     public synchronized LongList listAllIdentities() {
         LongList list = new LongList();
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            list.add(identity.getId());
-        }
+        list.addAll(this.identitiesToNamesMap.keySet());
         return list;
-
     }
 
     /**
@@ -363,13 +252,10 @@ public abstract class DefinitionsManager {
      */
     public synchronized LongList listAllDefinitions() {
         LongList list = new LongList();
-        final Collection<Definition> definitions = identityDefinitions.values();
-        for (Definition definition : definitions) {
-            list.add(definition.getId());
-        }
+        list.addAll(this.objIdToDefMap.keySet());
         return list;
     }
-
+    
     /**
      * Adds an identity-object and its definition-object to the manager
      *
@@ -379,12 +265,17 @@ public abstract class DefinitionsManager {
      * @param defDetails the definitionDetails
      * @return
      */
-    protected synchronized Boolean addIdentityDefinition(final Long identityId,
-            final Identifier name, final Long defId, final Element defDetails) {
+    protected synchronized Boolean addIdentityDefinition(final Identifier name,
+            final ObjectInstancePair pair, final Element defDetails) {
+        this.identitiesToNamesMap.put(pair.getObjIdentityInstanceId(), name);
+        this.namesToPairsMap.put(name, pair);
+        this.objIdToDefMap.put(pair.getObjDefInstanceId(), defDetails);
+
+        /*
         Identity identity = new Identity(identityId, name);
         Definition def = new Definition(defId, defDetails);
         identityDefinitions.put(identity, def);
-
+         */
         return true;
     }
 
@@ -398,15 +289,26 @@ public abstract class DefinitionsManager {
      * not exist in the manager, in this case, the definition is not added.
      */
     protected synchronized boolean updateDef(Long identityId, Long newDefId, Element newDefDetails) {
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            if (identity.getId().equals(identityId)) {
-                final Definition def = new Definition(newDefId, newDefDetails);
-                identityDefinitions.replace(identity, def);
-                return true;
-            }
+        final Identifier name = this.identitiesToNamesMap.get(identityId);
+
+        if (name == null) {
+            return false;
         }
-        return false;
+
+        final ObjectInstancePair pair = this.namesToPairsMap.get(name);
+
+        if (pair == null) {
+            return false;
+        }
+
+        // We are good! Remove the previous definition and add the new one...
+        this.objIdToDefMap.remove(pair.getObjDefInstanceId());
+        this.objIdToDefMap.put(newDefId, newDefDetails);
+
+        // Update the pair
+        pair.setObjDefInstanceId(newDefId);
+
+        return true;
     }
 
     /**
@@ -416,29 +318,27 @@ public abstract class DefinitionsManager {
      * @return True if successful. False if the object instance identifier does
      * not exist in the manager.
      */
-    protected synchronized boolean deleteIdentity(Long identityId) {
-        final Set<Identity> identities = identityDefinitions.keySet();
-        for (Identity identity : identities) {
-            if (identity.getId().equals(identityId)) {
-                identityDefinitions.remove(identity);
-                return true;
-            }
+    protected synchronized boolean deleteIdentity(final Long identityId) {
+        final Identifier name = this.identitiesToNamesMap.get(identityId);
+
+        if (name == null) {
+            return false;
         }
-        return false;
+
+        final Long objId = this.namesToPairsMap.get(name).getObjDefInstanceId();
+
+        if (objId == null) {
+            return false;
+        }
+
+        // Remove them all...
+        this.objIdToDefMap.remove(objId);
+        this.namesToPairsMap.remove(name);
+        this.identitiesToNamesMap.remove(identityId);
+
+        return true;
     }
 
-    /**
-     * Provides the current set of definitions available in the Manager.
-     *
-     * @return The definitions set and the corresponding object instance
-     * identifiers.
-     */
-    /*
-    @Deprecated
-    public synchronized HashMap<Identity, Definition> getCurrentDefinitionsConfiguration() {
-        return new HashMap(identityDefinitions);
-    }
-     */
     /**
      * Provides the current set of definitions available in the Manager.
      *
@@ -446,18 +346,12 @@ public abstract class DefinitionsManager {
      * identifiers.
      */
     public synchronized ConfigurationObjectSetList getCurrentConfiguration() {
-        Set<Identity> ids = identityDefinitions.keySet();
-        Collection<Definition> defs = identityDefinitions.values();
-
         LongList idObjIds = new LongList();
         LongList defObjIds = new LongList();
 
-        for (Identity id : ids) {
-            idObjIds.add(id.getId());
-        }
-
-        for (Definition def : defs) {
-            defObjIds.add(def.getId());
+        for (ObjectInstancePair pair : this.namesToPairsMap.values()) {
+            idObjIds.add(pair.getObjIdentityInstanceId());
+            defObjIds.add(pair.getObjDefInstanceId());
         }
 
         ConfigurationObjectSet idents = new ConfigurationObjectSet();
@@ -487,7 +381,7 @@ public abstract class DefinitionsManager {
      * @return True if the configuration was successfully changed. False
      * otherwise.
      */
-    public synchronized Boolean reconfigureDefinitions(final LongList identityIds, 
+    public synchronized Boolean reconfigureDefinitions(final LongList identityIds,
             final IdentifierList names, final LongList defIds, final ElementList definitions) {
         if (identityIds == null || names == null || defIds == null || definitions == null) {
             return false;
@@ -497,11 +391,14 @@ public abstract class DefinitionsManager {
             return false;
         }
 
-        identityDefinitions.clear();
+        this.identitiesToNamesMap.clear();
+        this.namesToPairsMap.clear();
+        this.objIdToDefMap.clear();
+
         for (int i = 0; i < identityIds.size(); i++) {
-            final Identity identity = new Identity(identityIds.get(i), names.get(i));
-            final Definition def = new Definition(defIds.get(i), (Element) definitions.get(i));
-            identityDefinitions.put(identity, def);
+            this.identitiesToNamesMap.put(identityIds.get(i), names.get(i));
+            this.namesToPairsMap.put(names.get(i), new ObjectInstancePair(identityIds.get(i), defIds.get(i)));
+            this.objIdToDefMap.put(defIds.get(i), (Element) definitions.get(i));
         }
 
         return true;
@@ -647,10 +544,11 @@ public abstract class DefinitionsManager {
             GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType,
             IdentifierList domain, LongList allIdentities) {
         //if you cont care about the values and just want to get the identities referenced by the groups:
-        InstanceBooleanPairList instBoolPairList = new InstanceBooleanPairList();
+        InstanceBooleanPairList instBoolPairList = new InstanceBooleanPairList(groupIds.size());
         for (Long enableInstance : groupIds) {
             instBoolPairList.add(new InstanceBooleanPair(enableInstance, Boolean.TRUE));
         }
+        
         return getGroupInstancesForServiceOperation(instBoolPairList,
                 groupRetrievalInformation, identyObjectType, domain, allIdentities);
     }

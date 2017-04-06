@@ -468,6 +468,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             return null;
         }
 
+        /*
         Long identityId = manager.getIdentity(alertDefinitionName); // Does it exist in the manager?
         final Long defId = manager.getDefinitionId(identityId);
         
@@ -475,6 +476,18 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             // It doesn't... let's automatically generate the Alert Definition
             identityId = generateAlertDefinition(argumentValues, alertDefinitionName, interaction, identityId);
         }
+        */
+        
+
+        ObjectInstancePair pair  = manager.getIdentityDefinition(alertDefinitionName);
+
+        if  (pair == null) {
+            // It doesn't... let's automatically generate the Alert Definition
+            generateAlertDefinition(argumentValues, alertDefinitionName, interaction, null);
+            pair  = manager.getIdentityDefinition(alertDefinitionName);
+        }
+
+        final Long defId = pair.getObjDefInstanceId();
         
         // Also, check if the Alert is enabled or not!
         AlertDefinitionDetails alertDef = manager.getAlertDefinitionFromDefId(defId);

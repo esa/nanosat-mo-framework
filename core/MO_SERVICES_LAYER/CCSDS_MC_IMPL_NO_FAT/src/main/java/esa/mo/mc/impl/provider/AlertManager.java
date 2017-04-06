@@ -64,7 +64,7 @@ public final class AlertManager extends DefinitionsManager {
     }
 
     public AlertDefinitionDetails getAlertDefinitionFromDefId(Long defId) {
-        return (AlertDefinitionDetails) this.getDefinition(getIdentity(defId));
+        return (AlertDefinitionDetails) this.getDefinitionFromObjId(defId);
     }
 
     public ObjectInstancePair add(Identifier name, AlertDefinitionDetails definition, 
@@ -117,9 +117,9 @@ public final class AlertManager extends DefinitionsManager {
             }
         }
 
-        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), definition);
+//        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), definition);
+        this.addIdentityDefinition(name, newIdPair, definition);
         return newIdPair;
-
     }
 
     public Long update(Long identityId, AlertDefinitionDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
