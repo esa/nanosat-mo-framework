@@ -428,7 +428,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                     new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
             try { // Subscribe to events
                 EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.get(i));
-                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE,
                         "Connected to: " + appConnections.get(i).toString());
                 eventServiceConsumer.addEventReceivedListener(eventSub,
                         new ClosingAppListener(interaction, eventServiceConsumer, appInstIds.get(i)));

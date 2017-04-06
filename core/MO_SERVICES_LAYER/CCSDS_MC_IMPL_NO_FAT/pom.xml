@@ -27,7 +27,7 @@
     <packaging>jar</packaging>
     <version>1.1-SNAPSHOT</version>
 
-    <name>ESA MC Implementation: DLR without the fat</name>
+    <name>ESA/DLR MC Implementation: Without the fat</name>
     <description>The ESA/TU Graz/DLR implementation of the CCSDS MO MC services</description>
     <url>http://www.esa.int</url>
   
