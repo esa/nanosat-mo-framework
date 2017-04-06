@@ -450,7 +450,6 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_actionDefinitionsTableComponentAdded
 
     private void enableDefinitionAllAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionAllAggActionPerformed
-
         Boolean curState;
 
         if (aggregationTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
@@ -479,14 +478,13 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
 
     private void enableDefinitionButtonAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionButtonAggActionPerformed
-
         if (aggregationTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
 
         Boolean curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
+        BoolPairList.add(new InstanceBooleanPair(aggregationTable.getSelectedIdentityObjId(), !curState));  // Zero is the wildcard
 
         try {
             this.serviceMCAggregation.getAggregationStub().enableGeneration(false, BoolPairList);

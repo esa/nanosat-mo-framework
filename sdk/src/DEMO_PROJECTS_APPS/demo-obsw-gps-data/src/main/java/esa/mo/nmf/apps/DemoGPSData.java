@@ -60,9 +60,7 @@ import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
  *
  */
 public class DemoGPSData {
-
-//    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
+    private final NanoSatMOFrameworkInterface nanoSatMOFramework;
     private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
     private static final String PARAMETER_GPS_LONGITUDE = "GPS.Longitude";
     private static final String PARAMETER_GPS_ALTITUDE = "GPS.Altitude";
@@ -70,24 +68,7 @@ public class DemoGPSData {
     private static final String AGGREGATION_GPS = "GPS.Aggregation";
 
     public DemoGPSData() {
-
-        /*
-        InstanceBooleanPairList enableInstances = new InstanceBooleanPairList();
-        InstanceBooleanPair enableInstance = new InstanceBooleanPair();
-        enableInstance.setId((long) 0);
-        enableInstance.setValue(true);
-        enableInstances.add(enableInstance);
-                
-
-        
-        try {
-            nanoSatMOFramework.getMCServices().getParameterService().enableGeneration(false, enableInstances, null);
-        } catch (MALException ex) {
-            Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
+        this.nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
     }
 
     /**
@@ -158,7 +139,6 @@ public class DemoGPSData {
             ));
             paramNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
-//            registrationObject.registerParameters(paramNames, defsGPS);
             LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, defsGPS);
 
             // ------------------ Aggregations ------------------
@@ -250,7 +230,6 @@ public class DemoGPSData {
 
                     return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
                 }
-
             } catch (MALException ex) {
                 Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
