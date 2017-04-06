@@ -28,7 +28,7 @@ import javax.persistence.*;
  * @author Cesar Coelho
  */
 @Entity
-public class ProviderURIHolderEntity implements Serializable{
+public class ProviderURIHolderEntity implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -36,21 +36,21 @@ public class ProviderURIHolderEntity implements Serializable{
 
     @Column(name = "providerURIString")
     private String providerURI;
-  
+
     protected ProviderURIHolderEntity() {
     }
 
-    public ProviderURIHolderEntity (final int id, final String providerURI){
+    public ProviderURIHolderEntity(final int id, final String providerURI) {
         this.id = id;
         this.providerURI = providerURI;
     }
-    
-    public int getId(){
+
+    public int getId() {
         return this.id;
     }
 
-    public String getProviderURIString(){
+    public String getProviderURIString() {
         return this.providerURI;
     }
-  
+
 }

@@ -36,7 +36,18 @@
 
         <!--  -->
         <property name="eclipselink.cache.shared.default" value="false"/>
-        
+
+        <!--  To try out  -->
+        <!-- 
+        <property name="eclipse.weaving" value="false"/>
+        <property name="eclipselink.weaving.lazy" value="false"/>
+        <property name="eclipselink.weaving.changetracking" value="false"/>
+        <property name="eclipselink.weaving.fetchgroups" value="false"/>
+        <property name="eclipselink.weaving.internal" value="false"/>
+        <property name="eclipselink.weaving.eager" value="false"/>
+        -->
+
+                                
       <!--      In case of problems roll it to "Database", it is the generic value
         <property name="eclipselink.target-database" value="Database"/>
         <property name="eclipselink.platform.class.name" value="org.eclipse.persistence.platform.database.SQLServerPlatform"/>

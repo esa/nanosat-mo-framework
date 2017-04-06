@@ -95,7 +95,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         initialiased = true;
     }
 
-    protected Attribute generateConvertedValue(Attribute rawValue, ParameterConversion conversion) {
+    protected Attribute generateConvertedValue(final Attribute rawValue, final ParameterConversion conversion) {
         if (conversion == null) { // No conversion?
             return null;
         }
@@ -134,6 +134,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         return HelperCOM.evaluateExpression(param, expression.getOperator(), expression.getValue());
     }
 
+    /* Not used...
     private Element retrieveConversionDetailsFromArchive(ObjectId referenceId) {
         if (archiveService == null) { // If there's no archive...
             return null;
@@ -141,10 +142,10 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         return HelperArchive.getObjectBodyFromArchive(archiveService, referenceId.getType(), 
                 referenceId.getKey().getDomain(), referenceId.getKey().getInstId());
     }
+    */
 
     private Attribute applyConversion(final Attribute value, final ConditionalConversion conditionalRef) throws MALInteractionException {
-        ParameterExpression condition = conditionalRef.getCondition();
-        Boolean eval = this.evaluateParameterExpression(condition);
+        Boolean eval = this.evaluateParameterExpression(conditionalRef.getCondition());
 
         if (!eval) {  // Is the Parameter Expression Invalid?
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
@@ -158,7 +159,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         //TODO: use a query method here
         final IdentifierList domain = conditionalRef.getConversionId().getDomain();
 
-        Element conversionDetails = getConversionDefinition(domain, conditionalRef.getConversionId().getInstId());
+        Element conversionDetails = this.getConversionDefinition(domain, conditionalRef.getConversionId().getInstId());
 
         if (conversionDetails == null) {
             return null; // The Conversion object was not found in the Archive or Archive not available

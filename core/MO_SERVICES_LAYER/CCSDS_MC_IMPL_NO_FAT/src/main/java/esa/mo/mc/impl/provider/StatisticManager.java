@@ -27,7 +27,6 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
-import esa.mo.mc.impl.util.MCServicesHelper;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.Semaphore;

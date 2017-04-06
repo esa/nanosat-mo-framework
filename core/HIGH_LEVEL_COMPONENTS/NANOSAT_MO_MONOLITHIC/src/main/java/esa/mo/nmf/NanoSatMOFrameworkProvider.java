@@ -289,6 +289,12 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         System.runFinalization();
     }
 
+    /**
+     * Reads the first line of the file that carries the Central Directory
+     * service URI. Returns null if the file was not found.
+     *
+     * @return The URI of the Central Directory service or null if not found.
+     */
     public final URI readCentralDirectoryServiceURI() {
         String path = ".."
                 + File.separator
@@ -302,12 +308,10 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             // Get the text out of that file...
             InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
             BufferedReader br = new BufferedReader(isr);
+            
             try {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    br.close();
-                }
-                
+                String line = br.readLine(); // Reads the first line!
+                br.close();
                 return new URI(line);
             } catch (IOException ex) {
                 Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);

@@ -149,7 +149,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
                 }
             }
 
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
+            final UpdateHeaderList hdrlst = new UpdateHeaderList(1);
             hdrlst.add(
                     new UpdateHeader(
                             HelperTime.getTimestampMillis(),

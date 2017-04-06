@@ -102,100 +102,117 @@ public class ActivityTrackingProviderServiceImpl {
 //------------------------------------------------------------------------------
 // With MALInteraction object
 //------------------------------------------------------------------------------
-    public void publishExecutionEventSubmitAck(MALInteraction interaction, boolean success, ObjectId source)
-            throws MALInteractionException, MALException {
+    public void publishExecutionEventSubmitAck(MALInteraction interaction, boolean success,
+            ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(interaction, success, 1, 1, null, source);
     }
 
-    public void publishExecutionEventRequestResponse(MALInteraction interaction, boolean success, ObjectId source)
-            throws MALInteractionException, MALException {
+    public void publishExecutionEventRequestResponse(MALInteraction interaction, boolean success,
+            ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(interaction, success, 1, 1, null, source);
     }
 
-    public void publishExecutionEventInvokeAck(MALInteraction interaction, boolean success, ObjectId source) throws MALInteractionException, MALException {
+    public void publishExecutionEventInvokeAck(MALInteraction interaction, boolean success,
+            ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(interaction, success, 1, 2, null, source);
     }
 
-    public void publishExecutionEventInvokeResponse(MALInteraction interaction, boolean success, ObjectId source) throws MALInteractionException, MALException {
+    public void publishExecutionEventInvokeResponse(MALInteraction interaction, boolean success,
+            ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(interaction, success, 2, 2, null, source);
     }
 
-    public void publishReleaseEvent(MALInteraction interaction, boolean success, Duration nextDuration, URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
-        this.publishTransferEventOperation(interaction, ActivityTrackingHelper.RELEASE_OBJECT_TYPE, success, nextDuration, nextDestination, source);
+    public void publishReleaseEvent(MALInteraction interaction, boolean success, Duration nextDuration,
+            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+        this.publishTransferEventOperation(interaction, ActivityTrackingHelper.RELEASE_OBJECT_TYPE,
+                success, nextDuration, nextDestination, source);
     }
 
-    public void publishReceptionEvent(MALInteraction interaction, boolean success, Duration nextDuration, URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
-        this.publishTransferEventOperation(interaction, ActivityTrackingHelper.RECEPTION_OBJECT_TYPE, success, nextDuration, nextDestination, source);
+    public void publishReceptionEvent(MALInteraction interaction, boolean success, Duration nextDuration,
+            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+        this.publishTransferEventOperation(interaction, ActivityTrackingHelper.RECEPTION_OBJECT_TYPE,
+                success, nextDuration, nextDestination, source);
     }
 
-    public void publishForwardEvent(MALInteraction interaction, boolean success, Duration nextDuration, URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
-        this.publishTransferEventOperation(interaction, ActivityTrackingHelper.FORWARD_OBJECT_TYPE, success, nextDuration, nextDestination, source);
+    public void publishForwardEvent(MALInteraction interaction, boolean success, Duration nextDuration,
+            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+        this.publishTransferEventOperation(interaction, ActivityTrackingHelper.FORWARD_OBJECT_TYPE,
+                success, nextDuration, nextDestination, source);
     }
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 // With uri and network fields directly
 //------------------------------------------------------------------------------
-    public void publishExecutionEventSubmitAck(final URI uri, final Identifier network, boolean success, ObjectId source)
-            throws MALInteractionException, MALException {
+    public void publishExecutionEventSubmitAck(final URI uri, final Identifier network,
+            boolean success, ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(uri, network, success, 1, 1, null, source);
     }
 
-    public void publishExecutionEventRequestResponse(final URI uri, final Identifier network, boolean success, ObjectId source)
-            throws MALInteractionException, MALException {
+    public void publishExecutionEventRequestResponse(final URI uri, final Identifier network,
+            boolean success, ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(uri, network, success, 1, 1, null, source);
     }
 
-    public void publishExecutionEventInvokeAck(final URI uri, final Identifier network, boolean success, ObjectId source) throws MALInteractionException, MALException {
+    public void publishExecutionEventInvokeAck(final URI uri, final Identifier network,
+            boolean success, ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(uri, network, success, 1, 2, null, source);
     }
 
-    public void publishExecutionEventInvokeResponse(final URI uri, final Identifier network, boolean success, ObjectId source) throws MALInteractionException, MALException {
+    public void publishExecutionEventInvokeResponse(final URI uri, final Identifier network,
+            boolean success, ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(uri, network, success, 2, 2, null, source);
     }
 
-    public void publishReleaseEvent(final URI uri, final Identifier network, boolean success, Duration nextDuration, URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+    public void publishReleaseEvent(final URI uri, final Identifier network, boolean success, Duration nextDuration,
+            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
         this.publishTransferEventOperation(uri, network, ActivityTrackingHelper.RELEASE_OBJECT_TYPE, success, nextDuration, nextDestination, source);
     }
 
-    public void publishReceptionEvent(final URI uri, final Identifier network, boolean success, Duration nextDuration, URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+    public void publishReceptionEvent(final URI uri, final Identifier network, boolean success, Duration nextDuration,
+            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
         this.publishTransferEventOperation(uri, network, ActivityTrackingHelper.RECEPTION_OBJECT_TYPE, success, nextDuration, nextDestination, source);
     }
 
-    public void publishForwardEvent(final URI uri, final Identifier network, boolean success, Duration nextDuration, URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+    public void publishForwardEvent(final URI uri, final Identifier network, boolean success, Duration nextDuration,
+            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
         this.publishTransferEventOperation(uri, network, ActivityTrackingHelper.FORWARD_OBJECT_TYPE, success, nextDuration, nextDestination, source);
     }
 
 //------------------------------------------------------------------------------
     public ObjectId publishExecutionEventOperation(MALInteraction interaction, boolean success,
             int currentStageCount, int totalStageCount, final Long related, ObjectId source) throws MALInteractionException, MALException {
-        return this.publishExecutionEventOperation(interaction, null, null, success, currentStageCount, totalStageCount, related, source);
+        return this.publishExecutionEventOperation(interaction, null, null, success,
+                currentStageCount, totalStageCount, related, source);
     }
 
     public ObjectId publishExecutionEventOperation(final URI uri, final Identifier network, boolean success,
             int currentStageCount, int totalStageCount, final Long related, ObjectId source) throws MALInteractionException, MALException {
-        return this.publishExecutionEventOperation(null, uri, network, success, currentStageCount, totalStageCount, related, source);
+        return this.publishExecutionEventOperation(null, uri, network, success,
+                currentStageCount, totalStageCount, related, source);
     }
 
-    private ObjectId publishExecutionEventOperation(MALInteraction interaction, final URI uri, final Identifier network,
+    private ObjectId publishExecutionEventOperation(final MALInteraction interaction, final URI uri, final Identifier network,
             boolean success, int currentStageCount, int totalStageCount, final Long related, ObjectId source) throws MALInteractionException, MALException {
-
         // Produce ActivityExecutionList
-        ActivityExecutionList ael = new ActivityExecutionList();
-        ActivityExecution activityExecutionInstance = new ActivityExecution();
-        activityExecutionInstance.setExecutionStage(new UInteger(currentStageCount)); // TBD
-        activityExecutionInstance.setStageCount(new UInteger(totalStageCount));
-        activityExecutionInstance.setSuccess(success);
+        ActivityExecutionList ael = new ActivityExecutionList(1);
+        ActivityExecution activityExecutionInstance = new ActivityExecution(
+                success,
+                new UInteger(currentStageCount),
+                new UInteger(totalStageCount));
+
         ael.add(activityExecutionInstance);
         final Long objId;
 
         URI sourceURI = uri;
 
         if (interaction != null) {
-            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), ael, related, source, interaction);
+            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), ael, related, source, interaction);
             sourceURI = (interaction.getMessageHeader() != null) ? interaction.getMessageHeader().getURITo() : new URI("");
         } else {
-            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), ael, related, source, uri, network);
+            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), ael, related, source, uri, network);
         }
 
         final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), objId);
@@ -229,7 +246,7 @@ public class ActivityTrackingProviderServiceImpl {
         ActivityTransferList atl = new ActivityTransferList();
         ActivityTransfer at = new ActivityTransfer(success, duration, nextDestination);
         atl.add(at);
-        
+
         final Long objId;
         URI sourceURI = uri;
 
@@ -264,15 +281,17 @@ public class ActivityTrackingProviderServiceImpl {
         // Create ActivityAcceptanceList
         ActivityAcceptanceList aal = new ActivityAcceptanceList();
         aal.add(new ActivityAcceptance(success));
-        
+
         final Long objId;
         URI sourceURI = uri;
 
         if (interaction != null) {
-            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), aal, related, source, interaction);
+            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), aal, related, source, interaction);
             sourceURI = (interaction.getMessageHeader() != null) ? interaction.getMessageHeader().getURITo() : new URI("");
         } else {
-            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), aal, related, source, uri, network);
+            objId = eventService.generateAndStoreEvent(ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), aal, related, source, uri, network);
         }
 
         try {
@@ -307,30 +326,6 @@ public class ActivityTrackingProviderServiceImpl {
         archiveDetails.get(0).setInstId(objId); // requirement: 3.5.2.4
         archiveDetails.get(0).setNetwork(interaction.getMessageHeader().getNetworkZone());  // RID raised to create this requirement!
         archiveDetails.get(0).setProvider(interaction.getMessageHeader().getURIFrom());     // RID raised to create this requirement!
-
-        /*
-        class StoreCOMOperationActivityHandler implements Runnable {
-
-            @Override
-            public void run() {
-                try {
-                    archiveService.store(
-                            false,
-                            ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
-                            interaction.getMessageHeader().getDomain(),
-                            archiveDetails,
-                            opActivityList,
-                            interaction); // requirement: 3.5.2.3 & 3.5.2.5
-                } catch (MALException ex) {
-                    Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALInteractionException ex) {
-                    Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-
-        executor.execute(new StoreCOMOperationActivityHandler());
-        */
 
         executor.execute(new Runnable() {
             @Override

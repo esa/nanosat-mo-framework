@@ -22,7 +22,6 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.mc.impl.util.MCServicesHelper;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -30,7 +29,6 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
-import org.ccsds.moims.mo.mal.MALService;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.MCHelper;
@@ -44,10 +42,6 @@ import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 public class GroupServiceImpl extends ConversionInheritanceSkeleton {
 
     private ArchiveProviderServiceImpl archiveService;
-
-    //private static transient COMService service;
-    private static transient MALService service;
-
     private boolean initialiased = false;
 
     /**
@@ -79,9 +73,6 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         }
 
         initialiased = true;
-
-        service = GroupHelper.GROUP_SERVICE;
-
     }
 
     /**

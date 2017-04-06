@@ -338,7 +338,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         ProcessExecutionHandler handler = handlers.get(appId);
 
         if (handler == null) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.FINE,
                     "The Process handler could not be found!");
 
             app.setRunning(false);

@@ -25,11 +25,9 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.mc.impl.provider.DefinitionsManager.Identity;
 import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -47,7 +45,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -154,7 +151,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
     }
     
     @Override //requirement: 3.2.3
-    public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         boolean unknown = false;
 
@@ -192,7 +190,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
         // Publish the second Acceptance event
         try {
             // source for ActionInstance ACCEPTANCE event is the ActionInstance object id
-            ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId)); // requirement: 3.2.8.f  
+            ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
+                    new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId)); // requirement: 3.2.8.f  
             //body of AcceptanceEvent is value of "accepted"? -> issue #187
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, accepted, null, source); // requirement: 3.2.8.e, f, g  
         } catch (MALInteractionException ex) {

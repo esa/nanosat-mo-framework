@@ -422,7 +422,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             return null;
         }
 
-        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList(objectDetailsList.size());
 
         for (int i = 0; i < objectDetailsList.size(); i++) {
             ArchiveDetails archiveDetails = new ArchiveDetails();

@@ -101,6 +101,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     private boolean running = false;
     private boolean isRegistered = false;
     private StatisticManager manager;
+    private final Object lock = new Object();
     private MonitorStatisticsPublisher publisher;
     private final ConnectionProvider connection = new ConnectionProvider();
     private PeriodicReportingManager periodicReportingManager;
@@ -210,11 +211,13 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
     private void publishStatisticsUpdate(final Long objIdLink, final Long objIdLinkDef, final StatisticValue sVal, final ObjectId source) {
         try {
-            if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
-                isRegistered = true;
+            synchronized (lock) {
+                if (!isRegistered) {
+                    final EntityKeyList lst = new EntityKeyList();
+                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                    publisher.register(lst, new PublishInteractionListener());
+                    isRegistered = true;
+                }
             }
 
             Logger.getLogger(StatisticProviderServiceImpl.class.getName()).log(Level.FINE,

@@ -206,7 +206,6 @@ public class ParameterManager extends DefinitionsManager {
                 archiveDetails.setInstId(new Long(0));
                 archiveDetails.setDetails(new ObjectDetails(relatedList.get(i), sourcesList.get(i)));
                 archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
-                //requirement: 3.3.9.2.h all Parameter-Value objects shall have the same creation-time
                 archiveDetails.setTimestamp(timestamps.get(i));
                 archiveDetails.setProvider(connectionDetails.getProviderURI());
 
@@ -290,11 +289,13 @@ public class ParameterManager extends DefinitionsManager {
      * @param rawValue the value to be set at the new ParameterValue
      * @return a new ParameterValue object
      */
+    /*
     public ParameterValue createParameterValue(Identifier name, Attribute rawValue) {
-        ParameterDefinitionDetails pDef = this.getParameterDefinition(getIdentity(name));
+        final ParameterDefinitionDetails pDef = this.getParameterDefinition(getIdentity(name));
         // Generate final Parameter Value
         return generateNewParameterValue(rawValue, pDef, false);
     }
+    */
 
     /**
      * Gets the current value of the parameter with the given identity-id
@@ -355,7 +356,8 @@ public class ParameterManager extends DefinitionsManager {
      * will be expired.
      * @return the validityState
      */
-    protected UOctet generateValidityState(ParameterDefinitionDetails pDef, Attribute rawValue, Attribute convertedValue, boolean aggrExpired) {
+    protected UOctet generateValidityState(final ParameterDefinitionDetails pDef, 
+            final Attribute rawValue, final Attribute convertedValue, final boolean aggrExpired) {
 
         //parameter-aggregation has a timeout that is expired
         if (pDef.getGenerationEnabled() && pDef.getReportInterval().getValue() != 0 && aggrExpired) //requirement 3.3.3.i
@@ -640,7 +642,7 @@ public class ParameterManager extends DefinitionsManager {
      * @return a filled ParameterValue
      */
     private ParameterValue generateNewParameterValue(Attribute rawValue, 
-            ParameterDefinitionDetails pDef, boolean aggrExpired) {
+            final ParameterDefinitionDetails pDef, final boolean aggrExpired) {
         ParameterValue newPValue;
 
         //requirement: 3.3.3.q, 3.3.3.r         
@@ -658,15 +660,15 @@ public class ParameterManager extends DefinitionsManager {
         //check the validity and set the state
         UOctet validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
         newPValue.setValidityState(validityState);
+        
         if (validityState.equals(getAsUOctet(ValidityState.INVALID_CONVERSION))) {
             convertedValue = null;  // requirement: 3.3.3.o
         }
         if (validityState.equals(getAsUOctet(ValidityState.INVALID_RAW))) {
             rawValue = null; //requirement: 3.3.3.j
         }
-        //fill the rawValue
+
         newPValue.setRawValue(rawValue);
-        //fill the convertedValue
         newPValue.setConvertedValue(convertedValue);
         //Attribute unionConvertedValue = (convertedValue == null) ? null : convertedValue;  // Union doesn't directly accept null values
         return newPValue;
@@ -716,7 +718,7 @@ public class ParameterManager extends DefinitionsManager {
      * @param pDef the definition it should get the conversion from
      * @return the converted value. null if no conversionservice is available
      */
-    private Attribute getConvertedValue(Attribute rawValue, ParameterDefinitionDetails pDef) {
+    private Attribute getConvertedValue(final Attribute rawValue, final ParameterDefinitionDetails pDef) {
         Attribute convertedValue;
         // Is the Conversion service available for use?
         if (conversionService != null) {

@@ -29,6 +29,10 @@ import java.io.IOException;
 import static java.lang.Integer.max;
 import static java.lang.Integer.min;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -63,6 +67,7 @@ public final class ActionManager extends DefinitionsManager {
     private Long uniqueObjIdAIns;
     private final ActionInvocationListener actions;
     private final HashMap<Long, ActionInstanceDetails> actionInstances = new HashMap<Long, ActionInstanceDetails>();
+    private final ExecutorService actionsExecutor = Executors.newCachedThreadPool(new ActionThreadFactory("ActionsExecutor"));
 
     public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {
         super(comServices);
@@ -137,7 +142,8 @@ public final class ActionManager extends DefinitionsManager {
             try {
                 //requirement: 3.2.12.2.e: if an ActionName ever existed before, use the old ActionIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), name, ActionHelper.ACTIONIDENTITY_OBJECT_TYPE);
+                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), 
+                        name, ActionHelper.ACTIONIDENTITY_OBJECT_TYPE);
 
                 //in case the ActionName never existed before, create a new identity
                 if (identityId == null) {
@@ -366,9 +372,8 @@ public final class ActionManager extends DefinitionsManager {
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         //TODO: after issue I expect to get the identity-id here -> issue #179
         final Identifier name = getName(actionDetails.getDefInstId());
-        
-        Thread t = new Thread() {
 
+        actionsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -387,7 +392,7 @@ public final class ActionManager extends DefinitionsManager {
 
                     // Reception
                     ObjectId sourceRec = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                    getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]), 
+                    getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]),
                             interaction.getMessageHeader().getNetworkZone(), true, null, uriNextDestination, sourceRec);
 
                     UInteger errorNumber;
@@ -396,7 +401,7 @@ public final class ActionManager extends DefinitionsManager {
                     if (actions != null) {
                         errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
                                 actionInstId, actionDetails.getStageProgressRequired(), interaction);
-                    }else{
+                    } else {
                         errorNumber = new UInteger(0);
                     }
 
@@ -410,20 +415,16 @@ public final class ActionManager extends DefinitionsManager {
                     Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        };
-
-        t.start();
+        });
     }
 
     protected void execute(final Long actionInstId, final ActionInstanceDetails actionDetails,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
 
         actionInstances.put(actionInstId, actionDetails);
-        final Identifier name = getNameFromDefId(actionDetails.getDefInstId());
+        final Identifier name = this.getName(actionDetails.getDefInstId());
 
-        // To do: Make this with an executor
-        Thread t = new Thread() {
-
+        actionsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 final ActionDefinitionDetails actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
@@ -462,12 +463,11 @@ public final class ActionManager extends DefinitionsManager {
 //                    reportExecutionComplete(success, success ? null : actions.getFailureCode(), actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
 //                }
             }
-        };
+        });
 
-        t.start();
     }
 
-    protected ActionInstanceDetails getActionInstance(final Long id){
+    protected ActionInstanceDetails getActionInstance(final Long id) {
         return actionInstances.get(id);
     }
 
@@ -544,6 +544,37 @@ public final class ActionManager extends DefinitionsManager {
         // requirement: 3.2.8.h and 3.2.8.k
         reportActivityExecutionEvent(success, errorNumber, 2 + totalNumberOfProgressStages,
                 2 + totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
+    }
+
+    /**
+     * The database backend thread factory
+     */
+    static class ActionThreadFactory implements ThreadFactory {
+
+        private final ThreadGroup group;
+        private final AtomicInteger threadNumber = new AtomicInteger(1);
+        private final String namePrefix;
+
+        ActionThreadFactory(String prefix) {
+            SecurityManager s = System.getSecurityManager();
+            group = (s != null) ? s.getThreadGroup()
+                    : Thread.currentThread().getThreadGroup();
+            namePrefix = prefix + "-thread-";
+        }
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(group, r,
+                    namePrefix + threadNumber.getAndIncrement(),
+                    0);
+            if (t.isDaemon()) {
+                t.setDaemon(false);
+            }
+            if (t.getPriority() != Thread.NORM_PRIORITY) {
+                t.setPriority(Thread.NORM_PRIORITY);
+            }
+            return t;
+        }
     }
 
 }

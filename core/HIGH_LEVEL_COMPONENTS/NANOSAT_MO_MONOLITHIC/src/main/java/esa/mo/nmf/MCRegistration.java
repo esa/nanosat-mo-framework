@@ -262,45 +262,6 @@ public class MCRegistration {
         }
 
         return null;
-        
-/*        
-        try {
-            ObjectInstancePairList objIds = aggregationService.listDefinition(names, null);
-            AggregationCreationRequestList newDefs = new AggregationCreationRequestList();
-            AggregationDefinitionDetailsList duplicateDefs = new AggregationDefinitionDetailsList();
-            LongList duplicateObjIds = new LongList();
-
-            for (int i = 0; i < objIds.size(); i++) {
-                if (objIds.get(i) == null) {
-                    newDefs.add(new AggregationCreationRequest(names.get(i), definitions.get(i)));
-                } else {
-                    duplicateDefs.add(definitions.get(i));
-                    duplicateObjIds.add(objIds.get(i).getObjIdentityInstanceId());
-                }
-            }
-
-            aggregationService.addAggregation(newDefs, null);
-
-            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
-                aggregationService.updateDefinition(duplicateObjIds, duplicateDefs, null);
-            }
-
-            final ObjectInstancePairList newInstPairs = aggregationService.listDefinition(names, null);
-            final LongList outs = new LongList(newInstPairs.size());
-            
-            for(ObjectInstancePair newInstPair : newInstPairs){
-                outs.add(newInstPair.getObjIdentityInstanceId());
-            }
-            
-            return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        }
-
-        return null;
-*/        
     }
 
     /**
@@ -383,45 +344,6 @@ public class MCRegistration {
         }
 
         return null;
-        
-        /*
-        try {
-            ObjectInstancePairList objIds = alertService.listDefinition(names, null);
-            AlertCreationRequestList newDefs = new AlertCreationRequestList();
-            AlertDefinitionDetailsList duplicateDefs = new AlertDefinitionDetailsList();
-            LongList duplicateObjIds = new LongList();
-
-            for (int i = 0; i < objIds.size(); i++) {
-                if (objIds.get(i) == null) {
-                    newDefs.add(new AlertCreationRequest(names.get(i), definitions.get(i)));
-                } else {
-                    duplicateDefs.add(definitions.get(i));
-                    duplicateObjIds.add(objIds.get(i).getObjIdentityInstanceId());
-                }
-            }
-
-            alertService.addAlert(newDefs, null);
-
-            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
-                alertService.updateDefinition(duplicateObjIds, duplicateDefs, null);
-            }
-
-            final ObjectInstancePairList newInstPairs = alertService.listDefinition(names, null);
-            final LongList outs = new LongList(newInstPairs.size());
-            
-            for(ObjectInstancePair newInstPair : newInstPairs){
-                outs.add(newInstPair.getObjIdentityInstanceId());
-            }
-            
-            return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        }
-
-        return null;
-        */
     }
 
     /**
@@ -504,45 +426,6 @@ public class MCRegistration {
         }
 
         return null;
-        
-        /*
-        try {
-            ObjectInstancePairList objIds = actionService.listDefinition(names, null);
-            ActionCreationRequestList newDefs = new ActionCreationRequestList();
-            ActionDefinitionDetailsList duplicateDefs = new ActionDefinitionDetailsList();
-            LongList duplicateObjIds = new LongList();
-
-            for (int i = 0; i < objIds.size(); i++) {
-                if (objIds.get(i) == null) {
-                    newDefs.add(new ActionCreationRequest(names.get(i), definitions.get(i)));
-                } else {
-                    duplicateDefs.add(definitions.get(i));
-                    duplicateObjIds.add(objIds.get(i).getObjIdentityInstanceId());
-                }
-            }
-
-            actionService.addAction(newDefs, null);
-
-            if (mode == RegistrationMode.UPDATE_IF_EXISTS) {
-                actionService.updateDefinition(duplicateObjIds, duplicateDefs, null);
-            }
-
-            final ObjectInstancePairList newInstPairs = alertService.listDefinition(names, null);
-            final LongList outs = new LongList(newInstPairs.size());
-            
-            for(ObjectInstancePair newInstPair : newInstPairs){
-                outs.add(newInstPair.getObjIdentityInstanceId());
-            }
-            
-            return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        }
-
-        return null;
-        */
     }
 
     public ObjectIdList registerConversions(ElementList conversions) throws NMFException, MALException, MALInteractionException {

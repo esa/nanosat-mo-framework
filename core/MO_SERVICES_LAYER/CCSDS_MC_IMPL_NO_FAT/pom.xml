@@ -28,7 +28,7 @@
     <version>1.1-SNAPSHOT</version>
 
     <name>ESA MC Implementation: DLR without the fat</name>
-    <description>The ESA/TU Graz implementation of the CCSDS MO MC</description>
+    <description>The ESA/TU Graz/DLR implementation of the CCSDS MO MC services</description>
     <url>http://www.esa.int</url>
   
     <organization>
@@ -43,17 +43,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-  
-    <scm>
-        <connection>scm:git:git@github.com:esa/CCSDS_APPS.git</connection>
-        <developerConnection>scm:git:git@github.com:esa/CCSDS_APPS.git</developerConnection>
-        <url>https://github.com/esa/CCSDS_APPS</url>
-    </scm>
-  
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/esa/CCSDS_APPS/issues</url>
-    </issueManagement>
   
     <developers>
         <developer>
@@ -145,28 +134,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>StubGenerator</artifactId>
-            </plugin>
-            <!--
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                </plugin>
-            -->            
         </plugins>
     </build>
     <repositories>
         <repository>
-            <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <url>file:${project.basedir}/lib</url>
+            <id>AGSA-GITLAB</id>
+            <name>The GitLab repository from the AGSA server.</name>
+            <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
         </repository>
-        <repository>
-            <id>swt-repo</id>
-            <url>https://swt-repo.googlecode.com/svn/repo/</url>
-        </repository>
-    </repositories>    
-    
+    </repositories>
 </project>

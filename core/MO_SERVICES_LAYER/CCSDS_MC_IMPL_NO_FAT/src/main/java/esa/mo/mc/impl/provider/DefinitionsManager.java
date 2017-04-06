@@ -87,14 +87,14 @@ public abstract class DefinitionsManager {
         } catch (MALException ex) {
             Logger.getLogger(DefinitionsManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public EventProviderServiceImpl getEventService() {
         return this.eventService;
     }
 
-    //TODO: synchrinized added; does the problem, that the updateDefinition-operation sometimes doesnt find the definition, that was right before updated? -> problem
+    //TODO: synchrinized added; does the problem, that the updateDefinition-operation 
+    //sometimes doesnt find the definition, that was right before updated? -> problem
     public ArchiveProviderServiceImpl getArchiveService() {
         return this.archiveService;
     }
@@ -183,6 +183,7 @@ public abstract class DefinitionsManager {
      * @return True if exists. False otherwise.
      */
     protected synchronized boolean existsIdentity(Long identityId) {
+        // Todo: This one can stay...
         final Set<Identity> identities = identityDefinitions.keySet();
         for (Identity identity : identities) {
             if (identity.getId().equals(identityId)) {
@@ -200,6 +201,7 @@ public abstract class DefinitionsManager {
      * found.
      */
     public synchronized Long getIdentity(Identifier name) {
+        // Todo: This one can go slow... BUT, the publishing of Alerts has to change to use the getIdentityDefinition() and check for null, like it is done for parameters
         final Set<Identity> identities = identityDefinitions.keySet();
         for (Identity identity : identities) {
             if (identity.getName().equals(name)) {
@@ -218,6 +220,7 @@ public abstract class DefinitionsManager {
      * found.
      */
     public synchronized Long getIdentity(Long defId) {
+        // Todo: This one can be removed with clever coding!
         final Set<Identity> identities = identityDefinitions.keySet();
         for (Identity identity : identities) {
             if (identityDefinitions.get(identity).getId().equals(defId)) {
@@ -236,6 +239,7 @@ public abstract class DefinitionsManager {
      * found.
      */
     public synchronized ObjectInstancePair getIdentityDefinition(Identifier name) {
+        // Todo: This one needs to go fast
         final Set<Identity> identities = identityDefinitions.keySet();
         for (Identity identity : identities) {
             if (identity.getName().equals(name)) {
@@ -252,10 +256,11 @@ public abstract class DefinitionsManager {
      *
      * @return the map with all identity-defintions
      */
+    /*
     public synchronized HashMap<Identity, Definition> getIdentityDefinitions() {
         return new HashMap(identityDefinitions);
     }
-
+     */
     /**
      * Gets the details of the definition with the given id.
      *
@@ -263,6 +268,8 @@ public abstract class DefinitionsManager {
      * @return the definition-details. Or Null if not found.
      */
     public synchronized Element getDefinition(Long identityId) {
+        // This must be fast!
+
         final Set<Identity> identities = identityDefinitions.keySet();
         for (Identity identity : identities) {
             if (identity.getId().equals(identityId)) {
@@ -298,6 +305,7 @@ public abstract class DefinitionsManager {
      * @return the name-field of the definitions identity
      */
     public synchronized Identifier getName(Long identityId) {
+        // Todo: Make it fast!
         final Set<Identity> identities = identityDefinitions.keySet();
         for (Identity identity : identities) {
             if (identity.getId().equals(identityId)) {
@@ -306,17 +314,18 @@ public abstract class DefinitionsManager {
         }
         return null; // Not found!
     }
-	
-	public synchronized Identifier getNameFromDefId(Long defId) {
-		for (Identity identity : identityDefinitions.keySet()) {
-			Definition definition = identityDefinitions.get(identity);
-			if (definition.id.equals(defId)) {
-				return identity.getName();
-			}
-		}
-        return null; // Not found!
-	}
 
+    /*
+    public synchronized Identifier getNameFromDefId(Long defId) {
+        for (Identity identity : identityDefinitions.keySet()) {
+            Definition definition = identityDefinitions.get(identity);
+            if (definition.id.equals(defId)) {
+                return identity.getName();
+            }
+        }
+        return null; // Not found!
+    }
+     */
     /**
      * Lists all the identities available.
      *
@@ -370,7 +379,8 @@ public abstract class DefinitionsManager {
      * @param defDetails the definitionDetails
      * @return
      */
-    protected synchronized Boolean addIdentityDefinition(Long identityId, Identifier name, Long defId, Element defDetails) {
+    protected synchronized Boolean addIdentityDefinition(final Long identityId,
+            final Identifier name, final Long defId, final Element defDetails) {
         Identity identity = new Identity(identityId, name);
         Definition def = new Definition(defId, defDetails);
         identityDefinitions.put(identity, def);
@@ -423,11 +433,12 @@ public abstract class DefinitionsManager {
      * @return The definitions set and the corresponding object instance
      * identifiers.
      */
+    /*
     @Deprecated
     public synchronized HashMap<Identity, Definition> getCurrentDefinitionsConfiguration() {
         return new HashMap(identityDefinitions);
     }
-
+     */
     /**
      * Provides the current set of definitions available in the Manager.
      *
@@ -437,15 +448,15 @@ public abstract class DefinitionsManager {
     public synchronized ConfigurationObjectSetList getCurrentConfiguration() {
         Set<Identity> ids = identityDefinitions.keySet();
         Collection<Definition> defs = identityDefinitions.values();
-        
+
         LongList idObjIds = new LongList();
         LongList defObjIds = new LongList();
-        
-        for(Identity id : ids){
+
+        for (Identity id : ids) {
             idObjIds.add(id.getId());
         }
 
-        for(Definition def : defs){
+        for (Definition def : defs) {
             defObjIds.add(def.getId());
         }
 
@@ -458,11 +469,11 @@ public abstract class DefinitionsManager {
         ConfigurationObjectSet defis = new ConfigurationObjectSet();
         defis.setDomain(ConfigurationProviderSingleton.getDomain());
         defis.setObjInstIds(currentObjIds1);
-      
+
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(idents);
         list.add(defis);
-        
+
         return list;
     }
 
@@ -476,7 +487,8 @@ public abstract class DefinitionsManager {
      * @return True if the configuration was successfully changed. False
      * otherwise.
      */
-    public synchronized Boolean reconfigureDefinitions(LongList identityIds, IdentifierList names, LongList defIds, ElementList definitions) {
+    public synchronized Boolean reconfigureDefinitions(final LongList identityIds, 
+            final IdentifierList names, final LongList defIds, final ElementList definitions) {
         if (identityIds == null || names == null || defIds == null || definitions == null) {
             return false;
         }
@@ -524,7 +536,8 @@ public abstract class DefinitionsManager {
      * @return The id of the Identity-Object with the given name if it exists in
      * the archive. NULL otherwise.
      */
-    protected Long retrieveIdentityIdByNameFromArchive(IdentifierList domain, Identifier name, ObjectType identitysObjectType) {
+    protected Long retrieveIdentityIdByNameFromArchive(IdentifierList domain,
+            Identifier name, ObjectType identitysObjectType) {
         final ArchiveProviderServiceImpl archive = getArchiveService();
         if (archive == null) { // If there's no archive...
             return null;
@@ -532,7 +545,8 @@ public abstract class DefinitionsManager {
         //get all identity-objects with the given objectType
         LongList identityIds = new LongList();
         identityIds.add(0L);
-        final List<ArchivePersistenceObject> identityArchiveObjs = HelperArchive.getArchiveCOMObjectList(archive, identitysObjectType, domain, identityIds);
+        final List<ArchivePersistenceObject> identityArchiveObjs
+                = HelperArchive.getArchiveCOMObjectList(archive, identitysObjectType, domain, identityIds);
         if (identityArchiveObjs == null) {
             return null;
         }
@@ -570,7 +584,8 @@ public abstract class DefinitionsManager {
      * contains all available ParameterIdentities.
      * @return
      */
-    public GroupRetrieval getGroupInstancesForServiceOperation(InstanceBooleanPairList enableInstances, GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType, IdentifierList domain, LongList allIdentities) {
+    public GroupRetrieval getGroupInstancesForServiceOperation(InstanceBooleanPairList enableInstances,
+            GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType, IdentifierList domain, LongList allIdentities) {
         //in the next for loop, ignore the other group identities, those will be checked in other iterations.
         LongList ignoreList = new LongList();
         for (InstanceBooleanPair instance : enableInstances) {
@@ -585,9 +600,11 @@ public abstract class DefinitionsManager {
                 groupRetrievalInformation.addUnkIndex(new UInteger(index)); // requirement: 3.3.10.2.g
             } else { //if group was found, then get the instances of it and its groups
                 ignoreList.remove(groupIdentityId);
-                GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupIdentityId, group, ignoreList);
+                GroupServiceImpl.IdObjectTypeList idObjectTypes
+                        = groupService.getGroupObjectIdsFromGroup(groupIdentityId, group, ignoreList);
                 ignoreList.add(groupIdentityId);
-                //checks if the given identityId is found in the internal Identity-list of the specific service, if not then the object doesnt belong to the service and is invalid
+                //checks if the given identityId is found in the internal Identity-list of the specific 
+                //service, if not then the object doesnt belong to the service and is invalid
                 for (GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
                     if (idObjectType.getObjectType().equals(identyObjectType)) {
                         final Long identityId = idObjectType.getId();
@@ -626,13 +643,16 @@ public abstract class DefinitionsManager {
      * @param allIdentities
      * @return
      */
-    public GroupRetrieval getGroupInstancesForServiceOperation(LongList groupIds, GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType, IdentifierList domain, LongList allIdentities) {
+    public GroupRetrieval getGroupInstancesForServiceOperation(LongList groupIds,
+            GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType,
+            IdentifierList domain, LongList allIdentities) {
         //if you cont care about the values and just want to get the identities referenced by the groups:
         InstanceBooleanPairList instBoolPairList = new InstanceBooleanPairList();
         for (Long enableInstance : groupIds) {
             instBoolPairList.add(new InstanceBooleanPair(enableInstance, Boolean.TRUE));
         }
-        return getGroupInstancesForServiceOperation(instBoolPairList, groupRetrievalInformation, identyObjectType, domain, allIdentities);
+        return getGroupInstancesForServiceOperation(instBoolPairList,
+                groupRetrievalInformation, identyObjectType, domain, allIdentities);
     }
 
 }
