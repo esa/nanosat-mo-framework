@@ -21,118 +21,85 @@
 package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import java.io.Serializable;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
+ * This class used to be a direct Entity for the db, now it is just a COM Object carrier.
  *
  * @author Cesar Coelho
  */
-public class ArchivePersistenceObject implements Serializable{
+public class ArchivePersistenceObject implements Serializable {
 
-    private ObjectType objectType;
-    private IdentifierList domainId;
-    private Long objId;
+    private final ObjectType objectType;
+    private final IdentifierList domainId;
+    private final Long objId;
 
-    // ---------------------    
-    
-    private ObjectId sourceLink;
-    private Long relatedLink;
-    private String network;
+    private final ObjectId sourceLink;
+    private final Long relatedLink;
+    private final String network;
 
-    private Long timestampArchiveDetails;
-    private String providerURI;
+    private final Long timestampArchiveDetails;
+    private final String providerURI;
+//    private final Element obj;
+    
+    // The Element wrapping was removed!
+    private final Object object;
 
-    private Element obj;
-    
-    private Long storeTimestamp;
-    
-//    public ObjectType getObjectType(){ return HelperCOM.objectTypeId2objectType(this.objectTypeId); }
-    public ObjectType getObjectType(){ return this.objectType; }
-//    public Long getObjectTypeId(){ return this.objectTypeId; }
-    public Long getObjectTypeId(){ return HelperCOM.generateSubKey(this.objectType); }
-    
-//    public IdentifierList getDomain(){ return HelperMisc.domainId2domain(this.domainId); }
-//    public String getDomainId(){ return this.domainId; }
-    public IdentifierList getDomain(){ return this.domainId; }
     /*
-    public String getDomainId(){ return HelperMisc.domain2domainId(this.domainId); }
-    */
-    public Long getObjectId(){ return this.objId; }
-//    public Object getObject(){ return HelperAttributes.attribute2JavaType(obj.getObjectBody()); }
-    public Object getObject(){ return HelperAttributes.attribute2JavaType(obj);  }
-
-    public ArchiveDetails getArchiveDetails(){
-//        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink), new Identifier(network), new FineTime(timestampArchiveDetails.getTime()), new URI(providerURI));  
-    
-//        ObjectId source = (this.sourceLink == null) ? null : this.sourceLink.generateObjectId();
-        final ObjectId source = this.sourceLink;
-        final Identifier net = (this.network == null) ? null : new Identifier(network);
-        final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
-
-//        java.sql.Timestamp ts = new java.sql.Timestamp(timestampArchiveDetails.getTime());
-//        ts.setNanos(nanos);
-//        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, source), net, new FineTime(HelperTime.getNanosecondsFromSQLTimestamp(ts)), uri);  
-
-        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, source), net, new FineTime(timestampArchiveDetails), uri);  
-
-    }
-
-//    protected Long getStoreTimestamp(){ return storeTimestamp; }
-
     protected ArchivePersistenceObject() {
     }
+*/
 
-    public ArchivePersistenceObject (ObjectType objectType, IdentifierList domain,
-            Long objId, ArchiveDetails archiveDetails, Object object){
-
-//        this.objectTypeId = HelperCOM.generateSubKey(objectType);
+    public ArchivePersistenceObject(final ObjectType objectType, final IdentifierList domain,
+            final Long objId, final ArchiveDetails archiveDetails, final Object object) {
         this.objectType = objectType;
-//        this.domainId = HelperMisc.domain2domainId(domain);
         this.domainId = domain;
         this.objId = objId;
-        
-//        java.sql.Timestamp ts = new java.sql.Timestamp(HelperTime.fromNanoToMilli(archiveDetails.getTimestamp().getValue()));
-//        nanos = HelperTime.getFractionalPart(archiveDetails.getTimestamp().getValue());
-//        this.timestampArchiveDetails = ts;
-
-        this.timestampArchiveDetails = archiveDetails.getTimestamp().getValue();
 
         this.providerURI = archiveDetails.getProvider().getValue();
         this.network = archiveDetails.getNetwork().getValue();
+        this.timestampArchiveDetails = archiveDetails.getTimestamp().getValue();
+
         this.sourceLink = archiveDetails.getDetails().getSource();
-//        this.sourceLink = (archiveDetails.getDetails().getSource() == null) ? null : new COMObjectPK(archiveDetails.getDetails().getSource());
         this.relatedLink = archiveDetails.getDetails().getRelated();
-        
-//        this.obj = new ObjectBodyHolder((Element) HelperAttributes.javaType2Attribute(object), this.objectTypeId); // Encapsulate it as Attribute
-        this.obj = (Element) HelperAttributes.javaType2Attribute(object);
-        
-        // This is specific to the database, not the COM object timestamp
-        this.storeTimestamp = System.currentTimeMillis(); // stamp the time of the object store
+//        this.obj = (Element) HelperAttributes.javaType2Attribute(object);
+        this.object = object;
     }
 
-    /*
-    public static COMObjectPK generatePK (final ObjectType 
-             objectType, final IdentifierList domain, final Long objId){
-        // Generate Primary Key
-        return new COMObjectPK(
-                HelperCOM.generateSubKey(objectType), 
-                HelperMisc.domain2domainId(domain), 
-                objId );
+    public ObjectType getObjectType() {
+        return this.objectType;
     }
-    
-    public COMObjectPK getPrimaryKey(){
-        return new COMObjectPK(this.objectTypeId, this.domainId, this.objId );
+
+    public Long getObjectTypeId() {
+        return HelperCOM.generateSubKey(this.objectType);
     }
-*/
+
+    public IdentifierList getDomain() {
+        return this.domainId;
+    }
+
+    public Long getObjectId() {
+        return this.objId;
+    }
+
+    public ArchiveDetails getArchiveDetails() {
+        final Identifier net = (this.network == null) ? null : new Identifier(network);
+        final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
+        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink),
+                net, new FineTime(timestampArchiveDetails), uri);
+    }
+
+    public Object getObject() {
+//        return HelperAttributes.attribute2JavaType(obj);
+        return this.object;
+    }
 
 }

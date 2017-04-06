@@ -58,5 +58,6 @@
     <modules>
         <module>GPS_SIMULATOR</module>
         <module>CCSDS_MO_TOOLS_WINDOW</module>
+        <module>OPS-SAT_IMAGE_DEBAYER</module>
     </modules>
 </project>
