@@ -19,12 +19,12 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>0.1-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>APPS_SPACE_REACTOR</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>NMF App Demos</name>
 
