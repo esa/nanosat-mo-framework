@@ -83,8 +83,7 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
-            <!-- Version 2.5.2 works well! -->
-            <version>2.6.4</version>
+            <version>2.5.2</version>
         </dependency>
 
 <!--
