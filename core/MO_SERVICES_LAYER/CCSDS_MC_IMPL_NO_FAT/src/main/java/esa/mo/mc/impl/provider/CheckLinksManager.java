@@ -21,10 +21,8 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetails;
@@ -116,7 +114,10 @@ class CheckLinksManager extends DefinitionsManager {
 
     public Long getCheckLinkId(Long checkLinkDefId) {
         for (Long key : checkLinkIds.keySet()) {
-            if (Objects.equals(checkLinkIds.get(key), checkLinkDefId)) {
+            if(checkLinkIds.get(key) == null && checkLinkDefId == null){
+                return key;
+            }
+            if (checkLinkIds.get(key) != null && checkLinkDefId != null  && checkLinkIds.get(key).equals(checkLinkDefId)) {
                 return key;
             }
         }

@@ -26,8 +26,6 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import java.io.IOException;
-import static java.lang.Integer.max;
-import static java.lang.Integer.min;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -318,7 +316,10 @@ public final class ActionManager extends DefinitionsManager {
 
         // So, first of all, are we even comparing things of the same size?
         if (sizeArgVal != sizeDef) {
-            for (int i = min(sizeDef, sizeArgVal); i < max(sizeDef, sizeArgVal); i++) {
+            int min = (sizeDef < sizeArgVal) ? sizeDef : sizeArgVal;
+            int max = (sizeDef > sizeArgVal) ? sizeDef : sizeArgVal;
+            
+            for (int i = min; i < max; i++) {
                 errorList.add(new UInteger(i));
             }
             return false;
@@ -329,8 +330,12 @@ public final class ActionManager extends DefinitionsManager {
             // Ids must be of the same size as well
             int sizeDefArgIds = actionDef.getArgumentIds().size();
             int sizeInstArgIds = actionInstance.getArgumentIds().size();
+
+            int min = (sizeDefArgIds < sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
+            int max = (sizeDefArgIds > sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
+            
             if (sizeDefArgIds != sizeInstArgIds) {
-                for (int i = min(sizeDefArgIds, sizeInstArgIds); i < max(sizeDefArgIds, sizeInstArgIds); i++) {
+                for (int i = min; i < max; i++) {
                     errorList.add(new UInteger(i));
                 }
                 return false;

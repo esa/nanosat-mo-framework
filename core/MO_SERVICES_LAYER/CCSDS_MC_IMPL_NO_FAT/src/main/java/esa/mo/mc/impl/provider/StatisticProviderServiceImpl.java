@@ -25,8 +25,6 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
-import static java.lang.Integer.max;
-import static java.lang.Integer.min;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -799,7 +797,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         if (objInstIds.size() != newDetails.size()) { // requirement: 3.6.1.5.2.g
-            for (int i = min(objInstIds.size(), newDetails.size()); i < max(objInstIds.size(), newDetails.size()); i++) {
+            int min = (objInstIds.size() < newDetails.size()) ? objInstIds.size() : newDetails.size();
+            int max = (objInstIds.size() > newDetails.size()) ? objInstIds.size() : newDetails.size();
+            
+            for (int i = min; i < max; i++) {
                 invIndexList.add(new UInteger(i));
             }
         } else {
