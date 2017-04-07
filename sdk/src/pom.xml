@@ -67,7 +67,7 @@
         <module>CTT</module>
         <!-- Shoud fail on the module below because the Software Simulator needs to go into the Core package -->
         <module>PLAYGROUND_GENERATOR</module> 
-        <module>NMF_Package_Creator_Tool</module> 
+        <module>NMF_PACKAGE_CREATOR_TOOL</module> 
     </modules>
   
     <repositories>
