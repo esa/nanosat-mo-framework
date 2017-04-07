@@ -19,7 +19,7 @@
     <groupId>int.esa.opssat</groupId>
     <artifactId>GPS_SIMULATOR</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.1.0-SNAPSHOT</version>
 
     <name>GPS Simulator</name>
     <description>A GPS Simulator</description>
