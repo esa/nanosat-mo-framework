@@ -72,4 +72,12 @@
         <module>OTHERS</module>
     </modules>
   
+    <repositories>
+        <repository>
+            <id>AGSA-Maven-Repository</id>
+            <name>The Maven repository from the AGSA server.</name>
+            <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
+        </repository>
+    </repositories>    
+
 </project>
