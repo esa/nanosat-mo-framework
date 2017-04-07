@@ -24,7 +24,7 @@
   </parent>
   
   <artifactId>TRANSPORT_LAYER</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
   <name>MO Transport Layer</name>
 

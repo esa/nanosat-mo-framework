@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>0.1-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>HELPER_TOOLS</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 
     <name>Helper Tools</name>
     <description>Helper Tools for the NanoSat MO Framework</description>

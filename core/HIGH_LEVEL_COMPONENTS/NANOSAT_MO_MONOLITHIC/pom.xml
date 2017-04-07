@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>0.1-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 
     <name>NanoSat MO Monolithic: Generic</name>
     <description>NanoSat MO Framework</description>
@@ -189,6 +189,6 @@
             <name>The GitLab repository from the AGSA server.</name>
             <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
         </repository>
-    </repositories>    
+    </repositories>
     
 </project>

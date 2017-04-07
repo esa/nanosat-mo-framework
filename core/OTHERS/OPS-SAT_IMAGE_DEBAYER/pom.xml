@@ -18,7 +18,7 @@
 
     <groupId>int.esa.opssat</groupId>
     <artifactId>OPSSAT_IMAGE_DEBAYER</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
     
     <name>Image Debayering for OPS-SAT</name>

@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>0.1-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>CCSDS_SM_IMPL</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 
     <name>ESA Software Management Implementation</name>
     <description>The ESA/TU Graz implementation of the CCSDS Mission Operations Software Management services</description>
