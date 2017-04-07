@@ -66,7 +66,7 @@
     </developers>
   
     <properties>
-        <esa.nmf.helper.version>1.0-SNAPSHOT</esa.nmf.helper.version>
+        <esa.nmf.helper.version>0.1.0-SNAPSHOT</esa.nmf.helper.version>
 
         <!-- Transports -->
         <esa.ccsds.trans.http.version>1.2-SNAPSHOT</esa.ccsds.trans.http.version>
@@ -78,25 +78,26 @@
         <!-- APIs -->
         <esa.ccsds.api.mc.version>1.0</esa.ccsds.api.mc.version>
         <esa.ccsds.api.common.version>1.0-RC1</esa.ccsds.api.common.version>
-        <esa.ccsds.api.sm.version>1.0-SNAPSHOT</esa.ccsds.api.sm.version>
-        <esa.ccsds.api.platform.version>1.0-SNAPSHOT</esa.ccsds.api.platform.version>
+        <esa.ccsds.api.sm.version>0.1.0-SNAPSHOT</esa.ccsds.api.sm.version>
+        <esa.ccsds.api.platform.version>0.1.0-SNAPSHOT</esa.ccsds.api.platform.version>
 
         <!-- Services Implementations -->
-        <esa.ccsds.impl.com.version>1.4-SNAPSHOT</esa.ccsds.impl.com.version>
-        <esa.ccsds.impl.mc.version>1.1-SNAPSHOT</esa.ccsds.impl.mc.version>
-        <esa.ccsds.impl.common.version>1.0-SNAPSHOT</esa.ccsds.impl.common.version>
-        <esa.ccsds.impl.sm.version>1.0-SNAPSHOT</esa.ccsds.impl.sm.version>
-        <esa.ccsds.impl.plat.version>1.0-SNAPSHOT</esa.ccsds.impl.plat.version>
+        <esa.ccsds.impl.com.version>0.1.0-SNAPSHOT</esa.ccsds.impl.com.version>
+        <esa.ccsds.impl.reconfigurable.version>0.1.0-SNAPSHOT</esa.ccsds.impl.reconfigurable.version>
+        <esa.ccsds.impl.mc.version>0.1.0-SNAPSHOT</esa.ccsds.impl.mc.version>
+        <esa.ccsds.impl.common.version>0.1.0-SNAPSHOT</esa.ccsds.impl.common.version>
+        <esa.ccsds.impl.sm.version>0.1.0-SNAPSHOT</esa.ccsds.impl.sm.version>
+        <esa.ccsds.impl.plat.version>0.1.0-SNAPSHOT</esa.ccsds.impl.plat.version>
 
         <!-- High-level Components -->
-        <esa.nmf.components.nmm.version>1.0-SNAPSHOT</esa.nmf.components.nmm.version>
-        <esa.nmf.components.nmc.version>1.0-SNAPSHOT</esa.nmf.components.nmc.version>
-        <esa.nmf.components.nms.version>1.0-SNAPSHOT</esa.nmf.components.nms.version>
-        <esa.nmf.components.gma.version>1.0-SNAPSHOT</esa.nmf.components.gma.version>
-        <esa.nmf.components.gmp.version>1.0-SNAPSHOT</esa.nmf.components.gmp.version>
+        <esa.nmf.components.nmm.version>0.1.0-SNAPSHOT</esa.nmf.components.nmm.version>
+        <esa.nmf.components.nmc.version>0.1.0-SNAPSHOT</esa.nmf.components.nmc.version>
+        <esa.nmf.components.nms.version>0.1.0-SNAPSHOT</esa.nmf.components.nms.version>
+        <esa.nmf.components.gma.version>0.1.0-SNAPSHOT</esa.nmf.components.gma.version>
+        <esa.nmf.components.gmp.version>0.1.0-SNAPSHOT</esa.nmf.components.gmp.version>
 
         <!-- NMF Packager -->
-        <esa.nmf.packager.version>1.0-SNAPSHOT</esa.nmf.packager.version>
+        <esa.nmf.packager.version>0.1.0-SNAPSHOT</esa.nmf.packager.version>
 
         <!-- NMF Artifacts -->
         <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
@@ -161,6 +162,11 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>CCSDS_COM_IMPL</artifactId>
                 <version>${esa.ccsds.impl.com.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>RECONFIGURABLE_MO</artifactId>
+                <version>${esa.ccsds.impl.reconfigurable.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
