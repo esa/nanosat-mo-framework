@@ -46,6 +46,11 @@ cache:
   except:
     - master
 
+# Validate merge requests using JDK6
+validate:jdk6:
+  <<: *validate
+  image: maven:3.2.5-jdk-6
+
 # Validate merge requests using JDK7
 validate:jdk7:
   <<: *validate
@@ -56,6 +61,11 @@ validate:jdk8:
   <<: *validate
   image: maven:3.3.9-jdk-8
 
+# Verify merge requests using JDK6
+verify:jdk6:
+  <<: *verify
+  image: maven:3.2.5-jdk-6
+
 # Verify merge requests using JDK7
 verify:jdk7:
   <<: *verify
@@ -65,39 +75,4 @@ verify:jdk7:
 verify:jdk8:
   <<: *verify
   image: maven:3.3.9-jdk-8
-
-
-# For `master` branch run `mvn deploy` automatically.
-# Here you need to decide whether you want to use JDK7 or 8.
-# To get this working you need to define a volume while configuring your gitlab-ci-multi-runner.
-# Mount your `settings.xml` as `/root/.m2/settings.xml` which holds your secrets.
-# See https://maven.apache.org/settings.html
-deploy:jdk8:
-  # Use stage test here, so the pages job may later pickup the created site.
-  stage: test
-  script:
-    - 'mvn $MAVEN_CLI_OPTS deploy site site:stage'
-  only:
-    - master
-  # Archive up the built documentation site.
-  artifacts:
-    paths:
-    - target/staging
-  image: maven:3.3.9-jdk-8
-
-
-pages:
-  image: busybox:latest
-  stage: deploy
-  script:
-    # Because Maven appends the artifactId automatically to the staging path if you did define a parent pom,
-    # you might need to use `mv target/staging/YOUR_ARTIFACT_ID public` instead.
-    - mv target/staging public
-  dependencies:
-    - deploy:jdk8
-  artifacts:
-    paths:
-    - public
-  only:
-    - master
 
