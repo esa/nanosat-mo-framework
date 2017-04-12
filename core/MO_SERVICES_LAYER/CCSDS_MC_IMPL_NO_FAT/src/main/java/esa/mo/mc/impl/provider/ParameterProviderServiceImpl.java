@@ -697,8 +697,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 ConfigurationProviderSingleton.getDomain(),
                 confSetIdents.getObjInstIds());
 
+        periodicReportingManager.pause();
+        
         manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
                 confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
+
+        periodicReportingManager.refreshAll();  // Refresh the reporting
+        periodicReportingManager.start();
 
         return true;
     }

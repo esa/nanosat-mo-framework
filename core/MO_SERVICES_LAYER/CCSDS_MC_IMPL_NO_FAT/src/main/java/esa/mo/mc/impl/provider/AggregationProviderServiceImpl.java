@@ -1282,6 +1282,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 ConfigurationProviderSingleton.getDomain(),
                 confSetIdents.getObjInstIds());
 
+        periodicReportingManager.pause();
+        periodicSamplingManager.pause();
+
         manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
                 confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
@@ -1289,6 +1292,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         manager.createAggregationValuesList(confSetIdents.getObjInstIds());
         periodicReportingManager.refreshAll();  // Refresh the reporting
         periodicSamplingManager.refreshAll();
+        periodicReportingManager.start();
+        periodicSamplingManager.start();
         
         return true;
     }
