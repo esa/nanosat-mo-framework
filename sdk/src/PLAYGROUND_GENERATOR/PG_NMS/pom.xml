@@ -100,7 +100,7 @@
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>LIB_NANOSAT_MO_FRAMEWORK_SOFTWARE_SIMULATOR</artifactId>
-                                    <version>1.0-SNAPSHOT</version>
+                                    <version>0.1.0-SNAPSHOT</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>

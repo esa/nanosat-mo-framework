@@ -59,7 +59,7 @@
     </developers>
     
     <properties>
-        <assembly.mainClass>esa.mo.fw.configurationtool.guis.MOConsumerGUIvFull</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.ctt.guis.ConsumerTestToolGUI</assembly.mainClass>
     </properties>
     
     <dependencies>
