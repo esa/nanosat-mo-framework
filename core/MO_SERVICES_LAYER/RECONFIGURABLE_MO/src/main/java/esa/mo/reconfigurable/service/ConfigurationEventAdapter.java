@@ -108,11 +108,13 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                         && obj.getKey().getDomain().equals(providerDomain)) {
 
                     // Retrieve it from the Archive
-                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) HelperArchive.getObjectBodyFromArchive(
+                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) 
+                            HelperArchive.getObjectBodyFromArchive(
                             comServices.getArchiveService(), obj.getType(),
                             obj.getKey().getDomain(), obj.getKey().getInstId());
 
-                    Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj); // Reload the retrieved configuration
+                    // Reload the retrieved configuration
+                    Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj);
 
                     if (confChanged) {
                         // Todo: Publish success
@@ -125,9 +127,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
             // -----------------------------------------------------------
             // Check if it is a "Current Configuration Store"
             if (eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_NUMBER.toString())) {
-
                 ConfigurationObjectDetails set = serviceImpl.getCurrentConfiguration();
-
                 ConfigurationObjectDetailsList bodies = new ConfigurationObjectDetailsList();
                 bodies.add(set);
 

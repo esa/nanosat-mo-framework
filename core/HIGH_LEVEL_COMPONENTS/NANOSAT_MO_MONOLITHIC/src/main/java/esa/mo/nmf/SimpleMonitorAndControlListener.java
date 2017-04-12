@@ -24,38 +24,41 @@ import java.io.Serializable;
 import java.util.EventListener;
 
 /**
- * The SimpleMonitorAndControlListener interface provides a simple way to 
- * receive actions, set parameters and get  parameters.
- * 
+ * The SimpleMonitorAndControlListener interface provides a simple way to
+ * receive actions, set parameters and get parameters.
+ *
  */
 public abstract interface SimpleMonitorAndControlListener extends EventListener {
-    
+
     /**
-     * The user must implement this interface in order to link a certain 
-     * action Identifier to the method on the application
+     * The user must implement this interface in order to link a certain action
+     * Identifier to the method on the application
+     *
      * @param name Name of the Parameter
      * @param values The parameters/objects sent by the consumer
      * @param actionInstanceObjId The object instance identifier of the action
-     * @return Returns true if the action was successfully executed, false 
+     * @return Returns true if the action was successfully executed, false
      * otherwise.
      */
-    boolean actionArrivedSimple (String name, Serializable[] values, Long actionInstanceObjId);
-    
+    boolean actionArrivedSimple(String name, Serializable[] values, Long actionInstanceObjId);
+
     /**
-     * The user must implement this interface in order to acquire a certain 
+     * The user must implement this interface in order to acquire a certain
      * parameter value of a variable in the application
+     *
      * @param name Name of the Parameter
      * @return The value of the parameter that was requested
      */
-    Serializable onGetValueSimple (String name);
-    
+    Serializable onGetValueSimple(String name);
+
     /**
-     * The user must implement this interface in order to set a certain 
+     * The user must implement this interface in order to set a certain
      * parameter value to a variable in the application
+     *
      * @param name Name of the Parameter
      * @param value The value to be set on the parameter
      * @return True if the value was set successfully, false otherwise.
      */
-    boolean onSetValueSimple (String name, Serializable value);
-    
+    boolean onSetValueSimple(String name, Serializable value);
+
 }

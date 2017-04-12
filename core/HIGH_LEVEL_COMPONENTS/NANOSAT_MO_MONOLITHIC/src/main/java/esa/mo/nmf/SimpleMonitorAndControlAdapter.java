@@ -76,7 +76,6 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
 
     @Override
     public Attribute onGetValue(Identifier identifier, Byte rawType) {
-
         Serializable ret = this.onGetValueSimple(identifier.getValue());
 
         if (ret instanceof Attribute) {
@@ -101,8 +100,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
 
     @Override
     public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-        // Validation
-        if(identifiers.isEmpty() || values.isEmpty()){
+        if(identifiers.isEmpty() || values.isEmpty()){ // Validation
             return false;
         }
 

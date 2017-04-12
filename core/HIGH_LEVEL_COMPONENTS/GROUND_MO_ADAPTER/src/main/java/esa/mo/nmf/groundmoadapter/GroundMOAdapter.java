@@ -38,17 +38,14 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
@@ -56,7 +53,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
@@ -64,7 +60,6 @@ import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
-import org.ccsds.moims.mo.mc.structures.Severity;
 
 /**
  * A Consumer of MO services composed by COM, M&C and Platform services.
@@ -170,7 +165,7 @@ public class GroundMOAdapter extends MOServicesConsumer implements SimpleCommand
     }
 
     @Override
-    public void addDataReceivedListener(final DataReceivedListener dataReceivedListener) {
+    public void addDataReceivedListener(final DataReceivedListener listener) {
         // Make the parameter adapter to call the receiveDataListener when there's a new object available
         class DataReceivedParameterAdapter extends ParameterAdapter {
 
@@ -203,19 +198,19 @@ public class GroundMOAdapter extends MOServicesConsumer implements SimpleCommand
 
                         // Push the data to the user interface
                         // Simple interface
-                        if (dataReceivedListener instanceof SimpleDataReceivedListener) {
-                            ((SimpleDataReceivedListener) dataReceivedListener).onDataReceived(parameterName, object);
+                        if (listener instanceof SimpleDataReceivedListener) {
+                            ((SimpleDataReceivedListener) listener).onDataReceived(parameterName, object);
                         }
 
                         // Complete interface
-                        if (dataReceivedListener instanceof CompleteDataReceivedListener) {
+                        if (listener instanceof CompleteDataReceivedListener) {
                             ObjectId source = lObjectIdList.get(i);
                             Time timestamp = lUpdateHeaderList.get(i).getTimestamp();
 
                             ParameterInstance parameterInstance = new ParameterInstance(new Identifier(parameterName),
                                     lParameterValueList.get(i), source, timestamp);
 
-                            ((CompleteDataReceivedListener) dataReceivedListener).onDataReceived(parameterInstance);
+                            ((CompleteDataReceivedListener) listener).onDataReceived(parameterInstance);
                         }
                     }
                 }
@@ -293,7 +288,7 @@ public class GroundMOAdapter extends MOServicesConsumer implements SimpleCommand
 
                 ActionCreationRequestList acrl = new ActionCreationRequestList();
                 acrl.add(new ActionCreationRequest(new Identifier(actionName), actionDefinition));
-                
+
                 objIds = super.getMCServices().getActionService().getActionStub().addAction(acrl);
                 objId = objIds.get(0);
             }
@@ -337,15 +332,13 @@ public class GroundMOAdapter extends MOServicesConsumer implements SimpleCommand
             action.setArgumentIds(null);
             action.setIsRawValue(null);
 
-            
             // Continues here...
             ParameterRawValueList raws = new ParameterRawValueList();
-            
+
             // Use action service to submit the action
             super.getMCServices().getActionService().getActionStub().submitAction(objId.getObjIdentityInstanceId(), action);
-            
+
             // Todo: This will not work because we need to do the trick of the actions...
-            
         } catch (MALInteractionException ex) {
             Logger.getLogger(GroundMOAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {

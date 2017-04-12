@@ -104,7 +104,7 @@ public class MOServicesConsumer {
 
         // Grab the provider variable and put it into a ConnectionConsumer
         this.connection = HelperCommon.providerSummaryToConnectionConsumer(provider);
-        
+
         this.init();
     }
 
@@ -114,8 +114,8 @@ public class MOServicesConsumer {
         } catch (MalformedURLException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file " + 
-                    HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! "
+            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file "
+                    + HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! "
                     + "This error can happen if the user is trying to run the application from "
                     + "a different folder other than the one where the file is.", ex);
         }
@@ -203,14 +203,14 @@ public class MOServicesConsumer {
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
             CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
         }
-        
+
         try {
             HelperMisc.loadConsumerProperties();
         } catch (MalformedURLException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file " + 
-                    HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! This error can happen if the user is "
+            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file "
+                    + HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! This error can happen if the user is "
                     + "trying to run the application from a different folder other than the one where the file is.", ex);
         }
 
@@ -234,7 +234,7 @@ public class MOServicesConsumer {
 
         return summaryList;
     }
-    
+
     public static void initHelpers() {
         // Load the MAL factories for the supported services
         try {
@@ -263,6 +263,6 @@ public class MOServicesConsumer {
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
-  
+    }
+
 }

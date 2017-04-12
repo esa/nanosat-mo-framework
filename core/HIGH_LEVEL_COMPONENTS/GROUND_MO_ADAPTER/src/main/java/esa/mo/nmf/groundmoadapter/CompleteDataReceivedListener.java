@@ -23,7 +23,7 @@ package esa.mo.nmf.groundmoadapter;
 import esa.mo.mc.impl.provider.ParameterInstance;
 
 /**
- * An abstract class that pushes the received data from the Parameter service
+ * An abstract class that passes the received data from the Parameter service
  * coming via the monitorValue operation with the complete parameter data
  *
  * @author Cesar Coelho

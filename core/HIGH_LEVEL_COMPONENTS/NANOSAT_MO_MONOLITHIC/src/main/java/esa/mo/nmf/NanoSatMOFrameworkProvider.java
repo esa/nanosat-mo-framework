@@ -80,7 +80,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public CloseAppListener closeAppAdapter = null;
     public ConfigurationChangeListener providerConfigurationAdapter = null;
     public String providerName;
-    
+
     public PersistProviderConfiguration providerConfiguration;
     public final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<ReconfigurableService>();
 
@@ -172,71 +172,10 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
-    /*
-    private void reloadServiceConfiguration(final ReconfigurableServiceImplInterface service,
-            final Long serviceObjId) throws NMFException {
-        // Retrieve the COM object of the service
-        ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(comServices.getArchiveService(),
-                ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), serviceObjId);
-
-        if (comObject == null) { // Could not be found, return
-            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE,
-                    service.getCOMService().getName() + " service: The configuration object does not exist in the Archive.");
-            return;
-        }
-
-        // Retrieve it from the Archive
-        ConfigurationObjectDetails configurationObjectDetails = (ConfigurationObjectDetails) HelperArchive.getObjectBodyFromArchive(
-                comServices.getArchiveService(), ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(), comObject.getArchiveDetails().getDetails().getRelated());
-
-        if (configurationObjectDetails == null) { // Could not be found, throw error!
-            // If the object above exists, this one should also!
-            throw new NMFException("An error happened while reloading the service configuration: " + service.getCOMService().getName());
-        }
-
-        // Reload the previous Configuration
-        service.reloadConfiguration(configurationObjectDetails);
-    }
-    */
-
     public abstract void initPlatformServices(COMServicesProvider comServices);
 
-/*    
-    public final void loadMCConfigurations() throws NMFException {
-        // Activate the previous configuration
-        final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
-                new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
-
-        // Create the adapter that stores the configurations "onChange"
-        final MCStoreLastConfigurationAdapter confAdapter = new MCStoreLastConfigurationAdapter(this, confId, new Identifier(this.providerName));
-
-        // Reload the previous Configurations
-        this.reloadServiceConfiguration(mcServices.getActionService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ACTION_SERVICE);
-        this.reloadServiceConfiguration(mcServices.getParameterService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_PARAMETER_SERVICE);
-        this.reloadServiceConfiguration(mcServices.getAlertService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_ALERT_SERVICE);
-        this.reloadServiceConfiguration(mcServices.getAggregationService(), MCStoreLastConfigurationAdapter.DEFAULT_OBJID_AGGREGATION_SERVICE);
-
-        // Send the adapter into each service to save configuration changes when they happen
-        mcServices.getActionService().setConfigurationAdapter(confAdapter);
-        mcServices.getParameterService().setConfigurationAdapter(confAdapter);
-        mcServices.getAlertService().setConfigurationAdapter(confAdapter);
-        mcServices.getAggregationService().setConfigurationAdapter(confAdapter);
-    }
-*/
-    
     public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
         if (mcAdapter != null) {
-            /*
-            mcServices = new MCServicesProviderNMF();
-            parameterManager = new ParameterManager(comServices, mcAdapter);
-
-            mcServices.getParameterService().init(parameterManager);
-            mcServices.getActionService().init(comServices, mcAdapter);
-            mcServices.getAlertService().init(comServices);
-            mcServices.getAggregationService().init(comServices, parameterManager);
-             */
-
             mcServices = new MCServicesProviderNMF();
             mcServices.init(comServices, mcAdapter);
             this.reconfigurableServices.add(mcServices.getActionService());
@@ -255,7 +194,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public ArrayList<ReconfigurableService> getServices() {
         return reconfigurableServices;
     }
-    
+
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
         throw new UnsupportedOperationException("The NMF does no support reconfiguration.");
@@ -308,7 +247,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             // Get the text out of that file...
             InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
             BufferedReader br = new BufferedReader(isr);
-            
+
             try {
                 String line = br.readLine(); // Reads the first line!
                 br.close();

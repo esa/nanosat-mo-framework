@@ -59,9 +59,13 @@ import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
+ * This class is no longer needed. This used to be for the storing of
+ * configurations. Now we have a Generic way of representing and storing
+ * configurations, so this is no longer needed.
  *
  * @author Cesar Coelho
  */
+@Deprecated
 public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListener {
 
     public static Long DEFAULT_OBJID_ACTION_SERVICE = (long) 1;

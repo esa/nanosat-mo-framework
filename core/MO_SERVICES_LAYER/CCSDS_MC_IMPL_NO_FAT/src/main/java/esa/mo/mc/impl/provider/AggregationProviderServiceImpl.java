@@ -1149,7 +1149,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             } else { //aggregation was removed
                 manager.removeAggregationValues(identityId);
             }
-
         }
 
         public void refreshList(LongList identityIds) {
