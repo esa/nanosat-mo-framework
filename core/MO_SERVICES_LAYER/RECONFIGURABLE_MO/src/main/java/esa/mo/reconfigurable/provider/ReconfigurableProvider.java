@@ -20,51 +20,50 @@
  */
 package esa.mo.reconfigurable.provider;
 
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.ArrayList;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
  * An interface to make a service provider implementation reconfigurable
  */
-public interface ReconfigurableProviderImplInterface {
+public interface ReconfigurableProvider {
 
     /**
-     * Sets a configuration adapter to receive the notification of changes in 
-     * the service.
-     * @param configurationAdapter The adapter to receive the notifications
+     * Sets the configuration listener that receives the notification of changes
+     * of a certain provider.
+     *
+     * @param listener The listener to receive the notifications
      */
-    void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter);
+    void setOnConfigurationChangeListener(ConfigurationChangeListener listener);
 
-    /**
-     * Getter for COM services 
-     * @return COM services provider
-     */
-//    public COMServicesProvider getCOMServices();
-
-    /**
-     * Get list of services available
-     * @return A list of the services available
-     */
-    ArrayList<ReconfigurableServiceImplInterface> getServices();
-    
     /**
      * Reloads the service with the provided configuration
+     *
      * @param configurationObjectDetails The configuration
      * @return True if successfully reloaded, false otherwise.
      */
     Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails);
 
     /**
-     * Retrieves the current configuration set in the service provider
+     * Retrieves the current configuration set in the provider
+     *
      * @return The configuration of the service
      */
     ConfigurationObjectDetails getCurrentConfiguration();
 
     /**
+     * Get list of services available
+     *
+     * @return A list of the services available
+     */
+    ArrayList<ReconfigurableService> getServices();
+
+    /**
      * Retrieves the name of the provider
+     *
      * @return The name of the provider
      */
     Identifier getProviderName();

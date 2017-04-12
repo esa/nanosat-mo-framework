@@ -21,16 +21,16 @@
 package esa.mo.reconfigurable.service;
 
 /**
- *
- * 
+ * This Interface must be implemented by the adapter responsible for doing
+ * something upon the trigger of a configuration change.
  */
-public interface ConfigurationNotificationInterface {
-    
+public interface ConfigurationChangeListener {
+
     /**
      * Notifies that the configuration of the service was changed
-     * 
+     *
      * @param service The service which changed its configuration
      */
-    void configurationChanged(ReconfigurableServiceImplInterface service);
+    void onConfigurationChanged(ReconfigurableService service);
 
 }

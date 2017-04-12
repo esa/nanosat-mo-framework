@@ -51,18 +51,18 @@ import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
- * Listens for a Configuration change event from the Event serviceImpl
+ * Listens for a Configuration change COM Event from the Event serviceImpl
  *
  */
 public class ConfigurationEventAdapter extends EventAdapter implements Serializable {
 
     private final COMServicesProvider comServices;
-    private final ReconfigurableServiceImplInterface serviceImpl;
+    private final ReconfigurableService serviceImpl;
     private final IdentifierList providerDomain;
     private final URI providerURI;
 
     public ConfigurationEventAdapter(COMServicesProvider comServices,
-            ReconfigurableServiceImplInterface serviceImpl,
+            ReconfigurableService serviceImpl,
             IdentifierList providerDomain,
             URI providerURI) {
         this.comServices = comServices;
@@ -85,8 +85,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                 return;
             }
 
-            // If so...
-            // Check if it is a "Configuration switch Request"
+            // If so... check if it is a "Configuration switch Request"
             if (eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_NUMBER.toString())) {
                 if (objects == null) {
                     return;
@@ -109,13 +108,16 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                         && obj.getKey().getDomain().equals(providerDomain)) {
 
                     // Retrieve it from the Archive
-                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) HelperArchive.getObjectBodyFromArchive(comServices.getArchiveService(), obj.getType(), obj.getKey().getDomain(), obj.getKey().getInstId());
+                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) HelperArchive.getObjectBodyFromArchive(
+                            comServices.getArchiveService(), obj.getType(),
+                            obj.getKey().getDomain(), obj.getKey().getInstId());
+
                     Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj); // Reload the retrieved configuration
 
                     if (confChanged) {
-                        // Publish success
+                        // Todo: Publish success
                     } else {
-                        // Publish failure
+                        // Todo: Publish failure
                     }
                 }
             }
@@ -155,14 +157,13 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                     Long objId = objIds.get(0);
 
                     // Publish event: Success with the objId of the Configuration stored
-                    publishConfigurationStoredSuccess(objId, updateHeaderList.get(i).getKey().getThirdSubKey());
-
+                    this.publishConfigurationStoredSuccess(objId, updateHeaderList.get(i).getKey().getThirdSubKey());
                 } catch (MALException ex) {
                     // Publish event: Failure with the objId of the Configuration stored
-                    publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
+                    this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
                 } catch (MALInteractionException ex) {
                     // Publish event: Failure with the objId of the Configuration stored
-                    publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
+                    this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
                 }
             }
         }

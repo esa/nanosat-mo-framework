@@ -28,8 +28,6 @@ import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -57,12 +55,14 @@ import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class MCStoreLastConfigurationAdapter implements ConfigurationNotificationInterface {
+public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListener {
 
     public static Long DEFAULT_OBJID_ACTION_SERVICE = (long) 1;
     public static Long DEFAULT_OBJID_PARAMETER_SERVICE = (long) 2;
@@ -170,7 +170,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     }
 
     @Override
-    public void configurationChanged(ReconfigurableServiceImplInterface serviceImpl) {
+    public void onConfigurationChanged(ReconfigurableService serviceImpl) {
         // Is the service implementation an instance of...
         if (serviceImpl instanceof ActionProviderServiceImpl) {
             this.updateConfigurationInArchive(serviceImpl, DEFAULT_OBJID_ACTION_SERVICE);
@@ -189,7 +189,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
         }
     }
 
-    private void updateConfigurationInArchive(final ReconfigurableServiceImplInterface serviceImpl, final Long objId) {
+    private void updateConfigurationInArchive(final ReconfigurableService serviceImpl, final Long objId) {
         // Submit the task to update the configuration in the COM Archive
         executor.execute(new Runnable() {
             @Override
@@ -274,7 +274,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationNotificatio
     }
 
     private Long storeDefaultServiceConfiguration(final Long defaultObjId,
-            final UShort serviceNumber, final ReconfigurableServiceImplInterface service) {
+            final UShort serviceNumber, final ReconfigurableService service) {
         try {
             // Store the Service Configuration objects
             ConfigurationObjectDetailsList archObj1 = new ConfigurationObjectDetailsList();

@@ -26,9 +26,6 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
-import esa.mo.reconfigurable.provider.ReconfigurableProviderImplInterface;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -52,6 +49,9 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.provider.ReconfigurableProvider;
 
 /**
  * A Provider of MO services composed by COM, M&C and Platform services. Selects
@@ -64,7 +64,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  *
  * @author Cesar Coelho
  */
-public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProviderImplInterface, NanoSatMOFrameworkInterface {
+public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvider, NanoSatMOFrameworkInterface {
 
     public final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     private final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
@@ -78,11 +78,11 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 //    public ParameterManager parameterManager;
     public PlatformServicesConsumer platformServices;
     public CloseAppListener closeAppAdapter = null;
-    public ConfigurationNotificationInterface providerConfigurationAdapter = null;
+    public ConfigurationChangeListener providerConfigurationAdapter = null;
     public String providerName;
     
     public PersistProviderConfiguration providerConfiguration;
-    public final ArrayList<ReconfigurableServiceImplInterface> reconfigurableServices = new ArrayList<ReconfigurableServiceImplInterface>();
+    public final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<ReconfigurableService>();
 
     @Override
     public COMServicesProvider getCOMServices() throws NMFException {
@@ -247,12 +247,12 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     }
 
     @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
         this.providerConfigurationAdapter = configurationAdapter;
     }
 
     @Override
-    public ArrayList<ReconfigurableServiceImplInterface> getServices() {
+    public ArrayList<ReconfigurableService> getServices() {
         return reconfigurableServices;
     }
     

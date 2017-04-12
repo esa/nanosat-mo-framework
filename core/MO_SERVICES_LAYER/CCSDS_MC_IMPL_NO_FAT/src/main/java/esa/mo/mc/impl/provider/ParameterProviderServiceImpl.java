@@ -26,8 +26,6 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mc.impl.provider.model.GroupRetrieval;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,11 +90,13 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
  *
  */
-public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton implements ReconfigurableServiceImplInterface {
+public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton implements ReconfigurableService {
 
     private final static double MIN_REPORTING_INTERVAL = 0.2;
     private MALProvider parameterServiceProvider;
@@ -111,7 +111,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private final ConnectionProvider connection = new ConnectionProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
     private EventConsumerServiceImpl eventServiceConsumer;
-    private ConfigurationNotificationInterface configurationAdapter;
+    private ConfigurationChangeListener configurationAdapter;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -243,7 +243,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     @Override
     public void enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
             final MALInteraction interaction) throws MALException, MALInteractionException {
-
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -315,7 +314,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 
@@ -518,7 +517,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
 
         return outPairLst; // requirement: 3.3.12.2.h
@@ -577,7 +576,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
 
         //requirement: 3.3.13.2.j
@@ -627,12 +626,12 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 
     @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
 
@@ -941,7 +940,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     manager.storeAndGeneratePValobjId(identityId, parameterValue, source, connection.getConnectionDetails(), new FineTime(timestamp.getValue())); // requirement: 3.3.4.d
 
                 } catch (MALInteractionException | MALException ex) {
-                    Logger.getLogger(AlertProviderServiceImpl.class
+                    Logger.getLogger(ParameterProviderServiceImpl.class
                             .getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
@@ -1037,10 +1036,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                         ObjectInstancePairList returnedObjIds = this.addParameter(pDefCreationReqs, null); // Enable the reporting for this Alert Definition 
                         objId = returnedObjIds.get(0);
                     } catch (MALInteractionException ex) {
-                        Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     } catch (MALException ex) {
-                        Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     }
                 }

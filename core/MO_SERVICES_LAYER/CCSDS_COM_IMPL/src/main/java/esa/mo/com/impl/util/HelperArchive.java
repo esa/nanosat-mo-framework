@@ -322,7 +322,8 @@ public class HelperArchive {
         LongList objIds = new LongList();
         objIds.add(objId);
 
-        List<ArchivePersistenceObject> archiveCOMobjectList = (List<ArchivePersistenceObject>) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.COM_OBJECT);
+        List<ArchivePersistenceObject> archiveCOMobjectList = (List<ArchivePersistenceObject>) 
+                getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.COM_OBJECT);
 
         if (archiveCOMobjectList == null) {
             return null;

@@ -43,17 +43,20 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
+ * An adapter that implements the ConfigurationNotificationInterface and
+ * persists the configuration of the current service state.
  *
  * @author Cesar Coelho
  */
-public class PersistLatestServiceConfigurationAdapter implements ConfigurationNotificationInterface {
+public class PersistLatestServiceConfigurationAdapter implements ConfigurationChangeListener {
 
     private final ArchiveInheritanceSkeleton archiveService;
-    private final Long configObjId;
+    private final Long serviceConfigObjId;
     private final ExecutorService executor;
+    private Long configObjectsObjId = null;
 
-    public PersistLatestServiceConfigurationAdapter(final ReconfigurableServiceImplInterface service,
-            final Long configObjId, final ArchiveInheritanceSkeleton archiveService) {
+    public PersistLatestServiceConfigurationAdapter(final ReconfigurableService service,
+            final Long serviceConfigObjId, final ArchiveInheritanceSkeleton archiveService) {
         try {
             ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
         } catch (MALException ex) {
@@ -67,41 +70,44 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
         }
 
         this.archiveService = archiveService;
-        this.configObjId = configObjId;
+        this.serviceConfigObjId = serviceConfigObjId;
         this.executor = Executors.newSingleThreadExecutor(new NamedConfigurationThreadFactory(
                 service.getCOMService().getName().toString())); // Guarantees sequential order
     }
 
     public Long getConfigurationObjectInstId() {
-        return this.configObjId;
+        return this.serviceConfigObjId;
     }
 
     @Override
-    public void configurationChanged(final ReconfigurableServiceImplInterface serviceImpl) {
+    public void onConfigurationChanged(final ReconfigurableService serviceImpl) {
         // Submit the task to update the configuration in the COM Archive
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                // Retrieve the COM object of the service
-                ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
-                        archiveService, ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(), configObjId);
+                if(configObjectsObjId == null){
+                    // Retrieve the COM object of the service
+                    ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService, 
+                            ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
+                            ConfigurationProviderSingleton.getDomain(), serviceConfigObjId);
 
-                if (comObject == null) {
-                    Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
-                            serviceImpl.getCOMService().getName()
-                            + " service: The service configuration object could not be found! objectId: "
-                            + configObjId);
+                    if (comObject == null) {
+                        Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                                serviceImpl.getCOMService().getName()
+                                + " service: The service configuration object could not be found! objectId: "
+                                + serviceConfigObjId);
 
-                    // Maybe we can use storeDefaultServiceConfiguration() here!? To handle better the error...
+                        // Todo: Maybe we can use storeDefaultServiceConfiguration() here!? To handle better the error...
 
-                    return;
+                        return;
+                    }
+                    
+                    configObjectsObjId = comObject.getArchiveDetails().getDetails().getRelated();
                 }
 
                 // Stuff to feed the update operation from the Archive...
                 ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
-                        ConfigurationProviderSingleton.getNetwork(), new URI(""),
-                        comObject.getArchiveDetails().getDetails().getRelated());
+                        ConfigurationProviderSingleton.getNetwork(), new URI(""), configObjectsObjId);
                 ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
                 confObjsList.add(serviceImpl.getCurrentConfiguration());
 
@@ -117,14 +123,14 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
                             serviceImpl.getCOMService().getName()
-                            + " service: The configuration could not be updated! objectId: " + configObjId, ex);
+                            + " service: The configuration could not be updated! objectId: " + serviceConfigObjId, ex);
                 }
             }
         });
     }
 
     public final void storeDefaultServiceConfiguration(final Long defaultObjId,
-            final ReconfigurableServiceImplInterface service) {
+            final ReconfigurableService service) {
         try {
             // Store the Service Configuration objects
             ConfigurationObjectDetailsList archObj1 = new ConfigurationObjectDetailsList();
@@ -157,44 +163,6 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationNo
         } catch (MALInteractionException ex) {
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        /*
-        try {
-            // Store the Service Configuration objects
-            ConfigurationObjectDetailsList archObj1 = new ConfigurationObjectDetailsList();
-            archObj1.add(service.getCurrentConfiguration());
-
-            LongList objIds1 = archiveService.store(
-                    true,
-                    ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, ConfigurationProviderSingleton.getNetwork(), new URI("")),
-                    archObj1,
-                    null);
-
-            // Store the Service Configuration
-            ServiceKeyList serviceKeyList = new ServiceKeyList();
-            serviceKeyList.add(new ServiceKey(service.getCOMService().getArea().getNumber(), 
-                    service.getCOMService().getNumber(), service.getCOMService().getArea().getVersion()));
-
-            LongList objIds2 = archiveService.store(
-                    true,
-                    ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, ConfigurationProviderSingleton.getNetwork(), new URI(""), defaultObjId),
-                    serviceKeyList,
-                    null);
-
-            return objIds2.get(0);
-
-        } catch (MALException ex) {
-            Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return null;
-         */
     }
 
     /**

@@ -26,8 +26,6 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mc.impl.provider.model.GroupRetrieval;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,11 +78,13 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueList;
 import org.ccsds.moims.mo.mc.aggregation.structures.GenerationMode;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
  *
  */
-public class AggregationProviderServiceImpl extends AggregationInheritanceSkeleton implements ReconfigurableServiceImplInterface {
+public class AggregationProviderServiceImpl extends AggregationInheritanceSkeleton implements ReconfigurableService {
 
     private final static double MIN_REPORTING_INTERVAL = 0.2;
     private MALProvider aggregationServiceProvider;
@@ -97,7 +97,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     private PeriodicReportingManager periodicReportingManager;
     private PeriodicSamplingManager periodicSamplingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private ConfigurationNotificationInterface configurationAdapter;
+    private ConfigurationChangeListener configurationAdapter;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -181,7 +181,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
 
@@ -400,7 +400,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 
@@ -480,7 +480,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 
@@ -601,7 +601,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
 
         return outPairLst; // requirement: 3.7.12.2.h
@@ -679,7 +679,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
 
         // requirement: 3.7.13.2.j
@@ -730,7 +730,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // COM archive is left untouched. requirement: 3.7.14.2.e
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 

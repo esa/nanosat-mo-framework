@@ -24,41 +24,37 @@ import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 
 /**
- * An interface to make a service provider implementation reconfigurable
+ * An interface to make a service implementation reconfigurable
  */
-public interface ReconfigurableServiceImplInterface {
+public interface ReconfigurableService {
 
     /**
-     * Sets a configuration adapter to receive the notification of changes in 
-     * the service.
-     * @param configurationAdapter The adapter to receive the notifications
+     * Sets the configuration listener that receives the notification of changes
+     * of a certain service.
+     *
+     * @param listener The listener to receive the notifications
      */
-    void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter);
+    void setOnConfigurationChangeListener(ConfigurationChangeListener listener);
 
     /**
      * Reloads the service with the provided configuration
+     *
      * @param configurationObjectDetails The configuration
      * @return True if successfully reloaded, false otherwise.
      */
     Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails);
 
     /**
-     * Retrieves the current configuration set in the service provider
+     * Retrieves the current configuration set in the service
+     *
      * @return The configuration of the service
      */
     ConfigurationObjectDetails getCurrentConfiguration();
 
     /**
-     * Retrieves the service key for the reconfigurable service
-     * @return The service key
-     */
-//    public ServiceKey getServiceKey();
-    
-    /**
      * Retrieves the COMService object
+     *
      * @return The service key
      */
     COMService getCOMService();
-    
-    
 }

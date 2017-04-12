@@ -25,8 +25,6 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,8 +59,10 @@ import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
-public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implements ReconfigurableServiceImplInterface {
+public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implements ReconfigurableService {
 
     private final static String IS_INTERMEDIATE_RELAY_PROPERTY = "esa.mo.mc.impl.provider.ActionProviderServiceImpl.isIntermediateRelay";
     private MALProvider actionServiceProvider;
@@ -70,7 +70,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
     private boolean running = false;
     private ActionManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private ConfigurationNotificationInterface configurationAdapter;
+    private ConfigurationChangeListener configurationAdapter;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -146,7 +146,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
     }
 
     @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
     
@@ -163,13 +163,13 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
             return; // Do nothing else...
         }
 
-        // requirement: 3.2.8.e
         // Publish first Acceptance event for submitAction operation
         // source for submitAction ACCEPTANCE event is the OperationActivity instance id, which is the transaction id of this submitAction operation
         ObjectId saSource = manager.getActivityTrackingService().storeCOMOperationActivity(interaction, null);  // requirement: 3.2.4.f  and 3.2.4.g
 
         try {
             //body of AcceptanceEvent is true? -> issue #187
+            // requirement: 3.2.8.e
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, true, null, saSource); // requirement: f, g
         } catch (MALInteractionException ex) {
             Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -327,7 +327,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
         }
 
         if (configurationAdapter != null){
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
         
         return newObjInstIds; // requirement: 3.2.12.2.f
@@ -376,7 +376,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
         }
         
         if (configurationAdapter != null){
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
         
         return newDefIds;
@@ -420,7 +420,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
         }
         
         if (configurationAdapter != null){
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 

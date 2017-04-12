@@ -26,8 +26,6 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.platform.impl.util.PositionsCalculator;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,11 +79,13 @@ import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.PositionList;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
  *
  */
-public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements ReconfigurableServiceImplInterface{
+public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements ReconfigurableService{
 
     private MALProvider gpsServiceProvider;
     private boolean initialiased = false;
@@ -97,7 +97,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     private PeriodicReportingManager periodicReporting;
     private final ConnectionProvider connection = new ConnectionProvider();
     private GPSAdapterInterface adapter;
-    private ConfigurationNotificationInterface configurationAdapter;
+    private ConfigurationChangeListener configurationAdapter;
     
     private final Object MUTEX = new Object();
     private Position currentPosition = null;
@@ -340,7 +340,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         if (configurationAdapter != null){
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
 
         return outLongLst;    
@@ -382,7 +382,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         if (configurationAdapter != null){
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 
@@ -412,7 +412,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }    
     
     @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
 

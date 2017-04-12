@@ -25,8 +25,6 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,11 +68,13 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.Severity;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
  *
  */
-public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implements ReconfigurableServiceImplInterface {
+public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implements ReconfigurableService {
 
     private MALProvider alertServiceProvider;
     private boolean initialiased = false;
@@ -83,7 +83,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     private AlertManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
-    private ConfigurationNotificationInterface configurationAdapter;
+    private ConfigurationChangeListener configurationAdapter;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -149,7 +149,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter){
+    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter){
         this.configurationAdapter = configurationAdapter;
     }
         
@@ -253,7 +253,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         if (configurationAdapter != null){
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 
@@ -346,7 +346,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         if (configurationAdapter != null){
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
 
         return outPairLst; // requirement: 3.4.10.2.g
@@ -397,7 +397,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         if (configurationAdapter != null){
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
 
         return outLst; //requirement: 3.4.11.2.i
@@ -441,7 +441,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         if (configurationAdapter != null){
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 

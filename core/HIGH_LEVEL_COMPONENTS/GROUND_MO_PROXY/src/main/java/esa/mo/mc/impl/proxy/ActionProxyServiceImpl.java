@@ -24,7 +24,6 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.provider.ActionManager;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -59,8 +58,6 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     private boolean isRegistered = false;
     private ActionManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private ConfigurationNotificationInterface configurationAdapter;
-
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts

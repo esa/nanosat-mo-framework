@@ -25,8 +25,8 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Timer;
@@ -73,7 +73,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceLis
 /**
  *
  */
-public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritanceSkeleton implements ReconfigurableServiceImplInterface {
+public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritanceSkeleton implements ReconfigurableService {
 
     private final static Duration MINIMUM_PERIOD = new Duration(0.1); // 100 Milliseconds
     private MALProvider autonomousADCSServiceProvider;
@@ -87,7 +87,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     private AutonomousADCSAdapterInterface adapter;
     private boolean adcsInUse;
     private Timer publishTimer = new Timer();
-    private ConfigurationNotificationInterface configurationAdapter;
+    private ConfigurationChangeListener configurationAdapter;
     private Thread autoUnsetThread = null;
     private Long currentAttitudeObjId = (long) 0;
     private int period = 5000; // Default value: 5 seconds
@@ -345,7 +345,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
         
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
 
         return outLongLst;
@@ -388,7 +388,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
 
         if (configurationAdapter != null) {
-            configurationAdapter.configurationChanged(this);
+            configurationAdapter.onConfigurationChanged(this);
         }
     }
 
@@ -430,7 +430,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public synchronized void setConfigurationAdapter(ConfigurationNotificationInterface configurationAdapter) {
+    public synchronized void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
 

@@ -682,7 +682,7 @@ public class ParameterManager extends DefinitionsManager {
      */
     private Attribute getRawValue(Long identityId, ParameterDefinitionDetails pDef) {
         return (parametersMonitoring != null)
-                ? parametersMonitoring.onGetValue(super.getName(identityId), pDef.getRawType())
+                ? parametersMonitoring.onGetValue(this.getName(identityId), pDef.getRawType())
                 : null;
     }
 

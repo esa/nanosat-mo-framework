@@ -341,7 +341,12 @@ public class ActivityTrackingProviderServiceImpl {
                 } catch (MALException ex) {
                     Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MALInteractionException ex) {
-                    Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    // A duplicate might happen if the the consumer stored the Operation Activity object
+                    if(ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()){
+                        Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }else{
+                        // It's a Duplicate error, the object already exists... Do nothing!
+                    }
                 }
             }
         });

@@ -26,8 +26,8 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.reconfigurable.service.ConfigurationNotificationInterface;
-import esa.mo.reconfigurable.service.ReconfigurableServiceImplInterface;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -86,7 +86,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsL
 /**
  *
  */
-public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements ReconfigurableServiceImplInterface {
+public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements ReconfigurableService {
 
     public final static String PROVIDER_PREFIX_NAME = "App: ";
     private MALProvider appsLauncherServiceProvider;
@@ -99,7 +99,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     private final ConnectionProvider connection = new ConnectionProvider();
     private COMServicesProvider comServices;
     private DirectoryInheritanceSkeleton directoryService;
-    private ConfigurationNotificationInterface configurationAdapter;
+    private ConfigurationChangeListener configurationAdapter;
 
     /**
      * Initializes the Event service provider
@@ -213,7 +213,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
             if(this.configurationAdapter != null){
-                this.configurationAdapter.configurationChanged(this);
+                this.configurationAdapter.onConfigurationChanged(this);
             }
         }
         
@@ -269,7 +269,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
             if(this.configurationAdapter != null){
-                this.configurationAdapter.configurationChanged(this);
+                this.configurationAdapter.onConfigurationChanged(this);
             }
         }
         
@@ -321,7 +321,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
             if(this.configurationAdapter != null){
-                this.configurationAdapter.configurationChanged(this);
+                this.configurationAdapter.onConfigurationChanged(this);
             }
         }
         
@@ -408,7 +408,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
             if(this.configurationAdapter != null){
-                this.configurationAdapter.configurationChanged(this);
+                this.configurationAdapter.onConfigurationChanged(this);
             }
         }
         
@@ -444,7 +444,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void setConfigurationAdapter(final ConfigurationNotificationInterface configurationAdapter) {
+    public void setOnConfigurationChangeListener(final ConfigurationChangeListener configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
 
