@@ -76,7 +76,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>PLATFORM_SOFTWARE_SIMULATOR_IMPL</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     

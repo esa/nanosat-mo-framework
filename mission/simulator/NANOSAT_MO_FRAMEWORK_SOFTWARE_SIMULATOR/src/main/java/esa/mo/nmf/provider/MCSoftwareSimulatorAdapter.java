@@ -30,7 +30,11 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
-// Specific Software Simulator Monitoring and Control
+/**
+ * Specific Software Simulator Monitoring and Control
+ *
+ * @author Cesar Coelho
+ */
 public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
@@ -49,13 +53,8 @@ public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, 
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-        if ("Go".equals(name.getValue())) { // action1 was called?
-//                fiveStepsAction(actionInstanceObjId);
-            return null;
-        }
-
         return new UInteger(1);  // Action service not integrated
     }
 
