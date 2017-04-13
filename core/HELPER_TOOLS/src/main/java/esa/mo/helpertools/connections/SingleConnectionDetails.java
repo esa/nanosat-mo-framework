@@ -66,7 +66,6 @@ public class SingleConnectionDetails {
         return this.brokerURI;
     }
 
-    @Deprecated
     public IdentifierList getDomain() {
         return this.domain;
     }
