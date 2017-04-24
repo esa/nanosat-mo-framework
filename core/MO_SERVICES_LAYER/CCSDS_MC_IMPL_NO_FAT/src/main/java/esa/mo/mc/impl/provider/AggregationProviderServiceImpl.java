@@ -93,7 +93,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     private MonitorValuePublisher publisher;
     private final Object lock = new Object();
     private boolean isRegistered = false;
-    private AggregationManager manager;
+    protected AggregationManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private PeriodicSamplingManager periodicSamplingManager;
     private final ConnectionProvider connection = new ConnectionProvider();

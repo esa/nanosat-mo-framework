@@ -68,9 +68,9 @@ public interface SimpleCommandingInterface {
     void invokeAction(String actionName, Serializable[] objects);
 
     /**
-     * The invokeAction method allows an external software entity to submit an
-     * Action to the NanoSat MO Framework provider just by selecting the name of
-     * the action and the respective implementer-specific data necessary for the
+     * The invokeAction method allows an external software entity to invoke an
+     * action using the Action service by selecting the defInstId of
+     * the action and the respective argument values necessary for the
      * execution of that action.
      *
      * @param defInstId The object instance identifier of the ActionDefinition

@@ -106,7 +106,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private boolean isRegistered = false;
     private final Object lock = new Object();
     private final AtomicLong pValUniqueObjId = new AtomicLong(System.currentTimeMillis());
-    private ParameterManager manager;
+    protected ParameterManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();

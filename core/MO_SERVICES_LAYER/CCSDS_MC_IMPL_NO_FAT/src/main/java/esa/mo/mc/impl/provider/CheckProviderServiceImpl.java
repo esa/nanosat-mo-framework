@@ -91,7 +91,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
     private boolean isRegistered = false;
     private CheckManager manager;
     private ParameterMonitoringManager paramMonitorManager;
-    private CheckLinkMonitorManager checkLinkMonitorManager;
+    protected CheckLinkMonitorManager checkLinkMonitorManager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
     private PeriodicReportingMaxManager periodicReportingMaxManager;

@@ -68,7 +68,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implem
     private MALProvider actionServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private ActionManager manager;
+    protected ActionManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ConfigurationChangeListener configurationAdapter;
 

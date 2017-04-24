@@ -98,7 +98,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     private boolean initialiased = false;
     private boolean running = false;
     private boolean isRegistered = false;
-    private StatisticManager manager;
+    protected StatisticManager manager;
     private final Object lock = new Object();
     private MonitorStatisticsPublisher publisher;
     private final ConnectionProvider connection = new ConnectionProvider();

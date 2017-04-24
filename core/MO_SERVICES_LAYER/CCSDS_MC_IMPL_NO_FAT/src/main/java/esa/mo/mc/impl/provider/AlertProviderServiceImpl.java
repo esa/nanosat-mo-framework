@@ -80,7 +80,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     private boolean initialiased = false;
     private boolean running = false;
     private boolean isRegistered = false;
-    private AlertManager manager;
+    protected AlertManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
     private ConfigurationChangeListener configurationAdapter;
