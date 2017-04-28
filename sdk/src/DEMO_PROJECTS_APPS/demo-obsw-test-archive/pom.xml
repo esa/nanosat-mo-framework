@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath/>
     </parent>
   
     <artifactId>Demo_Test_Archive</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
 
     <name>Demo Test Archive</name>
     <description>A simple demo to test the Archive</description>

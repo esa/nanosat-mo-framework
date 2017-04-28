@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath/>
     </parent>
   
     <artifactId>PG_INSTALLER_TRIPLE_PRESENTATION</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
 
     <name>PG: Installer of Triple Presentation App</name>
     <description>The Triple Presentation App installer for the Playground environment.</description>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>LIB_NANOSAT_MO_FRAMEWORK_SOFTWARE_SIMULATOR</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>0.1.0</version>
         </dependency>
     </dependencies>
 
@@ -101,7 +101,7 @@
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>${esa.nmf.artifact.app.artifactid}</artifactId>
-                                    <version>0.1.0-SNAPSHOT</version>
+                                    <version>0.1.0</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
