@@ -72,10 +72,9 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
-            <version>${project.version}</version>
-<!--
-            <scope>provided</scope>
--->            
+            <!--
+                        <scope>provided</scope>
+            -->            
         </dependency>
     </dependencies>
 
@@ -115,27 +114,19 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
-            
-                        <plugin>
-                                <groupId>org.apache.maven.plugins</groupId>
-                                <artifactId>maven-assembly-plugin</artifactId>
-                        </plugin>
-
-
-
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
+    
     <repositories>
         <repository>
-            <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <url>file:${project.basedir}/lib</url>
+            <id>AGSA-Maven-Repository</id>
+            <name>The Maven repository from the AGSA server.</name>
+            <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
         </repository>
-        <repository>
-            <id>swt-repo</id>
-            <url>https://swt-repo.googlecode.com/svn/repo/</url>
-        </repository>
-    </repositories>    
+    </repositories>
     
 </project>
