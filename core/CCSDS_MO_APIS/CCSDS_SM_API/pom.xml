@@ -24,7 +24,7 @@
     </parent>
 
     <artifactId>API_SM</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
 
     <name>Software Management Java API</name>
@@ -65,7 +65,7 @@
     </developers>
 
     <properties>
-        <ccsds.specification.version>1.1-nmf-SNAPSHOT</ccsds.specification.version>
+        <ccsds.specification.version>1.1-nmf</ccsds.specification.version>
         <ccsds.specification.download.skip>false</ccsds.specification.download.skip>
         <ccsds.specification.download.directory>${project.build.directory}</ccsds.specification.download.directory>
         <ccsds.specification.download.filter>**/ServiceDefSM.xml</ccsds.specification.download.filter>

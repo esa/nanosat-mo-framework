@@ -19,12 +19,12 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath/>
     </parent>
   
     <artifactId>MOXML</artifactId>
-    <version>1.1-nmf-SNAPSHOT</version>
+    <version>1.1-nmf</version>
     <packaging>jar</packaging>
   
     <name>MO Specific XMLs</name>
