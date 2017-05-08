@@ -19,14 +19,14 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>MOXML</artifactId>
-    <version>1.1-nmf</version>
+    <version>1.2-nmf-SNAPSHOT</version>
     <packaging>jar</packaging>
-  
+
     <name>MO Specific XMLs</name>
     <description>CCSDS Mission Operations XML files</description>
     <url>http://www.ccsds.org</url>
@@ -77,7 +77,6 @@
                 </includes>
             </resource>
         </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -97,5 +96,4 @@
             <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
         </repository>
     </repositories>
-        
 </project>
