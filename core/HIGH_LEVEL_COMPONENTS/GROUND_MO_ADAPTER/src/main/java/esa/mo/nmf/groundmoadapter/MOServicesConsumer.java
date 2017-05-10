@@ -22,6 +22,7 @@ package esa.mo.nmf.groundmoadapter;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
+import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
@@ -198,6 +199,11 @@ public class MOServicesConsumer {
 
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI)
             throws MALException, MalformedURLException, MALInteractionException {
+        return MOServicesConsumer.retrieveProvidersFromDirectory(false, directoryURI);
+    }
+
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G, final URI directoryURI)
+            throws MALException, MalformedURLException, MALInteractionException {
         // Starting the directory service consumer from static method.
         // The whole Common area should be registered to avoid errors during the initHelpers
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
@@ -223,7 +229,14 @@ public class MOServicesConsumer {
         filter.setDomain(wildcardList);
         filter.setNetwork(new Identifier("*"));
         filter.setSessionType(null);
-        filter.setSessionName(new Identifier("*"));
+        
+        // Additional logic to save bandwidth in the Space2Ground link
+        if(isS2G){
+            filter.setSessionName(new Identifier(DirectoryProviderServiceImpl.CHAR_S2G));
+        }else{
+            filter.setSessionName(new Identifier("*"));
+        }
+        
         filter.setServiceKey(new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)));
         filter.setRequiredCapabilities(new UIntegerList());
         filter.setServiceProviderName(new Identifier("*"));
@@ -234,7 +247,7 @@ public class MOServicesConsumer {
 
         return summaryList;
     }
-
+    
     public static void initHelpers() {
         // Load the MAL factories for the supported services
         try {

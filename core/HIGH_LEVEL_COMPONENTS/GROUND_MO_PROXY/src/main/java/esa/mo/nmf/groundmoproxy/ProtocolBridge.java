@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.groundmoproxy;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,7 +43,6 @@ public class ProtocolBridge {
     private MALEndpoint epB;
 
     public void init(final String protocolA, final String protocolB, final Map properties) throws MALException, Exception {
-
         transportA = createTransport(protocolA, properties);
         transportB = createTransport(protocolB, properties);
         
@@ -89,7 +87,6 @@ public class ProtocolBridge {
     protected static class BridgeMessageHandler implements MALMessageListener {
 
         private final MALEndpoint destination;
-        private final HashMap<String, Long> virtualAPIDsMap = new HashMap<String, Long>();
 
         public BridgeMessageHandler(MALEndpoint destination) {
             this.destination = destination;
@@ -112,9 +109,6 @@ public class ProtocolBridge {
 
                 // copy source message into destination message format
                 MALMessage dMsg = cloneForwardMessage(destination, srcMessage);
-                
-//                Long ssd = virtualAPIDsMap.get(dMsg.getHeader().getURIFrom().getValue());
-
 
                 System.out.println("Injecting message...");
                 destination.sendMessage(dMsg);

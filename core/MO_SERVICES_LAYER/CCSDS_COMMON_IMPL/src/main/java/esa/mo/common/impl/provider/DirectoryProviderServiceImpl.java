@@ -81,6 +81,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     private final HashMap<Long, PublishDetails> providersAvailable = new HashMap<Long, PublishDetails>();
     private final Object MUTEX = new Object();
     private COMServicesProvider comServices;
+    public static final String CHAR_S2G = "s2g";
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -207,8 +208,11 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Check session name
             if (!filter.getSessionName().toString().equals("*")) {
-                if (!provider.getSourceSessionName().toString().equals(filter.getSessionName().toString())) {
-                    continue;
+                if(!CHAR_S2G.equals(filter.getSessionName().toString())){
+                    if (provider.getSourceSessionName() != null && 
+                            !provider.getSourceSessionName().toString().equals(filter.getSessionName().toString())) {
+                        continue;
+                    }
                 }
             }
 
@@ -269,7 +273,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 );
 
                 // This is a workaround to save bandwidth on the downlink! It is not part of the standard
-                if (filter.getSessionName().toString().equals("s2g")) {
+                if (CHAR_S2G.equals(filter.getSessionName().toString())) {
                     // We assume that we use malspp on the downlink
                     for (int k = 0; k < serviceCapability.getServiceAddresses().size(); k++) {
                         AddressDetails address = serviceCapability.getServiceAddresses().get(k);

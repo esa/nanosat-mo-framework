@@ -22,7 +22,7 @@ package esa.mo.mc.impl.proxy;
 
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
@@ -67,7 +67,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
      *
      * @param adaptersList
      */
-    public synchronized void initProxy(HashMap<String, GroundMOAdapter> adaptersList) throws MALException {
+    public synchronized void initProxy(HashMap<String, GroundMOAdapterImpl> adaptersList) throws MALException {
         if (!proxyInitialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
