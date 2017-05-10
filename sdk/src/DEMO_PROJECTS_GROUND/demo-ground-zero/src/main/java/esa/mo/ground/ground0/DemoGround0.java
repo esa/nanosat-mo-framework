@@ -21,7 +21,7 @@
 package esa.mo.ground.ground0;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  */
 public class DemoGround0 {
 
-    private final GroundMOAdapter moGroundAdapter;
+    private final GroundMOAdapterImpl moGroundAdapter;
 
     public DemoGround0() {
 
@@ -45,7 +45,7 @@ public class DemoGround0 {
             Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        moGroundAdapter = new GroundMOAdapter(connection);
+        moGroundAdapter = new GroundMOAdapterImpl(connection);
         moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
     }
 

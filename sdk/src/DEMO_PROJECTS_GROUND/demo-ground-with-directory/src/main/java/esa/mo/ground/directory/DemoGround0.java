@@ -21,7 +21,7 @@
 package esa.mo.ground.directory;
 
 import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.groundmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
 import java.io.Serializable;
@@ -38,7 +38,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class DemoGround0 {
 
-    private GroundMOAdapter moGroundAdapter;
+    private GroundMOAdapterImpl moGroundAdapter;
     private final static URI DIRECTORY_URI = new URI("malspp:247/1/12");
 
     public DemoGround0() {
@@ -48,10 +48,10 @@ public class DemoGround0 {
                 
         
         try {
-            ProviderSummaryList providers = GroundMOAdapter.retrieveProvidersFromDirectory(DIRECTORY_URI);
+            ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(DIRECTORY_URI);
             
             if (!providers.isEmpty()){
-                moGroundAdapter = new GroundMOAdapter(providers.get(0));
+                moGroundAdapter = new GroundMOAdapterImpl(providers.get(0));
                 moGroundAdapter.addDataReceivedListener(new CompleteDataReceivedAdapter());
             }else{
                 Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, "Something went wrong!");

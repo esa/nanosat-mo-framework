@@ -102,7 +102,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
             Logger.getLogger(ConsumerTestToolGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(connection, tabs);
+        final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(false, connection, tabs);
         
         tabs.insertTab("Communication Settings (Directory)", null,
                 directoryTab,

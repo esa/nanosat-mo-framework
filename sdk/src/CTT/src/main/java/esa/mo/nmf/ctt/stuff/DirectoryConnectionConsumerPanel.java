@@ -23,7 +23,7 @@ package esa.mo.nmf.ctt.stuff;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -64,18 +64,21 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private javax.swing.JTabbedPane tabs;
     private ProviderSummaryList summaryList;
     private DefaultTableModel tableData;
+    private final boolean isS2G;
 
     /**
      * Creates new form ConsumerPanelArchive
      *
+     * @param isS2G Is it a Space to Ground link?
      * @param connectionConsumer
      * @param tabs
      */
-    public DirectoryConnectionConsumerPanel(ConnectionConsumer connectionConsumer, JTabbedPane tabs) {
+    public DirectoryConnectionConsumerPanel(boolean isS2G, ConnectionConsumer connectionConsumer, JTabbedPane tabs) {
         initComponents();
         this.connectionConsumer = connectionConsumer;
         this.tabs = tabs;
         this.initTextBoxAddress();
+        this.isS2G = isS2G;
 
         // If there is a property for that, then use it!! 
         if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
@@ -131,7 +134,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
                     String serviceName;
                     try {
-                        serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(), service.getServiceKey().getVersion(), service.getServiceKey().getService());
+                        serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(), 
+                                service.getServiceKey().getVersion(), service.getServiceKey().getService());
                     } catch (MALException ex) {
                         serviceName = "<Unknown service>";
 //                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,10 +147,12 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                     if (service.getServiceAddresses().size() > 0) {
                         serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
                         // To avoid null pointers here...
-                        brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null) ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
+                        brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null) ? 
+                                "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
                     }
 
-                    String supportedCapabilities = (service.getSupportedCapabilities() == null) ? "All Supported" : service.getSupportedCapabilities().toString();
+                    String supportedCapabilities = (service.getSupportedCapabilities() == null) ? 
+                            "All Supported" : service.getSupportedCapabilities().toString();
 
                     tableData.addRow(new Object[]{
                         serviceName,
@@ -427,7 +433,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         File[] fList = folder_location.listFiles();
 
         if (fList == null) {
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, "The directory could not be found: {0}", folder_location.toString());
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, 
+                    "The directory could not be found: {0}", folder_location.toString());
             this.changeOBSWFolder();
 
             if (!isSecondaryCall) { // To avoid getting the code in a stupid loop
@@ -447,7 +454,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
         try {
-            summaryList = GroundMOAdapter.retrieveProvidersFromDirectory(this.getAddressToBeUsed());
+            summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(isS2G, this.getAddressToBeUsed());
 
             DefaultListModel listOfProviders = new DefaultListModel();
 
@@ -534,7 +541,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     private void changeOBSWFolder() {
         folder_location = new File(".." + File.separator + OBSW_ALTERNATIVE_DIRECTORY_NAME);  // Location of the folder
-        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, "The directory path was changed to: {0}", folder_location.toString());
+        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, 
+                "The directory path was changed to: {0}", folder_location.toString());
     }
 
     private void initTextBoxAddress() {  // runs during the init of the app

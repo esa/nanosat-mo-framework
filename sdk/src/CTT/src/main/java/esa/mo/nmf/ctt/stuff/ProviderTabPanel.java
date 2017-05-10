@@ -33,7 +33,7 @@ import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.awt.Color;
 import java.util.Timer;
@@ -53,7 +53,7 @@ import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter
  */
 public class ProviderTabPanel extends javax.swing.JPanel {
 
-    private final GroundMOAdapter services;
+    private final GroundMOAdapterImpl services;
 
     /**
      * Creates a new tab for a Provider and populates it.
@@ -61,11 +61,11 @@ public class ProviderTabPanel extends javax.swing.JPanel {
      * @param provider
      */
     public ProviderTabPanel(final ProviderSummary provider) {
-        services = new GroundMOAdapter(provider);
+        services = new GroundMOAdapterImpl(provider);
         this.insertTabs(); // Insert all the tabs
     }
 
-    public GroundMOAdapter getServices() {
+    public GroundMOAdapterImpl getServices() {
         return this.services;
     }
 
@@ -217,7 +217,8 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         private Time lastBeatAt = HelperTime.getTimestampMillis();
 
         public ProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat) throws MALInteractionException, MALException {
-            period = (long) (heartbeat.getHeartbeatStub().getPeriod().getValue() * 1000);
+            double aaa = heartbeat.getHeartbeatStub().getPeriod().getValue();
+            period = (long) (aaa * 1000);
 
             timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {

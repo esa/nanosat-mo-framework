@@ -21,7 +21,7 @@
 package esa.mo.ground.setandcommand;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -35,7 +35,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
  */
 public class DemoSetAndCommand {
 
-    private final GroundMOAdapter moGroundAdapter;
+    private final GroundMOAdapterImpl moGroundAdapter;
 
     public DemoSetAndCommand() {
 
@@ -47,7 +47,7 @@ public class DemoSetAndCommand {
             Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        moGroundAdapter = new GroundMOAdapter(connection);
+        moGroundAdapter = new GroundMOAdapterImpl(connection);
         moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
 
         // Set a parameter with a double value

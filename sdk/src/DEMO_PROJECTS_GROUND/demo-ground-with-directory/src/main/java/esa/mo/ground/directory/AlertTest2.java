@@ -26,7 +26,7 @@ import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,17 +89,17 @@ public class AlertTest2 {
 //    static final String URL_DIRECTORY_SERVICE = "malhttp://x.x.x.x:61616/MEX_MO_Provider-Directory";
     static final String URL_DIRECTORY_SERVICE = "tcpip://x:1024-NanoSat_MO_Supervisor-Directory";
 
-    public final GroundMOAdapter groundAdapter;
+    public final GroundMOAdapterImpl groundAdapter;
 
     private final Identifier subscriptionId;
     private final Random random = new Random();
 
     public AlertTest2() throws Throwable {
 
-        ProviderSummaryList summaryList = GroundMOAdapter.retrieveProvidersFromDirectory(new URI(URL_DIRECTORY_SERVICE));
+        ProviderSummaryList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(URL_DIRECTORY_SERVICE));
 
         if (!summaryList.isEmpty()) {
-            groundAdapter = new GroundMOAdapter(summaryList.get(0));
+            groundAdapter = new GroundMOAdapterImpl(summaryList.get(0));
         } else {
             //Something went wrong...
             groundAdapter = null;

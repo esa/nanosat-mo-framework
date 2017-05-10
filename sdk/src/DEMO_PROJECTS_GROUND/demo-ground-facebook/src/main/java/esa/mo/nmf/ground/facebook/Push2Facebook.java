@@ -27,7 +27,7 @@ import com.restfb.Version;
 import com.restfb.types.FacebookType;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapter;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
 import java.io.File;
 import java.io.Serializable;
@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 public class Push2Facebook {
 
     private static final String TOKEN_FILENAME = "token.properties";
-    private GroundMOAdapter moGroundAdapter;
+    private GroundMOAdapterImpl moGroundAdapter;
     private String ACCESS_TOKEN;
 
     public Push2Facebook() {
@@ -55,7 +55,7 @@ public class Push2Facebook {
             Logger.getLogger(Push2Facebook.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        moGroundAdapter = new GroundMOAdapter(connection);
+        moGroundAdapter = new GroundMOAdapterImpl(connection);
         moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
 
         final java.util.Properties sysProps = System.getProperties();
