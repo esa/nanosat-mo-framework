@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
  *
  * @author Cesar Coelho
  */
-public final class AlertManager extends DefinitionsManager {
+public final class AlertManager extends MCManager {
 
     private Long uniqueObjIdIdentity;
     private Long uniqueObjIdDef; // Counter (different for every Definition)

@@ -64,7 +64,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
  *
  * @author Cesar Coelho
  */
-public final class AggregationManager extends DefinitionsManager {
+public final class AggregationManager extends MCManager {
 
     private static final transient int SAVING_PERIOD = 20;  // Used to store the uniqueAValObjId only once every "SAVINGPERIOD" times
 

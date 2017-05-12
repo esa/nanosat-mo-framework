@@ -34,7 +34,7 @@ import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetails;
  *
  * @author Vorwerg
  */
-class CheckLinksManager extends DefinitionsManager {
+class CheckLinksManager extends MCManager {
 
 //    private final HashMap<Long, Long> checkIdentityDefIds; //contains the CheckIdentity-Id and the CheckDefinition-Id
     private final HashMap<Long, Long> checkLinkIds; //contains the checkLinkId and the CheckLinkDefinitionId

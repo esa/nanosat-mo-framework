@@ -61,7 +61,7 @@ import org.ccsds.moims.mo.mal.structures.FineTimeList;
  *
  * @author Cesar Coelho
  */
-public class ParameterManager extends DefinitionsManager {
+public class ParameterManager extends MCManager {
 
     private final ConversionServiceImpl conversionService = new ConversionServiceImpl();
     private static final transient int SAVING_PERIOD = 20;  // Used to store the uniqueObjIdPVal only once every "SAVINGPERIOD" times

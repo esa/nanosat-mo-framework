@@ -58,7 +58,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
  *
  * @author Cesar Coelho
  */
-public final class ActionManager extends DefinitionsManager {
+public final class ActionManager extends MCManager {
 
     private Long uniqueObjIdIdentity;
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)

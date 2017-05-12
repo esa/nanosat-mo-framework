@@ -54,7 +54,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  * Class that manages the local map of identities and its definitions.
  *
  */
-public abstract class DefinitionsManager {
+public abstract class MCManager {
 
     //An Identity always has exactly one active Definition. Never 0 and never > 1.
     private final HashMap<Long, Identifier> identitiesToNamesMap;
@@ -67,7 +67,7 @@ public abstract class DefinitionsManager {
     private final COMServicesProvider comServices;
     private final GroupServiceImpl groupService = new GroupServiceImpl();
 
-    protected DefinitionsManager(COMServicesProvider comServices) {
+    protected MCManager(COMServicesProvider comServices) {
         this.identitiesToNamesMap = new HashMap<Long, Identifier>();
         this.namesToPairsMap = new HashMap<Identifier, ObjectInstancePair>();
         this.objIdToDefMap = new HashMap<Long, Element>();
@@ -86,7 +86,7 @@ public abstract class DefinitionsManager {
         try {
             groupService.init(archiveService);
         } catch (MALException ex) {
-            Logger.getLogger(DefinitionsManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
