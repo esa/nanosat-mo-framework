@@ -20,8 +20,6 @@
  */
 package esa.mo.nmf.groundmoproxy;
 
-import esa.mo.com.impl.archive.encoding.BinaryDecoder;
-import esa.mo.mal.transport.gen.GENTransport;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,8 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.transport.MALEncodedBody;
 import org.ccsds.moims.mo.mal.transport.MALEndpoint;
@@ -40,7 +36,6 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageListener;
 import org.ccsds.moims.mo.mal.transport.MALTransmitErrorException;
 import org.ccsds.moims.mo.mal.transport.MALTransport;
-import org.ccsds.moims.mo.mal.transport.MALTransportFactory;
 
 public class ProtocolBridgeSPP extends ProtocolBridge {
 
@@ -49,7 +44,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
     private MALEndpoint epA;
     private MALEndpoint epB;
     private final static String PROTOCOL_SPP = "malspp";
-    private final int rangeStart = 10;
+    private final int rangeStart = 2;
     private final int rangeEnd = 60;
     private final HashMap<String, Long> virtualAPIDsMap = new HashMap<String, Long>();
     private final HashMap<Long, String> reverseMap = new HashMap<Long, String>();
@@ -60,14 +55,12 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         transportA = createTransport(PROTOCOL_SPP, properties);
         transportB = createTransport(protocol, properties);
 
-//        transportA = TransportSingleton.instance(protocolA, null);
-//        transportB = TransportSingleton.instance(protocolB, null);
         epA = createEndpoint(PROTOCOL_SPP, transportA);
         epB = createEndpoint(protocol, transportB);
 
         System.out.println("Linking transports...");
-        epA.setMessageListener(new BridgeMessageHandlerSPP(epB));
-        epB.setMessageListener(new BridgeMessageHandlerSPP(epA));
+//        epA.setMessageListener(new BridgeMessageHandlerSPP(epB));
+        epB.setMessageListener(new BridgeMessageHandlerSPP(epA, epB));
 
         System.out.println("Starting message delivery...");
         epA.startMessageDelivery();
@@ -80,10 +73,12 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
     protected class BridgeMessageHandlerSPP implements MALMessageListener {
 
-        private final MALEndpoint destination;
+        private final MALEndpoint epSPP;
+        private final MALEndpoint epOther;
 
-        public BridgeMessageHandlerSPP(MALEndpoint destination) {
-            this.destination = destination;
+        public BridgeMessageHandlerSPP(MALEndpoint epSPP, MALEndpoint epOther) {
+            this.epSPP = epSPP;
+            this.epOther = epOther;
         }
 
         @Override
@@ -119,29 +114,34 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
                     }
 
                     // copy source message into destination message format
-                    dMsg = cloneForwardMessageFromSPP(destination, srcMessage, new URI(reverse));
+                    dMsg = cloneForwardMessageFromSPP(epOther, srcMessage, new URI(reverse));
                     System.out.println("Injecting message...");
-                    destination.sendMessage(dMsg);
+                    epOther.sendMessage(dMsg);
                 } else {
                     Long virtualAPID = null;
+                    String uriTo = null;
 
                     synchronized (MUTEX) {
                         virtualAPID = virtualAPIDsMap.get(uriFrom);
+                        uriTo = "malspp:247/2/" + virtualAPID;
 
                         if (virtualAPID == null) {
                             virtualAPID = uniqueAPID.getAndIncrement();
                             virtualAPIDsMap.put(uriFrom, virtualAPID);
                             reverseMap.put(virtualAPID, uriFrom);
-                            MALEndpoint ep = transportA.createEndpoint(uriFrom, null);
+                            
+                            uriTo = "malspp:247/2/" + virtualAPID;
+                            MALEndpoint ep = transportA.createEndpoint(uriTo, null);
+                            ep.setMessageListener(new BridgeMessageHandlerSPP(ep, epOther));
+                            ep.startMessageDelivery();
                         }
 
                         System.out.println("The virtualAPID is: " + virtualAPID);
                     }
 
                     // copy source message into destination message format
-                    MALEndpoint ep = transportA.createEndpoint(uriFrom, null);
-//                            MALEndpoint ep = transportA.createEndpoint(uriFrom, null);
-                    ep.startMessageDelivery();
+                    MALEndpoint ep = transportA.getEndpoint(uriTo);
+
                     dMsg = cloneForwardMessageToSPP(ep, srcMessage, virtualAPID); 
                     System.out.println("Injecting message...");
                     ep.sendMessage(dMsg);
@@ -161,10 +161,10 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
             try {
                 MALMessage[] dMsgList = new MALMessage[srcMessageList.length];
                 for (int i = 0; i < srcMessageList.length; i++) {
-                    dMsgList[i] = cloneForwardMessage(destination, srcMessageList[i]);
+                    dMsgList[i] = cloneForwardMessage(epSPP, srcMessageList[i]);
                 }
 
-                destination.sendMessages(dMsgList);
+                epSPP.sendMessages(dMsgList);
             } catch (MALException ex) {
                 // ToDo need to bounce this back to source
             }

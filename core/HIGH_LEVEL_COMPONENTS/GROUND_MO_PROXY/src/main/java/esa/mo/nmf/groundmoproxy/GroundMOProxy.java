@@ -85,8 +85,8 @@ public class GroundMOProxy {
 
             for (ProviderSummary provider : providers) {
                 PublishDetails pub = new PublishDetails();
-                pub.setDomain(ConfigurationProviderSingleton.getDomain());
-                pub.setNetwork(new Identifier("network"));
+                pub.setDomain(provider.getProviderKey().getDomain());
+                pub.setNetwork(new Identifier("not_available"));
                 pub.setProviderDetails(provider.getProviderDetails());
                 pub.setProviderName(provider.getProviderName());
                 pub.setServiceXML(null);
@@ -95,7 +95,6 @@ public class GroundMOProxy {
 
                 directoryService.publishProvider(pub, null);
             }
-
         } catch (MALException ex) {
             Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -103,7 +102,6 @@ public class GroundMOProxy {
         } catch (MALInteractionException ex) {
             Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     /**
@@ -123,9 +121,7 @@ public class GroundMOProxy {
             }
 
             gma = new GroundMOAdapterImpl(connection);
-
             myProviders.put(key, gma);
-
             return gma;
         }
 

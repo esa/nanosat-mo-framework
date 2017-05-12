@@ -153,7 +153,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             throw new IllegalArgumentException("filter argument must not be null");
         }
 
-        IdentifierList inputDomain = filter.getDomain();
+        final IdentifierList inputDomain = filter.getDomain();
 
         // Check if the domain contains any wildcard that is not in the end, if so, throw error
         for (int i = 0; i < inputDomain.size(); i++) {
