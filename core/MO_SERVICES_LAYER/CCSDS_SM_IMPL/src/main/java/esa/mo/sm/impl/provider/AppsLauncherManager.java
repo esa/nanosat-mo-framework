@@ -188,8 +188,8 @@ public class AppsLauncherManager extends DefinitionsManager {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
-                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                            "The App COM object already exists in the Archive!");
+                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
+                            "The App COM object with objId: " + objId + " already exists in the Archive!");
 
                     return objId;
                 } else {
