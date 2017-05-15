@@ -21,15 +21,13 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
-//import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
-
+import esa.mo.nmf.NMFInterface;
 /**
  * The demo app to take snaps
  */
 public class SnapNMF {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework;
+    private final NMFInterface nanoSatMOFramework;
 
     public SnapNMF() {
         MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();

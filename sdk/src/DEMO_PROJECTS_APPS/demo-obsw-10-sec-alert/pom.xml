@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>Demo_10_sec_alert</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
 
     <name>Demo 10 seconds Alert</name>
     <description>The app publishes an Alert every 10 seconds.</description>

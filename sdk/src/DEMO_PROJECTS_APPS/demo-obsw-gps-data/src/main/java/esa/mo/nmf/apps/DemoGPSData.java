@@ -24,7 +24,6 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -53,6 +52,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * This class provides a simple demo that allows data to be retrieved from a GPS
@@ -60,7 +60,7 @@ import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
  *
  */
 public class DemoGPSData {
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework;
+    private final NMFInterface nanoSatMOFramework;
     private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
     private static final String PARAMETER_GPS_LONGITUDE = "GPS.Longitude";
     private static final String PARAMETER_GPS_ALTITUDE = "GPS.Altitude";

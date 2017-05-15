@@ -24,7 +24,6 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +40,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * This app is a simple clock. It pushes the day of the week, the hours, the
@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class PushClock {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
+    private final NMFInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
 //    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
     private final Timer timer = new Timer("PushClockTimerThread");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");

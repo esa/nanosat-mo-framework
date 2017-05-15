@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
         <relativePath/>
     </parent>
     
     <artifactId>demo-triple-presentation</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
 
     <name>Demo Triple Presentation</name>
     <description>A demo for the triple presentation.</description>

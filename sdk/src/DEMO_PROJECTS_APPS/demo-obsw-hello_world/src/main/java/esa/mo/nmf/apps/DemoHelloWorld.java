@@ -26,7 +26,6 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.io.Serializable;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -40,6 +39,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * This class provides a simple Hello World demo cli provider
@@ -47,7 +47,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class DemoHelloWorld {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework;
+    private final NMFInterface nanoSatMOFramework;
     private static final String PARAMETER_HELLO = "A_Parameter";
     private String str = "Hello World!";
 

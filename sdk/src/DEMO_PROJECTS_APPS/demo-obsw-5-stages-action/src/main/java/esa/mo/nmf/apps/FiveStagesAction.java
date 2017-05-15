@@ -23,7 +23,6 @@ package esa.mo.nmf.apps;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +41,7 @@ import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * A simple demo that reports 5 stages of an Action every 2 seconds
@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
  */
 public class FiveStagesAction {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
+    private final NMFInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
     private final static int TOTAL_N_OF_STAGES = 5; // 5 stages
     private final static int SLEEP_TIME = 2; // 2 seconds
     private final static String ACTION5STAGES = "Go";

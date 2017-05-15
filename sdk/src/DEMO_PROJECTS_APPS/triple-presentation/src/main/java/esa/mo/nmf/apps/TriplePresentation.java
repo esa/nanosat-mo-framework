@@ -20,15 +20,15 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * The demo app for the Triple Presentation
  */
 public class TriplePresentation {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework;
+    private final NMFInterface nanoSatMOFramework;
 
     public TriplePresentation() {
         MCTriplePresentationAdapter adapter = new MCTriplePresentationAdapter();

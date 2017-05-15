@@ -27,7 +27,6 @@ import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +51,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * This class provides a simple Hello World demo cli provider
@@ -59,7 +59,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class DemoTestApp {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapter());
+    private final NMFInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapter());
     private String str = "Hello World!";
     private Attribute something;
     private Blob laPicture = new Blob();

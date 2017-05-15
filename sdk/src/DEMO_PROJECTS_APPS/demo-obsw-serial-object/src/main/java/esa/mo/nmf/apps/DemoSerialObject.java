@@ -22,7 +22,6 @@ package esa.mo.nmf.apps;
 
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import java.io.Serializable;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -33,6 +32,7 @@ import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * This class provides a demo cli provider for generating Serial objects
@@ -40,7 +40,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValue;
  */
 public class DemoSerialObject {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapter());
+    private final NMFInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new MCAdapter());
     private final static String PARAMETER = "MyParameter";
 
     public DemoSerialObject() {

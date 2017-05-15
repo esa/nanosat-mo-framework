@@ -25,7 +25,6 @@ import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -60,13 +59,14 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * The adapter for the app
  */
 public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
-    private NanoSatMOFrameworkInterface nmf;
+    private NMFInterface nmf;
 
     private static final String PARAMETER_SNAPS_TAKEN = "NumberOfSnapsTaken";
 
@@ -80,7 +80,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     private final int height = 1944;
     private final int TOTAL_STAGES = 3;
 
-    public void setNMF(NanoSatMOFrameworkInterface nanosatmoframework) {
+    public void setNMF(NMFInterface nanosatmoframework) {
         this.nmf = nanosatmoframework;
     }
 

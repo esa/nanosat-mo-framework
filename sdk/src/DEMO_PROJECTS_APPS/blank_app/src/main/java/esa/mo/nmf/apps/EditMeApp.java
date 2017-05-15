@@ -25,7 +25,6 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -46,13 +45,14 @@ import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * This class provides a blank template for starting the development of an app
  */
 public class EditMeApp {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
+    private final NMFInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
     private String parameterX = "Hi!";
 
     public EditMeApp() {

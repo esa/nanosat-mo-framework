@@ -26,7 +26,6 @@ import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -93,13 +92,14 @@ import org.ccsds.moims.mo.platform.magnetometer.structures.MagneticFieldInstance
 import org.ccsds.moims.mo.platform.structures.Quaternions;
 import org.ccsds.moims.mo.platform.structures.Vector3D;
 import org.ccsds.moims.mo.platform.structures.WheelSpeed;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * The adapter for the app
  */
 public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
-    private NanoSatMOFrameworkInterface nmf;
+    private NMFInterface nmf;
 
     private static final String PARAMETER_ADCS_MODE = "ADCS.ModeOperation";
     private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
@@ -124,7 +124,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
     private Long nadirPointingObjId = null;
     private Timer timer;
 
-    public void setNMF(NanoSatMOFrameworkInterface nanosatmoframework) {
+    public void setNMF(NMFInterface nanosatmoframework) {
         this.nmf = nanosatmoframework;
 
         this.timer = new Timer();

@@ -23,7 +23,6 @@ package esa.mo.nmf.apps;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NanoSatMOFrameworkInterface;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,6 +35,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import esa.mo.nmf.NMFInterface;
 
 /**
  * This class provides a simple Hello World demo cli provider
@@ -43,7 +43,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  */
 public class Demo10secAlert {
 
-    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new Adapter());
+    private final NMFInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new Adapter());
     private final Timer timer;
 
     public Demo10secAlert() {
