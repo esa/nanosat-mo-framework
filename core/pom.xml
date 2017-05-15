@@ -67,7 +67,7 @@
         <module>HELPER_TOOLS</module>
         <module>TRANSPORT_LAYER</module>
         <module>MO_SERVICES_LAYER</module>
-        <module>HIGH_LEVEL_COMPONENTS</module>
+        <module>NMF_COMPOSITES</module>
         <module>NMF_PACKAGER</module>
         <module>OTHERS</module>
     </modules>
