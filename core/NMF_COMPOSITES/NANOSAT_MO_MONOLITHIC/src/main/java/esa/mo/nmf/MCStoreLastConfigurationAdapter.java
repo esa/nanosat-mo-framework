@@ -76,7 +76,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListe
     private final ExecutorService executor = Executors.newSingleThreadExecutor(); // Guarantees sequential order
     private final COMServicesProvider comServices;
 
-    public MCStoreLastConfigurationAdapter(NanoSatMOFrameworkInterface provider,
+    public MCStoreLastConfigurationAdapter(NMFInterface provider,
             final ObjectId confId, final Identifier providerName) throws NMFException {
         try {
             ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());

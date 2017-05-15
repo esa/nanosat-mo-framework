@@ -21,7 +21,7 @@
 package esa.mo.nmf.nanosatmomonolithic;
 
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.nmf.NanoSatMOFrameworkProvider;
+import esa.mo.nmf.NMFProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.MCRegistration;
@@ -50,7 +50,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  *
  * @author Cesar Coelho
  */
-public abstract class NanoSatMOMonolithic extends NanoSatMOFrameworkProvider {
+public abstract class NanoSatMOMonolithic extends NMFProvider {
 
     private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Monolithic";
 

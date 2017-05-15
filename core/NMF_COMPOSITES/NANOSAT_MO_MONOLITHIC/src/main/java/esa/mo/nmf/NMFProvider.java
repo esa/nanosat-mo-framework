@@ -64,7 +64,7 @@ import esa.mo.reconfigurable.provider.ReconfigurableProvider;
  *
  * @author Cesar Coelho
  */
-public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvider, NanoSatMOFrameworkInterface {
+public abstract class NMFProvider implements ReconfigurableProvider, NMFInterface {
 
     public final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     private final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
@@ -154,7 +154,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
             try {
                 obj = HelperAttributes.serialObject2blobAttribute((Serializable) obj);
             } catch (IOException ex) {
-                Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -237,7 +237,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
     public final URI readCentralDirectoryServiceURI() {
         String path = ".."
                 + File.separator
-                + NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME
+                + NMFProvider.NANOSAT_MO_SUPERVISOR_NAME
                 + File.separator
                 + FILENAME_CENTRAL_DIRECTORY_SERVICE;
 
@@ -253,10 +253,10 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
                 br.close();
                 return new URI(line);
             } catch (IOException ex) {
-                Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
+                Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.WARNING,
+            Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                     "The File " + file.getPath() + " could not be found!");
             return null;
         }
@@ -275,7 +275,7 @@ public abstract class NanoSatMOFrameworkProvider implements ReconfigurableProvid
 
             wrt.write(centralDirectoryURI);
         } catch (IOException ex) {
-            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.WARNING,
+            Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
         } finally {
             if (wrt != null) {

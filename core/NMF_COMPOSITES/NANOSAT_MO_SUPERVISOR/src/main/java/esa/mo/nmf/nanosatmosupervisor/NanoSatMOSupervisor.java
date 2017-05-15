@@ -21,7 +21,7 @@
 package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.nmf.NanoSatMOFrameworkProvider;
+import esa.mo.nmf.NMFProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -56,7 +56,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  *
  * @author Cesar Coelho
  */
-public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
+public abstract class NanoSatMOSupervisor extends NMFProvider {
 
     private final PackageManagementProviderServiceImpl packageManagementService = new PackageManagementProviderServiceImpl();
     private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
@@ -152,7 +152,7 @@ public abstract class NanoSatMOSupervisor extends NanoSatMOFrameworkProvider {
 
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
-        this.directoryService.loadURIs(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME);
+        this.directoryService.loadURIs(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME);
 
         final String primaryURI = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
 

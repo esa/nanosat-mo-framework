@@ -24,13 +24,12 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 
-
 /**
  * The interface that is exposed towards the app developer.
- * 
+ *
  */
-public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
-    
+public interface NMFInterface extends SimpleMonitoringInterface {
+
     /**
      * Requests the COM services available in the NanoSat MO Framework provider.
      *
@@ -52,15 +51,15 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      * @return The Platform services
      */
     PlatformServicesConsumer getPlatformServices() throws NMFException;
-    
+
     /**
      * Adds a listener for when the app is requested to be closed.
      *
-     * @param closeAppAdapter The adapter that will be called after a request 
-     * to close the app
+     * @param closeAppAdapter The adapter that will be called after a request to
+     * close the app
      */
     void addCloseAppListener(CloseAppListener closeAppAdapter);
-    
+
     /**
      * Closes the app gracefully.
      *
@@ -68,5 +67,5 @@ public interface NanoSatMOFrameworkInterface extends SimpleMonitoringInterface {
      * be null.
      */
     void closeGracefully(final ObjectId source);
-    
+
 }

@@ -28,7 +28,6 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.mc.impl.util.MCServicesConsumer;
-import esa.mo.nmf.NanoSatMOFrameworkProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.util.SMServicesConsumer;
 import java.io.IOException;
@@ -274,7 +273,7 @@ public class MOServicesConsumer {
             }
 
         } catch (MALException ex) {
-            Logger.getLogger(NanoSatMOFrameworkProvider.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

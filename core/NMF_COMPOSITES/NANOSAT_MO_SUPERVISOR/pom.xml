@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>NANOSAT_MO_SUPERVISOR</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
 
     <name>NanoSat MO Supervisor: Generic</name>
     <description>NanoSat MO Supervisor</description>

@@ -34,7 +34,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NanoSatMOFrameworkProvider;
+import esa.mo.nmf.NMFProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
@@ -83,7 +83,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  *
  * @author Cesar Coelho
  */
-public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
+public final class NanoSatMOConnectorImpl extends NMFProvider {
 
     private Long appDirectoryServiceId;
     private EventConsumerServiceImpl serviceCOMEvent;
@@ -126,7 +126,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 final ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(),
                         eventCOM.getNumber(), eventCOM.getArea().getVersion());
                 final ServiceFilter sf = new ServiceFilter(
-                        new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME),
+                        new Identifier(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), null, new Identifier("*"),
                         serviceKey, new UIntegerList());
                 final ProviderSummaryList supervisorEventServiceConnectionDetails = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf);
@@ -153,7 +153,7 @@ public final class NanoSatMOConnectorImpl extends NanoSatMOFrameworkProvider {
                 // Lookup for the Platform services on the NanoSat MO Supervisor
                 final ServiceKey sk = new ServiceKey(PlatformHelper.PLATFORM_AREA_NUMBER,
                         new UShort(0), new UOctet((short) 0));
-                final ServiceFilter sf2 = new ServiceFilter(new Identifier(NanoSatMOFrameworkProvider.NANOSAT_MO_SUPERVISOR_NAME),
+                final ServiceFilter sf2 = new ServiceFilter(new Identifier(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), null, new Identifier("*"), sk, new UIntegerList());
                 final ProviderSummaryList supervisorConnections = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf2);
 
