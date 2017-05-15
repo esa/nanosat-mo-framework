@@ -23,10 +23,10 @@
         <relativePath/>
     </parent>
   
-    <artifactId>HIGH_LEVEL_COMPONENTS</artifactId>
+    <artifactId>NMF_COMPOSITES</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-    <name>NMF High-level Components</name>
+    <name>NMF Composites</name>
 
     <organization>
         <name>ESA</name>
