@@ -20,9 +20,7 @@
  */
 package esa.mo.nmf.groundmoproxy;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -41,29 +39,20 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
     private MALTransport transportA;
     private MALTransport transportB;
-    private MALEndpoint epA;
     private MALEndpoint epB;
     private final static String PROTOCOL_SPP = "malspp";
-    private final int rangeStart = 2;
-    private final int rangeEnd = 60;
-    private final HashMap<String, Long> virtualAPIDsMap = new HashMap<String, Long>();
-    private final HashMap<Long, String> reverseMap = new HashMap<Long, String>();
-    private final AtomicLong uniqueAPID = new AtomicLong(rangeStart);
-    private final Object MUTEX = new Object();
+    private final VirtualSPPURIsManager virtualSPPURI = new VirtualSPPURIsManager();
 
     public void init(final String protocol, final Map properties) throws MALException, Exception {
         transportA = createTransport(PROTOCOL_SPP, properties);
         transportB = createTransport(protocol, properties);
 
-        epA = createEndpoint(PROTOCOL_SPP, transportA);
         epB = createEndpoint(protocol, transportB);
 
         System.out.println("Linking transports...");
-//        epA.setMessageListener(new BridgeMessageHandlerSPP(epB));
-        epB.setMessageListener(new BridgeMessageHandlerSPP(epA, epB));
+        epB.setMessageListener(new BridgeMessageHandlerSPP(null, epB));
 
         System.out.println("Starting message delivery...");
-        epA.startMessageDelivery();
         epB.startMessageDelivery();
     }
 
@@ -102,47 +91,25 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
                 MALMessage dMsg = null;
 
                 if (isFromSPP) {
-                    Long virtualAPID = getVirtualAPID(srcMessage.getHeader().getURITo().getValue());
-                    String reverse = null;
-
-                    synchronized (MUTEX) {
-                        reverse = reverseMap.get(virtualAPID);
-
-                        if (reverse == null) {
-                            System.out.println("The reverse APID for APID: " + virtualAPID + " could not be found!");
-                        }
-                    }
+                    String uriTrans = virtualSPPURI.getURI(srcMessage.getHeader().getURITo().getValue());
 
                     // copy source message into destination message format
-                    dMsg = cloneForwardMessageFromSPP(epOther, srcMessage, new URI(reverse));
+                    dMsg = cloneForwardMessageFromSPP(epOther, srcMessage, new URI(uriTrans));
                     System.out.println("Injecting message...");
                     epOther.sendMessage(dMsg);
                 } else {
-                    Long virtualAPID = null;
-                    String uriTo = null;
-
-                    synchronized (MUTEX) {
-                        virtualAPID = virtualAPIDsMap.get(uriFrom);
-                        uriTo = "malspp:247/2/" + virtualAPID;
-
-                        if (virtualAPID == null) {
-                            virtualAPID = uniqueAPID.getAndIncrement();
-                            virtualAPIDsMap.put(uriFrom, virtualAPID);
-                            reverseMap.put(virtualAPID, uriFrom);
-                            
-                            uriTo = "malspp:247/2/" + virtualAPID;
-                            MALEndpoint ep = transportA.createEndpoint(uriTo, null);
-                            ep.setMessageListener(new BridgeMessageHandlerSPP(ep, epOther));
-                            ep.startMessageDelivery();
-                        }
-
-                        System.out.println("The virtualAPID is: " + virtualAPID);
-                    }
+                    String virtualURIs = virtualSPPURI.getVirtualSPPURI(uriFrom);
 
                     // copy source message into destination message format
-                    MALEndpoint ep = transportA.getEndpoint(uriTo);
+                    MALEndpoint ep = transportA.getEndpoint(virtualURIs);
 
-                    dMsg = cloneForwardMessageToSPP(ep, srcMessage, virtualAPID); 
+                    if (ep == null) {
+                        ep = transportA.createEndpoint(virtualURIs, System.getProperties());
+                        ep.setMessageListener(new BridgeMessageHandlerSPP(ep, epOther));
+                        ep.startMessageDelivery();
+                    }
+
+                    dMsg = cloneForwardMessageToSPP(ep, srcMessage, virtualURIs);
                     System.out.println("Injecting message...");
                     ep.sendMessage(dMsg);
                 }
@@ -171,38 +138,32 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         }
 
         private boolean isSPP(String value) {
-            return value.startsWith("malspp");
+            return value.startsWith(PROTOCOL_SPP);
         }
 
-        private Long getVirtualAPID(String value) {
-            final String[] aaa = value.split("/");
-            return Long.parseLong(aaa[2]);
-        }
     }
 
     protected static MALMessage cloneForwardMessageToSPP(final MALEndpoint destination,
-            final MALMessage srcMessage, final Long virtualAPID) throws MALException {
+            final MALMessage srcMessage, final String virtualURI) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
         MALEncodedBody encBody = body.getEncodedBody();
         int size = body.getElementCount();
         System.out.println("Body size: " + size);
         System.out.println("Local URI: " + destination.getURI());
-        
+
         Object[] objList = new Object[size];
-        
-        for(int i = 0; i < body.getElementCount(); i++){
+
+        for (int i = 0; i < body.getElementCount(); i++) {
             objList[i] = body.getBodyElement(i, null);
         }
-        
+
         System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
         endpointUriPart = endpointUriPart.substring(iSecond + 1, endpointUriPart.length());
         URI to = new URI(endpointUriPart);
-//        URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
-//        URI from = new URI("malspp:247/" + virtualAPID + "/0");
-        URI from = new URI("malspp:247/2/" + virtualAPID);
+        URI from = new URI(virtualURI);
 
         System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
 
@@ -240,26 +201,12 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         int size = body.getElementCount();
         System.out.println("Body size: " + size);
         System.out.println("Local URI: " + destination.getURI());
-        
+
         Object[] objList = new Object[size];
-        
-        for(int i = 0; i < body.getElementCount(); i++){
+
+        for (int i = 0; i < body.getElementCount(); i++) {
             objList[i] = body.getBodyElement(i, null);
         }
-        
-        
-        // We need to decode the body and encode it back again....
-//        MALEncodedBody oldEncodedBody = body.getEncodedBody();
-//        Blob oldBody = oldEncodedBody.getEncodedBody();
-        
-        // Convert old body to new body...
-//        SPPElementStreamFactory fact = new SPPElementStreamFactory();
-//        BinaryDecoder aaa = new BinaryDecoder(oldBody.getValue());
-//        Element aaaaa = aaa.decodeElement(oldBody);
-
-//        Blob newBody = oldBody;
-//        MALEncodedBody newEncodedBody = new MALEncodedBody(newBody);
-        
 
         System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
         String endpointUriPart = sourceHdr.getURITo().getValue();

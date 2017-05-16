@@ -474,11 +474,11 @@ public class AppsLauncherManager extends DefinitionsManager {
                     "The app could not be found in the Directory service... Possible reasons: "
                     + "1. The property 'MOappName' of the app might not match its folder name "
                     + "2. Not a NMF app! If so, one needs to use killApp!");
-            throw new IllegalArgumentException();
+            throw new IOException();
         }
 
         if (providersList.size() != 1) { // Throw error!
-            throw new IllegalArgumentException("There are more than 1 provider rergistered for this app! "
+            throw new IOException("There are more than 1 provider rergistered for this app! "
                     + "Most likely the app was forcefully killed before.");
         }
 
