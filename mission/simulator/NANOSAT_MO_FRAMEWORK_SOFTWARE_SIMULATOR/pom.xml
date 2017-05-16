@@ -74,7 +74,7 @@
             <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>PLATFORM_SOFTWARE_SIMULATOR_IMPL</artifactId>
             <version>0.1.0</version>
         </dependency>
