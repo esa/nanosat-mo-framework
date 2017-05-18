@@ -512,6 +512,19 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         return false;  // to confirm that the variable was set
     }
 
+    /**
+     * The user must implement this interface in order to link a certain
+     * action Identifier to the method on the application
+     *
+     * @param identifier Name of the Parameter
+     * @param attributeValues
+     * @param actionInstanceObjId
+     * @param reportProgress Determines if it is necessary to report the execution
+     * @param interaction The interaction object progress of the action
+     *
+     * @return Returns null if the Action was successful. If not null, then the
+     * returned value should hold the error number
+     */
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
@@ -621,7 +634,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
         if (ACTION_5_STAGES.equals(name.getValue())) {
             try {
-                fiveStepsAction(actionInstanceObjId, 5);
+                return multiStageAction(actionInstanceObjId, 5);
             } catch (NMFException ex) {
                 Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
@@ -776,11 +789,20 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
         nmf.getMCServices().getParameterService().pushMultipleParameterValues(instances);
     }
 
-    public void fiveStepsAction(Long actionId, int total_n_of_stages) throws NMFException {
+    /*
+     * @param actionInstanceObjId
+     * @param total_n_of_stages
+     *
+     * @return Returns null if the Action was successful. If not null, then the
+     * returned value should hold the error number
+     */
+    public UInteger multiStageAction(Long actionInstanceObjId, int total_n_of_stages) throws NMFException {
         final int sleepTime = 2; // 2 seconds
 
+        UInteger errorNumber = null;
+
         for (int stage = 1; stage < total_n_of_stages + 1; stage++) {
-            nmf.reportActionExecutionProgress(true, 0, stage, total_n_of_stages, actionId);
+            nmf.reportActionExecutionProgress(true, 0, stage, total_n_of_stages, actionInstanceObjId);
 
             try {
                 Thread.sleep(sleepTime * 1000); //1000 milliseconds multiplier.
@@ -788,6 +810,8 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 Thread.currentThread().interrupt();
             }
         }
+
+        return errorNumber;
     }
 
 }
