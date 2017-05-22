@@ -27,9 +27,11 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +67,16 @@ public final class ActionManager extends MCManager {
     private Long uniqueObjIdAIns;
     private final ActionInvocationListener actions;
     private final HashMap<Long, ActionInstanceDetails> actionInstances = new HashMap<Long, ActionInstanceDetails>();
-    private final ExecutorService actionsExecutor = Executors.newCachedThreadPool(new ActionThreadFactory("ActionsExecutor"));
+
+    private final static int MINIMUM_THREADS_IN_POOL = 2;
+    private final static int MAXIMUM_THREADS_IN_POOL = 100;
+    private final static long KEEP_ALIVE_TIME_THREADS_IN_POOL = 60L;
+    private final static int MAXIMUM_NUMBER_OF_TASKS_IN_POOL = 1000;
+
+    private final ExecutorService actionsExecutor = new ThreadPoolExecutor(MINIMUM_THREADS_IN_POOL,
+            MAXIMUM_THREADS_IN_POOL, KEEP_ALIVE_TIME_THREADS_IN_POOL, TimeUnit.SECONDS,
+            new ArrayBlockingQueue<Runnable>(MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true),
+            new ActionThreadFactory("ActionsExecutor"));
 
     public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {
         super(comServices);
@@ -318,7 +329,7 @@ public final class ActionManager extends MCManager {
         if (sizeArgVal != sizeDef) {
             int min = (sizeDef < sizeArgVal) ? sizeDef : sizeArgVal;
             int max = (sizeDef > sizeArgVal) ? sizeDef : sizeArgVal;
-            
+
             for (int i = min; i < max; i++) {
                 errorList.add(new UInteger(i));
             }
@@ -333,7 +344,7 @@ public final class ActionManager extends MCManager {
 
             int min = (sizeDefArgIds < sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
             int max = (sizeDefArgIds > sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
-            
+
             if (sizeDefArgIds != sizeInstArgIds) {
                 for (int i = min; i < max; i++) {
                     errorList.add(new UInteger(i));
