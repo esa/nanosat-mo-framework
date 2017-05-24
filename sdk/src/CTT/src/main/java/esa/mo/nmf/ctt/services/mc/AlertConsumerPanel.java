@@ -25,6 +25,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.tools.mowindow.MOWindow;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import java.io.InterruptedIOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -32,10 +33,13 @@ import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
+import org.ccsds.moims.mo.mc.alert.consumer.AlertAdapter;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
@@ -358,6 +362,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
+        /*
         ObjectInstancePairList output;
         try {
             output = this.serviceMCAlert.getAlertStub().listDefinition(idList);
@@ -373,6 +378,29 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         }
 
         Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
+        */
+        
+        try {
+            this.serviceMCAlert.getAlertStub().asyncListDefinition(idList, new AlertAdapter() {
+                @Override
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList alertObjInstIds, Map qosProperties) {
+                    alertTable.refreshTableWithIds(alertObjInstIds, serviceMCAlert.getConnectionDetails().getDomain(), AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", alertObjInstIds.size());
+                }
+
+                @Override
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
+                }
+            }
+            );
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
     private void removeDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionAllButtonActionPerformed

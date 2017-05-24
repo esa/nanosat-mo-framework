@@ -23,10 +23,10 @@
         <relativePath/>
     </parent>
   
-    <artifactId>NMF_SDK</artifactId>
-    <name>NMF: SDK</name>
+    <artifactId>GROUND_SPACE_REACTOR</artifactId>
     <version>0.1.0</version>
     <packaging>pom</packaging>
+    <name>Facebook demo</name>
 
     <organization>
         <name>ESA</name>
@@ -49,7 +49,7 @@
   
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/esa/CCSDS_MO_APPS/issues</url>
+        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
     </issueManagement>
   
     <developers>
@@ -62,14 +62,9 @@
     </developers>
 
     <modules>
-        <module>DEMO_PROJECTS_APPS</module>
-        <module>DEMO_PROJECTS_GROUND</module>
-        <module>DEMO_GROUND_SPACE_FACEBOOK</module>
-        <module>CTT</module>
-        <module>PLAYGROUND_GENERATOR</module> 
-        <module>NMF_PACKAGE_CREATOR_TOOL</module> 
+        <module>demo-ground-facebook</module>
     </modules>
-  
+    
     <repositories>
         <repository>
             <id>AGSA-Maven-Repository</id>
@@ -77,5 +72,5 @@
             <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
         </repository>
     </repositories>
-    
+        
 </project>

@@ -65,7 +65,6 @@
         <module>demo-ground-zero</module>
         <module>demo-ground-with-directory</module>
         <module>demo-ground-set_and_command</module>
-        <module>demo-ground-facebook</module>
     </modules>
     
     <repositories>

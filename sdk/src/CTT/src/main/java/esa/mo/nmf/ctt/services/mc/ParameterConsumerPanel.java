@@ -28,6 +28,7 @@ import esa.mo.tools.mowindow.MOWindow;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -35,6 +36,7 @@ import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -42,7 +44,9 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
@@ -352,7 +356,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
     private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
-
+/*
         ObjectInstancePairList output;
         try {
             output = this.serviceMCParameter.getParameterStub().listDefinition(idList);
@@ -369,6 +373,29 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         }
 
         Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
+*/
+
+        try {
+            this.serviceMCParameter.getParameterStub().asyncListDefinition(idList, new ParameterAdapter() {
+                @Override
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objInstIds, Map qosProperties) {
+                    parameterTable.refreshTableWithIds(objInstIds, serviceMCParameter.getConnectionDetails().getDomain(), ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
+                }
+
+                @Override
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
+                }
+            }
+            );
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
     private void removeDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionAllButtonActionPerformed
