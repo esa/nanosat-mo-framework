@@ -146,6 +146,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (inDomain == null) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.3.2.3
         }
+        if (inObjIds == null) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+        }
         if (ArchiveManager.objectTypeContainsWildcard(inObjectType)) {   // requirement: 3.4.3.2.2
 //            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));

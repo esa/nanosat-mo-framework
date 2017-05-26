@@ -18,36 +18,28 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.packager;
+package esa.mo.sm.impl.util;
 
-import java.io.File;
-import esa.mo.sm.impl.util.PackageManagementBackendInterface;
+import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
+ * An interface to be implemented in order to allow the Package Management service
+ * to manage packages.
  *
  * @author Cesar Coelho
  */
-public class PackageManagementBackendNMFPackage implements PackageManagementBackendInterface {
+public interface PMBackend {
 
-    @Override
-    public File[] getListOfPackages() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    StringList getListOfPackages();
 
-    @Override
-    public void install(File file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    void install(final String packageName);
 
-    @Override
-    public void uninstall(File file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    void uninstall(final String packageName, final boolean keepConfigurations);
 
-    @Override
-    public void upgrade(File file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    void upgrade(final String packageName);
+    
+    boolean isPackageInstalled(final String packageName);
+    
+    boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException;
 
 }

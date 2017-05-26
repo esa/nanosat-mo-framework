@@ -33,7 +33,7 @@ import esa.mo.nmf.NMFException;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
-import esa.mo.sm.impl.util.PackageManagementBackendInterface;
+import esa.mo.sm.impl.util.PMBackend;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -75,7 +75,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
      */
     public NanoSatMOSupervisor(MonitorAndControlNMFAdapter mcAdapter,
             PlatformServicesConsumer platformServices,
-            PackageManagementBackendInterface packageManagementBackend) {
+            PMBackend packageManagementBackend) {
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();

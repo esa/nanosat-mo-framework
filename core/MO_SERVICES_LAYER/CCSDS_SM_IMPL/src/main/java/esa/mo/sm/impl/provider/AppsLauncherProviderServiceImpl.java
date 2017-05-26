@@ -150,6 +150,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 //        manager.refreshAvailableAppsList(connection.getConnectionDetails());
         running = true;
         initialiased = true;
+        
         Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Apps Launcher service: READY");
     }
 
@@ -492,6 +493,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
+        for (Long id : confSet.getObjInstIds()) { // Set all running state to false
+            manager.setRunning(id, false, null);
+        }
+        
         return true;
     }
 

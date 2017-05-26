@@ -20,10 +20,8 @@
  */
 package esa.mo.sm.impl.provider;
 
-import esa.mo.sm.impl.util.PackageManagementBackendInterface;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -44,6 +42,11 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.InstallI
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.PackageManagementInheritanceSkeleton;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UninstallInteraction;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UpgradeInteraction;
+import esa.mo.sm.impl.util.PMBackend;
+import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
+import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
 
 /**
  *
@@ -55,7 +58,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private COMServicesProvider comServices;
-    private PackageManagementBackendInterface backend;
+    private PMBackend backend;
 
     /**
      * Initializes the service
@@ -65,7 +68,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      * @throws MALException On initialization error.
      */
     public synchronized void init(COMServicesProvider comServices, 
-            PackageManagementBackendInterface backend) throws MALException {
+            PMBackend backend) throws MALException {
         if (!initialiased) {
 
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -119,54 +122,120 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public ListPackageResponse listPackage(IdentifierList names, Identifier category, MALInteraction interaction) throws MALInteractionException, MALException {
-        
-        File[] packagesList = backend.getListOfPackages();
-        
+    public ListPackageResponse listPackage(IdentifierList names, Identifier category, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
+        UIntegerList unkIndexList = new UIntegerList();
+        ListPackageResponse outList = new ListPackageResponse();
 
-        ListPackageResponse response = new ListPackageResponse();
+        if (null == names || category == null) { // Is the input null?
+            throw new IllegalArgumentException("names argument and category argument must not be null");
+        }
+
+        
+        StringList packagesList = backend.getListOfPackages();
         
         
-        return response;
+        BooleanList installed = new BooleanList();
         
+        for (String pack : packagesList) {
+            boolean isInstalled = backend.isPackageInstalled(pack);
+            installed.add(isInstalled);
+        }
+        
+        
+        outList.setBodyElement0(new LongList()); // ObjIds
+        outList.setBodyElement1(installed); // Installed?
+        
+        
+        return outList;
     }
 
     @Override
     public void install(Long packageObjInstId, InstallInteraction interaction) throws MALInteractionException, MALException {
+        UIntegerList unkIndexList = new UIntegerList();
+        
+        if (null == packageObjInstId) { // Is the input null?
+            throw new IllegalArgumentException("packageObjInstId argument must not be null");
+        }
+        
+        String packageName = null;
+        
+        boolean isInstalled = backend.isPackageInstalled(packageName);
+
+        // Throw error if already installed!
+
+        
+        // Before installing, we need to check the package integrity!
+        boolean integrity = backend.checkPackageIntegrity(packageName);
         
         
-        File file = null;
-        backend.install(file);
+        // Errors
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+        
+        backend.install(packageName);
         
     }
 
     @Override
-    public void uninstall(Long instId, Boolean leaveConfigurationsIntact, UninstallInteraction interaction) throws MALInteractionException, MALException {
+    public void uninstall(Long instId, Boolean leaveConfigurationsIntact, 
+            UninstallInteraction interaction) throws MALInteractionException, MALException {
+        UIntegerList unkIndexList = new UIntegerList();
 
         // Add validation
+        if (null == instId || leaveConfigurationsIntact == null) { // Is the input null?
+            throw new IllegalArgumentException("instId argument and leaveConfigurationsIntact argument must not be null");
+        }
 
-        File file = null;
-        backend.uninstall(file);
+        String packageName = null;
+        
+        boolean isInstalled = backend.isPackageInstalled(packageName);
+
+        // Errors
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+        
+
+        
+        backend.uninstall(packageName, leaveConfigurationsIntact);
         
     }
 
     @Override
     public void upgrade(LongList packageObjInstIds, UpgradeInteraction interaction) throws MALInteractionException, MALException {
+        UIntegerList unkIndexList = new UIntegerList();
 
         // Add validation
+        if (null == packageObjInstIds) { // Is the input null?
+            throw new IllegalArgumentException("packageObjInstIds argument must not be null");
+        }
 
-        File file = null;
-        backend.upgrade(file);
+        String packageName = null;
+        
+        
+        // Errors
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+        
+        backend.upgrade(packageName);
 
     }
 
     @Override
     public IdentifierList listCategories(MALInteraction interaction) throws MALInteractionException, MALException {
+        
+        
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public CheckPackageIntegrityResponse checkPackageIntegrity(LongList packageIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public CheckPackageIntegrityResponse checkPackageIntegrity(LongList packageIds, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
