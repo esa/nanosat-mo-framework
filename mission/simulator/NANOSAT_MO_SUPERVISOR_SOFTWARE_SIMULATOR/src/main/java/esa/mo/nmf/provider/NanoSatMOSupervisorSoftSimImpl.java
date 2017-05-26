@@ -24,7 +24,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
-import esa.mo.nmf.packager.PackageManagementBackendNMFPackage;
+import esa.mo.nmf.packager.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 import java.net.MalformedURLException;
@@ -54,7 +54,7 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
     public NanoSatMOSupervisorSoftSimImpl() {
         super(new MCSoftwareSimulatorAdapter(),
                 new PlatformServicesConsumer(),
-                new PackageManagementBackendNMFPackage());
+                new NMFPackagePMBackend());
     }
 
     /**
