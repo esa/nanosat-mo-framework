@@ -147,7 +147,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         this.directoryService = directoryService;
         manager = new AppsLauncherManager(comServices);
         appsLauncherServiceProvider = connection.startService(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME.toString(), AppsLauncherHelper.APPSLAUNCHER_SERVICE, this);
-//        manager.refreshAvailableAppsList(connection.getConnectionDetails());
         running = true;
         initialiased = true;
         

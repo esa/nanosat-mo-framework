@@ -49,7 +49,7 @@
 							<mal:field canBeNull="true" comment="The memoryAreas field shall contain the memory areas to be dumped." name="memoryAreas">
 								<mal:type area="SoftwareManagement" list="true" name="MemoryArea" service="MemoryManagement"/>
 							</mal:field>
-						</mal:progress>
+            </mal:progress>
 						<mal:acknowledgement comment="">
 							<mal:field canBeNull="true" comment="The requestId field shall contain the id of the request." name="requestId">
 								<mal:type area="MAL" list="false" name="Long"/>
@@ -436,72 +436,118 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 			</mal:documentation>
       <mal:documentation name="Functional Requirements" order="2"/>
 			<mal:capabilitySet comment="" number="1">
-				<mal:requestIP comment="The listPackage operation allows a consumer to list the available packages on the provider." name="listPackage" number="1" supportInReplay="true">
+				<mal:requestIP comment="The findPackage operation allows a consumer to find the available packages on the provider." name="findPackage" number="1" supportInReplay="true">
 					<mal:messages>
 						<mal:request comment="">
-							<mal:field canBeNull="true" comment="" name="names">
+							<mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
 								<mal:type area="MAL" list="true" name="Identifier"/>
-							</mal:field>
-						
-							<mal:field canBeNull="true" comment="" name="category">
-								<mal:type area="MAL" list="false" name="Identifier"/>
 							</mal:field>
 						</mal:request>
 						<mal:response comment="">
-							<mal:field canBeNull="true" comment="" name="instIds">
-								<mal:type area="MAL" list="true" name="Long"/>
-							</mal:field>
-							<mal:field canBeNull="true" comment="" name="installed">
-								<mal:type area="MAL" list="true" name="Boolean"/>
-							</mal:field>
-						</mal:response>
+						<mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
+                <mal:type area="MAL" list="true" name="Identifier"/>
+              </mal:field>
+            <mal:field canBeNull="true" comment="The installed field shall hold the status of the package." name="installed">
+                <mal:type area="MAL" list="true" name="Boolean"/>
+              </mal:field>
+            </mal:response>
 					</mal:messages>
-				</mal:requestIP>
-				<mal:invokeIP comment="The install operation allows a consumer to install an application from a package on the provider." name="install" number="2" supportInReplay="false">
+				<mal:errors>
+            <mal:errorRef comment="One or more of the requested packages is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="Integer"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+				<mal:invokeIP comment="The install operation allows a consumer to install the content of a package on the provider. The selected packages will be installed sequencially." name="install" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:invoke comment="">
-							<mal:field canBeNull="true" comment="" name="packageObjInstId">
-								<mal:type area="MAL" list="false" name="Long"/>
-							</mal:field>
-						</mal:invoke>
+						<mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
+                <mal:type area="MAL" list="true" name="Identifier"/>
+              </mal:field>
+            </mal:invoke>
 						<mal:acknowledgement comment=""/>
 						<mal:response comment=""/>
 					</mal:messages>
-				</mal:invokeIP>
-				<mal:invokeIP comment="The uninstall operation allows a consumer to uninstall an application on the provider." name="uninstall" number="3" supportInReplay="false">
+          <mal:errors>
+            <mal:errorRef comment="One or more of the requested packages is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="Integer"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          <mal:errorRef comment="One or more of the requested packages is already installed.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="Integer"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+				<mal:invokeIP comment="The uninstall operation allows a consumer to uninstall the content of a package on the provider. The selected packages will be uninstalled sequencially." name="uninstall" number="3" supportInReplay="false">
 					<mal:messages>
 						<mal:invoke comment="">
-							<mal:field canBeNull="true" comment="" name="instId">
-								<mal:type area="MAL" list="false" name="Long"/>
-							</mal:field>
-							<mal:field canBeNull="true" comment="" name="leaveConfigurationsIntact">
-								<mal:type area="MAL" list="false" name="Boolean"/>
-							</mal:field>
-						</mal:invoke>
+						<mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
+                <mal:type area="MAL" list="true" name="Identifier"/>
+              </mal:field>
+            <mal:field canBeNull="true" comment="The keepConfigurations field selects if the configuration of the executable files shall be kept." name="keepConfigurations">
+                <mal:type area="MAL" list="true" name="Boolean"/>
+              </mal:field>
+            </mal:invoke>
 						<mal:acknowledgement comment=""/>
 						<mal:response comment=""/>
 					</mal:messages>
-				</mal:invokeIP>
+				<mal:errors>
+            <mal:errorRef comment="One or more of the requested packages is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="Integer"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          <mal:errorRef comment="One or more of the requested packages is not installed.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="Integer"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:invokeIP comment="The upgrade operation allows a consumer to upgrade an application from a package on the provider." name="upgrade" number="4" supportInReplay="false">
+				<mal:invokeIP comment="The upgrade operation allows a consumer to upgrade the content of a package on the provider. The selected packages will be upgraded sequencially." name="upgrade" number="4" supportInReplay="false">
 					<mal:messages>
 						<mal:invoke comment="">
-							<mal:field canBeNull="true" comment="" name="packageObjInstIds">
-								<mal:type area="MAL" list="true" name="Long"/>
-							</mal:field>
-						</mal:invoke>
+						<mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
+                <mal:type area="MAL" list="true" name="Identifier"/>
+              </mal:field>
+            </mal:invoke>
 						<mal:acknowledgement comment=""/>
 						<mal:response comment=""/>
 					</mal:messages>
-				</mal:invokeIP>
+          <mal:errors>
+            <mal:errorRef comment="One or more of the requested packages is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="Integer"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          <mal:errorRef comment="One or more of the requested packages is not installed.">
+              <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="Integer"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
 				<mal:requestIP comment="The checkPackageIntegrity operation allows a consumer to check the integrity of a certain package on the provider." name="checkPackageIntegrity" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
-              <mal:field canBeNull="true" comment="" name="packageIds">
-                <mal:type area="MAL" list="true" name="Long"/>
+            <mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
+                <mal:type area="MAL" list="true" name="Identifier"/>
               </mal:field>
             </mal:request>
 						<mal:response comment="">
@@ -513,19 +559,15 @@ The process of loading a software image from non-volatile memory to RAM upon boo
               </mal:field>
             </mal:response>
 					</mal:messages>
-				</mal:requestIP>
-			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="4">
-				<mal:requestIP comment="The listCategories operation allows a consumer to request the existing application categories from the provider." name="listCategories" number="6" supportInReplay="true">
-					<mal:messages>
-						<mal:request comment=""/>
-						<mal:response comment="">
-							<mal:field canBeNull="true" comment="" name="categories">
-								<mal:type area="MAL" list="true" name="Identifier"/>
-							</mal:field>
-						</mal:response>
-					</mal:messages>
-				</mal:requestIP>
+				<mal:errors>
+            <mal:errorRef comment="One or more of the requested packages is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true" name="Integer"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
 			</mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite comment="The PackageDefinition structure holds the definition information of a package." name="PackageDefinition" shortFormPart="7">
@@ -869,7 +911,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
       </mal:dataTypes>
 			<com:features>
         <mal:diagram name="AppsLauncherObjects">
-          <svg:svg height="220" version="1.1" width="700">
+          <svg:svg height="300" version="1.1" width="760">
             <svg:defs>
               <svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
                 <svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
@@ -894,36 +936,56 @@ The process of loading a software image from non-volatile memory to RAM upon boo
             
             
             
-          <svg:path d="M335,170 L437,170 L540,170" end="App" fill="none" marker-mid="url(#relatedArrow)" start="StopApp" stroke="rgb(0,0,0)" stroke-width="1"/>
-            <svg:path d="M335,170 L334,110 L333,50" end="COM::ActivityTracking::OperationActivity" fill="none" marker-mid="url(#sourceArrow)" start="StopApp" stroke="rgb(255,0,0)" stroke-width="1"/>
-            <svg:path d="M120,170 L227,170 L335,170" end="StopApp" fill="none" marker-mid="url(#sourceArrow)" start="Stopping" stroke="rgb(255,0,0)" stroke-width="1"/>
-            <svg:g id="COM::ActivityTracking::OperationActivity" transform="translate(198,10)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="270" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="270"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="135" y="25">COM::ActivityTracking::OperationActivity</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="135" y="45">6</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="135" y="65">COM::ActivityTracking::OperationActivity</svg:text>
-            </svg:g>
-            <svg:g id="StopApp" transform="translate(285,130)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="100" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="100"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="35">StopApp</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="55">2</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="75"/>
-            </svg:g>
-            <svg:g id="Stopping" transform="translate(70,130)">
+          <svg:path d="M220,188 L301,188 L383,187" end="App" fill="none" marker-mid="url(#relatedArrow)" start="StopApp" stroke="rgb(0,0,0)" stroke-width="1"/>
+            <svg:path d="M220,188 L220,119 L220,50" end="COM::ActivityTracking::OperationActivity" fill="none" marker-mid="url(#sourceArrow)" start="StopApp" stroke="rgb(255,0,0)" stroke-width="1"/>
+            <svg:path d="M57,155 L138,171 L220,188" end="StopApp" fill="none" marker-mid="url(#sourceArrow)" start="Stopping" stroke="rgb(255,0,0)" stroke-width="1"/>
+            
+            
+            
+            
+          <svg:path d="M383,187 L507,187 L631,188" end="PackageManagement::Installation" fill="none" marker-mid="url(#sourceArrow)" start="App" stroke="rgb(255,0,0)" stroke-width="1"/>
+            <svg:path d="M60,245 L140,217 L220,188" end="StopApp" fill="none" marker-mid="url(#sourceArrow)" start="Stopped" stroke="rgb(255,0,0)" stroke-width="1"/>
+            <svg:g id="Stopping" transform="translate(7,115)">
               <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="100" x="4" y="4"/>
               <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="100"/>
               <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="35">Stopping</svg:text>
               <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="55">3</svg:text>
               <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="75"/>
             </svg:g>
-            <svg:g id="App" transform="translate(490,130)">
+            <svg:g id="Stopped" transform="translate(25,215)">
+              <svg:rect fill="rgb(190,190,190)" height="60" id="shadow" opacity="0.5" rx="15" width="70" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="60" id="frame" rx="15" stroke="black" stroke-width="2" width="70"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="35" y="25">Stopped</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="35" y="45">4</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="35" y="65"/>
+            </svg:g>
+            <svg:g id="StopApp" transform="translate(165,148)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="110" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="15" stroke="black" stroke-width="2" width="110"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="55" y="25">StopApp</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="55" y="45">2</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="55" y="65">MAL::Identifier</svg:text>
+            </svg:g>
+            <svg:g id="COM::ActivityTracking::OperationActivity" transform="translate(85,10)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="270" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="270"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="135" y="25">COM::ActivityTracking::OperationActivity</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="135" y="45">6</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="135" y="65">COM::ActivityTracking::OperationActivity</svg:text>
+            </svg:g>
+            <svg:g id="App" transform="translate(333,147)">
               <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="100" x="4" y="4"/>
               <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="100"/>
               <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="25">App</svg:text>
               <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="45">1</svg:text>
               <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="65">AppDetails</svg:text>
+            </svg:g>
+            <svg:g id="PackageManagement::Installation" transform="translate(519,148)">
+              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="225" x="4" y="4"/>
+              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="225"/>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="112" y="25">PackageManagement::Installation</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="112" y="45">2</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="112" y="65">MAL::Identifier</svg:text>
             </svg:g>
           </svg:svg>
         </mal:diagram>
@@ -968,7 +1030,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 			</com:features>
 		</mal:service>
 		<mal:service comment="The Heartbeat service provides the ability to periodically publish a heartbeat message. Additionally it is possible to get the period of the beat." name="Heartbeat" number="6" xsi:type="com:ExtendedServiceType">
-			<mal:documentation name="High Level Requirements" order="1">The Apps Launcher service shall provide:
+			<mal:documentation name="High Level Requirements" order="1">The Heartbeat service shall provide:
 &lt;ol&gt;
 &lt;li&gt;the capability for periodic monitoring of the beat;&lt;/li&gt;
 &lt;li&gt;the capability for retrieving the period of the beat.&lt;/li&gt;

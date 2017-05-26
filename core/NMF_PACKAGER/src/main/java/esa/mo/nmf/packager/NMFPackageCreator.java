@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.packager;
 
+import esa.mo.helpertools.misc.HelperNMF;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -45,7 +46,6 @@ public class NMFPackageCreator {
     public static final String RECEIPT_FILENAME = "nmfPackage.receipt";
     public static final String DS_FILENAME = "digitalSignature.key";
     public static final String PRIVATE_KEY_FILENAME = "privateKey.key";
-    public static final String NMF_PACKAGE_SUFFIX = "nmfpack";
     private static final int BUFFER = 2048;
 
     private static void zipFiles(String outputPath, ArrayList<String> from, ArrayList<String> newLocations) {
@@ -71,8 +71,8 @@ public class NMFPackageCreator {
                 origin.close();
             }
             out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -138,7 +138,7 @@ public class NMFPackageCreator {
         // Compress the damm thing:
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO, "Compressing...");
 
-        String packageOutputPath = details.getPackageName() + "-" + details.getVersion() + "." + NMF_PACKAGE_SUFFIX;
+        String packageOutputPath = details.getPackageName() + "-" + details.getVersion() + "." + HelperNMF.NMF_PACKAGE_SUFFIX;
         NMFPackageCreator.zipFiles(packageOutputPath, files, newLocations);
 
         // Output the secret privateKey into a file
@@ -158,7 +158,6 @@ public class NMFPackageCreator {
         // Delete temporary files:
         receipt.delete();
         digitalSignature.delete();
-
     }
 
 }

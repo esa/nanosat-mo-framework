@@ -1051,50 +1051,7 @@
 			</mal:capabilitySet>
 			<com:features/>
 		</mal:service>
-		<mal:service comment="The Generic Device service provides a generic mechanism to interact with a device. The service achieves this by providing simple operations, to receive data, to send data and to request data." name="GenericDevice" number="6" xsi:type="com:ExtendedServiceType">
-			<mal:documentation name="High Level Requirements" order="1"/>
-			<mal:documentation name="Functional Requirements" order="2"/>
-			<mal:capabilitySet comment="" number="1">
-				<mal:pubsubIP comment="The receiveData operation alows a consumer to subscribe to messages from a Generic Device. The origin and content of the data is implementation-specific." name="receiveData" number="1" supportInReplay="false">
-					<mal:messages>
-						<mal:publishNotify comment="">
-							<mal:field canBeNull="true" comment="The message field holds the data coming from the generic device." name="message">
-								<mal:type area="MAL" list="false" name="Blob"/>
-							</mal:field>
-						</mal:publishNotify>
-					</mal:messages>
-				</mal:pubsubIP>
-			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="2">
-				<mal:submitIP comment="The sendData operation allows a consumer to send data to a generic device." name="sendData" number="2" supportInReplay="false">
-					<mal:messages>
-						<mal:submit comment="">
-							<mal:field canBeNull="true" comment="The message field shall hold the content to be sent." name="message">
-								<mal:type area="MAL" list="false" name="Blob"/>
-							</mal:field>
-						</mal:submit>
-					</mal:messages>
-				</mal:submitIP>
-			</mal:capabilitySet>
-			<mal:capabilitySet comment="" number="3">
-				<mal:requestIP comment="" name="getDataFromCommand" number="3" supportInReplay="false">
-					<mal:messages>
-						<mal:request comment="">
-							<mal:field canBeNull="true" comment="" name="command">
-								<mal:type area="MAL" list="false" name="Blob"/>
-							</mal:field>
-						</mal:request>
-						<mal:response comment="">
-							<mal:field canBeNull="true" comment="" name="data">
-								<mal:type area="MAL" list="false" name="Blob"/>
-							</mal:field>
-						</mal:response>
-					</mal:messages>
-				</mal:requestIP>
-			</mal:capabilitySet>
-			<com:features/>
-		</mal:service>
-		<mal:service comment="The Magnetometer service provides a generic mechanism to retrieve the magnetic field from a magnetometer in the spacecraft platform." name="Magnetometer" number="7" xsi:type="com:ExtendedServiceType">
+		<mal:service comment="The Magnetometer service provides a generic mechanism to retrieve the magnetic field from a magnetometer in the spacecraft platform." name="Magnetometer" number="6" xsi:type="com:ExtendedServiceType">
 			<mal:capabilitySet comment="" number="1">
 				<mal:requestIP comment="The getMagneticField operation allows a consumer to retrieve the magnetic field instance from a magnetometer unit." name="getMagneticField" number="1" supportInReplay="false">
 					<mal:messages>
@@ -1125,7 +1082,7 @@
 			</mal:dataTypes>
 			<com:features/>
 		</mal:service>
-		<mal:service comment="The Power Control service provides a generic mechanism to list the available power units in a spacecraft platform and to enable/disable them." name="PowerControl" number="8" xsi:type="com:ExtendedServiceType">
+		<mal:service comment="The Power Control service provides a generic mechanism to list the available power units in a spacecraft platform and to enable/disable them." name="PowerControl" number="7" xsi:type="com:ExtendedServiceType">
 			<mal:capabilitySet comment="" number="1">
 				<mal:requestIP comment="" name="listUnitsAvailable" number="1" supportInReplay="false">
 					<mal:messages>

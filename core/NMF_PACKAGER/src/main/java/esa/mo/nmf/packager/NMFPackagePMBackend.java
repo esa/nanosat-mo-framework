@@ -23,6 +23,7 @@ package esa.mo.nmf.packager;
 import esa.mo.helpertools.misc.HelperNMF;
 import java.io.File;
 import esa.mo.sm.impl.util.PMBackend;
+import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
@@ -34,14 +35,15 @@ public class NMFPackagePMBackend implements PMBackend {
     private final static String PACKAGES_FOLDER = "/home/something";
 
     @Override
-    public StringList getListOfPackages() {
+    public StringList getListOfPackages() throws IOException {
         // Go to the folder that contains the Packages and return the list of files!
         File folderWithPackages = new File(PACKAGES_FOLDER);
-        File[] files = folderWithPackages.listFiles();
-        
-        if(files == null){
-            return null;
+
+        if(!folderWithPackages.exists()){ // The folder does not exist
+            throw new IOException("The folder does not exist: " + PACKAGES_FOLDER);
         }
+        
+        File[] files = folderWithPackages.listFiles();
         
         StringList packageNames = new StringList(files.length);
 

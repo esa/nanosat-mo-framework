@@ -31,22 +31,23 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.CheckPackageIntegrityResponse;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.ListPackageResponse;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.InstallInteraction;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.PackageManagementInheritanceSkeleton;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UninstallInteraction;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UpgradeInteraction;
 import esa.mo.sm.impl.util.PMBackend;
+import java.io.IOException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
 
 /**
  *
@@ -67,8 +68,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      * @param backend
      * @throws MALException On initialization error.
      */
-    public synchronized void init(COMServicesProvider comServices, 
-            PMBackend backend) throws MALException {
+    public synchronized void init(final COMServicesProvider comServices,
+            final PMBackend backend) throws MALException {
+        if (backend == null) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).severe(
+                    "Package Management service could not be initialized! The backend object cannot be null.");
+            return;
+        }
+
         if (!initialiased) {
 
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -89,7 +96,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             }
 
         }
-        
+
         this.comServices = comServices;
         this.backend = backend;
 
@@ -116,128 +123,195 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
     }
 
     @Override
-    public ListPackageResponse listPackage(IdentifierList names, Identifier category, 
-            MALInteraction interaction) throws MALInteractionException, MALException {
+    public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        ListPackageResponse outList = new ListPackageResponse();
+        FindPackageResponse outList = new FindPackageResponse();
 
-        if (null == names || category == null) { // Is the input null?
+        if (null == names) { // Is the input null?
             throw new IllegalArgumentException("names argument and category argument must not be null");
         }
 
-        
-        StringList packagesList = backend.getListOfPackages();
-        
-        
-        BooleanList installed = new BooleanList();
-        
-        for (String pack : packagesList) {
-            boolean isInstalled = backend.isPackageInstalled(pack);
-            installed.add(isInstalled);
+        boolean returnAll = false;
+
+        // Is the call to return the full list of available packages?
+        for (Identifier name : names) {
+            if ("*".equals(name.getValue())) {
+                returnAll = true;
+            }
         }
-        
-        
-        outList.setBodyElement0(new LongList()); // ObjIds
-        outList.setBodyElement1(installed); // Installed?
-        
-        
+
+        StringList availablePackages;
+        try {
+            availablePackages = backend.getListOfPackages();
+            final IdentifierList packages = new IdentifierList();
+            final BooleanList installed = new BooleanList();
+
+            if (returnAll) {
+                for (String pack : availablePackages) {
+                    boolean isInstalled = backend.isPackageInstalled(pack);
+                    packages.add(new Identifier(pack));
+                    installed.add(isInstalled);
+                }
+            } else {
+                for (int j = 0; j < names.size(); j++) {
+                    // Is the name available?
+                    int index = packageExistsInIndex(names.get(j).getValue(), availablePackages);
+
+                    if (index == -1) {
+                        unkIndexList.add(new UInteger(j));
+                    } else {
+                        boolean isInstalled = backend.isPackageInstalled(availablePackages.get(index));
+                        packages.add(new Identifier(availablePackages.get(index)));
+                        installed.add(isInstalled);
+                    }
+                }
+            }
+
+            outList.setBodyElement0(packages); // ObjIds
+            outList.setBodyElement1(installed); // Installed?
+        } catch (IOException ex) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+
+            // Just return empty lists
+            outList.setBodyElement0(new IdentifierList());
+            outList.setBodyElement1(new BooleanList());
+        }
+
+        // Errors
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+
         return outList;
     }
 
     @Override
-    public void install(Long packageObjInstId, InstallInteraction interaction) throws MALInteractionException, MALException {
+    public void install(IdentifierList names, InstallInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        
-        if (null == packageObjInstId) { // Is the input null?
-            throw new IllegalArgumentException("packageObjInstId argument must not be null");
+        UIntegerList invIndexList = new UIntegerList();
+
+        if (null == names) { // Is the input null?
+            throw new IllegalArgumentException("names argument must not be null");
         }
-        
-        String packageName = null;
-        
-        boolean isInstalled = backend.isPackageInstalled(packageName);
 
-        // Throw error if already installed!
+        StringList availablePackages = null;
+        try {
+            availablePackages = backend.getListOfPackages();
+        
+            for (int i = 0; i < names.size(); i++) {
+//                String packageName = names.get(i).toString();
+                int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
 
-        
-        // Before installing, we need to check the package integrity!
-        boolean integrity = backend.checkPackageIntegrity(packageName);
-        
-        
+                if (!backend.isPackageInstalled(availablePackages.get(i))) {
+                    unkIndexList.add(new UInteger(i));
+                }
+
+                // Throw error if already installed!
+                // Before installing, we need to check the package integrity!
+                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
+                
+                // The installation cannot go forward here if the integrity is false!
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         // Errors
         if (!unkIndexList.isEmpty()) {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
-        
-        backend.install(packageName);
-        
+
+        if (!invIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        }
+
+        for (Identifier packageName : names) {
+            backend.install(packageName.getValue());
+        }
+
+        // Store some COM Objects to be able to go back in time and find when something was installed
     }
 
     @Override
-    public void uninstall(Long instId, Boolean leaveConfigurationsIntact, 
+    public void uninstall(IdentifierList names, BooleanList keepConfigurations,
             UninstallInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
+        UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
-        if (null == instId || leaveConfigurationsIntact == null) { // Is the input null?
-            throw new IllegalArgumentException("instId argument and leaveConfigurationsIntact argument must not be null");
+        if (null == names || keepConfigurations == null) { // Is the input null?
+            throw new IllegalArgumentException("names argument and keepConfigurations argument must not be null");
         }
 
         String packageName = null;
-        
+
         boolean isInstalled = backend.isPackageInstalled(packageName);
 
         // Errors
         if (!unkIndexList.isEmpty()) {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
-        
 
-        
-        backend.uninstall(packageName, leaveConfigurationsIntact);
-        
+        if (!invIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        }
+
+        backend.uninstall(packageName, keepConfigurations.get(0));
+
     }
 
     @Override
-    public void upgrade(LongList packageObjInstIds, UpgradeInteraction interaction) throws MALInteractionException, MALException {
+    public void upgrade(IdentifierList names, UpgradeInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
+        UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
-        if (null == packageObjInstIds) { // Is the input null?
-            throw new IllegalArgumentException("packageObjInstIds argument must not be null");
+        if (null == names) { // Is the input null?
+            throw new IllegalArgumentException("names argument must not be null");
         }
 
         String packageName = null;
-        
-        
+
         // Errors
         if (!unkIndexList.isEmpty()) {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
-        
+
+        if (!invIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        }
+
         backend.upgrade(packageName);
 
     }
 
     @Override
-    public IdentifierList listCategories(MALInteraction interaction) throws MALInteractionException, MALException {
-        
-        
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names, MALInteraction interaction) throws MALInteractionException, MALException {
+        UIntegerList unkIndexList = new UIntegerList();
+
+        // Errors
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+
+        return null;
     }
 
-    @Override
-    public CheckPackageIntegrityResponse checkPackageIntegrity(LongList packageIds, 
-            MALInteraction interaction) throws MALInteractionException, MALException {
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    private static int packageExistsInIndex(String name, StringList packagesList) {
+        for (int k = 0; k < packagesList.size(); k++) {
+            if (name.equals(packagesList.get(k))) {
+                return k;
+            }
+        }
 
+        return -1;
+    }
 
 }

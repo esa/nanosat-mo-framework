@@ -18,29 +18,26 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.sm.impl.util;
-
-import java.io.IOException;
-import org.ccsds.moims.mo.mal.structures.StringList;
+package esa.mo.nmf.packager;
 
 /**
- * An interface to be implemented in order to allow the Package Management service
- * to manage packages.
  *
  * @author Cesar Coelho
  */
-public interface PMBackend {
+public class NMFPackageManager {
 
-    StringList getListOfPackages() throws IOException;
+    public static void install(String packageLocation) {
+        // Get the Files to be installed
 
-    void install(final String packageName);
-
-    void uninstall(final String packageName, final boolean keepConfigurations);
-
-    void upgrade(final String packageName);
+    }
     
-    boolean isPackageInstalled(final String packageName);
+    public static void uninstall(String packageLocation) {
+        // Get the Files to be installed
+
+    }
     
-    boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException;
+    
+    // etc...
+    
 
 }
