@@ -23,11 +23,11 @@
         <relativePath/>
     </parent>
   
-    <artifactId>LIB_NANOSAT_MO_FRAMEWORK_SOFTWARE_SIMULATOR</artifactId>
+    <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
     <packaging>jar</packaging>
     <version>0.1.1-SNAPSHOT</version>
 
-    <name>NanoSat MO Framework: Library for the Software Simulator</name>
+    <name>NMF Library: Software Simulator</name>
     <description>Library for the Software Simulator</description>
     <url>http://www.esa.int</url>
 
