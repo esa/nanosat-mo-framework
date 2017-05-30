@@ -572,7 +572,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 Component component = tabs.getTabComponentAt(i);
 
                 if (component == panel) {
-                    providerPanel.getServices().closeConnections();
+                    try{
+                        providerPanel.getServices().closeConnections();
+                    }catch(Exception ex){
+                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING, 
+                            "The connection was not closed correctly. Maybe the provider was unreachable!");
+                    }
+                    
                     tabs.remove(i);
                     return;
                 }

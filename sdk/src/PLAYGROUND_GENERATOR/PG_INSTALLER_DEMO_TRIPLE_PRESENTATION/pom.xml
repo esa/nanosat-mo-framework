@@ -100,7 +100,6 @@
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>${esa.nmf.artifact.app.artifactid}</artifactId>
-                                    <version>0.1.0</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
