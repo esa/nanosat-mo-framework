@@ -110,6 +110,14 @@
         <!-- NMF Mission Library -->
         <esa.nmf.mission.softwaresimulator.library>0.1.1-SNAPSHOT</esa.nmf.mission.softwaresimulator.library>
 
+        <!-- NMF Mission Library -->
+        <esa.nmf.sdk.app.helloworld>0.1.1-SNAPSHOT</esa.nmf.sdk.app.helloworld>
+        <esa.nmf.sdk.app.pushclock>0.1.1-SNAPSHOT</esa.nmf.sdk.app.pushclock>
+        <esa.nmf.sdk.app.gpsdata>0.1.1-SNAPSHOT</esa.nmf.sdk.app.gpsdata>
+        <esa.nmf.sdk.app.tensecondsalert>0.1.1-SNAPSHOT</esa.nmf.sdk.app.tensecondsalert>
+        <esa.nmf.sdk.app.fivestagesaction>0.1.1-SNAPSHOT</esa.nmf.sdk.app.fivestagesaction>
+        <esa.nmf.sdk.app.triple>0.1.1-SNAPSHOT</esa.nmf.sdk.app.triple>
+        <esa.nmf.sdk.app.snapnmf>0.1.1-SNAPSHOT</esa.nmf.sdk.app.snapnmf>
 
     </properties>
   
@@ -235,6 +243,43 @@
                 <version>${esa.nmf.mission.softwaresimulator.library}</version>
             </dependency>
 
+            <!-- NMF SDK -->
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>Demo_Hello_World</artifactId>
+                <version>${esa.nmf.sdk.app.helloworld}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>Demo_Push_Clock</artifactId>
+                <version>${esa.nmf.sdk.app.pushclock}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>Demo_GPS_data</artifactId>
+                <version>${esa.nmf.sdk.app.gpsdata}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>Demo_10_sec_alert</artifactId>
+                <version>${esa.nmf.sdk.app.tensecondsalert}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>Demo_5_stages_action</artifactId>
+                <version>${esa.nmf.sdk.app.fivestagesaction}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>demo-triple-presentation</artifactId>
+                <version>${esa.nmf.sdk.app.triple}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>snapNMF</artifactId>
+                <version>${esa.nmf.sdk.app.snapnmf}</version>
+            </dependency>
+            
         </dependencies>
     </dependencyManagement>
   
