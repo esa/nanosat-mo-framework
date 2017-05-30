@@ -20,14 +20,12 @@
  */
 package esa.mo.nmf.ctt.services.sm;
 
-import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.ctt.stuff.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.structures.PackageDefinition;
 
 /**
  *
@@ -35,118 +33,72 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.structures.Packag
  */
 public class PackageManagementTablePanel extends SharedTablePanel {
 
-    public PackageManagementTablePanel(ArchiveConsumerServiceImpl archiveService) {
-        super(archiveService);
+    public PackageManagementTablePanel() {
+        super(null);
     }
 
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+        Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "This method cannot be used!");
+    }
 
-        if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
-            return;
-        }
-
+    public void addEntry(final Identifier name, final boolean isInstalled) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-        PackageDefinition packageDefinition = (PackageDefinition) comObject.getObject();
-        
+
         tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
-            packageDefinition.getName(),
-            packageDefinition.getCategory().toString(),
-            packageDefinition.getPublisher()
+            name,
+            isInstalled
         });
 
-        comObjects.add(comObject);
         semaphore.release();
-
     }
 
-    public void switchEnabledstatus(boolean status){
-        
+    public void switchEnabledstatus(boolean status) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
-            /*
-        tableData.setValueAt(status, this.getSelectedRow(), 5);
-        ((PackageDefinition) this.getSelectedCOMObject().getObject()).setRunning(status);
-            */
-        
-        semaphore.release();
-        
-    }
+        // 1 because it is where isInstalled is!
+        tableData.setValueAt(status, this.getSelectedRow(), 1);
 
-    public void switchEnabledstatusAll(boolean status){
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // 5 because it is where the flag is!
-        for (int i = 0; i < this.getTable().getRowCount() ; i++){
-            /*
-            tableData.setValueAt(status, i, 5);
-            ((AppDetails) this.getCOMObjects().get(i).getObject()).setRunning(status);
-            */
-        }
-        
         semaphore.release();
     }
 
-    public void reportStatus(String text){
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // 6 because it is where the status field is!
-        tableData.setValueAt(text, this.getSelectedRow(), 6);
-        
-        semaphore.release();
-    }
-    
     @Override
     public void defineTableContent() {
-    
+
         String[] tableCol = new String[]{
-            "Obj Inst Id", "name", "description", "category", "runAtStartup", "running", "Status" };
+            "Package name", "isInstalled"};
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {
-                    Class[] types = new Class[]{
-                        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, 
-                        java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class,
-                        java.lang.String.class
-                    };
+            Class[] types = new Class[]{
+                java.lang.String.class, java.lang.Boolean.class
+            };
 
-                    @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                    @Override
-                    public Class getColumnClass(int columnIndex) {
-                        return types[columnIndex];
-                    }
-                };
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
 
         super.getTable().setModel(tableData);
 
     }
-    
-    public DefaultTableModel getTableData(){
+
+    public DefaultTableModel getTableData() {
         return tableData;
     }
-    
+
 }

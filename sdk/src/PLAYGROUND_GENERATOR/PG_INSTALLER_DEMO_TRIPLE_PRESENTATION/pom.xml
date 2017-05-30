@@ -61,8 +61,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>LIB_NANOSAT_MO_FRAMEWORK_SOFTWARE_SIMULATOR</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
+            <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
         </dependency>
     </dependencies>
 

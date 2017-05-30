@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.ctt.services.sm;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.sm.impl.consumer.PackageManagementConsumerServiceImpl;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -29,21 +28,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TableColumnModelEvent;
-import javax.swing.event.TableColumnModelListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.ListPackageResponse;
+import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
 
 /**
  *
@@ -52,7 +43,7 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.ListPackageR
 public class PackageManagementConsumerPanel extends javax.swing.JPanel {
 
     private PackageManagementConsumerServiceImpl serviceSMPackageManagement;
-    private AppsLauncherTablePanel packagesTable;
+    private PackageManagementTablePanel packagesTable;
     private final HashMap<Long, JTextArea> textAreas = new HashMap<Long, JTextArea>();
 
     /**
@@ -62,7 +53,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     public PackageManagementConsumerPanel(PackageManagementConsumerServiceImpl serviceSMPackageManagement) {
         initComponents();
 
-        packagesTable = new AppsLauncherTablePanel(serviceSMPackageManagement.getCOMServices().getArchiveService());
+        packagesTable = new PackageManagementTablePanel();
 
         packagesTable.getTable().addMouseListener(new MouseListener() {
             @Override
@@ -227,27 +218,28 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listAppAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAppAllButtonActionPerformed
-
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
-        ListPackageResponse output;
+        FindPackageResponse output;
         try {
-            output = this.serviceSMPackageManagement.getPackageManagementStub().listPackage(idList, new Identifier("*"));
-            packagesTable.refreshTableWithIds(output.getBodyElement0(), serviceSMPackageManagement.getConnectionDetails().getDomain(), PackageManagementHelper.PACKAGE_OBJECT_TYPE);
-
-            for (int i = 0; i < output.getBodyElement0().size(); i++) {
-                Long objId = output.getBodyElement0().get(i);
-
+            output = this.serviceSMPackageManagement.getPackageManagementStub().findPackage(idList);
+            
+            for(int i = 0; i < output.getBodyElement0().size(); i++){
+                /*
                 if (textAreas.get(objId) == null) {
                     javax.swing.JTextArea textArea = new javax.swing.JTextArea();
                     textAreas.put(objId, textArea);
                     textArea.setColumns(20);
                     textArea.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
-                    textArea.setRows(5);
+                    textArea.setRows(2);
                 }
-            }
+                */
+                
+                packagesTable.addEntry(output.getBodyElement0().get(i), output.getBodyElement1().get(i));
 
+            }
+            
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.getBodyElement0().size());
         } catch (MALInteractionException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
