@@ -324,6 +324,9 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
 
             if (!appStillIntact) {
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
+                        "The app has been removed: " + localApp.getName().getValue());
+                
                 this.delete(ids.get(i));
                 anyChanges = true;
             }
