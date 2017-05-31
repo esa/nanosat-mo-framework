@@ -1049,8 +1049,18 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     }
                 }
 
-                if (((ParameterDefinitionDetails) manager.getDefinition(objId.getObjIdentityInstanceId())).getGenerationEnabled()) {
+                ParameterDefinitionDetails pDef2 = (ParameterDefinitionDetails) manager.getDefinition(objId.getObjIdentityInstanceId());
+                if (pDef2.getGenerationEnabled()) {
                     outIds.add(objId); // Don't push the PVals that are not enabled...
+                    
+                    // If the conversion value was not provided, we can try to generate it
+                    if(parameters.get(i).getParameterValue().getConvertedValue() == null){
+                        ParameterValue newPVal = manager.generateNewParameterValue(
+                                parameters.get(i).getParameterValue().getRawValue(), pDef2, false);
+                        parameters.get(i).getParameterValue().setConvertedValue(newPVal.getConvertedValue());
+                        parameters.get(i).getParameterValue().setValidityState(newPVal.getValidityState());
+                    }
+                    
                     parameterValueList.add(parameters.get(i).getParameterValue());
                     parameterInstances.add(parameters.get(i));
                 }
@@ -1144,85 +1154,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
             parameters.add(new ParameterInstance(name, parameterValue, null, HelperTime.getTimestampMillis()));
             this.pushMultipleParameterValues(parameters);
-            
-//            publishParameterUpdate(identityId, parameterValue, null, HelperTime.getTimestampMillis());
-            
-            //requirement: 3.3.4.j source object for periodic updates shall be null
-            //requirement: 3.3.7.2.e the time of the publish update shall be the time of the parameter value creation
-//            Long timestamp = manager.getParameterValuesTimestamp(identityId);
-//            publishParameterUpdate(identityId, parameterValue, null, new Time(timestamp));
-            /*
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO,
-                    "finished publishing periodic parameter update with identityId: {0} at {1}",
-                    new Object[]{identityId, System.currentTimeMillis()});
-             */
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
-//        } catch (MALException ex) {
-//            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-//                    "Exception during publishing process on the provider {0}", ex);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         }
     }
-
-    /**
-     * publishes a parameter update of an existing parameter-definition
-     *
-     * @param identityId id of the parameter-identity
-     * @param name name of the parameter
-     * @param parameterValue new value of the parameter
-     * @param source the source that created the update. Null for periodic
-     * updates
-     * @param timestamp the timestamp that will be set as the creation-timestamp
-     * of the in this method created ParameterValue-Object. Fruthermore this
-     * timestamp will be taken as the timestamp for the publish-message
-     * @throws MALException
-     * @throws MALInteractionException
-     * @throws IllegalArgumentException
-     */
-//    private void publishParameterUpdate(final Long identityId, final ParameterValue parameterValue,
-//            final ObjectId source, final Time timestamp) throws MALException, MALInteractionException, IllegalArgumentException {
-//        synchronized (lock) {
-//            if (!isRegistered) {
-//                final EntityKeyList lst = new EntityKeyList();
-//                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-//                publisher.register(lst, new PublishInteractionListener());
-//
-//                isRegistered = true;
-//            }
-//        }
-//        
-//        FineTime time = (timestamp == null) ? HelperTime.getTimestamp() : new FineTime(timestamp.getValue());
-//
-//        //  requirement: 3.3.4.d, 3.3.7.2.e : publish and ParameterValue-Object-creation timestamp are the same
-//        final Long pValObjId = manager.storeAndGeneratePValobjId(identityId,
-//                parameterValue, source, connection.getConnectionDetails(), time);
-//
-//        //  requirements: 3.3.7.2.a , 3.3.7.2.b , 3.3.7.2.c , 3.3.7.2.d
-//        final Identifier parameterName = manager.getName(identityId);
-//        final Long defId = manager.getDefinitionId(identityId);
-//        final EntityKey ekey = new EntityKey(parameterName, identityId, defId, pValObjId);
-//
-//        final UpdateHeaderList hdrlst = new UpdateHeaderList();
-//        final ObjectIdList objectIdlst = new ObjectIdList();
-//        final ParameterValueList pVallst = new ParameterValueList();
-//
-//        //  requirement: 3.3.7.2.e : publish and ParameterValue-Object-creation timestamp are the same
-//        hdrlst.add(new UpdateHeader(new Time(time.getValue()), connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
-//        objectIdlst.add(source); // requirement: 3.3.7.2.f (3.3.7.2.g not necessary)
-//        pVallst.add(parameterValue); // requirement: 3.3.7.2.h
-//
-//        /*
-//        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO,
-//                "Generated Parameter update for the Parameter IdentityId: {0}, DefinitionId: {1} (Name: {2}). New Value ID is: {3}",
-//                new Object[]{
-//                    identityId, defId, parameterName, pValObjId
-//                });
-//         */
-//        publisher.publish(hdrlst, objectIdlst, pVallst);
-//    }
 
 }

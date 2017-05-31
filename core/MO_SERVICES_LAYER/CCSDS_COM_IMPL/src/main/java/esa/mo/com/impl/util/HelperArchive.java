@@ -366,7 +366,6 @@ public class HelperArchive {
 
             @Override
             public synchronized MALMessage sendResponse(ArchiveDetailsList objDetails, ElementList objBodies) throws MALInteractionException, MALException {
-
                 if (objBodies != null) {
                     if (!objBodies.isEmpty()) {
                         this.obj = objBodies;
@@ -401,7 +400,6 @@ public class HelperArchive {
             }
 
             public List<ArchivePersistenceObject> getCOMobject() {
-
                 if (objDetails == null) {
                     return null;
                 }

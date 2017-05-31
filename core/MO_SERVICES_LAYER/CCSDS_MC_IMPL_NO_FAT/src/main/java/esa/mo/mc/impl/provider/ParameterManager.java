@@ -190,7 +190,7 @@ public class ParameterManager extends MCManager {
      * @param relatedList
      * @param sourcesList
      * @param connectionDetails
-     * @param timestamp a current timestamp. it will be used as the creation
+     * @param timestamps the current timestamps. it will be used as the creation
      * time for all ParameterValues
      * @return The unique identifier or null if the implementation is using the
      * Archive service for objects storage. In this case, the unique identifier
@@ -594,8 +594,6 @@ public class ParameterManager extends MCManager {
      * and storing it in the provider or COM-Archive
      *
      * @param newRawValues the new value to be set
-     * @param timestamp the time when the parameter is created and set
-     * @param connectionDetails the details of the connection
      * @return a list with boolean values, that say which values were
      * successfully (true) or unsuccessfully(false) set
      */
@@ -608,8 +606,8 @@ public class ParameterManager extends MCManager {
             Long identityId = newRawValue.getParamInstId();
             //requirement 3.3.9.2.h: create a new ParameterValue
             //TODO: what happens with the newly crated value? only raw value will be saved in the parameterApplication -> issue #140 
-            ParameterValue newValue = generateNewParameterValue(newRawValue.getRawValue(), getParameterDefinition(identityId), false);
-            paramValList.add(newValue);
+//            ParameterValue newValue = generateNewParameterValue(newRawValue.getRawValue(), getParameterDefinition(identityId), false);
+            paramValList.add(generateNewParameterValue(newRawValue.getRawValue(), getParameterDefinition(identityId), false));
             names.add(getName(identityId));
 //            parametersMonitoring.onSetValue(getName(identityId), newRawValue.getRawValue(), timestamp);
 //            parametersMonitoring.onSetValue(getName(identityId), newRawValue.getRawValue());
@@ -639,7 +637,7 @@ public class ParameterManager extends MCManager {
      * will be expired.
      * @return a filled ParameterValue
      */
-    private ParameterValue generateNewParameterValue(Attribute rawValue,
+    public ParameterValue generateNewParameterValue(Attribute rawValue,
             final ParameterDefinitionDetails pDef, final boolean aggrExpired) {
         ParameterValue newPValue;
 

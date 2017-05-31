@@ -23,6 +23,7 @@ package esa.mo.nmf;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.mc.impl.provider.ConversionServiceImpl;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
@@ -158,6 +159,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             }
         }
 
+        /*
         final ParameterValue parameterValue = new ParameterValue();
         parameterValue.setRawValue((Attribute) obj);
 
@@ -166,6 +168,9 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         parameterValue.setValidityState(new UOctet((short) 0));
 
         ParameterInstance instance = new ParameterInstance(new Identifier(name), parameterValue, null, null);
+        */
+
+        ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1); // We just add 1 element
         parameters.add(instance);
 
