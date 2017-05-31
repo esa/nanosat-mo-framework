@@ -516,7 +516,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
      * The user must implement this interface in order to link a certain
      * action Identifier to the method on the application
      *
-     * @param identifier Name of the Parameter
+     * @param name Name of the Parameter
      * @param attributeValues
      * @param actionInstanceObjId
      * @param reportProgress Determines if it is necessary to report the execution
@@ -609,12 +609,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 // if PUSH_USING_PARAMETER_SERVICE
                 pushAdcsModeParam(AttitudeMode.BDOT);
                 // else
-                //try {
-                //nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) AttitudeMode.BDOT.getOrdinal()));
-                //} catch (IOException ex) {
-                //Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                //}
-                // endif
+                nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) AttitudeMode.BDOT.getOrdinal())); // endif
 
                 System.out.println(ACTION_UNSET + " was called");
                 nmf.getPlatformServices().getAutonomousADCSService().unsetAttitude();
