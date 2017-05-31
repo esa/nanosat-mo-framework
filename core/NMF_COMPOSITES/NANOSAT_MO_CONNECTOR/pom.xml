@@ -67,7 +67,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
+            <artifactId>NMF_GENERIC_MODEL</artifactId>
         </dependency>
     </dependencies>
        
