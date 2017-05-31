@@ -89,7 +89,8 @@
         <esa.ccsds.impl.sm.version>0.1.1-SNAPSHOT</esa.ccsds.impl.sm.version>
         <esa.ccsds.impl.plat.version>0.1.1-SNAPSHOT</esa.ccsds.impl.plat.version>
 
-        <!-- High-level Components -->
+        <!-- NMF Composites -->
+        <esa.nmf.components.genericmodel.version>0.1.1-SNAPSHOT</esa.nmf.components.genericmodel.version>
         <esa.nmf.components.nmm.version>0.1.1-SNAPSHOT</esa.nmf.components.nmm.version>
         <esa.nmf.components.nmc.version>0.1.1-SNAPSHOT</esa.nmf.components.nmc.version>
         <esa.nmf.components.nms.version>0.1.1-SNAPSHOT</esa.nmf.components.nms.version>
@@ -202,7 +203,12 @@
                 <version>${esa.ccsds.impl.plat.version}</version>
             </dependency>
 
-            <!-- High-level Components -->
+            <!-- NMF Composites -->
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>NMF_GENERIC_MODEL</artifactId>
+                <version>${esa.nmf.components.genericmodel.version}</version>
+            </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
