@@ -90,12 +90,12 @@
         <esa.ccsds.impl.plat.version>0.1.1-SNAPSHOT</esa.ccsds.impl.plat.version>
 
         <!-- NMF Composites -->
-        <esa.nmf.components.genericmodel.version>0.1.1-SNAPSHOT</esa.nmf.components.genericmodel.version>
-        <esa.nmf.components.nmm.version>0.1.1-SNAPSHOT</esa.nmf.components.nmm.version>
-        <esa.nmf.components.nmc.version>0.1.1-SNAPSHOT</esa.nmf.components.nmc.version>
-        <esa.nmf.components.nms.version>0.1.1-SNAPSHOT</esa.nmf.components.nms.version>
-        <esa.nmf.components.gma.version>0.1.1-SNAPSHOT</esa.nmf.components.gma.version>
-        <esa.nmf.components.gmp.version>0.1.1-SNAPSHOT</esa.nmf.components.gmp.version>
+        <esa.nmf.composites.genericmodel.version>0.1.1-SNAPSHOT</esa.nmf.composites.genericmodel.version>
+        <esa.nmf.composites.nmm.version>0.1.1-SNAPSHOT</esa.nmf.composites.nmm.version>
+        <esa.nmf.composites.nmc.version>0.1.1-SNAPSHOT</esa.nmf.composites.nmc.version>
+        <esa.nmf.composites.nms.version>0.1.1-SNAPSHOT</esa.nmf.composites.nms.version>
+        <esa.nmf.composites.gma.version>0.1.1-SNAPSHOT</esa.nmf.composites.gma.version>
+        <esa.nmf.composites.gmp.version>0.1.1-SNAPSHOT</esa.nmf.composites.gmp.version>
 
         <!-- NMF Packager -->
         <esa.nmf.packager.version>0.1.1-SNAPSHOT</esa.nmf.packager.version>
@@ -207,32 +207,32 @@
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>NMF_GENERIC_MODEL</artifactId>
-                <version>${esa.nmf.components.genericmodel.version}</version>
+                <version>${esa.nmf.composites.genericmodel.version}</version>
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
-                <version>${esa.nmf.components.nmm.version}</version>
+                <version>${esa.nmf.composites.nmm.version}</version>
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
-                <version>${esa.nmf.components.nmc.version}</version>
+                <version>${esa.nmf.composites.nmc.version}</version>
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>NANOSAT_MO_SUPERVISOR</artifactId>
-                <version>${esa.nmf.components.nms.version}</version>
+                <version>${esa.nmf.composites.nms.version}</version>
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>GROUND_MO_ADAPTER</artifactId>
-                <version>${esa.nmf.components.gma.version}</version>
+                <version>${esa.nmf.composites.gma.version}</version>
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>GROUND_MO_PROXY</artifactId>
-                <version>${esa.nmf.components.gmp.version}</version>
+                <version>${esa.nmf.composites.gmp.version}</version>
             </dependency>
             
             <!-- Sweeteners -->
