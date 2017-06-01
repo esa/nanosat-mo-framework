@@ -24,17 +24,20 @@ import esa.mo.sm.impl.consumer.PackageManagementConsumerServiceImpl;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementAdapter;
 
 /**
  *
@@ -42,15 +45,16 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageR
  */
 public class PackageManagementConsumerPanel extends javax.swing.JPanel {
 
-    private PackageManagementConsumerServiceImpl serviceSMPackageManagement;
+    private final PackageManagementConsumerServiceImpl serviceSMPackageManagement;
     private PackageManagementTablePanel packagesTable;
-    private final HashMap<Long, JTextArea> textAreas = new HashMap<Long, JTextArea>();
+    private final HashMap<Long, JTextArea> textAreas;
 
     /**
      *
      * @param serviceSMPackageManagement
      */
     public PackageManagementConsumerPanel(PackageManagementConsumerServiceImpl serviceSMPackageManagement) {
+        this.textAreas = new HashMap<Long, JTextArea>();
         initComponents();
 
         packagesTable = new PackageManagementTablePanel();
@@ -220,21 +224,19 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     private void listAppAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAppAllButtonActionPerformed
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
-
+/*
         FindPackageResponse output;
         try {
             output = this.serviceSMPackageManagement.getPackageManagementStub().findPackage(idList);
             
             for(int i = 0; i < output.getBodyElement0().size(); i++){
-                /*
-                if (textAreas.get(objId) == null) {
-                    javax.swing.JTextArea textArea = new javax.swing.JTextArea();
-                    textAreas.put(objId, textArea);
-                    textArea.setColumns(20);
-                    textArea.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
-                    textArea.setRows(2);
-                }
-                */
+//                if (textAreas.get(objId) == null) {
+//                    javax.swing.JTextArea textArea = new javax.swing.JTextArea();
+//                    textAreas.put(objId, textArea);
+//                    textArea.setColumns(20);
+//                    textArea.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
+//                    textArea.setRows(2);
+//                }
                 
                 packagesTable.addEntry(output.getBodyElement0().get(i), output.getBodyElement1().get(i));
 
@@ -250,6 +252,33 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
+        */
+
+        try {
+            this.serviceSMPackageManagement.getPackageManagementStub().asyncFindPackage(idList, new PackageManagementAdapter() {
+                @Override
+                public void findPackageResponseReceived(MALMessageHeader msgHeader, IdentifierList names, BooleanList installed, Map qosProperties) {
+                    for(int i = 0; i < names.size(); i++){
+                        packagesTable.addEntry(names.get(i), installed.get(i));
+                    }
+                    
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "listApp(\"*\") returned {0} object instance identifiers", names.size());
+                }
+
+                @Override
+                public void findPackageErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the findPackage operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
+                }
+            }
+            );
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
 
     }//GEN-LAST:event_listAppAllButtonActionPerformed
 

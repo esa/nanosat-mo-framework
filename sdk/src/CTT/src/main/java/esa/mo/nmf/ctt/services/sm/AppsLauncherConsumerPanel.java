@@ -25,17 +25,21 @@ import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
@@ -234,6 +238,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
+/*
         ListAppResponse output;
         try {
             output = this.serviceSMAppsLauncher.getAppsLauncherStub().listApp(idList, new Identifier("*"));
@@ -263,6 +268,32 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
+*/
+
+        try {
+            this.serviceSMAppsLauncher.getAppsLauncherStub().asyncListApp(idList, new Identifier("*"), new AppsLauncherAdapter() {
+                @Override
+                public void listAppResponseReceived(MALMessageHeader msgHeader, LongList appInstIds, BooleanList running, Map qosProperties) {
+                    appsTable.refreshTableWithIds(appInstIds, 
+                        serviceSMAppsLauncher.getConnectionDetails().getDomain(), 
+                        AppsLauncherHelper.APP_OBJECT_TYPE);
+                    
+                    Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.INFO, "listApp(\"*\") returned {0} object instance identifiers", appInstIds.size());
+                }
+
+                @Override
+                public void listAppErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the listApp operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
+                }
+            }
+            );
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_listAppAllButtonActionPerformed
 
     private void killAppButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_killAppButtonActionPerformed

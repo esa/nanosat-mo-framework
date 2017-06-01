@@ -94,7 +94,6 @@ public class PackageManagementTablePanel extends SharedTablePanel {
         };
 
         super.getTable().setModel(tableData);
-
     }
 
     public DefaultTableModel getTableData() {
