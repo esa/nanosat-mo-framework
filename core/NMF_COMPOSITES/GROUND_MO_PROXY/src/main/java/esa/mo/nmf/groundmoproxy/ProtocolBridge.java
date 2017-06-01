@@ -46,9 +46,6 @@ public class ProtocolBridge {
         transportA = createTransport(protocolA, properties);
         transportB = createTransport(protocolB, properties);
         
-//        transportA = TransportSingleton.instance(protocolA, null);
-//        transportB = TransportSingleton.instance(protocolB, null);
-        
         epA = createEndpoint(protocolA, transportA);
         epB = createEndpoint(protocolB, transportB);
 
@@ -59,7 +56,6 @@ public class ProtocolBridge {
         System.out.println("Starting message delivery...");
         epA.startMessageDelivery();
         epB.startMessageDelivery();
-
     }
 
     protected static MALTransport createTransport(final String protocol, final Map properties) throws Exception {

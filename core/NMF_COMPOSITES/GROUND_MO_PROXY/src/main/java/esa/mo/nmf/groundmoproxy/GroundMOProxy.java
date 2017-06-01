@@ -22,7 +22,6 @@ package esa.mo.nmf.groundmoproxy;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.common.impl.proxy.DirectoryProxyServiceImpl;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -46,12 +45,7 @@ import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * A Consumer of MO services composed by COM, M&C and Platform services.
- * Implements the SimpleCommandingInterface that permits an external software
- * entity to send data (parameters or serialized objects) to the provider, add a
- * DataReceivedListener to receive data and send actions to the provider. It
- * extends the MOServicesConsumer class in order make available the pure MO
- * interfaces.
+ * The Ground MO Proxy class.
  *
  * @author Cesar Coelho
  */
@@ -105,6 +99,7 @@ public class GroundMOProxy {
     }
 
     /**
+     * 
      *
      * @param connection The connection details of the provider
      * @return
@@ -128,6 +123,7 @@ public class GroundMOProxy {
     }
 
     /**
+     * 
      *
      * @param providerDetails The Provider details. This object can be obtained
      * from the Directory service

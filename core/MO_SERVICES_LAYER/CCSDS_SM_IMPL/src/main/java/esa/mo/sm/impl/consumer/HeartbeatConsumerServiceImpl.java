@@ -21,6 +21,7 @@
 package esa.mo.sm.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.misc.ConsumerServiceImpl;
 import java.net.MalformedURLException;
@@ -32,8 +33,12 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
+import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
 
 /**
@@ -42,9 +47,9 @@ import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
  */
 public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
 
-    
     private HeartbeatStub heartbeatService = null;
     private COMServicesConsumer comServices;
+    private Subscription heartbeatSubscription = null;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;
@@ -104,5 +109,47 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
 
         this.heartbeatService = new HeartbeatStub(tmConsumer);
     }
-    
+
+    /**
+     * Quick method to start listening for a heartbeat coming from the provider.
+     * The registration to the service is handled by this class. For more
+     * registrations, the developer is advised to use its own registration
+     * mechanisms to the provider.
+     *
+     * @param adapter
+     */
+    public void startListening(final HeartbeatAdapter adapter) {
+        if (heartbeatSubscription == null) {
+            heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+            try {
+                heartbeatService.beatRegister(heartbeatSubscription, adapter);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Quick method to stop listening for a heartbeat coming from the provider.
+     * The registration to the service is handled by this class. For more
+     * registrations, the developer is advised to use its own registration
+     * mechanisms to the provider.
+     *
+     */
+    public void stopListening() {
+        if (heartbeatSubscription != null) {
+            try {
+                IdentifierList ids = new IdentifierList();
+                ids.add(heartbeatSubscription.getSubscriptionId());
+                heartbeatService.beatDeregister(ids);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
 }

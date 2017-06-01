@@ -181,7 +181,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             final Time timestamp = HelperTime.getTimestampMillis();
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
-
             hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
 
             outputList.add(outputText);

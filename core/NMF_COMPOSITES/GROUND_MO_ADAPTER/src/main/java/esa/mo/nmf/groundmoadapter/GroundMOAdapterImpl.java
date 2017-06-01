@@ -26,6 +26,7 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.NMFException;
+import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
@@ -400,6 +401,9 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
         }
 
         if (this.smServices != null) {
+            HeartbeatConsumerServiceImpl heartbeatService = this.smServices.getHeartbeatService();
+            heartbeatService.stopListening();
+
             this.smServices.closeConnections();
         }
 
