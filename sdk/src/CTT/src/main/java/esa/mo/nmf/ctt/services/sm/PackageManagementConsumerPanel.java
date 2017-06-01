@@ -224,6 +224,8 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
             this.serviceSMPackageManagement.getPackageManagementStub().asyncFindPackage(idList, new PackageManagementAdapter() {
                 @Override
                 public void findPackageResponseReceived(MALMessageHeader msgHeader, IdentifierList names, BooleanList installed, Map qosProperties) {
+                    packagesTable.removeAllEntries();
+                    
                     for(int i = 0; i < names.size(); i++){
                         packagesTable.addEntry(names.get(i), installed.get(i));
                     }

@@ -41,6 +41,13 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "This method cannot be used!");
     }
+    
+    @Override
+    public void removeAllEntries(){
+        while (tableData.getRowCount() != 0) {
+            tableData.removeRow(tableData.getRowCount() - 1);
+        }
+    }
 
     public void addEntry(final Identifier name, final boolean isInstalled) {
         try {
