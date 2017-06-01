@@ -278,6 +278,18 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                         serviceSMAppsLauncher.getConnectionDetails().getDomain(), 
                         AppsLauncherHelper.APP_OBJECT_TYPE);
                     
+                    for (int i = 0; i < appInstIds.size(); i++) {
+                        Long objId = appInstIds.get(i);
+
+                        if (textAreas.get(objId) == null) {
+                            javax.swing.JTextArea textArea = new javax.swing.JTextArea();
+                            textAreas.put(objId, textArea);
+                            textArea.setColumns(20);
+                            textArea.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
+                            textArea.setRows(5);
+                        }
+                    }
+
                     Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.INFO, "listApp(\"*\") returned {0} object instance identifiers", appInstIds.size());
                 }
 

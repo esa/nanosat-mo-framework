@@ -21,14 +21,10 @@
 package esa.mo.nmf.ctt.services.sm;
 
 import esa.mo.sm.impl.consumer.PackageManagementConsumerServiceImpl;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
@@ -47,45 +43,15 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
 
     private final PackageManagementConsumerServiceImpl serviceSMPackageManagement;
     private PackageManagementTablePanel packagesTable;
-    private final HashMap<Long, JTextArea> textAreas;
 
     /**
      *
      * @param serviceSMPackageManagement
      */
     public PackageManagementConsumerPanel(PackageManagementConsumerServiceImpl serviceSMPackageManagement) {
-        this.textAreas = new HashMap<Long, JTextArea>();
         initComponents();
 
         packagesTable = new PackageManagementTablePanel();
-
-        packagesTable.getTable().addMouseListener(new MouseListener() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // If there is a concrete row selected...
-                if (packagesTable.getSelectedRow() != -1) {
-                    Long objId = packagesTable.getCOMObjects().get(packagesTable.getSelectedRow()).getArchiveDetails().getInstId();
-                    javax.swing.JTextArea textArea = textAreas.get(objId);
-                    jScrollPane1.setViewportView(textArea);
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
 
         jScrollPane2.setViewportView(packagesTable);
 

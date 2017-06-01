@@ -31,7 +31,6 @@ import esa.mo.nmf.ctt.services.mc.ParameterConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
 import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.ctt.services.sm.PackageManagementConsumerPanel;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
@@ -44,7 +43,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 
@@ -90,15 +88,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             if (services.getSMServices() != null) {
                 if (services.getSMServices().getHeartbeatService() != null) {
                     HeartbeatConsumerServiceImpl heartbeat = services.getSMServices().getHeartbeatService();
-
-                    Subscription subscription = ConnectionConsumer.subscriptionWildcard();
-                    try {
-                        heartbeat.getHeartbeatStub().beatRegister(subscription, new ProviderStatusAdapter(heartbeat));
-                    } catch (MALInteractionException ex) {
-                        Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (MALException ex) {
-                        Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    heartbeat.startListening(new ProviderStatusAdapter(heartbeat));
                 } else {
                     status.setText("Heartbeat service not available.");
                 }
@@ -162,7 +152,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     /**
