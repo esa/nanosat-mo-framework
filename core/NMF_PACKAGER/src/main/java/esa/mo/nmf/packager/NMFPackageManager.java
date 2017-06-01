@@ -26,18 +26,36 @@ package esa.mo.nmf.packager;
  */
 public class NMFPackageManager {
 
-    public static void install(String packageLocation) {
-        // Get the Files to be installed
+    public static void install(final String packageLocation) {
+        // Get the File to be installed
 
+        // Unpack the package to a temporary folder
+
+        // Copy the files according to the NMF statement file
+        
+        // Delete the temporary folder
+        
     }
     
-    public static void uninstall(String packageLocation) {
+    public static void uninstall(final String packageLocation, final boolean keepConfigurations) {
         // Get the Files to be installed
 
+
+        // Delete the files according to the NMF statement file
+        
+        // Do we keep the previous configurations?
+
     }
+
     
-    
-    // etc...
+    public static void upgrade(final String packageLocation) {
+        // Get the Files to be installed
+
+        // Upgrade the files according to the NMF statement file
+        // Keep the same configurations
+        
+        
+    }
     
 
 }

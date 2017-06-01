@@ -31,80 +31,78 @@ import org.ccsds.moims.mo.mal.structures.StringList;
  * @author Cesar Coelho
  */
 public class NMFPackagePMBackend implements PMBackend {
-    
-    private final static String PACKAGES_FOLDER = "/home/something";
+
+    private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.nmf.package.FolderLocation";
+    private static final String PACKAGES_FOLDER = "packages";  // dir name
+    private File folderWithPackages = new File(PACKAGES_FOLDER);  // Location of the folder
+
+    public NMFPackagePMBackend() {
+        // If there is a property for that, then use it!! 
+        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
+            folderWithPackages = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
+        }
+    }
 
     @Override
     public StringList getListOfPackages() throws IOException {
         // Go to the folder that contains the Packages and return the list of files!
-        File folderWithPackages = new File(PACKAGES_FOLDER);
 
-        if(!folderWithPackages.exists()){ // The folder does not exist
+        if (!folderWithPackages.exists()) { // The folder does not exist
             throw new IOException("The folder does not exist: " + PACKAGES_FOLDER);
         }
-        
+
         File[] files = folderWithPackages.listFiles();
-        
+
         StringList packageNames = new StringList(files.length);
 
         // Cycle them and find the ones with the .nmfpack extension
         for (File file : files) {
             String name = file.getName();
-            
+
             // Check if the package ends with the expected suffix
-            if(name.endsWith(HelperNMF.NMF_PACKAGE_SUFFIX)){
+            if (name.endsWith(HelperNMF.NMF_PACKAGE_SUFFIX)) {
                 packageNames.add(name);
             }
         }
-        
+
         // Return the filtered list
         return packageNames;
     }
 
     @Override
     public void install(final String packageName) {
-        
-        // Unpack the package to a temporary folder
-        
-        // Copy the files according to the NMF statement file
-        
-        // Delete the temporary folder
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String folderLocation = this.getFolderLocation(packageName);
+        NMFPackageManager.install(folderLocation);
     }
 
     @Override
     public void uninstall(final String packageName, final boolean keepConfigurations) {
-        
-        // Delete the files according to the NMF statement file
-        
-        // Do we keep the previous configurations?
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String folderLocation = this.getFolderLocation(packageName);
+        NMFPackageManager.uninstall(folderLocation, keepConfigurations);
     }
 
     @Override
     public void upgrade(final String packageName) {
-        
-        // Upgrade the files according to the NMF statement file
-        // Keep the same configurations
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+        String folderLocation = this.getFolderLocation(packageName);
+        NMFPackageManager.upgrade(folderLocation);
     }
 
     @Override
     public boolean isPackageInstalled(final String packageName) {
-        
+        // To do: Conclude this method
+
         return false;
     }
 
     @Override
     public boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException {
-        
-        // Check the package integrity!
-        
+
+        // To do: Check the package integrity!
         return true;
     }
-    
+
+    private String getFolderLocation(final String packageName) {
+        return folderWithPackages.getAbsolutePath() + File.separator + packageName;
+    }
+
 }
