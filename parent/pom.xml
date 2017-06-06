@@ -76,14 +76,14 @@
         -->
         
         <!-- APIs -->
-        <esa.ccsds.api.mc.version>0.1.1-SNAPSHOT</esa.ccsds.api.mc.version>
+        <esa.ccsds.api.mc.version>1.0</esa.ccsds.api.mc.version>
         <esa.ccsds.api.common.version>1.0-RC1</esa.ccsds.api.common.version>
         <esa.ccsds.api.sm.version>0.1.1-SNAPSHOT</esa.ccsds.api.sm.version>
         <esa.ccsds.api.platform.version>0.1.1-SNAPSHOT</esa.ccsds.api.platform.version>
 
         <!-- Services Implementations -->
         <esa.ccsds.impl.com.version>0.1.1-SNAPSHOT</esa.ccsds.impl.com.version>
-        <esa.ccsds.impl.reconfigurable.version>0.1.0</esa.ccsds.impl.reconfigurable.version>
+        <esa.ccsds.impl.reconfigurable.version>0.1.1-SNAPSHOT</esa.ccsds.impl.reconfigurable.version>
         <esa.ccsds.impl.mc.version>0.1.1-SNAPSHOT</esa.ccsds.impl.mc.version>
         <esa.ccsds.impl.common.version>0.1.0</esa.ccsds.impl.common.version>
         <esa.ccsds.impl.sm.version>0.1.1-SNAPSHOT</esa.ccsds.impl.sm.version>
