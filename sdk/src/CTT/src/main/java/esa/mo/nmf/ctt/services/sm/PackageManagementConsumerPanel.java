@@ -190,7 +190,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     private void listAppAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAppAllButtonActionPerformed
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
-/*
+        /*
         FindPackageResponse output;
         try {
             output = this.serviceSMPackageManagement.getPackageManagementStub().findPackage(idList);
@@ -218,18 +218,18 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        */
+         */
 
         try {
             this.serviceSMPackageManagement.getPackageManagementStub().asyncFindPackage(idList, new PackageManagementAdapter() {
                 @Override
                 public void findPackageResponseReceived(MALMessageHeader msgHeader, IdentifierList names, BooleanList installed, Map qosProperties) {
                     packagesTable.removeAllEntries();
-                    
-                    for(int i = 0; i < names.size(); i++){
+
+                    for (int i = 0; i < names.size(); i++) {
                         packagesTable.addEntry(names.get(i), installed.get(i));
                     }
-                    
+
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "listApp(\"*\") returned {0} object instance identifiers", names.size());
                 }
 
@@ -245,19 +245,16 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
 
     }//GEN-LAST:event_listAppAllButtonActionPerformed
 
     private void upgradeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upgradeButtonActionPerformed
 
 
-
     }//GEN-LAST:event_upgradeButtonActionPerformed
 
     private void uninstallButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uninstallButtonActionPerformed
-
 
 
     }//GEN-LAST:event_uninstallButtonActionPerformed
@@ -268,20 +265,38 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        LongList ids = new LongList();
-        Long objId = packagesTable.getSelectedCOMObject().getArchiveDetails().getInstId();
-        ids.add(objId);
+        IdentifierList ids = new IdentifierList();
+        ids.add(packagesTable.getSelectedPackage());
 
-        /*
         try {
-            this.serviceSMPackageManagement.getPackageManagementStub().install(objId, adapter);
-            appsTable.switchEnabledstatus(true);
+            this.serviceSMPackageManagement.getPackageManagementStub().install(ids, new PackageManagementAdapter() {
+                @Override
+                public void installAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                }
+
+                @Override
+                public void installResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                }
+
+                @Override
+                public void installAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+                        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+
+                }
+
+                @Override
+                public void installResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+                        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+                }
+
+            }
+            );
+
         } catch (MALInteractionException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
 
     }//GEN-LAST:event_installButtonActionPerformed
 
