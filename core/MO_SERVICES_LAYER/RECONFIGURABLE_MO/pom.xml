@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>RECONFIGURABLE_MO</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
 
     <name>Reconfigurable MO services</name>
     <description>Reconfigurable MO services and providers</description>
@@ -67,10 +67,14 @@
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>API_COMMON</artifactId>
         </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>CCSDS_COM_IMPL</artifactId>
+        </dependency>
         
         <!-- The COM Impl dependency should be completly removed in the future! -->
         <!-- Refactoring of the other layers must be done in order to remove it -->
-        
+        <!--        
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>CCSDS_COM_IMPL</artifactId>
@@ -88,12 +92,12 @@
                     <artifactId>sqlite-jdbc</artifactId>
                 </exclusion> 
                 <exclusion> 
-                    <groupId>org.apache.derby</groupId> 
+                    <groupId>org.apache.derby</groupId>
                     <artifactId>derbynet</artifactId> 
                 </exclusion> 
             </exclusions> 
         </dependency>
-        
+        -->
     </dependencies>
         
     <build>
