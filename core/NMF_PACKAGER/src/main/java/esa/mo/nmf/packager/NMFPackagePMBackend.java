@@ -24,6 +24,8 @@ import esa.mo.helpertools.misc.HelperNMF;
 import java.io.File;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
@@ -48,7 +50,12 @@ public class NMFPackagePMBackend implements PMBackend {
         // Go to the folder that contains the Packages and return the list of files!
 
         if (!folderWithPackages.exists()) { // The folder does not exist
-            throw new IOException("The folder does not exist: " + PACKAGES_FOLDER);
+            // Then create a new folder with a default name
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
+                    "The packages folder does not exist. It will be created in path: {0}",
+                    folderWithPackages.getCanonicalPath());
+
+            folderWithPackages.mkdir();
         }
 
         File[] files = folderWithPackages.listFiles();
@@ -72,6 +79,10 @@ public class NMFPackagePMBackend implements PMBackend {
     @Override
     public void install(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
+
+        Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
+                "Installing the package from: {0}", folderLocation);
+
         NMFPackageManager.install(folderLocation);
     }
 

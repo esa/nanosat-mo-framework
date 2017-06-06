@@ -193,6 +193,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void install(IdentifierList names, InstallInteraction interaction) throws MALInteractionException, MALException {
+        interaction.sendAcknowledgement();
+        
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -233,6 +235,9 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         for (Identifier packageName : names) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO,
+                "Installing: {0}", packageName.getValue());
+            
             backend.install(packageName.getValue());
         }
 
@@ -242,6 +247,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     @Override
     public void uninstall(IdentifierList names, BooleanList keepConfigurations,
             UninstallInteraction interaction) throws MALInteractionException, MALException {
+        interaction.sendAcknowledgement();
+        
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -264,7 +271,6 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         backend.uninstall(packageName, keepConfigurations.get(0));
-
     }
 
     @Override

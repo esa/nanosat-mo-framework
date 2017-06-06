@@ -117,10 +117,10 @@ public class TCPIPFixedBinaryEncoder extends FixedBinaryEncoder {
 	 * Encode a nullable identifier
 	 */
 	@Override
-	public void encodeNullableIdentifier(final Identifier value)
-			throws MALException {
+	public void encodeNullableIdentifier(final Identifier value) throws MALException {
 
-		if (value != null && value.getValue() != null) {
+//		if (value != null && value.getValue() != null) {
+		if (value != null) {
 			// encode presence flag
 			encodeBoolean(true);
 			// encode element as String
