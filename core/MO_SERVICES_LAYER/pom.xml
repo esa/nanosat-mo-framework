@@ -58,7 +58,7 @@
   <modules>
     <module>CCSDS_COM_IMPL</module>
     <module>RECONFIGURABLE_MO</module>
-    <module>CCSDS_MC_IMPL_NO_FAT</module>
+    <module>CCSDS_MC_IMPL</module>
     <module>CCSDS_COMMON_IMPL</module>
     <module>CCSDS_SM_IMPL</module>
     <module>PLATFORM_GENERIC_IMPL</module>
