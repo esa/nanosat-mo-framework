@@ -139,9 +139,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                 File fileProps = new File(apps_folder_path.getCanonicalPath() + File.separator
                         + definition.getName().getValue() + File.separator + definition.getExtraInfo());
 
-//                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "file:" + fileProps.getAbsolutePath() + "\n" + fileProps.getCanonicalPath());
                 props = HelperMisc.loadProperties(fileProps.getCanonicalPath());
-//                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, "props:" + props.size());
             } catch (MalformedURLException ex) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -188,8 +186,9 @@ public class AppsLauncherManager extends DefinitionsManager {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
-                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
-                            "The App COM object with objId: " + objId + " already exists in the Archive!");
+                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "Error while adding new App: {0}! "
+                            + "The App COM object with objId: {1} already exists in the Archive!",
+                            new Object[]{definition.getName().toString(), objId});
 
                     return objId;
                 } else {
@@ -275,7 +274,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             // It didn't exist...
             if (previousAppDetails == null) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                        "New app found! Adding new app: " + singleApp.getName().getValue());
+                        "New app found! Adding new app: {0}", singleApp.getName().getValue());
 
                 // Either is the first time running or it is a newly installed app!
                 ObjectId source = null;
@@ -293,9 +292,9 @@ public class AppsLauncherManager extends DefinitionsManager {
 
                 // Then we have to update it...
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                        "New update found on app: " + singleApp.getName().getValue()
-                        + "\nPrevious: " + previousAppDetails.toString()
-                        + "\nNew: " + singleApp.toString());
+                        "New update found on app: {0}\nPrevious: {1}\nNew: {2}",
+                        new Object[]{singleApp.getName().getValue(),
+                            previousAppDetails.toString(), singleApp.toString()});
 
                 this.update(id, singleApp, null);
                 anyChanges = true;
@@ -325,8 +324,8 @@ public class AppsLauncherManager extends DefinitionsManager {
 
             if (!appStillIntact) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                        "The app has been removed: " + localApp.getName().getValue());
-                
+                        "The app has been removed: {0}", localApp.getName().getValue());
+
                 this.delete(ids.get(i));
                 anyChanges = true;
             }
@@ -360,7 +359,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         String app_folder = apps_folder_path + File.separator + app.getName().getValue();
         final String full_path = app_folder + File.separator + runnable_filename;
         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                "Reading and initializing '" + app.getName().getValue() + "' app on path: " + full_path);
+                "Reading and initializing ''{0}'' app on path: {1}",
+                new Object[]{app.getName().getValue(), full_path});
 
         BufferedReader brTest = new BufferedReader(new FileReader(new File(full_path)));
         String text = brTest.readLine();
@@ -432,7 +432,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             try { // Subscribe to events
                 EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.get(i));
                 Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE,
-                        "Connected to: " + appConnections.get(i).toString());
+                        "Connected to: {0}", appConnections.get(i).toString());
                 eventServiceConsumer.addEventReceivedListener(eventSub,
                         new ClosingAppListener(interaction, eventServiceConsumer, appInstIds.get(i)));
             } catch (MalformedURLException ex) {
@@ -448,7 +448,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         for (int i = 0; i < appInstIds.size(); i++) {
             Long appInstId = appInstIds.get(i);
             Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO,
-                    "Sending event to app: " + appInstId + " (Name: '" + appDirectoryNames.get(i) + "')");
+                    "Sending event to app: {0} (Name: ''{1}'')", new Object[]{appInstId, appDirectoryNames.get(i)});
             this.setRunning(appInstId, false, interaction.getInteraction());
             sourceList.add(super.getCOMServices().getActivityTrackingService().storeCOMOperationActivity(interaction.getInteraction(), null));
         }

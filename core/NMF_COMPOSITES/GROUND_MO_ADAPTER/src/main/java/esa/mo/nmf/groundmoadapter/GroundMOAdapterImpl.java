@@ -368,20 +368,36 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
      *
      */
     public void closeConnections() {
-
         // Unregister the consumer from the broker
         if (this.subscription != null) {
-            IdentifierList idList = new IdentifierList();
-            idList.add(this.subscription.getSubscriptionId());
-
             try {
+                IdentifierList idList = new IdentifierList();
+                idList.add(this.subscription.getSubscriptionId());
+
+                /*
+                try {
                 super.getMCServices().getParameterService().getParameterStub().monitorValueDeregister(idList);
                 this.subscription = null;
+                } catch (MALInteractionException ex) {
+                Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALException ex) {
+                Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                 */
+                super.getMCServices().getParameterService().getParameterStub().asyncMonitorValueDeregister(idList, new ParameterAdapter() {
+                    @Override
+                    public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        subscription = null;
+                    }
+
+                }
+                );
             } catch (MALInteractionException ex) {
                 Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
 
         if (this.comServices != null) {

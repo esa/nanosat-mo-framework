@@ -23,7 +23,6 @@ package esa.mo.nmf;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.mc.impl.provider.ConversionServiceImpl;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
@@ -46,9 +45,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
@@ -261,8 +258,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                 Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
-                    "The File " + file.getPath() + " could not be found!");
+            Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING, 
+                    "The File {0} could not be found!", file.getPath());
             return null;
         }
 
