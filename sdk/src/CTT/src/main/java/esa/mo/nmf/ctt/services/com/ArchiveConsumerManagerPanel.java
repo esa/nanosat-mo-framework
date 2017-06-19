@@ -330,7 +330,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader,
+                ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
@@ -338,13 +339,15 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void countResponseReceived(MALMessageHeader msgHeader, LongList _LongList0, Map qosProperties) {
-            JOptionPane.showMessageDialog(null, _LongList0.toString(), "The count operation returned the following data!", JOptionPane.PLAIN_MESSAGE);
+        public synchronized void countResponseReceived(MALMessageHeader msgHeader,
+                LongList _LongList0, Map qosProperties) {
+            JOptionPane.showMessageDialog(null, _LongList0.toString(),
+                    "The count operation returned the following data!", JOptionPane.PLAIN_MESSAGE);
         }
 
         @Override
-        public synchronized void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
-
+        public synchronized void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
+                IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
@@ -354,7 +357,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        public synchronized void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
+                IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
@@ -412,7 +416,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 if (component == panel) {
                     tabs.remove(i);
                     adapter.finalizeAdapter();
-//                    panel = null; // Free up the memory
 
                     try {
                         super.finalize();

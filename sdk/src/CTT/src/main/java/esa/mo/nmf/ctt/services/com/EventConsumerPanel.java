@@ -54,7 +54,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
 
     private EventConsumerServiceImpl serviceCOMEvent;
     private List<ArchivePersistenceObject> comObjects;
-    private DefaultTableModel eventTableData;
+    private final DefaultTableModel eventTableData;
 
     /**
      * Creates new form ArchiveConsumerPanel
@@ -185,102 +185,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
 
     }
 
-    /*
-    public class EventConsumerAdapter extends EventAdapter {
-
-        @Override
-        public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-                UpdateHeaderList _UpdateHeaderList1, ObjectDetailsList _ObjectDetailsList2,
-                ElementList objects, Map qosProperties) {
-
-            Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.INFO,
-                    "Received update event list of size : {0} ", _UpdateHeaderList1.size());
-
-            for (int i = 0; i < _UpdateHeaderList1.size(); i++) {
-
-                final UpdateHeader updateHeader = _UpdateHeaderList1.get(i);
-                final ObjectDetails objectDetails = _ObjectDetailsList2.get(i);
-                int n_events = 0;
-                Element object = null;
-                final Long objId = updateHeader.getKey().getThirdSubKey();
-
-                if (objects != null) {
-                    n_events = objects.size();
-                    if (n_events != 0) {
-                        object = (Element) HelperAttributes.javaType2Attribute(objects.get(0));
-                    }
-                }
-
-                ObjectType objType2 = HelperCOM.objectTypeId2objectType(updateHeader.getKey().getSecondSubKey());
-                String eKey2 = HelperCOM.objType2string(objType2);
-
-                String eKey4 = "";
-                if (updateHeader.getKey().getFourthSubKey() != null) {
-                    ObjectType objType4 = HelperCOM.objectTypeId2objectType(updateHeader.getKey().getFourthSubKey());
-                    eKey4 = HelperCOM.objType2string(objType4);
-                }
-
-                String objDetailsRelated;
-                String objDetailsSource;
-
-                if (objectDetails.getRelated() != null) {
-                    objDetailsRelated = objectDetails.getRelated().toString();
-                } else {
-                    objDetailsRelated = "null";
-                }
-
-                if (objectDetails.getSource() != null) {
-                    objDetailsSource = objectDetails.getSource().getKey().getInstId().toString();
-                } else {
-                    objDetailsSource = "null";
-                }
-
-//                Date date = new Date(updateHeader.getTimestamp().getValue());
-//                Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                String time = HelperTime.time2readableString(updateHeader.getTimestamp());
-
-                IdentifierList domain = serviceCOMEvent.getConnectionDetails().getDomain();
-                String domainName = HelperMisc.domain2domainId(domain);
-
-                ObjectType objTypeEvent = HelperCOM.objectTypeId2objectType(updateHeader.getKey().getSecondSubKey());
-                objTypeEvent.setNumber(new UShort(Short.parseShort(updateHeader.getKey().getFirstSubKey().toString())));
-                String eventName = HelperCOM.objType2COMObject(objTypeEvent).getObjectName().toString();
-
-                eventTableData.addRow(new Object[]{
-                    time,
-                    updateHeader.getSourceURI().toString(),
-                    eKey2,
-                    eventName,
-                    domainName,
-                    updateHeader.getKey().getThirdSubKey(),
-                    eKey4,
-                    objDetailsRelated,
-                    objDetailsSource,
-                    n_events}
-                );
-
-                ArchiveDetails archiveDetails = new ArchiveDetails(
-                        objId,
-                        objectDetails,
-                        msgHeader.getNetworkZone(),
-                        HelperTime.timeToFineTime(updateHeader.getTimestamp()),
-                        updateHeader.getSourceURI()
-                );
-
-                ArchivePersistenceObject comObject = new ArchivePersistenceObject(
-                        objTypeEvent,
-                        domain,
-                        objId,
-                        archiveDetails,
-                        object
-                );
-
-                // Add to the table
-                comObjects.add(comObject);
-            }
-        }
-    }
-     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
