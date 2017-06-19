@@ -44,7 +44,7 @@ import org.ccsds.moims.mo.mal.structures.LongList;
  *
  * @author Cesar Coelho
  */
-public class BackendInteractionsProcessor {
+public class TransactionsProcessor {
 
     private static final String QUERY_SELECT_ALL = "SELECT PU.objId FROM COMObjectEntity PU WHERE PU.objectTypeId=:objectTypeId AND PU.domainId=:domainId";
 
@@ -61,12 +61,13 @@ public class BackendInteractionsProcessor {
 
     private final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;
 
-    public BackendInteractionsProcessor(DatabaseBackend dbBackend) {
+    public TransactionsProcessor(DatabaseBackend dbBackend) {
         this.dbBackend = dbBackend;
         this.storeQueue = new LinkedBlockingQueue<StoreCOMObjectsContainer>();
         this.sequencialStoring = new AtomicBoolean(false);
     }
 
+    /*
     private class GetCOMObjectCallable implements Callable {
 
         private final COMObjectEntityPK id;
@@ -84,23 +85,35 @@ public class BackendInteractionsProcessor {
             return perObj;
         }
     }
-
+     */
     public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        final GetCOMObjectCallable task = new GetCOMObjectCallable(COMObjectEntity.generatePK(objTypeId, domain, objId));
-        Future<COMObjectEntity> future = dbInteractionsExecutor.submit(task);
+//        final GetCOMObjectCallable task = new GetCOMObjectCallable(COMObjectEntity.generatePK(objTypeId, domain, objId));
+//        Future<COMObjectEntity> future = dbInteractionsExecutor.submit(task);
+
+        Future<COMObjectEntity> future = dbInteractionsExecutor.submit(new Callable() {
+            @Override
+            public COMObjectEntity call() {
+                dbBackend.createEntityManager();
+                final COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY,
+                        COMObjectEntity.generatePK(objTypeId, domain, objId));
+                dbBackend.closeEntityManager();
+                return perObj;
+            }
+        });
 
         try {
             return future.get();
         } catch (InterruptedException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
     }
 
+    /*
     private class GetAllCOMObjectsCallable implements Callable {
 
         private final Integer objTypeId;
@@ -124,18 +137,33 @@ public class BackendInteractionsProcessor {
             return objIds;
         }
     }
-
+     */
     public LongList getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        final GetAllCOMObjectsCallable task = new GetAllCOMObjectsCallable(objTypeId, domainId);
-        Future<LongList> future = dbInteractionsExecutor.submit(task);
+//        final GetAllCOMObjectsCallable task = new GetAllCOMObjectsCallable(objTypeId, domainId);
+//        Future<LongList> future = dbInteractionsExecutor.submit(task);
+
+        Future<LongList> future = dbInteractionsExecutor.submit(new Callable() {
+            @Override
+            public LongList call() {
+                dbBackend.createEntityManager();
+                Query query = dbBackend.getEM().createQuery(QUERY_SELECT_ALL);
+                query.setParameter("objectTypeId", objTypeId);
+                query.setParameter("domainId", domainId);
+                LongList objIds = new LongList();
+                objIds.addAll(query.getResultList());
+                dbBackend.closeEntityManager();
+
+                return objIds;
+            }
+        });
 
         try {
             return future.get();
         } catch (InterruptedException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
@@ -177,6 +205,7 @@ public class BackendInteractionsProcessor {
         }
     }
      */
+
     private void persistObjects(final ArrayList<COMObjectEntity> perObjs) {
         for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
             if (SAFE_MODE) {
@@ -186,7 +215,7 @@ public class BackendInteractionsProcessor {
                     final COMObjectEntity perObj = perObjs.get(i); // The object to be stored  // 0.255 ms
                     dbBackend.getEM().persist(perObj);  // object    // 0.240 ms
                 } else {
-                    Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE,
+                    Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE,
                             "The Archive could not store the object: " + perObjs.get(i).toString(), new Throwable());
                 }
             } else {
@@ -196,7 +225,7 @@ public class BackendInteractionsProcessor {
             // Flush every 1k objects...
             if (i != 0) {
                 if ((i % 1000) == 0) {
-                    Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.FINE,
+                    Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.FINE,
                             "Flushing the data after 1000 serial stores...");
                     dbBackend.getEM().flush();
                     dbBackend.getEM().clear();
@@ -528,7 +557,7 @@ public class BackendInteractionsProcessor {
         }
     }
 
-    public ArrayList<COMObjectEntity> query(final Integer objTypeId, 
+    public ArrayList<COMObjectEntity> query(final Integer objTypeId,
             final ArchiveQuery archiveQuery, final Integer domainId,
             final Integer providerURIId, final Integer networkId,
             final SourceLinkContainer sourceLink) {
@@ -541,9 +570,9 @@ public class BackendInteractionsProcessor {
         try {
             return future.get();
         } catch (InterruptedException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
@@ -552,15 +581,15 @@ public class BackendInteractionsProcessor {
     public void resetMainTable(final Callable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         Future<Integer> nullValue = dbInteractionsExecutor.submit(task);
-        Logger.getLogger(BackendInteractionsProcessor.class.getName()).info("Reset table submitted!");
+        Logger.getLogger(TransactionsProcessor.class.getName()).info("Reset table submitted!");
 
         try {
             Integer dummyInt = nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).info("Reset table callback!");
+            Logger.getLogger(TransactionsProcessor.class.getName()).info("Reset table callback!");
         } catch (InterruptedException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -572,9 +601,9 @@ public class BackendInteractionsProcessor {
             Integer dummyInt = nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
 //            publishEventsExecutor.shutdown();
         } catch (InterruptedException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
-            Logger.getLogger(BackendInteractionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

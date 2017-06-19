@@ -20,7 +20,7 @@
  */
 package esa.mo.com.impl.provider;
 
-import esa.mo.com.impl.archive.db.BackendInteractionsProcessor;
+import esa.mo.com.impl.archive.db.TransactionsProcessor;
 import esa.mo.com.impl.archive.fast.FastObjId;
 import esa.mo.com.impl.archive.fast.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
@@ -74,7 +74,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class ArchiveManager {
 
     private final DatabaseBackend dbBackend;
-    private final BackendInteractionsProcessor dbProcessor;
+    private final TransactionsProcessor dbProcessor;
 
     private final FastDomain fastDomain;
     private final FastNetwork fastNetwork;
@@ -98,7 +98,7 @@ public class ArchiveManager {
         }
 
         this.dbBackend = new DatabaseBackend();
-        this.dbProcessor = new BackendInteractionsProcessor(dbBackend);
+        this.dbProcessor = new TransactionsProcessor(dbBackend);
 
         // Start the separate lists for the "fast" generation of objIds
         this.fastDomain = new FastDomain(dbBackend);
@@ -120,6 +120,7 @@ public class ArchiveManager {
         this.eventService = eventService;
     }
 
+    /*
     private class WaitUntillAllFlushedRunnable implements Callable {
 
         @Override
@@ -129,10 +130,20 @@ public class ArchiveManager {
             return null;
         }
     }
-
+     */
     void close() {
         // Forces the code to wait until all the stores are flushed
-        this.dbProcessor.stopInteractions(new WaitUntillAllFlushedRunnable());
+//        this.dbProcessor.stopInteractions(new WaitUntillAllFlushedRunnable());
+
+        this.dbProcessor.stopInteractions(new Callable() {
+            @Override
+            public Integer call() {
+                dbBackend.createEntityManager();
+                dbBackend.closeEntityManager();
+                return null;
+            }
+        });
+
         this.eventService = null; // Remove the pointer to avoid publishing more stuff
     }
 
@@ -235,7 +246,7 @@ public class ArchiveManager {
         return this.dbProcessor.getAllCOMObjects(this.fastObjectType.getObjectTypeId(objType), this.fastDomain.getDomainId(domain));
     }
 
-    private SourceLinkContainer createSourceContainerFromObjectId(ObjectId source) {
+    private SourceLinkContainer createSourceContainerFromObjectId(final ObjectId source) {
         Integer sourceDomainId = null;
         Integer sourceObjectTypeId = null;
         Long sourceObjId = null;
@@ -338,17 +349,6 @@ public class ArchiveManager {
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final int domainId = this.fastDomain.getDomainId(domain);
 
-        /*
-        Thread publishEvents = new Thread() {
-            @Override
-            public void run() {
-                // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, 
-                        ArchiveManager.generateSources(objType, domain, objIds), 
-                        interaction);
-            }
-        };
-         */
         Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE,
                 objType, domain, objIds, interaction);
 
@@ -406,7 +406,7 @@ public class ArchiveManager {
         }
 
         // Convert to ArchivePersistenceObject
-        ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>(perObjs.size());
+        final ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>(perObjs.size());
         IdentifierList domain;
 
         for (COMObjectEntity perObj : perObjs) {
@@ -429,7 +429,7 @@ public class ArchiveManager {
         final long bitMask = ArchiveManager.objectType2Mask(objectTypeMask);
         final long objTypeId = HelperCOM.generateSubKey(objectTypeMask);
 
-        final ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>();
+        final ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>(perObjs.size());
         long tmpObjectTypeId;
         int temp;
         long objTypeANDed;
@@ -447,7 +447,7 @@ public class ArchiveManager {
 
     private ArrayList<COMObjectEntity> filterByDomainSubpart(
             final ArrayList<COMObjectEntity> perObjs, final IdentifierList wildcardDomain) {
-        ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>();
+        final ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>(perObjs.size());
         IdentifierList tmpDomain;
 
         for (COMObjectEntity perObj : perObjs) {
@@ -552,16 +552,14 @@ public class ArchiveManager {
         /* Just use it for debugging
         Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "\nobjType: " + objType.toString()
                 + "\nDomain: " + ConfigurationProviderSingleton.getDomain().toString() + "\nSourceList: " + sourceList.toString());
-        */
-
+         */
         // requirement: 3.4.2.4
-        final LongList eventObjIds = eventService.generateAndStoreEvents(objType, 
+        final LongList eventObjIds = eventService.generateAndStoreEvents(objType,
                 ConfigurationProviderSingleton.getDomain(), null, sourceList, interaction);
 
         /* Just use it for debugging
         Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
-        */
-
+         */
         URI sourceURI = new URI("");
 
         if (interaction != null) {
@@ -669,12 +667,22 @@ public class ArchiveManager {
         return true;
     }
 
-    /* This method needs to be changed to Runnable, to stop it from creating a bunch of threads */
     private Runnable generatePublishEventsThread(final ObjectType comObject, final ObjectType objType,
             final IdentifierList domain, final LongList objIds, final MALInteraction interaction) {
-        return new COMEventFromArchiveRunnable(comObject, objType, domain, objIds, interaction);
+//        return new COMEventFromArchiveRunnable(comObject, objType, domain, objIds, interaction);
+
+        return new Runnable() {
+            @Override
+            public void run() {
+                // Generate and Publish the Events - requirement: 3.4.2.1
+                generateAndPublishEvents(comObject,
+                        ArchiveManager.generateSources(objType, domain, objIds),
+                        interaction);
+            }
+        };
     }
 
+    /*
     private class COMEventFromArchiveRunnable implements Runnable {
 
         private final ObjectType comObject;
@@ -700,5 +708,5 @@ public class ArchiveManager {
                     interaction);
         }
     }
-
+     */
 }
