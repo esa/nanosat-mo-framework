@@ -30,15 +30,16 @@ import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * Holds all the fields of a COM Event.
+ * The EventCOMObject class holds all the fields of a COM Event.
  *
  * @author Cesar Coelho
  */
 public class EventCOMObject {
+
     private IdentifierList domain;
     private ObjectType objType;
     private Long objId;
-    
+
     private ObjectId source;
     private Long related;
     private Element body;
@@ -46,17 +47,17 @@ public class EventCOMObject {
     private Time timestamp;
     private Identifier networkZone;
     private URI sourceURI;
-    
-    public EventCOMObject(){
+
+    public EventCOMObject() {
     }
-    
-    public EventCOMObject(final IdentifierList domain, final ObjectType objType, final Long objId, 
-            final ObjectId source, final Long related, final Element body, 
+
+    public EventCOMObject(final IdentifierList domain, final ObjectType objType,
+            final Long objId, final ObjectId source, final Long related, final Element body,
             final Time timestamp, final Identifier networkZone, final URI sourceURI) {
         this.domain = domain;
         this.objType = objType;
         this.objId = objId;
-        
+
         this.source = source;
         this.related = related;
         this.body = body;
@@ -65,7 +66,7 @@ public class EventCOMObject {
         this.networkZone = networkZone;
         this.sourceURI = sourceURI;
     }
-    
+
     public IdentifierList getDomain() {
         return domain;
     }
@@ -137,8 +138,8 @@ public class EventCOMObject {
     public void setSourceURI(URI sourceURI) {
         this.sourceURI = sourceURI;
     }
-    
-    public ObjectId getObjectId(){
+
+    public ObjectId getObjectId() {
         return new ObjectId(this.objType, new ObjectKey(this.domain, this.objId));
     }
 

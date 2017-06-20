@@ -21,7 +21,6 @@
 package esa.mo.com.impl.archive.fast;
 
 import esa.mo.com.impl.archive.db.DatabaseBackend;
-import esa.mo.com.impl.util.HelperCOM;
 import java.util.HashMap;
 import javax.persistence.Query;
 

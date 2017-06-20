@@ -90,10 +90,6 @@
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>RECONFIGURABLE_MO</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>CCSDS_COM_IMPL</artifactId>
         </dependency>
     </dependencies>

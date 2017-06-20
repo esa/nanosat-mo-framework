@@ -23,7 +23,6 @@ package esa.mo.com.impl.util;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.lang.reflect.Field;
-//import java.util.Objects;
 import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
@@ -113,7 +112,6 @@ public class HelperCOM {
             if (stringComparison){
                 return rightHandSideString.equals(leftHandSideString);
             }else{
-//                return (Objects.equals(rightHandSideDouble, leftHandSideDouble));
                 return (objectEquals(rightHandSideDouble, leftHandSideDouble));
             }
         }
@@ -122,7 +120,6 @@ public class HelperCOM {
             if (stringComparison){
                 return !(rightHandSideString.equals(leftHandSideString));
             }else{
-//              return !(Objects.equals(rightHandSideDouble, leftHandSideDouble));
                 return !(objectEquals(rightHandSideDouble, leftHandSideDouble));
             }
         }
@@ -226,12 +223,7 @@ public class HelperCOM {
      * @return Name of the COM object
      */
     public static String objType2string(ObjectType objType){
-/*
-        if (objType == null){
-            return "null";
-        }
-*/        
-        COMObject comObject = HelperCOM.objType2COMObject(objType);
+        final COMObject comObject = HelperCOM.objType2COMObject(objType);
 
         String string = MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getName().toString();
         string += " - " + MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getServiceByNumber(objType.getService()).getName().toString();
@@ -394,7 +386,6 @@ public class HelperCOM {
     }    
     
     public static Object getNestedObject(Object in, String fieldName) throws NoSuchFieldException {
-
         Object obj = in;
         String[] parts = fieldName.split("\\.");
 
@@ -416,8 +407,8 @@ public class HelperCOM {
         return obj;
     }
 
-    private static Object getObjectInsideObject(String fieldName, Object obj) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-
+    private static Object getObjectInsideObject(final String fieldName, final Object obj) 
+            throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         if (obj == null) {
             throw new NoSuchFieldException();
         }

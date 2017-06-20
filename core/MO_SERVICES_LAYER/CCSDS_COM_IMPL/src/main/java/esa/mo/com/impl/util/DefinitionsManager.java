@@ -32,7 +32,8 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 
 /**
- *
+ * The DefinitionsManager class is an abstract class to be extended by Managers
+ * that intend to use COM Objects.
  *
  */
 public abstract class DefinitionsManager {
@@ -57,7 +58,6 @@ public abstract class DefinitionsManager {
             this.activityTrackingService = null;
             this.comServices = null;
         }
-
     }
 
     public EventProviderServiceImpl getEventService() {
