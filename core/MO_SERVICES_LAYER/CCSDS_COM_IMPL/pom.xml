@@ -111,8 +111,8 @@
             <!-- The latest version of sqlite (3.8.11.2) didn't work on the 
             mityArm, the version 3.8.10.1 works. However on a Solaris machine
             it returns an error. Version 3.7.2 seems to work on both -->
-            <version>3.7.2</version>
-<!--            <version>3.18.0</version> -->
+<!--            <version>3.7.2</version> -->
+            <version>3.18.0</version>
         </dependency>
 
     </dependencies>

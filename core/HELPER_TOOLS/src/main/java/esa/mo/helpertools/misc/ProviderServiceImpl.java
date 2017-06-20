@@ -39,10 +39,10 @@ public abstract class ProviderServiceImpl {
         return connectionDetails;
     }
 
-    public ConnectionProvider getConnectionProvider(){
+    public ConnectionProvider getConnectionProvider() {
         return connection;
     }
-    
+
     /**
      * Closes the connection
      */
@@ -55,10 +55,9 @@ public abstract class ProviderServiceImpl {
 
     /**
      * Get the available supported capabilities
+     *
      * @return The list of capability set's numbers
      */
     public abstract UShortList getSupportedCapabilities();
-
-
 
 }
