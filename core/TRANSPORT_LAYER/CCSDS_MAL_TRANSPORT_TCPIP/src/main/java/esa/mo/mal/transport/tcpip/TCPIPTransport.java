@@ -352,9 +352,9 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	 */
 	@Override
 	public void close() throws MALException {
-
+            
 		RLOGGER.info("Closing TCPIPTransport...");
-		
+                
 		synchronized (this) {
 			
 			TCPIPConnectionPoolManager.INSTANCE.close();

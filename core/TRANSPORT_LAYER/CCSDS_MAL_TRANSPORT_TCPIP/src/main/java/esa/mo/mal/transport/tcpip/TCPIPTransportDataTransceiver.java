@@ -138,8 +138,17 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
                     } catch (IndexOutOfBoundsException headerReadOutOfBounds) {
                             RLOGGER.warning("IndexOutOfBoundsException occured while reading header! " + headerReadOutOfBounds.getMessage());			
                     } catch (SocketException socketExc) {
+                            if (socket.isClosed()) {
+                                    // socket has been closed to throw EOF exception higher
+                                    throw new java.io.EOFException();
+                            }
+
+                            throw socketExc;
+                            
+                            /*
                             throw new IOException("SocketException occured while reading header! " + socketExc.getMessage() 
                                     + " - It usually happens when the TCP server is terminated.");
+                              */
                     }
 
                     // Get the lenght of the body directly at the byte level
