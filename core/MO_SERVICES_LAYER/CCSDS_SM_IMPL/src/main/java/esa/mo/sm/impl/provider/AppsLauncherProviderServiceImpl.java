@@ -246,11 +246,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             try {
                 manager.startAppProcess(new ProcessExecutionHandler(appInstIds.get(i)), interaction);
             } catch (IOException ex) {
-                invIndexList.add(new UInteger(i));
-                throw new MALInteractionException(new MALStandardError(MALHelper.INTERNAL_ERROR_NUMBER, invIndexList));
+                UIntegerList intIndexList = new UIntegerList();
+                intIndexList.add(new UInteger(i));
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
+                        "Not able to start the application process...", ex);
+                throw new MALInteractionException(new MALStandardError(MALHelper.INTERNAL_ERROR_NUMBER, intIndexList));
             }
         }
-
     }
 
     @Override
