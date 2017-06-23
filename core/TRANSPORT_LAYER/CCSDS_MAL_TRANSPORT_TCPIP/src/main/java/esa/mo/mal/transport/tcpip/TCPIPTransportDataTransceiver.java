@@ -35,8 +35,6 @@ import java.util.logging.Level;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
-import org.ccsds.moims.mo.mal.MALHelper;
-import org.ccsds.moims.mo.mal.MALStandardError;
 
 /**
  * This class implements the low level data (MAL Message) transport protocol. The messages are encoded according to the
@@ -53,9 +51,6 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 	protected final DataInputStream socketReadIf;
         private final URI from;
         private final URI to;
-        
-//        private final Object MUTEX = new Object();
-//        private final Object MUTEX2 = new Object();
 
 	/**
 	 * Constructor.
@@ -99,13 +94,10 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 		RLOGGER.log(Level.FINEST, sb.toString());
 */		
 
-//            synchronized(MUTEX2){
                 if(!closed){
-                    socketWriteIf.write((byte[])packetData.getEncodedMessage());
-    //                RLOGGER.log(Level.INFO, "The header is: " + Arrays.toString((byte[])packetData.getEncodedMessage()));
+                        socketWriteIf.write((byte[])packetData.getEncodedMessage());
         		socketWriteIf.flush();
                 }
-//            }
 	}
 
 	/**
@@ -123,7 +115,8 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 	 * that the communication supports several sockets, one for provider-side
 	 * and one for client-side, while still being compliant with the MAL
 	 * restriction that every client/provider has exactly one unique address.
-	 * @throws InterruptedException 
+         * @return 
+         * @throws java.io.IOException
 	 */
 	@Override
 	public TCPIPPacketInfoHolder readEncodedMessage() throws IOException {
@@ -133,22 +126,12 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 
                     try{
                             this.readUntilComplete(rawHeader, 0, HEADER_SIZE);
+                    } catch (SocketException socketExc) {
+                            throw new java.io.EOFException(socketExc.getMessage());
                     } catch (NullPointerException headerReadNullPointer) {
                             RLOGGER.warning("NullpointerException occured while reading header! " + headerReadNullPointer.getMessage());
                     } catch (IndexOutOfBoundsException headerReadOutOfBounds) {
                             RLOGGER.warning("IndexOutOfBoundsException occured while reading header! " + headerReadOutOfBounds.getMessage());			
-                    } catch (SocketException socketExc) {
-                            if (socket.isClosed()) {
-                                    // socket has been closed to throw EOF exception higher
-                                    throw new java.io.EOFException();
-                            }
-
-                            throw socketExc;
-                            
-                            /*
-                            throw new IOException("SocketException occured while reading header! " + socketExc.getMessage() 
-                                    + " - It usually happens when the TCP server is terminated.");
-                              */
                     }
 
                     // Get the lenght of the body directly at the byte level
@@ -160,13 +143,20 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
                     rawHeader = null; // Free
 
                     try {
-                        // read body and copy the body part
-                        this.readUntilComplete(totalPacketData, HEADER_SIZE, bodyLength);
+                            // read body and copy the body part
+                            this.readUntilComplete(totalPacketData, HEADER_SIZE, bodyLength);
+                    } catch (SocketException socketExc) {
+                            if (socket.isClosed()) {
+                                    // socket has been closed to throw EOF exception higher
+                                    throw new java.io.EOFException();
+                            }
+
+                            throw socketExc;
                     } catch (EOFException bodyReadEof) {
-                        RLOGGER.warning("EOF reached for input stream! " + bodyReadEof.getMessage());
-                        throw new IOException("EOF reached for input stream!");
+                            RLOGGER.warning("EOF reached for input stream! " + bodyReadEof.getMessage());
+                            throw new IOException("EOF reached for input stream!");
                     } catch (IOException bodyReadIo) {
-                        RLOGGER.warning("Socket connection closed while reading!");
+                            RLOGGER.warning("Socket connection closed while reading!");
                     }
                     
     
@@ -224,12 +214,12 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
             int n;
             int len = 0;
             do {
-                n = socketReadIf.read(b, off + len, completeLength - len);
-                if (n != -1) {
-                    len += n;
-                }else{
-                    throw new IOException("The socket read -1 from the input stream.");
-                }
+                    n = socketReadIf.read(b, off + len, completeLength - len);
+                    if (n != -1) {
+                            len += n;
+                    }else{
+                            throw new SocketException("The socket read -1 from the input stream.");
+                    }
             } while (len < completeLength);
             return len;
         }

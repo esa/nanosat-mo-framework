@@ -83,7 +83,9 @@ public class TCPIPMessageHeader extends GENMessageHeader {
 			UOctet interactionStage, Long transactionId, UShort serviceArea,
 			UShort service, UShort operation, UOctet serviceVersion,
 			Boolean isErrorMessage) {
-		super(uriFrom, authenticationId, uriTo, timestamp, qosLevel, priority, domain, networkZone, session, sessionName, interactionType, interactionStage, transactionId, serviceArea, service, operation, serviceVersion, isErrorMessage);
+		super(uriFrom, authenticationId, uriTo, timestamp, qosLevel, priority, 
+                        domain, networkZone, session, sessionName, interactionType, interactionStage, 
+                        transactionId, serviceArea, service, operation, serviceVersion, isErrorMessage);
 		this.serviceFrom = serviceFrom;
 		this.serviceTo = serviceTo;
 	}
