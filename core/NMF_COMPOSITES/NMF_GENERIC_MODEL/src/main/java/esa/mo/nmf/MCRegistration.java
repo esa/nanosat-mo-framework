@@ -504,15 +504,6 @@ public class MCRegistration {
             archiveDetailsList.get(i).setDetails(new ObjectDetails(conversionIdentityObjIds.get(i), null));
         }
 
-        /*
-        final LongList objIds = comServices.getArchiveService().store(
-                true,
-                objType,
-                domain,
-                archiveDetailsList,
-                conversions,
-                null);
-        */
         comServices.getArchiveService().store(
                 false,
                 objType,

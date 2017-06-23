@@ -66,7 +66,7 @@ import esa.mo.reconfigurable.service.ConfigurationChangeListener;
  * @author Cesar Coelho
  */
 @Deprecated
-public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListener {
+public class MCStoreLastConfigurationAdapter_old implements ConfigurationChangeListener {
 
     public static Long DEFAULT_OBJID_ACTION_SERVICE = (long) 1;
     public static Long DEFAULT_OBJID_PARAMETER_SERVICE = (long) 2;
@@ -76,7 +76,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListe
     private final ExecutorService executor = Executors.newSingleThreadExecutor(); // Guarantees sequential order
     private final COMServicesProvider comServices;
 
-    public MCStoreLastConfigurationAdapter(NMFInterface provider,
+    public MCStoreLastConfigurationAdapter_old(NMFInterface provider,
             final ObjectId confId, final Identifier providerName) throws NMFException {
         try {
             ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -103,7 +103,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListe
             return;
         }
 
-        Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.INFO,
+        Logger.getLogger(MCStoreLastConfigurationAdapter_old.class.getName()).log(Level.INFO,
                 "There were no previous configurations stored in the Archive. Creating configurations...");
 
         // It doesn't exist... create all the necessary objects...
@@ -165,10 +165,12 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListe
                     null);
 
         } catch (MALException ex) {
-            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCStoreLastConfigurationAdapter_old.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCStoreLastConfigurationAdapter_old.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        // If not, then create it and all of the configuration objects for each service
 
         // If not, then create it and all of the configuration objects for each service
     }
@@ -203,7 +205,7 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListe
                         ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), objId);
 
                 if (comObject == null) {
-                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                    Logger.getLogger(MCStoreLastConfigurationAdapter_old.class.getName()).log(Level.SEVERE,
                             serviceImpl.getCOMService().getName()
                             + " service: The service configuration object could not be found! objectId: " + objId);
 
@@ -224,9 +226,9 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListe
                             confObjsList,
                             null);
                 } catch (MALException ex) {
-                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCStoreLastConfigurationAdapter_old.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MALInteractionException ex) {
-                    Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                    Logger.getLogger(MCStoreLastConfigurationAdapter_old.class.getName()).log(Level.SEVERE,
                             serviceImpl.getCOMService().getName()
                             + " service: The configuration could not be updated! objectId: " + objId, ex);
                 }
@@ -309,10 +311,10 @@ public class MCStoreLastConfigurationAdapter implements ConfigurationChangeListe
 
             return defaultObjId;
         } catch (MALException ex) {
-            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCStoreLastConfigurationAdapter_old.class.getName()).log(Level.SEVERE, null, ex);
             return defaultObjId;
         } catch (MALInteractionException ex) {
-            Logger.getLogger(MCStoreLastConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCStoreLastConfigurationAdapter_old.class.getName()).log(Level.SEVERE, null, ex);
             return defaultObjId;
         }
 

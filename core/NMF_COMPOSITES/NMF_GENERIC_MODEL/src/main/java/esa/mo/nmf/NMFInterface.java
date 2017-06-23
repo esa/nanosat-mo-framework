@@ -34,6 +34,7 @@ public interface NMFInterface extends SimpleMonitoringInterface {
      * Requests the COM services available in the NanoSat MO Framework provider.
      *
      * @return The COM services
+     * @throws esa.mo.nmf.NMFException If the services are not available
      */
     COMServicesProvider getCOMServices() throws NMFException;
 
@@ -41,6 +42,7 @@ public interface NMFInterface extends SimpleMonitoringInterface {
      * Requests the MC services available in the NanoSat MO Framework provider.
      *
      * @return The MC services
+     * @throws esa.mo.nmf.NMFException If the services are not available
      */
     MCServicesProviderNMF getMCServices() throws NMFException;
 
@@ -49,6 +51,7 @@ public interface NMFInterface extends SimpleMonitoringInterface {
      * provider.
      *
      * @return The Platform services
+     * @throws esa.mo.nmf.NMFException If the services are not available
      */
     PlatformServicesConsumer getPlatformServices() throws NMFException;
 

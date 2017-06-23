@@ -73,7 +73,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     public final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
     public final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     public MCServicesProviderNMF mcServices;
-//    public ParameterManager parameterManager;
     public PlatformServicesConsumer platformServices;
     public CloseAppListener closeAppAdapter = null;
     public ConfigurationChangeListener providerConfigurationAdapter = null;
@@ -155,17 +154,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                 Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        /*
-        final ParameterValue parameterValue = new ParameterValue();
-        parameterValue.setRawValue((Attribute) obj);
-
-        // To do: Add the Conversion service here and put the value in the convertedValue field
-        parameterValue.setConvertedValue(null);
-        parameterValue.setValidityState(new UOctet((short) 0));
-
-        ParameterInstance instance = new ParameterInstance(new Identifier(name), parameterValue, null, null);
-        */
 
         ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1); // We just add 1 element

@@ -88,6 +88,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
     private Long appDirectoryServiceId;
     private EventConsumerServiceImpl serviceCOMEvent;
     private Subscription subscription;
+    private long startTime;
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -100,6 +101,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
      * corresponding methods and variables of a specific entity.
      */
     public NanoSatMOConnectorImpl(MonitorAndControlNMFAdapter mcAdapter) {
+        startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();
@@ -116,7 +118,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
                     + " To enable a better IPC communication, please enable the secondary transport protocol flag: "
                     + HelperMisc.SECONDARY_PROTOCOL
             );
-            
+
             centralDirectoryURI = null;
         }
 
@@ -247,25 +249,6 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
             mcAdapter.initialRegistrations(registration);
         }
 
-        // Load previous configurations
-        /*
-        if (mcAdapter != null) {
-            // Are the dynamic changes enabled?
-            if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                        "Loading previous configurations...");
-                try {
-                    this.loadMCConfigurations();
-                } catch (NMFException ex) {
-                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
-                    mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
-            mcAdapter.initialRegistrations(registration);
-        }
-         */
         // Populate the provider list of services in the Central Directory service
         if (centralDirectoryURI != null) {
             try {
@@ -289,11 +272,13 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
 
         final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                "NanoSat MO Connector initialized! URI: {0}\n", uri);
+                "NanoSat MO Connector initialized in "
+                + (((float) (System.currentTimeMillis() - startTime)) / 1000)
+                + " seconds! URI: {0}\n", uri);
 
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory
-//        NanoSatMOFrameworkProvider.hintGC();
+//        NMFProvider.hintGC();
     }
 
     @Override
@@ -305,7 +290,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
         return this.appDirectoryServiceId;
     }
 
-    private static ProviderSummary selectBestIPCTransport(ProviderSummary provider) {
+    private static ProviderSummary selectBestIPCTransport(final ProviderSummary provider) {
         final ProviderSummary newSummary = new ProviderSummary();
         newSummary.setProviderKey(provider.getProviderKey());
         newSummary.setProviderName(provider.getProviderName());
@@ -352,7 +337,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
     @Override
     public final void closeGracefully(final ObjectId source) {
         try {
-            long startTime = System.currentTimeMillis();
+            long time = System.currentTimeMillis();
 
             // We can close the connection to the Supervisor
             this.serviceCOMEvent.closeConnection();
@@ -427,7 +412,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
             // Exit the Java application
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                     "Success! The currently running Java Virtual Machine will now terminate. "
-                    + "(App closed in: {0} ms)\n", System.currentTimeMillis() - startTime);
+                    + "(App closed in: {0} ms)\n", System.currentTimeMillis() - time);
         } catch (NMFException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
