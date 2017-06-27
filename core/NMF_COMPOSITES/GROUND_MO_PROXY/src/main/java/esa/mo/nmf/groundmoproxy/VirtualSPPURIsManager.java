@@ -28,8 +28,8 @@ public class VirtualSPPURIsManager {
 
     private final static String PROTOCOL_SPP = "malspp";
     private final static String APID_QUALIFIER = "247";
-    private final static int APID_RANGE_START = 2;
-    private final static int APID_RANGE_END = 2;
+    private final int apidRangeStart;
+    private final int apidRangeEnd;
     private final static int SOURDEID_RANGE_START = 0; // Set by SPP
     private final static int SOURDEID_RANGE_END = 255;
     private final HashMap<String, String> virtualAPIDsMap = new HashMap<String, String>();
@@ -38,9 +38,12 @@ public class VirtualSPPURIsManager {
     private final AtomicInteger uniqueSourceId;
     private final Object MUTEX = new Object();
 
-    public VirtualSPPURIsManager() {
+    public VirtualSPPURIsManager(int apidRangeStart, int apidRangeEnd) {
+        this.apidRangeStart = apidRangeStart;
+        this.apidRangeEnd = apidRangeEnd;
+
         Random random = new Random();
-        int apid = random.nextInt((APID_RANGE_END - APID_RANGE_START) + 1) + APID_RANGE_START;
+        int apid = random.nextInt((apidRangeEnd - apidRangeStart) + 1) + apidRangeStart;
         int sourceId = random.nextInt((SOURDEID_RANGE_END - SOURDEID_RANGE_START) + 1) + SOURDEID_RANGE_START;
 
         uniqueAPID = new AtomicInteger(apid);
@@ -88,13 +91,18 @@ public class VirtualSPPURIsManager {
             sourceId = SOURDEID_RANGE_START;
             apid = uniqueAPID.incrementAndGet();
 
-            if (apid > APID_RANGE_END) {
-                uniqueAPID.set(APID_RANGE_START);
-                apid = APID_RANGE_START;
+            if (apid > apidRangeEnd) {
+                uniqueAPID.set(apidRangeStart);
+                apid = apidRangeStart;
             }
         }
 
         return PROTOCOL_SPP + ":" + APID_QUALIFIER + "/" + apid + "/" + sourceId;
+    }
+    
+    public static int getAPIDFromVirtualSPPURI(final String virtualSPPURI){
+        String[] str = virtualSPPURI.split("/");
+        return Integer.parseInt(str[1]);
     }
 
 }

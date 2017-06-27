@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -50,6 +51,11 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 	 */
 	public static final java.util.logging.Logger RLOGGER = Logger .getLogger("org.ccsds.moims.mo.mal.encoding.tcpip");
 	
+        /**
+         * Map of cachedRoutingParts. This associates a URI to its root URI.
+         */
+        private final ConcurrentHashMap<URI, String> cachedLocalNamePart = new ConcurrentHashMap<URI, String>();
+  
 	public TCPIPFixedBinaryElementOutputStream(OutputStream os) {
 		super(os);
 	}
@@ -99,12 +105,13 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 		
 		TCPIPMessageHeader header = (TCPIPMessageHeader)element;
 		
+                /* Use for debug only... produces too much garbage on a real-world scenario
 		RLOGGER.log(Level.FINEST, "TCPIPMessageHeader.encode()");
-
-	    RLOGGER.log(Level.FINEST, "Header to encode:");
+        	RLOGGER.log(Level.FINEST, "Header to encode:");
 		RLOGGER.log(Level.FINEST, "---------------------------------------");
 		RLOGGER.log(Level.FINEST, header.toString());
 		RLOGGER.log(Level.FINEST, "---------------------------------------");
+                */
 
 		// version number & sdu type
 		byte versionAndSDU = (byte) (header.versionNumber << 5 | header.getSDUType());
@@ -120,7 +127,7 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 				| (header.getQoSlevel().getOrdinal() << 4) 
 				| header.getSession().getOrdinal());
 		
-		RLOGGER.log(Level.FINEST, "QOS ENCODING: qos=" + header.getQoSlevel().getOrdinal() + " parts=" + parts);
+		// RLOGGER.log(Level.FINEST, "QOS ENCODING: qos=" + header.getQoSlevel().getOrdinal() + " parts=" + parts);
 
 		enc.encodeUOctet(new UOctet(parts));
 		((TCPIPFixedBinaryEncoder)enc).encodeMALLong(header.getTransactionId());
@@ -208,7 +215,7 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 		if (uri == null) {
 			return "";
 		}
-
+                
 		char serviceDelim = TCPIPTransportFactoryImpl.SERVICE_DELIMITER;
 
 		int idx = uri.toString().lastIndexOf(serviceDelim);
@@ -217,5 +224,25 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 		} else {
 			return "";
 		}
+                
+                /*
+                String localNamePart = cachedLocalNamePart.get(uri);
+
+                if(localNamePart == null) {
+                        char serviceDelim = TCPIPTransportFactoryImpl.SERVICE_DELIMITER;
+
+                        int idx = uri.toString().lastIndexOf(serviceDelim);
+                        if (uri.toString().length() > idx) {
+                                localNamePart = uri.toString().substring(idx + 1);
+                        } else {
+                                localNamePart = "";
+                        }
+                        
+                        cachedLocalNamePart.put(uri, localNamePart);
+                }
+                
+                return localNamePart;
+                */
+                
 	}
 }

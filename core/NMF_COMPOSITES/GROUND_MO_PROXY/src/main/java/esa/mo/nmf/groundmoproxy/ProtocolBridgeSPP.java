@@ -21,6 +21,7 @@
 package esa.mo.nmf.groundmoproxy;
 
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -37,15 +38,28 @@ import org.ccsds.moims.mo.mal.transport.MALTransport;
 
 public class ProtocolBridgeSPP extends ProtocolBridge {
 
+    public final static String PROPERTY_APID_RANGE_START = "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start";
+    public final static String PROPERTY_APID_RANGE_END = "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.end";
+    private final static String PROTOCOL_SPP = "malspp";
     private MALTransport transportA;
     private MALTransport transportB;
     private MALEndpoint epB;
-    private final static String PROTOCOL_SPP = "malspp";
-    private final VirtualSPPURIsManager virtualSPPURI = new VirtualSPPURIsManager();
+    private VirtualSPPURIsManager virtualSPPURI;
 
     public void init(final String protocol, final Map properties) throws MALException, Exception {
         transportA = createTransport(PROTOCOL_SPP, properties);
         transportB = createTransport(protocol, properties);
+
+        if (System.getProperty(PROPERTY_APID_RANGE_START) == null || System.getProperty(PROPERTY_APID_RANGE_END) == null) {
+            throw new MALException("The APID ranges need to be set using the properties: "
+                    + PROPERTY_APID_RANGE_START + " and " + PROPERTY_APID_RANGE_END);
+        }
+
+        // To do: Get the ranges from the properties file
+        int apidStart = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_START));
+        int apidEnd = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_END));
+
+        virtualSPPURI = new VirtualSPPURIsManager(apidStart, apidEnd);
 
         epB = createEndpoint(protocol, transportB);
 
@@ -104,7 +118,10 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
                     MALEndpoint ep = transportA.getEndpoint(virtualURIs);
 
                     if (ep == null) {
-                        ep = transportA.createEndpoint(virtualURIs, System.getProperties());
+                        Properties props = new Properties(System.getProperties());
+                        int apid = VirtualSPPURIsManager.getAPIDFromVirtualSPPURI(virtualURIs);
+                        props.put("org.ccsds.moims.mo.malspp.apid", apid);
+                        ep = transportA.createEndpoint(virtualURIs, props);
                         ep.setMessageListener(new BridgeMessageHandlerSPP(ep, epOther));
                         ep.startMessageDelivery();
                     }
@@ -113,12 +130,11 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
                     System.out.println("Injecting message...");
                     ep.sendMessage(dMsg);
                 }
-
             } catch (MALException ex) {
-                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, "MALException", ex);
                 // ToDo need to bounce this back to source... maybe
             } catch (MALTransmitErrorException ex) {
-                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, "MALTransmitErrorException", ex);
                 // ToDo need to bounce this back to source... maybe
             }
         }
@@ -209,9 +225,9 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         }
 
         System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
-        String endpointUriPart = sourceHdr.getURITo().getValue();
-        final int iSecond = endpointUriPart.indexOf("@");
-        endpointUriPart = endpointUriPart.substring(iSecond + 1, endpointUriPart.length());
+//        String endpointUriPart = sourceHdr.getURITo().getValue();
+//        final int iSecond = endpointUriPart.indexOf("@");
+//        endpointUriPart = endpointUriPart.substring(iSecond + 1, endpointUriPart.length());
         URI to = reverse;
         URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
 

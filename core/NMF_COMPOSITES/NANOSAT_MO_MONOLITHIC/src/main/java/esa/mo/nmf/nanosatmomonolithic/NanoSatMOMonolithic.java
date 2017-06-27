@@ -67,6 +67,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
      */
     public NanoSatMOMonolithic(MonitorAndControlNMFAdapter mcAdapter,
             PlatformServicesConsumer platformServices) {
+        super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();
@@ -104,7 +105,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
                     new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
             super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());
-            
+
             try {
                 super.providerConfiguration.loadPreviousConfigurations();
             } catch (IOException ex) {
@@ -119,7 +120,10 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         }
 
         final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
-        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "NanoSat MO Monolithic initialized! URI: " + uri + "\n");
+        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
+                "NanoSat MO Monolithic initialized in "
+                + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
+                + " seconds! URI: {0}\n", uri);
     }
 
     /**
@@ -142,7 +146,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
                     null);
 
             final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
-            
+
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId,
                         AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);

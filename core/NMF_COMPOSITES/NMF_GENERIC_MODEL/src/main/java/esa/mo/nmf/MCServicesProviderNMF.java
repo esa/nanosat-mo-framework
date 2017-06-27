@@ -47,7 +47,6 @@ public class MCServicesProviderNMF {
             ParameterStatusListener monitoringParameters) throws MALException {
         parameterManager = new ParameterManager(comServices, monitoringParameters);
         parameterService.init(parameterManager);
-
         actionService.init(comServices, actions);
         alertService.init(comServices);
         aggregationService.init(comServices, parameterManager);
@@ -57,7 +56,6 @@ public class MCServicesProviderNMF {
             final MonitorAndControlNMFAdapter adapter) throws MALException {
         parameterManager = new ParameterManager(comServices, adapter);
         parameterService.init(parameterManager);
-
         actionService.init(comServices, adapter);
         alertService.init(comServices);
         aggregationService.init(comServices, parameterManager);

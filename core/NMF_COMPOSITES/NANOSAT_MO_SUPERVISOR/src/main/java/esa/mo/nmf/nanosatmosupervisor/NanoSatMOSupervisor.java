@@ -76,6 +76,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     public NanoSatMOSupervisor(MonitorAndControlNMFAdapter mcAdapter,
             PlatformServicesConsumer platformServices,
             PMBackend packageManagementBackend) {
+        super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();
@@ -116,7 +117,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
             super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());
-            
+
             try {
                 super.providerConfiguration.loadPreviousConfigurations();
             } catch (IOException ex) {
@@ -129,7 +130,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
-        
+
         // The Apps Launcher Configuration needs to be loaded here!
 //        this.loadSMConfigurations();
         /*
@@ -148,8 +149,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
-        */
-
+         */
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
         this.directoryService.loadURIs(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME);
@@ -160,7 +160,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         final String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
         this.writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
-                "NanoSat MO Supervisor initialized! URI: " + primaryURI + "\n");
+                "NanoSat MO Supervisor initialized in "
+                + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
+                + " seconds! URI: {0}\n", primaryURI);
 
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory
@@ -192,7 +194,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     null);
 
             final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
-            
+
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId,
                         AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);

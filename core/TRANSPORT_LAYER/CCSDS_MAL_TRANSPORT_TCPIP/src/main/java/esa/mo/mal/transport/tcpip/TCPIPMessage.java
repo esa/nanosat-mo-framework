@@ -47,7 +47,9 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
  */
 public class TCPIPMessage extends GENMessage {
     
-	public TCPIPMessage(boolean wrapBodyParts,
+        private MALElementStreamFactory newHeaderStreamFactory = new TCPIPFixedBinaryStreamFactory();  // Header must be always Fixed Binary
+
+        public TCPIPMessage(boolean wrapBodyParts,
 			GENMessageHeader header, Map qosProperties, byte[] packet,
 			MALElementStreamFactory encFactory) throws MALException {
 		super(wrapBodyParts, true, header, qosProperties, packet, encFactory);
@@ -77,14 +79,9 @@ public class TCPIPMessage extends GENMessage {
 			final OutputStream lowLevelOutputStream)
 			throws MALException {
 		
-//		RLOGGER.log(Level.FINEST, "TCPIPMessage.encodeMessage()");
-//		RLOGGER.log(Level.FINEST, "TCPIPMessageHeader: " + this.getHeader().toString());
-//		RLOGGER.log(Level.FINEST, "TCPIPMessageBody: " + this.bodytoString());
-
 		// encode header and body using TCPIPEncoder class
 		ByteArrayOutputStream hdrBaos = new ByteArrayOutputStream();
 		ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
-		MALElementStreamFactory newHeaderStreamFactory = new TCPIPFixedBinaryStreamFactory();  // Header must be always Fixed Binary
 		MALElementOutputStream headerEncoder = newHeaderStreamFactory.createOutputStream(hdrBaos);
 		MALElementOutputStream bodyEncoder = bodyStreamFactory.createOutputStream(bodyBaos);
 
@@ -92,7 +89,6 @@ public class TCPIPMessage extends GENMessage {
 		super.encodeMessage(bodyStreamFactory, bodyEncoder, bodyBaos, false);
 		
 //		int hdrSize = hdrBaos.size();
-
 		byte[] hdrBuf = hdrBaos.toByteArray();	
 		byte[] bodyBuf = bodyBaos.toByteArray();			
 
@@ -106,7 +102,7 @@ public class TCPIPMessage extends GENMessage {
 		
 		System.arraycopy(bodySizeBuf, 0, hdrBuf, 19, 4);
 		
-                /*
+                /* For debug, if necessary
 		StringBuilder sb = new StringBuilder();		
 		sb.append("\nHeader: sz=" + hdrBuf.length + " contents=\n");
 		for (byte b2 : hdrBuf) {
@@ -124,9 +120,6 @@ public class TCPIPMessage extends GENMessage {
 			if (this.getBody() != null) { 
 				lowLevelOutputStream.write(bodyBuf);
 			}
-                        
-                        hdrBuf = null;
-                        bodyBuf = null;
 		} catch (IOException e) {
 			RLOGGER.warning("An IOException was thrown during message encoding! " + e.getMessage());
 			throw new MALException(e.getMessage());

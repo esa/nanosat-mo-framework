@@ -140,7 +140,6 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
                     // Allocate memory for header and body
                     byte[] totalPacketData = new byte[HEADER_SIZE + bodyLength];
                     System.arraycopy(rawHeader, 0, totalPacketData, 0, HEADER_SIZE);
-                    rawHeader = null; // Free
 
                     try {
                             // read body and copy the body part

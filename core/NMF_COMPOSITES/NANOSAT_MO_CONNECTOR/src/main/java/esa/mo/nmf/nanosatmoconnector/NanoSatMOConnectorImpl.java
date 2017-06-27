@@ -88,7 +88,6 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
     private Long appDirectoryServiceId;
     private EventConsumerServiceImpl serviceCOMEvent;
     private Subscription subscription;
-    private long startTime;
 
     /**
      * To initialize the NanoSat MO Framework with this method, it is necessary
@@ -101,7 +100,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
      * corresponding methods and variables of a specific entity.
      */
     public NanoSatMOConnectorImpl(MonitorAndControlNMFAdapter mcAdapter) {
-        startTime = System.currentTimeMillis();
+        super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();
@@ -273,7 +272,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
         final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "NanoSat MO Connector initialized in "
-                + (((float) (System.currentTimeMillis() - startTime)) / 1000)
+                + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
                 + " seconds! URI: {0}\n", uri);
 
         // We just loaded everything, it is a good time to 

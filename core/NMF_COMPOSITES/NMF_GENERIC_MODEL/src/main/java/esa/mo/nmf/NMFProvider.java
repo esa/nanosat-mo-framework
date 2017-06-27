@@ -77,6 +77,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     public CloseAppListener closeAppAdapter = null;
     public ConfigurationChangeListener providerConfigurationAdapter = null;
     public String providerName;
+    protected long startTime;
 
     public PersistProviderConfiguration providerConfiguration;
     public final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<ReconfigurableService>();
