@@ -64,7 +64,7 @@
     <modules>
         <module>OPS-SAT_SIMULATOR</module>
         <module>PLATFORM_SOFTWARE_SIMULATOR_IMPL</module>
-        <module>NANOSAT_MO_FRAMEWORK_SOFTWARE_SIMULATOR</module>
+        <module>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</module>
         <module>NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR</module>
         <module>NMF_LIBRARY_SOFTWARE_SIMULATOR</module>
     </modules>

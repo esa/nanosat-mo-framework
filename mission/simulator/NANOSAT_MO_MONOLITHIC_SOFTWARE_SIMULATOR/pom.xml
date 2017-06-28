@@ -25,7 +25,7 @@
   
     <artifactId>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
 
     <name>NanoSat MO Monolithic: Software Simulator</name>
     <description>NanoSat MO Framework for OPS-SAT Software Simulator</description>
