@@ -66,9 +66,6 @@
         <module>CCSDS_MO_APIS</module>
         <module>HELPER_TOOLS</module>
         <module>TRANSPORT_LAYER</module>
-        <!--
-        <module>sqlite-jdbc</module>
-        -->
         <module>MO_SERVICES_LAYER</module>
         <module>NMF_COMPOSITES</module>
         <module>NMF_PACKAGER</module>
