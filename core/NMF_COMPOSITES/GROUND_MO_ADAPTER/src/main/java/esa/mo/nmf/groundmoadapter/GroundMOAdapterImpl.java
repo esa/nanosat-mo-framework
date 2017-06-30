@@ -24,11 +24,14 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.mc.impl.provider.AggregationInstance;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.NMFException;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,6 +66,12 @@ import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetailsList;
+import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValueList;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueList;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
@@ -78,7 +87,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
- * A Consumer of MO services composed by COM, M&C and Platform services.
+ * A Consumer of MO services composed by COM, M&amp;C and Platform services.
  * Implements the SimpleCommandingInterface that permits an external software
  * entity to send data (parameters or serialized objects) to the provider, add a
  * DataReceivedListener to receive data and send actions to the provider. It
@@ -89,7 +98,11 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCommandingInterface {
 
-    private Subscription subscription = null;
+    /* Logger */
+    private static final Logger logger = Logger.getLogger( GroundMOAdapterImpl.class.getName() );
+
+    private Subscription parameterSubscription = null;
+    private Subscription aggregationSubscription = null;
 
     /**
      * The constructor of this class
@@ -127,7 +140,7 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
                 // Well, if it is something else, then it will have to serialize it and put it inside a Blob
                 rawValue = HelperAttributes.serialObject2blobAttribute(content);
             } catch (IOException ex) {
-                Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+                logger.log(Level.SEVERE, null, ex);
                 return;
             }
         }
@@ -174,9 +187,9 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
             // Ok, now, let's finally set the Value!
             super.getMCServices().getParameterService().getParameterStub().setValue(raws);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -233,16 +246,72 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
             }
         }
 
-        // Subscribes to ALL Parameters
-        this.subscription = ConnectionConsumer.subscriptionWildcardRandom();
+        // Make the aggregation adapter to call the receiveDataListener when there's a new object available
+        class DataReceivedAggregationAdapter extends AggregationAdapter {
+
+            @Override
+            public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,
+                    final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+                    final ObjectIdList lObjectIdList, final AggregationValueList lAggregationValueList,
+                    final Map qosp) {
+
+                if (lAggregationValueList.size() == lUpdateHeaderList.size()) {
+                    for (int i = 0; i < lUpdateHeaderList.size(); i++) {
+
+                        if (listener instanceof SimpleAggregationReceivedListener) {
+                            List<ParameterInstance> parameterInstances = new LinkedList<ParameterInstance>();
+
+                            AggregationValue aggregationValue = lAggregationValueList.get(i);
+
+                            for (AggregationSetValue aggregationSetValue : aggregationValue.getParameterSetValues()) {
+                                for (AggregationParameterValue aggregationParamValue : aggregationSetValue.getValues()) {
+
+                                    Long paramDefInstId = aggregationParamValue.getParamDefInstId();
+                                    Attribute parameterValue = aggregationParamValue.getValue().getRawValue();
+
+                                    // TBD, not sure what to do with this now...
+                                }
+                            }
+
+                            ((SimpleAggregationReceivedListener) listener).onDataReceived(parameterInstances);
+                        }
+
+                        if (listener instanceof CompleteAggregationReceivedListener) {
+                            ObjectId source = lObjectIdList.get(i);
+                            Time timestamp = lUpdateHeaderList.get(i).getTimestamp();
+                            String aggregationName = lUpdateHeaderList.get(i).getKey().getFirstSubKey().toString();
+                            AggregationValue aggregationValue = lAggregationValueList.get(i);
+
+                            AggregationInstance aggregationInstance = new AggregationInstance(
+                                    new Identifier(aggregationName), aggregationValue, source, timestamp);
+
+                            ((CompleteAggregationReceivedListener) listener).onDataReceived(aggregationInstance);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Subscribes to ALL Parameters and Aggregations
+        this.parameterSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+        this.aggregationSubscription = ConnectionConsumer.subscriptionWildcardRandom();
 
         try {
             // Register for pub-sub of all parameters
-            super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(this.subscription, new DataReceivedParameterAdapter());
+            super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(this.parameterSubscription, new DataReceivedParameterAdapter());
         } catch (MALInteractionException ex) {
-            Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            // Register for pub-sub of all aggregations
+            super.getMCServices().getAggregationService().getAggregationStub().monitorValueRegister(this.aggregationSubscription, new DataReceivedAggregationAdapter());
+        } catch (MALInteractionException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -286,7 +355,7 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
                             rawValue = HelperAttributes.serialObject2blobAttribute(objects[i]);
                             argDef.setRawType(HelperAttributes.SERIAL_OBJECT_RAW_TYPE);
                         } catch (IOException ex) {
-                            Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+                            logger.log(Level.SEVERE, null, ex);
                             return;
                         }
                     }
@@ -336,7 +405,7 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
                         rawValue = HelperAttributes.serialObject2blobAttribute(objects[i]);
                         argValue.setValue(rawValue);
                     } catch (IOException ex) {
-                        Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        logger.log(Level.SEVERE, null, ex);
                         return;
                     }
                 }
@@ -356,9 +425,9 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
 
             // Todo: This will not work because we need to do the trick of the actions...
         } catch (MALInteractionException ex) {
-            Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
 
     }
@@ -369,33 +438,65 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
      */
     public void closeConnections() {
         // Unregister the consumer from the broker
-        if (this.subscription != null) {
+        if (this.parameterSubscription != null) {
             try {
                 IdentifierList idList = new IdentifierList();
-                idList.add(this.subscription.getSubscriptionId());
+                idList.add(this.parameterSubscription.getSubscriptionId());
 
                 /*
                 try {
                 super.getMCServices().getParameterService().getParameterStub().monitorValueDeregister(idList);
-                this.subscription = null;
+                this.parameterSubscription = null;
                 } catch (MALInteractionException ex) {
-                Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+                logger.log(Level.SEVERE, null, ex);
                 } catch (MALException ex) {
-                Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+                logger.log(Level.SEVERE, null, ex);
                 }
                  */
                 super.getMCServices().getParameterService().getParameterStub().asyncMonitorValueDeregister(idList, new ParameterAdapter() {
                     @Override
                     public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                        subscription = null;
+                        parameterSubscription = null;
                     }
 
                 }
                 );
             } catch (MALInteractionException ex) {
-                Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+                logger.log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
-                Logger.getLogger(GroundMOAdapterImpl.class.getName()).log(Level.SEVERE, null, ex);
+                logger.log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        // Unregister the consumer from the broker
+        if (this.aggregationSubscription != null) {
+            try {
+                IdentifierList idList = new IdentifierList();
+                idList.add(this.aggregationSubscription.getSubscriptionId());
+
+                /*
+                try {
+                super.getMCServices().getAggregationService().getAggregationStub().monitorValueDeregister(idList);
+                this.aggregationSubscription = null;
+                } catch (MALInteractionException ex) {
+                logger.log(Level.SEVERE, null, ex);
+                } catch (MALException ex) {
+                logger.log(Level.SEVERE, null, ex);
+                }
+                 */
+                super.getMCServices().getAggregationService().getAggregationStub().asyncMonitorValueDeregister(idList, new AggregationAdapter() {
+                    @Override
+                    public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        aggregationSubscription = null;
+                    }
+
+                }
+                );
+            } catch (MALInteractionException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                logger.log(Level.SEVERE, null, ex);
             }
 
         }
