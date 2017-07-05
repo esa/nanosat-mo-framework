@@ -62,7 +62,7 @@ public class TCPIPMessageDecoderFactory<O> implements GENIncomingMessageDecoderF
 		public GENIncomingMessageHolder decodeAndCreateMessage()
 				throws MALException {
 			
-			RLOGGER.log(Level.FINEST, "TCPIPMessageDecoder.decodeAndCreateMessage()");
+//			RLOGGER.log(Level.FINEST, "TCPIPMessageDecoder.decodeAndCreateMessage()");
 
 			GENTransport.PacketToString smsg = transport.new PacketToString(null);
 			GENMessage msg = transport.createMessage(packetInfo);

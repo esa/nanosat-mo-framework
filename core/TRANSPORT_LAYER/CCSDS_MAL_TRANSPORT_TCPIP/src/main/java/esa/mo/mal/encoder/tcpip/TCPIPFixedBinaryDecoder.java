@@ -77,7 +77,7 @@ public class TCPIPFixedBinaryDecoder extends FixedBinaryDecoder {
 		// decode presence flag
 		boolean isNotNull = decodeBoolean();
 		
-		RLOGGER.finest("Decoding identifier. Is null: " + !isNotNull);
+//		RLOGGER.finest("Decoding identifier. Is null: " + !isNotNull);
 		
 		// decode one element, or add null if presence flag indicates no element
 		if (isNotNull) {
@@ -126,7 +126,7 @@ public class TCPIPFixedBinaryDecoder extends FixedBinaryDecoder {
 		public String getString() throws MALException {
 			
 			final long len = getUnsignedInt();
-			String logString = "Decode string: length " + len;
+//			String logString = "Decode string: length " + len;
 
 			if (len > Integer.MAX_VALUE) {
 				throw new MALException("Value is too big to decode! Please provide a string with a length lower than INT_MAX");
@@ -137,10 +137,10 @@ public class TCPIPFixedBinaryDecoder extends FixedBinaryDecoder {
 
 				final String s = new String(buf.getBuf(), buf.getOffset(), (int) len, UTF8_CHARSET);
 				buf.shiftOffsetAndReturnPrevious((int)len);
-				logString += " val " + s;
+//				logString += " val " + s;
 				return s;
 			}
-			RLOGGER.log(Level.FINEST, logString);
+//			RLOGGER.log(Level.FINEST, logString);
 			
 			return null;
 		}

@@ -51,11 +51,6 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 	 */
 	public static final java.util.logging.Logger RLOGGER = Logger .getLogger("org.ccsds.moims.mo.mal.encoding.tcpip");
 	
-        /**
-         * Map of cachedRoutingParts. This associates a URI to its root URI.
-         */
-        private final ConcurrentHashMap<URI, String> cachedLocalNamePart = new ConcurrentHashMap<URI, String>();
-  
 	public TCPIPFixedBinaryElementOutputStream(OutputStream os) {
 		super(os);
 	}
@@ -77,8 +72,6 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 	@Override
 	public void writeElement(final Object element, final MALEncodingContext ctx)
 			throws MALException {
-		RLOGGER.log(Level.FINEST, "TCPIPHeaderElementOutputStream.writeElement(Object, MALEncodingContext)");	
-		
 		if (enc == null) {
 			enc = createEncoder(this.dos);
 		}
@@ -210,7 +203,7 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 	 * @param uri
 	 * @return
 	 */
-	private String getLocalNamePart(URI uri) {
+	private static String getLocalNamePart(final URI uri) {
 		
 		if (uri == null) {
 			return "";
@@ -224,25 +217,5 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 		} else {
 			return "";
 		}
-                
-                /*
-                String localNamePart = cachedLocalNamePart.get(uri);
-
-                if(localNamePart == null) {
-                        char serviceDelim = TCPIPTransportFactoryImpl.SERVICE_DELIMITER;
-
-                        int idx = uri.toString().lastIndexOf(serviceDelim);
-                        if (uri.toString().length() > idx) {
-                                localNamePart = uri.toString().substring(idx + 1);
-                        } else {
-                                localNamePart = "";
-                        }
-                        
-                        cachedLocalNamePart.put(uri, localNamePart);
-                }
-                
-                return localNamePart;
-                */
-                
 	}
 }

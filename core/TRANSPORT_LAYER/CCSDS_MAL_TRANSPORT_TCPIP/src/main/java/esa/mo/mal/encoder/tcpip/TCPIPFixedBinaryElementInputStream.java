@@ -101,7 +101,7 @@ public class TCPIPFixedBinaryElementInputStream extends BinaryElementInputStream
 		header.setSession(SessionType.fromOrdinal(parts & 0xF));
 		Long transactionId = ((TCPIPFixedBinaryDecoder)dec).decodeMALLong();
 		header.setTransactionId(transactionId);
-		RLOGGER.log(Level.FINEST, "QOS DECODING: qos=" + header.getQoSlevel().getOrdinal() + " parts=" + parts);
+//		RLOGGER.log(Level.FINEST, "QOS DECODING: qos=" + header.getQoSlevel().getOrdinal() + " parts=" + parts);
 		
 		short flags = dec.decodeUOctet().getValue(); // flags
 		boolean sourceIdFlag = (((flags & 0x80) >> 7) == 0x1);
@@ -157,13 +157,15 @@ public class TCPIPFixedBinaryElementInputStream extends BinaryElementInputStream
 		header.decodedHeaderBytes = ((TCPIPFixedBinaryDecoder)dec).getBufferOffset();
 
 		// debug information
+                /*
 		RLOGGER.log(Level.FINEST, "Decoded header:");
 		RLOGGER.log(Level.FINEST, "---------------------------------------");
 		RLOGGER.log(Level.FINEST, element.toString());
 		RLOGGER.log(Level.FINEST, "Decoded header bytes:");
 		RLOGGER.log(Level.FINEST, header.decodedHeaderBytes + "");
 		RLOGGER.log(Level.FINEST, "---------------------------------------");		
-
+                */
+                
 		return header;
 	}
 	

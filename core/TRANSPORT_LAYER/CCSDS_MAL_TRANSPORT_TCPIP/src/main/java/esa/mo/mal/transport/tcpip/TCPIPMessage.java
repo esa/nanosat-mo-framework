@@ -78,47 +78,25 @@ public class TCPIPMessage extends GENMessage {
         public void encodeMessage(final MALElementStreamFactory bodyStreamFactory,
 			final OutputStream lowLevelOutputStream)
 			throws MALException {
-		
 		// encode header and body using TCPIPEncoder class
 		ByteArrayOutputStream hdrBaos = new ByteArrayOutputStream();
 		ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
-		MALElementOutputStream headerEncoder = newHeaderStreamFactory.createOutputStream(hdrBaos);
 		MALElementOutputStream bodyEncoder = bodyStreamFactory.createOutputStream(bodyBaos);
 
-		super.encodeMessage(newHeaderStreamFactory, headerEncoder, hdrBaos, true);
+		super.encodeMessage(newHeaderStreamFactory, newHeaderStreamFactory.createOutputStream(hdrBaos), hdrBaos, true);
 		super.encodeMessage(bodyStreamFactory, bodyEncoder, bodyBaos, false);
 		
-//		int hdrSize = hdrBaos.size();
-		byte[] hdrBuf = hdrBaos.toByteArray();	
-		byte[] bodyBuf = bodyBaos.toByteArray();			
-
-		// overwrite bodysize parameter
-		int totalMessageLength = hdrBaos.size() + bodyBaos.size();
-		int bodySize = totalMessageLength - 23;
+		// overwrite bodysize parameter in the header
+		byte[] hdrBuf = hdrBaos.toByteArray();
 		ByteBuffer b = ByteBuffer.allocate(4);
 		b.order(ByteOrder.BIG_ENDIAN);
-		b.putInt(bodySize);
-		byte[] bodySizeBuf = b.array();
-		
-		System.arraycopy(bodySizeBuf, 0, hdrBuf, 19, 4);
-		
-                /* For debug, if necessary
-		StringBuilder sb = new StringBuilder();		
-		sb.append("\nHeader: sz=" + hdrBuf.length + " contents=\n");
-		for (byte b2 : hdrBuf) {
-			sb.append(Integer.toString(b2 & 0xFF, 10) + " ");
-		}
-		sb.append("\nBody: sz=" + bodyBuf.length + " contents=\n");
-		for (byte b2 : bodyBuf) {
-			sb.append(Integer.toString(b2 & 0xFF, 10) + " ");
-		}
-		RLOGGER.log(Level.FINEST, sb.toString());
-                */
+                b.putInt(hdrBaos.size() + bodyBaos.size() - 23);
+		System.arraycopy(b.array(), 0, hdrBuf, 19, 4);
 
-		try {
+                try {
 			lowLevelOutputStream.write(hdrBuf);
-			if (this.getBody() != null) { 
-				lowLevelOutputStream.write(bodyBuf);
+			if (this.getBody() != null) {
+				lowLevelOutputStream.write(bodyBaos.toByteArray());
 			}
 		} catch (IOException e) {
 			RLOGGER.warning("An IOException was thrown during message encoding! " + e.getMessage());
