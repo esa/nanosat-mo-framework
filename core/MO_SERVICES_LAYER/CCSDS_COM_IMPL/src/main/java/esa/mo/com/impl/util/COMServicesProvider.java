@@ -45,12 +45,19 @@ public class COMServicesProvider {
         archiveService = new ArchiveProviderServiceImpl();
         activityTrackingService = new ActivityTrackingProviderServiceImpl();
 
+        /*
         // Initialize the Event service (without an Archive)
         eventService.init(null);
 
         // Initialize the Archive service
         archiveService.init(eventService);
+        */
+        // Initialize the Archive service
+        archiveService.init(null);
 
+        // Initialize the Event service (without an Archive)
+        eventService.init(archiveService);        
+        
         // Set the Archive service in the Event service
         eventService.setArchiveService(archiveService);
 

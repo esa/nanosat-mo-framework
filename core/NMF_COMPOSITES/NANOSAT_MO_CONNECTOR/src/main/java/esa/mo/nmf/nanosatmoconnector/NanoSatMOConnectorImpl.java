@@ -105,6 +105,14 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();
 
+        try {
+            comServices.init();
+        } catch (MALException ex) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
+                    "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
+            return;
+        }
+        
         // Create provider name to be registerd on the Directory service...
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME
                 + System.getProperty(HelperMisc.MO_APP_NAME);
@@ -206,8 +214,8 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
 
         // Initialize the MO services
         try {
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.FINE, "Initializing services...");
-            comServices.init();
+//            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.FINE, "Initializing services...");
+//            comServices.init();
             heartbeatService.init();
             this.startMCServices(mcAdapter);
 
