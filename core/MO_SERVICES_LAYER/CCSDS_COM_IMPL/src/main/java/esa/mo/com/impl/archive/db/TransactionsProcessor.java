@@ -38,7 +38,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
+import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.eclipse.persistence.internal.expressions.SQLStatement;
+import org.eclipse.persistence.internal.jpa.EJBQueryImpl;
+import org.eclipse.persistence.jpa.JpaQuery;
 
 /**
  *
@@ -67,29 +72,8 @@ public class TransactionsProcessor {
         this.sequencialStoring = new AtomicBoolean(false);
     }
 
-    /*
-    private class GetCOMObjectCallable implements Callable {
-
-        private final COMObjectEntityPK id;
-
-        public GetCOMObjectCallable(final COMObjectEntityPK id) {
-            this.id = id;
-        }
-
-        @Override
-        public COMObjectEntity call() {
-            dbBackend.createEntityManager();
-            final COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY, id);
-            dbBackend.closeEntityManager();
-
-            return perObj;
-        }
-    }
-     */
     public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-//        final GetCOMObjectCallable task = new GetCOMObjectCallable(COMObjectEntity.generatePK(objTypeId, domain, objId));
-//        Future<COMObjectEntity> future = dbInteractionsExecutor.submit(task);
 
         Future<COMObjectEntity> future = dbInteractionsExecutor.submit(new Callable() {
             @Override
@@ -113,35 +97,8 @@ public class TransactionsProcessor {
         return null;
     }
 
-    /*
-    private class GetAllCOMObjectsCallable implements Callable {
-
-        private final Integer objTypeId;
-        private final Integer domainId;
-
-        public GetAllCOMObjectsCallable(final Integer objTypeId, final Integer domainId) {
-            this.objTypeId = objTypeId;
-            this.domainId = domainId;
-        }
-
-        @Override
-        public LongList call() {
-            dbBackend.createEntityManager();
-            Query query = dbBackend.getEM().createQuery(QUERY_SELECT_ALL);
-            query.setParameter("objectTypeId", objTypeId);
-            query.setParameter("domainId", domainId);
-            LongList objIds = new LongList();
-            objIds.addAll(query.getResultList());
-            dbBackend.closeEntityManager();
-
-            return objIds;
-        }
-    }
-     */
     public LongList getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-//        final GetAllCOMObjectsCallable task = new GetAllCOMObjectsCallable(objTypeId, domainId);
-//        Future<LongList> future = dbInteractionsExecutor.submit(task);
 
         Future<LongList> future = dbInteractionsExecutor.submit(new Callable() {
             @Override
@@ -168,43 +125,6 @@ public class TransactionsProcessor {
 
         return null;
     }
-
-    /*
-    private class InsertCOMObjectRunnable implements Runnable {
-
-        private final Runnable publishEvents;
-
-        public InsertCOMObjectRunnable(final Runnable publishEvents) {
-            this.publishEvents = publishEvents;
-        }
-
-        @Override
-        public void run() {
-            StoreCOMObjectsContainer container = storeQueue.poll();
-
-            if (container != null) {
-                dbBackend.createEntityManager();  // 0.166 ms
-                dbBackend.getEM().getTransaction().begin(); // 0.480 ms
-                persistObjects(container.getPerObjs()); // store
-
-                while (true) {
-                    container = storeQueue.peek(); // get next if there is one available
-                    if (container != null && container.isContinuous()) {
-                        container = storeQueue.poll();
-                        persistObjects(container.getPerObjs()); // store
-                    } else {
-                        break;
-                    }
-                }
-
-                dbBackend.safeCommit();
-                dbBackend.closeEntityManager(); // 0.410 ms
-            }
-
-            publishEventsExecutor.submit(publishEvents);
-        }
-    }
-     */
 
     private void persistObjects(final ArrayList<COMObjectEntity> perObjs) {
         for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
@@ -246,10 +166,6 @@ public class TransactionsProcessor {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        /*
-        final InsertCOMObjectRunnable task = new InsertCOMObjectRunnable(publishEvents);
-        dbInteractionsExecutor.execute(task);
-         */
         dbInteractionsExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -279,49 +195,10 @@ public class TransactionsProcessor {
         });
     }
 
-    /*
-    private class RemoveCOMObjectRunnable implements Runnable {
-
-        private final Integer objTypeId;
-        private final Integer domainId;
-        private final LongList objIds;
-        private final Runnable publishEvents;
-
-        public RemoveCOMObjectRunnable(final Integer objTypeId, final Integer domainId,
-                final LongList objIds, final Runnable publishEvents) {
-            this.objTypeId = objTypeId;
-            this.domainId = domainId;
-            this.objIds = objIds;
-            this.publishEvents = publishEvents;
-        }
-
-        @Override
-        public void run() {
-            dbBackend.createEntityManager();  // 0.166 ms
-
-            // Generate the object Ids if needed and the persistence objects to be removed
-            for (int i = 0; i < objIds.size(); i++) {
-                final COMObjectEntityPK id = COMObjectEntity.generatePK(objTypeId, domainId, objIds.get(i));
-                COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY, id);
-                dbBackend.getEM().getTransaction().begin();
-                dbBackend.getEM().remove(perObj);
-                dbBackend.getEM().getTransaction().commit();
-            }
-
-            dbBackend.closeEntityManager(); // 0.410 ms
-
-            publishEventsExecutor.submit(publishEvents);
-        }
-    }
-     */
     public void remove(final Integer objTypeId, final Integer domainId,
             final LongList objIds, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        /*
-        final RemoveCOMObjectRunnable task = new RemoveCOMObjectRunnable(
-                objTypeId, domainId, objIds, publishEvents);
-        dbInteractionsExecutor.execute(task);
-         */
+
         dbInteractionsExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -343,48 +220,8 @@ public class TransactionsProcessor {
         });
     }
 
-    /*
-    private class UpdateCOMObjectRunnable implements Runnable {
-
-        private final ArrayList<COMObjectEntity> newObjs;
-        private final Runnable publishEvents;
-
-        public UpdateCOMObjectRunnable(final ArrayList<COMObjectEntity> newObjs,
-                final Runnable publishEvents) {
-            this.newObjs = newObjs;
-            this.publishEvents = publishEvents;
-        }
-
-        @Override
-        public void run() {
-            dbBackend.createEntityManager();  // 0.166 ms
-
-            for (int i = 0; i < newObjs.size(); i++) {
-                final COMObjectEntityPK id = newObjs.get(i).getPrimaryKey();
-                COMObjectEntity previousObj = dbBackend.getEM().find(CLASS_ENTITY, id);
-
-                dbBackend.getEM().getTransaction().begin();
-                dbBackend.getEM().remove(previousObj);
-                dbBackend.getEM().getTransaction().commit();
-
-                // Maybe we can replace the 3 lines below with a persistObjects(newObjs) after the for loop
-                dbBackend.getEM().getTransaction().begin();
-                dbBackend.getEM().persist(newObjs.get(i));
-                dbBackend.getEM().getTransaction().commit();
-            }
-
-            dbBackend.closeEntityManager(); // 0.410 ms
-
-            publishEventsExecutor.submit(publishEvents);
-        }
-    }
-     */
     public void update(final ArrayList<COMObjectEntity> newObjs, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        /*
-        final UpdateCOMObjectRunnable task = new UpdateCOMObjectRunnable(newObjs, publishEvents);
-        dbInteractionsExecutor.execute(task);
-         */
 
         dbInteractionsExecutor.execute(new Runnable() {
             @Override
@@ -420,17 +257,19 @@ public class TransactionsProcessor {
         private final Integer providerURIId;
         private final Integer networkId;
         private final SourceLinkContainer sourceLink;
-
+        private final QueryFilter filter;
+        
         public QueryCallable(final Integer objTypeId,
                 final ArchiveQuery archiveQuery, final Integer domainId,
                 final Integer providerURIId, final Integer networkId,
-                final SourceLinkContainer sourceLink) {
+                final SourceLinkContainer sourceLink, final QueryFilter filter) {
             this.objTypeId = objTypeId;
             this.archiveQuery = archiveQuery;
             this.domainId = domainId;
             this.providerURIId = providerURIId;
             this.networkId = networkId;
             this.sourceLink = sourceLink;
+            this.filter = filter;
         }
 
         @Override
@@ -465,6 +304,43 @@ public class TransactionsProcessor {
                     || !sourceContainsWildcard);
 
             // Generate the query string
+            String strPU = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
+                    + "relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
+            String queryString = "SELECT " + strPU + " FROM COMObjectEntity PU ";
+            
+            queryString += (hasSomeDefinedFields) ? "WHERE " : "";
+
+            queryString += (domainContainsWildcard) ? "" : "PU.domainId=" + domainId + " AND ";
+            queryString += (objectTypeContainsWildcard) ? "" : "PU.objectTypeId=" + objTypeId + " AND ";
+            queryString += (relatedContainsWildcard) ? "" : "PU.relatedLink=" + archiveQuery.getRelated() + " AND ";
+            queryString += (startTimeContainsWildcard) ? "" : "PU.timestampArchiveDetails>=" + archiveQuery.getStartTime().getValue() + " AND ";
+            queryString += (endTimeContainsWildcard) ? "" : "PU.timestampArchiveDetails<=" + archiveQuery.getEndTime().getValue() + " AND ";
+            queryString += (providerURIContainsWildcard) ? "" : "PU.providerURI=" + providerURIId + " AND ";
+            queryString += (networkContainsWildcard) ? "" : "PU.network=" + networkId + " AND ";
+
+            if (!sourceContainsWildcard) {
+                queryString += (sourceTypeContainsWildcard) ? "" : "PU.sourceLinkObjectTypeId=" + sourceLink.getObjectTypeId() + " AND ";
+                queryString += (sourceDomainContainsWildcard) ? "" : "PU.sourceLinkDomainId=" + sourceLink.getDomainId() + " AND ";
+                queryString += (sourceObjIdContainsWildcard) ? "" : "PU.sourceLinkObjId=" + sourceLink.getObjId() + " AND ";
+            }
+
+            if (hasSomeDefinedFields) { // 4 because we are removing the "AND " part
+                queryString = queryString.substring(0, queryString.length() - 4);
+            }
+            
+            if (filter != null) {
+                if(filter instanceof PaginationFilter){
+                    PaginationFilter pfilter = (PaginationFilter) filter;
+
+                    // Double check if the filter fields are really not null
+                    if(pfilter.getLimit() != null && pfilter.getOffset() != null){
+                        queryString += " LIMIT " + pfilter.getLimit().getValue() + " OFFSET " + pfilter.getOffset().getValue();
+                    }
+                }
+            }
+            
+            
+            /*
             String queryString = "SELECT PU FROM COMObjectEntity PU ";
             queryString += (hasSomeDefinedFields) ? "WHERE " : "";
 
@@ -485,11 +361,15 @@ public class TransactionsProcessor {
             if (hasSomeDefinedFields) { // 4 because we are removing the "AND " part
                 queryString = queryString.substring(0, queryString.length() - 4);
             }
-
-            ArrayList<COMObjectEntity> perObjs = new ArrayList<COMObjectEntity>();
+            */
+            
 
             dbBackend.createEntityManager();
+/*            
             Query query = dbBackend.getEM().createQuery(queryString); // Make the query
+//            String PU = "objectTypeId, objId, domainId, network, OBJ, providerURI, relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
+//            Query query = dbBackend.getEM().createNativeQuery("SELECT " + PU + " PU FROM COMObjectEntity PU LIMIT 5 OFFSET 1"); // Make the query
+//            Query query = dbBackend.getEM().createNativeQuery("SELECT PU FROM COMObjectEntity PU LIMIT 5 OFFSET 1"); // Make the query
 
             if (!objectTypeContainsWildcard) {
                 query.setParameter("objectTypeId", objTypeId);
@@ -530,6 +410,13 @@ public class TransactionsProcessor {
             if (!sourceObjIdContainsWildcard) {
                 query.setParameter("sourceLinkObjId", sourceLink.getObjId());
             }
+*/
+            /*
+            if(paginationFilterEnabled){
+                query.setParameter("limit", pfilter.getLimit().getValue());
+                query.setParameter("offset", pfilter.getOffset().getValue());
+            }
+            */
 
             Thread tThread = new Thread(new Runnable() { // Display a message in case the query gets stuck...
                 @Override
@@ -547,11 +434,40 @@ public class TransactionsProcessor {
 
             tThread.start();
 
+            final Query query = dbBackend.getEM().createNativeQuery(queryString);
+           
             // BUG: The code will get stuck on the line below if the database is too big (tested with Derby)
             final List resultList = query.getResultList();
-            tThread.interrupt();
-            perObjs.addAll(resultList);
+
             dbBackend.closeEntityManager();
+            
+            // FYI: SELECT objectTypeId, objId, domainId, network, OBJ, providerURI, relatedLink, 
+            // sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails FROM COMObjectEntity
+            ArrayList<COMObjectEntity> perObjs = new ArrayList<COMObjectEntity>(resultList.size());
+            
+            for(Object obj: resultList) {
+                // (final Integer objectTypeId, final Integer domainId, final Long objId)
+                final SourceLinkContainer source = new SourceLinkContainer(
+                        (Integer) ((Object[]) obj)[9],
+                        (Integer) ((Object[]) obj)[7],
+                        convert2Long(((Object[]) obj)[8]));
+                
+                COMObjectEntity entity = new COMObjectEntity(
+                    (Integer) ((Object[]) obj)[0],
+                    (Integer) ((Object[]) obj)[2],
+                    convert2Long(((Object[]) obj)[1]),
+                    convert2Long(((Object[]) obj)[10]),
+                    (Integer) ((Object[]) obj)[5],
+                    (Integer) ((Object[]) obj)[3],
+                    source,
+                    convert2Long(((Object[]) obj)[6]),
+                    (byte[]) ((Object[]) obj)[4]
+                );
+                
+                perObjs.add(entity);
+            }
+                        
+            tThread.interrupt();
 
             return perObjs;
         }
@@ -560,10 +476,10 @@ public class TransactionsProcessor {
     public ArrayList<COMObjectEntity> query(final Integer objTypeId,
             final ArchiveQuery archiveQuery, final Integer domainId,
             final Integer providerURIId, final Integer networkId,
-            final SourceLinkContainer sourceLink) {
+            final SourceLinkContainer sourceLink, final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final QueryCallable task = new QueryCallable(objTypeId, archiveQuery,
-                domainId, providerURIId, networkId, sourceLink);
+                domainId, providerURIId, networkId, sourceLink, filter);
 
         Future<ArrayList<COMObjectEntity>> future = dbInteractionsExecutor.submit(task);
 
@@ -598,8 +514,7 @@ public class TransactionsProcessor {
         Future<Integer> nullValue = dbInteractionsExecutor.submit(task);
 
         try {
-            Integer dummyInt = nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
-//            publishEventsExecutor.shutdown();
+            nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
         } catch (InterruptedException ex) {
             Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
@@ -636,6 +551,22 @@ public class TransactionsProcessor {
             }
             return t;
         }
+    }
+    
+    private static Long convert2Long(final Object obj){
+        if(obj == null){
+            return null;
+        }
+        
+        if (obj instanceof Long){
+            return (Long) obj;
+        }
+
+        if (obj instanceof Integer){
+            return ((Integer) obj).longValue();
+        }
+        
+        return null;
     }
 
 }

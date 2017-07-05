@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSet;
+import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilterList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
@@ -260,30 +261,34 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         ArchiveQuery tmpArchiveQuery;
-        CompositeFilterSet tmpQueryFilter;
+        QueryFilter tmpQueryFilter = null;
         final int sizeArchiveQueryList = lArchiveQueryList.size();
 
         // Go through all the archiveQueries, one by one
         for (int index = 0; index < sizeArchiveQueryList; index++) { // requirement: 3.4.4.2.6
             tmpArchiveQuery = lArchiveQueryList.get(index);
             ArrayList<ArchivePersistenceObject> perObjs;
+            
+            if (queryFilterList != null) {
+                tmpQueryFilter = (QueryFilter) queryFilterList.get(index);
+            }
 
             // Query the objects
             // requirement: 3.4.4.2.11 (taken care internally)
-            perObjs = manager.query(lObjectType, tmpArchiveQuery); // requirement: 3.4.4.2.10
+            perObjs = manager.query(lObjectType, tmpArchiveQuery, tmpQueryFilter); // requirement: 3.4.4.2.10
             // requirement: 3.4.4.2.15
 
             if (queryFilterList != null) { // requirement: 3.4.4.2.8
-                tmpQueryFilter = (CompositeFilterSet) queryFilterList.get(index);
-
-                try {
-                    if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
-                        perObjs = ArchiveManager.filterQuery(perObjs, tmpQueryFilter);  // requirement: 3.4.4.2.10
+                if(tmpQueryFilter instanceof CompositeFilterSet){
+                    try {
+                        if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
+                            perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
+                        }
+                    } catch (SecurityException ex) {
+                        invIndexList.add(new UInteger(index));
+                    } catch (IllegalArgumentException ex) {
+                        invIndexList.add(new UInteger(index));
                     }
-                } catch (SecurityException ex) {
-                    invIndexList.add(new UInteger(index));
-                } catch (IllegalArgumentException ex) {
-                    invIndexList.add(new UInteger(index));
                 }
             }
 
@@ -435,27 +440,31 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         ArchiveQuery tmpArchiveQuery;
-        CompositeFilterSet tmpQueryFilter;
+        QueryFilter tmpQueryFilter = null;
         final int sizeArchiveQueryList = lArchiveQueryList.size();
 
         for (int index = 0; index < sizeArchiveQueryList; index++) { // requirement: 3.4.5.2.3 and 3.4.5.2.4
             tmpArchiveQuery = lArchiveQueryList.get(index);
             ArrayList<ArchivePersistenceObject> perObjs;
 
+            if (queryFilterList != null) {
+                tmpQueryFilter = (QueryFilter) queryFilterList.get(index);
+            }
+
             // Query the objects
-            perObjs = manager.query(lObjectType, tmpArchiveQuery);
+            perObjs = manager.query(lObjectType, tmpArchiveQuery, tmpQueryFilter);
 
             if (queryFilterList != null) {
-                tmpQueryFilter = (CompositeFilterSet) queryFilterList.get(index);
-
-                try {
-                    if (tmpQueryFilter != null) {
-                        perObjs = ArchiveManager.filterQuery(perObjs, tmpQueryFilter);
+                if(tmpQueryFilter instanceof CompositeFilterSet){
+                    try {
+                        if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
+                            perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
+                        }
+                    } catch (SecurityException ex) {
+                        invIndexList.add(new UInteger(index));
+                    } catch (IllegalArgumentException ex) {
+                        invIndexList.add(new UInteger(index));
                     }
-                } catch (SecurityException ex) {
-                    invIndexList.add(new UInteger(index));
-                } catch (IllegalArgumentException ex) {
-                    invIndexList.add(new UInteger(index));
                 }
             }
 

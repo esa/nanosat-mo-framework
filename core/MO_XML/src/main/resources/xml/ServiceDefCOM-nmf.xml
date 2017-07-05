@@ -350,11 +350,11 @@ If the MAL data type specification is being used the body of an object shall not
           <mal:extends>
             <mal:type area="COM" list="false" name="QueryFilter" service="Archive"/>
           </mal:extends>
-        <mal:field canBeNull="true" comment="The limit for the page." name="limit">
-            <mal:type area="MAL" list="false" name="String"/>
+        <mal:field canBeNull="false" comment="The limit for the page." name="limit">
+          <mal:type area="MAL" list="false" name="UInteger"/>
           </mal:field>
-          <mal:field canBeNull="true" comment="The offset for the page." name="offset">
-            <mal:type area="MAL" list="false" name="String"/>
+          <mal:field canBeNull="false" comment="The offset for the page." name="offset">
+          <mal:type area="MAL" list="false" name="UInteger"/>
           </mal:field>
         </mal:composite>
       </mal:dataTypes>

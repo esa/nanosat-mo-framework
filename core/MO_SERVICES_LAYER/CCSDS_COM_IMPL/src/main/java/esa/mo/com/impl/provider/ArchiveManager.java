@@ -45,6 +45,7 @@ import org.ccsds.moims.mo.com.archive.structures.CompositeFilter;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterList;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSet;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
+import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
@@ -120,21 +121,8 @@ public class ArchiveManager {
         this.eventService = eventService;
     }
 
-    /*
-    private class WaitUntillAllFlushedRunnable implements Callable {
-
-        @Override
-        public Integer call() {
-            dbBackend.createEntityManager();
-            dbBackend.closeEntityManager();
-            return null;
-        }
-    }
-     */
     void close() {
         // Forces the code to wait until all the stores are flushed
-//        this.dbProcessor.stopInteractions(new WaitUntillAllFlushedRunnable());
-
         this.dbProcessor.stopInteractions(new Callable() {
             @Override
             public Integer call() {
@@ -358,7 +346,8 @@ public class ArchiveManager {
         return objIds;
     }
 
-    protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType, final ArchiveQuery archiveQuery) {
+    protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType, 
+            final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final Integer objTypeId = (ArchiveManager.objectTypeContainsWildcard(objType)) ? 0 : this.fastObjectType.getObjectTypeId(objType);
         boolean domainContainsWildcard = HelperCOM.domainContainsWildcard(archiveQuery.getDomain());
         Integer domainId = (!domainContainsWildcard) ? this.fastDomain.getDomainId(archiveQuery.getDomain()) : null;
@@ -366,7 +355,8 @@ public class ArchiveManager {
         Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
         SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
-        ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objTypeId, archiveQuery, domainId, providerURIId, networkId, sourceLink);
+        ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objTypeId, 
+                archiveQuery, domainId, providerURIId, networkId, sourceLink, filter);
 
         // Add domain filtering by subpart
         if (archiveQuery.getDomain() != null) {
@@ -669,8 +659,6 @@ public class ArchiveManager {
 
     private Runnable generatePublishEventsThread(final ObjectType comObject, final ObjectType objType,
             final IdentifierList domain, final LongList objIds, final MALInteraction interaction) {
-//        return new COMEventFromArchiveRunnable(comObject, objType, domain, objIds, interaction);
-
         return new Runnable() {
             @Override
             public void run() {
@@ -682,31 +670,4 @@ public class ArchiveManager {
         };
     }
 
-    /*
-    private class COMEventFromArchiveRunnable implements Runnable {
-
-        private final ObjectType comObject;
-        private final ObjectType objType;
-        private final IdentifierList domain;
-        private final LongList objIds;
-        private final MALInteraction interaction;
-
-        public COMEventFromArchiveRunnable(final ObjectType comObject, final ObjectType objType,
-                final IdentifierList domain, final LongList objIds, final MALInteraction interaction) {
-            this.comObject = comObject;
-            this.objType = objType;
-            this.domain = domain;
-            this.objIds = objIds;
-            this.interaction = interaction;
-        }
-
-        @Override
-        public void run() {
-            // Generate and Publish the Events - requirement: 3.4.2.1
-            generateAndPublishEvents(comObject,
-                    ArchiveManager.generateSources(objType, domain, objIds),
-                    interaction);
-        }
-    }
-     */
 }

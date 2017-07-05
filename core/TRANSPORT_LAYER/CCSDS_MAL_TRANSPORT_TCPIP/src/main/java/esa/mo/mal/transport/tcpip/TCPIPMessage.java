@@ -47,7 +47,7 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
  */
 public class TCPIPMessage extends GENMessage {
     
-        private MALElementStreamFactory newHeaderStreamFactory = new TCPIPFixedBinaryStreamFactory();  // Header must be always Fixed Binary
+        private final MALElementStreamFactory newHeaderStreamFactory = new TCPIPFixedBinaryStreamFactory();  // Header must be always Fixed Binary
 
         public TCPIPMessage(boolean wrapBodyParts,
 			GENMessageHeader header, Map qosProperties, byte[] packet,

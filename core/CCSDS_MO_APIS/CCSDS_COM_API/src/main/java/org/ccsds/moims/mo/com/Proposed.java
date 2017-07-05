@@ -1,10 +1,10 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2016      European Space Agency
+ * Copyright (C) 2015      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
- * System                : ESA NanoSat MO Framework
+ * System                : CCSDS MO COM Java API
  * ----------------------------------------------------------------------------
  * Licensed under the European Space Agency Public License, Version 2.0
  * You may not use this file except in compliance with the License.
@@ -18,33 +18,11 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.archive.db;
+package org.ccsds.moims.mo.com;
 
 /**
- *
- * @author Cesar Coelho
+ * Simple java annotation to mark a feature as proposed for the MO Java APIs but not part of the published standard.s
  */
-public class SourceLinkContainer {
-
-    private final Integer objectTypeId;
-    private final Integer domainId;
-    private final Long objId;
-
-    public SourceLinkContainer(final Integer objectTypeId, final Integer domainId, final Long objId) {
-        this.objectTypeId = objectTypeId;
-        this.domainId = domainId;
-        this.objId = objId;
-    }
-
-    public Integer getObjectTypeId() {
-        return objectTypeId;
-    }
-
-    public Integer getDomainId() {
-        return domainId;
-    }
-
-    public Long getObjId() {
-        return objId;
-    }
+public @interface Proposed
+{
 }

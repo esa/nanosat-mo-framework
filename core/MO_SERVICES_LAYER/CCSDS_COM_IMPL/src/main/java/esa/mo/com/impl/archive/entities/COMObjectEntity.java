@@ -140,6 +140,32 @@ public class COMObjectEntity implements Serializable {
         }
     }
 
+    public COMObjectEntity(
+            Integer objectTypeId,
+            Integer domain,
+            Long objId,
+            Long timestampArchiveDetails,
+            Integer providerURI,
+            Integer network,
+            SourceLinkContainer sourceLink,
+            Long relatedLink,
+            byte[] object) {
+        this.objectTypeId = objectTypeId;
+        this.domainId = domain;
+        this.objId = objId;
+
+        this.timestampArchiveDetails = timestampArchiveDetails;
+        this.providerURI = providerURI;
+        this.network = network;
+        this.relatedLink = relatedLink;
+
+        this.sourceLinkObjectTypeId = sourceLink.getObjectTypeId();
+        this.sourceLinkDomainId = sourceLink.getDomainId();
+        this.sourceLinkObjId = sourceLink.getObjId();
+
+        this.obj = object;
+    }
+    
     public static COMObjectEntityPK generatePK(final Integer objectTypeId, final Integer domain, final Long objId) {
         return new COMObjectEntityPK(objectTypeId, domain, objId);
     }
@@ -217,5 +243,5 @@ public class COMObjectEntity implements Serializable {
         return "COM Object: this.objectTypeId=" + this.objectTypeId
                 + ", this.domainId=" + this.domainId + ", this.objId=" + this.objId;
     }
-
+    
 }
