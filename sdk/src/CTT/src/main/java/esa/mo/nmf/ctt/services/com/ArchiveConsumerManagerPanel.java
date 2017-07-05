@@ -53,6 +53,8 @@ import org.ccsds.moims.mo.com.archive.structures.CompositeFilterList;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSet;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSetList;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
+import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
+import org.ccsds.moims.mo.com.archive.structures.PaginationFilterList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -70,8 +72,6 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
@@ -90,8 +90,6 @@ import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetailsList;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetailsList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 
 /**
  *
@@ -539,7 +537,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             }
         });
 
-        jButtonStoreActions.setText("Quick Store (Actions)");
+        jButtonStoreActions.setText("Query with 'Pages'");
         jButtonStoreActions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonStoreActionsActionPerformed(evt);
@@ -955,7 +953,51 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonStoreConversionsActionPerformed
 
     private void jButtonStoreActionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreActionsActionPerformed
+        ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter("Query with 'Pages'");
 
+        UShort shorty = new UShort(0);
+        UOctet octety = new UOctet((short) 0);
+        ObjectType objType = new ObjectType(shorty, shorty, octety, shorty);
+
+        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+        ArchiveQuery archiveQuery = new ArchiveQuery();
+
+        archiveQuery.setDomain(null);
+        archiveQuery.setNetwork(null);
+        archiveQuery.setProvider(null);
+        archiveQuery.setRelated(new Long(0));
+        archiveQuery.setSource(null);
+        archiveQuery.setStartTime(null);
+        archiveQuery.setEndTime(null);
+        archiveQuery.setSortFieldName(null);
+        archiveQuery.setSortFieldName(null);
+
+        archiveQueryList.add(archiveQuery);
+        
+        PaginationFilter filter = new PaginationFilter();
+        filter.setLimit(new UInteger(5));
+        filter.setOffset(new UInteger(1));
+
+        MOWindow genObjType = new MOWindow(filter, true);
+        try {
+            filter = (PaginationFilter) genObjType.getObject();
+        } catch (InterruptedIOException ex) {
+            return;
+        }
+        
+        PaginationFilterList list = new PaginationFilterList();
+        list.add(filter);
+
+        try {
+            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, list, adapter);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+        /*
         // Object Type
         ObjectType objType = new ObjectType(new UShort(4), new UShort(1), new UOctet((short) 1), new UShort(1));
 
@@ -1019,6 +1061,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
 
     }//GEN-LAST:event_jButtonStoreActionsActionPerformed
 
