@@ -41,9 +41,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.eclipse.persistence.internal.expressions.SQLStatement;
-import org.eclipse.persistence.internal.jpa.EJBQueryImpl;
-import org.eclipse.persistence.jpa.JpaQuery;
 
 /**
  *
@@ -70,6 +67,13 @@ public class TransactionsProcessor {
         this.dbBackend = dbBackend;
         this.storeQueue = new LinkedBlockingQueue<StoreCOMObjectsContainer>();
         this.sequencialStoring = new AtomicBoolean(false);
+    }
+    
+    public void submitExternalTask(final Runnable task){
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+        
+        // Abuse the Events executor for this...
+        publishEventsExecutor.execute(task);
     }
 
     public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {

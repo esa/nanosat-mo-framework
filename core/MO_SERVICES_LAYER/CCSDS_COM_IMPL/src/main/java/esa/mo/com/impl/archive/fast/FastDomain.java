@@ -59,7 +59,7 @@ public class FastDomain {
         dbBackend.getEM().getTransaction().commit();
     }
 
-    public void init() {
+    public synchronized void init() {
         // Retrieve all the ids and domains from the Database
         dbBackend.createEntityManager();
 

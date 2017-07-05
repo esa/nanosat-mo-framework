@@ -62,7 +62,7 @@ public class FastObjectType {
         dbBackend.getEM().getTransaction().commit();
     }
 
-    public void init() {
+    public synchronized void init() {
         // Retrieve all the ids and objectTypes from the Database
         dbBackend.createEntityManager();
 

@@ -109,12 +109,28 @@ public class ArchiveManager {
         this.fastObjectType = new FastObjectType(dbBackend);
     }
 
-    public void init() {
-        this.dbBackend.startBackendDatabase();
-        this.fastDomain.init();
-        this.fastNetwork.init();
-        this.fastProviderURI.init();
-        this.fastObjectType.init();
+    public synchronized void init() {
+        this.dbBackend.startBackendDatabase(this.dbProcessor);
+        final ArchiveManager manager = this;
+
+        this.dbProcessor.submitExternalTask(new Runnable() {
+            @Override
+            public void run() {
+                synchronized(manager){
+                    fastDomain.init();
+                    fastNetwork.init();
+                    fastProviderURI.init();
+                    fastObjectType.init();
+                }
+            }
+        });
+
+            /*
+            fastDomain.init();
+            fastNetwork.init();
+            fastProviderURI.init();
+            fastObjectType.init();
+            */   
     }
 
     protected void setEventService(EventProviderServiceImpl eventService) {

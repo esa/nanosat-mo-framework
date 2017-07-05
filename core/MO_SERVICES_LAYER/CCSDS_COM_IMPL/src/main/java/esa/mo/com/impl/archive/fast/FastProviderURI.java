@@ -61,7 +61,7 @@ public class FastProviderURI {
         dbBackend.getEM().getTransaction().commit();
     }
 
-    public void init() {
+    public synchronized void init() {
         // Retrieve all the ids and providerURIs from the Database
         dbBackend.createEntityManager();
 

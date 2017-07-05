@@ -58,7 +58,7 @@ public class FastNetwork {
         dbBackend.getEM().getTransaction().commit();
     }
 
-    public void init() {
+    public synchronized void init() {
         // Retrieve all the ids and networks from the Database
         dbBackend.createEntityManager();
 

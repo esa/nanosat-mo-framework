@@ -67,7 +67,27 @@ public class DatabaseBackend {
         return emAvailability;
     }
 
-    public void startBackendDatabase() {
+    public void startBackendDatabase(final TransactionsProcessor dbProcessor) {
+                try {
+                    emAvailability.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+        dbProcessor.submitExternalTask(new Runnable() {
+            @Override
+            public void run() {
+        
+                startServer();
+                createEMFactory();
+                emAvailability.release();
+
+                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
+                        "The database was initialized and the Archive service is ready!");
+            }
+        });
+
+        /*
         final Semaphore sem = new Semaphore(0);
 
         final Thread startDatabase = new Thread() {
@@ -99,6 +119,7 @@ public class DatabaseBackend {
         } catch (InterruptedException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
 
     private void startServer() {
