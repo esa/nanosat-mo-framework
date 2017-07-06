@@ -23,12 +23,12 @@
         <relativePath/>
     </parent>
   
-    <artifactId>NMF_PACKAGER</artifactId>
+    <artifactId>NMF_PACKAGE_IMPL</artifactId>
     <packaging>jar</packaging>
     <version>0.1.1-SNAPSHOT</version>
 
-    <name>NMF Packager</name>
-    <description>The Packager of the NanoSat MO Framework</description>
+    <name>NMF Package Implementation</name>
+    <description>The package implementation of the NanoSat MO Framework</description>
     <url>http://www.esa.int</url>
   
     <organization>
