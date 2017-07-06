@@ -238,7 +238,7 @@
             <!-- Sweeteners -->
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>NMF_PACKAGER</artifactId>
+                <artifactId>NMF_PACKAGE_IMPL</artifactId>
                 <version>${esa.nmf.packager.version}</version>
             </dependency>
 
