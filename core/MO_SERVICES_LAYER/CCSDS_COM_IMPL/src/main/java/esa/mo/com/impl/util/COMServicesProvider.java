@@ -31,8 +31,8 @@ import org.ccsds.moims.mo.mal.MALException;
  */
 public class COMServicesProvider {
 
+    private ArchiveProviderServiceImpl archiveService = new ArchiveProviderServiceImpl();
     private EventProviderServiceImpl eventService;
-    private ArchiveProviderServiceImpl archiveService;
     private ActivityTrackingProviderServiceImpl activityTrackingService;
 
     /**
@@ -41,8 +41,8 @@ public class COMServicesProvider {
      * @throws org.ccsds.moims.mo.mal.MALException
      */
     public void init() throws MALException {
+//        archiveService = new ArchiveProviderServiceImpl();
         eventService = new EventProviderServiceImpl();
-        archiveService = new ArchiveProviderServiceImpl();
         activityTrackingService = new ActivityTrackingProviderServiceImpl();
 
         /*

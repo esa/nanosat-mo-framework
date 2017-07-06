@@ -107,10 +107,10 @@ public class ArchiveManager {
         this.fastProviderURI = new FastProviderURI(dbBackend);
         this.fastObjId = new FastObjId(dbBackend);
         this.fastObjectType = new FastObjectType(dbBackend);
+        this.dbBackend.startBackendDatabase(this.dbProcessor);
     }
 
     public synchronized void init() {
-        this.dbBackend.startBackendDatabase(this.dbProcessor);
         final ArchiveManager manager = this;
 
         this.dbProcessor.submitExternalTask(new Runnable() {
