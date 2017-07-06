@@ -64,7 +64,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     private final Object lock = new Object();
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final Timer timer = new Timer("HeartbeatThread");
+    private Timer timer;
     protected long period = 10000; // 10 seconds
 
     /**
@@ -111,6 +111,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
         Logger.getLogger(HeartbeatProviderServiceImpl.class.getName()).info("Heartbeat service READY");
 
         // Start the timer to publish the heartbeat
+        timer = new Timer("HeartbeatThread");
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

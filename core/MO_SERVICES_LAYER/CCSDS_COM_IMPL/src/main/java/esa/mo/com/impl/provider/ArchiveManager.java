@@ -113,7 +113,7 @@ public class ArchiveManager {
     public synchronized void init() {
         final ArchiveManager manager = this;
 
-        this.dbProcessor.submitExternalTask(new Runnable() {
+        this.dbProcessor.submitExternalTask2(new Runnable() {
             @Override
             public void run() {
                 synchronized(manager){

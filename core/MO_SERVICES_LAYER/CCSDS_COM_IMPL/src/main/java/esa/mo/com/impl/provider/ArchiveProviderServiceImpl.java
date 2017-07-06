@@ -63,7 +63,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     private MALProvider archiveServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private ArchiveManager manager;
+    private ArchiveManager manager = new ArchiveManager(null);
     private final ConnectionProvider connection = new ConnectionProvider();
 
     /**
@@ -89,7 +89,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
         }
 
-        manager = new ArchiveManager(eventService);
+        manager.setEventService(eventService);
         manager.init();
 
         // shut down old service transport

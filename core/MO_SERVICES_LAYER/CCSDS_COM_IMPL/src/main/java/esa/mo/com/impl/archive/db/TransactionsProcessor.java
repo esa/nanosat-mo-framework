@@ -76,6 +76,12 @@ public class TransactionsProcessor {
         generalExecutor.execute(task);
     }
 
+    public void submitExternalTask2(final Runnable task){
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+        
+        dbTransactionsExecutor.execute(task);
+    }
+    
     public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 

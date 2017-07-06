@@ -43,7 +43,7 @@ public class DatabaseBackend {
     private static final String DROP_TABLE_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.droptable";
     private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
 
-    private final Semaphore emAvailability = new Semaphore(1, true);  // true for fairness, because we want FIFO
+    private final Semaphore emAvailability = new Semaphore(2, true);  // true for fairness, because we want FIFO
     private EntityManagerFactory emf;
     private EntityManager em;
     private Connection serverConnection;
@@ -69,7 +69,7 @@ public class DatabaseBackend {
 
     public void startBackendDatabase(final TransactionsProcessor dbProcessor) {
                 try {
-                    emAvailability.acquire();
+                    emAvailability.acquire(2);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -77,13 +77,21 @@ public class DatabaseBackend {
         dbProcessor.submitExternalTask(new Runnable() {
             @Override
             public void run() {
-        
-                startServer();
                 createEMFactory();
                 emAvailability.release();
 
                 Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
                         "The database was initialized and the Archive service is ready!");
+            }
+        });
+        
+        dbProcessor.submitExternalTask(new Runnable() {
+            @Override
+            public void run() {
+                startServer(url);
+
+                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
+                        "The Database is ready!");
             }
         });
 
@@ -122,7 +130,7 @@ public class DatabaseBackend {
         */
     }
 
-    private void startServer() {
+    private void startServer(String url2) {
 //        System.setProperty("derby.drda.startNetworkServer", "true");
         // Loads a new instance of the database driver
         try {
@@ -139,7 +147,6 @@ public class DatabaseBackend {
 
         // Create unique URL that identifies the driver to use for the connection
 //        String url2 = this.url + ";decryptDatabase=true"; // new
-        String url2 = this.url;
 
         try {
             // Connect to the database
