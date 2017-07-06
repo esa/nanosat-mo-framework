@@ -76,7 +76,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>NMF_PACKAGER</artifactId>
+            <artifactId>NMF_PACKAGE_IMPL</artifactId>
         </dependency>
     </dependencies>
     
