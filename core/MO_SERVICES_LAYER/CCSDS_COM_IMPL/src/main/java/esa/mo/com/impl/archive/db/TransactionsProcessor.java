@@ -55,11 +55,11 @@ public class TransactionsProcessor {
     private final DatabaseBackend dbBackend;
 
     // This executor is responsible for the interactions with the db
-    private final ExecutorService dbInteractionsExecutor = Executors.newSingleThreadExecutor(new DBBackendThreadFactory("COMArchiveBackendProcessor")); // Guarantees sequential order
+    private final ExecutorService dbTransactionsExecutor = Executors.newSingleThreadExecutor(new DBBackendThreadFactory("Archive_DBTransactionsProcessor")); // Guarantees sequential order
 
     // This executor is expecting "short-lived" runnables that generate Events.
     // 2 Threads minimum because we need to acquire the lock from 2 different tasks during startup
-    private final ExecutorService generalExecutor = Executors.newFixedThreadPool(2, new DBBackendThreadFactory("PublishEventsProcessor"));
+    private final ExecutorService generalExecutor = Executors.newFixedThreadPool(2, new DBBackendThreadFactory("Archive_GeneralProcessor"));
     private final AtomicBoolean sequencialStoring;
 
     private final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;
@@ -79,7 +79,7 @@ public class TransactionsProcessor {
     public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-        Future<COMObjectEntity> future = dbInteractionsExecutor.submit(new Callable() {
+        Future<COMObjectEntity> future = dbTransactionsExecutor.submit(new Callable() {
             @Override
             public COMObjectEntity call() {
                 dbBackend.createEntityManager();
@@ -104,7 +104,7 @@ public class TransactionsProcessor {
     public LongList getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-        Future<LongList> future = dbInteractionsExecutor.submit(new Callable() {
+        Future<LongList> future = dbTransactionsExecutor.submit(new Callable() {
             @Override
             public LongList call() {
                 dbBackend.createEntityManager();
@@ -170,7 +170,7 @@ public class TransactionsProcessor {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        dbInteractionsExecutor.execute(new Runnable() {
+        dbTransactionsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 StoreCOMObjectsContainer container = storeQueue.poll();
@@ -203,7 +203,7 @@ public class TransactionsProcessor {
             final LongList objIds, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-        dbInteractionsExecutor.execute(new Runnable() {
+        dbTransactionsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 dbBackend.createEntityManager();  // 0.166 ms
@@ -227,7 +227,7 @@ public class TransactionsProcessor {
     public void update(final ArrayList<COMObjectEntity> newObjs, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-        dbInteractionsExecutor.execute(new Runnable() {
+        dbTransactionsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 dbBackend.createEntityManager();  // 0.166 ms
@@ -485,7 +485,7 @@ public class TransactionsProcessor {
         final QueryCallable task = new QueryCallable(objTypeId, archiveQuery,
                 domainId, providerURIId, networkId, sourceLink, filter);
 
-        Future<ArrayList<COMObjectEntity>> future = dbInteractionsExecutor.submit(task);
+        Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(task);
 
         try {
             return future.get();
@@ -500,7 +500,7 @@ public class TransactionsProcessor {
 
     public void resetMainTable(final Callable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        Future<Integer> nullValue = dbInteractionsExecutor.submit(task);
+        Future<Integer> nullValue = dbTransactionsExecutor.submit(task);
         Logger.getLogger(TransactionsProcessor.class.getName()).info("Reset table submitted!");
 
         try {
@@ -515,7 +515,7 @@ public class TransactionsProcessor {
 
     public void stopInteractions(final Callable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        Future<Integer> nullValue = dbInteractionsExecutor.submit(task);
+        Future<Integer> nullValue = dbTransactionsExecutor.submit(task);
 
         try {
             nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
