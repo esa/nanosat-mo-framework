@@ -57,8 +57,9 @@ public class TransactionsProcessor {
     // This executor is responsible for the interactions with the db
     private final ExecutorService dbInteractionsExecutor = Executors.newSingleThreadExecutor(new DBBackendThreadFactory("COMArchiveBackendProcessor")); // Guarantees sequential order
 
-    // This executor is expecting "short-lived" runnables that generate Events. 2 Threads just for parallelism
-    private final ExecutorService publishEventsExecutor = Executors.newFixedThreadPool(2, new DBBackendThreadFactory("PublishEventsProcessor"));
+    // This executor is expecting "short-lived" runnables that generate Events.
+    // 2 Threads minimum because we need to acquire the lock from 2 different tasks during startup
+    private final ExecutorService generalExecutor = Executors.newFixedThreadPool(2, new DBBackendThreadFactory("PublishEventsProcessor"));
     private final AtomicBoolean sequencialStoring;
 
     private final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;
@@ -72,8 +73,7 @@ public class TransactionsProcessor {
     public void submitExternalTask(final Runnable task){
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         
-        // Abuse the Events executor for this...
-        publishEventsExecutor.execute(task);
+        generalExecutor.execute(task);
     }
 
     public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
@@ -194,7 +194,7 @@ public class TransactionsProcessor {
                     dbBackend.closeEntityManager(); // 0.410 ms
                 }
 
-                publishEventsExecutor.submit(publishEvents);
+                generalExecutor.submit(publishEvents);
             }
         });
     }
@@ -219,7 +219,7 @@ public class TransactionsProcessor {
 
                 dbBackend.closeEntityManager(); // 0.410 ms
 
-                publishEventsExecutor.submit(publishEvents);
+                generalExecutor.submit(publishEvents);
             }
         });
     }
@@ -248,7 +248,7 @@ public class TransactionsProcessor {
 
                 dbBackend.closeEntityManager(); // 0.410 ms
 
-                publishEventsExecutor.submit(publishEvents);
+                generalExecutor.submit(publishEvents);
             }
         });
     }
