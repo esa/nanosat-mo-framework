@@ -47,8 +47,6 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
  */
 public class TCPIPMessage extends GENMessage {
     
-        private final MALElementStreamFactory newHeaderStreamFactory = new TCPIPFixedBinaryStreamFactory();  // Header must be always Fixed Binary
-
         public TCPIPMessage(boolean wrapBodyParts,
 			GENMessageHeader header, Map qosProperties, byte[] packet,
 			MALElementStreamFactory encFactory) throws MALException {
@@ -82,6 +80,7 @@ public class TCPIPMessage extends GENMessage {
 		ByteArrayOutputStream hdrBaos = new ByteArrayOutputStream();
 		ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
 		MALElementOutputStream bodyEncoder = bodyStreamFactory.createOutputStream(bodyBaos);
+                final MALElementStreamFactory newHeaderStreamFactory = new TCPIPFixedBinaryStreamFactory();  // Header must be always Fixed Binary
 
 		super.encodeMessage(newHeaderStreamFactory, newHeaderStreamFactory.createOutputStream(hdrBaos), hdrBaos, true);
 		super.encodeMessage(bodyStreamFactory, bodyEncoder, bodyBaos, false);
