@@ -69,19 +69,19 @@ public class TransactionsProcessor {
         this.storeQueue = new LinkedBlockingQueue<StoreCOMObjectsContainer>();
         this.sequencialStoring = new AtomicBoolean(false);
     }
-    
-    public void submitExternalTask(final Runnable task){
+
+    public void submitExternalTask(final Runnable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        
+
         generalExecutor.execute(task);
     }
 
-    public void submitExternalTask2(final Runnable task){
+    public void submitExternalTask2(final Runnable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        
+
         dbTransactionsExecutor.execute(task);
     }
-    
+
     public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
@@ -268,7 +268,7 @@ public class TransactionsProcessor {
         private final Integer networkId;
         private final SourceLinkContainer sourceLink;
         private final QueryFilter filter;
-        
+
         public QueryCallable(final Integer objTypeId,
                 final ArchiveQuery archiveQuery, final Integer domainId,
                 final Integer providerURIId, final Integer networkId,
@@ -317,7 +317,7 @@ public class TransactionsProcessor {
             String strPU = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
                     + "relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
             String queryString = "SELECT " + strPU + " FROM COMObjectEntity PU ";
-            
+
             queryString += (hasSomeDefinedFields) ? "WHERE " : "";
 
             queryString += (domainContainsWildcard) ? "" : "PU.domainId=" + domainId + " AND ";
@@ -337,147 +337,51 @@ public class TransactionsProcessor {
             if (hasSomeDefinedFields) { // 4 because we are removing the "AND " part
                 queryString = queryString.substring(0, queryString.length() - 4);
             }
-            
+
+            // A dedicated PaginationFilter for this particular COM Archive implementation was created and implemented
             if (filter != null) {
-                if(filter instanceof PaginationFilter){
+                if (filter instanceof PaginationFilter) {
                     PaginationFilter pfilter = (PaginationFilter) filter;
 
                     // Double check if the filter fields are really not null
-                    if(pfilter.getLimit() != null && pfilter.getOffset() != null){
-                        queryString += " LIMIT " + pfilter.getLimit().getValue() + " OFFSET " + pfilter.getOffset().getValue();
+                    if (pfilter.getLimit() != null && pfilter.getOffset() != null) {
+                        queryString += " LIMIT " + pfilter.getLimit().getValue()
+                                + " OFFSET " + pfilter.getOffset().getValue();
                     }
                 }
             }
-            
-            
-            /*
-            String queryString = "SELECT PU FROM COMObjectEntity PU ";
-            queryString += (hasSomeDefinedFields) ? "WHERE " : "";
-
-            queryString += (domainContainsWildcard) ? "" : "PU.domainId=:domainId AND ";
-            queryString += (objectTypeContainsWildcard) ? "" : "PU.objectTypeId=:objectTypeId AND ";
-            queryString += (relatedContainsWildcard) ? "" : "PU.relatedLink=:relatedLink AND ";
-            queryString += (startTimeContainsWildcard) ? "" : "PU.timestampArchiveDetails>=:startTime AND ";
-            queryString += (endTimeContainsWildcard) ? "" : "PU.timestampArchiveDetails<=:endTime AND ";
-            queryString += (providerURIContainsWildcard) ? "" : "PU.providerURI=:providerURI AND ";
-            queryString += (networkContainsWildcard) ? "" : "PU.network=:network AND ";
-
-            if (!sourceContainsWildcard) {
-                queryString += (sourceTypeContainsWildcard) ? "" : "PU.sourceLinkObjectTypeId=:sourceLinkObjectTypeId AND ";
-                queryString += (sourceDomainContainsWildcard) ? "" : "PU.sourceLinkDomainId=:sourceLinkDomainId AND ";
-                queryString += (sourceObjIdContainsWildcard) ? "" : "PU.sourceLinkObjId=:sourceLinkObjId AND ";
-            }
-
-            if (hasSomeDefinedFields) { // 4 because we are removing the "AND " part
-                queryString = queryString.substring(0, queryString.length() - 4);
-            }
-            */
-            
 
             dbBackend.createEntityManager();
-/*            
-            Query query = dbBackend.getEM().createQuery(queryString); // Make the query
-//            String PU = "objectTypeId, objId, domainId, network, OBJ, providerURI, relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
-//            Query query = dbBackend.getEM().createNativeQuery("SELECT " + PU + " PU FROM COMObjectEntity PU LIMIT 5 OFFSET 1"); // Make the query
-//            Query query = dbBackend.getEM().createNativeQuery("SELECT PU FROM COMObjectEntity PU LIMIT 5 OFFSET 1"); // Make the query
-
-            if (!objectTypeContainsWildcard) {
-                query.setParameter("objectTypeId", objTypeId);
-            }
-
-            if (!domainContainsWildcard) {
-                query.setParameter("domainId", domainId);
-            }
-
-            if (!relatedContainsWildcard) {
-                query.setParameter("relatedLink", archiveQuery.getRelated());
-            }
-
-            if (!startTimeContainsWildcard) {
-                query.setParameter("startTime", archiveQuery.getStartTime().getValue());
-            }
-
-            if (!endTimeContainsWildcard) {
-                query.setParameter("endTime", archiveQuery.getEndTime().getValue());
-            }
-
-            if (!providerURIContainsWildcard) {
-                query.setParameter("providerURI", providerURIId);
-            }
-
-            if (!networkContainsWildcard) {
-                query.setParameter("network", networkId);
-            }
-
-            if (!sourceTypeContainsWildcard) {
-                query.setParameter("sourceLinkObjectTypeId", sourceLink.getObjectTypeId());
-            }
-
-            if (!sourceDomainContainsWildcard) {
-                query.setParameter("sourceLinkDomainId", sourceLink.getDomainId());
-            }
-
-            if (!sourceObjIdContainsWildcard) {
-                query.setParameter("sourceLinkObjId", sourceLink.getObjId());
-            }
-*/
-            /*
-            if(paginationFilterEnabled){
-                query.setParameter("limit", pfilter.getLimit().getValue());
-                query.setParameter("offset", pfilter.getOffset().getValue());
-            }
-            */
-
-            Thread tThread = new Thread(new Runnable() { // Display a message in case the query gets stuck...
-                @Override
-                public void run() {
-                    try {
-                        this.wait(10 * 1000); // 10 seconds
-                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                                "The query is taking longer than 10 seconds. "
-                                + "The query might be too broad to be handled by the database.");
-                    } catch (InterruptedException ex) {
-                    } catch (IllegalMonitorStateException ex) {
-                    }
-                }
-            });
-
-            tThread.start();
-
             final Query query = dbBackend.getEM().createNativeQuery(queryString);
-           
-            // BUG: The code will get stuck on the line below if the database is too big (tested with Derby)
             final List resultList = query.getResultList();
-
             dbBackend.closeEntityManager();
-            
+
             // FYI: SELECT objectTypeId, objId, domainId, network, OBJ, providerURI, relatedLink, 
             // sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails FROM COMObjectEntity
             ArrayList<COMObjectEntity> perObjs = new ArrayList<COMObjectEntity>(resultList.size());
-            
-            for(Object obj: resultList) {
+
+            for (Object obj : resultList) {
                 // (final Integer objectTypeId, final Integer domainId, final Long objId)
                 final SourceLinkContainer source = new SourceLinkContainer(
                         (Integer) ((Object[]) obj)[9],
                         (Integer) ((Object[]) obj)[7],
-                        convert2Long(((Object[]) obj)[8]));
-                
-                COMObjectEntity entity = new COMObjectEntity(
-                    (Integer) ((Object[]) obj)[0],
-                    (Integer) ((Object[]) obj)[2],
-                    convert2Long(((Object[]) obj)[1]),
-                    convert2Long(((Object[]) obj)[10]),
-                    (Integer) ((Object[]) obj)[5],
-                    (Integer) ((Object[]) obj)[3],
-                    source,
-                    convert2Long(((Object[]) obj)[6]),
-                    (byte[]) ((Object[]) obj)[4]
+                        convert2Long(((Object[]) obj)[8])
                 );
-                
+
+                COMObjectEntity entity = new COMObjectEntity(
+                        (Integer) ((Object[]) obj)[0],
+                        (Integer) ((Object[]) obj)[2],
+                        convert2Long(((Object[]) obj)[1]),
+                        convert2Long(((Object[]) obj)[10]),
+                        (Integer) ((Object[]) obj)[5],
+                        (Integer) ((Object[]) obj)[3],
+                        source,
+                        convert2Long(((Object[]) obj)[6]),
+                        (byte[]) ((Object[]) obj)[4]
+                );
+
                 perObjs.add(entity);
             }
-                        
-            tThread.interrupt();
 
             return perObjs;
         }
@@ -562,20 +466,20 @@ public class TransactionsProcessor {
             return t;
         }
     }
-    
-    private static Long convert2Long(final Object obj){
-        if(obj == null){
+
+    private static Long convert2Long(final Object obj) {
+        if (obj == null) {
             return null;
         }
-        
-        if (obj instanceof Long){
+
+        if (obj instanceof Long) {
             return (Long) obj;
         }
 
-        if (obj instanceof Integer){
+        if (obj instanceof Integer) {
             return ((Integer) obj).longValue();
         }
-        
+
         return null;
     }
 

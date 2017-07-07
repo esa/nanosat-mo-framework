@@ -365,11 +365,11 @@ public class ArchiveManager {
     protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType, 
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final Integer objTypeId = (ArchiveManager.objectTypeContainsWildcard(objType)) ? 0 : this.fastObjectType.getObjectTypeId(objType);
-        boolean domainContainsWildcard = HelperCOM.domainContainsWildcard(archiveQuery.getDomain());
-        Integer domainId = (!domainContainsWildcard) ? this.fastDomain.getDomainId(archiveQuery.getDomain()) : null;
-        Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
-        Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
-        SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
+        final boolean domainContainsWildcard = HelperCOM.domainContainsWildcard(archiveQuery.getDomain());
+        final Integer domainId = (!domainContainsWildcard) ? this.fastDomain.getDomainId(archiveQuery.getDomain()) : null;
+        final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
+        final Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
+        final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
         ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objTypeId, 
                 archiveQuery, domainId, providerURIId, networkId, sourceLink, filter);
