@@ -56,7 +56,8 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
     private Long configObjectsObjId = null;
 
     public PersistLatestServiceConfigurationAdapter(final ReconfigurableService service,
-            final Long serviceConfigObjId, final ArchiveInheritanceSkeleton archiveService) {
+            final Long serviceConfigObjId, final ArchiveInheritanceSkeleton archiveService,
+            final ExecutorService executor) {
         try {
             ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
         } catch (MALException ex) {
@@ -71,8 +72,11 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
         this.archiveService = archiveService;
         this.serviceConfigObjId = serviceConfigObjId;
+        this.executor = executor;
+        /*
         this.executor = Executors.newSingleThreadExecutor(new NamedConfigurationThreadFactory(
                 service.getCOMService().getName().toString())); // Guarantees sequential order
+        */
     }
 
     public Long getConfigurationObjectInstId() {
@@ -162,37 +166,6 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * The database backend thread factory
-     */
-    static class NamedConfigurationThreadFactory implements ThreadFactory {
-
-        private final ThreadGroup group;
-        private final AtomicInteger threadNumber = new AtomicInteger(1);
-        private final String namePrefix;
-
-        NamedConfigurationThreadFactory(String configurationName) {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup()
-                    : Thread.currentThread().getThreadGroup();
-            namePrefix = "ConfigurationUpdate" + "-" + configurationName + "-thread-";
-        }
-
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(group, r,
-                    namePrefix + threadNumber.getAndIncrement(),
-                    0);
-            if (t.isDaemon()) {
-                t.setDaemon(false);
-            }
-            if (t.getPriority() != Thread.NORM_PRIORITY) {
-                t.setPriority(Thread.NORM_PRIORITY);
-            }
-            return t;
         }
     }
 

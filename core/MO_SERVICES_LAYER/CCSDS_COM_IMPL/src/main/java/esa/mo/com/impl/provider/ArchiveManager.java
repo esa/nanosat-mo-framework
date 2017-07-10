@@ -151,6 +151,7 @@ public class ArchiveManager {
         this.eventService = null; // Remove the pointer to avoid publishing more stuff
     }
 
+    /*
     private class ResetMainTableRunnable implements Callable {
 
         @Override
@@ -171,6 +172,7 @@ public class ArchiveManager {
             return null;
         }
     }
+    */
 
     /**
      * Needs to be synchronized with the insertEntries method because the fast
@@ -180,7 +182,27 @@ public class ArchiveManager {
      */
     protected synchronized void resetTable() {
         Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).info("Reset table triggered!");
-        this.dbProcessor.resetMainTable(new ResetMainTableRunnable());
+//        this.dbProcessor.resetMainTable(new ResetMainTableRunnable());
+
+        this.dbProcessor.resetMainTable(new Callable() {
+            @Override
+            public Integer call() {
+                dbBackend.createEntityManager();
+                dbBackend.getEM().getTransaction().begin();
+                dbBackend.getEM().createQuery("DELETE FROM COMObjectEntity").executeUpdate();
+                dbBackend.getEM().getTransaction().commit();
+
+                fastObjId.resetFastIDs();
+                fastDomain.resetFastDomain();
+                fastNetwork.resetFastNetwork();
+                fastProviderURI.resetFastProviderURI();
+
+                dbBackend.getEM().close();
+                dbBackend.restartEMF();
+
+                return null;
+            }
+        });
     }
 
     protected synchronized ArchivePersistenceObject getPersistenceObject(final ObjectType objType,

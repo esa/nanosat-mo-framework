@@ -44,6 +44,10 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import esa.mo.reconfigurable.service.ReconfigurableService;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -55,7 +59,8 @@ public class PersistProviderConfiguration {
     private final ObjectId confId;
     private final ArrayList<ReconfigurableService> reconfigurableServices;
     private LongList objIds;
-
+    private final ExecutorService executor;
+    
     public PersistProviderConfiguration(final ReconfigurableProvider provider,
             final ObjectId confId, final ArchiveInheritanceSkeleton archiveService) {
         try {
@@ -67,6 +72,7 @@ public class PersistProviderConfiguration {
         this.archiveService = archiveService;
         this.confId = confId;
         this.reconfigurableServices = provider.getServices();
+        this.executor = Executors.newSingleThreadExecutor(new ConfigurationThreadFactory()); // Guarantees sequential order
 
         final ArchivePersistenceObject comObjectProvider = HelperArchive.getArchiveCOMObject(
                 archiveService,
@@ -84,7 +90,7 @@ public class PersistProviderConfiguration {
             objIds = ((ConfigurationObjectDetails) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
             return;
         }
-
+        
         // It doesn't exist... create all the necessary objects...
         try {
             // Store the Default Service Configuration objects
@@ -93,7 +99,7 @@ public class PersistProviderConfiguration {
             for (int i = 0; i < reconfigurableServices.size(); i++) {
                 Long confObjId = new Long(i + 1);
                 final PersistLatestServiceConfigurationAdapter persistLatestConfig
-                        = new PersistLatestServiceConfigurationAdapter(reconfigurableServices.get(i), confObjId, this.archiveService);
+                        = new PersistLatestServiceConfigurationAdapter(reconfigurableServices.get(i), confObjId, this.archiveService, this.executor);
 
                 persistLatestConfig.storeDefaultServiceConfiguration(confObjId, reconfigurableServices.get(i));
                 objIds.add(confObjId); // Will work for now
@@ -157,7 +163,7 @@ public class PersistProviderConfiguration {
         for (int i = 0; i < objIds.size(); i++) {
             final ReconfigurableService providerService = reconfigurableServices.get(i);
             final PersistLatestServiceConfigurationAdapter persistLatestConfig
-                    = new PersistLatestServiceConfigurationAdapter(providerService, objIds.get(i), this.archiveService);
+                    = new PersistLatestServiceConfigurationAdapter(providerService, objIds.get(i), this.archiveService, this.executor);
             providerService.setOnConfigurationChangeListener(persistLatestConfig);
         }
     }
@@ -198,6 +204,37 @@ public class PersistProviderConfiguration {
 
             // Reload the previous Configuration
             services.get(i).reloadConfiguration(configurationObjectDetails);
+        }
+    }
+
+    /**
+     * The Configuration Updates thread factory
+     */
+    static class ConfigurationThreadFactory implements ThreadFactory {
+
+        private final ThreadGroup group;
+        private final AtomicInteger threadNumber = new AtomicInteger(1);
+        private final String namePrefix;
+
+        ConfigurationThreadFactory() {
+            SecurityManager s = System.getSecurityManager();
+            group = (s != null) ? s.getThreadGroup()
+                    : Thread.currentThread().getThreadGroup();
+            namePrefix = "ConfigurationUpdate-";
+        }
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(group, r,
+                    namePrefix + threadNumber.getAndIncrement(),
+                    0);
+            if (t.isDaemon()) {
+                t.setDaemon(false);
+            }
+            if (t.getPriority() != Thread.NORM_PRIORITY) {
+                t.setPriority(Thread.NORM_PRIORITY);
+            }
+            return t;
         }
     }
 
