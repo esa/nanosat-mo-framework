@@ -22,11 +22,15 @@ package esa.mo.com.impl.archive.fast;
 
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity;
+import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.util.HelperCOM;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
@@ -131,6 +135,35 @@ public class FastObjectType {
         return (id == null) ? this.addNew(longObjType) : id;
     }
 
+    public synchronized IntegerList getObjectTypeIds(final ObjectType objectType) {
+        final IntegerList ids = new IntegerList();
+
+        if (ArchiveManager.objectTypeContainsWildcard(objectType)) {
+            final long bitMask = objectType2Mask(objectType);
+            final long objTypeId = HelperCOM.generateSubKey(objectType);
+
+            long tmpObjectTypeId;
+            long objTypeANDed;
+            for (Map.Entry<Long, Integer> entry : this.fastID.entrySet()) {
+                try {
+                    tmpObjectTypeId = HelperCOM.generateSubKey(this.getObjectType(entry.getValue()));
+                    objTypeANDed = (tmpObjectTypeId & bitMask);
+                    if (objTypeANDed == objTypeId) { // Comparison
+                        ids.add(entry.getValue());
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(FastObjectType.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            final Long longObjType = HelperCOM.generateSubKey(objectType);
+            final Integer id = this.fastID.get(longObjType);
+            ids.add((id == null) ? this.addNew(longObjType) : id);
+        }
+        
+        return ids;
+    }
+
     public synchronized ObjectType getObjectType(final Integer id) throws Exception {
         final Long objectType = this.fastIDreverse.get(id);
 
@@ -140,5 +173,17 @@ public class FastObjectType {
 
         return HelperCOM.objectTypeId2objectType(objectType);
     }
+    
+    private static Long objectType2Mask(final ObjectType objType) {
+        long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
+        long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
+        long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
+        long numberVal = (objType.getNumber().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
+
+        return (new Long(areaVal << 48)
+                | new Long(serviceVal << 32)
+                | new Long(versionVal << 24)
+                | new Long(numberVal));
+    }    
 
 }

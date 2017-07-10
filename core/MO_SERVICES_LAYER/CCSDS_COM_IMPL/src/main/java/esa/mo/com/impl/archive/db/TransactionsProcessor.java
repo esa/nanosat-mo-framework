@@ -40,6 +40,7 @@ import javax.persistence.Query;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
+import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 
 /**
@@ -261,21 +262,21 @@ public class TransactionsProcessor {
 
     private class QueryCallable implements Callable {
 
-        private final Integer objTypeId;
+        private final IntegerList objTypeIds;
         private final ArchiveQuery archiveQuery;
-        private final Integer domainId;
+        private final IntegerList domainIds;
         private final Integer providerURIId;
         private final Integer networkId;
         private final SourceLinkContainer sourceLink;
         private final QueryFilter filter;
 
-        public QueryCallable(final Integer objTypeId,
-                final ArchiveQuery archiveQuery, final Integer domainId,
+        public QueryCallable(final IntegerList objTypeIds,
+                final ArchiveQuery archiveQuery, final IntegerList domainIds,
                 final Integer providerURIId, final Integer networkId,
                 final SourceLinkContainer sourceLink, final QueryFilter filter) {
-            this.objTypeId = objTypeId;
+            this.objTypeIds = objTypeIds;
             this.archiveQuery = archiveQuery;
-            this.domainId = domainId;
+            this.domainIds = domainIds;
             this.providerURIId = providerURIId;
             this.networkId = networkId;
             this.sourceLink = sourceLink;
@@ -284,8 +285,6 @@ public class TransactionsProcessor {
 
         @Override
         public ArrayList<COMObjectEntity> call() {
-            final boolean domainContainsWildcard = HelperCOM.domainContainsWildcard(archiveQuery.getDomain());
-            final boolean objectTypeContainsWildcard = (objTypeId == 0);
             final boolean relatedContainsWildcard = (archiveQuery.getRelated().equals((long) 0));
             final boolean startTimeContainsWildcard = (archiveQuery.getStartTime() == null);
             final boolean endTimeContainsWildcard = (archiveQuery.getEndTime() == null);
@@ -293,35 +292,22 @@ public class TransactionsProcessor {
             final boolean networkContainsWildcard = (archiveQuery.getNetwork() == null);
 
             final boolean sourceContainsWildcard = (archiveQuery.getSource() == null);
-            boolean sourceTypeContainsWildcard = true;
-            boolean sourceDomainContainsWildcard = true;
             boolean sourceObjIdContainsWildcard = true;
 
             if (!sourceContainsWildcard) {
-                sourceTypeContainsWildcard = ArchiveManager.objectTypeContainsWildcard(archiveQuery.getSource().getType());
-                sourceDomainContainsWildcard = HelperCOM.domainContainsWildcard(archiveQuery.getSource().getKey().getDomain());
                 sourceObjIdContainsWildcard = (archiveQuery.getSource().getKey().getInstId() == null || archiveQuery.getSource().getKey().getInstId() == 0);
             }
-
-            final boolean hasSomeDefinedFields
-                    = (!domainContainsWildcard
-                    || !objectTypeContainsWildcard
-                    || !relatedContainsWildcard
-                    || !startTimeContainsWildcard
-                    || !endTimeContainsWildcard
-                    || !providerURIContainsWildcard
-                    || !networkContainsWildcard
-                    || !sourceContainsWildcard);
 
             // Generate the query string
             String strPU = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
                     + "relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
             String queryString = "SELECT " + strPU + " FROM COMObjectEntity PU ";
 
-            queryString += (hasSomeDefinedFields) ? "WHERE " : "";
+            queryString += "WHERE ";
 
-            queryString += (domainContainsWildcard) ? "" : "PU.domainId=" + domainId + " AND ";
-            queryString += (objectTypeContainsWildcard) ? "" : "PU.objectTypeId=" + objTypeId + " AND ";
+            queryString += generateQueryStringFromLists("PU.domainId", domainIds);
+            queryString += generateQueryStringFromLists("PU.objectTypeId", objTypeIds);
+
             queryString += (relatedContainsWildcard) ? "" : "PU.relatedLink=" + archiveQuery.getRelated() + " AND ";
             queryString += (startTimeContainsWildcard) ? "" : "PU.timestampArchiveDetails>=" + archiveQuery.getStartTime().getValue() + " AND ";
             queryString += (endTimeContainsWildcard) ? "" : "PU.timestampArchiveDetails<=" + archiveQuery.getEndTime().getValue() + " AND ";
@@ -329,14 +315,12 @@ public class TransactionsProcessor {
             queryString += (networkContainsWildcard) ? "" : "PU.network=" + networkId + " AND ";
 
             if (!sourceContainsWildcard) {
-                queryString += (sourceTypeContainsWildcard) ? "" : "PU.sourceLinkObjectTypeId=" + sourceLink.getObjectTypeId() + " AND ";
-                queryString += (sourceDomainContainsWildcard) ? "" : "PU.sourceLinkDomainId=" + sourceLink.getDomainId() + " AND ";
+                queryString += generateQueryStringFromLists("PU.sourceLinkObjectTypeId", sourceLink.getObjectTypeIds());
+                queryString += generateQueryStringFromLists("PU.sourceLinkDomainId", sourceLink.getDomainIds());
                 queryString += (sourceObjIdContainsWildcard) ? "" : "PU.sourceLinkObjId=" + sourceLink.getObjId() + " AND ";
             }
 
-            if (hasSomeDefinedFields) { // 4 because we are removing the "AND " part
-                queryString = queryString.substring(0, queryString.length() - 4);
-            }
+            queryString = queryString.substring(0, queryString.length() - 4);
 
             // A dedicated PaginationFilter for this particular COM Archive implementation was created and implemented
             if (filter != null) {
@@ -360,6 +344,7 @@ public class TransactionsProcessor {
             // sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails FROM COMObjectEntity
             ArrayList<COMObjectEntity> perObjs = new ArrayList<COMObjectEntity>(resultList.size());
 
+            // Conversion from the raw SQL response into a COMObjectEntity
             for (Object obj : resultList) {
                 // (final Integer objectTypeId, final Integer domainId, final Long objId)
                 final SourceLinkContainer source = new SourceLinkContainer(
@@ -368,7 +353,7 @@ public class TransactionsProcessor {
                         convert2Long(((Object[]) obj)[8])
                 );
 
-                COMObjectEntity entity = new COMObjectEntity(
+                perObjs.add(new COMObjectEntity(
                         (Integer) ((Object[]) obj)[0],
                         (Integer) ((Object[]) obj)[2],
                         convert2Long(((Object[]) obj)[1]),
@@ -378,22 +363,42 @@ public class TransactionsProcessor {
                         source,
                         convert2Long(((Object[]) obj)[6]),
                         (byte[]) ((Object[]) obj)[4]
-                );
-
-                perObjs.add(entity);
+                ));
             }
 
             return perObjs;
         }
+
     }
 
-    public ArrayList<COMObjectEntity> query(final Integer objTypeId,
-            final ArchiveQuery archiveQuery, final Integer domainId,
+    public static String generateQueryStringFromLists(final String field, final IntegerList list) {
+        if (list.isEmpty()) {
+            return "";
+        }
+
+        if (list.size() == 1) {
+            return field + "=" + list.get(0) + " AND ";
+        }
+
+        String stringForWildcards = "(";
+
+        for (Integer id : list) {
+            stringForWildcards += field + "=" + id + " OR ";
+        }
+
+        // Remove the " OR " par of it!
+        stringForWildcards = stringForWildcards.substring(0, stringForWildcards.length() - 4);
+
+        return stringForWildcards + ") AND ";
+    }
+
+    public ArrayList<COMObjectEntity> query(final IntegerList objTypeIds,
+            final ArchiveQuery archiveQuery, final IntegerList domainIds,
             final Integer providerURIId, final Integer networkId,
             final SourceLinkContainer sourceLink, final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        final QueryCallable task = new QueryCallable(objTypeId, archiveQuery,
-                domainId, providerURIId, networkId, sourceLink, filter);
+        final QueryCallable task = new QueryCallable(objTypeIds, archiveQuery,
+                domainIds, providerURIId, networkId, sourceLink, filter);
 
         Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(task);
 

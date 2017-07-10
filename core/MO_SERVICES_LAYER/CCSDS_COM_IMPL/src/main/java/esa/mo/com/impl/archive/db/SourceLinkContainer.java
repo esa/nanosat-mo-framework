@@ -20,7 +20,10 @@
  */
 package esa.mo.com.impl.archive.db;
 
+import org.ccsds.moims.mo.mal.structures.IntegerList;
+
 /**
+ * This class holds a source link and optionally, a set of domainIds.
  *
  * @author Cesar Coelho
  */
@@ -29,6 +32,8 @@ public class SourceLinkContainer {
     private final Integer objectTypeId;
     private final Integer domainId;
     private final Long objId;
+    private IntegerList domainIds;
+    private IntegerList objectTypeIds;
 
     public SourceLinkContainer(final Integer objectTypeId, final Integer domainId, final Long objId) {
         this.objectTypeId = objectTypeId;
@@ -47,4 +52,21 @@ public class SourceLinkContainer {
     public Long getObjId() {
         return objId;
     }
+
+    public IntegerList getDomainIds() {
+        return domainIds;
+    }
+
+    public void setDomainIds(final IntegerList domainIds) {
+        this.domainIds = domainIds;
+    }
+
+    public IntegerList getObjectTypeIds() {
+        return objectTypeIds;
+    }
+
+    public void setObjectTypeIds(final IntegerList objectTypeIds) {
+        this.objectTypeIds = objectTypeIds;
+    }
+    
 }

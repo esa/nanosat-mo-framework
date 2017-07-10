@@ -22,13 +22,18 @@ package esa.mo.com.impl.archive.fast;
 
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.entities.DomainHolderEntity;
+import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.IntegerList;
 
 /**
  *
@@ -53,7 +58,7 @@ public class FastDomain {
         this.fastID = new HashMap<IdentifierList, Integer>();
         this.fastIDreverse = new HashMap<Integer, IdentifierList>();
         uniqueId = new AtomicInteger(0);
-        
+
         dbBackend.getEM().getTransaction().begin();
         dbBackend.getEM().createQuery(QUERY_DELETE_DOMAIN).executeUpdate();
         dbBackend.getEM().getTransaction().commit();
@@ -117,6 +122,36 @@ public class FastDomain {
     public synchronized Integer getDomainId(final IdentifierList domain) {
         final Integer id = this.fastID.get(domain);
         return (id == null) ? this.addNewDomain(domain) : id;
+    }
+
+    public synchronized IntegerList getDomainIds(final IdentifierList inputDomain) {
+        final IntegerList ids = new IntegerList();
+
+        if(inputDomain == null){
+            return ids;
+        }
+        
+        if (HelperCOM.domainContainsWildcard(inputDomain)) {
+            for (Map.Entry<IdentifierList, Integer> entry : this.fastID.entrySet()) {
+                try {
+                    if (HelperCOM.domainMatchesWildcardDomain(entry.getKey(), inputDomain)) {  // Does the domain matches the wildcard?
+                        ids.add(entry.getValue());
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            final Integer id = this.fastID.get(inputDomain);
+            
+            if (id == null) {
+                ids.add(this.addNewDomain(inputDomain));
+            } else {
+                ids.add(id);
+            }
+        }
+
+        return ids;
     }
 
     public synchronized IdentifierList getDomain(final Integer id) throws Exception {

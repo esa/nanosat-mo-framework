@@ -63,6 +63,7 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Enumeration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
@@ -386,52 +387,24 @@ public class ArchiveManager {
 
     protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType, 
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
-        final Integer objTypeId = (ArchiveManager.objectTypeContainsWildcard(objType)) ? 0 : this.fastObjectType.getObjectTypeId(objType);
-        final boolean domainContainsWildcard = HelperCOM.domainContainsWildcard(archiveQuery.getDomain());
-        final Integer domainId = (!domainContainsWildcard) ? this.fastDomain.getDomainId(archiveQuery.getDomain()) : null;
+        final IntegerList objTypeIds = this.fastObjectType.getObjectTypeIds(objType);
+        final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
         final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
         final Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
         final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
+        
+        if(archiveQuery.getSource() != null){
+            if (archiveQuery.getSource().getKey().getDomain() != null){
+                sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getKey().getDomain()));
+            }
 
-        ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objTypeId, 
-                archiveQuery, domainId, providerURIId, networkId, sourceLink, filter);
-
-        // Add domain filtering by subpart
-        if (archiveQuery.getDomain() != null) {
-            if (domainContainsWildcard) {  // It does contain a wildcard
-                perObjs = this.filterByDomainSubpart(perObjs, archiveQuery.getDomain());
+            if (archiveQuery.getSource().getKey().getTypeShortForm() != null){
+                sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource().getType()));
             }
         }
-
-        // If objectType contains a wildcard then we have to filter them
-        if (ArchiveManager.objectTypeContainsWildcard(objType)) {
-            try {
-                perObjs = this.filterByObjectIdMask(perObjs, objType, false);
-            } catch (Exception ex) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        // Source field
-        if (archiveQuery.getSource() != null) {
-            if (ArchiveManager.objectTypeContainsWildcard(archiveQuery.getSource().getType())
-                    || HelperCOM.domainContainsWildcard(archiveQuery.getSource().getKey().getDomain())
-                    || archiveQuery.getSource().getKey().getInstId() == 0) { // Any Wildcards?
-                // objectType filtering   (in the source link)
-                if (ArchiveManager.objectTypeContainsWildcard(archiveQuery.getSource().getType())) {
-                    try {
-                        perObjs = this.filterByObjectIdMask(perObjs, archiveQuery.getSource().getType(), true);
-                    } catch (Exception ex) {
-                        Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-                // Add domain filtering by subpart  (in the source link)
-                if (HelperCOM.domainContainsWildcard(archiveQuery.getSource().getKey().getDomain())) {  // Does it contain a wildcard?
-                    perObjs = this.filterByDomainSubpart(perObjs, archiveQuery.getSource().getKey().getDomain());
-                }
-            }
-        }
+        
+        ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objTypeIds, 
+                archiveQuery, domainIds, providerURIId, networkId, sourceLink, filter);
 
         // Convert to ArchivePersistenceObject
         final ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>(perObjs.size());
@@ -440,8 +413,7 @@ public class ArchiveManager {
         for (COMObjectEntity perObj : perObjs) {
             try {
                 domain = this.fastDomain.getDomain(perObj.getDomainId());
-                ArchivePersistenceObject out = this.convert2ArchivePersistenceObject(perObj, domain, perObj.getObjectId());
-                outs.add(out);
+                outs.add(this.convert2ArchivePersistenceObject(perObj, domain, perObj.getObjectId()));
             } catch (Exception ex) {
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -450,6 +422,7 @@ public class ArchiveManager {
         return outs;
     }
 
+    /*
     private ArrayList<COMObjectEntity> filterByObjectIdMask(
             final ArrayList<COMObjectEntity> perObjs,
             final ObjectType objectTypeMask,
@@ -472,7 +445,9 @@ public class ArchiveManager {
 
         return tmpPerObjs;  // Assign new filtered list and discard old one
     }
+    */
 
+    /*
     private ArrayList<COMObjectEntity> filterByDomainSubpart(
             final ArrayList<COMObjectEntity> perObjs, final IdentifierList wildcardDomain) {
         final ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>(perObjs.size());
@@ -491,6 +466,7 @@ public class ArchiveManager {
 
         return tmpPerObjs;  // Assign new filtered list and discard old one
     }
+    */
 
     protected static ArrayList<ArchivePersistenceObject> filterQuery(
             final ArrayList<ArchivePersistenceObject> perObjs,
@@ -612,18 +588,6 @@ public class ArchiveManager {
                 || objType.getService().getValue() == 0
                 || objType.getVersion().getValue() == 0
                 || objType.getNumber().getValue() == 0);
-    }
-
-    private static Long objectType2Mask(final ObjectType objType) {
-        long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
-        long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
-        long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
-        long numberVal = (objType.getNumber().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
-
-        return (new Long(areaVal << 48)
-                | new Long(serviceVal << 32)
-                | new Long(versionVal << 24)
-                | new Long(numberVal));
     }
 
     public static UIntegerList checkForDuplicates(ArchiveDetailsList archiveDetailsList) {
