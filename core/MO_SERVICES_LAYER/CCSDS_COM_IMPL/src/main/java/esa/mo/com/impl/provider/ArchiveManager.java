@@ -117,7 +117,7 @@ public class ArchiveManager {
         this.dbProcessor.submitExternalTask2(new Runnable() {
             @Override
             public void run() {
-                synchronized(manager){
+                synchronized (manager) {
                     fastDomain.init();
                     fastNetwork.init();
                     fastProviderURI.init();
@@ -125,13 +125,6 @@ public class ArchiveManager {
                 }
             }
         });
-
-            /*
-            fastDomain.init();
-            fastNetwork.init();
-            fastProviderURI.init();
-            fastObjectType.init();
-            */   
     }
 
     protected void setEventService(EventProviderServiceImpl eventService) {
@@ -152,29 +145,6 @@ public class ArchiveManager {
         this.eventService = null; // Remove the pointer to avoid publishing more stuff
     }
 
-    /*
-    private class ResetMainTableRunnable implements Callable {
-
-        @Override
-        public Integer call() {
-            dbBackend.createEntityManager();
-            dbBackend.getEM().getTransaction().begin();
-            dbBackend.getEM().createQuery("DELETE FROM COMObjectEntity").executeUpdate();
-            dbBackend.getEM().getTransaction().commit();
-
-            fastObjId.resetFastIDs();
-            fastDomain.resetFastDomain();
-            fastNetwork.resetFastNetwork();
-            fastProviderURI.resetFastProviderURI();
-
-            dbBackend.getEM().close();
-            dbBackend.restartEMF();
-
-            return null;
-        }
-    }
-    */
-
     /**
      * Needs to be synchronized with the insertEntries method because the fast
      * objects are being called simultaneously. The Testbeds don't pass without
@@ -183,7 +153,6 @@ public class ArchiveManager {
      */
     protected synchronized void resetTable() {
         Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).info("Reset table triggered!");
-//        this.dbProcessor.resetMainTable(new ResetMainTableRunnable());
 
         this.dbProcessor.resetMainTable(new Callable() {
             @Override
@@ -385,25 +354,25 @@ public class ArchiveManager {
         return objIds;
     }
 
-    protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType, 
+    protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType,
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final IntegerList objTypeIds = this.fastObjectType.getObjectTypeIds(objType);
         final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
         final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
         final Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
         final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
-        
-        if(archiveQuery.getSource() != null){
-            if (archiveQuery.getSource().getKey().getDomain() != null){
+
+        if (archiveQuery.getSource() != null) {
+            if (archiveQuery.getSource().getKey().getDomain() != null) {
                 sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getKey().getDomain()));
             }
 
-            if (archiveQuery.getSource().getKey().getTypeShortForm() != null){
+            if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
                 sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource().getType()));
             }
         }
-        
-        ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objTypeIds, 
+
+        ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objTypeIds,
                 archiveQuery, domainIds, providerURIId, networkId, sourceLink, filter);
 
         // Convert to ArchivePersistenceObject
@@ -445,9 +414,9 @@ public class ArchiveManager {
 
         return tmpPerObjs;  // Assign new filtered list and discard old one
     }
-    */
+     */
 
-    /*
+ /*
     private ArrayList<COMObjectEntity> filterByDomainSubpart(
             final ArrayList<COMObjectEntity> perObjs, final IdentifierList wildcardDomain) {
         final ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>(perObjs.size());
@@ -466,8 +435,7 @@ public class ArchiveManager {
 
         return tmpPerObjs;  // Assign new filtered list and discard old one
     }
-    */
-
+     */
     protected static ArrayList<ArchivePersistenceObject> filterQuery(
             final ArrayList<ArchivePersistenceObject> perObjs,
             final CompositeFilterSet filterSet) throws MALInteractionException {

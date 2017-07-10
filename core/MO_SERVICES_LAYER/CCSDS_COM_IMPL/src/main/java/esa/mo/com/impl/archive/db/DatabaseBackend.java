@@ -43,11 +43,10 @@ public class DatabaseBackend {
     private static final String DROP_TABLE_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.droptable";
     private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
 
-    private final Semaphore emAvailability = new Semaphore(2, true);  // true for fairness, because we want FIFO
+    private final Semaphore emAvailability = new Semaphore(-1, true);  // true for fairness, because we want FIFO
     private EntityManagerFactory emf;
     private EntityManager em;
     private Connection serverConnection;
-//    private boolean wasKeptOpen = false;
 
 //    private static final String DRIVER_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver"; // Derby Embedded Driver
 //    private static final String DATABASE_NAME = "derby"; // Derby
@@ -68,12 +67,6 @@ public class DatabaseBackend {
     }
 
     public void startBackendDatabase(final TransactionsProcessor dbProcessor) {
-                try {
-                    emAvailability.acquire(2);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
         dbProcessor.submitExternalTask(new Runnable() {
             @Override
             public void run() {
@@ -88,49 +81,16 @@ public class DatabaseBackend {
         dbProcessor.submitExternalTask(new Runnable() {
             @Override
             public void run() {
-                startServer(url);
-
+                startDatabaseDriver(url);
+                emAvailability.release();
+                
                 Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
-                        "The Database is ready!");
+                        "The Database Driver was started!");
             }
         });
-
-        /*
-        final Semaphore sem = new Semaphore(0);
-
-        final Thread startDatabase = new Thread() {
-            @Override
-            public void run() {
-                this.setName("DatabaseBackend_startBackendDatabase()");
-
-                try {
-                    emAvailability.acquire();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                sem.release();
-
-                startServer();
-                createEMFactory();
-                emAvailability.release();
-
-                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
-                        "The database was initialized and the Archive service is ready!");
-            }
-        };
-
-        startDatabase.start();
-
-        try {
-            sem.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
     }
 
-    private void startServer(String url2) {
+    private void startDatabaseDriver(String url2) {
 //        System.setProperty("derby.drda.startNetworkServer", "true");
         // Loads a new instance of the database driver
         try {
@@ -198,19 +158,11 @@ public class DatabaseBackend {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-//        if(!wasKeptOpen){
         this.em = this.emf.createEntityManager();
-//        }
     }
 
     public void closeEntityManager() {
-        // If it has Thread open, then keep it open...
-//        wasKeptOpen = this.emAvailability.hasQueuedThreads();
-
-//        if(!wasKeptOpen){
         this.em.close();
-//        }
-
         this.emAvailability.release();
     }
 
