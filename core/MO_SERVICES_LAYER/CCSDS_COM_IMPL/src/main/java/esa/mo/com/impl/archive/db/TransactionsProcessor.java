@@ -22,7 +22,6 @@ package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.provider.ArchiveManager;
-import esa.mo.com.impl.util.HelperCOM;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -56,11 +55,11 @@ public class TransactionsProcessor {
     private final DatabaseBackend dbBackend;
 
     // This executor is responsible for the interactions with the db
-    private final ExecutorService dbTransactionsExecutor = Executors.newSingleThreadExecutor(new DBBackendThreadFactory("Archive_DBTransactionsProcessor")); // Guarantees sequential order
+    private final ExecutorService dbTransactionsExecutor = Executors.newSingleThreadExecutor(new DBThreadFactory("Archive_DBTransactionsProcessor")); // Guarantees sequential order
 
     // This executor is expecting "short-lived" runnables that generate Events.
     // 2 Threads minimum because we need to acquire the lock from 2 different tasks during startup
-    private final ExecutorService generalExecutor = Executors.newFixedThreadPool(2, new DBBackendThreadFactory("Archive_GeneralProcessor"));
+    private final ExecutorService generalExecutor = Executors.newFixedThreadPool(2, new DBThreadFactory("Archive_GeneralProcessor"));
     private final AtomicBoolean sequencialStoring;
 
     private final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;
@@ -444,13 +443,13 @@ public class TransactionsProcessor {
     /**
      * The database backend thread factory
      */
-    static class DBBackendThreadFactory implements ThreadFactory {
+    static class DBThreadFactory implements ThreadFactory {
 
         private final ThreadGroup group;
         private final AtomicInteger threadNumber = new AtomicInteger(1);
         private final String namePrefix;
 
-        DBBackendThreadFactory(String prefix) {
+        DBThreadFactory(String prefix) {
             SecurityManager s = System.getSecurityManager();
             group = (s != null) ? s.getThreadGroup()
                     : Thread.currentThread().getThreadGroup();

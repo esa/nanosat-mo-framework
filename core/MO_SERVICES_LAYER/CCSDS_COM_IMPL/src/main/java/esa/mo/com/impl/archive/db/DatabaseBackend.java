@@ -43,7 +43,7 @@ public class DatabaseBackend {
     private static final String DROP_TABLE_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.droptable";
     private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
 
-    private final Semaphore emAvailability = new Semaphore(-1, true);  // true for fairness, because we want FIFO
+    private final Semaphore emAvailability = new Semaphore(0, true);  // true for fairness, because we want FIFO
     private EntityManagerFactory emf;
     private EntityManager em;
     private Connection serverConnection;
@@ -78,6 +78,8 @@ public class DatabaseBackend {
             }
         });
         
+                startDatabaseDriver(url);
+                /*
         dbProcessor.submitExternalTask(new Runnable() {
             @Override
             public void run() {
@@ -88,6 +90,7 @@ public class DatabaseBackend {
                         "The Database Driver was started!");
             }
         });
+*/
     }
 
     private void startDatabaseDriver(String url2) {

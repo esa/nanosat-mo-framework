@@ -21,7 +21,6 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
 import esa.mo.nmf.nmfpackage.descriptor.ReceiptVersion1;
 import java.io.BufferedReader;
@@ -30,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -112,8 +110,11 @@ public class NMFPackageManager {
         // Copy the files according to the NMF statement file
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
                 "Copying the files to the new locations...");
+        
+        // To be done...
+        
+        // We will also need to double check the CRCs again against the real files!
 
-        // Delete the temporary folder
     }
 
     public static void uninstall(final String packageLocation, final boolean keepConfigurations) {
