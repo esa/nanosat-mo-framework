@@ -18,10 +18,10 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.packager.tests;
+package esa.mo.nmf.nmfpackage.tests;
 
-import esa.mo.nmf.packager.NMFPackageCreator;
-import esa.mo.nmf.packager.NMFPackageDetails;
+import esa.mo.nmf.nmfpackage.NMFPackageCreator;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import java.io.File;
 import java.util.ArrayList;
 

@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.packager;
+package esa.mo.nmf.nmfpackage;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -94,7 +94,15 @@ public class NMFDigitalSignature {
         return null;
     }
 
-    public boolean verifyDigitalSignature(PublicKey publicKey, byte[] sigToVerify, String file) {
+    /**
+     * Verify a signature.
+     *
+     * @param publicKey The public key
+     * @param signatureToVerify The signature to verify
+     * @param file The signed file
+     * @return
+     */
+    public static boolean verifyDigitalSignature(PublicKey publicKey, byte[] signatureToVerify, String file) {
         // https://docs.oracle.com/javase/tutorial/security/apisign/vstep4.html
         try {
             Signature sig = Signature.getInstance(SIGNATURE_ALGORITHM, SIGNATURE_PROVIDER);
@@ -112,8 +120,7 @@ public class NMFDigitalSignature {
 
             bufin.close();
 
-            return sig.verify(sigToVerify);
-
+            return sig.verify(signatureToVerify);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchProviderException ex) {

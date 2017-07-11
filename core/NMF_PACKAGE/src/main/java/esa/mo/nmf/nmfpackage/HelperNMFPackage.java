@@ -18,28 +18,17 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.packager;
+package esa.mo.nmf.nmfpackage;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class NMFPackageDetails {
+public class HelperNMFPackage {
 
-    private final String packageName;
-    private final String version;
-
-    public NMFPackageDetails(String packageName, String version) {
-        this.packageName = packageName;
-        this.version = version;
-    }
-
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
+    public static final String RECEIPT_FILENAME = "nmfPackage.receipt";
+    public static final String DS_FILENAME = "digitalSignature.key";
+    public static final String PRIVATE_KEY_FILENAME = "privateKey.key";
+    public static final String NMF_PACKAGE_DESCRIPTOR_VERSION = "NMFPackageDescriptorVersion=";
+    
 }

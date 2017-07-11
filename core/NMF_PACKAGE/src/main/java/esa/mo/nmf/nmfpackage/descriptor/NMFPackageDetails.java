@@ -18,44 +18,28 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.packager;
+package esa.mo.nmf.nmfpackage.descriptor;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class NMFPackageManager {
+public class NMFPackageDetails {
 
-    public static void install(final String packageLocation) {
-        // Get the File to be installed
+    private final String packageName;
+    private final String version;
 
-        // Unpack the package to a temporary folder
-
-        // Copy the files according to the NMF statement file
-        
-        // Delete the temporary folder
-        
-    }
-    
-    public static void uninstall(final String packageLocation, final boolean keepConfigurations) {
-        // Get the Files to be installed
-
-
-        // Delete the files according to the NMF statement file
-        
-        // Do we keep the previous configurations?
-
+    public NMFPackageDetails(String packageName, String version) {
+        this.packageName = packageName;
+        this.version = version;
     }
 
-    
-    public static void upgrade(final String packageLocation) {
-        // Get the Files to be installed
-
-        // Upgrade the files according to the NMF statement file
-        // Keep the same configurations
-        
-        
+    public String getPackageName() {
+        return packageName;
     }
-    
+
+    public String getVersion() {
+        return version;
+    }
 
 }

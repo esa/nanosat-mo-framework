@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.packager;
+package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.HelperNMF;
 import java.io.File;
@@ -79,22 +79,31 @@ public class NMFPackagePMBackend implements PMBackend {
     @Override
     public void install(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
-
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Installing the package from: {0}", folderLocation);
 
-        NMFPackageManager.install(folderLocation);
+        try {
+            NMFPackageManager.install(folderLocation);
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void uninstall(final String packageName, final boolean keepConfigurations) {
         String folderLocation = this.getFolderLocation(packageName);
+        Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
+                "Uninstalling the package from: {0}", folderLocation);
+
         NMFPackageManager.uninstall(folderLocation, keepConfigurations);
     }
 
     @Override
     public void upgrade(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
+        Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
+                "Upgrading the package from: {0}", folderLocation);
+        
         NMFPackageManager.upgrade(folderLocation);
     }
 

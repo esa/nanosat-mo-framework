@@ -18,13 +18,28 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.packager;
+package esa.mo.nmf.nmfpackage.descriptor;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class HelperNMFPackage {
+public class NMFPackageFile {
 
-    
+    private final String path;
+    private final long crc;
+
+    public NMFPackageFile(final String path, final long crc) {
+        this.path = path;
+        this.crc = crc;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public long getCRC() {
+        return crc;
+    }
+
 }
