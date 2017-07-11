@@ -96,10 +96,8 @@ public class NMFPackageManager {
                 "Verifying the integrity of the files to be installed...");
 
         // Do the files actually match the descriptor?
-        ArrayList<NMFPackageFile> files = descriptor.getFiles();
-        
-        for (int i = 0; i < files.size(); i++){
-            NMFPackageFile file = files.get(i);
+        for (int i = 0; i < descriptor.getFiles().size(); i++){
+            NMFPackageFile file = descriptor.getFiles().get(i);
             ZipEntry entry = zipFile.getEntry(file.getPath());
 
             if(entry == null){
@@ -109,7 +107,6 @@ public class NMFPackageManager {
             if(file.getCRC() != entry.getCrc()){
                 throw new IOException("The CRC does not match!");
             }
-            
         }
 
         // Copy the files according to the NMF statement file

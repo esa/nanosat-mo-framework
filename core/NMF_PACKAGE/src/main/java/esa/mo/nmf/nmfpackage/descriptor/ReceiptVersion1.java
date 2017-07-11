@@ -20,12 +20,9 @@
  */
 package esa.mo.nmf.nmfpackage.descriptor;
 
-import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -64,11 +61,8 @@ public class ReceiptVersion1 {
         String path;
         long crc;
 
+        // Deal with the rest of the lines
         while ((line = br.readLine()) != null) {
-            // Deal with the rest of the lines
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                    "The file contains the line: " + line);
-            
             if (line.startsWith(line)) {
                 path = line.substring(FILE_PATH.length());
             }else{
