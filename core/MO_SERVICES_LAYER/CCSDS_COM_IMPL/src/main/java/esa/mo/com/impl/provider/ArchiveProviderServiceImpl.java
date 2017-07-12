@@ -60,10 +60,10 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
  */
 public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
+    private final ArchiveManager manager = new ArchiveManager(null);
     private MALProvider archiveServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private ArchiveManager manager = new ArchiveManager(null);
     private final ConnectionProvider connection = new ConnectionProvider();
 
     /**
