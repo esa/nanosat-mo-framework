@@ -156,7 +156,6 @@ public class GroundMOProxy {
                 }
             }
         }
-
     }
 
     public URI getDirectoryServiceURI() {

@@ -232,7 +232,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
                                                                 break;
                                                         } catch (Exception ex) {
                                                                 if (autohost) {
-                                                                        RLOGGER.log(Level.INFO, "Port " + portNumber + " already in use...");
+                                                                        RLOGGER.log(Level.FINE, "Port " + portNumber + " already in use...");
                                                                         portNumber += 1;
                                                                 } else {
                                                                         throw new MALException("Error initialising TCP Server", ex);
@@ -280,7 +280,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
                         this.clientPort = getRandomClientPort();
 		}
 
-		RLOGGER.log(Level.INFO, "TCPIP Wrapping body parts set to  : {0}", this.wrapBodyParts);
+		RLOGGER.log(Level.FINE, "TCPIP Wrapping body parts set to  : {0}", this.wrapBodyParts);
 	}
 
 	/**

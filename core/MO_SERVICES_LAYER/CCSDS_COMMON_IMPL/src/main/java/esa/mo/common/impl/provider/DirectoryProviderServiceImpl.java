@@ -348,7 +348,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
 
             // Store in the Archive the ServiceProvider COM object and get an object instance identifier
-            LongList returnedServProvObjIds = comServices.getArchiveService().store(
+            final LongList returnedServProvObjIds = comServices.getArchiveService().store(
                     true,
                     DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
@@ -366,14 +366,14 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
 
             // related contains the objId of the ServiceProvider object
-            ArchiveDetailsList archDetails1 = (interaction == null)
+            final ArchiveDetailsList archDetails1 = (interaction == null)
                     ? HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getPrimaryConnectionDetails().getProviderURI())
                     : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
 
-            ProviderDetailsList capabilities = new ProviderDetailsList();
+            ProviderDetailsList capabilities = new ProviderDetailsList(1);
             capabilities.add(newProviderDetails.getProviderDetails());
 
-            // Store in the Archive the ProviderCapabilities COM object and get an object instance identifier
+            // Store in the Archive the ProviderCapabilities COM object
             comServices.getArchiveService().store(
                     false,
                     DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,

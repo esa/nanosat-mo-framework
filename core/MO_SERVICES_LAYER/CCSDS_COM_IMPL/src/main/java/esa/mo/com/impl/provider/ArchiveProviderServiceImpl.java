@@ -594,7 +594,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             return outLongLst;
         } else {
             // Cannot be Threaded because is does not lock the access to the db and out of order will happen
-            manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
+            manager.insertEntriesFast(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
             return null;
         }
     }

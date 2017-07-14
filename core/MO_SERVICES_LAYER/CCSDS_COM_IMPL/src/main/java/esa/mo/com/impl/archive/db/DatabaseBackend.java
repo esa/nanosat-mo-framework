@@ -42,6 +42,7 @@ public class DatabaseBackend {
 
     private static final String DROP_TABLE_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.droptable";
     private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
+    private static final boolean OPTIMIZED_STARTUP = true;
 
     private final Semaphore emAvailability = new Semaphore(0, true);  // true for fairness, because we want FIFO
     private EntityManagerFactory emf;
@@ -67,30 +68,24 @@ public class DatabaseBackend {
     }
 
     public void startBackendDatabase(final TransactionsProcessor dbProcessor) {
-        dbProcessor.submitExternalTask(new Runnable() {
-            @Override
-            public void run() {
-                createEMFactory();
-                emAvailability.release();
+        if (OPTIMIZED_STARTUP) {
+            dbProcessor.submitExternalTask(new Runnable() {
+                @Override
+                public void run() {
+                    createEMFactory();
+                    emAvailability.release();
+                    Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
+                            "The EntityManagerFactory was created.");
+                }
+            });
+        } else {
+            createEMFactory();
+            emAvailability.release();
+            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
+                    "The EntityManagerFactory was created.");
+        }
 
-                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
-                        "The database was initialized and the Archive service is ready!");
-            }
-        });
-        
-                startDatabaseDriver(url);
-                /*
-        dbProcessor.submitExternalTask(new Runnable() {
-            @Override
-            public void run() {
-                startDatabaseDriver(url);
-                emAvailability.release();
-                
-                Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
-                        "The Database Driver was started!");
-            }
-        });
-*/
+        startDatabaseDriver(url);
     }
 
     private void startDatabaseDriver(String url2) {
@@ -110,7 +105,6 @@ public class DatabaseBackend {
 
         // Create unique URL that identifies the driver to use for the connection
 //        String url2 = this.url + ";decryptDatabase=true"; // new
-
         try {
             // Connect to the database
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
@@ -183,11 +177,11 @@ public class DatabaseBackend {
         try {  // This is where the db takes longer!!
             this.em.getTransaction().commit(); // 1.220 ms
         } catch (Exception ex) {
-            if (ex instanceof java.lang.IllegalStateException){
+            if (ex instanceof java.lang.IllegalStateException) {
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING,
-                    "The database file might be locked by another application...");
+                        "The database file might be locked by another application...");
             }
-            
+
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING,
                     "The object could not be commited! Waiting 2500 ms and trying again...");
             try {

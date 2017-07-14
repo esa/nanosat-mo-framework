@@ -35,6 +35,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
@@ -105,6 +106,41 @@ public class TransactionsProcessor {
         }
 
         return null;
+    }
+
+    public boolean existsCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
+        Future<Boolean> future = dbTransactionsExecutor.submit(new Callable() {
+            @Override
+            public Boolean call() {
+                dbBackend.createEntityManager();
+                final COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY,
+                        COMObjectEntity.generatePK(objTypeId, domain, objId));
+                dbBackend.closeEntityManager();
+                return (perObj != null);
+                /*
+                dbBackend.createEntityManager();
+                try {
+                    dbBackend.getEM().getReference(CLASS_ENTITY, 
+                            COMObjectEntity.generatePK(objTypeId, domain, objId));
+                    dbBackend.closeEntityManager();
+                    return true;
+                } catch (EntityNotFoundException ex) {
+                    dbBackend.closeEntityManager();
+                    return false;
+                }
+                */
+            }
+        });
+
+        try {
+            return future.get();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
     }
 
     public LongList getAllCOMObjects(final Integer objTypeId, final Integer domainId) {

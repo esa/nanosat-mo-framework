@@ -118,10 +118,14 @@ public class ArchiveManager {
             @Override
             public void run() {
                 synchronized (manager) {
+                    Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
+                            "Initializing Fast classes!");
                     fastDomain.init();
+                    fastObjectType.init();
                     fastNetwork.init();
                     fastProviderURI.init();
-                    fastObjectType.init();
+                    Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
+                            "The Fast classes are initialized!");
                 }
             }
         });
@@ -235,7 +239,9 @@ public class ArchiveManager {
     }
 
     protected Boolean objIdExists(final ObjectType objType, final IdentifierList domain, final Long objId) {
-        return (this.getPersistenceObject(objType, domain, objId) != null);
+        final Integer domainId = this.fastDomain.getDomainId(domain);
+        final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
+        return this.dbProcessor.existsCOMObject(objTypeId, domainId, objId);
     }
 
     protected LongList getAllObjIds(final ObjectType objType, final IdentifierList domain) {
@@ -262,8 +268,14 @@ public class ArchiveManager {
         return new SourceLinkContainer(sourceObjectTypeId, sourceDomainId, sourceObjId);
     }
 
+    protected void insertEntriesFast(final ObjectType objType, final IdentifierList domain,
+            final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
+        // It is quite hard to improve this method...
+        insertEntries(objType, domain, lArchiveDetails, objects, interaction);
+    }
+    
     protected synchronized LongList insertEntries(final ObjectType objType, final IdentifierList domain,
-            ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
+            final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         final LongList objIds = new LongList(lArchiveDetails.size());
         final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<COMObjectEntity>(lArchiveDetails.size());
         final int domainId = this.fastDomain.getDomainId(domain);
@@ -271,15 +283,15 @@ public class ArchiveManager {
 
         // Generate the object Ids if needed and the persistence objects to be stored
         for (int i = 0; i < lArchiveDetails.size(); i++) {
-            final Long objId = this.fastObjId.getUniqueObjId(objTypeId, domainId, lArchiveDetails.get(i).getInstId());
             final int providerURIId = this.fastProviderURI.getProviderURIId(lArchiveDetails.get(i).getProvider());
             final int networkId = this.fastNetwork.getNetworkId(lArchiveDetails.get(i).getNetwork());
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(lArchiveDetails.get(i).getDetails().getSource());
+            final Long objId = this.fastObjId.getUniqueObjId(objTypeId, domainId, lArchiveDetails.get(i).getInstId());
 
             // If there are no objects in the list, inject null...
             final Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
-            final COMObjectEntity perObjEntity = new COMObjectEntity(
+            perObjsEntities.add(new COMObjectEntity(
                     objTypeId,
                     domainId,
                     objId,
@@ -288,9 +300,8 @@ public class ArchiveManager {
                     networkId,
                     sourceLink,
                     lArchiveDetails.get(i).getDetails().getRelated(),
-                    objBody);
-
-            perObjsEntities.add(perObjEntity);
+                    objBody)
+            );
             objIds.add(objId);
         }
 

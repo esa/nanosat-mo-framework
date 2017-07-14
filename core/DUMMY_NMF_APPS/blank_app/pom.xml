@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!--
+    Licensed under the European Space Agency Public License, Version 2.0
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+ 
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+  
+    <parent>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>NMF_POM</artifactId>
+        <version>0.2-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+    
+    <artifactId>Blank_App</artifactId>
+    <packaging>jar</packaging>
+    <version>0.1.1-SNAPSHOT</version>
+
+    <name>Blank App</name>
+    <description>A blank app to start new projects</description>
+    <url>http://www.esa.int</url>
+  
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>The European Space Agency Public License, Version 2.0</name>
+            <url>https://raw.github.com/esa/CCSDS_APPS/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+  
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
+    </issueManagement>
+  
+    <developers>
+        <developer>
+            <id>YourName</id>
+            <name>Your Name</name>
+            <email>your.name@company.com</email>
+            <url>https://github.com/YourUser</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <assembly.mainClass>esa.mo.nmf.apps.BlankApp</assembly.mainClass>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
+<!--
+            <scope>provided</scope>
+-->            
+        </dependency>
+    </dependencies>
+
+        
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/..</directory>
+                <includes>
+                    <include>LICENCE.md</include>
+                </includes>
+            </resource>
+        </resources>
+    
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+<!--            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+-->
+        </plugins>
+    </build>
+    <repositories>
+        <repository>
+            <id>AGSA-Maven-Repository</id>
+            <name>The Maven repository from the AGSA server.</name>
+            <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
+        </repository>
+    </repositories>
+    
+</project>

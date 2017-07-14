@@ -129,7 +129,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
             centralDirectoryURI = null;
         }
 
-        DirectoryConsumerServiceImpl directoryServiceConsumer = null;
+        DirectoryConsumerServiceImpl centralDirectory = null;
 
         // Connect to the Central Directory service
         if (centralDirectoryURI != null) {
@@ -138,7 +138,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
                         "Attempting to connect to Central Directory service at: {0}", centralDirectoryURI.toString());
 
                 // Connect to the Central Directory service...
-                directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+                centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryURI);
 
                 IdentifierList domain = new IdentifierList();
                 domain.add(new Identifier("*"));
@@ -149,7 +149,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
                         new Identifier(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), null, new Identifier("*"),
                         serviceKey, new UIntegerList());
-                final ProviderSummaryList supervisorEventServiceConnectionDetails = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf);
+                final ProviderSummaryList supervisorEventServiceConnectionDetails = centralDirectory.getDirectoryStub().lookupProvider(sf);
 
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                         "The Central Directory service is operational!");
@@ -178,7 +178,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
                         new UShort(0), new UOctet((short) 0));
                 final ServiceFilter sf2 = new ServiceFilter(new Identifier(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), null, new Identifier("*"), sk, new UIntegerList());
-                final ProviderSummaryList supervisorConnections = directoryServiceConsumer.getDirectoryStub().lookupProvider(sf2);
+                final ProviderSummaryList supervisorConnections = centralDirectory.getDirectoryStub().lookupProvider(sf2);
 
                 if (supervisorConnections.size() == 1) { // Platform services found!
                     // Load all the Platform services' APIs
@@ -214,12 +214,9 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
 
         // Initialize the MO services
         try {
-//            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.FINE, "Initializing services...");
-//            comServices.init();
-            heartbeatService.init();
             this.startMCServices(mcAdapter);
-
             directoryService.init(comServices);
+            heartbeatService.init();
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
@@ -231,6 +228,27 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
                 "Populating local Directory service...");
         PublishDetails publishDetails = directoryService.loadURIs(this.providerName);
 
+        // Populate the provider list of services in the Central Directory service
+        if (centralDirectoryURI != null) {
+            try {
+                if (centralDirectory != null) {
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
+                        "Populating Central Directory service on URI: {0}", centralDirectoryURI.getValue());
+
+                    final PublishProviderResponse response = centralDirectory.getDirectoryStub().publishProvider(publishDetails);
+                    this.appDirectoryServiceId = response.getBodyElement0();
+                    centralDirectory.closeConnection(); // Close the connection to the Directory service
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
+                            "Populated! And the connection to the Directory service has been successfully closed!");
+                }
+            } catch (MALException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
+                        "Could not connect to the Central Directory service! Maybe it is down...");
+            }
+        }
+        
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
@@ -247,36 +265,14 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
             } catch (IOException ex) {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
-
+        
         if (mcAdapter != null) {
             MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
-
-        // Populate the provider list of services in the Central Directory service
-        if (centralDirectoryURI != null) {
-            try {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                        "Populating Central Directory service on URI: {0}", centralDirectoryURI.getValue());
-
-                if (directoryServiceConsumer != null) {
-                    final PublishProviderResponse response = directoryServiceConsumer.getDirectoryStub().publishProvider(publishDetails);
-                    this.appDirectoryServiceId = response.getBodyElement0();
-                    directoryServiceConsumer.closeConnection(); // Close the connection to the Directory service
-                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                            "Populated! And the connection to the Directory service has been successfully closed!");
-                }
-            } catch (MALException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
-                        "Could not connect to the Central Directory service! Maybe it is down...");
-            }
-        }
-
+       
         final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "NanoSat MO Connector initialized in "
@@ -285,7 +281,7 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
 
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory
-//        NMFProvider.hintGC();
+        // NMFProvider.hintGC();
     }
 
     @Override

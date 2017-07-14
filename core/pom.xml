@@ -69,6 +69,7 @@
         <module>MO_SERVICES_LAYER</module>
         <module>NMF_COMPOSITES</module>
         <module>NMF_PACKAGE</module>
+        <module>DUMMY_NMF_APPS</module>
         <module>OTHERS</module>
     </modules>
   

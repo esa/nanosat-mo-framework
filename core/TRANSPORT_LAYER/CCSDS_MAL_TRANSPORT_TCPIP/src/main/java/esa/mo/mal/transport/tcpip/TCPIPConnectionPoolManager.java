@@ -88,7 +88,7 @@ public enum TCPIPConnectionPoolManager {
 		
 		s = connections.get(hash);
 		if (s == null) {
-			RLOGGER.warning("The socket doesn't exist yet! Creating a new one...");
+			RLOGGER.info("The socket doesn't exist! Creating a new one...");
 			s = createSocket(localPort);
 		}
 
