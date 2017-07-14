@@ -24,7 +24,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
-import esa.mo.nmf.packager.NMFPackagePMBackend;
+import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 import java.net.MalformedURLException;
