@@ -62,7 +62,6 @@
     </developers>
 
     <modules>
-        <module>blank_app</module>
         <module>demo-obsw-hello_world</module>
         <module>demo-obsw-push-clock</module>
         <module>demo-obsw-gps-data</module>
