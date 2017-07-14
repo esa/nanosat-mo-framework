@@ -148,19 +148,21 @@ public class NMFPackageManager {
 
             final long crc = HelperNMFPackage.calculateCRC(newFile.getCanonicalPath());
 
+            // We will also need to double check the CRCs again against the real files!
+            // Just to double-check.. better safe than sorry!
             if (file.getCRC() != crc) {
                 throw new IOException("The CRC does not match!");
             }
         }
 
-        // We will also need to double check the CRCs again against the real files!
     }
 
     public static void uninstall(final String packageLocation, final boolean keepConfigurations) {
-        // Get the Files to be installed
+        // Get the Package to be uninstalled
 
         // Delete the files according to the NMF statement file
         // Do we keep the previous configurations?
+        
     }
 
     public static void upgrade(final String packageLocation) {
