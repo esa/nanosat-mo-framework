@@ -33,13 +33,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -51,11 +49,9 @@ public class NMFPackageCreator {
 
     private static final int BUFFER = 2048;
 
-    private static ArrayList<Long> zipFiles(String outputPath, ArrayList<String> from, ArrayList<String> newLocations) {
-        ArrayList<Long> list = new ArrayList<Long>();
-
+    private static void zipFiles(String outputPath, ArrayList<String> from, ArrayList<String> newLocations) {
         try {
-            BufferedInputStream origin = null;
+            BufferedInputStream origin;
             FileOutputStream dest = new FileOutputStream(outputPath);
             ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
             byte data[] = new byte[BUFFER];
@@ -67,11 +63,8 @@ public class NMFPackageCreator {
                 origin = new BufferedInputStream(new FileInputStream(file), BUFFER);
 
                 ZipEntry entry = new ZipEntry(newPath);
-                long crc = calculateCRC(file);
-                list.add(crc);
-//                entry.setCrc(calculateCRC(file));
                 out.putNextEntry(entry);
-                
+
                 int count;
                 while ((count = origin.read(data, 0, BUFFER)) != -1) {
                     out.write(data, 0, count);
@@ -80,23 +73,24 @@ public class NMFPackageCreator {
             }
             out.close();
         } catch (Exception ex) {
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, "The Files could not be zipped!", ex);
         }
-        
-        return list;
     }
 
-    public static void nmfPackageCreator(NMFPackageDetails details, ArrayList<String> files, ArrayList<String> newLocations) {
+    public static void nmfPackageCreator(final NMFPackageDetails details,
+            final ArrayList<String> files, final ArrayList<String> newLocations) {
         NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
-        
-        for(int i = 0; i < newLocations.size(); i++){
+
+        for (int i = 0; i < newLocations.size(); i++) {
             try {
-                descriptor.addFile(new NMFPackageFile(newLocations.get(i), calculateCRC(files.get(i))));
+                descriptor.addFile(new NMFPackageFile(newLocations.get(i),
+                        HelperNMFPackage.calculateCRC(files.get(i))));
             } catch (IOException ex) {
-                Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
+                        "There was a problem during the CRC calculation.", ex);
             }
         }
-                
+
         // -----------------------------------------------------------------------------------
         // Generate nmfPackage.receipt
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO, "Generating receipt file...");
@@ -127,7 +121,7 @@ public class NMFPackageCreator {
 
         // Generate Public and Private keys
         KeyPair pair = NMFDigitalSignature.generateKeyPar();
-        
+
         // Generate the SHA (can only be done after having the receipt file)
         byte[] signature = NMFDigitalSignature.signWithData(pair.getPrivate(), HelperNMFPackage.RECEIPT_FILENAME);
 
@@ -150,16 +144,14 @@ public class NMFPackageCreator {
         files.add((new File(HelperNMFPackage.DS_FILENAME)).getPath());
         newLocations.add(HelperNMFPackage.DS_FILENAME);
         // -----------------------------------------------------------------------------------        
-        
 
         // -----------------------------------------------------------------------------------        
         // Compress:
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO, "Compressing...");
 
         String packageOutputPath = details.getPackageName() + "-" + details.getVersion() + "." + HelperNMF.NMF_PACKAGE_SUFFIX;
-        ArrayList<Long> crcs = NMFPackageCreator.zipFiles(packageOutputPath, files, newLocations);
+        NMFPackageCreator.zipFiles(packageOutputPath, files, newLocations);
 
-        
         // Output the secret privateKey into a file
         try {
             byte[] key = pair.getPrivate().getEncoded();
@@ -177,17 +169,6 @@ public class NMFPackageCreator {
         // Delete temporary files:
         receipt.delete();
         digitalSignature.delete();
-    }
-    
-    public static long calculateCRC(final String filepath) throws IOException {
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(filepath));
-        CRC32 crc = new CRC32();
-        int cnt;
-
-        while ((cnt = inputStream.read()) != -1) {
-            crc.update(cnt);
-        }
-        return crc.getValue();
     }
 
 }
