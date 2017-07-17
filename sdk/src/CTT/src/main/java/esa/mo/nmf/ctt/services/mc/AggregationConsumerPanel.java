@@ -318,6 +318,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         aggregationDefinition.setGenerationEnabled(true);
         aggregationDefinition.setReportInterval(new Duration(2));
         aggregationDefinition.setFilterEnabled(false);
+        aggregationDefinition.setSendDefinitions(false);
+        aggregationDefinition.setSendUnchanged(false);
         aggregationDefinition.setFilteredTimeout(new Duration(5));
 
         AggregationParameterSetList aggSetList = new AggregationParameterSetList();

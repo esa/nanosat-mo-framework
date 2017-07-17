@@ -53,6 +53,9 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import esa.mo.nmf.NMFInterface;
+import java.util.Date;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * This class provides a simple demo that allows data to be retrieved from a GPS
@@ -80,7 +83,33 @@ public class DemoGPSData {
     public static void main(final String args[]) throws Exception {
         DemoGPSData demo = new DemoGPSData();
     }
+    
+    /**
+     * Triggers ad-hoc aggregation updates with the MO Services provider.
+     *
+     * @return true if the pushes were successful. False otherwise.
+     */
+    public boolean pushAggregationAdhocUpdates() {
 
+        try {
+            boolean result = true;
+            
+            Date now = new Date();
+            final ObjectId source = null;
+            final Time timestamp = new Time(now.getTime());
+            
+            if (!nanoSatMOFramework.getMCServices().getAggregationService().pushAggregationAdhocUpdate(new Identifier("GPS"), source, timestamp)) {
+                result = false;
+            }
+            
+            return true;
+        } catch (NMFException ex) {
+            Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
     public class mcAdapter extends MonitorAndControlNMFAdapter {
 
         @Override

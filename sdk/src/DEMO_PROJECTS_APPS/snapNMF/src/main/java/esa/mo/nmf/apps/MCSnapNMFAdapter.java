@@ -21,7 +21,6 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -60,6 +59,9 @@ import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import esa.mo.nmf.NMFInterface;
+import java.util.Set;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * The adapter for the app
@@ -191,6 +193,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             try {
                 nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.JPG,
                         new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
+                
                 return null; // Success!
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
@@ -205,7 +208,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         return new UInteger(0);  // Action service not integrated
     }
-
+    
     public class DataReceivedAdapter extends CameraAdapter {
 
         private final int STAGE_ACK = 1;
