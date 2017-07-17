@@ -739,7 +739,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * The pushAggregationAdhocUpdate operation allows an external entity to
      * trigger an adhoc aggregation-update.
      *
-     * @param identityId The id of the Aggregation as set in the aggregation
+     * @param name The id of the Aggregation as set in the aggregation
      * definition
      * @param source The source of the aggregation. Can be null
      * @param timestamp The timestamp of the aggregation. If null, the method
@@ -748,6 +748,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      */
     public Boolean pushAggregationAdhocUpdate(Identifier name, final ObjectId source, final Time timestamp) { //requirement: 3.7.2.b.b, 3.7.4.i
         final Long identityId = manager.getIdentity(name);
+        
+        if(identityId == null){
+            return false;
+        }
 
         //check the filter and sample
         if (!checkFilterAndSampleParam(identityId, false)) {
