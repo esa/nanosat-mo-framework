@@ -85,7 +85,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             folder_location = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
         }
 
-        this.refreshFoldersAvailable(false);
+//        this.refreshFoldersAvailable(false);
 
         String[] tableCol = new String[]{
             "Service name", "Supported Capabilities", "Service Properties", "URI address", "Broker URI Address"};
@@ -234,6 +234,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         });
 
         obswFolder.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        obswFolder.setEnabled(false);
         obswFolder.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 obswFolderItemStateChanged(evt);
@@ -247,6 +248,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel30.setText("OBSW Demo Folder:");
+        jLabel30.setEnabled(false);
         jLabel30.setPreferredSize(new java.awt.Dimension(150, 14));
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -427,6 +429,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceDirectoryActionPerformed
 
+    /*
     private void refreshFoldersAvailable(boolean isSecondaryCall) {
         obswFolder.removeAllItems();
 
@@ -451,6 +454,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             }
         }
     }
+    
+    private void changeOBSWFolder() {
+        folder_location = new File(".." + File.separator + OBSW_ALTERNATIVE_DIRECTORY_NAME);  // Location of the folder
+        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, 
+                "The directory path was changed to: {0}", folder_location.toString());
+    }
+*/
 
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
@@ -497,6 +507,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_obswFolderActionPerformed
 
     private void obswFolderItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_obswFolderItemStateChanged
+        /*
         if (obswFolder.getSelectedItem() == null) {
             return;
         }
@@ -516,6 +527,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         // refres the textbox
         this.initTextBoxAddress();
+*/
     }//GEN-LAST:event_obswFolderItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -538,12 +550,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     private URI getAddressToBeUsed() {  // updates the 
         return new URI(this.uriServiceDirectory.getText());
-    }
-
-    private void changeOBSWFolder() {
-        folder_location = new File(".." + File.separator + OBSW_ALTERNATIVE_DIRECTORY_NAME);  // Location of the folder
-        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, 
-                "The directory path was changed to: {0}", folder_location.toString());
     }
 
     private void initTextBoxAddress() {  // runs during the init of the app
