@@ -241,21 +241,23 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         ActionDefinitionDetails actDef = (ActionDefinitionDetails) comObject.getObject();
         AttributeValueList argumentValueList = new AttributeValueList();
         ArgumentDefinitionDetailsList arguments = actDef.getArguments();
+        
+        if (arguments != null){
+            for (int i = 0; i < arguments.size(); i++) {
+                if (arguments.get(i) == null) {  // If the argument is null, then please jump over it
+                    argumentValueList.add(null);
+                    continue;
+                }
 
-        for (int i = 0; i < arguments.size(); i++) {
-            if (arguments.get(i) == null) {  // If the argument is null, then please jump over it
-                argumentValueList.add(null);
-                continue;
+                String attributeName = HelperAttributes.typeShortForm2attributeName(arguments.get(i).getRawType().intValue());
+                Object aaa = HelperAttributes.attributeName2object(attributeName);
+                Attribute elem = (Attribute) HelperAttributes.javaType2Attribute(aaa);
+
+                AttributeValue argumentValue = new AttributeValue();
+                argumentValue.setValue(elem);
+
+                argumentValueList.add(argumentValue);
             }
-
-            String attributeName = HelperAttributes.typeShortForm2attributeName(arguments.get(i).getRawType().intValue());
-            Object aaa = HelperAttributes.attributeName2object(attributeName);
-            Attribute elem = (Attribute) HelperAttributes.javaType2Attribute(aaa);
-
-            AttributeValue argumentValue = new AttributeValue();
-            argumentValue.setValue(elem);
-
-            argumentValueList.add(argumentValue);
         }
 
         ActionInstanceDetails actionInstanceDetails = new ActionInstanceDetails();
