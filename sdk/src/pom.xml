@@ -67,7 +67,7 @@
         <module>DEMO_GROUND_SPACE_FACEBOOK</module>
         <module>CTT</module>
         <module>PLAYGROUND_GENERATOR</module> 
-        <module>NMF_PACKAGE_CREATOR_TOOL</module> 
+        <module>NMF_PACKAGE_ASSEMBLER</module> 
     </modules>
   
     <repositories>

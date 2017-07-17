@@ -23,12 +23,12 @@
         <relativePath/>
     </parent>
   
-    <artifactId>NMF_PACKAGE_CREATOR_TOOL</artifactId>
+    <artifactId>NMF_PACKAGE_ASSEMBLER</artifactId>
     <packaging>jar</packaging>
     <version>0.1.0</version>
 
-    <name>NMF Package Creator Tool</name>
-    <description>A tool to create NMF Packages.</description>
+    <name>NMF Package Assembler</name>
+    <description>A tool to assemble NMF Packages.</description>
     <url>http://www.esa.int</url>
   
     <organization>
