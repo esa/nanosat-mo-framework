@@ -519,7 +519,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                             return;
                         }
                         
-                        Position pos = adapter.getCurrentPosition(); // Current Position
+                        final Position pos = adapter.getCurrentPosition(); // Current Position
                         
                         // Do: get the current value from the GPS unit
                         synchronized(MUTEX){
@@ -556,7 +556,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                         }
                     }
                 }
-            }, 0, PERIOD);
+            }, PERIOD, PERIOD);
         }
     }
 
