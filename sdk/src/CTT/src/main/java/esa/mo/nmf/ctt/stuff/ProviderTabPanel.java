@@ -61,16 +61,16 @@ public class ProviderTabPanel extends javax.swing.JPanel {
      */
     public ProviderTabPanel(final ProviderSummary provider) {
         services = new GroundMOAdapterImpl(provider);
-        this.insertTabs(); // Insert all the tabs
+        initComponents();
+//        this.insertServicesTabs(); // Insert all the tabs
     }
 
     public GroundMOAdapterImpl getServices() {
         return this.services;
     }
 
-    public final void insertTabs() {
-        initComponents();
-
+    public final void insertServicesTabs() {
+        /*
         Thread t1 = new Thread() {
             @Override
             public void run() {
@@ -80,6 +80,9 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         };
 
         t1.start();
+        */
+
+        startTabs();
     }
 
     private void startTabs() {
@@ -209,8 +212,9 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         private Time lastBeatAt = HelperTime.getTimestampMillis();
 
         public ProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat) throws MALInteractionException, MALException {
-            double aaa = heartbeat.getHeartbeatStub().getPeriod().getValue();
-            period = (long) (aaa * 1000);
+            double value = heartbeat.getHeartbeatStub().getPeriod().getValue();
+            period = (long) (value * 1000);
+            status.setText("The provider is reachable and the beat period is set to " + value + " seconds");
 
             timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {

@@ -113,7 +113,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         ListSelectionListener listSelectionListener = new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
-
                 // Update the jTable according to the selection of the index
                 // So, remove all...
                 while (tableData.getRowCount() != 0) {
@@ -381,6 +380,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             Thread t1 = new Thread() {
                 @Override
                 public void run() {
+                    this.setName("ConnectButtonActionThread");
                     ProviderTabPanel providerPanel = new ProviderTabPanel(summary);
 
                     javax.swing.JPanel pnlTab = new javax.swing.JPanel();
@@ -404,6 +404,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                     tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
                     tabs.setSelectedIndex(tabs.getTabCount() - 1);
                     sem.release();
+                    providerPanel.insertServicesTabs();
                 }
             };
 
