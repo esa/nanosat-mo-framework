@@ -20,11 +20,9 @@
  */
 package esa.mo.nmf.nmfpackage.descriptor;
 
-import esa.mo.helpertools.helpers.HelperTime;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  *
