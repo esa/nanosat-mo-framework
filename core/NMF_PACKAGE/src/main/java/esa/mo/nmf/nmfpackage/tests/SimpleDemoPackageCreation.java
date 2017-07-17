@@ -20,10 +20,12 @@
  */
 package esa.mo.nmf.nmfpackage.tests;
 
+import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.nmfpackage.NMFPackageCreator;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import java.io.File;
 import java.util.ArrayList;
+import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  *
@@ -39,48 +41,33 @@ public class SimpleDemoPackageCreation {
     public static void main(final String args[]) {
         SimpleDemoPackageCreation.createPackage();
     }
-    
-    
-    public static void createPackage(){
+
+    public static void createPackage() {
         ArrayList<String> files = new ArrayList<String>();
         ArrayList<String> newLocations = new ArrayList<String>();
 
         String myAppFilename = "myApp.filetype";
         files.add(myAppFilename);
         newLocations.add("apps" + File.separator + myAppFilename);
-                
+
         // Step 1: Fill in app details...
         // App Name, Description, Category
-        
-        
-        
         // Step 2: Is it a NMF app?
+        // If No:s
+        // Select the binary files to be installed
+        // Additional libraries?
+        final Time time = new Time(System.currentTimeMillis());
+        final String timestamp = HelperTime.time2readableString(time);
 
-        // If No:
-            // Select the binary files to be installed
-            
-            
-            
-            // Additional libraries?
-            
-            
-            NMFPackageDetails details = new NMFPackageDetails("TestPackage", "1.0");
-            
-            NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
-            
-            
-            
+        NMFPackageDetails details = new NMFPackageDetails("TestPackage", "1.0", timestamp);
+
+        NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
+
         // If Yes:
-            // Select the jar file (without dependencies)
-            // Select the provider.properties file
-            // 
-            
-            // Additional libraries?
-            
-        
-        
+        // Select the jar file (without dependencies)
+        // Select the provider.properties file
+        // 
+        // Additional libraries?
     }
-    
-
 
 }

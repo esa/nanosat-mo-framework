@@ -279,7 +279,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // requirement: 3.4.4.2.15
 
             if (queryFilterList != null) { // requirement: 3.4.4.2.8
-                if(tmpQueryFilter instanceof CompositeFilterSet){
+                if(tmpQueryFilter instanceof CompositeFilterSet) {
                     try {
                         if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
                             perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10

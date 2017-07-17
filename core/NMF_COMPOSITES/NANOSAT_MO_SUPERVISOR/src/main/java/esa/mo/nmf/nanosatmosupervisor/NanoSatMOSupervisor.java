@@ -162,7 +162,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
                 "NanoSat MO Supervisor initialized in "
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
-                + " seconds! URI: {0}\n", primaryURI);
+                + " seconds!");
+        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
+                "URI: {0}\n", primaryURI);
 
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory

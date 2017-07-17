@@ -20,9 +20,11 @@
  */
 package esa.mo.nmf.nmfpackage.descriptor;
 
+import esa.mo.helpertools.helpers.HelperTime;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  *
@@ -32,31 +34,41 @@ public class ReceiptVersion1 {
 
     private static final String PACKAGE_NAME = "PackageName=";
     private static final String PACKAGE_VERSION = "PackageVersion=";
+    private static final String PACKAGE_TIMESTAMP = "PackageCreationTimestamp=";
     private static final String FILE_PATH = "FilePath=";
     private static final String FILE_CRC = "FileCRC=";
 
     public static NMFPackageDescriptor readReceiptVersion1(final BufferedReader br) throws IOException {
         String name = null;
         String version = null;
+        String timestamp = null;
 
         String line;
         line = readLineSafe(br);
 
         if (line.startsWith(line)) {
             name = line.substring(PACKAGE_NAME.length());
-        }else{
+        } else {
             throw new IOException("Could not read the package name!");
         }
 
         line = readLineSafe(br);
-        
+
         if (line.startsWith(line)) {
             version = line.substring(PACKAGE_VERSION.length());
-        }else{
+        } else {
             throw new IOException("Could not read the package version!");
         }
 
-        final NMFPackageDetails details = new NMFPackageDetails(name, version);
+        line = readLineSafe(br);
+
+        if (line.startsWith(line)) {
+            timestamp = line.substring(PACKAGE_TIMESTAMP.length());
+        } else {
+            throw new IOException("Could not read the package timestamp!");
+        }
+
+        final NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp);
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
         long crc;
@@ -65,18 +77,18 @@ public class ReceiptVersion1 {
         while ((line = br.readLine()) != null) {
             if (line.startsWith(line)) {
                 path = line.substring(FILE_PATH.length());
-            }else{
+            } else {
                 throw new IOException("Could not read the path!");
             }
-            
+
             line = readLineSafe(br);
 
             if (line.startsWith(line)) {
                 crc = Long.parseLong(line.substring(FILE_CRC.length()));
-            }else{
+            } else {
                 throw new IOException("Could not read the crc!");
             }
-            
+
             descriptor.addFile(new NMFPackageFile(path, crc));
         }
 
@@ -87,6 +99,8 @@ public class ReceiptVersion1 {
         bw.write(PACKAGE_NAME + descriptor.getDetails().getPackageName());
         bw.newLine();
         bw.write(PACKAGE_VERSION + descriptor.getDetails().getVersion());
+        bw.newLine();
+        bw.write(PACKAGE_TIMESTAMP + descriptor.getDetails().getTimestamp());
         bw.newLine();
 
         // Iterate the newLocations and write them down on the file
@@ -100,7 +114,7 @@ public class ReceiptVersion1 {
 
     private static String readLineSafe(final BufferedReader br) throws IOException {
         String line = br.readLine();
-        
+
         if (line == null) {
             throw new IOException("The line is null! It happens when it reaches the end of the file!");
         }

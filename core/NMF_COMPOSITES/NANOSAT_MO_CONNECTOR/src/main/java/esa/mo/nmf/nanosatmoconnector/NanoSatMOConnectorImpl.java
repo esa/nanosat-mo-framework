@@ -273,11 +273,13 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
             mcAdapter.initialRegistrations(registration);
         }
        
-        final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "NanoSat MO Connector initialized in "
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
-                + " seconds! URI: {0}\n", uri);
+                + " seconds!");
+        final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
+        Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
+                "URI: {0}\n", uri);
 
         // We just loaded everything, it is a good time to 
         // hint the garbage collector and clean up some memory

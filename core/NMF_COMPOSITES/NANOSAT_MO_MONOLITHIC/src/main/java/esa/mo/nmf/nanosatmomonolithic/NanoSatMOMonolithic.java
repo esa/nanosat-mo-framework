@@ -119,11 +119,13 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             mcAdapter.initialRegistrations(registration);
         }
 
-        final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
                 "NanoSat MO Monolithic initialized in "
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
-                + " seconds! URI: {0}\n", uri);
+                + " seconds!");
+        final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
+        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
+                "URI: {0}\n", uri);
     }
 
     /**
