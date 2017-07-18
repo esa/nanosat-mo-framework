@@ -75,10 +75,12 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
     public AggregationConsumerPanel(AggregationConsumerServiceImpl serviceMCAggregation) {
         initComponents();
 
+        this.serviceMCAggregation = serviceMCAggregation;
         aggregationTable = new AggregationTablePanel(serviceMCAggregation.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(aggregationTable);
-
-        this.serviceMCAggregation = serviceMCAggregation;
+    }
+    
+    public void init(){
         this.listDefinitionAllButtonActionPerformed(null);
 
         // Subscribe to ParametersValues
@@ -90,9 +92,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-
+        
     /**
      * This method is called from within the constructor to initialize the
      * formAddModifyParameter. WARNING: Do NOT modify this code. The content of

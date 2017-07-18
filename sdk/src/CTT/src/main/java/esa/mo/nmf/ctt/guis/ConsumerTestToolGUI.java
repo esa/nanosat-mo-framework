@@ -76,6 +76,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
      * Creates new form MOConsumerGUI
      *
      * @param name The name to display on the title bar of the form.
+     * @param defaultURI
      */
     public ConsumerTestToolGUI(final String name, final String defaultURI) {
         initComponents();

@@ -73,7 +73,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
      * @param connectionConsumer
      * @param tabs
      */
-    public DirectoryConnectionConsumerPanel(boolean isS2G, ConnectionConsumer connectionConsumer, JTabbedPane tabs) {
+    public DirectoryConnectionConsumerPanel(final boolean isS2G,
+            final ConnectionConsumer connectionConsumer, final JTabbedPane tabs) {
         initComponents();
         this.connectionConsumer = connectionConsumer;
         this.tabs = tabs;
@@ -255,15 +256,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(1, 1, 1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(obswFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -375,15 +374,16 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         }
 
         final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
-        final Semaphore sem = new Semaphore(0);
-
+        final int count = tabs.getTabCount();
+        
         Thread t1 = new Thread() {
             @Override
             public void run() {
                 this.setName("ConnectButtonActionThread");
                 ProviderTabPanel providerPanel = new ProviderTabPanel(summary);
 
-                javax.swing.JPanel pnlTab = new javax.swing.JPanel();
+                // -- Close Button --
+                final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
                 pnlTab.setOpaque(false);
                 JLabel label = new JLabel(summary.getProviderName().toString());
                 JLabel closeLabel = new JLabel("x");
@@ -399,23 +399,18 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 gbc.gridx++;
                 gbc.weightx = 0;
                 pnlTab.add(closeLabel, gbc);
+                // ------------------
 
                 tabs.addTab("", providerPanel);
-                int count = tabs.getTabCount() - 1;
-                tabs.setTabComponentAt(count, pnlTab);
                 tabs.setSelectedIndex(count);
-                sem.release();
+                tabs.setTabComponentAt(count, pnlTab);
+
                 providerPanel.insertServicesTabs();
             }
         };
 
         t1.start();
 
-        try {
-            sem.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void errorConnectionProvider(String service, Throwable ex) {
@@ -565,7 +560,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         private final javax.swing.JPanel panel;
         private final ProviderTabPanel providerPanel;
 
-        CloseMouseHandler(javax.swing.JPanel panel, ProviderTabPanel providerPanel) {
+        CloseMouseHandler(final javax.swing.JPanel panel, final ProviderTabPanel providerPanel) {
             this.panel = panel;
             this.providerPanel = providerPanel;
         }

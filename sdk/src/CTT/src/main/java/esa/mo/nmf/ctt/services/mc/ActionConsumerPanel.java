@@ -71,11 +71,12 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
     public ActionConsumerPanel(ActionConsumerServiceImpl serviceMCAction) {
         initComponents();
 
+        this.serviceMCAction = serviceMCAction;
         actionTable = new ActionTablePanel(serviceMCAction.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(actionTable);
-
-        this.serviceMCAction = serviceMCAction;
-
+    }
+    
+    public void init(){
         this.listDefinitionAllButtonActionPerformed(null);
     }
 

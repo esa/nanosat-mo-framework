@@ -46,21 +46,22 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
  * @author Cesar Coelho
  */
 public class ParameterPublishedValues extends javax.swing.JPanel {
-    
+
+    final ParameterConsumerServiceImpl parameterService;
     private final int numberOfColumns = 5;
-    private ParameterLabel[] labels = new ParameterLabel[32 * numberOfColumns];
+    private final ParameterLabel[] labels = new ParameterLabel[32 * numberOfColumns];
 
     public ParameterLabel[] getLabels() {
         return this.labels;
     }
 
-    public ParameterPublishedValues(ParameterConsumerServiceImpl parameterService) throws MALInteractionException, MALException {
-        
+    public ParameterPublishedValues(final ParameterConsumerServiceImpl parameterService) {
+        this.parameterService = parameterService;
         this.setEnabled(false);
 //        this.setName("ObjIdslotsTab"); // NOI18N
         this.setPreferredSize(new java.awt.Dimension(800, 600));
         this.setLayout(new java.awt.GridLayout(32, 16, 1, 1));
-        
+
         final java.awt.Dimension dim = new java.awt.Dimension(64, 16);
         for (int i = 0; i < labels.length; ++i) {
 
@@ -79,15 +80,16 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
         labels[1 * numberOfColumns].setNewValue("Validity State", 0);
         labels[2 * numberOfColumns].setNewValue("Raw Value", 0);
         labels[3 * numberOfColumns].setNewValue("Converted Value", 0);
-        
 
         for (int i = 0; i < labels.length; ++i) {
             this.add(labels[i]);
         }
+    }
 
+    public void subscribeToParameters() throws MALInteractionException, MALException {
         // Subscribe to ParametersValues
         final Subscription subscription = ConnectionConsumer.subscriptionWildcard();
-        parameterService.getParameterStub().monitorValueRegister(subscription, new ParameterConsumerAdapter());
+        this.parameterService.getParameterStub().monitorValueRegister(subscription, new ParameterConsumerAdapter());
     }
 
     public class ParameterConsumerAdapter extends ParameterAdapter {
@@ -142,7 +144,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
             }
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -66,14 +66,15 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     public AlertConsumerPanel(AlertConsumerServiceImpl serviceMCAlert) {
         initComponents();
 
+        this.serviceMCAlert = serviceMCAlert;
         alertTable = new AlertTablePanel(serviceMCAlert.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(alertTable);
-
-        this.serviceMCAlert = serviceMCAlert;
-        
-        this.listDefinitionAllButtonActionPerformed(null);
     }
 
+    public void init(){
+        this.listDefinitionAllButtonActionPerformed(null);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the
      * formAddModifyParameter. WARNING: Do NOT modify this code. The content of

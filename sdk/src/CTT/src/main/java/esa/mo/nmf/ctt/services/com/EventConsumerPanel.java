@@ -67,11 +67,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
         serviceCOMEvent = eventService;
         comObjects = new ArrayList<ArchivePersistenceObject>();
 
-        // Subscribe to all Events
-        final Subscription subscription = ConnectionConsumer.subscriptionWildcard();
-        
-        serviceCOMEvent.addEventReceivedListener(subscription, new EventReceivedAdapter());
-
         /*        
         try {
             serviceCOMEvent.getEventStub().monitorEventRegister(subscription, new EventConsumerAdapter());
@@ -121,9 +116,14 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                 }
             }
         });
-
     }
 
+    public void init(){
+        // Subscribe to all Events
+        final Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+        serviceCOMEvent.addEventReceivedListener(subscription, new EventReceivedAdapter());
+    }
+    
     public class EventReceivedAdapter extends EventReceivedListener {
 
         @Override

@@ -92,6 +92,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setViewportView(appsTable);
 
         this.serviceSMAppsLauncher = serviceSMAppsLauncher;
+    }
+    
+    public void init(){
         this.listAppAllButtonActionPerformed(null);
 
         // Subscribe to Apps
@@ -103,7 +106,6 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     /**

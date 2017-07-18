@@ -72,14 +72,15 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
     public ParameterConsumerPanel(ParameterConsumerServiceImpl serviceMCParameter) {
         initComponents();
 
+        this.serviceMCParameter = serviceMCParameter;
         parameterTable = new ParameterTablePanel(serviceMCParameter.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(parameterTable);
-
-        this.serviceMCParameter = serviceMCParameter;
-        
-        this.listDefinitionAllButtonActionPerformed(null);
     }
 
+    public void init(){
+        this.listDefinitionAllButtonActionPerformed(null);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the
      * formAddModifyParameter. WARNING: Do NOT modify this code. The content of

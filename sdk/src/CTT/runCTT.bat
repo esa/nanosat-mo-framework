@@ -1,1 +1,1 @@
-java -classpath "target\CTT-jar-with-dependencies.jar" esa.mo.nmf.ctt.guis.ConsumerTestToolGUI
+java  -javaagent:"C:\Users\Cesar Coelho\Dropbox\PhD\NetBeansProjects\AGSA-LAB\XML_MO_APIs\.metadata\.plugins\com.anarsoft.plugin.sync.bug\agent.jar" -classpath "target\CTT-jar-with-dependencies.jar" esa.mo.nmf.ctt.guis.ConsumerTestToolGUI

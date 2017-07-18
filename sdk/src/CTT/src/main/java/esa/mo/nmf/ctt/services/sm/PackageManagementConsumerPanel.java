@@ -31,7 +31,6 @@ import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementAdapter;
 
@@ -51,13 +50,13 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     public PackageManagementConsumerPanel(PackageManagementConsumerServiceImpl serviceSMPackageManagement) {
         initComponents();
 
-        packagesTable = new PackageManagementTablePanel();
-
-        jScrollPane2.setViewportView(packagesTable);
-
         this.serviceSMPackageManagement = serviceSMPackageManagement;
+        packagesTable = new PackageManagementTablePanel();
+        jScrollPane2.setViewportView(packagesTable);
+    }
+    
+    public void init(){
         this.listAppAllButtonActionPerformed(null);
-
     }
 
     /**
