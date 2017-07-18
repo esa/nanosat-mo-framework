@@ -1,0 +1,116 @@
+////////////////////////////////////////////////////////////////
+// Simulator GUI Panel
+////////////////////////////////////////////////////////////////
+
+// Start two instances
+// Running mission time
+// Stop and start the time
+// Close one instance
+// Change time factor
+// Change the header, submit to server
+// Manual commands
+// FineADCS send a telemetry command ID 1015
+// Show Celestia visualization
+// Reduce time to normal (x1)
+// Send GPS commands ID 2001
+// Show scheduler commands list
+// Show device tabs with internal states
+// Send FineADCS LOFPointing command ID 1170
+// Show Celestia update
+// Send FineADCS TargetTracking command ID 1178
+// Send simGetOrbitTLEFromString command ID 1182
+// Copy output
+// Change byte array content to force failure on the server
+// Change syntax to force local rejection
+// Send orbitSetTLE command ID 1162
+// Submit header again
+
+////////////////////////////////////////////////////////////////
+// EUD start
+////////////////////////////////////////////////////////////////
+
+// Open workspaces view - mention custom toolbar
+
+// Open parameter browser - mention parameter categories and aggregations
+
+
+
+// Open all parameters from Magnetometer.Aggregation in new MAT view
+// Add GPS.NumSatsInView, ADCS.ModeOperation by dragging
+
+// Say: initial parameter values populated but no periodic updates
+
+// Enable generation for all parameters in MAT view, except ADCS.ModeOperation
+
+// Open parameters GPS.NumSatsInView and ADCS.ModeOperation in new SCD view
+
+// Open parameters Magnetometer.Aggregation in new GRD view
+
+// Open messages display
+// - explain the 10 seconds alert notifications
+// - drag the columns to ensure good visibility of all fields
+// - mention custom severity, colours and object Id column
+
+// Apply filter to remove 10 second alerts
+
+// Open action executor (drag the columns to ensure good visibility of all fields)
+
+// Close workspaces view
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
+// Find out which Actions are available for execution in the target application(space)
+list:
+
+// Obtain description for a particular action
+help:5StagesAction
+
+// 5StagesAction
+// mention PRECHECK - MO concept defined by Action service
+precheck:5StagesAction() 
+
+// execute 5 stages action
+5StagesAction()
+
+// Switch to message display and view progress stages
+
+// Show object ID, component source, system source, object ID (MAL identifier)
+
+// Mentioned status and result fields in Action Executor
+
+//Change the graph time window size to 15 minutes
+
+// Change pointing mode to Nadir for a duration of 2 minutes
+// explain nadir (opposite of zenith)
+precheck:ADCS.NadirPointingMode(+00.02.00.000)
+ADCS.NadirPointingMode(+00.02.00.000)
+
+// Switch to Celestia to prove new pointing
+
+// Warning, new parameter (quaternion4) definition has arrived, restart of parameter processor required (MO services dynamically created a new parameter definition)
+
+// Switch from GRD to SCD, to show ADCS Mode scrolling
+
+// Change pointing mode to Sun for a duration of 2 minutes
+precheck:ADCS.SunPointingMode(+00.02.00.000)
+ADCS.SunPointingMode(+00.02.00.000)
+
+// Switch to Celestia to prove new pointing
+
+////////////////////////////////////////////////////////////////
+// Failure scenarios
+////////////////////////////////////////////////////////////////
+
+// Precheck fails when switching back to Nadir mode
+precheck:ADCS.NadirPointingMode()
+precheck:ADCS.NadirPointingMode(+00.02.00)
+
+// Negative duration on action
+ADCS.NadirPointingMode(-00.02.00.000)
+
+// show in message display which stage failed, and error code
+
+// Sending a pointing action before the previous expired
+ADCS.NadirPointingMode(+00.02.00.000)
+ADCS.SunPointingMode(+00.02.00.000)

@@ -65,8 +65,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
+            <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
 <!--
             <scope>provided</scope>
 -->            

@@ -97,7 +97,7 @@ import esa.mo.nmf.NMFInterface;
 /**
  * The adapter for the app
  */
-public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
+public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
     private NMFInterface nmf;
 
@@ -139,7 +139,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 try {
                     nmf.publishAlertEvent("10SecondsAlert", atts);
                 } catch (NMFException ex) {
-                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }, 0, 10 * 1000); // 10 seconds
@@ -428,15 +428,15 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 try {
                     nmf.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
                 } catch (IOException ex) {
-                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NMFException ex) {
-                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 try {
                     sem.acquire();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
@@ -467,9 +467,9 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         return pos.getBodyElement1();
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NMFException ex) {
-                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -492,16 +492,16 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                         return (Attribute) HelperAttributes.javaType2Attribute(magField.getZ());
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NMFException ex) {
-                    Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
         } catch (MALException ex) {
-            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
@@ -553,15 +553,15 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
 
                 nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, (Duration) argValue, new Duration(2));
             } catch (MALInteractionException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             } catch (IOException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             } catch (NMFException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             }
 
@@ -585,15 +585,15 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 System.out.println(ACTION_NADIR_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
                 nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, (Duration) argValue, new Duration(2));
             } catch (MALInteractionException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             } catch (IOException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             } catch (NMFException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             }
         }
@@ -614,15 +614,15 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                 System.out.println(ACTION_UNSET + " was called");
                 nmf.getPlatformServices().getAutonomousADCSService().unsetAttitude();
             } catch (MALInteractionException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             } catch (IOException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             } catch (NMFException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             }
         }
@@ -631,7 +631,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             try {
                 return multiStageAction(actionInstanceObjId, 5);
             } catch (NMFException ex) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 return new UInteger(0);
             }
         }
@@ -671,30 +671,30 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
             if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.INFO, "The Attitude Definition already exists!");
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.INFO, "The Attitude Definition already exists!");
             } else {
-                Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (MALException ex) {
-            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NMFException ex) {
-            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             // Subscribe monitorAttitude
             nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcard(), new DataReceivedAdapter());
         } catch (IOException ex) {
-            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NMFException ex) {
-            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         adcsDefsAdded = true;
@@ -733,7 +733,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                             }
 
                         } catch (NMFException ex) {
-                            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
 
@@ -758,7 +758,7 @@ public class MCTriplePresentationAdapter extends MonitorAndControlNMFAdapter {
                             nmf.pushParameterValue("quaternion3", quaternions.getQ3());
                             nmf.pushParameterValue("quaternion4", quaternions.getQ4());
                         } catch (NMFException ex) {
-                            Logger.getLogger(MCTriplePresentationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }

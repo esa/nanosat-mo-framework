@@ -23,12 +23,12 @@
         <relativePath/>
     </parent>
   
-    <artifactId>Demo_Test_app</artifactId>
+    <artifactId>MONOLITHIC_PROVIDER_DEMO</artifactId>
     <packaging>jar</packaging>
     <version>0.1.1-SNAPSHOT</version>
 
-    <name>Demo Test App</name>
-    <description>A simple demo app</description>
+    <name>Monolithic Provider Demo</name>
+    <description>A demo monolithic provider</description>
     <url>http://www.esa.int</url>
   
     <organization>
@@ -67,9 +67,11 @@
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</artifactId>
             <version>0.1.1-SNAPSHOT</version>
-<!--
-            <scope>provided</scope>
--->
+        </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>demo_AllinOne</artifactId>
+            <version>0.1.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

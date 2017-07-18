@@ -24,14 +24,15 @@ import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 import esa.mo.nmf.NMFInterface;
 
 /**
- * The demo app for the Triple Presentation
+ * This class provides a simple Hello World demo cli provider
+ *
  */
-public class TriplePresentation {
+public class MonolithicProviderDemo {
 
     private final NMFInterface nanoSatMOFramework;
 
-    public TriplePresentation() {
-        MCTriplePresentationAdapter adapter = new MCTriplePresentationAdapter();
+    public MonolithicProviderDemo() {
+        MCAllInOneAdapter adapter = new MCAllInOneAdapter();
 //        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
         nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
         adapter.setNMF(nanoSatMOFramework);
@@ -44,7 +45,7 @@ public class TriplePresentation {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        TriplePresentation demo = new TriplePresentation();
+        MonolithicProviderDemo demo = new MonolithicProviderDemo();
     }
 
 }
