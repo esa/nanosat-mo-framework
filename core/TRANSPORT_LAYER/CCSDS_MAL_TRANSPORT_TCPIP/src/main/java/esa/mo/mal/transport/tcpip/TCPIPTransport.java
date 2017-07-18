@@ -37,10 +37,14 @@ import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -616,21 +620,49 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	private String getDefaultHost() throws MALException {
 		try {
 			// Build url string
-			final InetAddress addr = Inet4Address.getLocalHost();
+//			final InetAddress addr = Inet4Address.getLocalHost();
+//                        String hAddress = addr.getHostAddress();
+                        
+                        Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+                        
+                        for (NetworkInterface netint : Collections.list(nets)){
+                            if(!netint.isLoopback()){
+                                for (InetAddress inetAddress : Collections.list(netint.getInetAddresses())) {
+                                    final StringBuilder hostAddress = new StringBuilder();
+                                    if (inetAddress instanceof Inet6Address) {
+                                            RLOGGER.fine("TCPIP Address class is IPv6");
+                                            hostAddress.append('[');
+                                            hostAddress.append(inetAddress.getHostAddress());
+                                            hostAddress.append(']');
+                                    } else {
+                                            hostAddress.append(inetAddress.getHostAddress());
+                                    }
+
+                                    return hostAddress.toString();                                
+                                }                
+                            }
+                        }
+
+/*                        
 			final StringBuilder hostAddress = new StringBuilder();
 			if (addr instanceof Inet6Address) {
 				RLOGGER.fine("TCPIP Address class is IPv6");
 				hostAddress.append('[');
-				hostAddress.append(addr.getHostAddress());
+				hostAddress.append(hAddress);
 				hostAddress.append(']');
 			} else {
-				hostAddress.append(addr.getHostAddress());
+				hostAddress.append(hAddress);
 			}
 
 			return hostAddress.toString();
-		} catch (UnknownHostException ex) {
-			throw new MALException("Could not determine local host address", ex);
-		}
+                        */
+//		} catch (UnknownHostException ex) {
+//			throw new MALException("Could not determine local host address", ex);
+		} catch (SocketException ex) {
+                        Logger.getLogger(TCPIPTransport.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                throw new MALException("Could not determine local host address");
 	}
 
 	public char getServiceDelim() {
