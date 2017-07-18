@@ -62,15 +62,15 @@
     </developers>
 
     <modules>
-        <module>demo-obsw-hello_world</module>
-        <module>demo-obsw-push-clock</module>
-        <module>demo-obsw-gps-data</module>
-        <module>demo-obsw-10-sec-alert</module>
-        <module>demo-obsw-5-stages-action</module>
-        <module>demo-obsw-serial-object</module>
-        <module>demo-obsw-test-app</module>
-        <module>triple-presentation</module>
+        <module>demo-hello_world</module>
+        <module>demo-push-clock</module>
+        <module>demo-10-sec-alert</module>
+        <module>demo-5-stages-action</module>
+        <module>demo-gps-data</module>
+        <module>demo-test-app</module>
+        <module>demo-all-in-one</module>
         <module>snapNMF</module>
+        <module>demo-serial-object</module>
     </modules>
  
     <repositories>

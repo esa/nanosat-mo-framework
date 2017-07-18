@@ -23,12 +23,12 @@
         <relativePath/>
     </parent>
     
-    <artifactId>demo-triple-presentation</artifactId>
+    <artifactId>demo_AllinOne</artifactId>
     <packaging>jar</packaging>
     <version>0.1.1-SNAPSHOT</version>
 
-    <name>Demo Triple Presentation</name>
-    <description>A demo for the triple presentation.</description>
+    <name>Demo All in One</name>
+    <description>A demo that includes all the MC functionalities.</description>
     <url>http://www.esa.int</url>
   
     <organization>
