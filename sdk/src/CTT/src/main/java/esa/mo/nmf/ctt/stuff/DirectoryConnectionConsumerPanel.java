@@ -86,7 +86,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         }
 
 //        this.refreshFoldersAvailable(false);
-
         String[] tableCol = new String[]{
             "Service name", "Supported Capabilities", "Service Properties", "URI address", "Broker URI Address"};
 
@@ -133,7 +132,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
                     String serviceName;
                     try {
-                        serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(), 
+                        serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(),
                                 service.getServiceKey().getVersion(), service.getServiceKey().getService());
                     } catch (MALException ex) {
                         serviceName = "<Unknown service>";
@@ -146,12 +145,12 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                     if (service.getServiceAddresses().size() > 0) {
                         serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
                         // To avoid null pointers here...
-                        brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null) ? 
-                                "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
+                        brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null)
+                                ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
                     }
 
-                    String supportedCapabilities = (service.getSupportedCapabilities() == null) ? 
-                            "All Supported" : service.getSupportedCapabilities().toString();
+                    String supportedCapabilities = (service.getSupportedCapabilities() == null)
+                            ? "All Supported" : service.getSupportedCapabilities().toString();
 
                     tableData.addRow(new Object[]{
                         serviceName,
@@ -167,8 +166,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         providersList.addListSelectionListener(listSelectionListener);
         connectButton.setEnabled(false);
     }
-    
-    public void setURITextbox(final String uri){
+
+    public void setURITextbox(final String uri) {
         uriServiceDirectory.setText(uri);
     }
 
@@ -371,52 +370,51 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-        synchronized (this) {
-            if (providersList.getModel().getSize() == 0) {
-                return;
+        if (providersList.getModel().getSize() == 0) {
+            return;
+        }
+
+        final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
+        final Semaphore sem = new Semaphore(0);
+
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+                this.setName("ConnectButtonActionThread");
+                ProviderTabPanel providerPanel = new ProviderTabPanel(summary);
+
+                javax.swing.JPanel pnlTab = new javax.swing.JPanel();
+                pnlTab.setOpaque(false);
+                JLabel label = new JLabel(summary.getProviderName().toString());
+                JLabel closeLabel = new JLabel("x");
+                closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
+                closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
+
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.weightx = 1;
+                pnlTab.add(label, gbc);
+
+                gbc.gridx++;
+                gbc.weightx = 0;
+                pnlTab.add(closeLabel, gbc);
+
+                tabs.addTab("", providerPanel);
+                int count = tabs.getTabCount() - 1;
+                tabs.setTabComponentAt(count, pnlTab);
+                tabs.setSelectedIndex(count);
+                sem.release();
+                providerPanel.insertServicesTabs();
             }
+        };
 
-            final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
-            final Semaphore sem = new Semaphore(0);
+        t1.start();
 
-            Thread t1 = new Thread() {
-                @Override
-                public void run() {
-                    this.setName("ConnectButtonActionThread");
-                    ProviderTabPanel providerPanel = new ProviderTabPanel(summary);
-
-                    javax.swing.JPanel pnlTab = new javax.swing.JPanel();
-                    pnlTab.setOpaque(false);
-                    JLabel label = new JLabel(summary.getProviderName().toString());
-                    JLabel closeLabel = new JLabel("x");
-                    closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
-                    closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
-
-                    GridBagConstraints gbc = new GridBagConstraints();
-                    gbc.gridx = 0;
-                    gbc.gridy = 0;
-                    gbc.weightx = 1;
-                    pnlTab.add(label, gbc);
-
-                    gbc.gridx++;
-                    gbc.weightx = 0;
-                    pnlTab.add(closeLabel, gbc);
-
-                    tabs.addTab("", providerPanel);
-                    tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
-                    tabs.setSelectedIndex(tabs.getTabCount() - 1);
-                    sem.release();
-                    providerPanel.insertServicesTabs();
-                }
-            };
-
-            t1.start();
-
-            try {
-                sem.acquire();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            sem.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_connectButtonActionPerformed
 
@@ -460,8 +458,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, 
                 "The directory path was changed to: {0}", folder_location.toString());
     }
-*/
-
+     */
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
         try {
@@ -527,7 +524,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         // refres the textbox
         this.initTextBoxAddress();
-*/
+         */
     }//GEN-LAST:event_obswFolderItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -579,13 +576,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 Component component = tabs.getTabComponentAt(i);
 
                 if (component == panel) {
-                    try{
+                    try {
                         providerPanel.getServices().closeConnections();
-                    }catch(Exception ex){
-                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING, 
-                            "The connection was not closed correctly. Maybe the provider was unreachable!");
+                    } catch (Exception ex) {
+                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
+                                "The connection was not closed correctly. Maybe the provider was unreachable!");
                     }
-                    
+
                     tabs.remove(i);
                     return;
                 }
