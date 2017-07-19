@@ -628,16 +628,13 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
                         for (NetworkInterface netint : Collections.list(nets)){
                             if(!netint.isLoopback()){
                                 for (InetAddress inetAddress : Collections.list(netint.getInetAddresses())) {
-                                    final StringBuilder hostAddress = new StringBuilder();
                                     if (inetAddress instanceof Inet6Address) {
-                                            RLOGGER.fine("TCPIP Address class is IPv6");
-                                            hostAddress.append('[');
-                                            hostAddress.append(inetAddress.getHostAddress());
-                                            hostAddress.append(']');
-                                    } else {
-                                            hostAddress.append(inetAddress.getHostAddress());
+                                        // Let's skip the support for IPv6 for the autohost mechanism!
+                                        continue;
                                     }
 
+                                    final StringBuilder hostAddress = new StringBuilder();
+                                    hostAddress.append(inetAddress.getHostAddress());
                                     return hostAddress.toString();                                
                                 }                
                             }
