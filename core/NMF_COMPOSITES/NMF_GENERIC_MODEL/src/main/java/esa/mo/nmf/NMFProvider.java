@@ -69,9 +69,9 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     public final static String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
     public final static String NANOSAT_MO_SUPERVISOR_NAME = "NanoSat_MO_Supervisor";
     public final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
-    public final COMServicesProvider comServices = new COMServicesProvider();
-    public final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
-    public final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
+    protected final COMServicesProvider comServices = new COMServicesProvider();
+    protected final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
+    protected final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     public MCServicesProviderNMF mcServices;
     public PlatformServicesConsumer platformServices;
     public CloseAppListener closeAppAdapter = null;
@@ -202,7 +202,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public void addCloseAppListener(CloseAppListener closeAppAdapter) {
+    public void setCloseAppListener(CloseAppListener closeAppAdapter) {
         this.closeAppAdapter = closeAppAdapter;
     }
 

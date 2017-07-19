@@ -83,14 +83,14 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  *
  * @author Cesar Coelho
  */
-public final class NanoSatMOConnectorImpl extends NMFProvider {
+public class NanoSatMOConnectorImpl extends NMFProvider {
 
     private Long appDirectoryServiceId;
     private EventConsumerServiceImpl serviceCOMEvent;
     private Subscription subscription;
 
     /**
-     * To initialize the NanoSat MO Framework with this method, it is necessary
+     * To initialize the NanoSat MO Connector with this method, it is necessary
      * to extend the MonitorAndControlAdapter adapter class. The
      * SimpleMonitorAndControlAdapter class contains a simpler interface which
      * allows sending directly parameters of the most common java types and it
@@ -222,6 +222,8 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
+        
+        this.initAdditionalServices();
 
         // Populate the local Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
@@ -423,6 +425,10 @@ public final class NanoSatMOConnectorImpl extends NMFProvider {
         }
 
         System.exit(0);
+    }
+
+    public void initAdditionalServices() {
+        // To be overridden
     }
 
 }

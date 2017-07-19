@@ -172,7 +172,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     }
 
     @Override
-    public void addCloseAppListener(final CloseAppListener closeAppAdapter) {
+    public void setCloseAppListener(final CloseAppListener closeAppAdapter) {
         this.closeAppAdapter = closeAppAdapter;
     }
 

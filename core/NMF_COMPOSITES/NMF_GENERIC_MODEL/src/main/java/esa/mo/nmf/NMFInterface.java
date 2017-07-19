@@ -25,7 +25,7 @@ import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 
 /**
- * The interface that is exposed towards the app developer.
+ * The interface that is exposed towards the application logic.
  *
  */
 public interface NMFInterface extends SimpleMonitoringInterface {
@@ -56,12 +56,12 @@ public interface NMFInterface extends SimpleMonitoringInterface {
     PlatformServicesConsumer getPlatformServices() throws NMFException;
 
     /**
-     * Adds a listener for when the app is requested to be closed.
+     * Sets the listener for when the app is requested to be closed.
      *
-     * @param closeAppAdapter The adapter that will be called after a request to
+     * @param closeAppAdapter The adapter that will be called after a request
      * close the app
      */
-    void addCloseAppListener(CloseAppListener closeAppAdapter);
+    void setCloseAppListener(final CloseAppListener closeAppAdapter);
 
     /**
      * Closes the app gracefully.

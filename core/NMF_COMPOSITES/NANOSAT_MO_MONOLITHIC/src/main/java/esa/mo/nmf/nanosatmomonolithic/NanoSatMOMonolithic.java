@@ -136,7 +136,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
     @Override
     public final void closeGracefully(final ObjectId source) {
         try {
-            long startTime = System.currentTimeMillis();
+            long time = System.currentTimeMillis();
 
             // Acknowledge the reception of the request to close (Closing...)
             Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
@@ -187,7 +187,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             // Exit the Java application
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
                     "Success! The currently running Java Virtual Machine will now terminate. "
-                    + "(App closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
+                    + "(App closed in: " + (System.currentTimeMillis() - time) + " ms)\n");
         } catch (NMFException ex) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
         }

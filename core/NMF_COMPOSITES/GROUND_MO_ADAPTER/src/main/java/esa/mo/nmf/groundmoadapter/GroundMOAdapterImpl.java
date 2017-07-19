@@ -69,7 +69,6 @@ import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValueList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueList;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
@@ -99,7 +98,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCommandingInterface {
 
     /* Logger */
-    private static final Logger logger = Logger.getLogger( GroundMOAdapterImpl.class.getName() );
+    private static final Logger LOGGER = Logger.getLogger(GroundMOAdapterImpl.class.getName());
 
     private Subscription parameterSubscription = null;
     private Subscription aggregationSubscription = null;
@@ -131,7 +130,7 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
 
         // If it is java type, then convert it to Attribute
         Object midValue = HelperAttributes.javaType2Attribute(content);
-        Attribute rawValue = null;
+        Attribute rawValue;
 
         if (midValue instanceof Attribute) { // Is the parameter MAL type or something else?
             rawValue = (Attribute) midValue;
@@ -140,7 +139,7 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
                 // Well, if it is something else, then it will have to serialize it and put it inside a Blob
                 rawValue = HelperAttributes.serialObject2blobAttribute(content);
             } catch (IOException ex) {
-                logger.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
                 return;
             }
         }
@@ -187,9 +186,9 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
             // Ok, now, let's finally set the Value!
             super.getMCServices().getParameterService().getParameterStub().setValue(raws);
         } catch (MALInteractionException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -300,18 +299,18 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
             // Register for pub-sub of all parameters
             super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(this.parameterSubscription, new DataReceivedParameterAdapter());
         } catch (MALInteractionException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         try {
             // Register for pub-sub of all aggregations
             super.getMCServices().getAggregationService().getAggregationStub().monitorValueRegister(this.aggregationSubscription, new DataReceivedAggregationAdapter());
         } catch (MALInteractionException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -339,27 +338,25 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
 
                 ArgumentDefinitionDetailsList argList = new ArgumentDefinitionDetailsList(objects.length);
 
-                for (int i = 0; i < objects.length; i++) {
+                for (Serializable object : objects) {
                     ArgumentDefinitionDetails argDef = new ArgumentDefinitionDetails();
-
                     // If it is java type, then convert it to Attribute
-                    Object midValue = HelperAttributes.javaType2Attribute(objects[i]);
-                    Attribute rawValue = null;
-
-                    if (midValue instanceof Attribute) { // Is the parameter MAL type or something else?
+                    Object midValue = HelperAttributes.javaType2Attribute(object);
+                    Attribute rawValue;
+                    if (midValue instanceof Attribute) {
+                        // Is the parameter MAL type or something else?
                         argDef.setRawType(((Attribute) midValue).getTypeShortForm().byteValue());
                         rawValue = (Attribute) midValue;
                     } else {
                         try {
                             // Well, if it is something else, then it will have to serialize it and put it inside a Blob
-                            rawValue = HelperAttributes.serialObject2blobAttribute(objects[i]);
+                            rawValue = HelperAttributes.serialObject2blobAttribute(object);
                             argDef.setRawType(HelperAttributes.SERIAL_OBJECT_RAW_TYPE);
                         } catch (IOException ex) {
-                            logger.log(Level.SEVERE, null, ex);
+                            LOGGER.log(Level.SEVERE, null, ex);
                             return;
                         }
                     }
-
                     argDef.setRawUnit(null);
                     argDef.setConditionalConversions(null);
                     argDef.setConvertedType(null);
@@ -389,27 +386,25 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
             AttributeValueList argValues = new AttributeValueList();
 
             // Fill-in the argument values
-            for (int i = 0; i < objects.length; i++) {
+            for (Serializable object : objects) {
                 AttributeValue argValue = new AttributeValue();
-
                 // If it is java type, then convert it to Attribute
-                Object midValue = HelperAttributes.javaType2Attribute(objects[i]);
-                Attribute rawValue = null;
-
-                if (midValue instanceof Attribute) { // Is the parameter MAL type or something else?
+                Object midValue = HelperAttributes.javaType2Attribute(object);
+                Attribute rawValue;
+                if (midValue instanceof Attribute) {
+                    // Is the parameter MAL type or something else?
                     rawValue = (Attribute) midValue;
                     argValue.setValue(rawValue);
                 } else {
                     try {
                         // Well, if it is something else, then it will have to serialize it and put it inside a Blob
-                        rawValue = HelperAttributes.serialObject2blobAttribute(objects[i]);
+                        rawValue = HelperAttributes.serialObject2blobAttribute(object);
                         argValue.setValue(rawValue);
                     } catch (IOException ex) {
-                        logger.log(Level.SEVERE, null, ex);
+                        LOGGER.log(Level.SEVERE, null, ex);
                         return;
                     }
                 }
-
                 argValues.add(argValue);
             }
 
@@ -425,9 +420,9 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
 
             // Todo: This will not work because we need to do the trick of the actions...
         } catch (MALInteractionException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
     }
@@ -462,9 +457,9 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
                 }
                 );
             } catch (MALInteractionException ex) {
-                logger.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
-                logger.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
 
         }
@@ -494,9 +489,9 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
                 }
                 );
             } catch (MALInteractionException ex) {
-                logger.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
-                logger.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
 
         }
