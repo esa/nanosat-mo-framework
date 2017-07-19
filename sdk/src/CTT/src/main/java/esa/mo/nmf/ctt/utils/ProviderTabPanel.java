@@ -52,7 +52,7 @@ import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter
  */
 public class ProviderTabPanel extends javax.swing.JPanel {
 
-    private final GroundMOAdapterImpl services;
+    protected final GroundMOAdapterImpl services;
 
     /**
      * Creates a new tab for a Provider and populates it.
@@ -68,12 +68,21 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         return this.services;
     }
 
-    public final void insertServicesTabs() {
+    public void insertServicesTabs() {
         startTabs();
     }
 
-    private void startTabs() {
+    protected void startTabs() {
         try {
+            // Common
+            if (services.getCommonServices() != null) {
+                if (services.getCommonServices().getConfigurationService() != null) {
+                    ConfigurationConsumerPanel panel = new ConfigurationConsumerPanel(services.getCommonServices().getConfigurationService());
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Configuration service", null, panel, "Configuration Tab", count);
+                }
+            }
+            
             // Software Management
             if (services.getSMServices() != null) {
                 if (services.getSMServices().getHeartbeatService() != null) {
@@ -159,15 +168,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                             services.getMCServices().getParameterService());
                     int count = serviceTabs.getTabCount();
                     serviceTabs.insertTab("Statistic service", null, panel, "Statistic Tab", count);
-                }
-            }
-
-            // Common
-            if (services.getCommonServices() != null) {
-                if (services.getCommonServices().getConfigurationService() != null) {
-                    ConfigurationConsumerPanel panel = new ConfigurationConsumerPanel(services.getCommonServices().getConfigurationService());
-                    int count = serviceTabs.getTabCount();
-                    serviceTabs.insertTab("Configuration service", null, panel, "Configuration Tab", count);
                 }
             }
         } catch (MALInteractionException ex) {
