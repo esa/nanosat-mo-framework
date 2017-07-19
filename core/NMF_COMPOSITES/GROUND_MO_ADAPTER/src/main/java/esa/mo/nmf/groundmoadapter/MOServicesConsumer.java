@@ -62,26 +62,20 @@ import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
  */
 public class MOServicesConsumer {
 
+    protected final COMServicesConsumer comServices = new COMServicesConsumer();
+    protected final MCServicesConsumer mcServices = new MCServicesConsumer();
+    protected final PlatformServicesConsumer platformServices = new PlatformServicesConsumer();
+    protected final CommonServicesConsumer commonServices = new CommonServicesConsumer();
+    protected final SMServicesConsumer smServices = new SMServicesConsumer();
     private final ConnectionConsumer connection;
-
-    protected final COMServicesConsumer comServices;
-    protected final MCServicesConsumer mcServices;
-    protected final PlatformServicesConsumer platformServices;
-    protected final CommonServicesConsumer commonServices;
-    protected final SMServicesConsumer smServices;
 
     /**
      * The constructor of this class
      *
      * @param connection The connection details of the provider
      */
-    public MOServicesConsumer(ConnectionConsumer connection) {
+    public MOServicesConsumer(final ConnectionConsumer connection) {
         this.connection = connection;
-        this.comServices = new COMServicesConsumer();
-        this.mcServices = new MCServicesConsumer();
-        this.platformServices = new PlatformServicesConsumer();
-        this.commonServices = new CommonServicesConsumer();
-        this.smServices = new SMServicesConsumer();
 
         MOServicesConsumer.initHelpers();
         this.init();
@@ -93,13 +87,7 @@ public class MOServicesConsumer {
      * @param provider The Provider details. This object can be obtained from
      * the Directory service
      */
-    public MOServicesConsumer(ProviderSummary provider) {
-        this.comServices = new COMServicesConsumer();
-        this.mcServices = new MCServicesConsumer();
-        this.platformServices = new PlatformServicesConsumer();
-        this.commonServices = new CommonServicesConsumer();
-        this.smServices = new SMServicesConsumer();
-
+    public MOServicesConsumer(final ProviderSummary provider) {
         MOServicesConsumer.initHelpers(); // The Helpers need to be initialized before conversion
 
         // Grab the provider variable and put it into a ConnectionConsumer
@@ -192,10 +180,24 @@ public class MOServicesConsumer {
         return smServices;
     }
 
+    /**
+     * Requests the Connection Consumer object.
+     *
+     * @return The Connection Consumer object
+     */
     public ConnectionConsumer getConnectionConsumer() {
         return connection;
     }
 
+    /**
+     * Retrieves the complete list of Providers available on the Directory service.
+     *
+     * @param directoryURI The Directory service URI
+     * @return The list of providers
+     * @throws org.ccsds.moims.mo.mal.MALException
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException
+     */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI)
             throws MALException, MalformedURLException, MALInteractionException {
         return MOServicesConsumer.retrieveProvidersFromDirectory(false, directoryURI);
@@ -271,7 +273,6 @@ public class MOServicesConsumer {
             if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) == null) {
                 PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
-
         } catch (MALException ex) {
             Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }

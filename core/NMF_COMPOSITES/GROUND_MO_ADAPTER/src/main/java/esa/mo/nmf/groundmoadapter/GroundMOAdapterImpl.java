@@ -108,7 +108,7 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
      *
      * @param connection The connection details of the provider
      */
-    public GroundMOAdapterImpl(ConnectionConsumer connection) {
+    public GroundMOAdapterImpl(final ConnectionConsumer connection) {
         super(connection);
     }
 
@@ -207,7 +207,7 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
                     for (int i = 0; i < lUpdateHeaderList.size(); i++) {
                         String parameterName = lUpdateHeaderList.get(i).getKey().getFirstSubKey().toString();
                         Attribute parameterValue = lParameterValueList.get(i).getRawValue();
-                        Serializable object = null;
+                        Serializable object;
 
                         // Is it a Blob?
                         if (parameterValue instanceof Blob) {
