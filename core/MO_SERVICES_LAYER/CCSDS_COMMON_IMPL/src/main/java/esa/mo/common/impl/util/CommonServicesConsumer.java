@@ -25,11 +25,13 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.common.impl.consumer.ConfigurationConsumerServiceImpl;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
+import esa.mo.common.impl.consumer.LoginConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
+import org.ccsds.moims.mo.common.login.LoginHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 
@@ -41,6 +43,7 @@ public class CommonServicesConsumer {
 
     private DirectoryConsumerServiceImpl directoryService;
     private ConfigurationConsumerServiceImpl configurationService;
+    private LoginConsumerServiceImpl loginService;
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
 
@@ -59,6 +62,11 @@ public class CommonServicesConsumer {
                 configurationService = new ConfigurationConsumerServiceImpl(details, comServices);
             }
 
+            // Initialize the Login service
+            details = connectionConsumer.getServicesDetails().get(LoginHelper.LOGIN_SERVICE_NAME);
+            if (details != null) {
+                loginService = new LoginConsumerServiceImpl(details, comServices);
+            }
         } catch (MALException ex) {
             Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -77,11 +85,17 @@ public class CommonServicesConsumer {
         return this.configurationService;
     }
 
+    public LoginConsumerServiceImpl getLoginService() {
+        return this.loginService;
+    }
+
     public void setServices(
             DirectoryConsumerServiceImpl directoryService,
-            ConfigurationConsumerServiceImpl configurationService) {
+            ConfigurationConsumerServiceImpl configurationService,
+            LoginConsumerServiceImpl loginService) {
         this.directoryService = directoryService;
         this.configurationService = configurationService;
+        this.loginService = loginService;
     }
 
     public void setDirectoryService(DirectoryConsumerServiceImpl directoryService) {
@@ -90,6 +104,10 @@ public class CommonServicesConsumer {
 
     public void setConfigurationService(ConfigurationConsumerServiceImpl configurationService) {
         this.configurationService = configurationService;
+    }
+
+    public void setLoginService(LoginConsumerServiceImpl loginService) {
+        this.loginService = loginService;
     }
 
     /**
@@ -103,6 +121,10 @@ public class CommonServicesConsumer {
 
         if (this.configurationService != null) {
             this.configurationService.closeConnection();
+        }
+
+        if (this.loginService != null) {
+            this.loginService.closeConnection();
         }
     }
 

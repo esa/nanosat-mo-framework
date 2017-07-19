@@ -33,6 +33,7 @@ public class CommonServicesProvider {
 
     private final ConfigurationProviderServiceImpl configurationService = new ConfigurationProviderServiceImpl();
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
+//    private final LoginProviderServiceImpl loginService = new LoginProviderServiceImpl();
     
     public void init(COMServicesProvider comServices) throws MALException {
         configurationService.init(comServices);
@@ -46,5 +47,11 @@ public class CommonServicesProvider {
     public DirectoryProviderServiceImpl getDirectoryService() {
         return this.directoryService;
     }
+
+/*    
+    public LoginProviderServiceImpl getLoginService() {
+        return null;
+    }
+*/
     
 }
