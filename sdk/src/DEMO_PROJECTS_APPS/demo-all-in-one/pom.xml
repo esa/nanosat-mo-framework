@@ -23,7 +23,7 @@
         <relativePath/>
     </parent>
     
-    <artifactId>demo_AllinOne</artifactId>
+    <artifactId>Demo_All_In_One</artifactId>
     <packaging>jar</packaging>
     <version>0.1.1-SNAPSHOT</version>
 

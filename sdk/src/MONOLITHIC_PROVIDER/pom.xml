@@ -70,7 +70,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>demo_AllinOne</artifactId>
+            <artifactId>Demo_All_In_One</artifactId>
             <version>0.1.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

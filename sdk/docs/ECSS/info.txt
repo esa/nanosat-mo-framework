@@ -1,0 +1,6 @@
+ECSS-E-ST-40C
+
+SDD: Software Design Document
+SReID: Software Release Document
+SRS: Software Requirements Document
+SUM: Software User Manual

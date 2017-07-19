@@ -27,8 +27,8 @@
     <packaging>jar</packaging>
     <version>0.1.1-SNAPSHOT</version>
 
-    <name>PG: Installer of Triple Presentation App</name>
-    <description>The Triple Presentation App installer for the Playground environment.</description>
+    <name>PG: Installer of All In One App</name>
+    <description>The All In One App installer for the Playground environment.</description>
     <url>http://www.esa.int</url>
   
     <organization>
@@ -58,15 +58,8 @@
         </developer>
     </developers>
     
-    <dependencies>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
-        </dependency>
-    </dependencies>
-
     <properties>
-        <esa.nmf.artifact.app.artifactid>demo-triple-presentation</esa.nmf.artifact.app.artifactid>
+        <esa.nmf.artifact.app.artifactid>Demo_All_In_One</esa.nmf.artifact.app.artifactid>
         <esa.nmf.artifact.global.folderpath>${playground.folder.output}</esa.nmf.artifact.global.folderpath>
     </properties>
         
@@ -100,7 +93,6 @@
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>${esa.nmf.artifact.app.artifactid}</artifactId>
-                                    <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
                             <includeScope></includeScope>
