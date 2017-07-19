@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.groundmoadapter;
 
+import esa.mo.nmf.NMFConsumer;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -90,12 +91,12 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  * Implements the SimpleCommandingInterface that permits an external software
  * entity to send data (parameters or serialized objects) to the provider, add a
  * DataReceivedListener to receive data and send actions to the provider. It
- * extends the MOServicesConsumer class in order make available the pure MO
- * interfaces.
+ * extends the NMFConsumer class in order to expose the MO services
+ * implementation.
  *
  * @author Cesar Coelho
  */
-public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCommandingInterface {
+public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommandingInterface {
 
     /* Logger */
     private static final Logger LOGGER = Logger.getLogger(GroundMOAdapterImpl.class.getName());
@@ -110,6 +111,7 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
      */
     public GroundMOAdapterImpl(final ConnectionConsumer connection) {
         super(connection);
+        super.init();
     }
 
     /**
@@ -120,6 +122,7 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
      */
     public GroundMOAdapterImpl(final ProviderSummary providerDetails) {
         super(providerDetails);
+        super.init();
     }
 
     @Override
@@ -438,16 +441,6 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
                 IdentifierList idList = new IdentifierList();
                 idList.add(this.parameterSubscription.getSubscriptionId());
 
-                /*
-                try {
-                super.getMCServices().getParameterService().getParameterStub().monitorValueDeregister(idList);
-                this.parameterSubscription = null;
-                } catch (MALInteractionException ex) {
-                logger.log(Level.SEVERE, null, ex);
-                } catch (MALException ex) {
-                logger.log(Level.SEVERE, null, ex);
-                }
-                 */
                 super.getMCServices().getParameterService().getParameterStub().asyncMonitorValueDeregister(idList, new ParameterAdapter() {
                     @Override
                     public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
@@ -470,22 +463,11 @@ public class GroundMOAdapterImpl extends MOServicesConsumer implements SimpleCom
                 IdentifierList idList = new IdentifierList();
                 idList.add(this.aggregationSubscription.getSubscriptionId());
 
-                /*
-                try {
-                super.getMCServices().getAggregationService().getAggregationStub().monitorValueDeregister(idList);
-                this.aggregationSubscription = null;
-                } catch (MALInteractionException ex) {
-                logger.log(Level.SEVERE, null, ex);
-                } catch (MALException ex) {
-                logger.log(Level.SEVERE, null, ex);
-                }
-                 */
                 super.getMCServices().getAggregationService().getAggregationStub().asyncMonitorValueDeregister(idList, new AggregationAdapter() {
                     @Override
                     public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
                         aggregationSubscription = null;
                     }
-
                 }
                 );
             } catch (MALInteractionException ex) {

@@ -63,10 +63,6 @@
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NMF_GENERIC_MODEL</artifactId>
         </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>GROUND_MO_ADAPTER</artifactId>
-        </dependency>
     </dependencies>
   
     <build>

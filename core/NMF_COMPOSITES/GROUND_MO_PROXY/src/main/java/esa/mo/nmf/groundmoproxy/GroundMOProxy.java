@@ -26,8 +26,7 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import esa.mo.nmf.groundmoadapter.MOServicesConsumer;
+import esa.mo.nmf.NMFConsumer;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -55,14 +54,14 @@ public class GroundMOProxy {
     private final DirectoryProxyServiceImpl directoryService = new DirectoryProxyServiceImpl();
 
     // Have a list of providers
-    private final HashMap<String, GroundMOAdapterImpl> myProviders = new HashMap<String, GroundMOAdapterImpl>();
+    private final HashMap<String, NMFConsumer> myProviders = new HashMap<String, NMFConsumer>();
 
     public GroundMOProxy() {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
 
         // Initializae the Helpers for the APIs
-        MOServicesConsumer.initHelpers();
+        NMFConsumer.initHelpers();
     }
 
     public void init(final URI centralDirectoryServiceURI, final URI routedURI) {
@@ -74,7 +73,7 @@ public class GroundMOProxy {
         }
 
         try {
-            ProviderSummaryList providers = MOServicesConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
+            ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
             this.addProxyPrefix(providers, routedURI.getValue());
 
             for (ProviderSummary provider : providers) {
@@ -99,38 +98,38 @@ public class GroundMOProxy {
     }
 
     /**
-     * 
+     *
      *
      * @param connection The connection details of the provider
      * @return
      * @throws NMFException
      */
-    public GroundMOAdapterImpl connectToProvider(ConnectionConsumer connection) throws NMFException {
+    public NMFConsumer connectToProvider(ConnectionConsumer connection) throws NMFException {
 
         synchronized (myProviders) {
             final String key = "vvfjvfbjsdkvfbsksdfksdfkbvf"; // To be done
-            GroundMOAdapterImpl gma = myProviders.get(key);
+            NMFConsumer cons = myProviders.get(key);
 
-            if (gma != null) {
+            if (cons != null) {
                 throw new NMFException("The proxy is already connected to this Provider!");
             }
 
-            gma = new GroundMOAdapterImpl(connection);
-            myProviders.put(key, gma);
-            return gma;
+            cons = new NMFConsumer(connection);
+            myProviders.put(key, cons);
+            return cons;
         }
 
     }
 
     /**
-     * 
+     *
      *
      * @param providerDetails The Provider details. This object can be obtained
      * from the Directory service
      * @return
      * @throws NMFException
      */
-    public GroundMOAdapterImpl connectToProvider(ProviderSummary providerDetails) throws NMFException {
+    public NMFConsumer connectToProvider(ProviderSummary providerDetails) throws NMFException {
 
         // To be done...
         return null;

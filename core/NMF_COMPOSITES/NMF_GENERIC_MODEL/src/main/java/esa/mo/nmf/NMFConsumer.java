@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.groundmoadapter;
+package esa.mo.nmf;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
@@ -55,12 +55,12 @@ import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
 /**
- * MOServicesConsumer connects to the NanoSat MO Framework and provides the
- * available services in the provider: COM, MC, Platform.
+ * NMFConsumer connects to an NMF Provider and exposes the available services 
+ * in the provider: COM, MC, Common, Platform and Software Management services.
  *
  * @author Cesar Coelho
  */
-public class MOServicesConsumer {
+public class NMFConsumer {
 
     protected final COMServicesConsumer comServices = new COMServicesConsumer();
     protected final MCServicesConsumer mcServices = new MCServicesConsumer();
@@ -74,11 +74,9 @@ public class MOServicesConsumer {
      *
      * @param connection The connection details of the provider
      */
-    public MOServicesConsumer(final ConnectionConsumer connection) {
+    public NMFConsumer(final ConnectionConsumer connection) {
         this.connection = connection;
-
-        MOServicesConsumer.initHelpers();
-        this.init();
+        NMFConsumer.initHelpers();
     }
 
     /**
@@ -87,22 +85,19 @@ public class MOServicesConsumer {
      * @param provider The Provider details. This object can be obtained from
      * the Directory service
      */
-    public MOServicesConsumer(final ProviderSummary provider) {
-        MOServicesConsumer.initHelpers(); // The Helpers need to be initialized before conversion
-
+    public NMFConsumer(final ProviderSummary provider) {
+        NMFConsumer.initHelpers(); // The Helpers need to be initialized before conversion
         // Grab the provider variable and put it into a ConnectionConsumer
         this.connection = HelperCommon.providerSummaryToConnectionConsumer(provider);
-
-        this.init();
     }
 
-    private void init() {
+    public void init() {
         try {
             HelperMisc.loadConsumerProperties();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file "
+            Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING, "The file "
                     + HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! "
                     + "This error can happen if the user is trying to run the application from "
                     + "a different folder other than the one where the file is.", ex);
@@ -200,7 +195,7 @@ public class MOServicesConsumer {
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI)
             throws MALException, MalformedURLException, MALInteractionException {
-        return MOServicesConsumer.retrieveProvidersFromDirectory(false, directoryURI);
+        return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI);
     }
 
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G, final URI directoryURI)
@@ -214,9 +209,9 @@ public class MOServicesConsumer {
         try {
             HelperMisc.loadConsumerProperties();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.WARNING, "The file "
+            Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING, "The file "
                     + HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! This error can happen if the user is "
                     + "trying to run the application from a different folder other than the one where the file is.", ex);
         }
@@ -274,7 +269,7 @@ public class MOServicesConsumer {
                 PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
         } catch (MALException ex) {
-            Logger.getLogger(MOServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
