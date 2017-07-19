@@ -24,7 +24,7 @@ import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.nmf.ctt.stuff.COMObjectWindow;
+import esa.mo.nmf.ctt.utils.COMObjectWindow;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import java.awt.event.MouseAdapter;

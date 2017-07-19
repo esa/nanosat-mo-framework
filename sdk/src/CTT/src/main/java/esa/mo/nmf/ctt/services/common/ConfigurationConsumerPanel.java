@@ -62,10 +62,10 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     public ConfigurationConsumerPanel(ConfigurationConsumerServiceImpl serviceMCConfiguration) {
         initComponents();
 
+        this.serviceMCConfiguration = serviceMCConfiguration;
         configurationTable = new ConfigurationTablePanel(serviceMCConfiguration.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(configurationTable);
 
-        this.serviceMCConfiguration = serviceMCConfiguration;
         this.listAllButtonActionPerformed(null);
     }
 

@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.ctt.stuff;
+package esa.mo.nmf.ctt.utils;
 
 /**
  *

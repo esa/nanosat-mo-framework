@@ -18,9 +18,8 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.ctt.oldcode;
+package esa.mo.nmf.ctt.utils;
 
-import esa.mo.nmf.ctt.stuff.ConnectionConsumerPanel;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.awt.EventQueue;
@@ -33,17 +32,15 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.platform.PlatformHelper;
 
 /**
  * This class provides a simple form for the control of the consumer.
  */
-public class MOConsumerGUIvSimple extends javax.swing.JFrame {
+public class ConfigurationManager extends javax.swing.JFrame {
 
     private ConnectionConsumer connection = new ConnectionConsumer();
 
@@ -58,8 +55,11 @@ public class MOConsumerGUIvSimple extends javax.swing.JFrame {
             // Set cross-platform Java L&F (also called "Metal")
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (UnsupportedLookAndFeelException e) {
+            // handle exception
         } catch (ClassNotFoundException e) {
+            // handle exception
         } catch (InstantiationException e) {
+            // handle exception
         } catch (IllegalAccessException e) {
             // handle exception
         }
@@ -74,8 +74,8 @@ public class MOConsumerGUIvSimple extends javax.swing.JFrame {
 
             System.setProperties(sysProps);
 
-            final String name = System.getProperty("application.name", "CCSDS Mission Operations - Configuration Manager");
-            final MOConsumerGUIvSimple gui = new MOConsumerGUIvSimple(name);
+            final String name = System.getProperty("application.name", "CCSDS Mission Operations - Consumer Interface");
+            final ConfigurationManager gui = new ConfigurationManager(name);
        
 /*
             ArchiveQuery wert = new ArchiveQuery();
@@ -91,17 +91,17 @@ public class MOConsumerGUIvSimple extends javax.swing.JFrame {
                 }
             });
         } catch (MalformedURLException ex) {
-            Logger.getLogger(MOConsumerGUIvSimple.class.getName()).log(Level.SEVERE, "Exception thrown during initialisation of Demo Consumer {0}", ex);
+            Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE, "Exception thrown during initialisation of Demo Consumer {0}", ex);
         }
     }
 
     
     /**
-     * Creates new form MOConsumerGUI
+     * Creates new form MityDemoProviderGui
      *
      * @param name The name to display on the title bar of the form.
      */
-    public MOConsumerGUIvSimple(final String name) {
+    public ConfigurationManager(final String name) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle(name);
@@ -110,23 +110,21 @@ public class MOConsumerGUIvSimple extends javax.swing.JFrame {
             connection.loadURIs();
         } catch (MalformedURLException ex) {
             JOptionPane.showMessageDialog(null, "The URIs could not be loaded from the file!", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(MOConsumerGUIvSimple.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        try { 
+        try {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
         } catch (MALException ex) {
-            Logger.getLogger(MOConsumerGUIvSimple.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         tabs.insertTab("Communication Settings", null, new ConnectionConsumerPanel(connection, tabs), "Communications Tab", tabs.getTabCount());
-//        tabs.insertTab("Communication Settings (Directory)", null, new DirectoryConnectionConsumerPanel(connection, tabs), "Communications Tab (Directory)", tabs.getTabCount());
         
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,20 +135,32 @@ public class MOConsumerGUIvSimple extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSplitPane1 = new javax.swing.JSplitPane();
+        communicationsTopPanel1 = new esa.mo.nmf.ctt.utils.CommunicationsTopPanel();
+        jSplitPane2 = new javax.swing.JSplitPane();
         tabs = new javax.swing.JTabbedPane();
         homeTab = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        jToolBar1 = new javax.swing.JToolBar();
-        jLabel1 = new javax.swing.JLabel();
-        delayLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        COM_button = new javax.swing.JButton();
+        MC_button = new javax.swing.JButton();
+        Platform_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 600));
         setName("Form"); // NOI18N
         getContentPane().setLayout(new java.awt.BorderLayout(0, 4));
+
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane1.setName("jSplitPane1"); // NOI18N
+
+        communicationsTopPanel1.setName("communicationsTopPanel1"); // NOI18N
+        jSplitPane1.setLeftComponent(communicationsTopPanel1);
+
+        jSplitPane2.setName("jSplitPane2"); // NOI18N
 
         tabs.setToolTipText("");
         tabs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -184,36 +194,85 @@ public class MOConsumerGUIvSimple extends javax.swing.JFrame {
 
         tabs.addTab("Home", homeTab);
 
-        getContentPane().add(tabs, java.awt.BorderLayout.CENTER);
+        jSplitPane2.setRightComponent(tabs);
 
-        jToolBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-        jToolBar1.setFloatable(false);
-        jToolBar1.setRollover(true);
-        jToolBar1.setName("jToolBar1"); // NOI18N
+        jPanel1.setName("jPanel1"); // NOI18N
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel1.setText("Status:");
-        jLabel1.setName("jLabel1"); // NOI18N
-        jToolBar1.add(jLabel1);
+        COM_button.setText("COM services");
+        COM_button.setMaximumSize(new java.awt.Dimension(200, 23));
+        COM_button.setMinimumSize(new java.awt.Dimension(200, 23));
+        COM_button.setName("COM_button"); // NOI18N
+        COM_button.setPreferredSize(new java.awt.Dimension(200, 23));
+        COM_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                COM_buttonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(COM_button);
 
-        delayLabel.setText("0.0");
-        delayLabel.setName("delayLabel"); // NOI18N
-        jToolBar1.add(delayLabel);
+        MC_button.setText("Monitor & Control services");
+        MC_button.setMaximumSize(new java.awt.Dimension(200, 23));
+        MC_button.setMinimumSize(new java.awt.Dimension(200, 23));
+        MC_button.setName("MC_button"); // NOI18N
+        MC_button.setPreferredSize(new java.awt.Dimension(200, 23));
+        MC_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MC_buttonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(MC_button);
 
-        getContentPane().add(jToolBar1, java.awt.BorderLayout.NORTH);
+        Platform_button.setText("Platform services");
+        Platform_button.setMaximumSize(new java.awt.Dimension(200, 23));
+        Platform_button.setMinimumSize(new java.awt.Dimension(200, 23));
+        Platform_button.setName("Platform_button"); // NOI18N
+        Platform_button.setPreferredSize(new java.awt.Dimension(200, 23));
+        Platform_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Platform_buttonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Platform_button);
+
+        jSplitPane2.setLeftComponent(jPanel1);
+
+        jSplitPane1.setRightComponent(jSplitPane2);
+
+        getContentPane().add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void COM_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_COM_buttonActionPerformed
+
+
+
+
+    }//GEN-LAST:event_COM_buttonActionPerformed
+
+    private void MC_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MC_buttonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MC_buttonActionPerformed
+
+    private void Platform_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Platform_buttonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Platform_buttonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel delayLabel;
+    private javax.swing.JButton COM_button;
+    private javax.swing.JButton MC_button;
+    private javax.swing.JButton Platform_button;
+    private esa.mo.nmf.ctt.utils.CommunicationsTopPanel communicationsTopPanel1;
     private javax.swing.JPanel homeTab;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables
 }

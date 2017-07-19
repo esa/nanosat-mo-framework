@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.ctt.guis;
 
-import esa.mo.nmf.ctt.stuff.DirectoryConnectionConsumerPanel;
+import esa.mo.nmf.ctt.utils.DirectoryConnectionConsumerPanel;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import java.awt.EventQueue;
 import java.net.MalformedURLException;

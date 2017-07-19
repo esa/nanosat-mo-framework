@@ -25,7 +25,7 @@ import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.nmf.ctt.stuff.COMObjectWindow;
+import esa.mo.nmf.ctt.utils.COMObjectWindow;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;

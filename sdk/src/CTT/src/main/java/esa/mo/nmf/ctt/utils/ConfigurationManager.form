@@ -42,7 +42,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
       <SubComponents>
-        <Component class="esa.mo.nmf.ctt.stuff.CommunicationsTopPanel" name="communicationsTopPanel1">
+        <Component class="esa.mo.nmf.ctt.utils.CommunicationsTopPanel" name="communicationsTopPanel1">
           <Properties>
             <Property name="name" type="java.lang.String" value="communicationsTopPanel1" noResource="true"/>
           </Properties>
@@ -138,7 +138,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel3">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/esa/mo/nmf/ctt/stuff/mo_pic.png"/>
+                          <Image iconType="3" name="/esa/mo/nmf/ctt/utils/mo_pic.png"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="jLabel3" noResource="true"/>
                       </Properties>

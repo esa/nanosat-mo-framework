@@ -21,7 +21,7 @@
 package esa.mo.nmf.ctt.services.sm;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.nmf.ctt.stuff.SharedTablePanel;
+import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
