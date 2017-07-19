@@ -21,6 +21,9 @@
 package esa.mo.helpertools.connections;
 
 import esa.mo.helpertools.helpers.HelperMisc;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 
@@ -33,17 +36,7 @@ public class ConfigurationConsumer {
     private final Identifier network;
     private final SessionType session;
     private final Identifier sessionName;
-//    private final static String NETWORK = "helpertools.configurations.ground.Network";
-//    private final static String SESSION_NAME = "helpertools.configurations.ground.SessionName";
 
-    // Advanced Networks
-//    private final static String ORGANIZATION_NAME = "helpertools.configurations.ground.OrganizationName";
-//    private final static String MISSION_NAME = "helpertools.configurations.ground.MissionName";
-//    private final static String MO_APP_NAME = "helpertools.configurations.ground.MOappName";
-//    private final static String NETWORK_ZONE = "helpertools.configurations.ground.NetworkZone";
-//    private final static String DEVICE_NAME = "helpertools.configurations.ground.DeviceName";
-
-    
     /**
      * @return Network zone
      */
@@ -77,8 +70,13 @@ public class ConfigurationConsumer {
      * session name as LIVE.
      */
     public ConfigurationConsumer() {
-        if (System.getProperty(HelperMisc.ORGANIZATION_NAME) == null) {  // The property does not exist? 
-            HelperMisc.loadPropertiesFile(); // try to load the properties from the file...
+        if (System.getProperty(HelperMisc.ORGANIZATION_NAME) == null) {
+            try {
+                // The property does not exist?
+                HelperMisc.loadConsumerProperties(); // try to load the properties from the file...
+            } catch (IOException ex) {
+                Logger.getLogger(ConfigurationConsumer.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         // ------------------------Network----------------------------
@@ -122,14 +120,7 @@ public class ConfigurationConsumer {
 
         this.session = SessionType.LIVE;
         this.sessionName = HelperMisc.SESSION_NAME; // Default it to "LIVE"
-        
-        /*
-        if (System.getProperty(SESSION_NAME) != null) {
-            this.sessionName = new Identifier(System.getProperty(SESSION_NAME));
-        } else {
-            this.sessionName = new Identifier("LIVE"); // Default it to "LIVE"
-        }
-        */
+
     }
 
 }

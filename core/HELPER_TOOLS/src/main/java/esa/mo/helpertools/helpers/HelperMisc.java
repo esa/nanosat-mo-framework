@@ -77,7 +77,7 @@ public class HelperMisc {
     public static final String PROPERTY_APID = "org.ccsds.moims.mo.malspp.apid";
 
     public static final Identifier SESSION_NAME = new Identifier("LIVE");
-    
+
     /**
      * Clears the list of loaded property files.
      */
@@ -175,13 +175,13 @@ public class HelperMisc {
         final java.net.URL url = file.toURI().toURL();
 
         if (null != url) {
-                final Properties myProps = new Properties();
-                InputStream stream = url.openStream();
-                myProps.load(url.openStream());
-                stream.close();
-                return myProps;
+            final Properties myProps = new Properties();
+            InputStream stream = url.openStream();
+            myProps.load(url.openStream());
+            stream.close();
+            return myProps;
         }
-        
+
         throw new IOException("The URL of the file is null.");
     }
 
@@ -212,14 +212,29 @@ public class HelperMisc {
         try {
             final java.util.Properties sysProps = System.getProperties();
 
-            File file = new File(System.getProperty("provider.properties", PROVIDER_PROPERTIES_FILE));
-            if (file.exists()) {
-                sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
+            File file;
+            final String providerFile = System.getProperty("provider.properties", PROVIDER_PROPERTIES_FILE);
+
+            if (providerFile != null) {
+                file = new File(providerFile);
+                if (file.exists()) {
+                    sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
+                } else {
+                    Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
+                            "The file provider.properties does not exist on the path: " + providerFile);
+                }
             }
 
-            file = new File(System.getProperty(SETTINGS_PROPERTY, "settings.properties"));
-            if (file.exists()) {
-                sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "settings.properties"));
+            final String settingsFile = System.getProperty(SETTINGS_PROPERTY, "settings.properties");
+
+            if (settingsFile != null) {
+                file = new File(settingsFile);
+                if (file.exists()) {
+                    sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "settings.properties"));
+                } else {
+                    Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
+                            "The file settings.properties does not exist on the path: " + settingsFile);
+                }
             }
 
             String transport_file_path = TRANSPORT_PROPERTIES_FILE;
@@ -232,6 +247,9 @@ public class HelperMisc {
             file = new File(System.getProperty("transport.properties", transport_file_path));
             if (file.exists()) {
                 sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "transport.properties"));
+            } else {
+                Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
+                        "The file transport.properties does not exist on the path: " + transport_file_path);
             }
 
             if (useSharedBroker) {
