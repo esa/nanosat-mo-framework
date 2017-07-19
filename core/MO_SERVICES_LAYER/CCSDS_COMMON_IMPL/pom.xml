@@ -83,7 +83,6 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>API_COMMON</artifactId>
-            <version>1.0-RC1</version>
         </dependency>
 
         <dependency>
