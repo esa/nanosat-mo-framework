@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage.creatortool.gui;
+package esa.mo.nmf.nmfpackage.assembler.gui;
 
 import java.awt.EventQueue;
 import javax.swing.UIManager;
@@ -27,7 +27,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 /**
  * This class provides a simple form for the control of the consumer.
  */
-public class CreatorToolGUI extends javax.swing.JFrame {
+public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
 
     /**
      * Main command line entry point.
@@ -45,8 +45,8 @@ public class CreatorToolGUI extends javax.swing.JFrame {
             // handle exception
         }
 
-        final String name = System.getProperty("application.name", "NMF Package Creator Tool");
-        final CreatorToolGUI gui = new CreatorToolGUI(name);
+        final String name = System.getProperty("application.name", "NMF Package Assembler");
+        final NMFPackageAssemblerGUI gui = new NMFPackageAssemblerGUI(name);
 
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -61,14 +61,10 @@ public class CreatorToolGUI extends javax.swing.JFrame {
      *
      * @param name The name to display on the title bar of the form.
      */
-    public CreatorToolGUI(final String name) {
+    public NMFPackageAssemblerGUI(final String name) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle(name);
-
-
-//        tabs.insertTab("Communication Settings (Directory)", null, new DirectoryConnectionConsumerPanel(connection, tabs), "Communications Tab (Directory)", tabs.getTabCount());
-
     }
 
     /**
@@ -81,11 +77,12 @@ public class CreatorToolGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         tabs = new javax.swing.JTabbedPane();
-        homeTab = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        jSeparator6 = new javax.swing.JSeparator();
-        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 600));
@@ -100,42 +97,40 @@ public class CreatorToolGUI extends javax.swing.JFrame {
         tabs.setPreferredSize(new java.awt.Dimension(800, 600));
         tabs.setRequestFocusEnabled(false);
 
-        homeTab.setName("homeTab"); // NOI18N
+        jPanel1.setName("jPanel1"); // NOI18N
+        tabs.addTab("Step 1: Package Definition", jPanel1);
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Welcome!");
-        jLabel6.setToolTipText("");
-        jLabel6.setName("jLabel6"); // NOI18N
-        homeTab.add(jLabel6);
+        jPanel2.setName("jPanel2"); // NOI18N
+        tabs.addTab("Step 2: Selection of Files", jPanel2);
 
-        jPanel8.setName("jPanel8"); // NOI18N
-        jPanel8.setPreferredSize(new java.awt.Dimension(2510, 25));
-
-        jSeparator6.setName("jSeparator6"); // NOI18N
-        jSeparator6.setPreferredSize(new java.awt.Dimension(700, 15));
-        jPanel8.add(jSeparator6);
-
-        homeTab.add(jPanel8);
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esa/mo/fw/configurationtool/stuff/mo_pic.png"))); // NOI18N
-        jLabel3.setName("jLabel3"); // NOI18N
-        homeTab.add(jLabel3);
-
-        tabs.addTab("Home", homeTab);
+        jPanel3.setName("jPanel3"); // NOI18N
+        tabs.addTab("Step 3: Package Generation", jPanel3);
 
         getContentPane().add(tabs, java.awt.BorderLayout.CENTER);
+
+        jMenuBar1.setName("jMenuBar1"); // NOI18N
+
+        jMenu1.setText("File");
+        jMenu1.setName("jMenu1"); // NOI18N
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenu2.setName("jMenu2"); // NOI18N
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel homeTab;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables
 }
