@@ -62,7 +62,8 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
         }
 
         final String name = System.getProperty("application.name", "CTT: Consumer Test Tool");
-        final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name, "");
+        final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name);
+        gui.insertDirectoryServiceTab("");
 
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -78,7 +79,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
      * @param name The name to display on the title bar of the form.
      * @param defaultURI
      */
-    public ConsumerTestToolGUI(final String name, final String defaultURI) {
+    public ConsumerTestToolGUI(final String name) {
         initComponents();
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mo_pic.png")));
 
@@ -102,16 +103,18 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
         } catch (MALException ex) {
             Logger.getLogger(ConsumerTestToolGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
+    public void insertDirectoryServiceTab(final String defaultURI) {
         final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(false, connection, tabs);
-        
+
         tabs.insertTab("Communication Settings (Directory)", null,
                 directoryTab,
                 "Communications Tab (Directory)", tabs.getTabCount());
-        
+
         directoryTab.setURITextbox(defaultURI);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

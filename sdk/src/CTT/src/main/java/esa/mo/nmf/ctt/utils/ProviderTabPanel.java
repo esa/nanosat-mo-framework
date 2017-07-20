@@ -82,7 +82,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                     serviceTabs.insertTab("Configuration service", null, panel, "Configuration Tab", count);
                 }
             }
-            
+
             // Software Management
             if (services.getSMServices() != null) {
                 if (services.getSMServices().getHeartbeatService() != null) {
@@ -138,7 +138,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                     ParameterPublishedValues panel2 = new ParameterPublishedValues(services.getMCServices().getParameterService());
                     int count = serviceTabs.getTabCount();
                     serviceTabs.insertTab("Parameter service", null, panel1, "Parameter Tab", count);
-                    serviceTabs.insertTab("Published Parameter Values", null, panel2, "Published Parameters Tab", count);
+                    serviceTabs.insertTab("Published Parameter Values", null, panel2, "Published Parameters Tab", count + 1);
                     panel1.init();
                     panel2.subscribeToParameters();
                 }
