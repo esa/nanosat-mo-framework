@@ -109,9 +109,9 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Override
     public boolean isPackageInstalled(final String packageName) {
-        // To do: Conclude this method
-
-        return false;
+        String folderLocation = this.getFolderLocation(packageName);
+        boolean packageInstalled = NMFPackageManager.isPackageInstalled(folderLocation);
+        return packageInstalled;
     }
 
     @Override

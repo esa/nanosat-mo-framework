@@ -45,6 +45,7 @@ import java.util.zip.ZipFile;
 public class NMFPackageManager {
 
     private static final String INSTALLATION_FOLDER_PROPERTY = "esa.mo.nmf.nmfpackage.installationFolder";
+    private static final String INSTALLED_RECEIPTS_FOLDER_PROPERTY = "esa.mo.nmf.nmfpackage.receipts";
 
     public static void install(final String packageLocation) throws FileNotFoundException, IOException {
         // Get the File to be installed
@@ -56,37 +57,9 @@ public class NMFPackageManager {
                 "Reading the receipt file that includes the list of files to be installed...");
 
         // Get the text out of that file and parse it into a NMFPackageDescriptor object
-        NMFPackageDescriptor descriptor = null;
-
-        InputStream stream = zipFile.getInputStream(receipt);
-        InputStreamReader isr = new InputStreamReader(stream, Charset.forName("UTF-8"));
-        BufferedReader br = new BufferedReader(isr);
-
-        try {
-            String line = br.readLine(); // Reads the first line!
-
-            if (line != null) {
-                String version;
-                // Check the version of the Installation procedure
-                if (line.startsWith(line)) {
-                    version = line.substring(HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length());
-                } else {
-                    throw new IOException("Could not read the NMF Package Descriptor verseion!");
-                }
-
-                if ("1".equals(version)) {
-                    descriptor = ReceiptVersion1.readReceiptVersion1(br);
-                } else {
-                    throw new IOException("Unknown version: " + version);
-                }
-            } else {
-                throw new IOException("The receipt file is empty!");
-            }
-
-            br.close();
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, "An error happened!", ex);
-        }
+        final InputStream stream = zipFile.getInputStream(receipt);
+        final NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseInputStream(stream);
+        stream.close();
 
         // Safety check... should never happen...
         if (descriptor == null) {
@@ -146,7 +119,7 @@ public class NMFPackageManager {
 
             fos.close();
 
-            final long crc = HelperNMFPackage.calculateCRC(newFile.getCanonicalPath());
+            final long crc = HelperNMFPackage.calculateCRCFromFile(newFile.getCanonicalPath());
 
             // We will also need to double check the CRCs again against the real files!
             // Just to double-check.. better safe than sorry!
@@ -154,6 +127,24 @@ public class NMFPackageManager {
                 throw new IOException("The CRC does not match!");
             }
         }
+        
+        // Store a copy of the receipt to know that it has been installed!
+        // -----------------
+        // Default location of the folder
+        File temp = new File("receipts");
+
+        // Read the Property of the folder to install the packages
+        if (System.getProperty(INSTALLED_RECEIPTS_FOLDER_PROPERTY) != null) {
+            temp = new File(System.getProperty(INSTALLED_RECEIPTS_FOLDER_PROPERTY));
+        }
+
+        String receiptFilename = descriptor.getDetails().getPackageName() + ".receipt";
+        File receiptFile = new File(temp.getCanonicalPath()+ File.separator + receiptFilename);
+
+        //create the file otherwise we get FileNotFoundException
+        new File(receiptFile.getParent()).mkdirs();
+        // -----------------
+        
 
     }
 
@@ -170,6 +161,41 @@ public class NMFPackageManager {
 
         // Upgrade the files according to the NMF statement file
         // Keep the same configurations
+    }
+
+    public static boolean isPackageInstalled(String packageLocation) {
+        // based on the name, we have to go to the receipts folder and check!
+        
+        // Find the receipt out of the package
+        ZipFile zipFile;
+        try {
+            zipFile = new ZipFile(packageLocation);
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+        ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
+        NMFPackageDescriptor descriptor = null;
+        long crcDescriptor = 0;
+        
+        try {
+            final InputStream zis = zipFile.getInputStream(receipt);
+            descriptor = NMFPackageDescriptor.parseInputStream(zis);
+            crcDescriptor = HelperNMFPackage.calculateCRCFromInputStream(zis);
+            zis.close();
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+
+
+        
+        
+        // INSTALLED_RECEIPTS_FOLDER_PROPERTY
+        
+        return true;
     }
 
 }

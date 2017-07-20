@@ -84,7 +84,7 @@ public class NMFPackageCreator {
         for (int i = 0; i < newLocations.size(); i++) {
             try {
                 descriptor.addFile(new NMFPackageFile(newLocations.get(i),
-                        HelperNMFPackage.calculateCRC(files.get(i))));
+                        HelperNMFPackage.calculateCRCFromFile(files.get(i))));
             } catch (IOException ex) {
                 Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
                         "There was a problem during the CRC calculation.", ex);

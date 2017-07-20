@@ -37,16 +37,22 @@ public class HelperNMFPackage {
     public static final String PRIVATE_KEY_FILENAME = "privateKey.key";
     public static final String NMF_PACKAGE_DESCRIPTOR_VERSION = "NMFPackageDescriptorVersion=";
 
-    public static long calculateCRC(final String filepath) throws IOException {
+    public static long calculateCRCFromFile(final String filepath) throws IOException {
         InputStream inputStream = new BufferedInputStream(new FileInputStream(filepath));
+        long crc = calculateCRCFromInputStream(inputStream);
+        inputStream.close();
+        return crc;
+    }
+
+    public static long calculateCRCFromInputStream(final InputStream inputStream) throws IOException {
         CRC32 crc = new CRC32();
         int cnt;
 
         while ((cnt = inputStream.read()) != -1) {
             crc.update(cnt);
         }
-        
+
         return crc.getValue();
     }
-    
+
 }
