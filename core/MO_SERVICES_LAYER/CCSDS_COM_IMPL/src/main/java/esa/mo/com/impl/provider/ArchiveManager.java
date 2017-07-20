@@ -101,7 +101,6 @@ public class ArchiveManager {
 
         this.dbBackend = new DatabaseBackend();
         this.dbProcessor = new TransactionsProcessor(dbBackend);
-        this.dbBackend.startBackendDatabase(this.dbProcessor);
 
         // Start the separate lists for the "fast" generation of objIds
         this.fastDomain = new FastDomain(dbBackend);
@@ -112,6 +111,8 @@ public class ArchiveManager {
     }
 
     public synchronized void init() {
+        this.dbBackend.startBackendDatabase(this.dbProcessor);
+
         final ArchiveManager manager = this;
 
         this.dbProcessor.submitExternalTask2(new Runnable() {
