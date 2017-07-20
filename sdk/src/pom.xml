@@ -64,7 +64,6 @@
     <modules>
         <module>DEMO_PROJECTS_APPS</module>
         <module>DEMO_PROJECTS_GROUND</module>
-        <module>DEMO_GROUND_SPACE_FACEBOOK</module>
         <module>MONOLITHIC_PROVIDER</module>
         <module>CTT</module>
         <module>PLAYGROUND_GENERATOR</module> 
