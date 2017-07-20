@@ -117,7 +117,7 @@
         <esa.nmf.sdk.app.gpsdata>0.1.1-SNAPSHOT</esa.nmf.sdk.app.gpsdata>
         <esa.nmf.sdk.app.tensecondsalert>0.1.1-SNAPSHOT</esa.nmf.sdk.app.tensecondsalert>
         <esa.nmf.sdk.app.fivestagesaction>0.1.1-SNAPSHOT</esa.nmf.sdk.app.fivestagesaction>
-        <esa.nmf.sdk.app.triple>0.1.1-SNAPSHOT</esa.nmf.sdk.app.triple>
+        <esa.nmf.sdk.app.allinone>0.1.1-SNAPSHOT</esa.nmf.sdk.app.allinone>
         <esa.nmf.sdk.app.snapnmf>0.1.1-SNAPSHOT</esa.nmf.sdk.app.snapnmf>
 
     </properties>
@@ -277,8 +277,8 @@
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>demo-triple-presentation</artifactId>
-                <version>${esa.nmf.sdk.app.triple}</version>
+                <artifactId>Demo_All_In_One</artifactId>
+                <version>${esa.nmf.sdk.app.allinone}</version>
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
