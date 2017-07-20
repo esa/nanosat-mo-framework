@@ -78,6 +78,17 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
 
         tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jSeparator6 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -87,6 +98,7 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 600));
         setName("Form"); // NOI18N
+        setResizable(false);
         getContentPane().setLayout(new java.awt.BorderLayout(0, 4));
 
         tabs.setToolTipText("");
@@ -98,6 +110,98 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         tabs.setRequestFocusEnabled(false);
 
         jPanel1.setName("jPanel1"); // NOI18N
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Package Definition");
+        jLabel7.setToolTipText("");
+        jLabel7.setMaximumSize(new java.awt.Dimension(820, 22));
+        jLabel7.setMinimumSize(new java.awt.Dimension(820, 22));
+        jLabel7.setName("jLabel7"); // NOI18N
+        jLabel7.setPreferredSize(new java.awt.Dimension(820, 22));
+        jPanel1.add(jLabel7);
+
+        jPanel8.setName("jPanel8"); // NOI18N
+        jPanel8.setPreferredSize(new java.awt.Dimension(2510, 25));
+
+        jSeparator6.setName("jSeparator6"); // NOI18N
+        jSeparator6.setPreferredSize(new java.awt.Dimension(700, 15));
+        jPanel8.add(jSeparator6);
+
+        jPanel1.add(jPanel8);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("Package Name");
+        jLabel1.setMaximumSize(new java.awt.Dimension(400, 14));
+        jLabel1.setMinimumSize(new java.awt.Dimension(400, 14));
+        jLabel1.setName("jLabel1"); // NOI18N
+        jLabel1.setPreferredSize(new java.awt.Dimension(400, 14));
+        jPanel1.add(jLabel1);
+
+        jTextField1.setMinimumSize(new java.awt.Dimension(400, 20));
+        jTextField1.setName("jTextField1"); // NOI18N
+        jTextField1.setPreferredSize(new java.awt.Dimension(400, 20));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextField1);
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Package Version");
+        jLabel2.setMaximumSize(new java.awt.Dimension(400, 14));
+        jLabel2.setMinimumSize(new java.awt.Dimension(400, 14));
+        jLabel2.setName("jLabel2"); // NOI18N
+        jLabel2.setPreferredSize(new java.awt.Dimension(400, 14));
+        jPanel1.add(jLabel2);
+
+        jTextField2.setMinimumSize(new java.awt.Dimension(400, 20));
+        jTextField2.setName("jTextField2"); // NOI18N
+        jTextField2.setPreferredSize(new java.awt.Dimension(400, 20));
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextField2);
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Package Smth");
+        jLabel3.setMaximumSize(new java.awt.Dimension(400, 14));
+        jLabel3.setMinimumSize(new java.awt.Dimension(400, 14));
+        jLabel3.setName("jLabel3"); // NOI18N
+        jLabel3.setPreferredSize(new java.awt.Dimension(400, 14));
+        jPanel1.add(jLabel3);
+
+        jTextField3.setMinimumSize(new java.awt.Dimension(400, 20));
+        jTextField3.setName("jTextField3"); // NOI18N
+        jTextField3.setPreferredSize(new java.awt.Dimension(400, 20));
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextField3);
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Package Smth");
+        jLabel4.setMaximumSize(new java.awt.Dimension(400, 14));
+        jLabel4.setMinimumSize(new java.awt.Dimension(400, 14));
+        jLabel4.setName("jLabel4"); // NOI18N
+        jLabel4.setPreferredSize(new java.awt.Dimension(400, 14));
+        jPanel1.add(jLabel4);
+
+        jTextField4.setMinimumSize(new java.awt.Dimension(400, 20));
+        jTextField4.setName("jTextField4"); // NOI18N
+        jTextField4.setPreferredSize(new java.awt.Dimension(400, 20));
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextField4);
+
         tabs.addTab("Step 1: Package Definition", jPanel1);
 
         jPanel2.setName("jPanel2"); // NOI18N
@@ -123,14 +227,41 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables
 }

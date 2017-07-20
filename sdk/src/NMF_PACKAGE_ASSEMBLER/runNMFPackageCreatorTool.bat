@@ -1,1 +1,0 @@
-java -classpath "target\CTT-jar-with-dependencies.jar" esa.mo.fw.configurationtool.guis.MOConsumerGUIvFull
