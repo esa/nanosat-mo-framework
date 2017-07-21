@@ -132,8 +132,9 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1000, 600));
+        setMinimumSize(new java.awt.Dimension(800, 600));
         setName("Form"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1100, 600));
         getContentPane().setLayout(new java.awt.BorderLayout(0, 4));
 
         tabs.setToolTipText("");

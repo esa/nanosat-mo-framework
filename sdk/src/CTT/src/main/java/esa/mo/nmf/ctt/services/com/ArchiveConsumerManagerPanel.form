@@ -25,13 +25,13 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButtonDeleteAll" pref="172" max="32767" attributes="0"/>
-                  <Component id="jButtonUpdate" max="32767" attributes="0"/>
+                  <Component id="jButtonDeleteAll" pref="169" max="32767" attributes="0"/>
+                  <Component id="jButtonUpdate" pref="169" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButtonDelete" min="-2" pref="101" max="-2" attributes="0"/>
                   <Component id="jButtonCount" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonDelete" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -40,16 +40,13 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="jButtonStoreGroups" min="-2" pref="157" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButtonStoreAggregation" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="jButtonStoreConversions" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="test_button" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="jButtonStoreConversions" pref="178" max="32767" attributes="0"/>
+                  <Component id="jButtonStoreGroups" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="test_button" pref="139" max="32767" attributes="0"/>
+                  <Component id="jButtonStoreAggregation" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="TBoxStore" min="-2" pref="28" max="-2" attributes="0"/>
@@ -80,7 +77,7 @@
                   <Component id="jButtonGetAll" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonDeleteAll" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonDelete" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonStoreActions" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                  <Component id="jButtonStoreActions" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonStoreConversions" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="test_button" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -227,6 +224,7 @@
     <Component class="javax.swing.JButton" name="jButtonDeleteAll">
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete All"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDeleteAllActionPerformed"/>

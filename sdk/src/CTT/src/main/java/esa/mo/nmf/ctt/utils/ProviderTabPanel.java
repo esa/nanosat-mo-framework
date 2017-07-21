@@ -247,7 +247,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
                     if (currentTime.getValue() > threshold) {
                         // Then the provider is unresponsive
-                        status.setText("Unresponsive!");
+                        status.setText("Unresponsive! ");
                         status.setForeground(Color.RED);
                     }
                 }
