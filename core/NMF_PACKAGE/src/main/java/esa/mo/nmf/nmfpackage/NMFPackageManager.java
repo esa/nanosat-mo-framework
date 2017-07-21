@@ -22,15 +22,11 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
-import esa.mo.nmf.nmfpackage.descriptor.ReceiptVersion1;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -46,6 +42,7 @@ public class NMFPackageManager {
 
     private static final String INSTALLATION_FOLDER_PROPERTY = "esa.mo.nmf.nmfpackage.installationFolder";
     private static final String INSTALLED_RECEIPTS_FOLDER_PROPERTY = "esa.mo.nmf.nmfpackage.receipts";
+    private static final String RECEIPT_ENDING = ".receipt";
 
     public static void install(final String packageLocation) throws FileNotFoundException, IOException {
         // Get the File to be installed
@@ -138,7 +135,7 @@ public class NMFPackageManager {
             temp = new File(System.getProperty(INSTALLED_RECEIPTS_FOLDER_PROPERTY));
         }
 
-        String receiptFilename = descriptor.getDetails().getPackageName() + ".receipt";
+        String receiptFilename = descriptor.getDetails().getPackageName() + NMFPackageManager.RECEIPT_ENDING;
         File receiptFile = new File(temp.getCanonicalPath()+ File.separator + receiptFilename);
 
         //create the file otherwise we get FileNotFoundException
@@ -176,22 +173,25 @@ public class NMFPackageManager {
         }
         
         ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
-        NMFPackageDescriptor descriptor = null;
-        long crcDescriptor = 0;
+        NMFPackageDescriptor descriptorFromPackage = null;
+        long crcDescriptorFromPackage = 0;
         
         try {
-            final InputStream zis = zipFile.getInputStream(receipt);
-            descriptor = NMFPackageDescriptor.parseInputStream(zis);
-            crcDescriptor = HelperNMFPackage.calculateCRCFromInputStream(zis);
+            InputStream zis = zipFile.getInputStream(receipt);
+            descriptorFromPackage = NMFPackageDescriptor.parseInputStream(zis);
+            zis.close();
+            zis = zipFile.getInputStream(receipt);
+            crcDescriptorFromPackage = HelperNMFPackage.calculateCRCFromInputStream(zis);
             zis.close();
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
 
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, 
+                "Package name: " + descriptorFromPackage.getDetails().getPackageName());
 
-
-        
+        String receiptFileName = descriptorFromPackage.getDetails().getPackageName() + NMFPackageManager.RECEIPT_ENDING;
         
         // INSTALLED_RECEIPTS_FOLDER_PROPERTY
         
