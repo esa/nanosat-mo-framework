@@ -282,7 +282,7 @@
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>snapNMF</artifactId>
+                <artifactId>Demo_SnapNMF</artifactId>
                 <version>${esa.nmf.sdk.app.snapnmf}</version>
             </dependency>
             
