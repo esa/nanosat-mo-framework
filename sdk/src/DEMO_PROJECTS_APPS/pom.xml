@@ -68,7 +68,7 @@
         <module>demo-5-stages-action</module>
         <module>demo-gps-data</module>
         <module>demo-all-in-one</module>
-        <module>snapNMF</module>
+        <module>demo-snapNMF</module>
         <module>demo-serial-object</module>
     </modules>
  

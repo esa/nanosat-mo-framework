@@ -27,7 +27,7 @@
     <packaging>jar</packaging>
     <version>0.1.0</version>
 
-    <name>PG: Installer of snapNMF App</name>
+    <name>PG: Installer of SnapNMF App</name>
     <description>The snapNMF App installer for the Playground environment.</description>
     <url>http://www.esa.int</url>
   
@@ -59,7 +59,7 @@
     </developers>
     
     <properties>
-        <esa.nmf.artifact.app.artifactid>snapNMF</esa.nmf.artifact.app.artifactid>
+        <esa.nmf.artifact.app.artifactid>Demo_SnapNMF</esa.nmf.artifact.app.artifactid>
         <esa.nmf.artifact.global.folderpath>${playground.folder.output}</esa.nmf.artifact.global.folderpath>
     </properties>
         
