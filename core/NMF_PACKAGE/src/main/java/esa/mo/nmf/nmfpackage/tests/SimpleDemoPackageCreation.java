@@ -47,8 +47,9 @@ public class SimpleDemoPackageCreation {
         ArrayList<String> newLocations = new ArrayList<String>();
 
         String myAppFilename = "myApp.filetype";
+        String dummyFolder = "myInstalledApp";
         files.add(myAppFilename);
-        newLocations.add("apps" + File.separator + myAppFilename);
+        newLocations.add("apps" + File.separator + dummyFolder + File.separator + myAppFilename);
 
         // Step 1: Fill in app details...
         // App Name, Description, Category

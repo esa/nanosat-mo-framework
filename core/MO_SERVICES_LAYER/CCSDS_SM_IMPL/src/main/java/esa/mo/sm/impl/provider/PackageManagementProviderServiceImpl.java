@@ -207,11 +207,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             availablePackages = backend.getListOfPackages();
         
             for (int i = 0; i < names.size(); i++) {
-//                String packageName = names.get(i).toString();
                 int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
 
-                if (!backend.isPackageInstalled(availablePackages.get(i))) {
+                if (index == -1) {
                     unkIndexList.add(new UInteger(i));
+                }
+
+                if (backend.isPackageInstalled(availablePackages.get(i))) {
+                    invIndexList.add(new UInteger(i));
                 }
 
                 // Throw error if already installed!
