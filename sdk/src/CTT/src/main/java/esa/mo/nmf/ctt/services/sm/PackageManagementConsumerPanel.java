@@ -309,7 +309,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void uninstallResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Uninstalled!");
-                    listAppAllButtonActionPerformed(null);
+                    packagesTable.switchEnabledstatus(false);
                 }
 
                 @Override
@@ -345,14 +345,15 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceSMPackageManagement.getPackageManagementStub().install(ids, new PackageManagementAdapter() {
                 @Override
-                public void installAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                public void installAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                        org.ccsds.moims.mo.mal.structures.BooleanList integrity, java.util.Map qosProperties) {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Installing...");
-                    listAppAllButtonActionPerformed(null);
                 }
 
                 @Override
                 public void installResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Installed!");
+                    packagesTable.switchEnabledstatus(true);
                 }
 
                 @Override
