@@ -108,14 +108,23 @@ public class NMFPackagePMBackend implements PMBackend {
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Upgrading the package from: {0}", folderLocation);
         
-        NMFPackageManager.upgrade(folderLocation);
+        try {
+            NMFPackageManager.upgrade(folderLocation);
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
+    
+    @Override
+    public String getPublicKey(final String packageName){
+        String folderLocation = this.getFolderLocation(packageName);
+        return NMFPackageManager.getPublicKey(folderLocation);
+    }
+    
     @Override
     public boolean isPackageInstalled(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
-        boolean packageInstalled = NMFPackageManager.isPackageInstalled(folderLocation);
-        return packageInstalled;
+        return NMFPackageManager.isPackageInstalled(folderLocation);
     }
 
     @Override

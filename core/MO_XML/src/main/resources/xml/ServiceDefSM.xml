@@ -468,7 +468,11 @@ The process of loading a software image from non-volatile memory to RAM upon boo
                 <mal:type area="MAL" list="true" name="Identifier"/>
               </mal:field>
             </mal:invoke>
-						<mal:acknowledgement comment=""/>
+						<mal:acknowledgement comment="">
+              <mal:field canBeNull="true" comment="The integrity field contains the status of the package integrity." name="integrity">
+                <mal:type area="MAL" list="true" name="Boolean"/>
+              </mal:field>
+            </mal:acknowledgement>
 						<mal:response comment=""/>
 					</mal:messages>
           <mal:errors>
@@ -551,11 +555,11 @@ The process of loading a software image from non-volatile memory to RAM upon boo
               </mal:field>
             </mal:request>
 						<mal:response comment="">
-              <mal:field canBeNull="true" comment="" name="valid">
+              <mal:field canBeNull="true" comment="" name="validCRCs">
                 <mal:type area="MAL" list="true" name="Boolean"/>
               </mal:field>
-            <mal:field canBeNull="true" comment="The publicKey field shall contain the digital signature public key of the package. If the package is not sign then the field shall be set to null." name="publicKey">
-                <mal:type area="MAL" list="false" name="String"/>
+            <mal:field canBeNull="true" comment="" name="publicKeys">
+                <mal:type area="MAL" list="true" name="String"/>
               </mal:field>
             </mal:response>
 					</mal:messages>
