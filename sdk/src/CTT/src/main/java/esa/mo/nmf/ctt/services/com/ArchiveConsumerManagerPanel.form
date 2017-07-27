@@ -25,13 +25,13 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButtonDeleteAll" pref="169" max="32767" attributes="0"/>
-                  <Component id="jButtonUpdate" pref="169" max="32767" attributes="0"/>
+                  <Component id="jButtonDeleteAll" max="32767" attributes="0"/>
+                  <Component id="jButtonUpdate" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButtonCount" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonDelete" max="32767" attributes="0"/>
+                  <Component id="jButtonCount" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -45,15 +45,15 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="test_button" pref="139" max="32767" attributes="0"/>
-                  <Component id="jButtonStoreAggregation" pref="0" max="32767" attributes="0"/>
+                  <Component id="test_button" max="32767" attributes="0"/>
+                  <Component id="jButtonStoreAggregation" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="TBoxStore" min="-2" pref="28" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Component id="tabs" alignment="1" pref="1005" max="32767" attributes="0"/>
+              <Component id="tabs" alignment="1" pref="957" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
