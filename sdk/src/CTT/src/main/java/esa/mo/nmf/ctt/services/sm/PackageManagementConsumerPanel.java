@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageM
 public class PackageManagementConsumerPanel extends javax.swing.JPanel {
 
     private final PackageManagementConsumerServiceImpl serviceSMPackageManagement;
-    private PackageManagementTablePanel packagesTable;
+    private final PackageManagementTablePanel packagesTable;
 
     /**
      *
@@ -54,8 +54,8 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         packagesTable = new PackageManagementTablePanel();
         jScrollPane2.setViewportView(packagesTable);
     }
-    
-    public void init(){
+
+    public void init() {
         this.listAppAllButtonActionPerformed(null);
     }
 
@@ -244,22 +244,99 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }//GEN-LAST:event_listAppAllButtonActionPerformed
 
     private void upgradeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upgradeButtonActionPerformed
+        if (packagesTable.getSelectedRow() == -1) { // The row is not selected?
+            return;  // Well, then nothing to be done here folks!
+        }
 
+        IdentifierList ids = new IdentifierList();
+        ids.add(packagesTable.getSelectedPackage());
 
+        try {
+            this.serviceSMPackageManagement.getPackageManagementStub().upgrade(ids, new PackageManagementAdapter() {
+                @Override
+                public void upgradeAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Upgrading...");
+                }
+
+                @Override
+                public void upgradeResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Upgraded!");
+                }
+
+                @Override
+                public void upgradeAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the upgrade operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
+                }
+
+                @Override
+                public void upgradeResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the upgrade operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
+                }
+
+            }
+            );
+
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_upgradeButtonActionPerformed
 
     private void uninstallButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uninstallButtonActionPerformed
+        if (packagesTable.getSelectedRow() == -1) { // The row is not selected?
+            return;  // Well, then nothing to be done here folks!
+        }
 
+        IdentifierList ids = new IdentifierList();
+        ids.add(packagesTable.getSelectedPackage());
+        BooleanList keep = new BooleanList();
+        keep.add(true);
 
+        try {
+            this.serviceSMPackageManagement.getPackageManagementStub().uninstall(ids, keep, new PackageManagementAdapter() {
+                @Override
+                public void uninstallAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Uninstalling...");
+                }
+
+                @Override
+                public void uninstallResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Uninstalled!");
+                }
+
+                @Override
+                public void uninstallAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the uninstall operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
+                }
+
+                @Override
+                public void uninstallResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the uninstall operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
+                }
+
+            }
+            );
+
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_uninstallButtonActionPerformed
 
     private void installButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_installButtonActionPerformed
-
         if (packagesTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -271,21 +348,26 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
             this.serviceSMPackageManagement.getPackageManagementStub().install(ids, new PackageManagementAdapter() {
                 @Override
                 public void installAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Installing...");
                 }
 
                 @Override
                 public void installResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Installed!");
                 }
 
                 @Override
-                public void installAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+                public void installAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                         org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
-
+                    JOptionPane.showMessageDialog(null, "There was an error during the install operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
 
                 @Override
-                public void installResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, 
+                public void installResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                         org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the install operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
 
             }
@@ -296,7 +378,6 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_installButtonActionPerformed
 
     private void defaultTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_defaultTableComponentAdded

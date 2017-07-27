@@ -246,8 +246,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                             .addComponent(uriServiceDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(load_URI_links1))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
         );
 
         jSplitPane1.setDividerLocation(280);
