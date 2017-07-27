@@ -171,7 +171,6 @@ public class HelperArchive {
      * @param related Related field
      * @param source Source field
      * @param uri URI field
-     * @param connectionDetails The details of the connection
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
@@ -567,7 +566,7 @@ public class HelperArchive {
             } catch (MALInteractionException ex2) {
                 Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO,
                         "(debug code: 03) The object could not be retrieved from the Archive! A null will be returned! "
-                        + "This problem usually occurs when there is a race condition on the layers below, either MAL or Transport Layer.");
+                        + "This problem usually occurs when there are problems on the layers below, either MAL or Transport Binding Layer.");
                 return null;
             } catch (MALException ex2) {
                 Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO,

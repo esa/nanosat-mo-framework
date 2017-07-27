@@ -100,9 +100,11 @@ public class NMFPackageManager {
         for (int i = 0; i < descriptor.getFiles().size(); i++) {
             NMFPackageFile file = descriptor.getFiles().get(i);
             ZipEntry entry = zipFile.getEntry(file.getPath());
+            
+//            File destination = generateFilePath(entry.getName());
 
-            File destination = new File(entry.getName());
-            newFile = new File(folder.getCanonicalPath() + File.separator + destination.getCanonicalPath());
+            newFile = generateFilePath(entry.getName());
+//            newFile = new File(destination.getCanonicalPath());
 //            newFile = new File(destination.getAbsolutePath());
             //create the file otherwise we get FileNotFoundException
             new File(newFile.getParent()).mkdirs();
@@ -157,8 +159,9 @@ public class NMFPackageManager {
                 "Package Successfully installed from location: " + packageLocation);
     }
 
-    public static void uninstall(final String packageLocation, final boolean keepConfigurations) {
+    public static void uninstall(final String packageLocation, final boolean keepConfigurations) throws IOException {
         // Get the Package to be uninstalled
+        // But maybe from the the receipts folder, no?
 
         // Delete the files according to the NMF statement file
         // Do we keep the previous configurations?
@@ -167,6 +170,8 @@ public class NMFPackageManager {
     public static void upgrade(final String packageLocation) {
         // Get the Files to be installed
 
+        // Double check if a previous package is installed
+        // 
         // Upgrade the files according to the NMF statement file
         // Keep the same configurations
     }
@@ -199,9 +204,6 @@ public class NMFPackageManager {
             return false;
         }
 
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Package name: " + descriptorFromPackage.getDetails().getPackageName());
-
         File temp = getReceiptsFolder();
         String receiptFilename = descriptorFromPackage.getDetails().getPackageName() + NMFPackageManager.RECEIPT_ENDING;
         File receiptFile;
@@ -215,21 +217,25 @@ public class NMFPackageManager {
         boolean exists = receiptFile.exists();
 
         if (!exists) {
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "The package is not installed!");
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                    "The package "
+                    + descriptorFromPackage.getDetails().getPackageName()
+                    + " is not installed!");
             return false;
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "The package is installed!");
-        
+                "The package "
+                + descriptorFromPackage.getDetails().getPackageName()
+                + " is installed!");
+
         // We need to double check if the crc match!
 //        long crc = HelperNMFPackage.calculateCRCFromInputStream(null);
 //        crcDescriptorFromPackage == 
         return true;
     }
-    
-    private static File getReceiptsFolder(){
+
+    private static File getReceiptsFolder() {
         // Default location of the folder
         File folder = new File("receipts");
 
@@ -237,8 +243,25 @@ public class NMFPackageManager {
         if (System.getProperty(INSTALLED_RECEIPTS_FOLDER_PROPERTY) != null) {
             folder = new File(System.getProperty(INSTALLED_RECEIPTS_FOLDER_PROPERTY));
         }
-        
+
         return folder;
+    }
+
+    private static File generateFilePath(final String path) {
+        
+        String out = path.replace('/', File.separatorChar);
+
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                    "From: " + path
+                    + "\nTo: " + out);
+        
+        String out2 = path.replace('\\', File.separatorChar);
+
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                    "From: " + out
+                    + "\nTo: " + out2);
+
+        return new File(path);
     }
 
 }

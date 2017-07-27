@@ -95,7 +95,11 @@ public class NMFPackagePMBackend implements PMBackend {
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Uninstalling the package from: {0}", folderLocation);
 
-        NMFPackageManager.uninstall(folderLocation, keepConfigurations);
+        try {
+            NMFPackageManager.uninstall(folderLocation, keepConfigurations);
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
