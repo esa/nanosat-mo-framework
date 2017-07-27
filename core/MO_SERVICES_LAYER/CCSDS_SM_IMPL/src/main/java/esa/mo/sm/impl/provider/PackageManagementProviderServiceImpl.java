@@ -192,6 +192,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void install(final IdentifierList names, final InstallInteraction interaction) throws MALInteractionException, MALException {
+        interaction.sendAcknowledgement(null);
+        
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
