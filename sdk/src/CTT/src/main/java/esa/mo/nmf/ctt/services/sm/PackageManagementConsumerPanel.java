@@ -264,6 +264,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void upgradeResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Upgraded!");
+                    listAppAllButtonActionPerformed(null);
                 }
 
                 @Override
@@ -279,10 +280,8 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "There was an error during the upgrade operation.", "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
-
             }
             );
-
         } catch (MALInteractionException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -310,6 +309,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void uninstallResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Uninstalled!");
+                    listAppAllButtonActionPerformed(null);
                 }
 
                 @Override
@@ -325,10 +325,8 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "There was an error during the uninstall operation.", "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
-
             }
             );
-
         } catch (MALInteractionException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -349,6 +347,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void installAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO, "Installing...");
+                    listAppAllButtonActionPerformed(null);
                 }
 
                 @Override
@@ -372,7 +371,6 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
 
             }
             );
-
         } catch (MALInteractionException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
