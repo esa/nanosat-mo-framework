@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -43,7 +44,7 @@ import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
  */
 public class ConsumerTestToolGUI extends javax.swing.JFrame {
 
-    private ConnectionConsumer connection = new ConnectionConsumer();
+    protected ConnectionConsumer connection = new ConnectionConsumer();
 
     /**
      * Main command line entry point.
@@ -104,7 +105,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
         }
     }
 
-    public void insertDirectoryServiceTab(final String defaultURI) {
+    public final void insertDirectoryServiceTab(final String defaultURI) {
         final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(false, connection, tabs);
 
         tabs.insertTab("Communication Settings (Directory)", null,
@@ -112,6 +113,10 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
                 "Communications Tab (Directory)", tabs.getTabCount());
 
         directoryTab.setURITextbox(defaultURI);
+    }
+    
+    public JTabbedPane getTabs(){
+        return tabs;
     }
 
     /**

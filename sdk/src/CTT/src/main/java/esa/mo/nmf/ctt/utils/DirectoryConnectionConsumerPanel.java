@@ -29,7 +29,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,10 +54,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
-    private final static String FOLDER_LOCATION_PROPERTY = "esa.mo.nmf.ctt.PlaygroundFolder";
-    private static final String OBSW_DIRECTORY_NAME = "DEMO_PROJECTS_APPS";  // dir name
-    private static final String OBSW_ALTERNATIVE_DIRECTORY_NAME = "Playground" + File.separator + "apps";  // Running Environment
-    private File folder_location = new File(".." + File.separator + OBSW_DIRECTORY_NAME);  // Location of the folder
     private ConnectionConsumer connectionConsumer;
     private javax.swing.JTabbedPane tabs;
     private ProviderSummaryList summaryList;
@@ -68,7 +63,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     /**
      * Creates new form ConsumerPanelArchive
      *
-     * @param isS2G Is it a Space to Ground link?
+     * @param isS2G Flag that defines if it is a Space to Ground link
      * @param connectionConsumer
      * @param tabs
      */
@@ -80,14 +75,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         this.initTextBoxAddress();
         this.isS2G = isS2G;
 
-        // If there is a property for that, then use it!! 
-        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
-            folder_location = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
-        }
-
-//        this.refreshFoldersAvailable(false);
-        String[] tableCol = new String[]{
-            "Service name", "Supported Capabilities", "Service Properties", "URI address", "Broker URI Address"};
+        String[] tableCol = new String[]{"Service name", "Supported Capabilities",
+            "Service Properties", "URI address", "Broker URI Address"};
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {
@@ -136,7 +125,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                                 service.getServiceKey().getVersion(), service.getServiceKey().getService());
                     } catch (MALException ex) {
                         serviceName = "<Unknown service>";
-//                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     String serviceURI = "";
@@ -187,8 +175,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         uriServiceDirectory = new javax.swing.JTextField();
         load_URI_links1 = new javax.swing.JButton();
         connectButton = new javax.swing.JButton();
-        obswFolder = new javax.swing.JComboBox();
-        jLabel30 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -232,41 +218,15 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             }
         });
 
-        obswFolder.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        obswFolder.setEnabled(false);
-        obswFolder.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                obswFolderItemStateChanged(evt);
-            }
-        });
-        obswFolder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                obswFolderActionPerformed(evt);
-            }
-        });
-
-        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel30.setText("OBSW Demo Folder:");
-        jLabel30.setEnabled(false);
-        jLabel30.setPreferredSize(new java.awt.Dimension(150, 14));
-
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(1, 1, 1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(obswFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(uriServiceDirectory, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE))
+                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(uriServiceDirectory, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(load_URI_links1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -285,17 +245,9 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(uriServiceDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(load_URI_links1))))
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(obswFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(12, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jSplitPane1.setDividerLocation(280);
@@ -374,12 +326,12 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
         final int count = tabs.getTabCount();
-        
+
         Thread t1 = new Thread() {
             @Override
             public void run() {
                 this.setName("ConnectButtonActionThread");
-                ProviderTabPanel providerPanel = new ProviderTabPanel(summary);
+                ProviderTabPanel providerPanel = createNewProviderTabPanel(summary);
 
                 // -- Close Button --
                 final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
@@ -409,8 +361,11 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         };
 
         t1.start();
-
     }//GEN-LAST:event_connectButtonActionPerformed
+
+    public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary) {
+        return new ProviderTabPanel(providerSummary);
+    }
 
     private void errorConnectionProvider(String service, Throwable ex) {
         JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!"
@@ -421,38 +376,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceDirectoryActionPerformed
 
-    /*
-    private void refreshFoldersAvailable(boolean isSecondaryCall) {
-        obswFolder.removeAllItems();
-
-        // get all the files from a directory
-        File[] fList = folder_location.listFiles();
-
-        if (fList == null) {
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, 
-                    "The directory could not be found: {0}", folder_location.toString());
-            this.changeOBSWFolder();
-
-            if (!isSecondaryCall) { // To avoid getting the code in a stupid loop
-                this.refreshFoldersAvailable(true);
-            }
-
-            return;
-        }
-
-        for (File file : fList) {
-            if (file.isDirectory()) {
-                obswFolder.addItem(file.getName());
-            }
-        }
-    }
-    
-    private void changeOBSWFolder() {
-        folder_location = new File(".." + File.separator + OBSW_ALTERNATIVE_DIRECTORY_NAME);  // Location of the folder
-        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.INFO, 
-                "The directory path was changed to: {0}", folder_location.toString());
-    }
-     */
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
         try {
@@ -461,7 +384,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             DefaultListModel listOfProviders = new DefaultListModel();
 
             for (ProviderSummary summary : summaryList) {
-                listOfProviders.addElement(summary.getProviderKey().getInstId().toString() + ". " + summary.getProviderName().toString());
+                listOfProviders.addElement(summary.getProviderKey().getInstId().toString()
+                        + ". " + summary.getProviderName().toString());
             }
 
             providersList.setModel(listOfProviders);
@@ -476,57 +400,24 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
             Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
         } catch (MalformedURLException ex) {
             errorConnectionProvider("Directory", ex);
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
             Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
         } catch (MALInteractionException ex) {
             errorConnectionProvider("Directory", ex);
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
             Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
         }
-
     }//GEN-LAST:event_load_URI_links1ActionPerformed
-
-    private void obswFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obswFolderActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_obswFolderActionPerformed
-
-    private void obswFolderItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_obswFolderItemStateChanged
-        /*
-        if (obswFolder.getSelectedItem() == null) {
-            return;
-        }
-
-        // Generate the file path...
-        String filePath = folder_location
-                + File.separator
-                + obswFolder.getSelectedItem().toString()
-                + File.separator
-                + HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME;
-
-        try { // Load properties
-            connectionConsumer.loadURIs(filePath);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // refres the textbox
-        this.initTextBoxAddress();
-         */
-    }//GEN-LAST:event_obswFolderItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectButton;
     private javax.swing.JPanel homeTab;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JScrollPane jScrollPane1;
@@ -534,7 +425,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton load_URI_links1;
-    private javax.swing.JComboBox obswFolder;
     private javax.swing.JList providersList;
     private javax.swing.JTextField uriServiceDirectory;
     // End of variables declaration//GEN-END:variables
@@ -544,10 +434,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }
 
     private void initTextBoxAddress() {  // runs during the init of the app
-        SingleConnectionDetails details;
-
         // Common services
-        details = connectionConsumer.getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
+        SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
 
         if (details != null) {
             this.uriServiceDirectory.setText(details.getProviderURI().toString());
