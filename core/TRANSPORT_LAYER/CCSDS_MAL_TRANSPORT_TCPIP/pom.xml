@@ -25,7 +25,7 @@
   
   <artifactId>TRANSPORT_TCPIP_TEMP</artifactId>
   <packaging>jar</packaging>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
 
   <name>ESA MAL TCP/IP Java transport</name>
   <description>A Java TCP/IP transport for CCSDS MAL</description>

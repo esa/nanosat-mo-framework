@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.2</version>
         <relativePath/>
     </parent>
     
     <artifactId>Blank_App</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
 
     <name>Blank App</name>
     <description>A blank app to start new projects</description>

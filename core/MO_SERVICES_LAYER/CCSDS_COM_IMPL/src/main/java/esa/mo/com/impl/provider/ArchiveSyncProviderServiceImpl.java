@@ -146,8 +146,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             
         }
         
-        
-
     }
 
     @Override

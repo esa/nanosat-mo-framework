@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.2</version>
         <relativePath/>
     </parent>
   
     <artifactId>NMF_GENERIC_MODEL</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
 
     <name>NMF Generic Model</name>
     <description>NanoSat MO Framework Generic Model</description>
@@ -115,7 +115,7 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>TRANSPORT_TCPIP_TEMP</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.2</version>
         </dependency>
     </dependencies>
     
