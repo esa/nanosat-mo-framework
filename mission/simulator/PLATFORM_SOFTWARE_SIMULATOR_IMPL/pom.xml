@@ -68,7 +68,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>OPS-SAT_SIMULATOR</artifactId>
+            <artifactId>OPS-SAT_SOFTWARE_SIMULATOR</artifactId>
             <version>1.1</version>
         </dependency>
         <dependency>
