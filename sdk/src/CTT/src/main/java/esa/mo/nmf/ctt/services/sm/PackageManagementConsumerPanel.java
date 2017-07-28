@@ -69,8 +69,6 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel6 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        appVerboseTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         defaultTable = new javax.swing.JTable();
         parameterTab = new javax.swing.JPanel();
@@ -84,11 +82,6 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Package Management Service");
         jLabel6.setToolTipText("");
-
-        appVerboseTextArea.setColumns(20);
-        appVerboseTextArea.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
-        appVerboseTextArea.setRows(5);
-        jScrollPane1.setViewportView(appVerboseTextArea);
 
         jScrollPane2.setHorizontalScrollBar(null);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(796, 380));
@@ -170,7 +163,6 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
             .addComponent(parameterTab, javax.swing.GroupLayout.DEFAULT_SIZE, 902, Short.MAX_VALUE)
             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,10 +170,8 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -385,12 +375,10 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea appVerboseTextArea;
     private javax.swing.JTable defaultTable;
     private javax.swing.JButton installButton;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton listAppAllButton;
     private javax.swing.JPanel parameterTab;
