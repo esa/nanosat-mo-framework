@@ -24,7 +24,7 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
+import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,7 +71,7 @@ public class DemoGPSData {
     private static final String AGGREGATION_GPS = "GPS.Aggregation";
 
     public DemoGPSData() {
-        this.nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
+        this.nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
     }
 
     /**
