@@ -47,23 +47,21 @@ public class COMServicesConsumer {
      *
      * @param connectionConsumer Connection details
      */
-    public void init(ConnectionConsumer connectionConsumer) {
-
+    public void init(final ConnectionConsumer connectionConsumer) {
         SingleConnectionDetails details;
 
         try {
             // Initialize the Archive service
             details = connectionConsumer.getServicesDetails().get(ArchiveHelper.ARCHIVE_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 archiveService = new ArchiveConsumerServiceImpl(details);
             }
 
             // Initialize the Event service (without an Archive)
             details = connectionConsumer.getServicesDetails().get(EventHelper.EVENT_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 eventService = new EventConsumerServiceImpl(details);
             }
-
         } catch (MALException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -71,7 +69,6 @@ public class COMServicesConsumer {
         } catch (MALInteractionException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public EventConsumerServiceImpl getEventService() {
@@ -110,17 +107,17 @@ public class COMServicesConsumer {
     public void setArchiveService(ArchiveConsumerServiceImpl archiveService) {
         this.archiveService = archiveService;
     }
-    
+
     /**
      * Closes the service consumer connections
      *
      */
     public void closeConnections() {
-        if(this.eventService != null){
+        if (this.eventService != null) {
             this.eventService.closeConnection();
         }
-        
-        if(this.archiveService != null){
+
+        if (this.archiveService != null) {
             this.archiveService.closeConnection();
         }
     }

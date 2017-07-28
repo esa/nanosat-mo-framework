@@ -166,7 +166,8 @@ public class HelperArchive {
      * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
      * The object instance identifier will be set as 0. The operation will use
      * the submitted related, source and connectionDetails fields to fill-in the
-     * object. It will use the provider's network to fill in the network's field.
+     * object. It will use the provider's network to fill in the network's
+     * field.
      *
      * @param related Related field
      * @param source Source field
@@ -186,7 +187,7 @@ public class HelperArchive {
         archiveDetailsList.add(archiveDetails);
         return archiveDetailsList;
     }
-    
+
     /**
      * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
      * The object instance identifier will be set as 0. The operation will use
@@ -228,7 +229,13 @@ public class HelperArchive {
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final Identifier network, final URI provider, final Long objId) {
-        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, network, provider);
+        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(
+                related,
+                source,
+                network,
+                provider
+        );
+
         archiveDetailsList.get(0).setInstId(objId);
 
         return archiveDetailsList;
@@ -247,7 +254,13 @@ public class HelperArchive {
             final ObjectType objType, final IdentifierList domain, final Long objId) {
         final LongList objIds = new LongList();
         objIds.add(objId);
-        final ElementList objs = (ElementList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.OBJECT_BODY);
+        final ElementList objs = (ElementList) getFromArchive(
+                archiveService,
+                objType,
+                domain,
+                objIds,
+                ToBeReturned.OBJECT_BODY
+        );
 
         return (objs != null) ? (Element) objs.get(0) : null;
         /*
@@ -303,7 +316,12 @@ public class HelperArchive {
      */
     public static ArchiveDetailsList getArchiveDetailsListFromArchive(Object archiveService,
             final ObjectType objType, final IdentifierList domain, final LongList objIds) {
-        return (ArchiveDetailsList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.ARCHIVE_DETAILS);
+        return (ArchiveDetailsList) getFromArchive(
+                archiveService,
+                objType,
+                domain,
+                objIds,
+                ToBeReturned.ARCHIVE_DETAILS);
     }
 
     /**
@@ -321,8 +339,13 @@ public class HelperArchive {
         LongList objIds = new LongList();
         objIds.add(objId);
 
-        List<ArchivePersistenceObject> archiveCOMobjectList = (List<ArchivePersistenceObject>) 
-                getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.COM_OBJECT);
+        List<ArchivePersistenceObject> archiveCOMobjectList = (List<ArchivePersistenceObject>) getFromArchive(
+                archiveService,
+                objType,
+                domain,
+                objIds,
+                ToBeReturned.COM_OBJECT
+        );
 
         if (archiveCOMobjectList == null) {
             return null;
@@ -343,13 +366,20 @@ public class HelperArchive {
      */
     public static List<ArchivePersistenceObject> getArchiveCOMObjectList(Object archiveService,
             final ObjectType objType, final IdentifierList domain, final LongList objIds) {
-        return (List<ArchivePersistenceObject>) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.COM_OBJECT);
+        return (List<ArchivePersistenceObject>) getFromArchive(
+                archiveService,
+                objType,
+                domain,
+                objIds,
+                ToBeReturned.COM_OBJECT
+        );
     }
 
     private static Object getFromArchive(final Object archiveService, final ObjectType objType,
             final IdentifierList domain, final LongList objIds, final ToBeReturned toBeReturned) {
         if (archiveService == null) { // If there's no archive...
-            Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO, "The Archive service provided contains a null pointer!");
+            Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO,
+                    "The Archive service provided contains a null pointer!");
             return null;
         }
 
@@ -364,7 +394,8 @@ public class HelperArchive {
             }
 
             @Override
-            public synchronized MALMessage sendResponse(ArchiveDetailsList objDetails, ElementList objBodies) throws MALInteractionException, MALException {
+            public synchronized MALMessage sendResponse(ArchiveDetailsList objDetails,
+                    ElementList objBodies) throws MALInteractionException, MALException {
                 if (objBodies != null) {
                     if (!objBodies.isEmpty()) {
                         this.obj = objBodies;
@@ -439,7 +470,7 @@ public class HelperArchive {
             @Override
             public void retrieveAckErrorReceived(MALMessageHeader msgHeader,
                     MALStandardError error, Map qosProperties) {
-                Logger.getLogger(HelperArchive.class.getName()).log(Level.SEVERE, 
+                Logger.getLogger(HelperArchive.class.getName()).log(Level.SEVERE,
                         "The Archive returned the following error: {0}", error.toString());
                 semaphore.release();
             }
@@ -468,8 +499,10 @@ public class HelperArchive {
             }
 
             @Override
-            public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                Logger.getLogger(HelperArchive.class.getName()).log(Level.SEVERE, "The Archive returned the following error: {0}", error.toString());
+            public void retrieveResponseErrorReceived(MALMessageHeader msgHeader,
+                    MALStandardError error, Map qosProperties) {
+                Logger.getLogger(HelperArchive.class.getName()).log(Level.SEVERE,
+                        "The Archive returned the following error: {0}", error.toString());
 
                 semaphore.release();
             }

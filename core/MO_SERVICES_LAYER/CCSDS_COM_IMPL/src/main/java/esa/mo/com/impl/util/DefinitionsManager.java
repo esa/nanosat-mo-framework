@@ -156,18 +156,7 @@ public abstract class DefinitionsManager {
      * not exist in the manager, in this case, the definition is not added.
      */
     public synchronized boolean updateDef(Long objId, Element definition) {
-//        return (defs.replace(objId, definition) != null);
-/*
-         boolean deleted = this.deleteDef(objId);
-
-         if(deleted){
-         this.addDef(objId, definition);
-         }
-        
-         return deleted;
-         */
         return (this.deleteDef(objId) == true) ? this.addDef(objId, definition) : false;
-
     }
 
     /**
@@ -188,7 +177,6 @@ public abstract class DefinitionsManager {
      * identifiers.
      */
     public synchronized HashMap<Long, Element> getCurrentDefinitionsConfiguration() {
-//        return defs;
         return new HashMap(defs);
     }
 
@@ -213,7 +201,7 @@ public abstract class DefinitionsManager {
         for (int i = 0; i < objIds.size(); i++) {
             defs.put(objIds.get(i), (Element) definitions.get(i));
         }
-        
+
         return true;
     }
 

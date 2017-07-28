@@ -26,32 +26,32 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 
 public class ArchiveCOMObjectsOutput {
-    
+
     private final IdentifierList domain;
     private final ObjectType objType;
     private final ArchiveDetailsList archiveDetailsList;
     private final ElementList objects;
 
-    public ArchiveCOMObjectsOutput (IdentifierList domain, ObjectType objType, ArchiveDetailsList archiveDetailsList, ElementList objects){
+    public ArchiveCOMObjectsOutput(IdentifierList domain, ObjectType objType, ArchiveDetailsList archiveDetailsList, ElementList objects) {
         this.domain = domain;
         this.objType = objType;
         this.archiveDetailsList = archiveDetailsList;
         this.objects = objects;
     }
 
-    public IdentifierList getDomain (){
+    public IdentifierList getDomain() {
         return domain;
     }
-    
-    public ObjectType getObjectType (){
+
+    public ObjectType getObjectType() {
         return objType;
     }
 
-    public ArchiveDetailsList getArchiveDetailsList (){
+    public ArchiveDetailsList getArchiveDetailsList() {
         return archiveDetailsList;
     }
-    
-    public ElementList getObjectBodies (){
+
+    public ElementList getObjectBodies() {
         return objects;
     }
 

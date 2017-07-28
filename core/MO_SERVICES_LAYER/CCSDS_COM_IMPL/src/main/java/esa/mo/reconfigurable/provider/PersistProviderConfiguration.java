@@ -60,7 +60,7 @@ public class PersistProviderConfiguration {
     private final ArrayList<ReconfigurableService> reconfigurableServices;
     private LongList objIds;
     private final ExecutorService executor;
-    
+
     public PersistProviderConfiguration(final ReconfigurableProvider provider,
             final ObjectId confId, final ArchiveInheritanceSkeleton archiveService) {
         try {
@@ -90,7 +90,7 @@ public class PersistProviderConfiguration {
             objIds = ((ConfigurationObjectDetails) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
             return;
         }
-        
+
         // It doesn't exist... create all the necessary objects...
         try {
             // Store the Default Service Configuration objects

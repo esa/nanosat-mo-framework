@@ -222,7 +222,7 @@ public class HelperCOM {
      * @param objType Object Type
      * @return Name of the COM object
      */
-    public static String objType2string(ObjectType objType){
+    public static String objType2string(final ObjectType objType){
         final COMObject comObject = HelperCOM.objType2COMObject(objType);
 
         String string = MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getName().toString();

@@ -24,9 +24,6 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
@@ -73,10 +70,6 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
         this.archiveService = archiveService;
         this.serviceConfigObjId = serviceConfigObjId;
         this.executor = executor;
-        /*
-        this.executor = Executors.newSingleThreadExecutor(new NamedConfigurationThreadFactory(
-                service.getCOMService().getName().toString())); // Guarantees sequential order
-        */
     }
 
     public Long getConfigurationObjectInstId() {
@@ -89,9 +82,9 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                if(configObjectsObjId == null){
+                if (configObjectsObjId == null) {
                     // Retrieve the COM object of the service
-                    ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService, 
+                    ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
                             ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
                             ConfigurationProviderSingleton.getDomain(), serviceConfigObjId);
 
@@ -102,10 +95,9 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                                 + serviceConfigObjId);
 
                         // Todo: Maybe we can use storeDefaultServiceConfiguration() here!? To handle better the error...
-
                         return;
                     }
-                    
+
                     configObjectsObjId = comObject.getArchiveDetails().getDetails().getRelated();
                 }
 
@@ -133,8 +125,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
         });
     }
 
-    public final void storeDefaultServiceConfiguration(final Long defaultObjId,
-            final ReconfigurableService service) {
+    public final void storeDefaultServiceConfiguration(final Long defaultObjId, final ReconfigurableService service) {
         try {
             // Store the Service Configuration objects
             ConfigurationObjectDetailsList archObj1 = new ConfigurationObjectDetailsList();
@@ -168,5 +159,4 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

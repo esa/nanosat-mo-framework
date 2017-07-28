@@ -30,6 +30,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 
 public class COMObjectStructure {
+
     private final ObjectType objType;
     private final IdentifierList domain;
     private Long objId;
@@ -39,28 +40,28 @@ public class COMObjectStructure {
     private Identifier network;
     private FineTime timestamp;
     private String providerURI;
-    
+
     private final ElementList objects;
 
-    public COMObjectStructure (final IdentifierList domain, final ObjectType objType, 
-            final ArchiveDetails archiveDetails, final ElementList objects){
+    public COMObjectStructure(final IdentifierList domain, final ObjectType objType,
+            final ArchiveDetails archiveDetails, final ElementList objects) {
         this.objType = objType;
         this.domain = domain;
         this.objId = archiveDetails.getInstId();
-        
+
         this.sourceLink = archiveDetails.getDetails().getSource();
         this.relatedLink = archiveDetails.getDetails().getRelated();
         this.network = archiveDetails.getNetwork();
         this.timestamp = archiveDetails.getTimestamp();
-        
+
         this.objects = objects;
     }
 
-    public COMObjectStructure (final ArchivePersistenceObject archivePersistenceObject){
-        this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(), 
+    public COMObjectStructure(final ArchivePersistenceObject archivePersistenceObject) {
+        this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(),
                 archivePersistenceObject.getArchiveDetails(), (ElementList) archivePersistenceObject.getObject());
     }
-    
+
     public ObjectType getObjType() {
         return objType;
     }
