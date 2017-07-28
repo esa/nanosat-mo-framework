@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.2</version>
         <relativePath/>
     </parent>
   
     <artifactId>NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
 
     <name>NanoSat MO Supervisor: Software Simulator</name>
     <description>NanoSat MO Supervisor for the Software Simulator</description>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>PLATFORM_SOFTWARE_SIMULATOR_IMPL</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
+            <version>0.1.1</version>
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
