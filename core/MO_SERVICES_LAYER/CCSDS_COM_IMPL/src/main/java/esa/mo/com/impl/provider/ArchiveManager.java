@@ -274,7 +274,7 @@ public class ArchiveManager {
         // It is quite hard to improve this method...
         insertEntries(objType, domain, lArchiveDetails, objects, interaction);
     }
-    
+
     protected synchronized LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         final LongList objIds = new LongList(lArchiveDetails.size());
@@ -368,6 +368,26 @@ public class ArchiveManager {
 
     protected ArrayList<ArchivePersistenceObject> query(final ObjectType objType,
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
+        final ArrayList<COMObjectEntity> perObjs = this.queryCOMObjectEntity(objType, archiveQuery, filter);
+
+        // Convert COMObjectEntity to ArchivePersistenceObject
+        final ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>(perObjs.size());
+        IdentifierList domain;
+
+        for (COMObjectEntity perObj : perObjs) {
+            try {
+                domain = this.fastDomain.getDomain(perObj.getDomainId());
+                outs.add(this.convert2ArchivePersistenceObject(perObj, domain, perObj.getObjectId()));
+            } catch (Exception ex) {
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return outs;
+    }
+
+    protected ArrayList<COMObjectEntity> queryCOMObjectEntity(final ObjectType objType,
+            final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final IntegerList objTypeIds = this.fastObjectType.getObjectTypeIds(objType);
         final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
         final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
@@ -384,70 +404,10 @@ public class ArchiveManager {
             }
         }
 
-        ArrayList<COMObjectEntity> perObjs = this.dbProcessor.query(objTypeIds,
-                archiveQuery, domainIds, providerURIId, networkId, sourceLink, filter);
-
-        // Convert to ArchivePersistenceObject
-        final ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>(perObjs.size());
-        IdentifierList domain;
-
-        for (COMObjectEntity perObj : perObjs) {
-            try {
-                domain = this.fastDomain.getDomain(perObj.getDomainId());
-                outs.add(this.convert2ArchivePersistenceObject(perObj, domain, perObj.getObjectId()));
-            } catch (Exception ex) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        return outs;
+        return this.dbProcessor.query(objTypeIds, archiveQuery, domainIds,
+                providerURIId, networkId, sourceLink, filter);
     }
 
-    /*
-    private ArrayList<COMObjectEntity> filterByObjectIdMask(
-            final ArrayList<COMObjectEntity> perObjs,
-            final ObjectType objectTypeMask,
-            final boolean isSource) throws Exception {
-        final long bitMask = ArchiveManager.objectType2Mask(objectTypeMask);
-        final long objTypeId = HelperCOM.generateSubKey(objectTypeMask);
-
-        final ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>(perObjs.size());
-        long tmpObjectTypeId;
-        int temp;
-        long objTypeANDed;
-        for (COMObjectEntity perObj : perObjs) {
-            temp = (isSource) ? perObj.getSourceLink().getObjectTypeId() : perObj.getObjectTypeId();
-            tmpObjectTypeId = HelperCOM.generateSubKey(this.fastObjectType.getObjectType(temp));
-            objTypeANDed = (tmpObjectTypeId & bitMask);
-            if (objTypeANDed == objTypeId) { // Comparison
-                tmpPerObjs.add(perObj);
-            }
-        }
-
-        return tmpPerObjs;  // Assign new filtered list and discard old one
-    }
-     */
-
- /*
-    private ArrayList<COMObjectEntity> filterByDomainSubpart(
-            final ArrayList<COMObjectEntity> perObjs, final IdentifierList wildcardDomain) {
-        final ArrayList<COMObjectEntity> tmpPerObjs = new ArrayList<COMObjectEntity>(perObjs.size());
-        IdentifierList tmpDomain;
-
-        for (COMObjectEntity perObj : perObjs) {
-            try {
-                tmpDomain = this.fastDomain.getDomain(perObj.getDomainId());
-                if (HelperCOM.domainMatchesWildcardDomain(tmpDomain, wildcardDomain)) {  // Does the domain matches the wildcard?
-                    tmpPerObjs.add(perObj);
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        return tmpPerObjs;  // Assign new filtered list and discard old one
-    }
-     */
     protected static ArrayList<ArchivePersistenceObject> filterQuery(
             final ArrayList<ArchivePersistenceObject> perObjs,
             final CompositeFilterSet filterSet) throws MALInteractionException {

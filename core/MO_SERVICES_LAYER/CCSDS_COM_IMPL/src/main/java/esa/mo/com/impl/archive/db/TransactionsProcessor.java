@@ -35,7 +35,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
@@ -117,18 +116,6 @@ public class TransactionsProcessor {
                         COMObjectEntity.generatePK(objTypeId, domain, objId));
                 dbBackend.closeEntityManager();
                 return (perObj != null);
-                /*
-                dbBackend.createEntityManager();
-                try {
-                    dbBackend.getEM().getReference(CLASS_ENTITY, 
-                            COMObjectEntity.generatePK(objTypeId, domain, objId));
-                    dbBackend.closeEntityManager();
-                    return true;
-                } catch (EntityNotFoundException ex) {
-                    dbBackend.closeEntityManager();
-                    return false;
-                }
-                */
             }
         });
 
@@ -377,7 +364,7 @@ public class TransactionsProcessor {
 
             // FYI: SELECT objectTypeId, objId, domainId, network, OBJ, providerURI, relatedLink, 
             // sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails FROM COMObjectEntity
-            ArrayList<COMObjectEntity> perObjs = new ArrayList<COMObjectEntity>(resultList.size());
+            final ArrayList<COMObjectEntity> perObjs = new ArrayList<COMObjectEntity>(resultList.size());
 
             // Conversion from the raw SQL response into a COMObjectEntity
             for (Object obj : resultList) {

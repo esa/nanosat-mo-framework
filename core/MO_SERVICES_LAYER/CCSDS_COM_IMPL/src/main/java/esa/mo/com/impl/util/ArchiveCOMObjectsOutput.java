@@ -32,7 +32,8 @@ public class ArchiveCOMObjectsOutput {
     private final ArchiveDetailsList archiveDetailsList;
     private final ElementList objects;
 
-    public ArchiveCOMObjectsOutput(IdentifierList domain, ObjectType objType, ArchiveDetailsList archiveDetailsList, ElementList objects) {
+    public ArchiveCOMObjectsOutput(final IdentifierList domain, final ObjectType objType,
+            final ArchiveDetailsList archiveDetailsList, final ElementList objects) {
         this.domain = domain;
         this.objType = objType;
         this.archiveDetailsList = archiveDetailsList;

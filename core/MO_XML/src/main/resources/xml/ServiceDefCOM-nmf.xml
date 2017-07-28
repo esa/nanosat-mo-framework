@@ -416,6 +416,8 @@ If the MAL data type specification is being used the body of an object shall not
             <com:objectType>
               <mal:type area="COM" list="false" name="OperationActivity" service="ActivityTracking"/>
             </com:objectType>
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment=""/>
           </com:object>
         </com:objects>
         <com:events comment="The activity tracking service shall use the event service for the monitoring of activities being transferred from a consumer to a provider and also for execution in the provider.&#10;A Release event shall be generated when an activity is released from a consumer.&#10;A Reception event shall be generated when an activity is received by an intermediate relay.&#10;A Forward event shall be generated when an activity is released from an intermediate relay.&#10;An Acceptance event shall be generated when an activity is received by the destination provider.&#10;Reception and Forward events shall only be used in a multi-hop activity transfer.&#10;For Reception and Forward events, the source URI in the UpdateHeader of the published event shall contain the URI of the relay. It is protocol specific how this value is derived.&#10;Execution progress of an activity shall be reported using Execution events.&#10;The Execution event may be reported many times as it is used to report each stage in the execution of the activity.">
@@ -423,35 +425,176 @@ If the MAL data type specification is being used the body of an object shall not
             <com:objectType>
               <mal:type area="COM" list="false" name="ActivityTransfer" service="ActivityTracking"/>
             </com:objectType>
+            <com:relatedObject comment=""/>
             <com:sourceObject comment="The activity being monitored is the source of the event."/>
           </com:event>
           <com:event comment="A Reception event is reception by an intermediate relay." name="Reception" number="2">
             <com:objectType>
               <mal:type area="COM" list="false" name="ActivityTransfer" service="ActivityTracking"/>
             </com:objectType>
+            <com:relatedObject comment=""/>
             <com:sourceObject comment="The activity being monitored is the source of the event."/>
           </com:event>
           <com:event comment="A Forward event is release from an intermediate relay." name="Forward" number="3">
             <com:objectType>
               <mal:type area="COM" list="false" name="ActivityTransfer" service="ActivityTracking"/>
             </com:objectType>
+            <com:relatedObject comment=""/>
             <com:sourceObject comment="The activity being monitored is the source of the event."/>
           </com:event>
           <com:event comment="An Acceptance event is reception and acceptance by the destination provider." name="Acceptance" number="4">
             <com:objectType>
               <mal:type area="COM" list="false" name="ActivityAcceptance" service="ActivityTracking"/>
             </com:objectType>
+            <com:relatedObject comment=""/>
             <com:sourceObject comment="The activity being monitored is the source of the event."/>
           </com:event>
           <com:event comment="An Execution event is execution progress reporting by the destination provider." name="Execution" number="5">
             <com:objectType>
               <mal:type area="COM" list="false" name="ActivityExecution" service="ActivityTracking"/>
             </com:objectType>
+            <com:relatedObject comment=""/>
             <com:sourceObject comment="The activity being monitored is the source of the event."/>
           </com:event>
         </com:events>
         <com:archiveUsage comment="The events generated as part of the activity monitoring pattern may be persisted in a COM archive.&#10;If the activity events are being persisted then the objects that represent the activities (such as an OperationActivity object) should also be persisted."/>
       </com:features>
+    </mal:service>
+    <mal:service comment="The ArchiveSync service allows a service consumer to synchronize the COM Archive with a service provider. " name="ArchiveSync" number="4" xsi:type="com:ExtendedServiceType">
+      <mal:capabilitySet comment="" number="1">
+        <mal:requestIP comment="" name="getTime" number="1" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment=""/>
+            <mal:response comment="">
+              <mal:field canBeNull="true" comment="" name="currentTime">
+                <mal:type area="MAL" list="false" name="FineTime"/>
+              </mal:field>
+              <mal:field canBeNull="true" comment="" name="lastSyncTime">
+                <mal:type area="MAL" list="false" name="FineTime"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="2">
+        <mal:progressIP comment="The" name="retrieveRange" number="2" supportInReplay="false">
+          <mal:messages>
+            <mal:progress comment="">
+              <mal:field canBeNull="true" comment="" name="from">
+                <mal:type area="MAL" list="false" name="FineTime"/>
+              </mal:field>
+              <mal:field canBeNull="true" comment="" name="until">
+                <mal:type area="MAL" list="false" name="FineTime"/>
+              </mal:field>
+            <mal:field canBeNull="true" comment="" name="objectTypes">
+                <mal:type area="COM" list="true" name="ObjectType"/>
+              </mal:field>
+            </mal:progress>
+            <mal:acknowledgement comment="">
+              <mal:field canBeNull="true" comment="" name="interactionTicket">
+                <mal:type area="MAL" list="false" name="Long"/>
+              </mal:field>
+            <mal:field canBeNull="true" comment="" name="numberOfChunks">
+                <mal:type area="MAL" list="false" name="UInteger"/>
+              </mal:field>
+            </mal:acknowledgement>
+            <mal:update comment="">
+              <mal:field canBeNull="true" comment="" name="chunk">
+                <mal:type area="MAL" list="false" name="Blob"/>
+              </mal:field>
+              <mal:field canBeNull="true" comment="" name="index">
+                <mal:type area="MAL" list="false" name="UInteger"/>
+              </mal:field>
+            </mal:update>
+            <mal:response comment=""/>
+          </mal:messages>
+        </mal:progressIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="3">
+        <mal:progressIP comment="" name="retrieveRangeAgain" number="3" supportInReplay="false">
+          <mal:messages>
+            <mal:progress comment="">
+              <mal:field canBeNull="true" comment="" name="transactionTicket">
+                <mal:type area="MAL" list="false" name="Long"/>
+              </mal:field>
+            <mal:field canBeNull="true" comment="" name="missingIndexes">
+                <mal:type area="MAL" list="true" name="UInteger"/>
+              </mal:field>
+            </mal:progress>
+            <mal:acknowledgement comment=""/>
+            <mal:update comment=""/>
+            <mal:response comment=""/>
+          </mal:messages>
+        </mal:progressIP>
+      </mal:capabilitySet>
+      <mal:dataTypes>
+        <mal:composite comment="The DictionaryEntry structure is used to hold information about a single entry of the Dictionary." name="DictionaryEntry" shortFormPart="7">
+          <mal:extends>
+            <mal:type area="MAL" list="false" name="Composite"/>
+          </mal:extends>
+          <mal:field canBeNull="true" comment="The id of the entry." name="id">
+          <mal:type area="MAL" list="false" name="UInteger"/>
+          </mal:field>
+          <mal:field canBeNull="true" comment="The associated string." name="string">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
+        </mal:composite>
+      <mal:composite comment="The Dictionary structure is used to hold information about the Dictionary." name="Dictionary" shortFormPart="8">
+          <mal:extends>
+            <mal:type area="MAL" list="false" name="Composite"/>
+          </mal:extends>
+          <mal:field canBeNull="true" comment="The entries of the dictionary." name="entries">
+          <mal:type area="COM" list="true" name="DictionaryEntry" service="ArchiveSync"/>
+          </mal:field>
+        </mal:composite>
+      <mal:composite comment="The CompactCOMObject structure is used to hold the information of a COM Object based on a content from a dictionary." name="CompactCOMObject" shortFormPart="9">
+          <mal:extends>
+            <mal:type area="MAL" list="false" name="Composite"/>
+          </mal:extends>
+          <mal:field canBeNull="true" comment="The network field of the COM Object. It points to a certain id in the dictionary." name="network">
+          <mal:type area="MAL" list="false" name="UInteger"/>
+          </mal:field>
+          <mal:field canBeNull="true" comment="The provider field of the COM Object. It points to a certain id in the dictionary." name="providerURI">
+            <mal:type area="MAL" list="false" name="UInteger"/>
+          </mal:field>
+        <mal:field canBeNull="false" comment="The Object Type of the COM Object." name="objectType">
+          <mal:type area="MAL" list="false" name="Long"/>
+          </mal:field>
+          <mal:field canBeNull="true" comment="The source link Domain of the COM Object. It points to a certain id in the dictionary." name="sourceLinkDomainId">
+          <mal:type area="MAL" list="false" name="UInteger"/>
+          </mal:field>
+          <mal:field canBeNull="true" comment="The source link Object Type of the COM Object. It points to a certain id in the dictionary." name="sourceLinkObjectType">
+          <mal:type area="MAL" list="false" name="Long"/>
+          </mal:field>
+          <mal:field canBeNull="true" comment="The source link Object Instance Identifier of the COM Object." name="sourceLinkObjId">
+          <mal:type area="MAL" list="false" name="Long"/>
+          </mal:field>
+        <mal:field canBeNull="true" comment="The related link of the COM Object." name="relatedLink">
+            <mal:type area="MAL" list="false" name="Long"/>
+          </mal:field>
+        <mal:field canBeNull="true" comment="The object body of the COM Object." name="objectBody">
+          <mal:type area="MAL" list="false" name="Blob"/>
+          </mal:field>
+          <mal:field canBeNull="false" comment="The Object Instance Identifier of the COM Object." name="objId">
+            <mal:type area="MAL" list="false" name="Long"/>
+          </mal:field>
+        <mal:field canBeNull="false" comment="The timestamp of the COM Object." name="timestamp">
+            <mal:type area="MAL" list="false" name="FineTime"/>
+          </mal:field>
+        </mal:composite>
+      <mal:composite comment="The DomainizedCOMObjects structure is used to hold the a set of CompactCOMObjects that share the same domain." name="DomainizedCOMObjects" shortFormPart="10">
+          <mal:extends>
+            <mal:type area="MAL" list="false" name="Composite"/>
+          </mal:extends>
+        <mal:field canBeNull="true" comment="The domain field of the COM Object. It points to a certain id in the dictionary." name="domain">
+            <mal:type area="MAL" list="false" name="UInteger"/>
+          </mal:field>
+          <mal:field canBeNull="true" comment="The compactCOMObjects field holds a set of COM Objects." name="compactCOMObjects">
+            <mal:type area="COM" list="true" name="CompactCOMObject" service="ArchiveSync"/>
+          </mal:field>
+        </mal:composite>
+      </mal:dataTypes>
+      <com:features/>
     </mal:service>
     <mal:dataTypes>
       <mal:composite comment="The ObjectType structure uniquely identifies the type of an object. It is the combination of the area number, service number, area version, and service object type number. The combined parts are able to fit inside a MAL::Long (for implementations that prefer to index on a single numeric field rather than a structure)." name="ObjectType" shortFormPart="1">
