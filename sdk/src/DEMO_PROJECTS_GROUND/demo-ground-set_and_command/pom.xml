@@ -66,9 +66,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>GROUND_MO_ADAPTER</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
   
