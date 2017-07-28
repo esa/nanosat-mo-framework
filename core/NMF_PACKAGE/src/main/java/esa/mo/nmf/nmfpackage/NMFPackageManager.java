@@ -184,8 +184,8 @@ public class NMFPackageManager {
         stream2.close();
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Upgrading from version: " + descriptor.getDetails().getVersion()
-                + "\nTo version: " + descriptorFromPackage.getDetails().getVersion());
+                "Upgrading from version: '" + descriptor.getDetails().getVersion() + "'"
+                + "   To version: '" + descriptorFromPackage.getDetails().getVersion() + "'");
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Removing the previous files...");
@@ -398,8 +398,8 @@ public class NMFPackageManager {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-*/
-        
+         */
+
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
