@@ -27,7 +27,7 @@
     <packaging>jar</packaging>
     <version>0.1.1</version>
 
-    <name>Demo Facebook</name>
+    <name>Demo Ground Facebook</name>
     <description>A simple demo for the Ground part that publishes a message in facebook</description>
     <url>http://www.esa.int</url>
   

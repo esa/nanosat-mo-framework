@@ -82,7 +82,7 @@ public class DemoSerialObject {
 
         @Override
         public boolean actionArrivedSimple(String name, Serializable[] srlzbls, Long l) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -94,10 +94,7 @@ public class DemoSerialObject {
 
         @Override
         public boolean onSetValueSimple(String name, Serializable srlzbl) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
-
     }
-
-
 }

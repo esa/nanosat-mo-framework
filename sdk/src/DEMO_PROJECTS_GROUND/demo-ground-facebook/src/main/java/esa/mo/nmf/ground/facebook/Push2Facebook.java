@@ -71,13 +71,13 @@ public class Push2Facebook {
         }
 
         ACCESS_TOKEN = System.getProperty("access_token", "null");
-
     }
 
     /**
      * Main command line entry point.
      *
      * @param args the command line arguments
+     * @throws java.lang.Exception
      */
     public static void main(final String args[]) throws Exception {
         Push2Facebook demo = new Push2Facebook();
@@ -88,15 +88,20 @@ public class Push2Facebook {
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
 
-            Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO, "\nPosting on facebook...\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName, data.toString()});
+            Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO,
+                    "\nPosting on facebook...\nParameter name: {0}"
+                    + "\nData content:\n{1}",
+                    new Object[]{parameterName, data.toString()});
 
             // Get the Token here: https://developers.facebook.com/tools/explorer/
             FacebookClient facebookClient = new DefaultFacebookClient(ACCESS_TOKEN, Version.VERSION_2_4);
 
             if (facebookClient == null) {
-                Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO, "The facebookClient is null! The access token might be incorrect...\n");
+                Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO,
+                        "The facebookClient is null! The access token might be incorrect...\n");
             } else {
-                Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO, "The facebookClient is connected!\n");
+                Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO,
+                        "The facebookClient is connected!\n");
             }
 
             FacebookType publishMessageResponse = facebookClient.publish(

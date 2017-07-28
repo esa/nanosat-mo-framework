@@ -36,7 +36,6 @@ public class DemoGround0 {
     private final GroundMOAdapterImpl moGroundAdapter;
 
     public DemoGround0() {
-
         ConnectionConsumer connection = new ConnectionConsumer();
 
         try {
@@ -63,9 +62,9 @@ public class DemoGround0 {
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
-            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName, data.toString()});
+            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO,
+                    "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
+                    new Object[]{parameterName, data.toString()});
         }
-
     }
-
 }

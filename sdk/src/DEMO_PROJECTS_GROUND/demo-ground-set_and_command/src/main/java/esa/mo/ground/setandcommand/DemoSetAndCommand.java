@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 
 /**
- * Ground consumer: Demo Ground 0
+ * Ground consumer: Demo Set and Command
  *
  */
 public class DemoSetAndCommand {
@@ -38,7 +38,6 @@ public class DemoSetAndCommand {
     private final GroundMOAdapterImpl moGroundAdapter;
 
     public DemoSetAndCommand() {
-
         ConnectionConsumer connection = new ConnectionConsumer();
 
         try {
@@ -51,7 +50,7 @@ public class DemoSetAndCommand {
         moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
 
         // Set a parameter with a double value
-        Double parameterValue = 1.2345;
+//        Double parameterValue = 1.2345;
 //        moGroundAdapter.sendData("Parameter_name", parameterValue);
         AggregationDefinitionDetails aaa = new AggregationDefinitionDetails();
         moGroundAdapter.setParameter("Parameter_name", aaa);
@@ -82,7 +81,5 @@ public class DemoSetAndCommand {
                     "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
                     new Object[]{parameterName, data.toString()});
         }
-
     }
-
 }

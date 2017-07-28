@@ -49,53 +49,18 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
-
-/*
-
-
-date:		2016-04-08 11:08:50.286
-sourceURI:	
-eKey2:		MC - Alert
-eventName:	AlertEvent
-domainName:	esa.MEX.MEX_MO_Provider
-eKey3:		
-eKey4:		
-detailsRelated:	1
-null
-1
-
-
-date:		2016-04-08 11:08:50.426
-sourceURI:	
-eKey2:		COM - Archive
-eventName:	ObjectStored
-domainName:	esa.MEX.MEX_MO_Provider
-eKey3:	6300
-eKey4:		MC - Alert: AlertEvent
-detailsRelated:	null
-1
-0
-
-
-*/
-
 /**
  *
  * @author Philip Brabbin
  */
 public class AlertTest2 {
 
-    //static final String URL_DIRECTORY_SERVICE = "rmi://x.x.x.x:1024/1024-MEX_MO_Provider-Directory";
-//    static final String URL_DIRECTORY_SERVICE = "malhttp://x.x.x.x:61616/MEX_MO_Provider-Directory";
-    static final String URL_DIRECTORY_SERVICE = "tcpip://x:1024-NanoSat_MO_Supervisor-Directory";
-
+    static final String URL_DIRECTORY_SERVICE = "maltcp://x:1024-NanoSat_MO_Supervisor-Directory";
     public final GroundMOAdapterImpl groundAdapter;
-
     private final Identifier subscriptionId;
     private final Random random = new Random();
 
     public AlertTest2() throws Throwable {
-
         ProviderSummaryList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(URL_DIRECTORY_SERVICE));
 
         if (!summaryList.isEmpty()) {
@@ -106,7 +71,6 @@ public class AlertTest2 {
         }
 
         //----------------------------------------------------------------
-
         Alert alertConsumer = groundAdapter.getMCServices().getAlertService().getAlertStub();
         EventConsumerServiceImpl eventConsumer = groundAdapter.getCOMServices().getEventService();
 
@@ -141,7 +105,7 @@ public class AlertTest2 {
     public class EventConsumerAdapter extends EventReceivedListener {
 
         @Override
-        public void onDataReceived (EventCOMObject eventCOMObject) {
+        public void onDataReceived(EventCOMObject eventCOMObject) {
             Date date = new Date(eventCOMObject.getTimestamp().getValue());
             Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -150,10 +114,10 @@ public class AlertTest2 {
 
             ObjectType objTypeEvent = eventCOMObject.getObjType();
             String eventName = HelperCOM.objType2COMObject(objTypeEvent).getObjectName().toString();
-            
+
             Element body = eventCOMObject.getBody();
 
-            if (body instanceof AlertEventDetails){
+            if (body instanceof AlertEventDetails) {
                 AlertEventDetails receivedAlert = (AlertEventDetails) body;
 
                 Long alertDefObjId = eventCOMObject.getRelated();
@@ -164,13 +128,13 @@ public class AlertTest2 {
                 String messageToDisplay = "<TEST-MSG>" + " ";
 
                 AttributeValueList attValues = receivedAlert.getArgumentValues();
-                
-                if(attValues != null){
-                    if (attValues.size() == 1){
+
+                if (attValues != null) {
+                    if (attValues.size() == 1) {
                         messageToDisplay += attValues.get(0).getValue().toString();
                     }
-                    if (attValues.size() > 1){
-                        for(int i = 0 ; i < attValues.size(); i++){
+                    if (attValues.size() > 1) {
+                        for (int i = 0; i < attValues.size(); i++) {
                             AttributeValue attValue = attValues.get(i);
                             messageToDisplay += "[" + i + "] " + attValue.getValue().toString() + "\n";
                         }
@@ -183,7 +147,7 @@ public class AlertTest2 {
 
                 System.out.println();
 
-            }else{
+            } else {
                 // Something's wrong...
             }
         }

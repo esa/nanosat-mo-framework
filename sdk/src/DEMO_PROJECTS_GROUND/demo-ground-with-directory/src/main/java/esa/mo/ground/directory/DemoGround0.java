@@ -35,28 +35,26 @@ import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  * Ground consumer: Demo Ground 0
+ *
+ * @author Cesar Coelho
  */
 public class DemoGround0 {
 
     private GroundMOAdapterImpl moGroundAdapter;
-    private final static URI DIRECTORY_URI = new URI("malspp:247/1/12");
+    private final static URI DIRECTORY_URI = new URI("maltcp://x:1024-NanoSat_MO_Supervisor-Directory");
 
     public DemoGround0() {
-
-        System.setProperty("esa.mo.transport.can.opssat.nodeSource", "1");
-        System.setProperty("esa.mo.transport.can.opssat.nodeDestination", "32");
-                
-        
         try {
             ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(DIRECTORY_URI);
-            
-            if (!providers.isEmpty()){
+
+            if (!providers.isEmpty()) {
+                // Connect to provider on index 0
                 moGroundAdapter = new GroundMOAdapterImpl(providers.get(0));
                 moGroundAdapter.addDataReceivedListener(new CompleteDataReceivedAdapter());
-            }else{
+            } else {
                 Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, "Something went wrong!");
             }
-            
+
         } catch (MALException ex) {
             Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -64,7 +62,6 @@ public class DemoGround0 {
         } catch (MALInteractionException ex) {
             Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     /**
@@ -81,7 +78,9 @@ public class DemoGround0 {
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
-            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName, data.toString()});
+            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO,
+                    "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
+                    new Object[]{parameterName, data.toString()});
         }
 
     }
@@ -90,9 +89,9 @@ public class DemoGround0 {
 
         @Override
         public void onDataReceived(ParameterInstance parameterInstance) {
-            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO, "\nParameter name: {0}" + "\n" + "Parameter Value: {1}", new Object[]{parameterInstance.getName(), parameterInstance.getParameterValue().toString()});
+            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO,
+                    "\nParameter name: {0}" + "\n" + "Parameter Value: {1}",
+                    new Object[]{parameterInstance.getName(), parameterInstance.getParameterValue().toString()});
         }
-
     }
-    
 }
