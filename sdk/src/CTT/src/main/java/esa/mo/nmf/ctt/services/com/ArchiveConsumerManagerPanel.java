@@ -525,8 +525,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         tabs.setToolTipText("");
         tabs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tabs.setMaximumSize(new java.awt.Dimension(800, 600));
-        tabs.setMinimumSize(new java.awt.Dimension(800, 600));
-        tabs.setPreferredSize(new java.awt.Dimension(800, 600));
+        tabs.setMinimumSize(new java.awt.Dimension(800, 300));
+        tabs.setPreferredSize(new java.awt.Dimension(800, 300));
         tabs.setRequestFocusEnabled(false);
         tabs.addTab("Home", homeTab);
 
@@ -634,7 +634,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(129, 129, 129)
-                    .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 426, Short.MAX_VALUE)))
+                    .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
