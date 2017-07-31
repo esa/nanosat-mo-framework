@@ -59,7 +59,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nmf.apps.TriplePresentation</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.AllInOne</assembly.mainClass>
     </properties>
 
     <dependencies>
