@@ -51,10 +51,10 @@
   
     <developers>
         <developer>
-            <id>YourName</id>
-            <name>Your Name</name>
-            <email>your.name@company.com</email>
-            <url>https://github.com/YourUser</url>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <email>Cesar.Coelho@esa.int</email>
+            <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
 
@@ -66,9 +66,6 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
-<!--
-            <scope>provided</scope>
--->            
         </dependency>
     </dependencies>
 
