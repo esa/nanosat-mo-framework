@@ -35,14 +35,19 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
     
     @Override
     public Position getCurrentPosition() {
+        String gpggalong = "";
         try {
-            String gpggalong = this.getNMEASentence("GPGGALONG");
+            gpggalong = this.getNMEASentence("GPGGALONG");
             Position position = HelperGPS.gpggalong2Position(gpggalong);
             // The utc time needs to be set here!
             
             return position;
+        } catch (NumberFormatException ex1) {
+            Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, 
+                    "Number format exception! The gpggalong string is: " + gpggalong, ex1);
         } catch (IOException ex) {
-            Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, "The current position could not be retrieved! Exception: " + ex);
+            Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, 
+                    "The current position could not be retrieved! Exception: " + ex);
         }
         
         return null;

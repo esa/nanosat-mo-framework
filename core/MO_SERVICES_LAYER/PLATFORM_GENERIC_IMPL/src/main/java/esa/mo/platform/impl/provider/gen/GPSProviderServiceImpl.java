@@ -154,6 +154,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         running = true;
         initialiased = true;
         Logger.getLogger(GPSProviderServiceImpl.class.getName()).info("GPS service READY");
+        periodicReporting.start();
     }
 
     /**
@@ -509,8 +510,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         public void init() {  
-            active = true; // set active flag to true
-            
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
