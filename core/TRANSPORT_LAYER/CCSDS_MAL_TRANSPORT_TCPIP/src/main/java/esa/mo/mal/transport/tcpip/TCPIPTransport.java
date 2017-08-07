@@ -33,7 +33,6 @@ import esa.mo.mal.transport.gen.util.GENMessagePoller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -107,7 +106,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	/**
 	 * Logger
 	 */
-	public static java.util.logging.Logger RLOGGER = Logger.getLogger("org.ccsds.moims.mo.mal.transport.tcpip");
+	public static final java.util.logging.Logger RLOGGER = Logger.getLogger("org.ccsds.moims.mo.mal.transport.tcpip");
 
 	/**
 	 * Port delimiter
@@ -164,8 +163,6 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	 *            The delimiter to use for separating the URL
 	 * @param supportsRouting
 	 *            True if routing is supported by the naming convention
-	 * @param wrapBodyParts
-	 *            True is body parts should be wrapped in BLOBs
 	 * @param factory
 	 *            The factory that created us.
 	 * @param properties
@@ -289,6 +286,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 
 	/**
 	 * Initialize a server socket, if this is a provider
+         * @throws org.ccsds.moims.mo.mal.MALException
 	 */
 	@Override
 	public void init() throws MALException {
@@ -304,7 +302,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
                                     serverConnectionListener = new TCPIPServerConnectionListener(this, serverSocket);
                                     serverConnectionListener.start();
                                 }
-                                RLOGGER.log(Level.INFO, "Started TCP Server Transport on port {0}", serverPort);
+                                // RLOGGER.log(Level.INFO, "Started TCP Server Transport on port {0}", serverPort);
                         } catch (Exception ex) {
                                 throw new MALException("Error initialising TCP Server", ex);
                         }
@@ -336,6 +334,8 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	 * The MAL TCPIP binding supports SEND, SUBMIT, REQUEST, INVOKE and
 	 * PROGRESS. PUBSUB is not supported. A MAL implementation layer has to
 	 * support PUBSUB itself.
+         * @param type
+         * @return 
 	 */
 	@Override
 	public boolean isSupportedInteractionType(final InteractionType type) {
@@ -344,6 +344,8 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 
 	/**
 	 * The MAL TCPIP binding supports all QoS levels.
+         * @param qos
+         * @return 
 	 */
 	@Override
 	public boolean isSupportedQoSLevel(final QoSLevel qos) {
@@ -353,14 +355,13 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	/**
 	 * Close all pollers and socket connections and then close the transport
 	 * itself.
+         * @throws org.ccsds.moims.mo.mal.MALException
 	 */
 	@Override
 	public void close() throws MALException {
-            
 		RLOGGER.info("Closing TCPIPTransport...");
                 
 		synchronized (this) {
-			
 			TCPIPConnectionPoolManager.INSTANCE.close();
 			
 			for (GENMessagePoller entry : messagePollerThreadPool) {
@@ -441,6 +442,8 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	 * 
 	 * If this is a provider, the host and port as defined in the configuration
 	 * file are used.
+         * @return 
+         * @throws org.ccsds.moims.mo.mal.MALException
 	 */
 	@Override
 	protected String createTransportAddress() throws MALException {
@@ -525,8 +528,6 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 		TCPIPMessage messageWithBody = new TCPIPMessage(wrapBodyParts, (TCPIPMessageHeader)msg.getHeader(), qosProperties,
 				bodyPacketData, getStreamFactory());
                 
-                bodyPacketData = null; // Free
-		
 		return messageWithBody;
 	}
         
@@ -558,10 +559,19 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 			ConnectionTuple toCt = getConnectionParts(remoteRootURI);
                         
 			Socket s = TCPIPConnectionPoolManager.INSTANCE.get(localPort);
-                        s.connect(new InetSocketAddress(toCt.host, toCt.port));
-			TCPIPTransportDataTransceiver trans = createDataTransceiver(s);
+                        
+                        try{
+                                s.connect(new InetSocketAddress(toCt.host, toCt.port));
+                        }catch(IOException exc){
+                                RLOGGER.warning("A problem was detected! Assigning a new consumer port...");
+                            
+                                localPort = this.getRandomClientPort();
+                                socketsList.put(remoteRootURI, localPort);
+        			s = TCPIPConnectionPoolManager.INSTANCE.get(localPort);
+                                s.connect(new InetSocketAddress(toCt.host, toCt.port));
+                        }
 
-                        RLOGGER.fine("Original message for sending: " + msg.toString());
+                        TCPIPTransportDataTransceiver trans = createDataTransceiver(s);
 		    
 			GENMessagePoller messageReceiver = new GENMessagePoller(this, trans,
 					trans, new TCPIPMessageDecoderFactory());
@@ -571,7 +581,6 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 			messagePollerThreadPool.add(messageReceiver);
 
 			return trans;
-			
 		} catch (NumberFormatException nfe) {
 			LOGGER.log(Level.WARNING, "Have no means to communicate with client URI : {0}", remoteRootURI);
 			throw new MALException("Have no means to communicate with client URI : " + remoteRootURI);
@@ -590,6 +599,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 		} catch (IOException e) {
 			// there was a communication problem, we need to clean up the
 			// objects we created in the meanwhile
+			LOGGER.log(Level.WARNING, "TCPIP could not connect to : " + remoteRootURI, e);
 			communicationError(remoteRootURI, null);
 
 			// rethrow for higher MAL leyers

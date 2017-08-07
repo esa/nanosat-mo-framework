@@ -308,8 +308,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public PublishProviderResponse publishProvider(PublishDetails newProviderDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+    public PublishProviderResponse publishProvider(final PublishDetails newProviderDetails,
+            final MALInteraction interaction) throws MALInteractionException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderName();
         IdentifierList objBodies = new IdentifierList();
         objBodies.add(serviceProviderName);
