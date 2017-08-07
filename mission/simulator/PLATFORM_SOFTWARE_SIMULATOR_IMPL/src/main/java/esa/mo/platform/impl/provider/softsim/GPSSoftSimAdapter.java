@@ -37,11 +37,11 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter {
     }
 
     @Override
-    public synchronized String getNMEASentence(String sentenceIdentifier) throws IOException {
+    public synchronized String getNMEASentence(final String sentenceIdentifier) throws IOException {
         final String nmeaSentence = instrumentsSimulator.getpGPS().getNMEASentence(sentenceIdentifier);
         
         if(nmeaSentence == null){
-            throw new IOException();
+            throw new IOException("The Simulator returned a null object!");
         }
         
         return nmeaSentence;
