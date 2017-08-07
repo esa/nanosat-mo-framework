@@ -88,7 +88,6 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public void initialRegistrations(MCRegistration registration) {
-
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // ------------------ Parameters ------------------

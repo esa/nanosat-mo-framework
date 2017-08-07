@@ -171,7 +171,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 }
             }
         } catch (MALInteractionException ex) {
-            Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, "Could not connect to the provider.", ex);
         } catch (MALException ex) {
             Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
