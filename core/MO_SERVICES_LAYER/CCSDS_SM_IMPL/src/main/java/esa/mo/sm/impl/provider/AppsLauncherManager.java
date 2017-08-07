@@ -150,10 +150,6 @@ public class AppsLauncherManager extends DefinitionsManager {
             String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
             int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
             objId = new Long(apid);
-
-            // Look up for the packageId
-            related = new Long(1234);
-
         }
 
         if (super.getArchiveService() == null) {
