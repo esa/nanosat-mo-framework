@@ -46,9 +46,9 @@ import org.ccsds.moims.mo.mal.structures.FineTime;
 @Table(name = "COMObjectEntity",
         indexes = {
             @Index(name = "index_related2", columnList = "relatedLink", unique = false),
-            @Index(name = "index_network2", columnList = "network", unique = false),
-            @Index(name = "index_timestampArchiveDetails2", columnList = "timestampArchiveDetails", unique = false),
-            @Index(name = "index_providerURI2", columnList = "providerURI", unique = false)
+//            @Index(name = "index_network2", columnList = "network", unique = false),
+            @Index(name = "index_timestampArchiveDetails2", columnList = "timestampArchiveDetails", unique = false)
+//            @Index(name = "index_providerURI2", columnList = "providerURI", unique = false)
         })
 public class COMObjectEntity implements Serializable {
 
