@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.demo.provider.testarchive;
+package esa.mo.nmf.apps;
 
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.provider.ParameterManager;
@@ -26,7 +26,6 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -41,7 +40,6 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
@@ -50,19 +48,38 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
- * This class provides a simple provider to test the Archive
  *
+ * @author Cesar Coelho
  */
-public class TestArchive {
+public class MCAdapter extends MonitorAndControlNMFAdapter {
 
-    private final NMFInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
+    private NMFInterface nanoSatMOFramework;
 //    private static int NUMBER_OF_OBJS = 5000;
     private static int NUMBER_OF_OBJS = 10;
+    private static final String ACTION_STORE_AGGS = "StoreAggregations";
 
-    public TestArchive() {
+    @Override
+    public void initialRegistrations(MCRegistration registration) {
 
+    }
+
+    @Override
+    public Attribute onGetValue(Identifier identifier, Byte rawType) {
+        return null;
+    }
+
+    @Override
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+
+        if (ACTION_STORE_AGGS.equals(name.getValue())) {
+            
+        
         try {
-
             AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
             AggregationDefinitionDetails def = new AggregationDefinitionDetails();
             def.setDescription("dfvgdf");
@@ -86,7 +103,7 @@ public class TestArchive {
             for (int i = 0; i < NUMBER_OF_OBJS; i++) {
                 defs.add(def);
             }
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, 
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
                     nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
             for (int i = 0; i < NUMBER_OF_OBJS - 1; i++) {
                 archDetails.add(archDetails.get(0));
@@ -151,49 +168,23 @@ public class TestArchive {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;
-            Logger.getLogger(TestArchive.class.getName()).log(Level.INFO, "Total time: " + NUMBER_OF_OBJS + " objects in {0} nanoseconds", estimatedTime);
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Total time: " + NUMBER_OF_OBJS + " objects in {0} nanoseconds", estimatedTime);
             float objectPerSec = NUMBER_OF_OBJS / ((float) ((float) estimatedTime / (float) 1000000000));
             float averageTimePerObj = 1 / objectPerSec;
-            Logger.getLogger(TestArchive.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
 
 //        nanoSatMOFramework.getCOMServices().getArchiveService().reset();
         } catch (NMFException ex) {
-            Logger.getLogger(TestArchive.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.SEVERE, null, ex);
         }
+                }
 
+
+        return null;  // Action service not integrated
     }
 
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
-     */
-    public static void main(final String args[]) throws Exception {
-        TestArchive demo = new TestArchive();
-    }
-
-    public class mcAdapter extends MonitorAndControlNMFAdapter {
-
-        @Override
-        public void initialRegistrations(MCRegistration registration) {
-
-        }
-
-        @Override
-        public Attribute onGetValue(Identifier identifier, Byte rawType) {
-            return null;
-        }
-
-        @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-            return null;  // Action service not integrated
-        }
-
-        @Override
-        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+    public void setNMF(final NMFInterface nanoSatMOFramework) {
+        this.nanoSatMOFramework = nanoSatMOFramework;
     }
 
 }

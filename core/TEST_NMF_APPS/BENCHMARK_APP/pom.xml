@@ -23,11 +23,11 @@
         <relativePath/>
     </parent>
   
-    <artifactId>Demo_Test_Archive</artifactId>
+    <artifactId>Benchmark_App</artifactId>
     <packaging>jar</packaging>
     <version>0.0.1</version>
 
-    <name>Demo Test Archive</name>
+    <name>Benchmark App</name>
     <description>A simple demo to test the Archive</description>
     <url>http://www.esa.int</url>
   

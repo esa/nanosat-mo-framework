@@ -23,10 +23,10 @@
     <relativePath/>
   </parent>
   
-  <artifactId>DUMMY_NMF_APPS_REACTOR</artifactId>
+  <artifactId>TEST_NMF_APPS_REACTOR</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
-  <name>Dummy NMF Apps</name>
+  <name>Test NMF Apps</name>
 
   <organization>
     <name>ESA</name>
@@ -56,8 +56,8 @@
   </developers>
 
   <modules>
-    <module>blank_app</module>
-    <module>demo-obsw-test-archive</module>
+    <module>BLANK_APP</module>
+    <module>BENCHMARK_APP</module>
   </modules>
    
 </project>
