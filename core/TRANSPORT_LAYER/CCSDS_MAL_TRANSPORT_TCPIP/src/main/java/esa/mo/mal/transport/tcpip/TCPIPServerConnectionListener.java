@@ -60,7 +60,7 @@ public class TCPIPServerConnectionListener extends Thread {
 	public TCPIPServerConnectionListener(TCPIPTransport transport, ServerSocket serverSocket) {
 		this.transport = transport;
 		this.serverSocket = serverSocket;
-		setName(getClass().getName() + " - Main Server Socket Thread");
+		setName("TCPIPServerConnectionListener_Thread");
 	}
 
 	/**
