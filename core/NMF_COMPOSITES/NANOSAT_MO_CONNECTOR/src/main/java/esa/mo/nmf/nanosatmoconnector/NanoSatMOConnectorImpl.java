@@ -39,6 +39,7 @@ import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Random;
@@ -105,6 +106,18 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.setInputProcessorsProperty();
 
+        // Create provider name to be registerd on the Directory service...
+        String appName = "Unknown";
+        try { // Use the folder name
+            appName = (new File((new File("")).getCanonicalPath())).getName();
+            System.setProperty(HelperMisc.MO_APP_NAME, appName);
+        } catch (IOException ex) {
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
+                    "The NMF App name could not be established.");
+        }
+
+        this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
+        
         try {
             comServices.init();
         } catch (MALException ex) {
@@ -113,10 +126,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             return;
         }
         
-        // Create provider name to be registerd on the Directory service...
-        this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME
-                + System.getProperty(HelperMisc.MO_APP_NAME);
-
         URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
 
         if (centralDirectoryURI != null && centralDirectoryURI.getValue().startsWith("malspp")) {
