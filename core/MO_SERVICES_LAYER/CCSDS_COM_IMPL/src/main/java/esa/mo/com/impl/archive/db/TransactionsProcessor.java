@@ -351,8 +351,11 @@ public class TransactionsProcessor {
 
                     // Double check if the filter fields are really not null
                     if (pfilter.getLimit() != null && pfilter.getOffset() != null) {
-                        queryString += " LIMIT " + pfilter.getLimit().getValue()
-                                + " OFFSET " + pfilter.getOffset().getValue();
+                        queryString += "ORDER BY PU.timestampArchiveDetails ASC "
+                                + "LIMIT "
+                                + pfilter.getLimit().getValue()
+                                + " OFFSET "
+                                + pfilter.getOffset().getValue();
                     }
                 }
             }
