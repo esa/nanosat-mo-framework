@@ -326,8 +326,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
                 if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
                     // It is repeated!!
-                    Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).info(
-                            "There was already a provider with the same name. "
+                    Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).warning(
+                            "There was already a provider with the same name in the Directory service. "
                             + "Removing the old one and adding the new one...");
                     this.providersAvailable.remove(key); // Remove the provider...
                 }
