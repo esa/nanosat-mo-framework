@@ -121,6 +121,8 @@
         <esa.nmf.sdk.app.allinone>0.1.1</esa.nmf.sdk.app.allinone>
         <esa.nmf.sdk.app.snapnmf>0.1.1</esa.nmf.sdk.app.snapnmf>
 
+        <!-- NMF Mission Library -->
+        <esa.nmf.sdk.ctt>0.1.1</esa.nmf.sdk.ctt>
     </properties>
   
     <dependencyManagement>
@@ -256,6 +258,11 @@
             </dependency>
 
             <!-- NMF SDK -->
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>CTT</artifactId>
+                <version>${esa.nmf.sdk.ctt}</version>
+            </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>Demo_Hello_World</artifactId>
