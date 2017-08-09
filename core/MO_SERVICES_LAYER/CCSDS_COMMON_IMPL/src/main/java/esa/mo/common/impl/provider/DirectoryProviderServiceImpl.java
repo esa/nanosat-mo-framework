@@ -404,6 +404,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
     }
 
+    public void withdrawAllProviders() throws MALInteractionException, MALException {
+        synchronized (MUTEX) {
+            this.providersAvailable.clear(); // Remove the provider...
+        }
+    }
+
     public PublishDetails loadURIs(final String providerName) {
         return this.autoLoadURIsFile(providerName);
     }
@@ -457,7 +463,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn2);
                 ServiceKey key2 = DirectoryProviderServiceImpl.generateServiceKey(conn2.getServiceKey());
                 AddressDetailsList serviceAddresses = DirectoryProviderServiceImpl.findAddressDetailsListOfService(key2, capabilities);
-                ServiceCapability capability = null;
+                ServiceCapability capability;
 
                 if (serviceAddresses == null) { // If not found
                     serviceAddresses = new AddressDetailsList();

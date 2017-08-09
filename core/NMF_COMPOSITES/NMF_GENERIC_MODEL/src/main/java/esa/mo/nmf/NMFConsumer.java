@@ -55,8 +55,8 @@ import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
 /**
- * NMFConsumer connects to an NMF Provider and exposes the available services 
- * in the provider: COM, MC, Common, Platform and Software Management services.
+ * NMFConsumer connects to an NMF Provider and exposes the available services in
+ * the provider: COM, MC, Common, Platform and Software Management services.
  *
  * @author Cesar Coelho
  */
@@ -185,7 +185,8 @@ public class NMFConsumer {
     }
 
     /**
-     * Retrieves the complete list of Providers available on the Directory service.
+     * Retrieves the complete list of Providers available on the Directory
+     * service.
      *
      * @param directoryURI The Directory service URI
      * @return The list of providers
@@ -225,14 +226,14 @@ public class NMFConsumer {
         filter.setDomain(wildcardList);
         filter.setNetwork(new Identifier("*"));
         filter.setSessionType(null);
-        
+
         // Additional logic to save bandwidth in the Space2Ground link
-        if(isS2G){
+        if (isS2G) {
             filter.setSessionName(new Identifier(DirectoryProviderServiceImpl.CHAR_S2G));
-        }else{
+        } else {
             filter.setSessionName(new Identifier("*"));
         }
-        
+
         filter.setServiceKey(new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)));
         filter.setRequiredCapabilities(new UIntegerList());
         filter.setServiceProviderName(new Identifier("*"));
@@ -243,7 +244,7 @@ public class NMFConsumer {
 
         return summaryList;
     }
-    
+
     public static void initHelpers() {
         // Load the MAL factories for the supported services
         try {

@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.transport.MALEncodedBody;
 import org.ccsds.moims.mo.mal.transport.MALEndpoint;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
 import org.ccsds.moims.mo.mal.transport.MALMessageBody;
@@ -163,7 +162,6 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
             final MALMessage srcMessage, final String virtualURI) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
-//        MALEncodedBody encBody = body.getEncodedBody();
         int size = body.getElementCount();
         System.out.println("Body size: " + size);
         System.out.println("Local URI: " + destination.getURI());
@@ -213,7 +211,6 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
             final MALMessage srcMessage, final URI reverse) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
-//        MALEncodedBody encBody = body.getEncodedBody();
         int size = body.getElementCount();
         System.out.println("Body size: " + size);
         System.out.println("Local URI: " + destination.getURI());

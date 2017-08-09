@@ -22,13 +22,13 @@ package esa.mo.nmf.groundmoproxy;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.common.impl.proxy.DirectoryProxyServiceImpl;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFConsumer;
 import java.net.MalformedURLException;
-import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
@@ -50,52 +50,74 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class GroundMOProxy {
 
+    private final static long PERIOD = 10000;
+    private final AtomicBoolean nmsAliveStatus = new AtomicBoolean(false);
     private final COMServicesProvider localCOMServices;
-    private final DirectoryProxyServiceImpl directoryService;
+    private final DirectoryProxyServiceImpl localDirectoryService;
+    private Timer timer;
 
     // Have a list of providers
-    private final HashMap<String, NMFConsumer> myProviders = new HashMap<String, NMFConsumer>();
-
+//    private final HashMap<String, NMFConsumer> myProviders = new HashMap<String, NMFConsumer>();
     public GroundMOProxy() {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
 
-        // Initializae the Helpers for the APIs
+        // Initialize the Helpers for the APIs
         NMFConsumer.initHelpers();
         localCOMServices = new COMServicesProvider();
-        directoryService = new DirectoryProxyServiceImpl();
+        localDirectoryService = new DirectoryProxyServiceImpl();
     }
 
     public void init(final URI centralDirectoryServiceURI, final URI routedURI) {
         try {
             localCOMServices.init();
-            directoryService.init(localCOMServices);
+            localDirectoryService.init(localCOMServices);
         } catch (MALException ex) {
             Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        try {
-            ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
-            this.addProxyPrefix(providers, routedURI.getValue());
+        // Start the timer to publish the heartbeat
+        timer = new Timer("Connection_Check");
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (!nmsAliveStatus.get()) {
+                    try {
+                        syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI, routedURI);
 
-            for (ProviderSummary provider : providers) {
-                PublishDetails pub = new PublishDetails();
-                pub.setDomain(provider.getProviderKey().getDomain());
-                pub.setNetwork(new Identifier("not_available"));
-                pub.setProviderDetails(provider.getProviderDetails());
-                pub.setProviderName(provider.getProviderName());
-                pub.setServiceXML(null);
-                pub.setSessionType(SessionType.LIVE);
-                pub.setSourceSessionName(null);
-
-                directoryService.publishProvider(pub, null);
+                        nmsAliveStatus.set(true);
+                    } catch (MALException ex) {
+                        Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (MalformedURLException ex) {
+                        Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (MALInteractionException ex) {
+                        Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-        } catch (MALException ex) {
-            Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
+        }, 0, PERIOD);
+
+    }
+
+    public void syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
+            final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
+        ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
+        GroundMOProxy.addProxyPrefix(providers, routedURI.getValue());
+
+        // Clean the current list of provider that are available
+        // on the Local Directory service
+        localDirectoryService.withdrawAllProviders();
+
+        for (ProviderSummary provider : providers) {
+            PublishDetails pub = new PublishDetails();
+            pub.setDomain(provider.getProviderKey().getDomain());
+            pub.setNetwork(new Identifier("not_available"));
+            pub.setProviderDetails(provider.getProviderDetails());
+            pub.setProviderName(provider.getProviderName());
+            pub.setServiceXML(null);
+            pub.setSessionType(SessionType.LIVE);
+            pub.setSourceSessionName(null);
+            localDirectoryService.publishProvider(pub, null);
         }
     }
 
@@ -106,6 +128,7 @@ public class GroundMOProxy {
      * @return
      * @throws NMFException
      */
+    /*
     public NMFConsumer connectToProvider(ConnectionConsumer connection) throws NMFException {
 
         synchronized (myProviders) {
@@ -122,7 +145,7 @@ public class GroundMOProxy {
         }
 
     }
-
+     */
     /**
      *
      *
@@ -131,13 +154,21 @@ public class GroundMOProxy {
      * @return
      * @throws NMFException
      */
+    /*
     public NMFConsumer connectToProvider(ProviderSummary providerDetails) throws NMFException {
 
         // To be done...
         return null;
     }
-
-    public void addProxyPrefix(final ProviderSummaryList providers, final String proxyURI) throws IllegalArgumentException {
+     */
+    /**
+     * Adds the protocol bridge as a prefix to the serviceURI and brokerURI.
+     *
+     * @param providers List of providers
+     * @param proxyURI The URI of the protocol bridge
+     * @throws IllegalArgumentException if the providers object is null
+     */
+    public static void addProxyPrefix(final ProviderSummaryList providers, final String proxyURI) throws IllegalArgumentException {
         if (providers == null) {
             throw new IllegalArgumentException("The provider object cannot be null.");
         }
@@ -160,7 +191,7 @@ public class GroundMOProxy {
     }
 
     public URI getDirectoryServiceURI() {
-        return directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI();
+        return localDirectoryService.getConnection().getPrimaryConnectionDetails().getProviderURI();
     }
 
 }

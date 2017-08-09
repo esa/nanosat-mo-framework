@@ -28,5 +28,4 @@ import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
 
-
 }

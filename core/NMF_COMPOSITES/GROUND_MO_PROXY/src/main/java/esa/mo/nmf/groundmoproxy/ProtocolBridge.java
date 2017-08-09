@@ -105,7 +105,6 @@ public class ProtocolBridge {
 
                 // copy source message into destination message format
                 MALMessage dMsg = cloneForwardMessage(destination, srcMessage);
-
                 System.out.println("Injecting message...");
                 destination.sendMessage(dMsg);
             } catch (MALException ex) {
