@@ -77,7 +77,7 @@ public class GroundMOProxy {
         }
 
         // Start the timer to publish the heartbeat
-        timer = new Timer("Connection_Check");
+        timer = new Timer("Central_Directory_service_Periodic_Sync");
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
