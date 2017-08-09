@@ -93,6 +93,7 @@ import org.ccsds.moims.mo.platform.structures.Quaternions;
 import org.ccsds.moims.mo.platform.structures.Vector3D;
 import org.ccsds.moims.mo.platform.structures.WheelSpeed;
 import esa.mo.nmf.NMFInterface;
+import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
 /**
  * The adapter for the app
@@ -124,7 +125,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     private Long nadirPointingObjId = null;
     private Timer timer;
 
-    public void setNMF(NMFInterface nanosatmoframework) {
+    public void setNMF(final NMFInterface nanosatmoframework) {
         this.nmf = nanosatmoframework;
 
         this.timer = new Timer();
@@ -408,9 +409,15 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public Attribute onGetValue(Identifier identifier, Byte rawType) {
         if (nmf == null) {
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, "The nmf object is null!");
             return null;
         }
 
+        if (identifier == null) {
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, "The identifier object is null! Something is wrong!");
+            return null;
+        }
+        
         try {
             if (PARAMETER_GPS_N_SATS_IN_VIEW.equals(identifier.getValue())) {
                 final Semaphore sem = new Semaphore(0);
@@ -419,7 +426,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 class AdapterImpl extends GPSAdapter {
 
                     @Override
-                    public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
+                    public void getSatellitesInfoResponseReceived(MALMessageHeader msgHeader, 
+                            SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
                         nOfSats.add(gpsSatellitesInfo.size());
                         sem.release();
                     }

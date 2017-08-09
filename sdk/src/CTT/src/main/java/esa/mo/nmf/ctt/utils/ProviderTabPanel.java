@@ -40,6 +40,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTabbedPane;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -70,6 +71,10 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
     public void insertServicesTabs() {
         startTabs();
+    }
+    
+    public JTabbedPane getTabs(){
+        return serviceTabs;
     }
 
     protected void startTabs() {

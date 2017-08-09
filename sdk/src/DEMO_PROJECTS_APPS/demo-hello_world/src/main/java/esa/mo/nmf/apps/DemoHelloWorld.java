@@ -78,7 +78,7 @@ public class DemoHelloWorld {
             final IdentifierList names = new IdentifierList();
 
             defsOther.add(new ParameterDefinitionDetails(
-                    "The ADCS mode operation",
+                    "A demo parameter!",
                     Union.STRING_SHORT_FORM.byteValue(),
                     "",
                     false,
