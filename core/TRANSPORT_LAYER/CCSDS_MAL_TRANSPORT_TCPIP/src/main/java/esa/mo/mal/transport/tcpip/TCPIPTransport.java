@@ -114,11 +114,6 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	private static final char PORT_DELIMITER = ':';
 	
 	/**
-	 * Service delimiter
-	 */
-	private static final char SERVICE_DELIMITER = '/';
-
-	/**
 	 * The server port that the TCP transport listens for incoming connections
 	 */
 	private int serverPort;
@@ -475,6 +470,9 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 	 * The raw message data is split up in a packet, describing the header, and a packet for the body.
 	 * These are each decoded separately; the header is decoded using an implementation that follows the
 	 * MAL TCPIP Transport Binding specification. The body is decoded using whatever we have selected.
+     * @param packetInfo
+     * @return 
+     * @throws org.ccsds.moims.mo.mal.MALException
 	 */
 	public GENMessage createMessage(final TCPIPPacketInfoHolder packetInfo) throws MALException {
                 String serviceDelimStr = Character.toString(serviceDelim);

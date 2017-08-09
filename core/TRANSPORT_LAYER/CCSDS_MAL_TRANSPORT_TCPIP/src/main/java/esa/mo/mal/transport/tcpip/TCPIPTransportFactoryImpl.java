@@ -56,7 +56,7 @@ public class TCPIPTransportFactoryImpl extends MALTransportFactory
     {
       if (null == transport)
       {
-        transport = new TCPIPTransport(getProtocol(), SERVICE_DELIMITER, false, this, properties);
+        transport = new TCPIPTransport(getProtocol(), SERVICE_DELIMITER, true, this, properties);
         transport.init();
       }
 

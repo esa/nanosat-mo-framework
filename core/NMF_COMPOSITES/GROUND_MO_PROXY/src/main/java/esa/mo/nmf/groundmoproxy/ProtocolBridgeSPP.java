@@ -102,7 +102,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
                 boolean isFromSPP = this.isSPP(uriFrom);
 
-                MALMessage dMsg = null;
+                MALMessage dMsg;
 
                 if (isFromSPP) {
                     String uriTrans = virtualSPPURI.getURI(srcMessage.getHeader().getURITo().getValue());
@@ -163,7 +163,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
             final MALMessage srcMessage, final String virtualURI) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
-        MALEncodedBody encBody = body.getEncodedBody();
+//        MALEncodedBody encBody = body.getEncodedBody();
         int size = body.getElementCount();
         System.out.println("Body size: " + size);
         System.out.println("Local URI: " + destination.getURI());
@@ -213,7 +213,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
             final MALMessage srcMessage, final URI reverse) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
-        MALEncodedBody encBody = body.getEncodedBody();
+//        MALEncodedBody encBody = body.getEncodedBody();
         int size = body.getElementCount();
         System.out.println("Body size: " + size);
         System.out.println("Local URI: " + destination.getURI());

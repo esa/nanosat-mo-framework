@@ -32,7 +32,6 @@ import esa.mo.mal.transport.gen.receivers.GENIncomingMessageDecoderFactory;
 import esa.mo.mal.transport.gen.receivers.GENIncomingMessageHolder;
 import esa.mo.mal.transport.tcpip.TCPIPPacketInfoHolder;
 import esa.mo.mal.transport.tcpip.TCPIPTransport;
-import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER; 
 
 /**
  * 
@@ -61,13 +60,9 @@ public class TCPIPMessageDecoderFactory<O> implements GENIncomingMessageDecoderF
 		@Override
 		public GENIncomingMessageHolder decodeAndCreateMessage()
 				throws MALException {
-			
-//			RLOGGER.log(Level.FINEST, "TCPIPMessageDecoder.decodeAndCreateMessage()");
-
 			GENTransport.PacketToString smsg = transport.new PacketToString(null);
 			GENMessage msg = transport.createMessage(packetInfo);
                         packetInfo.setPacketData(null);
-                        packetInfo = null; // No need to keep it anymore, it would just take space and create a memory leak!
 			
 			if (msg != null) {
 				return new GENIncomingMessageHolder(msg.getHeader().getTransactionId(), msg, smsg);

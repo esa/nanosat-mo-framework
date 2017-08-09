@@ -67,8 +67,7 @@ public class TCPIPFixedBinaryDecoder extends FixedBinaryDecoder {
 	}
 	
 	public UInteger decodeUInteger() throws MALException {
-		
-		return new UInteger(sourceBuffer.getUnsignedInt());
+                return new UInteger(((TCPIPBufferHolder)sourceBuffer).getUnsignedIntValue());
 	}
 	
 	@Override
@@ -160,7 +159,19 @@ public class TCPIPFixedBinaryDecoder extends FixedBinaryDecoder {
 			}
 			return value | (b << i);
 		}
-		
+                
+		public long getUnsignedIntValue() throws MALException {
+			
+			long value = 0;
+			int i = 0;
+			long b;
+			while (((b = get8()) & 0x80) != 0) {
+				value |= (b & 0x7F) << i;
+				i += 7;
+			}
+			return value | (b << i);
+		}
+                
 		public int get32() throws MALException {
 			
 			buf.checkBuffer(4);

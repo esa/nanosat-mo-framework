@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import esa.mo.mal.encoder.binary.BinaryElementInputStream;
 import esa.mo.mal.transport.tcpip.TCPIPMessageHeader;
 import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
+import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
  * Manage the decoding of an incoming TCPIP Message. Separate decoders are used for 
@@ -128,8 +129,12 @@ public class TCPIPFixedBinaryElementInputStream extends BinaryElementInputStream
 		}
 		if (destinationIdFlag) {
 			String destinationId = dec.decodeString();
-			String to = header.getURITo() + destinationId;
-			header.setURITo(new URI(to));
+			if (isURI(destinationId)) {
+				header.setURITo(new URI(destinationId));
+			} else {
+                                String to = header.getURITo() + destinationId;
+                                header.setURITo(new URI(to));
+			}
 		}
 		if (priorityFlag) {
 			header.setPriority(dec.decodeUInteger());
@@ -149,7 +154,9 @@ public class TCPIPFixedBinaryElementInputStream extends BinaryElementInputStream
 		}
 		if (authenticationIdFlag) {
 			header.setAuthenticationId(dec.decodeBlob());
-		}	
+		}else{
+			header.setAuthenticationId(new Blob());
+                }
 		
 		header.setInteractionType(sduType);
 		header.setInteractionStage(sduType);

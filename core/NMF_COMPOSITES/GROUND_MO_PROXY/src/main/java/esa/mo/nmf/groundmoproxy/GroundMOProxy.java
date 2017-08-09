@@ -50,8 +50,8 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class GroundMOProxy {
 
-    private final COMServicesProvider localCOMServices = new COMServicesProvider();
-    private final DirectoryProxyServiceImpl directoryService = new DirectoryProxyServiceImpl();
+    private final COMServicesProvider localCOMServices;
+    private final DirectoryProxyServiceImpl directoryService;
 
     // Have a list of providers
     private final HashMap<String, NMFConsumer> myProviders = new HashMap<String, NMFConsumer>();
@@ -62,6 +62,8 @@ public class GroundMOProxy {
 
         // Initializae the Helpers for the APIs
         NMFConsumer.initHelpers();
+        localCOMServices = new COMServicesProvider();
+        directoryService = new DirectoryProxyServiceImpl();
     }
 
     public void init(final URI centralDirectoryServiceURI, final URI routedURI) {

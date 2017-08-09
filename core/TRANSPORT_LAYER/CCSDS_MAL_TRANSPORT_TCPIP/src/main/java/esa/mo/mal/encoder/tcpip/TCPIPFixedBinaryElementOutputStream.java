@@ -34,10 +34,6 @@ import org.ccsds.moims.mo.mal.encoding.MALEncodingContext;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 
-import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
-import java.util.concurrent.ConcurrentHashMap;
-
-
 /**
  * Encode a TCPIP Message
  * 
@@ -138,7 +134,7 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 			enc.encodeString(header.getURIFrom().toString());
 		}
 		if (!header.getServiceTo().isEmpty()) {
-			enc.encodeString(getLocalNamePart(header.getURITo()));
+			enc.encodeString(header.getURITo().toString());
 		}
 		if (header.getPriority() != null) {
 			enc.encodeUInteger(header.getPriority());
@@ -203,6 +199,7 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 	 * @param uri
 	 * @return
 	 */
+        /*
 	private static String getLocalNamePart(final URI uri) {
 		
 		if (uri == null) {
@@ -218,4 +215,5 @@ public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream 
 			return "";
 		}
 	}
+        */
 }
