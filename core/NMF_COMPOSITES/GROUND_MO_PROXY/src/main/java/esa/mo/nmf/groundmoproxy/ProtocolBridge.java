@@ -66,7 +66,6 @@ public class ProtocolBridge {
     protected static MALEndpoint createEndpoint(String protocol, MALTransport trans) throws Exception {
         System.out.println("Creating endpoint for transport " + protocol);
         MALEndpoint ep = trans.createEndpoint("ProtocolBridge", null);
-
         System.out.println("Transport " + protocol + " URI is " + ep.getURI().getValue());
 
         return ep;

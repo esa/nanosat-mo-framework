@@ -471,8 +471,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         if (providersList.isEmpty()) { // Throw error!
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
                     "The app could not be found in the Directory service... Possible reasons: "
-                    + "1. The property 'MOappName' of the app might not match its folder name "
-                    + "2. Not a NMF app! If so, one needs to use killApp!");
+                    + "1. Not a NMF app! If so, one needs to use killApp operation! "
+                    + "2. (to be deleted) The property 'MOappName' of the app might not match its folder name ");
             throw new IOException();
         }
 
