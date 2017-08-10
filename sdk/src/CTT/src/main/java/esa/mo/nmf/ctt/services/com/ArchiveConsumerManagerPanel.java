@@ -287,10 +287,12 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             }
 
             tabs.setTabComponentAt(index, pnlTab);
-            pnlTab.revalidate();
-            pnlTab.repaint();  // not working
-            tabs.revalidate();
-            tabs.repaint();    // not working
+//            pnlTab.revalidate();
+//            pnlTab.repaint();  // not working
+//            tabs.revalidate();
+//            tabs.repaint();    // not working
+//            label.repaint();
+//            repaint();
         }
 
         public synchronized void finalizeAdapter() {
@@ -361,6 +363,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
+            repaint();
         }
 
         @Override
