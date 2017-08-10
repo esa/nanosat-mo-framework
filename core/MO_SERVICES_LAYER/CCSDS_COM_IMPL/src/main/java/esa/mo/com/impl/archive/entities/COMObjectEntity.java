@@ -127,7 +127,6 @@ public class COMObjectEntity implements Serializable {
             try {
                 final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
                 final BinaryEncoder be = new BinaryEncoder(bodyBaos);
-//                final SplitBinaryEncoder be = new SplitBinaryEncoder(bodyBaos);
                 be.encodeLong(ele.getShortForm());
                 be.encodeNullableElement(ele);
                 this.obj = bodyBaos.toByteArray();
@@ -210,6 +209,10 @@ public class COMObjectEntity implements Serializable {
     public FineTime getTimestamp() {
         return new FineTime(this.timestampArchiveDetails);
     }
+    
+    public byte[] getObjectEncoded(){
+        return this.obj;
+    }
 
     public Object getObject() {
         Element elem = null;
@@ -217,7 +220,6 @@ public class COMObjectEntity implements Serializable {
         if (this.obj != null) {
             try {
                 final BinaryDecoder binDec = new BinaryDecoder(this.obj);
-//                final SplitBinaryDecoder binDec = new SplitBinaryDecoder(this.obj);
                 final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(binDec.decodeLong());
                 elem = binDec.decodeNullableElement((Element) eleFact.createElement());
             } catch (MALException ex) {

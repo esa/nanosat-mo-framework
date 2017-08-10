@@ -514,7 +514,7 @@ If the MAL data type specification is being used the body of an object shall not
         <mal:progressIP comment="" name="retrieveRangeAgain" number="3" supportInReplay="false">
           <mal:messages>
             <mal:progress comment="">
-              <mal:field canBeNull="true" comment="" name="transactionTicket">
+              <mal:field canBeNull="true" comment="" name="interactionTicket">
                 <mal:type area="MAL" list="false" name="Long"/>
               </mal:field>
             <mal:field canBeNull="true" comment="" name="missingIndexes">
@@ -522,7 +522,14 @@ If the MAL data type specification is being used the body of an object shall not
               </mal:field>
             </mal:progress>
             <mal:acknowledgement comment=""/>
-            <mal:update comment=""/>
+            <mal:update comment="">
+              <mal:field canBeNull="true" comment="" name="chunk">
+                <mal:type area="MAL" list="false" name="Blob"/>
+              </mal:field>
+              <mal:field canBeNull="true" comment="" name="index">
+                <mal:type area="MAL" list="false" name="UInteger"/>
+              </mal:field>
+            </mal:update>
             <mal:response comment=""/>
           </mal:messages>
         </mal:progressIP>

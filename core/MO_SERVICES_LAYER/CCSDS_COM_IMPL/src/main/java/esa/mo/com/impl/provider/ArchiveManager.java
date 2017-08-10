@@ -119,13 +119,13 @@ public class ArchiveManager {
             @Override
             public void run() {
                 synchronized (manager) {
-                    Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
+                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
                             "Initializing Fast classes!");
                     fastDomain.init();
                     fastObjectType.init();
                     fastNetwork.init();
                     fastProviderURI.init();
-                    Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
+                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
                             "The Fast classes are initialized!");
                 }
             }
@@ -157,7 +157,7 @@ public class ArchiveManager {
      *
      */
     protected synchronized void resetTable() {
-        Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).info("Reset table triggered!");
+        Logger.getLogger(ArchiveManager.class.getName()).info("Reset table triggered!");
 
         this.dbProcessor.resetMainTable(new Callable() {
             @Override
@@ -610,6 +610,26 @@ public class ArchiveManager {
                         interaction);
             }
         };
+    }
+
+    public FastDomain getFastDomain() {
+        return fastDomain;
+    }
+
+    public FastNetwork getFastNetwork() {
+        return fastNetwork;
+    }
+
+    public FastProviderURI getFastProviderURI() {
+        return fastProviderURI;
+    }
+
+    public FastObjId getFastObjId() {
+        return fastObjId;
+    }
+
+    public FastObjectType getFastObjectType() {
+        return fastObjectType;
     }
 
 }
