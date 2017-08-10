@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<mal:area comment="The Software Management set of services contains services for on-board software management of a spacecraft. The following services are contained in the Software Management set:&#10;&lt;li&gt;The Memory Management service is a low-level service intended to be used to load, dump and check memory addresses.&lt;/li&gt;&#10;&lt;li&gt;The Software Image service is intended to manage Software Images and Software Patches by allowing the generation of new Software Images from a patch.&lt;/li&gt;&#10;&lt;li&gt;The Package Management service allows the management of software packages on modern operating systems using the concept of packages.&lt;/li&gt;&#10;&lt;li&gt;The Apps Launcher service allows the management of runnable applications in a system.&lt;/li&gt;&#10;&lt;li&gt;The Heartbeat service publishes a periodic beat to the consumers that are listening.&lt;/li&gt;&#10;&#10;This section details the Software Management services. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport." name="SoftwareManagement" number="7" version="1">
+	<mal:area comment="The Software Management set of services contains services for on-board software management of a spacecraft. The following services are contained in the Software Management set:&#10;The Memory Management service is a low-level service intended to be used to load, dump and check memory addresses.&#10;The Software Image service is intended to manage Software Images and Software Patches by allowing the generation of new Software Images from a patch.&#10;The Package Management service allows the management of software packages on modern operating systems using the concept of packages.&#10;The Apps Launcher service allows the management of runnable applications in a system.&#10;The Heartbeat service publishes a periodic beat to the consumers that are listening.&#10;&#10;This section details the Software Management services. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport." name="SoftwareManagement" number="7" version="1">
 		<mal:service comment="The Memory Management service provides the ability to load, dump and check binary data blocks in known memory addresses from/to a certain memory device." name="MemoryManagement" number="1" xsi:type="com:ExtendedServiceType">
       <mal:documentation name="High Level Requirements" order="1">The Memory Management service shall provide:
 &lt;ol&gt;
@@ -27,10 +27,10 @@
 					</mal:messages>
 				
 					<mal:errors>
-						<mal:errorRef comment="">
+						<mal:errorRef comment="The submitted device is unknown.">
 							<mal:type area="SoftwareManagement" list="false" name="UNKNOWN_DEVICE" service="MemoryManagement"/>
 						</mal:errorRef>
-						<mal:errorRef comment="">
+						<mal:errorRef comment="The submitted base is invalid.">
 							<mal:type area="SoftwareManagement" list="false" name="INVALID_ADDRESS" service="MemoryManagement"/>
 						</mal:errorRef>
 					</mal:errors>
@@ -64,10 +64,10 @@
 						</mal:response>
 					</mal:messages>
 					<mal:errors>
-						<mal:errorRef comment="">
+						<mal:errorRef comment="The submitted device is unknown.">
 							<mal:type area="SoftwareManagement" list="false" name="UNKNOWN_DEVICE" service="MemoryManagement"/>
 						</mal:errorRef>
-						<mal:errorRef comment="">
+						<mal:errorRef comment="The submitted base is invalid.">
 							<mal:type area="SoftwareManagement" list="false" name="INVALID_ADDRESS" service="MemoryManagement"/>
 						</mal:errorRef>
 					</mal:errors>
@@ -107,13 +107,13 @@
 						</mal:response>
 					</mal:messages>
 					<mal:errors>
-						<mal:errorRef comment="">
+						<mal:errorRef comment="The submitted device is unknown.">
 							<mal:type area="SoftwareManagement" list="false" name="UNKNOWN_DEVICE" service="MemoryManagement"/>
 						</mal:errorRef>
-						<mal:errorRef comment="">
+						<mal:errorRef comment="The submitted base is invalid.">
 							<mal:type area="SoftwareManagement" list="false" name="INVALID_ADDRESS" service="MemoryManagement"/>
 						</mal:errorRef>
-						<mal:errorRef comment="">
+						<mal:errorRef comment="The requested checksum algorithm is not supported.">
 							<mal:type area="SoftwareManagement" list="false" name="UNSUPPORTED_CHECKSUM"/>
 						</mal:errorRef>
 					</mal:errors>
@@ -197,7 +197,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 						</mal:response>
 					</mal:messages>
 					<mal:errors>
-						<mal:errorRef comment="">
+						<mal:errorRef comment="The requested checksum algorithm is not supported.">
 							<mal:type area="SoftwareManagement" list="false" name="UNSUPPORTED_CHECKSUM"/>
 						</mal:errorRef>
 					</mal:errors>
@@ -1073,7 +1073,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 			</mal:enumeration>
 		</mal:dataTypes>
 		<mal:errors>
-			<mal:error comment="" name="UNSUPPORTED_CHECKSUM" number="1"/>
+			<mal:error comment="The checksum is not supported." name="UNSUPPORTED_CHECKSUM" number="1"/>
 		</mal:errors>
 	</mal:area>
 </mal:specification>

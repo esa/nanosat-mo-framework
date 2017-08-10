@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" comment="">
-	<mal:area comment="The Software Management set of services contains services for on-board software management of a spacecraft. The following services are contained in the Software Management set:&#10;&lt;li&gt;The Camera service allows a consumer to take and stream pictures.&lt;/li&gt;&#10;&lt;li&gt;The GNSS service allows a consumer to retrieve satellite navigation data.&lt;/li&gt;&#10;&lt;li&gt;The Autonomous ADCS service allows a consumer to determine the attitude, and additionally to control the attitude by selecting the desired definition.&lt;/li&gt;&#10;&lt;li&gt;The Software-defined Radio service allows a consumer to configure and receive a stream of data from a Software-defined Radio.&lt;/li&gt;&#10;&lt;li&gt;The Optical Data Receiver service allows a consumer to stream data from the Optical Data Receiver.&lt;/li&gt;&#10;&lt;li&gt;The Generic Device service allows a consumer to generically monitor and control a device.&lt;/li&gt;&#10;&lt;li&gt;The Magnetometer service allows a consumer to acquire the magnetic field.&lt;/li&gt;&#10;&lt;li&gt;The Power Control service allows a consumer to control the power of the different subsystems.&lt;/li&gt;&#10;&#10;This section details the Platform services. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport." name="Platform" number="105" version="1">
+	<mal:area comment="The Software Management set of services contains services for on-board software management of a spacecraft. The following services are contained in the Software Management set:&#10;The Camera service allows a consumer to take and stream pictures.&#10;The GNSS service allows a consumer to retrieve satellite navigation data.&#10;The Autonomous ADCS service allows a consumer to determine the attitude, and additionally to control the attitude by selecting the desired definition.&#10;The Software-defined Radio service allows a consumer to configure and receive a stream of data from a Software-defined Radio.&#10;The Optical Data Receiver service allows a consumer to stream data from the Optical Data Receiver.&#10;The Magnetometer service allows a consumer to acquire the magnetic field.&#10;The Power Control service allows a consumer to control the power of the different subsystems.&#10;&#10;This section details the Platform services. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport." name="Platform" number="105" version="1">
 		<mal:service comment="The Camera service allows a consumer to acquire pictures and control a camera in the spacecraft platform. The service can perform format conversions in case the consumer selects a specific format other than raw. The service can also stream pictures periodically." name="Camera" number="1" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1">The Camera service shall provide:
 &lt;ol&gt;
@@ -196,7 +196,7 @@
 			</mal:dataTypes>
 			<com:features/>
 		</mal:service>
-		<mal:service comment="The GPS service provides the ability to retrieve satellite navigation data from a Global Navigation Satellite System (GNSS) device receiver in the spacecraft platform. The GPS service provides the capability for streaming NMEA messages; the capability for enabling/disabling the streaming of NMEA messages; the capability for getting the last known position from the receiver; the capability for getting the satellites GNSS information; the capability for maintaining the list of nearby position events." name="GPS" number="2" xsi:type="com:ExtendedServiceType">
+		<mal:service comment="The GPS service provides the ability to retrieve satellite navigation data from a Global Navigation Satellite System (GNSS) device receiver in the spacecraft platform. The GPS service provides the capability for streaming NMEA messages; the capability for enabling/disabling the streaming of NMEA messages; the capability for getting the last known position from the receiver; the capability for getting the satellites GNSS information; the capability for maintaining the list of nearby position events.&#10;The nearbyPosition operation allows a consumer to receive a message from the service when the spacecraft enters or exists a certain position. These can be set using the addNearbyPosition and removed using the removeNearbyPosition." name="GPS" number="2" xsi:type="com:ExtendedServiceType">
 			<mal:documentation name="High Level Requirements" order="1">The GPS service shall provide:
 &lt;ol&gt;
 &lt;li&gt;the capability for streaming GPS NMEA messages;&lt;/li&gt;
@@ -246,7 +246,12 @@
 							</mal:field>
 						</mal:response>
 					</mal:messages>
-				</mal:requestIP>
+				<mal:errors>
+            <mal:errorRef comment="The position is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
 				<mal:invokeIP comment="The getPosition operation allows a consumer to obtain a position from the GPS unit." name="getPosition" number="3" supportInReplay="false">
@@ -264,7 +269,10 @@
 						<mal:errorRef comment="The GPS unit is not available.">
 							<mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
 						</mal:errorRef>
-					</mal:errors>
+            <mal:errorRef comment="The position is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+            </mal:errorRef>
+          </mal:errors>
 				</mal:invokeIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
@@ -1109,7 +1117,7 @@
 			<com:features/>
 		</mal:service>
 		<mal:dataTypes>
-			<mal:composite comment="" name="Vector3D" shortFormPart="17">
+			<mal:composite comment="The Vector3D holds a 3D Vector." name="Vector3D" shortFormPart="17">
 				<mal:extends>
 					<mal:type area="MAL" list="false" name="Composite"/>
 				</mal:extends>
@@ -1127,11 +1135,11 @@
 				<mal:extends>
 					<mal:type area="MAL" list="false" name="Composite"/>
 				</mal:extends>
-				<mal:field canBeNull="false" comment="Velocity of the wheels. &lt;Units must be defined here&gt;" name="velocity">
+				<mal:field canBeNull="false" comment="Velocity of the wheels in rpm." name="velocity">
 					<mal:type area="MAL" list="true" name="Double"/>
 				</mal:field>
 			</mal:composite>
-			<mal:composite comment="" name="Quaternions" shortFormPart="16">
+			<mal:composite comment="The Quaternions holds the quaternion components." name="Quaternions" shortFormPart="16">
 				<mal:extends>
 					<mal:type area="MAL" list="false" name="Composite"/>
 				</mal:extends>
