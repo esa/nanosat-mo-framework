@@ -260,7 +260,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                         status.setText("Unresponsive! ");
                         status.setForeground(Color.RED);
                     } else {
-                        if (tryNumber == 3) { // Third try...
+                        if (tryNumber == 3) { // Every third try...
                             try {
                                 long timestamp = System.currentTimeMillis();
                                 heartbeat.getHeartbeatStub().getPeriod().getValue();
