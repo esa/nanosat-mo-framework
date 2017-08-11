@@ -84,7 +84,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         // Enforce the App Name property to be HelperMisc.NMF_NMS_NAME
         System.setProperty(HelperMisc.MO_APP_NAME, HelperNMF.NMF_NMS_NAME);
 
-        // Create provider name to be registerd on the Directory service...
+        // Provider name to be used on the Directory service...
         this.providerName = System.getProperty(HelperMisc.MO_APP_NAME);
 
         this.platformServices = platformServices;
@@ -93,7 +93,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             this.comServices.init();
             this.heartbeatService.init();
 
-            // Change transport to start on both RMI and SPP
             this.directoryService.init(comServices);
             this.applicationsManagerService.init(comServices, directoryService);
             this.packageManagementService.init(comServices, packageManagementBackend);
@@ -131,25 +130,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             mcAdapter.initialRegistrations(registration);
         }
 
-        // The Apps Launcher Configuration needs to be loaded here!
-//        this.loadSMConfigurations();
-        /*
-        if (mcAdapter != null) {
-            // Are the dynamic changes enabled?
-            if ("true".equals(System.getProperty(NanoSatMOFrameworkProvider.DYNAMIC_CHANGES_PROPERTY))) {
-                try {
-                    this.loadMCConfigurations();
-                } catch (NMFException ex) {
-                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
-                            "The configurations could not be loaded!", ex);
-                }
-            }
-
-            final MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
-                    mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
-            mcAdapter.initialRegistrations(registration);
-        }
-         */
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
         this.directoryService.loadURIs(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME);
@@ -184,7 +164,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     @Override
     public final void closeGracefully(final ObjectId source) {
         try {
-            long startTime = System.currentTimeMillis();
+            long timestamp = System.currentTimeMillis();
 
             // Acknowledge the reception of the request to close (Closing...)
             Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
@@ -235,7 +215,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             // Exit the Java application
             Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
                     "Success! The currently running Java Virtual Machine will now terminate. "
-                    + "(NanoSat MO Supervisor closed in: " + (System.currentTimeMillis() - startTime) + " ms)\n");
+                    + "(NanoSat MO Supervisor closed in: " + (System.currentTimeMillis() - timestamp) + " ms)\n");
 
         } catch (NMFException ex) {
             Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE, null, ex);

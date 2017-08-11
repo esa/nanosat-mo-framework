@@ -57,9 +57,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
  */
 public final class AutonomousADCSManager {
 
-    private static final transient int SAVING_PERIOD = 20;  // Used to store the uniqueAValObjId only once every "SAVINGPERIOD" times
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
-
     private final HashMap<Long, AttitudeDefinition> attitudeDefs;
     private final COMServicesProvider comServices;
     private long availableTime = 0;
@@ -78,7 +76,6 @@ public final class AutonomousADCSManager {
     }
 
     public synchronized Long add(AttitudeDefinition definition, ObjectId source, SingleConnectionDetails connectionDetails) {
-
         uniqueObjIdDef++;
 
         if (comServices.getArchiveService() != null) {
@@ -157,7 +154,6 @@ public final class AutonomousADCSManager {
         // Add the validation conditions below
         // Example: longitude or latitude out of boundaries
         return null;
-
     }
 
     public synchronized void markAvailableTime(final Duration time) {
@@ -187,13 +183,16 @@ public final class AutonomousADCSManager {
         LongList keys = new LongList();
         keys.addAll(defObjs.keySet());
 
-        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
-
-        ConfigurationObjectSet objsSetBDot = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONBDOT_OBJECT_TYPE);
-        ConfigurationObjectSet objsSetSunPointing = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONSUNPOINTING_OBJECT_TYPE);
-        ConfigurationObjectSet objsSetSingleSpinning = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONSUNPOINTING_OBJECT_TYPE);
-        ConfigurationObjectSet objsSetTargetTracking = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONTARGETTRACKING_OBJECT_TYPE);
-        ConfigurationObjectSet objsSetNadirPointing = newConfigurationObjectSet(domain, AutonomousADCSHelper.ATTITUDEDEFINITIONNADIRPOINTING_OBJECT_TYPE);
+        ConfigurationObjectSet objsSetBDot = newConfigurationObjectSet(domain,
+                AutonomousADCSHelper.ATTITUDEDEFINITIONBDOT_OBJECT_TYPE);
+        ConfigurationObjectSet objsSetSunPointing = newConfigurationObjectSet(domain,
+                AutonomousADCSHelper.ATTITUDEDEFINITIONSUNPOINTING_OBJECT_TYPE);
+        ConfigurationObjectSet objsSetSingleSpinning = newConfigurationObjectSet(domain,
+                AutonomousADCSHelper.ATTITUDEDEFINITIONSUNPOINTING_OBJECT_TYPE);
+        ConfigurationObjectSet objsSetTargetTracking = newConfigurationObjectSet(domain,
+                AutonomousADCSHelper.ATTITUDEDEFINITIONTARGETTRACKING_OBJECT_TYPE);
+        ConfigurationObjectSet objsSetNadirPointing = newConfigurationObjectSet(domain,
+                AutonomousADCSHelper.ATTITUDEDEFINITIONNADIRPOINTING_OBJECT_TYPE);
 
         for (int i = 0; i < defObjs.size(); i++) {
             final Long objId = keys.get(i);
@@ -220,6 +219,7 @@ public final class AutonomousADCSManager {
             }
         }
 
+        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(objsSetBDot);
         list.add(objsSetSunPointing);
         list.add(objsSetSingleSpinning);
@@ -227,19 +227,11 @@ public final class AutonomousADCSManager {
         list.add(objsSetNadirPointing);
 
         // Needs the Common API here!
-        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
-        set.setConfigObjects(list);
-
-        return set;
+        return new ConfigurationObjectDetails(list);
     }
 
     private static ConfigurationObjectSet newConfigurationObjectSet(final IdentifierList domain, final ObjectType objType) {
-        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-
-        objsSet.setDomain(domain);
-        objsSet.setObjType(objType);
-        objsSet.setObjInstIds(new LongList());
-
+        ConfigurationObjectSet objsSet = new ConfigurationObjectSet(objType, domain, new LongList());
         return objsSet;
     }
 
@@ -327,7 +319,7 @@ public final class AutonomousADCSManager {
                 defs.putAll(this.getDefsFromArchive(confSet));
                 continue;
             }
-            
+
             return false; // One of the sets is Unknown!
         }
 
@@ -337,7 +329,7 @@ public final class AutonomousADCSManager {
 
         return true;
     }
-    
+
     private HashMap<Long, AttitudeDefinition> getDefsFromArchive(ConfigurationObjectSet confSet) {
         final HashMap<Long, AttitudeDefinition> defs = new HashMap<Long, AttitudeDefinition>();
         AttitudeDefinitionList pDefs = (AttitudeDefinitionList) HelperArchive.getObjectBodyListFromArchive(

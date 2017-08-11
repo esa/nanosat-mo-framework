@@ -135,7 +135,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
 
         this.adapter = adapter;
-        autonomousADCSServiceProvider = connection.startService(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME.toString(), AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
+        autonomousADCSServiceProvider = connection.startService(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME.toString(),
+                AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
 
         manager = new AutonomousADCSManager(comServices);
         running = true;
@@ -155,7 +156,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -191,20 +193,24 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
             publisher.publish(hdrlst, ail);
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
         } catch (MALException ex) {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
         } catch (IOException ex) {
             return;
         } catch (Exception ex) { // Could not generate the Element List
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, "Could not create the Element List!", ex);
+            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                    "Could not create the Element List!", ex);
         }
     }
-    
+
     @Override
-    public synchronized void setDesiredAttitude(final Long objInstId, final Duration autoUnset, 
+    public synchronized void setDesiredAttitude(final Long objInstId, final Duration autoUnset,
             final Duration streamingRate, final MALInteraction interaction) throws MALInteractionException, MALException {
 
         if (null == objInstId) { // Is the input null?
@@ -255,7 +261,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         manager.markAvailableTime(autoUnset);
         adcsInUse = true;
 
-        if(autoUnset.getValue() != 0){
+        if (autoUnset.getValue() != 0) {
             // Start auto-timer to unset
             autoUnsetThread = new Thread() {
                 @Override
@@ -304,7 +310,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public synchronized LongList addAttitudeDefinition(AttitudeDefinitionList attitudeDefinitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized LongList addAttitudeDefinition(AttitudeDefinitionList attitudeDefinitions,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         LongList outLongLst = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -340,10 +347,10 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
         // If no errors, then add!  // requirement: 3.6.13.2.h
         for (Object attitudeDefinition : attitudeDefinitions) {  // requirement: 3.6.13.2.i
-                ObjectId source = manager.storeCOMOperationActivity(interaction);
-                outLongLst.add(manager.add((AttitudeDefinition) attitudeDefinition, source, connection.getConnectionDetails()));
+            ObjectId source = manager.storeCOMOperationActivity(interaction);
+            outLongLst.add(manager.add((AttitudeDefinition) attitudeDefinition, source, connection.getConnectionDetails()));
         }
-        
+
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
@@ -352,7 +359,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public synchronized void removeAttitudeDefinition(LongList objIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized void removeAttitudeDefinition(final LongList objIds,
+            final MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Long tempLong;
         LongList tempLongLst = new LongList();
@@ -393,7 +401,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public synchronized LongList listAttitudeDefinition(IdentifierList names, MALInteraction interaction) throws MALInteractionException, MALException {
+    public synchronized LongList listAttitudeDefinition(final IdentifierList names,
+            final MALInteraction interaction) throws MALInteractionException, MALException {
         LongList outLongLst = new LongList();
 
         if (null == names) { // Is the input null?
@@ -416,7 +425,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         return outLongLst;
     }
 
-    private void restartPublishTimer(){
+    private void restartPublishTimer() {
         publishTimer.cancel();
         publishTimer = new Timer();
         publishTimer.scheduleAtFixedRate(new TimerTask() {
@@ -449,7 +458,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         if (configurationObjectDetails.getConfigObjects().size() != 5) {  // 5 because we just have 5 definition types
             return false;
         }
-        
+
         return manager.reloadConfiguration(ConfigurationProviderSingleton.getDomain(), configurationObjectDetails);
     }
 
@@ -461,10 +470,10 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     @Override
     public COMService getCOMService() {
         return AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE;
-
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {
