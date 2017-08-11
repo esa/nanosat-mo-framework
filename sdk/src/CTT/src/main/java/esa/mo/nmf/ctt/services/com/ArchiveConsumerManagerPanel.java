@@ -978,7 +978,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         
         PaginationFilter filter = new PaginationFilter();
         filter.setLimit(new UInteger(5));
-        filter.setOffset(new UInteger(1));
+        filter.setOffset(new UInteger(0));
 
         MOWindow genObjType = new MOWindow(filter, true);
         try {

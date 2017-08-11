@@ -263,7 +263,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                         if (tryNumber == 3) { // Every third try...
                             try {
                                 long timestamp = System.currentTimeMillis();
-                                heartbeat.getHeartbeatStub().getPeriod().getValue();
+                                heartbeat.getHeartbeatStub().getPeriod();
                                 lag = System.currentTimeMillis() - timestamp; // Calculate the lag
                             } catch (MALInteractionException ex) {
                                 Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);

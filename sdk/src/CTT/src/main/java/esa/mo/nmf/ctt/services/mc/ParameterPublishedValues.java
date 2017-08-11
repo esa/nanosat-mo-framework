@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
@@ -40,6 +41,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
+import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
 
 /**
  *
@@ -128,7 +130,8 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
                         labels[index + 0 * numberOfColumns].setNewValue("(" + String.valueOf(objId) + ") " + updateHeader.getKey().getFirstSubKey().getValue(), iDiff);
 //            labels[index+1*numberOfColumns].setNewValue( validityString.toString() , iDiff);
-                        labels[index + 1 * numberOfColumns].setNewValue(validityState.toString(), iDiff);
+                        String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
+                        labels[index + 1 * numberOfColumns].setNewValue(validity, iDiff);
 //                        labels[index + 2 * numberOfColumns].setNewValue(rawValue.toString(), iDiff);
 //                        labels[index + 3 * numberOfColumns].setNewValue(convertedValueStr.toString(), iDiff);
                         labels[index + 2 * numberOfColumns].setNewValue(rawValue, iDiff);
