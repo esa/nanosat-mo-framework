@@ -106,7 +106,11 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
     }
 
     public final void insertDirectoryServiceTab(final String defaultURI) {
-        final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(false, connection, tabs);
+        this.insertDirectoryServiceTab(defaultURI, false);
+    }
+    
+    public void insertDirectoryServiceTab(final String defaultURI, final boolean isS2G) {
+        final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(isS2G, connection, tabs);
 
         tabs.insertTab("Communication Settings (Directory)", null,
                 directoryTab,
