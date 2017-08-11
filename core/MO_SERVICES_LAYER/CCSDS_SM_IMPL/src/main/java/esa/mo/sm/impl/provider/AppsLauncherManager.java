@@ -30,6 +30,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.HelperNMF;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
 import java.io.BufferedReader;
@@ -583,21 +584,25 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     private AppDetails readAppDescriptorFromFolder(final File appFolder) {
-        // Hard-coded values for now
         final AppDetails app = new AppDetails();
-        app.setName(new Identifier(appFolder.getName()));
+        app.setName(new Identifier(appFolder.getName())); // Use the name of the folder
 
-        app.setDescription("A simple description");
-        app.setVersion("1.0");
         try {
-            app.setExtraInfo("provider.properties");
-            app.setCopyright("European Space Agency");
+            String propsFilepath = appFolder.getCanonicalPath() + File.separator + HelperMisc.PROVIDER_PROPERTIES_FILE;
+            final Properties props = HelperMisc.loadProperties(propsFilepath);
+            app.setExtraInfo(HelperMisc.PROVIDER_PROPERTIES_FILE);
 
-            // go up one folder
-//            File cat = new File(appFolder.getCanonicalPath() + File.separator + ".." + File.separator);
-            File cat2 = new File(appFolder.getParentFile().getCanonicalPath());
-            app.setCategory(new Identifier(cat2.getName()));
-            app.setRunAtStartup(false);
+            final String category = (props.getProperty(HelperNMF.APP_CATEGORY) != null) ? props.getProperty(HelperNMF.APP_CATEGORY) : "-";
+            final String version = (props.getProperty(HelperNMF.APP_VERSION) != null) ? props.getProperty(HelperNMF.APP_VERSION) : "-";
+            final String copyright = (props.getProperty(HelperNMF.APP_COPYRIGHT) != null) ? props.getProperty(HelperNMF.APP_COPYRIGHT) : "-";
+            final String description = (props.getProperty(HelperNMF.APP_DESCRIPTION) != null) ? props.getProperty(HelperNMF.APP_DESCRIPTION) : "-";
+
+            app.setCategory(new Identifier(category));
+            app.setVersion(version);
+            app.setCopyright(copyright);
+            app.setDescription(description);
+
+            app.setRunAtStartup(false); // This is not supported in this implementation
             app.setRunning(false); // Default values
         } catch (IOException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);

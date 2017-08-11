@@ -616,7 +616,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 public void run() {
                     this.setName("AppsLauncher_ThreadReader");
                     try {
-                        String line = null;
+                        String line;
 
                         while ((line = br.readLine()) != null) {
                             buf.append(line);
