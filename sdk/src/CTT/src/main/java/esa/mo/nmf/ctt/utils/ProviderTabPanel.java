@@ -72,8 +72,8 @@ public class ProviderTabPanel extends javax.swing.JPanel {
     public void insertServicesTabs() {
         startTabs();
     }
-    
-    public JTabbedPane getTabs(){
+
+    public JTabbedPane getTabs() {
         return serviceTabs;
     }
 
@@ -233,16 +233,21 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
         private static final long DELTA_ERROR = 2 * 1000; // 2 seconds = 2000 milliseconds
         private final long period; // In seconds
+        private long lag; // In milliseconds
         private final Timer timer;
         private Time lastBeatAt = HelperTime.getTimestampMillis();
 
-        public ProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat) throws MALInteractionException, MALException {
+        public ProviderStatusAdapter(final HeartbeatConsumerServiceImpl heartbeat) throws MALInteractionException, MALException {
+            long timestamp = System.currentTimeMillis();
             double value = heartbeat.getHeartbeatStub().getPeriod().getValue();
+            lag = System.currentTimeMillis() - timestamp;
             period = (long) (value * 1000);
             status.setText("The provider is reachable! Beat period: " + value + " seconds");
 
             timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
+                int tryNumber = 0;
+
                 @Override
                 public void run() {
                     final Time currentTime = HelperTime.getTimestampMillis();
@@ -254,10 +259,24 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                         // Then the provider is unresponsive
                         status.setText("Unresponsive! ");
                         status.setForeground(Color.RED);
+                    } else {
+                        if (tryNumber == 3) { // Third try...
+                            try {
+                                long timestamp = System.currentTimeMillis();
+                                heartbeat.getHeartbeatStub().getPeriod().getValue();
+                                lag = System.currentTimeMillis() - timestamp; // Calculate the lag
+                            } catch (MALInteractionException ex) {
+                                Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (MALException ex) {
+                                Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            tryNumber = 0;
+                        }
                     }
+
+                    tryNumber++;
                 }
             }, period, period);
-
         }
 
         @Override
@@ -272,7 +291,9 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             status.setText("Alive! ");
             status.setForeground(Color.BLUE);
             lastReceived.setText("(Clocks diff: " + iDiff + " ms"
-                    + " | Last beat received at: " + HelperTime.time2readableString(lastBeatAt) + ")");
+                    + " | Round-Trip Delay time: " + lag + " ms"
+                    + " | Last beat received at: " + HelperTime.time2readableString(lastBeatAt)
+                    + ")");
         }
 
     }
