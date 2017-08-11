@@ -330,7 +330,7 @@ public final class AutonomousADCSManager {
         return true;
     }
 
-    private HashMap<Long, AttitudeDefinition> getDefsFromArchive(ConfigurationObjectSet confSet) {
+    private HashMap<Long, AttitudeDefinition> getDefsFromArchive(final ConfigurationObjectSet confSet) {
         final HashMap<Long, AttitudeDefinition> defs = new HashMap<Long, AttitudeDefinition>();
         AttitudeDefinitionList pDefs = (AttitudeDefinitionList) HelperArchive.getObjectBodyListFromArchive(
                 this.getArchiveService(),
