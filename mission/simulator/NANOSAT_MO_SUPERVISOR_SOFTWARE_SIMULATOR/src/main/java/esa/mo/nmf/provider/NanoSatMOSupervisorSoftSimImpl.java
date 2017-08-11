@@ -72,13 +72,13 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
         try {
             platformServicesSim = new PlatformServicesProviderSoftSim();
             platformServicesSim.init(comServices);
+            this.reconfigurableServices.add(platformServicesSim.getAutonomousADCSService());
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ConnectionConsumer connectionConsumer = new ConnectionConsumer();
-
         try {
+            ConnectionConsumer connectionConsumer = new ConnectionConsumer();
             connectionConsumer.loadURIs();
             super.getPlatformServices().init(connectionConsumer, null);
         } catch (MalformedURLException ex) {

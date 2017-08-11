@@ -66,7 +66,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     }
 
     @Override
-    public AutonomousADCSInheritanceSkeleton getAutonomousADCSService() {
+    public AutonomousADCSProviderServiceImpl getAutonomousADCSService() {
         return this.autonomousADCSService;
     }
 
