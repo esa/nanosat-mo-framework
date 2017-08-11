@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.provider;
 
-import esa.mo.com.impl.archive.db.TransactionsProcessor;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.sync.Dictionary;

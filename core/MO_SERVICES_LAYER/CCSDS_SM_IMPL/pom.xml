@@ -81,12 +81,10 @@
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>HELPER_TOOLS</artifactId>
         </dependency>
-
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>CCSDS_COM_IMPL</artifactId>
         </dependency>
-
     </dependencies>
   
     <build>
