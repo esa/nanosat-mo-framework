@@ -1,1 +1,1 @@
-java -classpath "target\CTT-jar-with-dependencies.jar" esa.mo.fw.configurationtool.guis.MOConsumerGUIvFull
+java -classpath "NMF_PACKAGE_ASSEMBLER-jar-with-dependencies.jar" esa.mo.nmf.nmfpackage.assembler.gui.NMFPackageAssemblerGUI
