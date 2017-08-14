@@ -163,8 +163,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
-    public abstract void initPlatformServices(COMServicesProvider comServices);
-
     public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
         if (mcAdapter != null) {
             mcServices = new MCServicesProviderNMF();

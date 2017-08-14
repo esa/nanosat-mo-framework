@@ -29,8 +29,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
- *
- * @author Cesar Coelho
+ * The Listener for Event requests to close the application.
  */
 public class CloseAppEventListener extends EventReceivedListener {
 

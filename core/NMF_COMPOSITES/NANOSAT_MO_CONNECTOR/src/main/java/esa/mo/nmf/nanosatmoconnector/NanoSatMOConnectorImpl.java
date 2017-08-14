@@ -22,7 +22,6 @@ package esa.mo.nmf.nanosatmoconnector;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.util.HelperCommon;
@@ -74,13 +73,14 @@ import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
- * A Provider of MO services composed by COM, M&C and Platform services. Selects
- * the transport layer based on the selected values of the properties file and
- * initializes all services automatically. Provides configuration persistence,
- * therefore the last state of the configuration of the MO services will be kept
- * upon restart. Additionally, the NanoSat MO Framework implements an
- * abstraction layer over the Back-End of some MO services to facilitate the
- * monitoring of the business logic of the app using the NanoSat MO Framework.
+ * A Provider of MO services composed by COM, Monitor and Control, and Platform
+ * services. Selects the transport layer based on the selected values of the
+ * properties file and initializes all services automatically. Provides
+ * configuration persistence, therefore the last state of the configuration of
+ * the MO services will be kept upon restart. Additionally, the NanoSat MO
+ * Framework implements an abstraction layer over the Back-End of some MO
+ * services to facilitate the monitoring of the business logic of the app using
+ * the NanoSat MO Framework.
  *
  * @author Cesar Coelho
  */
@@ -117,7 +117,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         }
 
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
-        
+
         try {
             comServices.init();
         } catch (MALException ex) {
@@ -125,7 +125,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
-        
+
         URI centralDirectoryURI = this.readCentralDirectoryServiceURI();
 
         if (centralDirectoryURI != null && centralDirectoryURI.getValue().startsWith("malspp")) {
@@ -231,7 +231,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
-        
+
         this.initAdditionalServices();
 
         // Populate the local Directory service with the entries from the URIs File
@@ -244,7 +244,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             try {
                 if (centralDirectory != null) {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                        "Populating Central Directory service on URI: {0}", centralDirectoryURI.getValue());
+                            "Populating Central Directory service on URI: {0}", centralDirectoryURI.getValue());
 
                     final PublishProviderResponse response = centralDirectory.getDirectoryStub().publishProvider(publishDetails);
                     this.appDirectoryServiceId = response.getBodyElement0();
@@ -259,7 +259,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                         "Could not connect to the Central Directory service! Maybe it is down...");
             }
         }
-        
+
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
@@ -277,13 +277,13 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         if (mcAdapter != null) {
             MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
-       
+
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "NanoSat MO Connector initialized in "
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
@@ -297,11 +297,13 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         // NMFProvider.hintGC();
     }
 
-    @Override
-    public void initPlatformServices(COMServicesProvider comServices) {
-        // It is supposed to be empty!
-    }
-
+    /**
+     * Retrieves the object instance identifier of the application that uniquely
+     * identifies the App in the Central Directory service.
+     *
+     * @return The object Instance Identifier of the App in the Central
+     * Directory service.
+     */
     public final Long getAppDirectoryId() {
         return this.appDirectoryServiceId;
     }

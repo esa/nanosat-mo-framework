@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nanosatmomonolithic;
 
+import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.nmf.NMFProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
@@ -194,5 +195,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
 
         System.exit(0);
     }
+
+    public abstract void initPlatformServices(COMServicesProvider comServices);
 
 }
