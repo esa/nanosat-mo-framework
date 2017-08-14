@@ -37,8 +37,8 @@ import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 
 /**
- *
- *
+ * Holds the set of object types that the database contains in its dedicated table
+ * and avoids constant checking on it which makes things go much faster.
  */
 public class FastObjectType {
 

@@ -92,7 +92,8 @@ public class COMObjectEntity implements Serializable {
     // ---------------------    
 
     /**
-     * Exists because Eclipse Link needs the constructor without parameters
+     * This method only exists because Eclipse Link needs the constructor
+     * without parameters
      */
     protected COMObjectEntity() {
     }
@@ -164,7 +165,7 @@ public class COMObjectEntity implements Serializable {
 
         this.obj = object;
     }
-    
+
     public static COMObjectEntityPK generatePK(final Integer objectTypeId, final Integer domain, final Long objId) {
         return new COMObjectEntityPK(objectTypeId, domain, objId);
     }
@@ -209,8 +210,8 @@ public class COMObjectEntity implements Serializable {
     public FineTime getTimestamp() {
         return new FineTime(this.timestampArchiveDetails);
     }
-    
-    public byte[] getObjectEncoded(){
+
+    public byte[] getObjectEncoded() {
         return this.obj;
     }
 
@@ -245,5 +246,5 @@ public class COMObjectEntity implements Serializable {
         return "COM Object: this.objectTypeId=" + this.objectTypeId
                 + ", this.domainId=" + this.domainId + ", this.objId=" + this.objId;
     }
-    
+
 }

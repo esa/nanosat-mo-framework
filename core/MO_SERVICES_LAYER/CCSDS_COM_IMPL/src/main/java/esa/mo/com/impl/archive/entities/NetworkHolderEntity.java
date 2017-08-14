@@ -24,8 +24,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- *
- * @author Cesar Coelho
+ * The entity that holds a network and its respective id.
  */
 @Entity
 public class NetworkHolderEntity implements Serializable{

@@ -52,7 +52,6 @@ public final class AlertManager extends MCManager {
 
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-//            this.load(); // Load the file
         } else {
 
         }
@@ -67,7 +66,7 @@ public final class AlertManager extends MCManager {
         return (AlertDefinitionDetails) this.getDefinitionFromObjId(defId);
     }
 
-    public ObjectInstancePair add(Identifier name, AlertDefinitionDetails definition, 
+    public ObjectInstancePair add(Identifier name, AlertDefinitionDetails definition,
             ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair = new ObjectInstancePair();
         if (super.getArchiveService() == null) {
@@ -80,7 +79,7 @@ public final class AlertManager extends MCManager {
             try {
                 //requirement: 3.4.10.2.e: if an AlertName ever existed before, use the old AlertIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), 
+                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
                         name, AlertHelper.ALERTIDENTITY_OBJECT_TYPE);
 
                 //in case the AlertName never existed before, create a new identity
@@ -117,19 +116,18 @@ public final class AlertManager extends MCManager {
             }
         }
 
-//        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), definition);
         this.addIdentityDefinition(name, newIdPair, definition);
         return newIdPair;
     }
 
-    public Long update(Long identityId, AlertDefinitionDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    public Long update(final Long identityId, final AlertDefinitionDetails definition,
+            final ObjectId source, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newDefId = null;
 
         if (super.getArchiveService() == null) { //only update locally
             //add to providers local list
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             newDefId = uniqueObjIdDef;
-
         } else { // update in the COM Archive        
             try {
                 AlertDefinitionDetailsList defs = new AlertDefinitionDetailsList();
@@ -149,7 +147,7 @@ public final class AlertManager extends MCManager {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         this.updateDef(identityId, newDefId, definition);
         return newDefId;
     }
@@ -161,23 +159,25 @@ public final class AlertManager extends MCManager {
         return false;
     }
 
-    public boolean setGenerationEnabled(Long identityId, Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    public boolean setGenerationEnabled(final Long identityId, final Boolean bool,
+            final ObjectId source, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         AlertDefinitionDetails def = this.getAlertDefinitionFromIdentityId(identityId);
         if (def == null) {
             return false;
         }
 
-        if (def.getGenerationEnabled().booleanValue() == bool){ // Is it set with the requested value already?
+        if (def.getGenerationEnabled().booleanValue() == bool) { // Is it set with the requested value already?
             return false; // the value was not changed
         }
-        
+
         def.setGenerationEnabled(bool);
         this.update(identityId, def, source, connectionDetails);
 
         return true;
     }
 
-    public void setGenerationEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
+    public void setGenerationEnabledAll(final Boolean bool, final ObjectId source,
+            final SingleConnectionDetails connectionDetails) {
         LongList identityIds = new LongList();
         identityIds.addAll(this.listAllIdentities());
 

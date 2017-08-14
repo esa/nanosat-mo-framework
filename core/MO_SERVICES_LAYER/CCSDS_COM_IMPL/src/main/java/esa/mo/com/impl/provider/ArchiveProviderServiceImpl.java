@@ -56,7 +56,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 
 /**
- *
+ * Archive service Provider.
  */
 public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
@@ -111,7 +111,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             if (null != archiveServiceProvider) {
                 archiveServiceProvider.close();
             }
-            
+
             manager.close();
 
             connection.closeAll();
@@ -268,7 +268,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         for (int index = 0; index < sizeArchiveQueryList; index++) { // requirement: 3.4.4.2.6
             tmpArchiveQuery = lArchiveQueryList.get(index);
             ArrayList<ArchivePersistenceObject> perObjs;
-            
+
             if (queryFilterList != null) {
                 tmpQueryFilter = (QueryFilter) queryFilterList.get(index);
             }
@@ -279,7 +279,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // requirement: 3.4.4.2.15
 
             if (queryFilterList != null) { // requirement: 3.4.4.2.8
-                if(tmpQueryFilter instanceof CompositeFilterSet) {
+                if (tmpQueryFilter instanceof CompositeFilterSet) {
                     try {
                         if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
                             perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
@@ -455,7 +455,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             perObjs = manager.query(lObjectType, tmpArchiveQuery, tmpQueryFilter);
 
             if (queryFilterList != null) {
-                if(tmpQueryFilter instanceof CompositeFilterSet){
+                if (tmpQueryFilter instanceof CompositeFilterSet) {
                     try {
                         if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
                             perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
@@ -552,7 +552,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         for (int index = 0; index < lArchiveDetailsList.size(); index++) { // Validation of ArchiveDetails object
             if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
                 // Shall be taken care in the manager & per inserted entry
-            }else{ // Does it exist already?  // requirement: 3.4.6.2.6
+            } else { // Does it exist already?  // requirement: 3.4.6.2.6
                 if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
                     dupIndexList.add(new UInteger(index));
                     continue;

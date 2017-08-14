@@ -24,8 +24,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- *
- * @author Cesar Coelho
+ * The entity that holds a domain and its respective id.
  */
 @Entity
 public class DomainHolderEntity implements Serializable {

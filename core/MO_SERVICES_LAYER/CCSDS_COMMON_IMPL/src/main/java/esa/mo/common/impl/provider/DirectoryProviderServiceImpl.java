@@ -70,7 +70,7 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
- *
+ * Directory service Provider.
  */
 public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
@@ -117,7 +117,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             connection.closeAll();
         }
 
-        directoryServiceProvider = connection.startService(DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(), DirectoryHelper.DIRECTORY_SERVICE, false, this);
+        directoryServiceProvider = connection.startService(DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(), 
+                DirectoryHelper.DIRECTORY_SERVICE, false, this);
 
         running = true;
         initialiased = true;

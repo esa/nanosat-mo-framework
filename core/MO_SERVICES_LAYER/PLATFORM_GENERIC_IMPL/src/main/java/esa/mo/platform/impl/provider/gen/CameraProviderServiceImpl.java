@@ -70,7 +70,7 @@ import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 
 /**
- *
+ * Camera service Provider.
  */
 public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 

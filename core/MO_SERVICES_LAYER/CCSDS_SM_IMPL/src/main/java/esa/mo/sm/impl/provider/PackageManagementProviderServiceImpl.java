@@ -50,7 +50,7 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
 
 /**
- *
+ * Package Management service Provider.
  */
 public class PackageManagementProviderServiceImpl extends PackageManagementInheritanceSkeleton {
 

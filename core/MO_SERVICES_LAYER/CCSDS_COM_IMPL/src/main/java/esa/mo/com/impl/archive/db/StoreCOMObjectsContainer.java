@@ -24,8 +24,8 @@ import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import java.util.ArrayList;
 
 /**
- *
- * @author Cesar Coelho
+ * This class holds a set of COM Objects before they are committed to the
+ * database.
  */
 public class StoreCOMObjectsContainer {
 

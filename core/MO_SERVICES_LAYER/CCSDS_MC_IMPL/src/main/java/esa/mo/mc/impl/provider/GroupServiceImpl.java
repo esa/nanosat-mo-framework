@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mc.group.GroupHelper;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 
 /**
- *
+ * Group service Provider.
  */
 public class GroupServiceImpl extends ConversionInheritanceSkeleton {
 

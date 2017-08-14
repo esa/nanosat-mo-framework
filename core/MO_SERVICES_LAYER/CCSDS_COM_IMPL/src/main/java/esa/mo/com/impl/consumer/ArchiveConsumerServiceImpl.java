@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.consumer;
 
-import esa.mo.helpertools.connections.ConfigurationConsumer;
 import esa.mo.helpertools.misc.ConsumerServiceImpl;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.net.MalformedURLException;
@@ -41,7 +40,6 @@ import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
 
     private ArchiveStub archiveService = null;
-    private ConfigurationConsumer configuration = new ConfigurationConsumer();
 
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {

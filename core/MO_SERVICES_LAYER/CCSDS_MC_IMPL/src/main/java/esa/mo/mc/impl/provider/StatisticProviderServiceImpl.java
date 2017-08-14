@@ -91,6 +91,9 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
+/**
+ * Statistic service Provider.
+ */
 public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
     private static final Set<Integer> TYPES_ALLOWED_FOR_STATISTIC_EVALUATION = new HashSet<Integer>();
@@ -799,7 +802,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         if (objInstIds.size() != newDetails.size()) { // requirement: 3.6.1.5.2.g
             int min = (objInstIds.size() < newDetails.size()) ? objInstIds.size() : newDetails.size();
             int max = (objInstIds.size() > newDetails.size()) ? objInstIds.size() : newDetails.size();
-            
+
             for (int i = min; i < max; i++) {
                 invIndexList.add(new UInteger(i));
             }

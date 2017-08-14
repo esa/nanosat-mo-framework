@@ -24,15 +24,16 @@ import java.io.IOException;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 
 /**
- *
- * @author Cesar Coelho
+ * This class calculates the distance between 2 points on a based on their
+ * latitude, longitude and altitude on Earth.
  */
 public class PositionsCalculator {
 
     public static double R = 6371; // Equatorial Radius
     public static double f = 0.00335281066474748071984552861852; // Flattening
-    
+
     public static class ECEFVector {
+
         public final double x;
         public final double y;
         public final double z;
@@ -45,9 +46,9 @@ public class PositionsCalculator {
     }
 
     /**
-     * Calculates the distance between 2 Positions. If one of the input Positions
-     * contains a 0, then the altitude won't be considered when calculating the
-     * distance.
+     * Calculates the distance between 2 Positions. If one of the input
+     * Positions contains a 0, then the altitude won't be considered when
+     * calculating the distance.
      *
      * @param p1 Position 1
      * @param p2 Position 2
@@ -61,33 +62,33 @@ public class PositionsCalculator {
 
         ECEFVector p1ECEF = PositionsCalculator.LLA2ECEF(p1);
         ECEFVector p2ECEF = PositionsCalculator.LLA2ECEF(p2);
-                
+
         double dx = Math.abs(p1ECEF.x - p2ECEF.x);
         double dy = Math.abs(p1ECEF.y - p2ECEF.y);
         double dz = Math.abs(p1ECEF.z - p2ECEF.z);
-        
-        if (p1.getAltitude() == 0 || p2.getAltitude() == 0){
+
+        if (p1.getAltitude() == 0 || p2.getAltitude() == 0) {
             dz = 0;
         }
-        
-        return Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     public static ECEFVector LLA2ECEF(Position p) {
         // Information taken from the website:
         // http://nl.mathworks.com/help/aeroblks/llatoecefposition.html?requestedDomain=nl.mathworks.com
-        
+
         double lat = p.getLatitude();
         double lon = p.getLongitude();
         double alt = p.getAltitude();
-                
-        double meanSeaLevel = Math.atan((1-f)*(1-f)*Math.tan(lat));
-        double rs = Math.sqrt(R*R / ( (1 + (1 / ((1-f)*(1-f)) - 1 ) * Math.sin(meanSeaLevel)*Math.sin(meanSeaLevel) ) ) );
-        
+
+        double meanSeaLevel = Math.atan((1 - f) * (1 - f) * Math.tan(lat));
+        double rs = Math.sqrt(R * R / ((1 + (1 / ((1 - f) * (1 - f)) - 1) * Math.sin(meanSeaLevel) * Math.sin(meanSeaLevel))));
+
         return new ECEFVector(
-            rs*Math.cos(meanSeaLevel)*Math.cos(lon) + alt*Math.cos(lat)*Math.cos(lon),
-            rs*Math.cos(meanSeaLevel)*Math.sin(lon) + alt*Math.cos(lat)*Math.sin(lon),
-            rs*Math.sin(meanSeaLevel) + alt*Math.sin(lat)
+                rs * Math.cos(meanSeaLevel) * Math.cos(lon) + alt * Math.cos(lat) * Math.cos(lon),
+                rs * Math.cos(meanSeaLevel) * Math.sin(lon) + alt * Math.cos(lat) * Math.sin(lon),
+                rs * Math.sin(meanSeaLevel) + alt * Math.sin(lat)
         );
     }
 

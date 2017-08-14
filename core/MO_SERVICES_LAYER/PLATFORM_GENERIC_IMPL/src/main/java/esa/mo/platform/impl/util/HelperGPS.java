@@ -29,8 +29,7 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfo;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
 /**
- *
- * @author Cesar Coelho
+ * A Helper class with some conversions for GPS NMEA sentences
  */
 public class HelperGPS {
 
@@ -159,12 +158,14 @@ public class HelperGPS {
                 }
                 else
                 {
-                    System.out.println("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["+sentence+"] has wrong header ["+words[GPGSV_COL.HEADER]+"], expected [$GPGSV]");
+                    System.out.println("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["
+                            +sentence+"] has wrong header ["+words[GPGSV_COL.HEADER]+"], expected [$GPGSV]");
                 }
             }
             else
             {
-                System.out.println("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["+sentence+"] has wrong GPS sentence size ["+count+"], expected ["+expectedSize+"]");
+                System.out.println("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["
+                        +sentence+"] has wrong GPS sentence size ["+count+"], expected ["+expectedSize+"]");
             }
             
         }

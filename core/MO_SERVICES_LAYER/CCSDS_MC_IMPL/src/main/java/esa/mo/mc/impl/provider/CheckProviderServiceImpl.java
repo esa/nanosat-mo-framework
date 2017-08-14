@@ -81,7 +81,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 
 /**
- *
+ * Check service Provider.
  */
 public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 

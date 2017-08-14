@@ -82,7 +82,7 @@ import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
- *
+ * Aggregation service Provider.
  */
 public class AggregationProviderServiceImpl extends AggregationInheritanceSkeleton implements ReconfigurableService {
 

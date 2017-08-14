@@ -34,7 +34,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * Holds all the fields of a COM Event.
+ * The class that bridges the COM Archive logic to the actual database backend.
  *
  * @author Cesar Coelho
  */
@@ -67,6 +67,11 @@ public class DatabaseBackend {
         return emAvailability;
     }
 
+    /**
+     * Starts the database backend by creates the Entity Manager Factory.
+     *
+     * @param dbProcessor The transactions processor.
+     */
     public void startBackendDatabase(final TransactionsProcessor dbProcessor) {
         if (OPTIMIZED_STARTUP) {
             dbProcessor.submitExternalTask(new Runnable() {

@@ -56,7 +56,7 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 
 /**
- *
+ * Conversion service.
  */
 public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 

@@ -67,7 +67,7 @@ import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
- *
+ * Event service Provider.
  */
 public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
@@ -223,6 +223,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param related Related link
      * @param source Source link
      * @param eventBodies Bodies of the event
+     * @throws java.io.IOException if it cannot publish the Event
      */
     @Deprecated
     public void publishEvent(final MALInteraction interaction, final Long objId, final ObjectType objType,
@@ -249,13 +250,13 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param related Related link
      * @param source Source link
      * @param eventBodies Bodies of the event
+     * @throws java.io.IOException if it cannot publish the Event
      */
     public void publishEvent(final URI sourceURI, final Long objId, final ObjectType objType,
             final Long related, final ObjectId source, ElementList eventBodies) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         if (!running) {
             throw new IOException("The Event service is not running.");
-//            return;
         }
 
         try {
@@ -325,14 +326,13 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param relateds Related links
      * @param sources Source links
      * @param eventBodies Bodies of the event
+     * @throws java.io.IOException if it cannot publish the Event
      */
     public void publishEvents(final URI sourceURI, final LongList objIds, final ObjectType objType,
             final LongList relateds, final ObjectIdList sources, ElementList eventBodies) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
-
         if (!running) {
             throw new IOException("The Event service is not running.");
-//            return;
         }
 
         try {
@@ -374,7 +374,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
             if (eventBodies != null) {
                 if (eventBodies.isEmpty()) {
-                    Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING, "The event bodies list is empty!");
+                    Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                            "The event bodies list is empty!");
                 }
             } else {
                 eventBodies = new UIntegerList(hdrlst.size());

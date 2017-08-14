@@ -68,7 +68,7 @@ import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
- *
+ * Configuration service Provider.
  */
 public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSkeleton {
 

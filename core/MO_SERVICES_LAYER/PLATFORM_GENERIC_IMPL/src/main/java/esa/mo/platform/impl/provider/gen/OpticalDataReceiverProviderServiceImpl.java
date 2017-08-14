@@ -57,7 +57,7 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataRecei
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.StreamDataPublisher;
 
 /**
- *
+ * Optical Data Receiver service Provider.
  */
 public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverInheritanceSkeleton {
 

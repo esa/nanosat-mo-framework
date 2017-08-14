@@ -50,8 +50,9 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- *
- * @author Cesar Coelho
+ * This class is responsible for storing the configuration of a provider in the
+ * COM Archive every time there is a change on the configuration of one of its
+ * reconfigurable services.
  */
 public class PersistProviderConfiguration {
 

@@ -54,7 +54,11 @@ public class ConnectionProvider {
     private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
     private SingleConnectionDetails secondaryConnectionDetails = null;
 
-    @Deprecated
+    /**
+     * Getter for the primaryConnectionDetails object.
+     *
+     * @return The primary connection details.
+     */
     public SingleConnectionDetails getConnectionDetails() {
         return primaryConnectionDetails;
     }

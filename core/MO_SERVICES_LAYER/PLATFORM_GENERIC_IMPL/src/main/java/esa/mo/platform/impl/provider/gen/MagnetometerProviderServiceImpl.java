@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.platform.magnetometer.provider.MagnetometerInheritance
 import org.ccsds.moims.mo.platform.magnetometer.structures.MagneticFieldInstance;
 
 /**
- *
+ * Magnetometer service Provider.
  */
 public class MagnetometerProviderServiceImpl extends MagnetometerInheritanceSkeleton {
 

@@ -54,8 +54,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- *
- * @author Cesar Coelho
+ * Activity Tracking service Provider.
  */
 public class ActivityTrackingProviderServiceImpl {
 

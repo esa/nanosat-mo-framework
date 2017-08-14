@@ -24,8 +24,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- *
- * @author Cesar Coelho
+ * The entity that holds an object type and its respective id.
  */
 @Entity
 public class ObjectTypeHolderEntity implements Serializable{

@@ -34,16 +34,14 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefined
  */
 public interface PlatformServicesConsumerInterface {
 
-//    void init(COMServicesProvider comServices) throws MALException;
-
     AutonomousADCSStub getAutonomousADCSService() throws IOException;
 
     CameraStub getCameraService() throws IOException;
 
     GPSStub getGPSService() throws IOException;
-    
+
     MagnetometerStub getMagnetometerService() throws IOException;
-    
+
     OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException;
 
     SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException;

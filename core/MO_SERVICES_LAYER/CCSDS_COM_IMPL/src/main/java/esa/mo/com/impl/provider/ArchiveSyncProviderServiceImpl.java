@@ -60,7 +60,7 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- *
+ * Archive Sync service Provider.
  */
 public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkeleton {
 

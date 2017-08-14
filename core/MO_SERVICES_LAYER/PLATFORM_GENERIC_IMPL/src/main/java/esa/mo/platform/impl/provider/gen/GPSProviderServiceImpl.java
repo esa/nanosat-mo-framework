@@ -83,7 +83,7 @@ import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
- *
+ * GPS service Provider.
  */
 public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements ReconfigurableService{
 

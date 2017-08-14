@@ -43,8 +43,12 @@ import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 
 /**
- *
- * @author Cesar Coelho
+ * The Transactions Processor is responsible for executing the transactions with
+ * the database. It has one general executor with 2 threads for flushing the
+ * generated COM Events and a single thread executor for orderly executing the
+ * interactions with the database. It includes an optimization for batch stores,
+ * basically, if many stores are received sequentially, they will be
+ * consolidated and executed in one single transaction.
  */
 public class TransactionsProcessor {
 

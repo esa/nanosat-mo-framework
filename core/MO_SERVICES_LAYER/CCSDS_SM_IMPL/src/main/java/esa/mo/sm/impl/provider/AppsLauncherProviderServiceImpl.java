@@ -84,7 +84,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
 
 /**
- *
+ * Apps Launcher service Provider.
  */
 public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements ReconfigurableService {
 

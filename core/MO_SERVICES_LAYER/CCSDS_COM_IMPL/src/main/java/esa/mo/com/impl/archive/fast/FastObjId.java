@@ -25,8 +25,8 @@ import java.util.HashMap;
 import javax.persistence.Query;
 
 /**
- *
- *
+ * Allows fast generation of object instance identifiers and only check the database
+ * when it is necessary.
  */
 public class FastObjId {
 

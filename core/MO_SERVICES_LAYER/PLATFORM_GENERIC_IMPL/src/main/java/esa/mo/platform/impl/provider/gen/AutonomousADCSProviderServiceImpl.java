@@ -71,7 +71,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceList;
 
 /**
- *
+ * AutonomousADCS service Provider.
  */
 public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritanceSkeleton implements ReconfigurableService {
 

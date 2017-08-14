@@ -53,7 +53,7 @@ import org.ccsds.moims.mo.softwaremanagement.heartbeat.provider.BeatPublisher;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.provider.HeartbeatInheritanceSkeleton;
 
 /**
- *
+ * Heartbeat service Provider.
  */
 public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
 
@@ -68,7 +68,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     protected long period = 10000; // 10 seconds
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
+     * Creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
      * @throws MALException On initialisation error.

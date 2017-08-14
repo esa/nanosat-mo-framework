@@ -36,8 +36,8 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
 /**
- *
- *
+ * Holds the set of domains that the database contains in its dedicated table
+ * and avoids constant checking on it which makes things go much faster.
  */
 public class FastDomain {
 
@@ -127,10 +127,10 @@ public class FastDomain {
     public synchronized IntegerList getDomainIds(final IdentifierList inputDomain) {
         final IntegerList ids = new IntegerList();
 
-        if(inputDomain == null){
+        if (inputDomain == null) {
             return ids;
         }
-        
+
         if (HelperCOM.domainContainsWildcard(inputDomain)) {
             for (Map.Entry<IdentifierList, Integer> entry : this.fastID.entrySet()) {
                 try {
@@ -143,7 +143,7 @@ public class FastDomain {
             }
         } else {
             final Integer id = this.fastID.get(inputDomain);
-            
+
             if (id == null) {
                 ids.add(this.addNewDomain(inputDomain));
             } else {

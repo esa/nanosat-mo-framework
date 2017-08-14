@@ -39,8 +39,8 @@ import org.ccsds.moims.mo.mal.structures.Enumeration;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 
 /**
- *
- * @author Cesar Coelho
+ * Sorts a set of COM Objects based on its timestamp or on a specific field of
+ * the object body.
  */
 public class SortByField implements Comparator {
 
@@ -50,7 +50,6 @@ public class SortByField implements Comparator {
 
     private final String fieldName;
     private Field field;
-
 
     SortByField(Class<?> beanClass, String fieldName, boolean ascending) throws NoSuchFieldException, SecurityException {
         this.ascending = ascending;
@@ -91,13 +90,13 @@ public class SortByField implements Comparator {
                         this.field = beanClass.getDeclaredField(part);
                         this.field.setAccessible(true);
                     } else // Then, it is done automatically...
-                     if (!part.equals("")) {
-                            this.field = ((Class) this.field.getGenericType()).getDeclaredField(part);
-                            this.field.setAccessible(true);
-                        } else {
-                            // Then it is a Enumeration
+                    if (!part.equals("")) {
+                        this.field = ((Class) this.field.getGenericType()).getDeclaredField(part);
+                        this.field.setAccessible(true);
+                    } else {
+                        // Then it is a Enumeration
 //                                obj = ((Enumeration) obj).getNumericValue();
-                        }
+                    }
                 }
             }
 
@@ -106,7 +105,7 @@ public class SortByField implements Comparator {
     }
 
     /*
-         *  Implement the Comparable interface
+     *  Implement the Comparable interface
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -173,7 +172,7 @@ public class SortByField implements Comparator {
             c1 = obj2;
             c2 = obj1;
         }
-*/
+         */
         Object c1 = (this.ascending) ? obj1 : obj2;
         Object c2 = (this.ascending) ? obj2 : obj1;
 

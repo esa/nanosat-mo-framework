@@ -32,8 +32,6 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefined
  */
 public interface PlatformServicesProviderInterface {
 
-//    void init(COMServicesProvider comServices) throws MALException;
-
     CameraInheritanceSkeleton getCameraService();
 
     GPSInheritanceSkeleton getGPSService();
@@ -43,5 +41,5 @@ public interface PlatformServicesProviderInterface {
     OpticalDataReceiverInheritanceSkeleton getOpticalDataReceiverService();
 
     SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService();
-    
+
 }

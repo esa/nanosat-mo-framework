@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherS
  * @author Cesar Coelho
  */
 public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
-    
+
     private AppsLauncherStub appLauncherService = null;
     private COMServicesConsumer comServices;
 
@@ -63,7 +63,8 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
         return new AppsLauncherStub(tmConsumer);
     }
 
-    public AppsLauncherConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
+            final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -73,7 +74,8 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 

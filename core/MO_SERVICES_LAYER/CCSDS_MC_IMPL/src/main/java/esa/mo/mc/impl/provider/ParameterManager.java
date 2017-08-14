@@ -58,8 +58,7 @@ import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.FineTimeList;
 
 /**
- *
- * @author Cesar Coelho
+ * Parameter service Manager.
  */
 public class ParameterManager extends MCManager {
 

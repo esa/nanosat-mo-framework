@@ -67,42 +67,42 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         try {
             // Initialize the AutonomousADCS service
             details = connectionConsumer.getServicesDetails().get(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 autonomousADCSService = new AutonomousADCSConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Camera service
             details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 cameraService = new CameraConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the GPS service
             details = connectionConsumer.getServicesDetails().get(GPSHelper.GPS_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 gpsService = new GPSConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Magnetometer service
             details = connectionConsumer.getServicesDetails().get(MagnetometerHelper.MAGNETOMETER_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 magnetometerService = new MagnetometerConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Optical Data Receiver service
             details = connectionConsumer.getServicesDetails().get(OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Software Defined Radio service
             details = connectionConsumer.getServicesDetails().get(SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
-            if(details != null){
+            if (details != null) {
                 sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices);
             }
-        } catch (MALException  ex) {
+        } catch (MALException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException  ex) {
+        } catch (MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,43 +111,43 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
     @Override
     public AutonomousADCSStub getAutonomousADCSService() throws IOException {
-        if(this.autonomousADCSService == null){
+        if (this.autonomousADCSService == null) {
             throw new IOException("The service consumer is not connected to the provider.");
         }
-        
+
         return this.autonomousADCSService.getAutonomousADCSStub();
     }
 
     @Override
     public CameraStub getCameraService() throws IOException {
-        if(this.cameraService == null){
+        if (this.cameraService == null) {
             throw new IOException("The service consumer is not connected to the provider.");
         }
-        
+
         return this.cameraService.getCameraStub();
     }
 
     @Override
     public GPSStub getGPSService() throws IOException {
-        if(this.gpsService == null){
+        if (this.gpsService == null) {
             throw new IOException("The service consumer is not connected to the provider.");
         }
-        
+
         return this.gpsService.getGPSStub();
     }
 
     @Override
     public MagnetometerStub getMagnetometerService() throws IOException {
-        if(this.magnetometerService == null){
+        if (this.magnetometerService == null) {
             throw new IOException("The service consumer is not connected to the provider.");
         }
-        
+
         return this.magnetometerService.getMagnetometerStub();
     }
 
     @Override
     public OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException {
-        if(this.odrService == null){
+        if (this.odrService == null) {
             throw new IOException("The service consumer is not connected to the provider.");
         }
 
@@ -156,7 +156,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
     @Override
     public SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException {
-        if(this.sdrService == null){
+        if (this.sdrService == null) {
             throw new IOException("The service consumer is not connected to the provider.");
         }
 
@@ -164,7 +164,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     }
 
     // Setters
-
     public void setAutonomousADCSService(AutonomousADCSConsumerServiceImpl autonomousADCSService) {
         this.autonomousADCSService = autonomousADCSService;
     }
@@ -194,29 +193,29 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
      *
      */
     public void closeConnections() {
-        if(this.autonomousADCSService != null){
+        if (this.autonomousADCSService != null) {
             this.autonomousADCSService.closeConnection();
         }
-        
-        if(this.cameraService != null){
+
+        if (this.cameraService != null) {
             this.cameraService.closeConnection();
         }
-        
-        if(this.gpsService != null){
+
+        if (this.gpsService != null) {
             this.gpsService.closeConnection();
         }
-        
-        if(this.magnetometerService != null){
+
+        if (this.magnetometerService != null) {
             this.magnetometerService.closeConnection();
         }
-        
-        if(this.odrService != null){
+
+        if (this.odrService != null) {
             this.odrService.closeConnection();
         }
-        
-        if(this.sdrService != null){
+
+        if (this.sdrService != null) {
             this.sdrService.closeConnection();
         }
-    }    
-  
+    }
+
 }

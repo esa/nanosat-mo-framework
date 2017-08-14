@@ -58,7 +58,7 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsL
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
 /**
- *
+ * Software-defined Radio service Provider.
  */
 public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadioInheritanceSkeleton {
 

@@ -62,6 +62,9 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
+/**
+ * Action service Provider.
+ */
 public class ActionProviderServiceImpl extends ActionInheritanceSkeleton  implements ReconfigurableService {
 
     private final static String IS_INTERMEDIATE_RELAY_PROPERTY = "esa.mo.mc.impl.provider.ActionProviderServiceImpl.isIntermediateRelay";

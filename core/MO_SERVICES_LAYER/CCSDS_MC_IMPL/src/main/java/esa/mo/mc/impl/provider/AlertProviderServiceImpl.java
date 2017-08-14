@@ -72,7 +72,7 @@ import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
- *
+ * Alert service Provider.
  */
 public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implements ReconfigurableService {
 
