@@ -63,7 +63,6 @@ import org.ccsds.moims.mo.mal.structures.FineTimeList;
 public class ParameterManager extends MCManager {
 
     private final ConversionServiceImpl conversionService = new ConversionServiceImpl();
-    private static final transient int SAVING_PERIOD = 20;  // Used to store the uniqueObjIdPVal only once every "SAVINGPERIOD" times
 
     private Long uniqueObjIdIdentity;
     private Long uniqueObjIdDef; // Counter (different for every Definition)
@@ -312,9 +311,14 @@ public class ParameterManager extends MCManager {
         }
 
         ParameterDefinitionDetails pDef = this.getParameterDefinition(identityId);
-        Attribute rawValue = getRawValue(identityId, pDef);
-        // Generate final Parameter Value
-        return generateNewParameterValue(rawValue, pDef, aggrExpired);
+        
+        try {
+            Attribute rawValue = getRawValue(identityId, pDef);
+            // Generate final Parameter Value
+            return generateNewParameterValue(rawValue, pDef, aggrExpired);
+        }catch(Exception ex){
+            return new ParameterValue(getAsUOctet(ValidityState.INVALID_RAW), null, null);
+        }
     }
 
     /**

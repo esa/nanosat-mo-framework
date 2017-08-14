@@ -1098,7 +1098,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             final ParameterValue parameterValue = manager.getParameterValue(identityId);
             final Identifier name = manager.getName(identityId);
             
-            ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
+            ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1);
             parameters.add(new ParameterInstance(name, parameterValue, null, HelperTime.getTimestampMillis()));
             this.pushMultipleParameterValues(parameters);
         } catch (IllegalArgumentException ex) {
