@@ -56,8 +56,8 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 
 /**
- *
- * @author Cesar Coelho
+ * A Helper class to simplify and solve many problems related with MAL
+ * Attributes.
  */
 public class HelperAttributes {
 

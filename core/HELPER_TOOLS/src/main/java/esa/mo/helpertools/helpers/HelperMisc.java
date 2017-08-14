@@ -43,8 +43,7 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
- *
- * @author Cesar Coelho
+ * A Helper with miscellaneous methods and static variables.
  */
 public class HelperMisc {
 

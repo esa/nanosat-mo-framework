@@ -32,9 +32,11 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
- *
- * @author Cesar Coelho
+ * A class that holds information for a World Map view. This code is originally
+ * from Cesar Coelho Master Thesis demo. It is no longer used and should be
+ * considered to be removed in the future.
  */
+@Deprecated
 public class WorldMap {
 
     private final String earthPictureFilename = "earth.jpg";  // Map variables
@@ -73,7 +75,7 @@ public class WorldMap {
     }
 
     public ImageIcon addCoordinate(double latitude, double longitude) {
-      // Convert to pixel:
+        // Convert to pixel:
         // Hint: (0,0) is top left
         //       (final_width, final_height) is bottom right
         // latitude: [-90, 90]        180

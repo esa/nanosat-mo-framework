@@ -26,9 +26,10 @@ import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.UShortList;
 
 /**
- *
- * @author Cesar Coelho
+ * An abstract class to be extended by specific service providers. This class is
+ * not used and should be considered removed in the future.
  */
+@Deprecated
 public abstract class ProviderServiceImpl {
 
     protected MALProvider serviceProvider;

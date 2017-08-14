@@ -21,8 +21,7 @@
 package esa.mo.helpertools.helpers;
 
 /**
- *
- * @author Cesar Coelho
+ * A Helper class where the static names for the suffixes are defined.
  */
 public class HelperConnections {
 
@@ -30,7 +29,6 @@ public class HelperConnections {
     public final static String SUFFIX_BROKER = "_Broker";
     public final static String SUFFIX_DOMAIN = "_Domain";
     public final static String SUFFIX_SERVICE_KEY = "_ServiceKey";
-    
     public final static String PROPERTY_SHARED_BROKER = "SharedBrokerURI";
-    
+
 }

@@ -42,8 +42,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- *
- * @author Cesar Coelho
+ * Holds the connection details of a service provider.
  */
 public class ConnectionProvider {
 
@@ -80,8 +79,8 @@ public class ConnectionProvider {
 
     /**
      * Returns the connection details of the inter-process communication (ipc).
-     * This is usually the "secondary" connection but if we only have a "primary" 
-     * connection then this is the one to be returned.
+     * This is usually the "secondary" connection but if we only have a
+     * "primary" connection then this is the one to be returned.
      *
      * @return The ipc connection details
      */
@@ -333,7 +332,7 @@ public class ConnectionProvider {
             wrt.append(serviceName + HelperConnections.SUFFIX_SERVICE_KEY + "=" + connectionDetails.getServiceKey());
             wrt.newLine();
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Unable to write URI information to properties file {0}", ex);
         } finally {
             if (wrt != null) {

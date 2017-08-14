@@ -28,8 +28,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 
 /**
- *
- * @author Cesar Coelho
+ * Holds the configurations for a Consumer.
  */
 public class ConfigurationConsumer {
 

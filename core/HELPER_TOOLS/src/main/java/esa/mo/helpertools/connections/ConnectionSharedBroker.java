@@ -39,8 +39,7 @@ import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 
 /**
- *
- * @author Cesar Coelho
+ * Holds the connection of a shared broker.
  */
 public class ConnectionSharedBroker {
 

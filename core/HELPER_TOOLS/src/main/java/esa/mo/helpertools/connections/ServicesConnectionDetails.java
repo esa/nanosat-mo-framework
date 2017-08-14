@@ -29,6 +29,9 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 
+/**
+ * Holds the details of the service connections.
+ */
 public class ServicesConnectionDetails {
 
     private HashMap<String, SingleConnectionDetails> services = new HashMap<String, SingleConnectionDetails>();
@@ -40,12 +43,12 @@ public class ServicesConnectionDetails {
     public void setServices(HashMap<String, SingleConnectionDetails> services) {
         this.services = services;
     }
-    
-    public SingleConnectionDetails get(String string){
+
+    public SingleConnectionDetails get(String string) {
         return services.get(string);
     }
 
-    public SingleConnectionDetails get(Identifier id){
+    public SingleConnectionDetails get(Identifier id) {
         return services.get(id.toString());
     }
 
@@ -59,7 +62,7 @@ public class ServicesConnectionDetails {
     public ServicesConnectionDetails loadURIFromFiles() throws MalformedURLException {
         return this.loadURIFromFiles(null);
     }
-    
+
     /**
      * Loads the URIs from a selected properties file
      *
@@ -72,20 +75,20 @@ public class ServicesConnectionDetails {
 
         java.util.Properties uriProps = null;
         final String configFile;
-        
-        if (filename == null){
+
+        if (filename == null) {
             configFile = System.getProperty("providerURI.properties", HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
-        }else{
+        } else {
             configFile = filename;
         }
-        
+
         final java.io.File file = new java.io.File(configFile);
         if (file.exists()) {
             uriProps = HelperMisc.loadProperties(file.toURI().toURL(), "providerURI.properties");
-        }else{
+        } else {
             return null;
         }
-        
+
         // Reading the values out of the properties file
         Set propKeys = uriProps.keySet();
         Object[] array = propKeys.toArray();
@@ -99,11 +102,11 @@ public class ServicesConnectionDetails {
 
                 // Get the URI + Broker + Domain from the Properties
                 details.setProviderURI(uriProps.getProperty(serviceName + HelperConnections.SUFFIX_URI));
-                
+
                 String brokerURI = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_BROKER);
                 details.setBrokerURI(brokerURI);
 
-                if ("null".equals(brokerURI)){
+                if ("null".equals(brokerURI)) {
                     details.setBrokerURI((URI) null);
                 }
 

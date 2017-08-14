@@ -26,8 +26,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 
 /**
- *
- * @author Cesar Coelho
+ * Holds the configurations for a provider.
  */
 public final class ConfigurationProviderSingleton {
 

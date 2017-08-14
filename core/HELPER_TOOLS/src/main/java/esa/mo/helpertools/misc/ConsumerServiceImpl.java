@@ -33,8 +33,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- *
- * @author Cesar Coelho
+ * An abstract class to be extended by specific service consumers.
  */
 public abstract class ConsumerServiceImpl {
 
@@ -109,5 +108,5 @@ public abstract class ConsumerServiceImpl {
      * @return The service Stub
      */
     public abstract Object getStub();
-    
+
 }

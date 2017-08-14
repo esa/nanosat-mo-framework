@@ -72,6 +72,11 @@ public class ConnectionConsumer {
         System.setProperty(property, value);
     }
 
+    /**
+     * A getter for the ConfigurationConsumer class.
+     *
+     * @return the configuration
+     */
     public ConfigurationConsumer getConfiguration() {
         return configuration;
     }

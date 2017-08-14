@@ -28,7 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- *
+ * A Helper class to serialize java objects from and to a file.
  *
  */
 public class FileDataSerialization {

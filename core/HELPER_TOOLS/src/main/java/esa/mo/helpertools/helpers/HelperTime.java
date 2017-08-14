@@ -27,15 +27,13 @@ import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
- *
- * @author Cesar Coelho
+ * A Helper class to simplify the conversions related with time.
  */
 public class HelperTime {
 
     private final static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
     private final static long ONE_MILLION = 1000000;
-    
-    
+
     /**
      * Converts a FineTime MAL data type timestamp into a readable string
      *
@@ -43,7 +41,7 @@ public class HelperTime {
      * @return The String with the time
      */
     public static String time2readableString(FineTime timestamp) {
-        Date date = new Date(timestamp.getValue()/ONE_MILLION);
+        Date date = new Date(timestamp.getValue() / ONE_MILLION);
         Format format = new SimpleDateFormat(DATE_PATTERN);
         return format.format(date);
     }
@@ -67,7 +65,7 @@ public class HelperTime {
      */
     public static FineTime getTimestamp() {
         // Convert from milliseconds (10^-3) to nanoseconds (10^-9)
-        return new FineTime(System.currentTimeMillis()*ONE_MILLION);
+        return new FineTime(System.currentTimeMillis() * ONE_MILLION);
     }
 
     /**
@@ -78,39 +76,44 @@ public class HelperTime {
     public static Time getTimestampMillis() {
         return new Time(System.currentTimeMillis());
     }
-    
-    public static long fromMilliToNano(long milli){
-        return (milli*ONE_MILLION);
+
+    public static long fromMilliToNano(long milli) {
+        return (milli * ONE_MILLION);
     }
 
-    public static long fromNanoToMilli(long nano){
-        return (nano/ONE_MILLION);
+    public static long fromNanoToMilli(long nano) {
+        return (nano / ONE_MILLION);
     }
-    
-    public static FineTime timeToFineTime(final Time time){
+
+    public static FineTime timeToFineTime(final Time time) {
         return (time == null) ? null : new FineTime(HelperTime.fromMilliToNano(time.getValue()));
     }
-    
-    public static Time fineTimeToTime(final FineTime fineTime){
+
+    public static Time fineTimeToTime(final FineTime fineTime) {
         return (fineTime == null) ? null : new Time(HelperTime.fromNanoToMilli(fineTime.getValue()));
     }
-    
+
     /**
-     * Returns just the fractional part of a time value that is represented 
-     * in nanoseconds. So, for 12.34567890123 seconds, we would expect to get
-     * the integer: 567890123 nanoseconds
+     * Returns just the fractional part of a time value that is represented in
+     * nanoseconds. So, for 12.34567890123 seconds, we would expect to get the
+     * integer: 567890123 nanoseconds
      *
      * @param nano The time in nanoseconds
      * @return The fractional part of time in nanoseconds
      */
-    public static int getFractionalPart(long nano){
-        return ((int)((nano%1000000000)));
+    public static int getFractionalPart(long nano) {
+        return ((int) ((nano % 1000000000)));
     }
-    
-    public static long getNanosecondsFromSQLTimestamp(java.sql.Timestamp timestamp){
-        // Remove the milliseconds component from the timestamp
-        // Converts to nano and adds the missing nano fractional part
-        return (HelperTime.fromMilliToNano(timestamp.getTime() - (timestamp.getTime()%1000)) + timestamp.getNanos());
+
+    /**
+     * Remove the milliseconds component from the timestamp, then converts to
+     * nano and adds the missing nano fractional part.
+     *
+     * @param timestamp The timestamp in SQL timestamp
+     * @return The time in nanoseconds
+     */
+    public static long getNanosecondsFromSQLTimestamp(java.sql.Timestamp timestamp) {
+        return (HelperTime.fromMilliToNano(timestamp.getTime() - (timestamp.getTime() % 1000)) + timestamp.getNanos());
     }
-       
+
 }
