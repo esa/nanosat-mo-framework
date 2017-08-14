@@ -52,13 +52,13 @@ import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.provider.ReconfigurableProvider;
 
 /**
- * A Provider of MO services composed by COM, M&C and Platform services. Selects
- * the transport layer based on the selected values of the properties file and
- * initializes all services automatically. Provides configuration persistence,
- * therefore the last state of the configuration of the MO services will be kept
- * upon restart. Additionally, the NanoSat MO Framework implements an
- * abstraction layer over the Back-End of some MO services to facilitate the
- * monitoring of the business logic of the app using the NanoSat MO Framework.
+ * A Provider of MO services composed by COM, M&C, and Platform services.
+ * Selects the transport layer based on the selected values of the properties
+ * file and initializes all services automatically. Provides configuration
+ * persistence, therefore the last state of the configuration of the MO services
+ * will be kept upon restart. Additionally, it implements an abstraction layer
+ * over the M&C services to facilitate the monitoring of the application logic
+ * using the NanoSat MO Framework.
  *
  * @author Cesar Coelho
  */
@@ -247,7 +247,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                 Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                     "The File {0} could not be found!", file.getPath());
             return null;
         }

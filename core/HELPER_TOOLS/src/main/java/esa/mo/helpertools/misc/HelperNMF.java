@@ -25,10 +25,6 @@ package esa.mo.helpertools.misc;
  */
 public class HelperNMF {
 
-    public final static String APP_VERSION = "helpertools.configurations.provider.app.version";
-    public final static String APP_CATEGORY = "helpertools.configurations.provider.app.category";
-    public final static String APP_COPYRIGHT = "helpertools.configurations.provider.app.copyright";
-    public final static String APP_DESCRIPTION = "helpertools.configurations.provider.app.description";
     public final static String NMF_PACKAGE_NAME = "helpertools.configurations.provider.NMFPackageName";
     public final static String NMF_PACKAGE_ID = "helpertools.configurations.provider.NMFPackageId";
     public final static String NMF_PACKAGE_SUFFIX = "nmfpack";

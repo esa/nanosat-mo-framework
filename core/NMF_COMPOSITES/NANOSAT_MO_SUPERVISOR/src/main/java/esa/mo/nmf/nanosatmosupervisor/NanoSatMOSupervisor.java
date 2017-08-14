@@ -97,7 +97,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             this.applicationsManagerService.init(comServices, directoryService);
             this.packageManagementService.init(comServices, packageManagementBackend);
             super.reconfigurableServices.add(this.applicationsManagerService);
-//            super.reconfigurableServices.add(this.packageManagementService);
             this.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
         } catch (MALException ex) {

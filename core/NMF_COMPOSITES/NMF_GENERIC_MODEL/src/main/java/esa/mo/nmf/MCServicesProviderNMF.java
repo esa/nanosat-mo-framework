@@ -31,8 +31,9 @@ import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
- *
- *
+ * The Monitor and Control provider services to be available on the NMF
+ * providers. This includes Action service, Parameter service, Alert service,
+ * and Aggregation service.
  */
 public class MCServicesProviderNMF {
 

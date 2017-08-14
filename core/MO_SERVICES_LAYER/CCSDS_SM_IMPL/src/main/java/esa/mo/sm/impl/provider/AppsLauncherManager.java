@@ -30,7 +30,6 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.misc.HelperNMF;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
 import java.io.BufferedReader;
@@ -133,24 +132,23 @@ public class AppsLauncherManager extends DefinitionsManager {
     protected Long add(final AppDetails definition, final ObjectId source, final URI uri) {
         Long objId = null;
         Long related = null;
-        Properties props = null;
 
         if (definition.getExtraInfo() != null) {
             try { // Read the provider.properties of the app
                 File fileProps = new File(apps_folder_path.getCanonicalPath() + File.separator
                         + definition.getName().getValue() + File.separator + definition.getExtraInfo());
 
-                props = HelperMisc.loadProperties(fileProps.getCanonicalPath());
+                Properties props = HelperMisc.loadProperties(fileProps.getCanonicalPath());
+
+                // Look up for apid
+                String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
+                int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
+                objId = new Long(apid);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            // Look up for apid
-            String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
-            int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
-            objId = new Long(apid);
         }
 
         if (super.getArchiveService() == null) {
@@ -183,7 +181,8 @@ public class AppsLauncherManager extends DefinitionsManager {
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
-                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "Error while adding new App: {0}! "
+                    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
+                            "Error while adding new App: {0}! "
                             + "The App COM object with objId: {1} already exists in the Archive!",
                             new Object[]{definition.getName().toString(), objId});
 
@@ -592,10 +591,10 @@ public class AppsLauncherManager extends DefinitionsManager {
             final Properties props = HelperMisc.loadProperties(propsFilepath);
             app.setExtraInfo(HelperMisc.PROVIDER_PROPERTIES_FILE);
 
-            final String category = (props.getProperty(HelperNMF.APP_CATEGORY) != null) ? props.getProperty(HelperNMF.APP_CATEGORY) : "-";
-            final String version = (props.getProperty(HelperNMF.APP_VERSION) != null) ? props.getProperty(HelperNMF.APP_VERSION) : "-";
-            final String copyright = (props.getProperty(HelperNMF.APP_COPYRIGHT) != null) ? props.getProperty(HelperNMF.APP_COPYRIGHT) : "-";
-            final String description = (props.getProperty(HelperNMF.APP_DESCRIPTION) != null) ? props.getProperty(HelperNMF.APP_DESCRIPTION) : "-";
+            final String category = (props.getProperty(HelperMisc.APP_CATEGORY) != null) ? props.getProperty(HelperMisc.APP_CATEGORY) : "-";
+            final String version = (props.getProperty(HelperMisc.APP_VERSION) != null) ? props.getProperty(HelperMisc.APP_VERSION) : "-";
+            final String copyright = (props.getProperty(HelperMisc.APP_COPYRIGHT) != null) ? props.getProperty(HelperMisc.APP_COPYRIGHT) : "-";
+            final String description = (props.getProperty(HelperMisc.APP_DESCRIPTION) != null) ? props.getProperty(HelperMisc.APP_DESCRIPTION) : "-";
 
             app.setCategory(new Identifier(category));
             app.setVersion(version);

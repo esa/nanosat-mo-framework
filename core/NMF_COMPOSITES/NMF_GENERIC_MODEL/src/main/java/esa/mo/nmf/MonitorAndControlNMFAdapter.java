@@ -31,9 +31,9 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
 /**
- * The MonitorAndControlAdapter implements the Back-End interfaces from the MO
- * Monitor and Control services composed by the ActionInvocationListener
- * interface and the the ParameterStatusListener interface.
+ * The MonitorAndControlAdapter implements the M&C interfaces composed by the
+ * ActionInvocationListener interface and the the ParameterStatusListener
+ * interface.
  *
  */
 public abstract class MonitorAndControlNMFAdapter implements ActionInvocationListener, ParameterStatusListener {
@@ -54,5 +54,5 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     public boolean isReadOnly(Identifier name) {
         return false; // Force read and write to ALL
     }
-    
+
 }

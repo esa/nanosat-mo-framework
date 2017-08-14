@@ -245,6 +245,9 @@ public class NMFConsumer {
         return summaryList;
     }
 
+    /**
+     * Initializes the MAL Helpers for all the sets of services.
+     */
     public static void initHelpers() {
         // Load the MAL factories for the supported services
         try {
@@ -262,7 +265,8 @@ public class NMFConsumer {
                 CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
 

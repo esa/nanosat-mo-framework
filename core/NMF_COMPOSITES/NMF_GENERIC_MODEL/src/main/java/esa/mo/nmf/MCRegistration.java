@@ -68,7 +68,6 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  * The MCRegistration class provides methods to be implemented by the
  * registration object in order to let the registration of Parameters, Actions,
  * Aggregations and Alerts.
- *
  */
 public class MCRegistration {
     

@@ -63,8 +63,9 @@ public class CloseAppEventListener extends EventReceivedListener {
             return; // If not, get out..
         }
 
-        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO, "New StopApp Event Received! "
-                + "For provider: '" + name.getValue() + "' (Related link: " + eventCOMObject.getRelated() + ")");
+        Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
+                "New StopApp Event Received! " + "For provider: '" + name.getValue()
+                + "' (Related link: " + eventCOMObject.getRelated() + ")");
 
         final ObjectId source = eventCOMObject.getObjectId();
         this.provider.closeGracefully(source);

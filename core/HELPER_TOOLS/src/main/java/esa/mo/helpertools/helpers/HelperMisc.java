@@ -62,6 +62,12 @@ public class HelperMisc {
     public static final String PROPERTY_DOMAIN = "helpertools.configurations.provider.Domain";
     public static final String NETWORK = "helpertools.configurations.Network";
 
+    // These are used by the Apps Launcher service
+    public final static String APP_VERSION = "helpertools.configurations.provider.app.version";
+    public final static String APP_CATEGORY = "helpertools.configurations.provider.app.category";
+    public final static String APP_COPYRIGHT = "helpertools.configurations.provider.app.copyright";
+    public final static String APP_DESCRIPTION = "helpertools.configurations.provider.app.description";
+    
     // Fine-tunning Network properties (only works if the NETWORK is not set)
     public static final String ORGANIZATION_NAME = "helpertools.configurations.OrganizationName";
     public static final String MISSION_NAME = "helpertools.configurations.MissionName";

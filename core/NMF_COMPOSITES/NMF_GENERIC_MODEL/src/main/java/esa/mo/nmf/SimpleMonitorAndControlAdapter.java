@@ -114,7 +114,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
                 obj = HelperAttributes.blobAttribute2serialObject((Blob) value);
                 return this.onSetValueSimple(identifier.getValue(), obj); // Success!
             } catch (IOException ex) {
-                obj = value; // It didn't work? Maybe it really just a Blob (not a serialized object)
+                // It didn't work? Maybe it really just a Blob (not a serialized object)
             }
         }
 
