@@ -20,6 +20,10 @@
  */
 package esa.mo.nmf.nmfpackage.assembler.gui;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Cesar Coelho
@@ -117,7 +121,13 @@ public class SlicePanel extends javax.swing.JPanel {
 
     private void addOrModifyFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOrModifyFilesActionPerformed
 
-        AddModifyFiles files = new AddModifyFiles();
+        FilesSourceObject source = new FilesSourceObject();
+        
+        try {
+            AddModifyFiles files = new AddModifyFiles(source);
+        } catch (IOException ex) {
+            Logger.getLogger(SlicePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_addOrModifyFilesActionPerformed
 

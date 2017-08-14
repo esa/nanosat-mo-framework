@@ -20,19 +20,39 @@
  */
 package esa.mo.nmf.nmfpackage.assembler.gui;
 
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+
 /**
- * This class provides a simple form for the control of the consumer.
+ *
+ * @author Cesar Coelho
  */
-public class AddModifyFiles extends javax.swing.JDialog {
+public final class AddModifyFiles extends javax.swing.JDialog {
+
+    private final FilesSourceObject source;
+    private final FilesTablePanel table = new FilesTablePanel();
 
     /**
-     * Creates new form AddModifyFiles
+     * Creates new form MOWindow
+     *
+     * @param source
+     * @throws java.io.IOException
      */
-    public AddModifyFiles() {
+    public AddModifyFiles(final FilesSourceObject source) throws IOException {
         initComponents();
 
+        if (source == null) {
+            throw new IOException("A null object was submitted!");
+        }
+
+        this.source = source;
         this.setModal(true);
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
+
+        componentsPanel.add(table); // Add the table to the middle
+        componentsPanel.repaint();
     }
 
     /**
@@ -44,35 +64,162 @@ public class AddModifyFiles extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        topPanel = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        addFiles = new javax.swing.JButton();
+        removeSelectedFiles = new javax.swing.JButton();
+        objectBodyButton2 = new javax.swing.JButton();
+        componentsPanel = new javax.swing.JPanel();
+        bottomPanel = new javax.swing.JPanel();
+        button = new javax.swing.JToggleButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1000, 600));
-        setName("Form"); // NOI18N
-        setResizable(false);
-        getContentPane().setLayout(new java.awt.BorderLayout(0, 4));
+        setTitle("Add or Modify Files");
+        setMinimumSize(new java.awt.Dimension(600, 550));
+        setPreferredSize(new java.awt.Dimension(800, 340));
 
-        jPanel1.setName("jPanel1"); // NOI18N
+        topPanel.setPreferredSize(new java.awt.Dimension(100, 100));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Add or Modify Files");
-        jLabel7.setToolTipText("");
-        jLabel7.setMaximumSize(new java.awt.Dimension(820, 22));
-        jLabel7.setMinimumSize(new java.awt.Dimension(820, 22));
-        jLabel7.setName("jLabel7"); // NOI18N
-        jLabel7.setPreferredSize(new java.awt.Dimension(820, 22));
-        jPanel1.add(jLabel7);
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("Add or Modify Files");
+        jLabel14.setToolTipText("");
+        jLabel14.setMaximumSize(new java.awt.Dimension(1000, 22));
+        jLabel14.setMinimumSize(new java.awt.Dimension(0, 22));
+        jLabel14.setPreferredSize(null);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        addFiles.setText("Add Files");
+        addFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFilesActionPerformed(evt);
+            }
+        });
+
+        removeSelectedFiles.setText("Remove Selected Files");
+        removeSelectedFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeSelectedFilesActionPerformed(evt);
+            }
+        });
+
+        objectBodyButton2.setText("-----");
+        objectBodyButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                objectBodyButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
+        topPanel.setLayout(topPanelLayout);
+        topPanelLayout.setHorizontalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(topPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(addFiles, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(removeSelectedFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(objectBodyButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        topPanelLayout.setVerticalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addFiles)
+                    .addComponent(removeSelectedFiles)
+                    .addComponent(objectBodyButton2))
+                .addContainerGap())
+        );
+
+        getContentPane().add(topPanel, java.awt.BorderLayout.PAGE_START);
+
+        componentsPanel.setMinimumSize(new java.awt.Dimension(150, 100));
+        componentsPanel.setName(""); // NOI18N
+        componentsPanel.setPreferredSize(new java.awt.Dimension(550, 200));
+
+        javax.swing.GroupLayout componentsPanelLayout = new javax.swing.GroupLayout(componentsPanel);
+        componentsPanel.setLayout(componentsPanelLayout);
+        componentsPanelLayout.setHorizontalGroup(
+            componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+        );
+        componentsPanelLayout.setVerticalGroup(
+            componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(componentsPanel, java.awt.BorderLayout.CENTER);
+
+        bottomPanel.setMaximumSize(new java.awt.Dimension(3000, 32767));
+        bottomPanel.setName(""); // NOI18N
+        bottomPanel.setPreferredSize(new java.awt.Dimension(400, 40));
+
+        button.setText("Submit");
+        button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
+        bottomPanel.setLayout(bottomPanelLayout);
+        bottomPanelLayout.setHorizontalGroup(
+            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+        );
+        bottomPanelLayout.setVerticalGroup(
+            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button)
+                .addContainerGap())
+        );
+
+        getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_buttonActionPerformed
+
+    private void addFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFilesActionPerformed
+        //Create a file chooser
+        final JFileChooser fc = new JFileChooser();
+        fc.setMultiSelectionEnabled(true);
+
+        //In response to a button click:
+        int returnVal = fc.showDialog(addFiles, "Add Files");
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File[] files = fc.getSelectedFiles();
+        }
+
+    }//GEN-LAST:event_addFilesActionPerformed
+
+    private void removeSelectedFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSelectedFilesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeSelectedFilesActionPerformed
+
+    private void objectBodyButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectBodyButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_objectBodyButton2ActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton addFiles;
+    private javax.swing.JPanel bottomPanel;
+    private javax.swing.JToggleButton button;
+    private javax.swing.JPanel componentsPanel;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JButton objectBodyButton2;
+    private javax.swing.JButton removeSelectedFiles;
+    private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
 
 }
