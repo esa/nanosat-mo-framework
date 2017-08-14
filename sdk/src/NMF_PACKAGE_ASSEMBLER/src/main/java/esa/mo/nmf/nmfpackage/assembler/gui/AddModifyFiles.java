@@ -20,53 +20,21 @@
  */
 package esa.mo.nmf.nmfpackage.assembler.gui;
 
-import java.awt.EventQueue;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 /**
  * This class provides a simple form for the control of the consumer.
  */
-public class AddModifyFiles extends javax.swing.JFrame {
-    
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     */
-    public static void main(final String args[]) {
-        try {
-            // Set cross-platform Java L&F (also called "Metal")
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        } catch (UnsupportedLookAndFeelException e) {
-        } catch (ClassNotFoundException e) {
-        } catch (InstantiationException e) {
-        } catch (IllegalAccessException e) {
-            // handle exception
-        }
-
-        final String name = System.getProperty("application.name", "NMF Package Assembler");
-        final AddModifyFiles gui = new AddModifyFiles(name);
-
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                gui.setVisible(true);
-            }
-        });
-    }
+public class AddModifyFiles extends javax.swing.JDialog {
 
     /**
-     * Creates new form MOConsumerGUI
-     *
-     * @param name The name to display on the title bar of the form.
+     * Creates new form AddModifyFiles
      */
-    public AddModifyFiles(final String name) {
+    public AddModifyFiles() {
         initComponents();
+
+        this.setModal(true);
         this.setLocationRelativeTo(null);
-        this.setTitle(name);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -409,7 +409,6 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public Attribute onGetValue(Identifier identifier, Byte rawType) {
         if (nmf == null) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, "The nmf object is null!");
             return null;
         }
 

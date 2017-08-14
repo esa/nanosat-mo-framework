@@ -55,11 +55,13 @@ public final class COMObjectWindow extends javax.swing.JDialog {
      * @param archiveService
      * @throws java.io.IOException
      */
-    public COMObjectWindow(ArchivePersistenceObject comObject, boolean editable, ArchiveStub archiveService) throws IOException {
+    public COMObjectWindow(final ArchivePersistenceObject comObject, final boolean editable,
+            final ArchiveStub archiveService) throws IOException {
         initComponents();
 
         if (comObject == null) {
-            Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, "A null object was submitted into the COMObjectWindow. The COM object will not be displayed.");
+            Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE,
+                    "A null object was submitted into the COMObjectWindow. The COM object will not be displayed.");
             throw new IOException("A null object was submitted into the COMObjectWindow. The COM object will not be displayed.");
         }
 
@@ -127,13 +129,13 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 COMObject comObjectInfo = HelperCOM.objType2COMObject(comObject.getObjectType());
 
                 if (comObjectInfo.hasRelated()) {
-                    if (comObjectInfo.getRelatedType() != null){
+                    if (comObjectInfo.getRelatedType() != null) {
                         this.relatedType.setText(HelperCOM.objType2string(comObjectInfo.getRelatedType()));
                         this.relatedType1.setText(comObjectInfo.getRelatedType().getArea().toString());
                         this.relatedType2.setText(comObjectInfo.getRelatedType().getService().toString());
                         this.relatedType3.setText(comObjectInfo.getRelatedType().getVersion().toString());
                         this.relatedType4.setText(comObjectInfo.getRelatedType().getNumber().toString());
-                    }else{
+                    } else {
                         this.relatedType.setText("no info");  // Problem needs to be fixed!! Why no information available?
                         this.relatedButton.setEnabled(false);
                     }
@@ -572,13 +574,10 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActionPerformed
-
         this.setVisible(false);
-
     }//GEN-LAST:event_buttonActionPerformed
 
     private void objectBodyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectBodyButtonActionPerformed
-
         // Open the body object
         if (this.comObject != null) {
             Element object = (Element) HelperAttributes.javaType2Attribute(this.comObject.getObject());
@@ -586,7 +585,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 MOWindow objectBodyWindow = new MOWindow(object, false);
             }
         }
-
     }//GEN-LAST:event_objectBodyButtonActionPerformed
 
     private void relatedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedButtonActionPerformed
@@ -598,8 +596,8 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 comObject.getDomain(),
                 comObject.getArchiveDetails().getDetails().getRelated()
         );
-        
-        if(relatedCOMObject == null){
+
+        if (relatedCOMObject == null) {
             JOptionPane.showMessageDialog(null, "The object was not found in the COM Archive!", "Error!", JOptionPane.PLAIN_MESSAGE);
             return;
         }
@@ -609,11 +607,9 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         } catch (IOException ex) {
             Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_relatedButtonActionPerformed
 
     private void sourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceButtonActionPerformed
-
         ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(
                 archiveService,
                 comObject.getArchiveDetails().getDetails().getSource().getType(),
@@ -621,7 +617,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId()
         );
 
-        if(sourceCOMObject == null){
+        if (sourceCOMObject == null) {
             JOptionPane.showMessageDialog(null, "The object was not found in the COM Archive!", "Error!", JOptionPane.PLAIN_MESSAGE);
             return;
         }
@@ -631,7 +627,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         } catch (IOException ex) {
             Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_sourceButtonActionPerformed
 
     private void tfObjectType2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfObjectType2ActionPerformed

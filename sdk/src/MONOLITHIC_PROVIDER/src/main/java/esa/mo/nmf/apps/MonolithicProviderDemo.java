@@ -33,7 +33,6 @@ public class MonolithicProviderDemo {
 
     public MonolithicProviderDemo() {
         MCAllInOneAdapter adapter = new MCAllInOneAdapter();
-//        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
         nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
         adapter.setNMF(nanoSatMOFramework);
     }

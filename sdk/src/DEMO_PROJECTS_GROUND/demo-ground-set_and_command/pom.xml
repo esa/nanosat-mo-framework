@@ -28,7 +28,7 @@
     <version>0.1.1</version>
 
     <name>Demo Ground Set and Command</name>
-    <description>A simple demo for the Ground part to set a parameter and to command the OBSW</description>
+    <description>A simple demo for the Ground part to set a parameter and to command a provider</description>
     <url>http://www.esa.int</url>
   
     <organization>

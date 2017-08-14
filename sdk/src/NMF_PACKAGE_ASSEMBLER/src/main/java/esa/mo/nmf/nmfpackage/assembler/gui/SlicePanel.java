@@ -117,7 +117,7 @@ public class SlicePanel extends javax.swing.JPanel {
 
     private void addOrModifyFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOrModifyFilesActionPerformed
 
-        
+        AddModifyFiles files = new AddModifyFiles();
 
     }//GEN-LAST:event_addOrModifyFilesActionPerformed
 

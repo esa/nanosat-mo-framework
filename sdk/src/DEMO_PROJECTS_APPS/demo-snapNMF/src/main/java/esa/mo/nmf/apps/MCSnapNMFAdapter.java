@@ -59,9 +59,6 @@ import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import esa.mo.nmf.NMFInterface;
-import java.util.Set;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * The adapter for the app
@@ -74,8 +71,6 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
     private static final String ACTION_TAKE_PICTURE_RAW = "TakeSnap.RAW";
     private static final String ACTION_TAKE_PICTURE_JPG = "TakeSnap.JPG";
-
-    private static final String ALERT_SUN_POINTING_MODE = "ADCS.SunPointingMode";
 
     private final AtomicInteger snapsTaken = new AtomicInteger(0);
     private final int width = 2048;
@@ -290,7 +285,6 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
 
         @Override
@@ -301,7 +295,6 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
 
         @Override

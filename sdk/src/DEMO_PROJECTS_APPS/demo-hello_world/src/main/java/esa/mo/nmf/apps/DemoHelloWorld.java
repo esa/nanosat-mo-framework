@@ -20,9 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
@@ -53,8 +51,6 @@ public class DemoHelloWorld {
 
     public DemoHelloWorld() {
         this.nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapterSimple());
-        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
-        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
     }
 
     /**

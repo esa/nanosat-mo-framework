@@ -63,6 +63,7 @@ import org.ccsds.moims.mo.mal.structures.Time;
  *
  */
 public class DemoGPSData {
+
     private final NMFInterface nanoSatMOFramework;
     private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
     private static final String PARAMETER_GPS_LONGITUDE = "GPS.Longitude";
@@ -83,38 +84,28 @@ public class DemoGPSData {
     public static void main(final String args[]) throws Exception {
         DemoGPSData demo = new DemoGPSData();
     }
-    
+
     /**
      * Triggers ad-hoc aggregation updates with the MO Services provider.
      *
      * @return true if the pushes were successful. False otherwise.
      */
     public boolean pushAggregationAdhocUpdates() {
-
         try {
-            boolean result = true;
-            
-            Date now = new Date();
             final ObjectId source = null;
-            final Time timestamp = new Time(now.getTime());
-            
-            if (!nanoSatMOFramework.getMCServices().getAggregationService().pushAggregationAdhocUpdate(new Identifier("GPS"), source, timestamp)) {
-                result = false;
-            }
-            
-            return true;
+            final Time timestamp = new Time((new Date()).getTime());
+
+            return nanoSatMOFramework.getMCServices().getAggregationService().pushAggregationAdhocUpdate(new Identifier("GPS"), source, timestamp);
         } catch (NMFException ex) {
             Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        
-        return false;
     }
-    
+
     public class mcAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-
             registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
@@ -274,7 +265,7 @@ public class DemoGPSData {
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, 
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
                 Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
             return null;  // Action service not integrated
         }

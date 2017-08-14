@@ -70,7 +70,7 @@ public class Demo10secAlert {
     public static void main(final String args[]) throws Exception {
         Demo10secAlert demo = new Demo10secAlert();
     }
-    
+
     class Adapter extends MonitorAndControlNMFAdapter {
 
         @Override
@@ -91,7 +91,7 @@ public class Demo10secAlert {
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-        
+
     }
 
 }
