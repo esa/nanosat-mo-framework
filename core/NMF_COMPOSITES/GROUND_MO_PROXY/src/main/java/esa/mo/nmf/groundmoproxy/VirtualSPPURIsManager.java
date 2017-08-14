@@ -51,7 +51,7 @@ public class VirtualSPPURIsManager {
     }
 
     public String getURI(String virtualSPPURI) {
-        String reverse = null;
+        String reverse;
 
         synchronized (MUTEX) {
             reverse = reverseMap.get(virtualSPPURI);
@@ -65,7 +65,7 @@ public class VirtualSPPURIsManager {
     }
 
     public String getVirtualSPPURI(String uriFrom) {
-        String virtualAPID = null;
+        String virtualAPID;
 
         synchronized (MUTEX) {
             virtualAPID = virtualAPIDsMap.get(uriFrom);

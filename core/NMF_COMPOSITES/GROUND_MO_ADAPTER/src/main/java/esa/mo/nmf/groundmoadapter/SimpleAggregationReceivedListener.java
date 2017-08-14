@@ -35,7 +35,7 @@ public interface SimpleAggregationReceivedListener extends DataReceivedListener 
      * This interface must be implemented in order to receive the parameter
      * content from the Aggregation service coming via the monitorValue operation
      *
-     * @param parameterInstance
+     * @param parameterInstances The parameter instances
      */
     void onDataReceived(List<ParameterInstance> parameterInstances);
 

@@ -35,6 +35,9 @@ import org.ccsds.moims.mo.mal.transport.MALTransmitErrorException;
 import org.ccsds.moims.mo.mal.transport.MALTransport;
 import org.ccsds.moims.mo.mal.transport.MALTransportFactory;
 
+/**
+ * The Protocol Bridge class.
+ */
 public class ProtocolBridge {
 
     private MALTransport transportA;

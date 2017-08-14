@@ -35,6 +35,9 @@ import org.ccsds.moims.mo.mal.transport.MALMessageListener;
 import org.ccsds.moims.mo.mal.transport.MALTransmitErrorException;
 import org.ccsds.moims.mo.mal.transport.MALTransport;
 
+/**
+ * The Protocol Bridge class for SPP.
+ */
 public class ProtocolBridgeSPP extends ProtocolBridge {
 
     public final static String PROPERTY_APID_RANGE_START = "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start";
