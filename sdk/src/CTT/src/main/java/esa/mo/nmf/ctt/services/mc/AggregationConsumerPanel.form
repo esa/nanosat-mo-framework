@@ -112,6 +112,14 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
           <SubComponents>
+            <Component class="javax.swing.JButton" name="getValueButtonAgg1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="getValue"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="getValueButtonAgg1ActionPerformed"/>
+              </Events>
+            </Component>
             <Component class="javax.swing.JButton" name="getValueAllButtonAgg">
               <Properties>
                 <Property name="text" type="java.lang.String" value="getValue(0)"/>

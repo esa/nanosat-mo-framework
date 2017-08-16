@@ -108,6 +108,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         actionDefinitionsTable = new javax.swing.JTable();
         parameterTab = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        getValueButtonAgg1 = new javax.swing.JButton();
         getValueAllButtonAgg = new javax.swing.JButton();
         enableDefinitionButtonAgg = new javax.swing.JButton();
         enableDefinitionAllAgg = new javax.swing.JButton();
@@ -162,6 +163,14 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setViewportView(actionDefinitionsTable);
 
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
+
+        getValueButtonAgg1.setText("getValue");
+        getValueButtonAgg1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                getValueButtonAgg1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(getValueButtonAgg1);
 
         getValueAllButtonAgg.setText("getValue(0)");
         getValueAllButtonAgg.addActionListener(new java.awt.event.ActionListener() {
@@ -530,7 +539,6 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_msgBoxOnActionPerformed
 
     private void getValueAllButtonAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getValueAllButtonAggActionPerformed
-
         Long objId = (long) 0;
         LongList longlist = new LongList();
         longlist.add(objId);
@@ -572,7 +580,6 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_getValueAllButtonAggActionPerformed
 
     private void enableFilterAllAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableFilterAllAggActionPerformed
@@ -618,6 +625,54 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_enableFilterButtonAggActionPerformed
 
+    private void getValueButtonAgg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getValueButtonAgg1ActionPerformed
+        if (aggregationTable.getSelectedRow() == -1) { // The row is not selected?
+            return;  // Well, then nothing to be done here folks!
+        }
+
+        Long objId = aggregationTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        LongList longlist = new LongList();
+        longlist.add(objId);
+
+        try {
+            AggregationValueDetailsList values = serviceMCAggregation.getAggregationStub().getValue(longlist);
+
+            String str = "";
+            for (int h = 0; h < values.size(); h++) {
+                AggregationValueDetails value = values.get(h);
+
+                str += "The value for objId " + value.getAggId().toString() + " (AggregationValue index: " + h + ") is:" + "\n";
+                for (int i = 0; i < value.getValue().getParameterSetValues().size(); i++) {
+                    for (int j = 0; j < value.getValue().getParameterSetValues().get(i).getValues().size(); j++) {
+                        if (value.getValue().getParameterSetValues().get(i).getValues().get(j) == null) {
+                            continue;
+                        }
+
+                        ParameterValue paramValue = value.getValue().getParameterSetValues().get(i).getValues().get(j).getValue();
+                        str += "(parameterSetValue index: " + i + ") " + "validityState: "
+                                + paramValue.getValidityState().toString() + "\n";
+
+                        if (paramValue.getRawValue() != null) {
+                            str += "(parameterSetValue index: " + i + ") " + "rawValue: " + paramValue.getRawValue().toString() + "\n";
+                        }
+                        if (paramValue.getConvertedValue() != null) {
+                            str += "(parameterSetValue index: " + i + ") " + "convertedValue: " + paramValue.getConvertedValue().toString() + "\n";
+                        }
+                        str += "\n";
+                    }
+                }
+                str += "---------------------------------------\n";
+            }
+
+            JOptionPane.showMessageDialog(null, str, "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
+
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_getValueButtonAgg1ActionPerformed
+
     public class AggregationConsumerAdapter extends AggregationAdapter {
 
         @Override
@@ -635,7 +690,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             final int objId = updateHeader.getKey().getSecondSubKey().intValue();
 
             try {
-                if (msgBoxOn.isSelected() && lUpdateHeaderList.size() != 0 && lAggregationValueList.size() != 0) {
+                if (msgBoxOn.isSelected() && !lUpdateHeaderList.isEmpty() && lAggregationValueList.size() != 0) {
                     String str = "";
                     final AggregationValue aggregationValue = lAggregationValueList.get(0);
                     str += "AggregationValue generationMode: " + aggregationValue.getGenerationMode().toString() + 
@@ -688,6 +743,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
     private javax.swing.JButton enableFilterAllAgg;
     private javax.swing.JButton enableFilterButtonAgg;
     private javax.swing.JButton getValueAllButtonAgg;
+    private javax.swing.JButton getValueButtonAgg1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
