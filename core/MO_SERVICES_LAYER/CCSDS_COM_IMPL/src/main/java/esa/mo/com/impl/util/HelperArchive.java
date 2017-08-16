@@ -54,8 +54,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessage;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
- *
- * @author Cesar Coelho
+ * A Helper class for the COM Archive.
  */
 public class HelperArchive {
 
@@ -67,7 +66,7 @@ public class HelperArchive {
      * Checks if the archiveDetails structure contains a null value in any of
      * the following fields: network, timestamp or provider
      *
-     * @param archiveDetails
+     * @param archiveDetails The archive details object to be checked.
      * @return The boolean value of the comparison
      */
     public static Boolean archiveDetailsContainsNull(ArchiveDetails archiveDetails) {
@@ -82,7 +81,7 @@ public class HelperArchive {
      * following fields: network, timestamp or provider Null, "*" and 0 are
      * considered wildcards
      *
-     * @param archiveDetails
+     * @param archiveDetails The archive details object to be checked.
      * @return The boolean value of the comparison
      */
     public static Boolean archiveDetailsContainsWildcard(ArchiveDetails archiveDetails) {

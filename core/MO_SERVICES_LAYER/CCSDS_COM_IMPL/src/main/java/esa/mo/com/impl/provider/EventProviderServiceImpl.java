@@ -83,7 +83,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     /**
      * Initializes the Event service provider
      *
-     * @param archiveService
+     * @param archiveService The COM Archive service provider.
      * @throws MALException On initialization error.
      */
     public synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {

@@ -706,7 +706,7 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 
 	/**
 	 * A container class storing the host and port of some address.
-	 * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+         * @author Rian van Gijlswijk
 	 *
 	 */
 	public static class ConnectionTuple {

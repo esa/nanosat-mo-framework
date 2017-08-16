@@ -111,7 +111,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
             </plugin>
-<!--        
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -123,12 +123,13 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
+                            <includeDependencySources>true</includeDependencySources>
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>  
--->            
+-->
         </plugins>
     </build>
 

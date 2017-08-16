@@ -24,30 +24,31 @@ import java.io.Serializable;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
- * The SimpleMonitorAndControlListener interface provides a simpler way to
- * send commands to a consumer using the NanoSat MO Framework. Hides the
- * complexity of the MO services Back-End by providing direct Java data types
- * injection.
- * 
+ * The SimpleMonitorAndControlListener interface provides a simpler way to send
+ * commands to a consumer using the NanoSat MO Framework. Hides the complexity
+ * of the MO services Back-End by providing direct Java data types injection.
+ *
  */
 public interface SimpleMonitoringInterface {
-    
+
     /**
      * Reports the execution of the current action progress stage
      *
      * @param success Flag stating the successfulness of the stage
-     * @param errorNumber Error number code. The interpretation of the 
-     * value is left to the implementer. If the success flag is set to false, 
-     * this field will not be used.
-     * @param progressStage The progress stage. The first stage is represented as 1.
+     * @param errorNumber Error number code. The interpretation of the value is
+     * left to the implementer. If the success flag is set to false, this field
+     * will not be used.
+     * @param progressStage The progress stage. The first stage is represented
+     * as 1.
      * @param totalNumberOfProgressStages The total number of progress stages.
-     * @param actionInstId The action instance identifier. This value allows
-     * the consumer to match the action instance that initiated the action.
-     * @throws NMFException
+     * @param actionInstId The action instance identifier. This value allows the
+     * consumer to match the action instance that initiated the action.
+     * @throws NMFException if the action execution progress could not be
+     * reported.
      */
     void reportActionExecutionProgress(final boolean success, final int errorNumber,
             final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws NMFException;
-    
+
     /**
      * The publishAlertEvent operation allows an external software entity to
      * publish Alert events through the Alert service
@@ -55,41 +56,41 @@ public interface SimpleMonitoringInterface {
      * @param alertDefinitionName The Alert Definition name
      * @param attributeValues The attribute values to be published, the complete
      * list can be replaced with a null.
-     * @return Returns the object instance identifier of the published event.
-     * If there is any error, then a null shall be returned instead
-     * @throws NMFException
+     * @return Returns the object instance identifier of the published event. If
+     * there is any error, then a null shall be returned instead
+     * @throws NMFException if the alert event could not be published.
      */
     Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues) throws NMFException;
-    
+
     /**
-     * The pushParameterValue operation allows an external software 
-     * entity to push Attribute values through the monitorValue operation of
-     * the Parameter service. If there is no parameter definition with the
-     * submitted name, the method shall automatically create the parameter
-     * definition in the Parameter service. By default, the parameter value will
-     * not be stored in the COM Archive.
+     * The pushParameterValue operation allows an external software entity to
+     * push Attribute values through the monitorValue operation of the Parameter
+     * service. If there is no parameter definition with the submitted name, the
+     * method shall automatically create the parameter definition in the
+     * Parameter service. By default, the parameter value will not be stored in
+     * the COM Archive.
      *
      * @param name The name of the Parameter as set in the parameter definition
-     * @param content The value of the parameter to be pushed 
+     * @param content The value of the parameter to be pushed
      * @return Returns the flag reporting if the push was successful
-     * @throws NMFException
+     * @throws NMFException if the parameter value could not be pushed.
      */
     Boolean pushParameterValue(final String name, final Serializable content) throws NMFException;
-    
+
     /**
-     * The pushParameterValue operation allows an external software 
-     * entity to push Attribute values through the monitorValue operation of
-     * the Parameter service. If there is no parameter definition with the
-     * submitted name, the method shall automatically create the parameter
-     * definition in the Parameter service.
+     * The pushParameterValue operation allows an external software entity to
+     * push Attribute values through the monitorValue operation of the Parameter
+     * service. If there is no parameter definition with the submitted name, the
+     * method shall automatically create the parameter definition in the
+     * Parameter service.
      *
      * @param name The name of the Parameter as set in the parameter definition
-     * @param content The value of the parameter to be pushed 
+     * @param content The value of the parameter to be pushed
      * @param storeIt A boolean flag to state either the parameter value should
      * be stored on-board
      * @return Returns the flag reporting if the push was successful
-     * @throws NMFException
+     * @throws NMFException if the parameter value could not be pushed.
      */
     Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws NMFException;
-    
+
 }

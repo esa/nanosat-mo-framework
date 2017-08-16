@@ -43,9 +43,6 @@ public interface ActionInvocationListener {
      * @param actionInstanceObjId
      * @param reportProgress Determines if it is necessary to report the
      * execution
-     * @param totalNumberOfProgressStages Total number of steps that will be
-     * reported if PROGRESS reporting is selected in the sent Action. 0 if
-     * PROGRESS reporting is not used.
      * @param interaction The interaction object progress of the action
      * @return Returns null if the Action was successful. If not null, then the
      * returned value should hold the error number

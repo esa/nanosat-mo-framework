@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ <?xml version="1.0" encoding="UTF-8"?>
 
   <!--
     Licensed under the European Space Agency Public License, Version 2.0
@@ -116,6 +116,12 @@
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>TRANSPORT_TCPIP_TEMP</artifactId>
             <version>1.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     

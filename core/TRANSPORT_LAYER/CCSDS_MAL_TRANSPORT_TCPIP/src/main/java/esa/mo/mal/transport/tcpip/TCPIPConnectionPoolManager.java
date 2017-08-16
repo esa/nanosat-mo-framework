@@ -42,7 +42,7 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
  * In the latter case, a socket is created with a predefined port. If this doesn't work because the
  * port already exists, the manager creates a socket with an ephemeral port number.
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  */
 public enum TCPIPConnectionPoolManager {
 	INSTANCE;

@@ -107,7 +107,7 @@ public abstract class MCManager {
     public COMServicesProvider getCOMServices() {
         return this.comServices;
     }
-    
+
     /**
      * Checks if a certain identity exists.
      *
@@ -121,10 +121,10 @@ public abstract class MCManager {
     /**
      * Checks if a certain object instance identifier definition exists.
      *
-     * @param identityId The object instance identifier of the identity
+     * @param objId The object instance identifier.
      * @return True if exists. False otherwise.
      */
-    protected synchronized boolean existsDef(Long objId) {
+    protected synchronized boolean existsDef(final Long objId) {
         return this.objIdToDefMap.containsKey(objId);
     }
 
@@ -154,17 +154,6 @@ public abstract class MCManager {
         return this.namesToPairsMap.get(name);
     }
 
-    /**
-     * gets a map with all the current identity-objects with its
-     * defintion-objects
-     *
-     * @return the map with all identity-defintions
-     */
-    /*
-    public synchronized HashMap<Identity, Definition> getIdentityDefinitions() {
-        return new HashMap(identityDefinitions);
-    }
-     */
     /**
      * Gets the details of the definition with the given id.
      *
@@ -255,27 +244,20 @@ public abstract class MCManager {
         list.addAll(this.objIdToDefMap.keySet());
         return list;
     }
-    
+
     /**
      * Adds an identity-object and its definition-object to the manager
      *
-     * @param identityId the object instance identifier of the Identity
-     * @param name the name of the Identity
-     * @param defId the object instance identifier of the definition
-     * @param defDetails the definitionDetails
-     * @return
+     * @param name the name of the Identity.
+     * @param pair The object instance pair.
+     * @param defDetails the definitionDetails.
+     * @return True if successful. False otherwise.
      */
     protected synchronized Boolean addIdentityDefinition(final Identifier name,
             final ObjectInstancePair pair, final Element defDetails) {
         this.identitiesToNamesMap.put(pair.getObjIdentityInstanceId(), name);
         this.namesToPairsMap.put(name, pair);
         this.objIdToDefMap.put(pair.getObjDefInstanceId(), defDetails);
-
-        /*
-        Identity identity = new Identity(identityId, name);
-        Definition def = new Definition(defId, defDetails);
-        identityDefinitions.put(identity, def);
-         */
         return true;
     }
 
@@ -461,15 +443,15 @@ public abstract class MCManager {
     /**
      * This method is getting all instances contained in the given groups. It
      * also does the checking for invalid or unknown identities or entries. Just
-     * as defined the "enableGeneration"- ServiceOperation´s definition. The
+     * as defined the "enableGeneration" ServiceOperation definition. The
      * requirements in these operations defined in the different Services only
-     * differ in the identiy´s objecttype of the objects contained in the group.
-     * So you have to give the ObjectType of the service-object´s identity.
+     * differ in the identities object type of the objects contained in the
+     * group. So you have to give the ObjectType of the service object identity.
      *
      * TODO : put this method in some GroupHelper - class
      *
-     * @param enableInstances is the (groupid,boolean)-pair-list that is used
-     * for filling the group-retrievalinformation-object
+     * @param enableInstances is the pair list that is used for filling the
+     * retrievalinformation object of the group
      * @param groupRetrievalInformation contains an empty object to be filled.
      * with the group-information about: unknown and invalid errors and objects
      * and values that will be enabled/disabled
@@ -525,9 +507,9 @@ public abstract class MCManager {
 
     /**
      * This method is getting all instances contained in the given groups. The
-     * only difference to the other method (see the "see also part") is: you
-     * dont care about the values and just want to get the identities referenced
-     * by the groups
+     * only difference to the other method (check the see part) is: you dont
+     * care about the values and just want to get the identities referenced by
+     * the groups
      *
      * @see getGroupInstancesForServiceOperation(InstanceBooleanPairList
      * enableInstances, GroupRetrieval groupRetrievalInformation, ObjectType
@@ -548,7 +530,7 @@ public abstract class MCManager {
         for (Long enableInstance : groupIds) {
             instBoolPairList.add(new InstanceBooleanPair(enableInstance, Boolean.TRUE));
         }
-        
+
         return getGroupInstancesForServiceOperation(instBoolPairList,
                 groupRetrievalInformation, identyObjectType, domain, allIdentities);
     }

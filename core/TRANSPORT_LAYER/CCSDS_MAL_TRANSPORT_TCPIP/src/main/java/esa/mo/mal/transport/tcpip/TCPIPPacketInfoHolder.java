@@ -26,7 +26,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * A container class which keeps the raw packet data of an incoming message, as
  * well as the TCP/IP address of both the source and the destination.
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPPacketInfoHolder {

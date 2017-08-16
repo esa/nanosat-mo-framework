@@ -33,7 +33,7 @@ import esa.mo.mal.encoder.binary.BinaryStreamFactory;
  * A factory implementation for the generation of input and output stream classes,
  * which manage decoding and encoding, respectively.
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPFixedBinaryStreamFactory extends BinaryStreamFactory {

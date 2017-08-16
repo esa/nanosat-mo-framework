@@ -41,13 +41,8 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
- * A Provider of MO services composed by COM, M&C and Platform services. Selects
- * the transport layer based on the selected values of the properties file and
- * initializes all services automatically. Provides configuration persistence,
- * therefore the last state of the configuration of the MO services will be kept
- * upon restart. Additionally, the NanoSat MO Framework implements an
- * abstraction layer over the Back-End of some MO services to facilitate the
- * monitoring of the business logic of the app using the NanoSat MO Framework.
+ * The implementation of the NanoSat MO Monolithic that can be extended by
+ * particular implementations.
  *
  * @author Cesar Coelho
  */
@@ -56,18 +51,17 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
     private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Monolithic";
 
     /**
-     * To initialize the NanoSat MO Framework with this method, it is necessary
-     * to extend the MonitorAndControlAdapter adapter class. The
-     * SimpleMonitorAndControlAdapter class contains a simpler interface which
-     * allows sending directly parameters of the most common java types and it
-     * also allows the possibility to send serializable objects.
+     * Initializes the NanoSat MO Monolithic. The MonitorAndControlAdapter
+     * adapter class can be extended for remote monitoring and control with the
+     * CCSDS Monitor and Control services. One can also extend the
+     * SimpleMonitorAndControlAdapter class which contains a simpler interface.
      *
      * @param mcAdapter The adapter to connect the actions and parameters to the
      * corresponding methods and variables of a specific entity.
      * @param platformServices Platform Services
      */
-    public void init(MonitorAndControlNMFAdapter mcAdapter,
-            PlatformServicesConsumer platformServices) {
+    public void init(final MonitorAndControlNMFAdapter mcAdapter,
+            final PlatformServicesConsumer platformServices) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
@@ -79,7 +73,8 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         super.platformServices = platformServices;
 
         try {
-            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.FINE, "Initializing services...");
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.FINE,
+                    "Initializing services...");
 
             comServices.init();
             heartbeatService.init();

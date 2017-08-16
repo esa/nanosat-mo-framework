@@ -93,7 +93,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
      * corresponding methods and variables of a specific entity.
      */
     @Override
-    public void init(MonitorAndControlNMFAdapter mcAdapter) {
+    public void init(final MonitorAndControlNMFAdapter mcAdapter) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
@@ -219,14 +219,15 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             }
         }
 
-        // Initialize the MO services
+        // Initialize the rest of the services
         try {
             this.startMCServices(mcAdapter);
             directoryService.init(comServices);
             heartbeatService.init();
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
-                    "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
+                    "The services could not be initialized. "
+                    + "Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
 
@@ -286,6 +287,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 "NanoSat MO Connector initialized in "
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
                 + " seconds!");
+        
         final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "URI: {0}\n", uri);

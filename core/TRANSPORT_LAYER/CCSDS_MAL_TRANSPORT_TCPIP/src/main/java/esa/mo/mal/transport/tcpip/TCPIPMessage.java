@@ -42,7 +42,7 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
  * This TCPIP implementation of MAL Message provides encoding methods for
  * encoding the MAL Message according to the TCPIP Transport Binding red book.
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPMessage extends GENMessage {
@@ -103,6 +103,7 @@ public class TCPIPMessage extends GENMessage {
 		}
 	}
 
+        @Override
 	public String toString() {
 		return "TCPIPMessage {URIFrom:" 
 			+ header.getURIFrom() 
@@ -116,7 +117,6 @@ public class TCPIPMessage extends GENMessage {
          * @return
          */
         public String bodytoString() {
-		
 		if (this.body != null) {
 			StringBuilder output = new StringBuilder();
 			output.append(this.body.getClass().getCanonicalName());
@@ -126,9 +126,11 @@ public class TCPIPMessage extends GENMessage {
 						output.append(" | ");
 						output.append(this.body.getBodyElement(i, null).toString());
 					}
-				} catch (Exception e) {
+				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
-				}
+				} catch (MALException e) {
+                                        e.printStackTrace();
+                                }
 			}
 			return output.toString();
 		}

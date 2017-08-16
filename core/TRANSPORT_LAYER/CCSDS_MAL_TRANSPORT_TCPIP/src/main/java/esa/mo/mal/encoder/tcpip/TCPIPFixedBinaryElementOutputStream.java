@@ -27,17 +27,15 @@ import java.util.logging.Logger;
 import esa.mo.mal.encoder.gen.GENElementOutputStream;
 import esa.mo.mal.encoder.gen.GENEncoder;
 import esa.mo.mal.transport.tcpip.TCPIPMessageHeader;
-import esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl;
 
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.encoding.MALEncodingContext;
 import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  * Encode a TCPIP Message
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPFixedBinaryElementOutputStream extends GENElementOutputStream {

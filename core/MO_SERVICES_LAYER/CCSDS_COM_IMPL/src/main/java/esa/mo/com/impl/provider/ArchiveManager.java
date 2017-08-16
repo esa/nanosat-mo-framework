@@ -89,7 +89,7 @@ public class ArchiveManager {
     /**
      * Initializes the Archive manager
      *
-     * @param eventService
+     * @param eventService The Event service provider.
      */
     public ArchiveManager(EventProviderServiceImpl eventService) {
         this.eventService = eventService;
@@ -132,6 +132,11 @@ public class ArchiveManager {
         });
     }
 
+    /**
+     * Sets the Event service provider.
+     *
+     * @param eventService The Event service provider.
+     */
     protected void setEventService(EventProviderServiceImpl eventService) {
         this.eventService = eventService;
     }

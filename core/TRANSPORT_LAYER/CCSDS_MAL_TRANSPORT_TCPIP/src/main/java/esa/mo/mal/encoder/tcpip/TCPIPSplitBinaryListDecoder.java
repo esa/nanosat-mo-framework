@@ -32,7 +32,7 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
 /**
  * Decode a list of elements
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPSplitBinaryListDecoder extends TCPIPSplitBinaryDecoder implements MALListDecoder {

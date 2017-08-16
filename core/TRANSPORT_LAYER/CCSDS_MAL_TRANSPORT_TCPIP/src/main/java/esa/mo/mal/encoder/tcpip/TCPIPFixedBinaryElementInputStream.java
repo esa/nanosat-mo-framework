@@ -40,7 +40,7 @@ import org.ccsds.moims.mo.mal.structures.Blob;
  * the message header and body. The header uses a custom implementation according to
  * MAL TCPIP Transport Binding specifications, and the body is split binary decoded.
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPFixedBinaryElementInputStream extends BinaryElementInputStream {

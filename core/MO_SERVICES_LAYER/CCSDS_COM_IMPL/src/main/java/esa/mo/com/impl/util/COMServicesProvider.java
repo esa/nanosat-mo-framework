@@ -38,7 +38,8 @@ public class COMServicesProvider {
     /**
      * Initializes all the COM services automatically.
      *
-     * @throws org.ccsds.moims.mo.mal.MALException
+     * @throws org.ccsds.moims.mo.mal.MALException if the services could not be
+     * initialized.
      */
     public void init() throws MALException {
         // Initialize the Archive service
@@ -49,8 +50,8 @@ public class COMServicesProvider {
         activityTrackingService = new ActivityTrackingProviderServiceImpl();
 
         // Initialize the Event service (without an Archive)
-        eventService.init(archiveService);        
-        
+        eventService.init(archiveService);
+
         // Set the Archive service in the Event service
         eventService.setArchiveService(archiveService);
 
@@ -96,8 +97,8 @@ public class COMServicesProvider {
     public void setActivityTrackingService(ActivityTrackingProviderServiceImpl activityTrackingService) {
         this.activityTrackingService = activityTrackingService;
     }
-    
-    public void closeAll(){
+
+    public void closeAll() {
         this.archiveService.close();
         this.eventService.close();
     }

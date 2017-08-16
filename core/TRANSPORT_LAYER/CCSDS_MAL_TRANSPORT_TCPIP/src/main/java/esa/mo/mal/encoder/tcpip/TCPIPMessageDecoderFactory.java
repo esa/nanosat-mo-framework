@@ -35,7 +35,7 @@ import esa.mo.mal.transport.tcpip.TCPIPTransport;
 
 /**
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  * @param <O>
  *
  */

@@ -190,17 +190,31 @@ public class NMFConsumer {
      *
      * @param directoryURI The Directory service URI
      * @return The list of providers
-     * @throws org.ccsds.moims.mo.mal.MALException
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI)
             throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI);
     }
 
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G, final URI directoryURI)
-            throws MALException, MalformedURLException, MALInteractionException {
+    /**
+     * Retrieves the complete list of Providers available on the Directory
+     * service.
+     *
+     * @param isS2G If true, then the method will only request for SPP
+     * connections.
+     * @param directoryURI The Directory service URI
+     * @return The list of providers
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
+     */
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
+            final URI directoryURI) throws MALException, MalformedURLException, MALInteractionException {
         // Starting the directory service consumer from static method.
         // The whole Common area should be registered to avoid errors during the initHelpers
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {

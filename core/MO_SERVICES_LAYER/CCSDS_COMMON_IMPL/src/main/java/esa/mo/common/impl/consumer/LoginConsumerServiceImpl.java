@@ -63,7 +63,8 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
         return this.loginService;
     }
 
-    public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
+            throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());

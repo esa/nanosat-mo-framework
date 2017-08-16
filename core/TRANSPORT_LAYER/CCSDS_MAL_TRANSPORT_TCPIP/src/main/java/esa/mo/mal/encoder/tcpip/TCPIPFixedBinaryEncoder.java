@@ -35,7 +35,7 @@ import esa.mo.mal.encoder.binary.fixed.FixedBinaryEncoder;
 /**
  * TCPIP Message header encoder
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPFixedBinaryEncoder extends FixedBinaryEncoder {

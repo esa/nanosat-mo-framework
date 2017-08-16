@@ -87,12 +87,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
- * A Consumer of MO services composed by COM, M&amp;C and Platform services.
- * Implements the SimpleCommandingInterface that permits an external software
- * entity to send data (parameters or serialized objects) to the provider, add a
- * DataReceivedListener to receive data and send actions to the provider. It
- * extends the NMFConsumer class in order to expose the MO services
- * implementation.
+ * The implementation of the Ground MO Adapter.
  *
  * @author Cesar Coelho
  */
@@ -595,7 +590,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                         archiveDetailsListOp,
                         opActivityList);
             } catch (MALInteractionException ex) {
-                // A duplicate might happen if the the consumer stored the Operation Activity object
+                // A duplicate might happen if the consumer stored the Operation Activity object
                 if (ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()) {
                     throw new NMFException("The storing of the Operation Activity failed. (1)", ex);
                 } else {

@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessage;
  * TCPIP Transport binding MAL endpoint implementation. Creates messages and
  * generates the correct message header.
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPEndpoint extends GENEndpoint {

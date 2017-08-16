@@ -20,7 +20,6 @@
 package esa.mo.mc.impl.provider.check;
 
 import esa.mo.mc.impl.provider.CheckManager;
-import esa.mo.mc.impl.util.MCServicesHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,17 +106,17 @@ public class CheckLinkMonitorManager {
     /**
      * executes a compound check
      *
-     * @param sourceCheckLinkId
+     * @param sourceCheckLinkDefId
      * @param domain
      */
     public synchronized void updatedCheckLinkEvaluation(Long sourceCheckLinkDefId, IdentifierList domain) {
-		// sourceCheckLinkDefId was obtained from related link of CheckTransition
-		// but we need the CheckLink id here, because that is what was put into notifyList
-		Long sourceCheckLinkId = checkManager.getCheckLinkId(sourceCheckLinkDefId);
+        // sourceCheckLinkDefId was obtained from related link of CheckTransition
+        // but we need the CheckLink id here, because that is what was put into notifyList
+        Long sourceCheckLinkId = checkManager.getCheckLinkId(sourceCheckLinkDefId);
         final List<Long> checkLinksToNotify = notifyList.get(sourceCheckLinkId);
         if (checkLinksToNotify != null) {
             for (Long checkLinkToNotify : checkLinksToNotify) {
-                checkManager.executeCheck(checkLinkToNotify, null, false, false, 
+                checkManager.executeCheck(checkLinkToNotify, null, false, false,
                         new ObjectId(CheckHelper.CHECKLINK_OBJECT_TYPE, new ObjectKey(domain, sourceCheckLinkId)));
             }
         }
@@ -127,28 +126,28 @@ public class CheckLinkMonitorManager {
      * registers for all events that are published for CheckTransitions.
      */
     private synchronized void registerForCheckTranisitionEvents() {
-		try {
-			eventService.monitorEventRegister(subscriptionKeys(new Identifier("AllCheckTransitions"), new Identifier("4"), 0L, 0L, 0L), adapter);
-		} catch (MALInteractionException ex) {
-			Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (MALException ex) {
-			Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-		}
+        try {
+            eventService.monitorEventRegister(subscriptionKeys(new Identifier("AllCheckTransitions"), new Identifier("4"), 0L, 0L, 0L), adapter);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
      * deregisters for the events that are published for CheckTransitions.
      */
     private synchronized void deregisterForCheckTranisitionEvents() {
-		try {
-			IdentifierList subIdentifiers = new IdentifierList();
-			subIdentifiers.add(new Identifier("AllCheckTransitions"));
-			eventService.monitorEventDeregister(subIdentifiers);
-		} catch (MALInteractionException ex) {
-			Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (MALException ex) {
-			Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-		}
+        try {
+            IdentifierList subIdentifiers = new IdentifierList();
+            subIdentifiers.add(new Identifier("AllCheckTransitions"));
+            eventService.monitorEventDeregister(subIdentifiers);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

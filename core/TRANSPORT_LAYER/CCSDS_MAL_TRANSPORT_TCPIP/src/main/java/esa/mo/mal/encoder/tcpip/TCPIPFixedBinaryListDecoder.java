@@ -29,7 +29,7 @@ import org.ccsds.moims.mo.mal.MALListDecoder;
 /**
  * Decode a list of elements
  * 
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPFixedBinaryListDecoder extends TCPIPFixedBinaryDecoder implements MALListDecoder {

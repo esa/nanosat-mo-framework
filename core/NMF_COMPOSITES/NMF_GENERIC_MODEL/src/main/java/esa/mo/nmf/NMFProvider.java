@@ -52,13 +52,10 @@ import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.provider.ReconfigurableProvider;
 
 /**
- * A Provider of MO services composed by COM, M&C, and Platform services.
- * Selects the transport layer based on the selected values of the properties
- * file and initializes all services automatically. Provides configuration
- * persistence, therefore the last state of the configuration of the MO services
- * will be kept upon restart. Additionally, it implements an abstraction layer
- * over the M&C services to facilitate the monitoring of the application logic
- * using the NanoSat MO Framework.
+ * The generic NMF Provider. Includes a Heartbeat service and a Directory
+ * service. Selects the transport layer based on the values of the
+ * transport.properties file. Provides a mechanism to set a listener for change
+ * of configuration.
  *
  * @author Cesar Coelho
  */
@@ -250,7 +247,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                 br.close();
                 return new URI(line);
             } catch (IOException ex) {
-                Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
+                Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE,
+                        "An error happened!", ex);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,

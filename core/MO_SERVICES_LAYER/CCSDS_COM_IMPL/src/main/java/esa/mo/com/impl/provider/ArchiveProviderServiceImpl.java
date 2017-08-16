@@ -70,7 +70,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
      * creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
-     * @param eventService
+     * @param eventService The Event service provider.
      * @throws MALException On initialization error.
      */
     public synchronized void init(EventProviderServiceImpl eventService) throws MALException {

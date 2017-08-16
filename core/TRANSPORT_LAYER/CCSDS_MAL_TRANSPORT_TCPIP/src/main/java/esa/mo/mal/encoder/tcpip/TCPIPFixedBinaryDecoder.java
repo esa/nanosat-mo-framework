@@ -22,7 +22,6 @@ package esa.mo.mal.encoder.tcpip;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
@@ -30,11 +29,10 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 
 import esa.mo.mal.encoder.binary.fixed.FixedBinaryDecoder;
-import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
 
 /**
  * TCPIP Header decoder
- * @author Rian van Gijlswijk <r.vangijlswijk@telespazio-vega.de>
+ * @author Rian van Gijlswijk
  *
  */
 public class TCPIPFixedBinaryDecoder extends FixedBinaryDecoder {
