@@ -67,15 +67,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
         serviceCOMEvent = eventService;
         comObjects = new ArrayList<ArchivePersistenceObject>();
 
-        /*        
-        try {
-            serviceCOMEvent.getEventStub().monitorEventRegister(subscription, new EventConsumerAdapter());
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(EventConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(EventConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
         String[] parameterTableCol = new String[]{
             "Timestamp", "Source URI", "From Service", "Event name", "Domain",
             "ObjId", "Source objType", "Related: ObjDetails",
