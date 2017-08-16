@@ -34,13 +34,8 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
- * A Provider of MO services composed by COM, MC and Platform services. Selects
- * the transport layer based on the selected values of the properties file and
- * initializes all services automatically. Provides configuration persistence,
- * therefore the last state of the configuration of the MO services will be kept
- * upon restart. Additionally, the NanoSat MO Framework implements an
- * abstraction layer over the Back-End of some MO services to facilitate the
- * monitoring of the business logic of the app using the NanoSat MO Framework.
+ * The implementation of the NanoSat MO Supervisor for the Software Simulator
+ * mission.
  *
  * @author Cesar Coelho
  */
@@ -51,17 +46,6 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
     @Override
     public void init(MonitorAndControlNMFAdapter mcAdapter) {
         super.init(mcAdapter, new PlatformServicesConsumer(), new NMFPackagePMBackend());
-    }
-
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
-     */
-    public static void main(final String args[]) throws Exception {
-        NanoSatMOSupervisorSoftSimImpl supervisor = new NanoSatMOSupervisorSoftSimImpl();
-        supervisor.init(new MCSoftwareSimulatorAdapter());
     }
 
     @Override
@@ -83,6 +67,17 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
         } catch (NMFException ex) {
             Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     * @throws java.lang.Exception If there is an error
+     */
+    public static void main(final String args[]) throws Exception {
+        NanoSatMOSupervisorSoftSimImpl supervisor = new NanoSatMOSupervisorSoftSimImpl();
+        supervisor.init(new MCSoftwareSimulatorAdapter());
     }
 
 }
