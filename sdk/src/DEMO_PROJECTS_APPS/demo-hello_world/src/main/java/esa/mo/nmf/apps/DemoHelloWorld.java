@@ -37,7 +37,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import esa.mo.nmf.NMFInterface;
 
 /**
  * This class provides a simple Hello World demo cli provider
@@ -45,12 +44,12 @@ import esa.mo.nmf.NMFInterface;
  */
 public class DemoHelloWorld {
 
-    private final NMFInterface nanoSatMOFramework;
+    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private static final String PARAMETER_HELLO = "A_Parameter";
     private String str = "Hello World!";
 
     public DemoHelloWorld() {
-        this.nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapterSimple());
+        connector.init(new MCAdapterSimple());
     }
 
     /**

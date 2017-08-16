@@ -21,20 +21,21 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
-import esa.mo.nmf.NMFInterface;
 
 /**
- * This class provides a simple Hello World demo cli provider
+ * This class provides a simple Monolithic Provider demo
  *
  */
 public class MonolithicProviderDemo {
 
-    private final NMFInterface nanoSatMOFramework;
+    private final NanoSatMOMonolithicSim monolithic;
 
     public MonolithicProviderDemo() {
+        monolithic = new NanoSatMOMonolithicSim();
         MCAllInOneAdapter adapter = new MCAllInOneAdapter();
-        nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
-        adapter.setNMF(nanoSatMOFramework);
+        adapter.setNMF(monolithic);
+        monolithic.init(adapter);
+        adapter.startTimerThread();
     }
 
     /**

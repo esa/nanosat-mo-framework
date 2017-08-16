@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 
 /**
@@ -28,13 +27,14 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
  */
 public class AllInOne {
 
-    private final NMFInterface nanoSatMOFramework;
+    private final NanoSatMOConnectorImpl connector;
 
     public AllInOne() {
         MCAllInOneAdapter adapter = new MCAllInOneAdapter();
-        nanoSatMOFramework = new NanoSatMOConnectorImpl(adapter);
-//        nanoSatMOFramework = new NanoSatMOMonolithicSim(adapter);
-        adapter.setNMF(nanoSatMOFramework);
+        connector = new NanoSatMOConnectorImpl();
+        adapter.setNMF(connector);
+        connector.init(adapter);
+        adapter.startTimerThread();
     }
 
     /**

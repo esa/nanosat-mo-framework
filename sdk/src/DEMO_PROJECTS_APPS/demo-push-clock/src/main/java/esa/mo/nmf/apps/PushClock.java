@@ -40,7 +40,6 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import esa.mo.nmf.NMFInterface;
 
 /**
  * This app is a simple clock. It pushes the day of the week, the hours, the
@@ -49,7 +48,7 @@ import esa.mo.nmf.NMFInterface;
  */
 public class PushClock {
 
-    private final NMFInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
+    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
 //    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
     private final Timer timer = new Timer("PushClockTimerThread");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
@@ -58,11 +57,12 @@ public class PushClock {
     private int seconds = 0;
     private String day_of_the_week = "";
     private static final int REFRESH_RATE = 1; // 1 second
-    
+
     private Calendar calendar;
     private Date date;
 
     public PushClock() {
+        connector.init(new MCAdapter());
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -72,29 +72,29 @@ public class PushClock {
                     Logger.getLogger(PushClock.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }, 5*1000, REFRESH_RATE * 1000); // conversion to milliseconds
+        }, 5 * 1000, REFRESH_RATE * 1000); // conversion to milliseconds
     }
 
     public void pushClock() throws NMFException {
         calendar = GregorianCalendar.getInstance();
         date = new Date();
-        
+
         calendar.setTime(date);
 
         if (minutes != calendar.get(Calendar.MINUTE)) {
             day_of_the_week = dateFormat.format(date);
-            nanoSatMOFramework.pushParameterValue("Day of the week", day_of_the_week);
+            connector.pushParameterValue("Day of the week", day_of_the_week);
 
             hours = calendar.get(Calendar.HOUR_OF_DAY);
-            nanoSatMOFramework.pushParameterValue("Hours", hours);
+            connector.pushParameterValue("Hours", hours);
 
             minutes = calendar.get(Calendar.MINUTE);
-            nanoSatMOFramework.pushParameterValue("Minutes", minutes);
+            connector.pushParameterValue("Minutes", minutes);
         }
 
         if (seconds != calendar.get(Calendar.SECOND)) {
             seconds = calendar.get(Calendar.SECOND);
-            nanoSatMOFramework.pushParameterValue("Seconds", seconds);
+            connector.pushParameterValue("Seconds", seconds);
         }
     }
 
@@ -130,7 +130,7 @@ public class PushClock {
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-        
+
     }
-    
+
 }

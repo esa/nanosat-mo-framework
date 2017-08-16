@@ -52,7 +52,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
-import esa.mo.nmf.NMFInterface;
 import java.util.Date;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.structures.Time;
@@ -64,7 +63,7 @@ import org.ccsds.moims.mo.mal.structures.Time;
  */
 public class DemoGPSData {
 
-    private final NMFInterface nanoSatMOFramework;
+    private final NanoSatMOConnectorImpl connector;
     private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
     private static final String PARAMETER_GPS_LONGITUDE = "GPS.Longitude";
     private static final String PARAMETER_GPS_ALTITUDE = "GPS.Altitude";
@@ -72,7 +71,8 @@ public class DemoGPSData {
     private static final String AGGREGATION_GPS = "GPS.Aggregation";
 
     public DemoGPSData() {
-        this.nanoSatMOFramework = new NanoSatMOConnectorImpl(new mcAdapter());
+        this.connector = new NanoSatMOConnectorImpl();
+        this.connector.init(new mcAdapter());
     }
 
     /**
@@ -95,7 +95,7 @@ public class DemoGPSData {
             final ObjectId source = null;
             final Time timestamp = new Time((new Date()).getTime());
 
-            return nanoSatMOFramework.getMCServices().getAggregationService().pushAggregationAdhocUpdate(new Identifier("GPS"), source, timestamp);
+            return connector.getMCServices().getAggregationService().pushAggregationAdhocUpdate(new Identifier("GPS"), source, timestamp);
         } catch (NMFException ex) {
             Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -193,13 +193,13 @@ public class DemoGPSData {
         @Override
         public Attribute onGetValue(Identifier identifier, Byte rawType) {
             try {
-                if (nanoSatMOFramework == null) {  // The framework is still not available
+                if (connector == null) {  // The framework is still not available
                     return null;
                 }
 
                 GetLastKnownPositionResponse pos;
                 try {
-                    pos = nanoSatMOFramework.getPlatformServices().getGPSService().getLastKnownPosition();
+                    pos = connector.getPlatformServices().getGPSService().getLastKnownPosition();
 
                     if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
                         return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
@@ -235,7 +235,7 @@ public class DemoGPSData {
                     }
 
                     try {
-                        nanoSatMOFramework.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
+                        connector.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
                     } catch (IOException ex) {
                         Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (NMFException ex) {

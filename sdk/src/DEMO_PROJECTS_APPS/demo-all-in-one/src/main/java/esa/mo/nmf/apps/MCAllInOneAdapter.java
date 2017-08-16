@@ -123,13 +123,13 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     private boolean adcsDefsAdded = false;
     private Long sunPointingObjId = null;
     private Long nadirPointingObjId = null;
-    private Timer timer;
+    private final Timer timer = new Timer();
 
     public void setNMF(final NMFInterface nanosatmoframework) {
         this.nmf = nanosatmoframework;
+    }
 
-        this.timer = new Timer();
-
+    public void startTimerThread() {
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -144,12 +144,10 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 }
             }
         }, 0, 10 * 1000); // 10 seconds
-
     }
 
     @Override
     public void initialRegistrations(MCRegistration registration) {
-
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // ======================================================================= 
@@ -160,11 +158,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         mappings.add(new Pair(new UOctet((short) AttitudeMode.TARGETTRACKING.getOrdinal()), new Union("TARGETTRACKING")));
         mappings.add(new Pair(new UOctet((short) AttitudeMode.NADIRPOINTING.getOrdinal()), new Union("NADIRPOINTING")));
 
-        DiscreteConversionDetails conversion = new DiscreteConversionDetails(mappings);
-
         DiscreteConversionDetailsList conversions = new DiscreteConversionDetailsList();
-        conversions.add(conversion);
-
+        conversions.add(new DiscreteConversionDetails(mappings));
         ParameterConversion paramConversion = null;
 
         try {
@@ -172,11 +167,9 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
             if (objIds.size() == 1) {
                 ObjectId objId = objIds.get(0);
-
                 ParameterExpression paramExpr = null;
 
                 ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getKey());
-
                 ConditionalConversionList conditionalConversions = new ConditionalConversionList();
                 conditionalConversions.add(condition);
 
@@ -185,8 +178,11 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
                 paramConversion = new ParameterConversion(convertedType, convertedUnit, conditionalConversions);
             }
-        } catch (Throwable ex) {
+        } catch (NMFException ex) {
             // ooops, ignore the parameter conversion
+        } catch (MALException ex) {
+            // ooops, ignore the parameter conversion
+        } catch (MALInteractionException ex) {
         }
 
         // ------------------ Parameters ------------------
@@ -368,7 +364,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 null
         );
         actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
-            
+
         ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
                 "Changes the spacecraft's attitude to nadir pointing mode.",
                 new UOctet((short) 0),
@@ -416,7 +412,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
             Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, "The identifier object is null! Something is wrong!");
             return null;
         }
-        
+
         try {
             if (PARAMETER_GPS_N_SATS_IN_VIEW.equals(identifier.getValue())) {
                 final Semaphore sem = new Semaphore(0);
@@ -425,7 +421,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 class AdapterImpl extends GPSAdapter {
 
                     @Override
-                    public void getSatellitesInfoResponseReceived(MALMessageHeader msgHeader, 
+                    public void getSatellitesInfoResponseReceived(MALMessageHeader msgHeader,
                             SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
                         nOfSats.add(gpsSatellitesInfo.size());
                         sem.release();
@@ -520,13 +516,14 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     }
 
     /**
-     * The user must implement this interface in order to link a certain
-     * action Identifier to the method on the application
+     * The user must implement this interface in order to link a certain action
+     * Identifier to the method on the application
      *
      * @param name Name of the Parameter
      * @param attributeValues
      * @param actionInstanceObjId
-     * @param reportProgress Determines if it is necessary to report the execution
+     * @param reportProgress Determines if it is necessary to report the
+     * execution
      * @param interaction The interaction object progress of the action
      *
      * @return Returns null if the Action was successful. If not null, then the

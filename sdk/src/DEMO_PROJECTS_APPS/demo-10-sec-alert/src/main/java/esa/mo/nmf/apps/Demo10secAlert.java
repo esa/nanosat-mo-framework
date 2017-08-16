@@ -35,7 +35,6 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import esa.mo.nmf.NMFInterface;
 
 /**
  * This class provides a simple Hello World demo cli provider
@@ -43,17 +42,18 @@ import esa.mo.nmf.NMFInterface;
  */
 public class Demo10secAlert {
 
-    private final NMFInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new Adapter());
+    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private final Timer timer;
 
     public Demo10secAlert() {
+        this.connector.init(new Adapter());
         this.timer = new Timer();
 
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 try {
-                    nanoSatMOFramework.publishAlertEvent("10SecondsAlert", null);
+                    connector.publishAlertEvent("10SecondsAlert", null);
                 } catch (NMFException ex) {
                     Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -32,7 +32,6 @@ import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
-import esa.mo.nmf.NMFInterface;
 
 /**
  * This class provides a demo cli provider for generating Serial objects
@@ -40,10 +39,11 @@ import esa.mo.nmf.NMFInterface;
  */
 public class DemoSerialObject {
 
-    private final NMFInterface nmf = new NanoSatMOConnectorImpl(new MCAdapter());
+    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private final static String PARAMETER = "MyParameter";
 
     public DemoSerialObject() {
+        connector.init(new MCAdapter());
     }
 
     /**
