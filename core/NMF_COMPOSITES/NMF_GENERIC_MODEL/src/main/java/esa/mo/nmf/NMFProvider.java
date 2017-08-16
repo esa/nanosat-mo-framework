@@ -82,6 +82,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     public PersistProviderConfiguration providerConfiguration;
     public final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<ReconfigurableService>();
 
+    /**
+     * Initializes the NMF provider using a monitoring and control adapter that
+     * connects to the Monitor and Control services.
+     *
+     * @param mcAdapter The Monitor and Control Adapter.
+     */
+    public abstract void init(final MonitorAndControlNMFAdapter mcAdapter);
+
     @Override
     public COMServicesProvider getCOMServices() throws NMFException {
         if (this.comServices == null) {
@@ -200,7 +208,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public void setCloseAppListener(CloseAppListener closeAppAdapter) {
+    public void setCloseAppListener(final CloseAppListener closeAppAdapter) {
         this.closeAppAdapter = closeAppAdapter;
     }
 

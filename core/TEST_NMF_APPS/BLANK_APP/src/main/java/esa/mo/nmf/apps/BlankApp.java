@@ -30,16 +30,16 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import esa.mo.nmf.NMFInterface;
 
 /**
  * Blank App
  */
 public class BlankApp {
 
-    private final NMFInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
+    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
 
     public BlankApp() {
+        connector.init(new MCAdapter());
     }
 
     /**

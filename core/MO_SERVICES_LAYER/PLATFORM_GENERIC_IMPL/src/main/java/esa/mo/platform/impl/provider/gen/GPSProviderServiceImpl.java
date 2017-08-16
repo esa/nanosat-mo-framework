@@ -85,7 +85,7 @@ import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 /**
  * GPS service Provider.
  */
-public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements ReconfigurableService{
+public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements ReconfigurableService {
 
     private MALProvider gpsServiceProvider;
     private boolean initialiased = false;
@@ -94,11 +94,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     private boolean isRegistered = false;
     private final Object lock = new Object();
     private GPSManager manager;
-    private PeriodicReportingManager periodicReporting;
+    private PeriodicCurrentPosition periodicCurrentPosition;
     private final ConnectionProvider connection = new ConnectionProvider();
     private GPSAdapterInterface adapter;
     private ConfigurationChangeListener configurationAdapter;
-    
+
     private final Object MUTEX = new Object();
     private Position currentPosition = null;
     private long timeOfCurrentPosition;
@@ -139,7 +139,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));
-       
+
         // Shut down old service transport
         if (null != gpsServiceProvider) {
             connection.closeAll();
@@ -149,12 +149,12 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         this.adapter = adapter;
         gpsServiceProvider = connection.startService(GPSHelper.GPS_SERVICE_NAME.toString(), GPSHelper.GPS_SERVICE, this);
 
-        periodicReporting = new PeriodicReportingManager();
-        periodicReporting.init();
+        periodicCurrentPosition = new PeriodicCurrentPosition();
+        periodicCurrentPosition.init();
         running = true;
         initialiased = true;
+        periodicCurrentPosition.start();
         Logger.getLogger(GPSProviderServiceImpl.class.getName()).info("GPS service READY");
-        periodicReporting.start();
     }
 
     /**
@@ -175,7 +175,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     private void publishNearbyPositionUpdate(final Long objId, final Boolean isInside) {
         try {
-            synchronized(lock){
+            synchronized (lock) {
                 if (!isRegistered) {
                     final EntityKeyList lst = new EntityKeyList();
                     lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -201,7 +201,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
             BooleanList bools = new BooleanList();
             bools.add(isInside);
-            
+
             publisher.publish(hdrlst, bools);
 
         } catch (IllegalArgumentException ex) {
@@ -211,14 +211,14 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         } catch (MALInteractionException ex) {
             Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         }
-    }    
-    
+    }
+
     @Override
     public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction) throws MALInteractionException, MALException {
-        if (!adapter.isUnitAvailable()){ // Is the unit available?
+        if (!adapter.isUnitAvailable()) { // Is the unit available?
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
-        
+
         interaction.sendAcknowledgement();
 
         try {
@@ -234,15 +234,15 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
         final Position pos;
         final long startTime;
-        
-        synchronized (MUTEX){
+
+        synchronized (MUTEX) {
             pos = currentPosition;
             startTime = timeOfCurrentPosition;
         }
 
-        if (pos == null){ // We never got a position! So we don't know the position!
+        if (pos == null) { // We never got a position! So we don't know the position!
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
-        }        
+        }
 
         response.setBodyElement0(pos);
         double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to sec
@@ -252,15 +252,15 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void getPosition(GetPositionInteraction interaction) throws MALInteractionException, MALException {
-        if (!adapter.isUnitAvailable()){ // Is the unit available?
+        if (!adapter.isUnitAvailable()) { // Is the unit available?
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
-        
+
         interaction.sendAcknowledgement();
 
         Position position = adapter.getCurrentPosition();
 
-        synchronized(MUTEX){ // Store the latest Position
+        synchronized (MUTEX) { // Store the latest Position
             currentPosition = position;
             timeOfCurrentPosition = System.currentTimeMillis();
         }
@@ -270,13 +270,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void getSatellitesInfo(GetSatellitesInfoInteraction interaction) throws MALInteractionException, MALException {
-        if (!adapter.isUnitAvailable()){ // Is the unit available?
+        if (!adapter.isUnitAvailable()) { // Is the unit available?
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
-        
+
         interaction.sendAcknowledgement();
 
-        SatelliteInfoList sats =  adapter.getSatelliteInfoList();
+        SatelliteInfoList sats = adapter.getSatelliteInfoList();
         interaction.sendResponse(sats);
     }
 
@@ -301,11 +301,12 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         // Errors
         // The operation does not return any errors.
-        return outLongLst; 
+        return outLongLst;
     }
 
     @Override
-    public LongList addNearbyPosition(NearbyPositionDefinitionList nearbyPositionDefinitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList addNearbyPosition(final NearbyPositionDefinitionList nearbyPositionDefinitions,
+            final MALInteraction interaction) throws MALInteractionException, MALException {
         LongList outLongLst = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -328,7 +329,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
             if (manager.list(name) == null) { // Is the supplied name unique?
                 ObjectId source = manager.storeCOMOperationActivity(interaction);
-                outLongLst.add(manager.add(def, source, connection.getConnectionDetails()));
+                outLongLst.add(manager.add(def, source, connection.getConnectionDetails().getProviderURI()));
             } else {
                 dupIndexList.add(new UInteger(index)); //  requirement: 3.4.10.2.c
             }
@@ -343,11 +344,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        if (configurationAdapter != null){
+        if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
 
-        return outLongLst;    
+        return outLongLst;
     }
 
     @Override
@@ -385,12 +386,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             manager.delete(tempLong2);  // COM archive is left untouched.
         }
 
-        if (configurationAdapter != null){
+        if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {
@@ -413,8 +415,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
             Logger.getLogger(GPSProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
-    }    
-    
+    }
+
     @Override
     public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
@@ -423,11 +425,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     @Override
     public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
         // Validate the returned configuration...
-        if(configurationObjectDetails == null){
+        if (configurationObjectDetails == null) {
             return false;
         }
 
-        if(configurationObjectDetails.getConfigObjects() == null){
+        if (configurationObjectDetails.getConfigObjects() == null) {
             return false;
         }
 
@@ -447,9 +449,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         if (!confSet.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
-        
+
         // If the list is empty, reconfigure the service with nothing...
-        if(confSet.getObjInstIds().isEmpty()){
+        if (confSet.getObjInstIds().isEmpty()) {
             manager.reconfigureDefinitions(new LongList(), new PositionList());   // Reconfigures the Manager
             return true;
         }
@@ -487,20 +489,21 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         ConfigurationObjectDetails set = new ConfigurationObjectDetails();
         set.setConfigObjects(list);
 
-        return set;    
+        return set;
     }
 
     @Override
     public COMService getCOMService() {
         return GPSHelper.GPS_SERVICE;
     }
-    
-    private class PeriodicReportingManager {
+
+    private class PeriodicCurrentPosition {
+
         private final Timer timer;
         boolean active = false; // Flag that determines if publishes or not
         private static final int PERIOD = 5000; // 5 Seconds
 
-        public PeriodicReportingManager() {
+        public PeriodicCurrentPosition() {
             timer = new Timer("GPS_PeriodicReportingManager");
         }
 
@@ -512,28 +515,27 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             active = false;
         }
 
-        public void init() {  
+        public void init() {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     if (active) {
-                        if (!adapter.isUnitAvailable()){ // Is the unit available?
+                        if (!adapter.isUnitAvailable()) { // Is the unit available?
                             return;
                         }
-                        
+
                         final Position pos = adapter.getCurrentPosition(); // Current Position
-                        
-                        // Do: get the current value from the GPS unit
-                        synchronized(MUTEX){
+
+                        synchronized (MUTEX) {
                             currentPosition = pos;
                             timeOfCurrentPosition = System.currentTimeMillis();
                         }
-                        
+
                         // Compare with all the available definitions and raise 
                         // NearbyPositionAlerts in case something has changed
                         LongList ids = manager.listAll();
-                        
-                        for (int i = 0; i < ids.size(); i++){
+
+                        for (int i = 0; i < ids.size(); i++) {
                             Long objId = ids.get(i);
                             NearbyPositionDefinition def = manager.get(objId);
                             Boolean previousState = manager.getPreviousStatus(objId);
@@ -541,14 +543,14 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                             try {
                                 double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(), pos);
                                 boolean isInside = (distance < def.getDistanceBoundary());
-                            
-                                if (previousState == null){ // Maybe it's the first run...
+
+                                if (previousState == null) { // Maybe it's the first run...
                                     manager.setPreviousStatus(objId, isInside);
                                     continue;
                                 }
-                                
+
                                 // If the status changed, then publish a Nearby Event
-                                if (previousState != isInside){
+                                if (previousState != isInside) {
                                     publishNearbyPositionUpdate(objId, isInside);
                                     manager.setPreviousStatus(objId, isInside);
                                 }
@@ -558,7 +560,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                         }
                     }
                 }
-            }, PERIOD, PERIOD);
+            }, 0, PERIOD);
         }
     }
 

@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 
 /**
@@ -30,10 +29,10 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
  */
 public class BenchmarkApp {
 
-    private final NMFInterface nanoSatMOFramework = new NanoSatMOConnectorImpl(new MCAdapter());
+    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
 
     public BenchmarkApp() {
-
+        connector.init(new MCAdapter());
     }
 
     /**

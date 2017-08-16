@@ -91,7 +91,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     private Subscription subscription;
 
     /**
-     * To initialize the NanoSat MO Connector with this method, it is necessary
+     * Initializes the NanoSat MO Connector. with this method, it is necessary
      * to extend the MonitorAndControlAdapter adapter class. The
      * SimpleMonitorAndControlAdapter class contains a simpler interface which
      * allows sending directly parameters of the most common java types and it
@@ -100,7 +100,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
      * @param mcAdapter The adapter to connect the actions and parameters to the
      * corresponding methods and variables of a specific entity.
      */
-    public NanoSatMOConnectorImpl(MonitorAndControlNMFAdapter mcAdapter) {
+    @Override
+    public void init(MonitorAndControlNMFAdapter mcAdapter) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
@@ -350,7 +351,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     /**
      * It closes the App gracefully.
      *
-     * @param source The source of the triggering. Can be null
+     * @param source The source of the triggering. Can be null.
      */
     @Override
     public final void closeGracefully(final ObjectId source) {

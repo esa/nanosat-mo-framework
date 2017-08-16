@@ -66,7 +66,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
      * corresponding methods and variables of a specific entity.
      * @param platformServices Platform Services
      */
-    public NanoSatMOMonolithic(MonitorAndControlNMFAdapter mcAdapter,
+    public void init(MonitorAndControlNMFAdapter mcAdapter,
             PlatformServicesConsumer platformServices) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties

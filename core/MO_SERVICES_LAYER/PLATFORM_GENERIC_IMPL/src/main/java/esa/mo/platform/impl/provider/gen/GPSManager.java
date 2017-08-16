@@ -56,7 +56,6 @@ public final class GPSManager extends DefinitionsManager {
         
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-//            this.load(); // Load the file
         }else{
             
         }
@@ -89,12 +88,10 @@ public final class GPSManager extends DefinitionsManager {
         return (NearbyPositionDefinitionList) this.getAllDefs();
     }
 
-    public Long add(final NearbyPositionDefinition definition, final ObjectId source, SingleConnectionDetails connectionDetails){
+    public Long add(final NearbyPositionDefinition definition, final ObjectId source, URI uri){
         if (super.getArchiveService() == null) {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
-
-//            this.save();
             return uniqueObjIdDef;
         }else{
             NearbyPositionDefinitionList defs = new NearbyPositionDefinitionList();
@@ -105,7 +102,7 @@ public final class GPSManager extends DefinitionsManager {
                         true,
                         GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails),
+                        HelperArchive.generateArchiveDetailsList(null, source, uri),
                         defs,
                         null);
 
@@ -125,15 +122,7 @@ public final class GPSManager extends DefinitionsManager {
     }
       
     public boolean delete(final Long objId){
-
-        if (!this.deleteDef(objId)) {
-            return false;
-        }
-        
-//        if (super.getArchiveService() == null)
-//            this.save();
-    
-        return true;
+        return this.deleteDef(objId);
     }
 
     protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside, 

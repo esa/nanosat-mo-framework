@@ -27,8 +27,7 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataRecei
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
 /**
- *
- * @author Cesar Coelho
+ * The Platform services provider interface
  */
 public interface PlatformServicesProviderInterface {
 

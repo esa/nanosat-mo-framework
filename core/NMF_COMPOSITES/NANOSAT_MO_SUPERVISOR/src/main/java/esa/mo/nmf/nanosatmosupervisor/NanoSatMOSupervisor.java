@@ -74,7 +74,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
      * @param platformServices The Platform services consumer stubs
      * @param packageManagementBackend
      */
-    public NanoSatMOSupervisor(MonitorAndControlNMFAdapter mcAdapter,
+    public void init(MonitorAndControlNMFAdapter mcAdapter,
             PlatformServicesConsumer platformServices,
             PMBackend packageManagementBackend) {
         super.startTime = System.currentTimeMillis();
@@ -223,7 +223,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         System.exit(0);
     }
-    
+
     public abstract void initPlatformServices(COMServicesProvider comServices);
-    
+
 }
