@@ -40,7 +40,7 @@ import org.ccsds.moims.mo.mal.MALException;
 public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic {
 
     private PlatformServicesProviderSoftSim provider;
-    
+
     /**
      * To initialize the NanoSat MO Monolithic with this method, it is necessary
      * to extend the MonitorAndControlAdapter adapter class. The
@@ -51,8 +51,9 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic {
      * @param mcAdapter The adapter to connect the actions and parameters to the
      * corresponding methods and variables of a specific entity.
      */
-    public NanoSatMOMonolithicSim(MonitorAndControlNMFAdapter mcAdapter) {
-        super(mcAdapter, new PlatformServicesConsumer());
+    @Override
+    public void init(MonitorAndControlNMFAdapter mcAdapter) {
+        super.init(mcAdapter, new PlatformServicesConsumer());
     }
 
     @Override
@@ -61,14 +62,14 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic {
         // of the Software Simulator. Basically, we initialize the Platform 
         // service providers and then we initialize the consumers' connections
         // to them.
-        
+
         try {
             provider = new PlatformServicesProviderSoftSim();
             provider.init(comServices);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOMonolithicSim.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         ConnectionConsumer connectionConsumer = new ConnectionConsumer();
 
         try {
@@ -79,7 +80,5 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic {
         } catch (NMFException ex) {
             Logger.getLogger(NanoSatMOMonolithicSim.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-
 }

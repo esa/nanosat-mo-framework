@@ -35,7 +35,6 @@ import esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
@@ -89,5 +88,5 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     public SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService() {
         return this.sdrService;
     }
-    
+
 }

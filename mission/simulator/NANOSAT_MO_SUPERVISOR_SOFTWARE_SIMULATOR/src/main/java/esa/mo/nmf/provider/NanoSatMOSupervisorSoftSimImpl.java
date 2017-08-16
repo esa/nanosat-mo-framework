@@ -22,6 +22,7 @@ package esa.mo.nmf.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
@@ -47,14 +48,9 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
 
     private PlatformServicesProviderSoftSim platformServicesSim;
 
-    /**
-     * NanoSat MO Supervisor for the Software Simulator
-     *
-     */
-    public NanoSatMOSupervisorSoftSimImpl() {
-        super(new MCSoftwareSimulatorAdapter(),
-                new PlatformServicesConsumer(),
-                new NMFPackagePMBackend());
+    @Override
+    public void init(MonitorAndControlNMFAdapter mcAdapter) {
+        super.init(mcAdapter, new PlatformServicesConsumer(), new NMFPackagePMBackend());
     }
 
     /**
@@ -65,6 +61,7 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
      */
     public static void main(final String args[]) throws Exception {
         NanoSatMOSupervisorSoftSimImpl supervisor = new NanoSatMOSupervisorSoftSimImpl();
+        supervisor.init(new MCSoftwareSimulatorAdapter());
     }
 
     @Override
@@ -87,5 +84,5 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
             Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
