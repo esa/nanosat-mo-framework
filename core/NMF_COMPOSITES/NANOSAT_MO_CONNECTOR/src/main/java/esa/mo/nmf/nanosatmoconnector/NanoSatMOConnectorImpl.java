@@ -73,14 +73,7 @@ import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
- * A Provider of MO services composed by COM, Monitor and Control, and Platform
- * services. Selects the transport layer based on the selected values of the
- * properties file and initializes all services automatically. Provides
- * configuration persistence, therefore the last state of the configuration of
- * the MO services will be kept upon restart. Additionally, the NanoSat MO
- * Framework implements an abstraction layer over the Back-End of some MO
- * services to facilitate the monitoring of the business logic of the app using
- * the NanoSat MO Framework.
+ * The implementation of the NanoSat MO Connector.
  *
  * @author Cesar Coelho
  */
@@ -91,11 +84,10 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     private Subscription subscription;
 
     /**
-     * Initializes the NanoSat MO Connector. with this method, it is necessary
-     * to extend the MonitorAndControlAdapter adapter class. The
-     * SimpleMonitorAndControlAdapter class contains a simpler interface which
-     * allows sending directly parameters of the most common java types and it
-     * also allows the possibility to send serializable objects.
+     * Initializes the NanoSat MO Connector. The MonitorAndControlAdapter
+     * adapter class can be extended for remote monitoring and control with the
+     * CCSDS Monitor and Control services. One can also extend the
+     * SimpleMonitorAndControlAdapter class which contains a simpler interface.
      *
      * @param mcAdapter The adapter to connect the actions and parameters to the
      * corresponding methods and variables of a specific entity.
@@ -123,7 +115,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             comServices.init();
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
-                    "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
+                    "The services could not be initialized. "
+                    + "Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
 
@@ -145,7 +138,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         if (centralDirectoryURI != null) {
             try {
                 Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                        "Attempting to connect to Central Directory service at: {0}", centralDirectoryURI.toString());
+                        "Attempting to connect to Central Directory service at: {0}",
+                        centralDirectoryURI.toString());
 
                 // Connect to the Central Directory service...
                 centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryURI);
@@ -170,14 +164,16 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
                 } catch (IOException ex) {
-                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, "Something went wrong...");
+                    Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
+                            "Something went wrong...");
                 }
 
                 // Subscribe to all Events
                 // Select all object numbers from the Apps Launcher service Events
                 final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
                 final Random random = new Random();
-                subscription = ConnectionConsumer.subscriptionKeys(new Identifier("CloseAppEventListener" + random.nextInt()),
+                subscription = ConnectionConsumer.subscriptionKeys(
+                        new Identifier("CloseAppEventListener" + random.nextInt()),
                         new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
 
                 // Register with the subscription key provided
@@ -206,7 +202,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     comServicesConsumer.init(supervisorCCPlat);
                     platformServices.init(supervisorCCPlat, comServicesConsumer);
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
-                            "Successfully connected to Platform services on: {0}", supervisorConnections.get(0).getProviderName());
+                            "Successfully connected to Platform services on: {0}",
+                            supervisorConnections.get(0).getProviderName());
                 } else {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
                             "The NanoSat MO Connector was expecting a single NanoSat MO Supervisor provider!"
@@ -349,7 +346,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     }
 
     /**
-     * It closes the App gracefully.
+     * It closes the application gracefully.
      *
      * @param source The source of the triggering. Can be null.
      */
@@ -372,7 +369,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
             final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getIPCConnectionDetails().getProviderURI();
 
-            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO, "Publishing event to uri: {0}", uri);
+            Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
+                    "Publishing event to uri: {0}", uri);
 
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId,
@@ -403,7 +401,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
-                            "There was a problem while connectin to the Central Directory service on URI: {0}\nException: {1}",
+                            "There was a problem while connecting to the Central Directory service on URI: {0}"
+                            + "\nException: {1}",
                             new Object[]{centralDirectoryURI.getValue(), ex});
                 }
             }
@@ -439,6 +438,10 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         System.exit(0);
     }
 
+    /**
+     * This class can be overridden in order to initialize additional services
+     * by the NanoSat MO Connector.
+     */
     public void initAdditionalServices() {
         // To be overridden
     }

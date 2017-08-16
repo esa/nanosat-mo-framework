@@ -56,7 +56,7 @@ public interface NMFInterface extends SimpleMonitoringInterface {
     PlatformServicesConsumer getPlatformServices() throws NMFException;
 
     /**
-     * Sets the listener for when the app is requested to be closed.
+     * Sets the listener for when the application is requested to be closed.
      *
      * @param closeAppAdapter The adapter that will be called after a request
      * close the app
@@ -64,7 +64,7 @@ public interface NMFInterface extends SimpleMonitoringInterface {
     void setCloseAppListener(final CloseAppListener closeAppAdapter);
 
     /**
-     * Closes the app gracefully.
+     * Closes the application gracefully.
      *
      * @param source The source object that triggered the close operation. Can
      * be null.

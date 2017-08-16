@@ -29,7 +29,10 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
- * The Listener for Event requests to close the application.
+ * The Listener for Event requests to close the NMF App. This class is used
+ * internally, after receiving an event to close, this class will trigger the
+ * closeGracefully method of the provider. To set a dedicated adapter, please
+ * use the setCloseAppListener method of the NanoSatMOConnectorImpl.
  */
 public class CloseAppEventListener extends EventReceivedListener {
 
