@@ -453,21 +453,30 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void mouseClicked(MouseEvent evt) {
-            for (int i = 0; i < tabs.getTabCount(); i++) {
-                Component component = tabs.getTabComponentAt(i);
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    this.setName("CloseButtonTabThread");
+                    for (int i = 0; i < tabs.getTabCount(); i++) {
+                        Component component = tabs.getTabComponentAt(i);
 
-                if (component == panel) {
-                    try {
-                        providerPanel.getServices().closeConnections();
-                    } catch (Exception ex) {
-                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
-                                "The connection was not closed correctly. Maybe the provider was unreachable!");
+                        if (component == panel) {
+                            tabs.remove(i);
+                            
+                            try {
+                                providerPanel.getServices().closeConnections();
+                            } catch (Exception ex) {
+                                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
+                                        "The connection was not closed correctly. Maybe the provider was unreachable!");
+                            }
+
+                            return;
+                        }
                     }
-
-                    tabs.remove(i);
-                    return;
                 }
-            }
+            };
+
+            t1.start();
         }
 
         @Override
