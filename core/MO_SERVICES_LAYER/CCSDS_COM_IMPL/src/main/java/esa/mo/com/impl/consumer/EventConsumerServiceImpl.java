@@ -151,7 +151,8 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
                         // ----
                         EventCOMObject newEvent = new EventCOMObject();
-                        newEvent.setDomain(msgHeader.getDomain());
+//                        newEvent.setDomain(msgHeader.getDomain());
+                        newEvent.setDomain(connectionDetails.getDomain());
                         newEvent.setObjType(objType);
                         newEvent.setObjId(entityKey3);
 
