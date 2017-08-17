@@ -25,30 +25,30 @@ package opssat.simulator.interfaces;
  *
  * @author Cezar Suteu
  */
-public interface IGPS{
+public interface IGPS {
 //# String latitude
 //# String longitude
 //# String altitude
-/**
-<pre>
-Obtain a NMEA response for a given NMEA sentence
-Input parameters:String inputSentence
-Return parameters:String
-Size of returned parameters: 0
 
-</pre>
-*/
-String getNMEASentence(String inputSentence);//2001
-/**
-<pre>
-Obtain the last known position of the s/c
-Input parameters:
-Return parameters:String
-Size of returned parameters: 0
+    /**
+     * <pre>
+     * Obtain a NMEA response for a given NMEA sentence
+     * Input parameters:String inputSentence
+     * Return parameters:String
+     * Size of returned parameters: 0
+     *
+     * </pre>
+     */
+    String getNMEASentence(String inputSentence);//2001
 
-</pre>
-*/
-String getLastKnownPosition();//2002
+    /**
+     * <pre>
+     * Obtain the last known position of the s/c
+     * Input parameters:
+     * Return parameters:String
+     * Size of returned parameters: 0
+     *
+     * </pre>
+     */
+    String getLastKnownPosition();//2002
 }
-
-

@@ -25,29 +25,32 @@ package opssat.simulator.interfaces;
  *
  * @author Cezar Suteu
  */
-public interface ICamera{
-/**
-<pre>
-High level command: file written to filesystem to request camera take a picture
-Input parameters:int width,int height
-Return parameters:byte[]
-Size of returned parameters: 7962624
-The width and height input parameters are in pixels.
-</pre>
-*/
-byte[] takePicture(int width,int height);//3001
-/**
-<pre>
-Simulator helper command: preload into memory a raw camera picture
-Input parameters:String fileName
-Return parameters:void
-Size of returned parameters: 0
-The filename of the raw picture. It is expected to be found in HOME/ops-sat-resources
-</pre>
-*/
-void simPreloadPicture(String fileName);//3002
+public interface ICamera {
 
+    /**
+     * <pre>
+     * High level command: file written to filesystem to request camera take a picture
+     * Input parameters:int width,int height
+     * Size of returned parameters: 7962624
+     * </pre>
+     *
+     * @param width The width input parameters are in pixels.
+     * @param height The height input parameters are in pixels.
+     * @return An array containing the picture
+     */
+    byte[] takePicture(int width, int height);//3001
 
+    /**
+     * <pre>
+     * Simulator helper command: preload into memory a raw camera picture
+     * Input parameters:String fileName
+     * Return parameters:void
+     * Size of returned parameters: 0
+     * </pre>
+     *
+     * @param fileName The filename of the raw picture. It is expected to be
+     * found in HOME/ops-sat-resources
+     */
+    void simPreloadPicture(String fileName);//3002
 
 }
-

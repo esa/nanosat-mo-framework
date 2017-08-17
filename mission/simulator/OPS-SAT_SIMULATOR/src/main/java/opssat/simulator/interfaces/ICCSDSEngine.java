@@ -26,15 +26,20 @@ package opssat.simulator.interfaces;
  * @author Cezar Suteu
  */
 public interface ICCSDSEngine {
-/**
-<pre>
-Low level command to interact with CCSDSEngine.
-Input parameters:int cmdID,byte[] data
-Return parameters:byte[]
-Size of returned parameters: 0
-This commands accepts generic structures for CCSDSEngine.
-</pre>
-*/
-byte[] runRawCommand(int cmdID,byte[] data);//8001
+
+    /**
+     * <pre>
+     * Low level command to interact with CCSDSEngine.
+     * Input parameters:int cmdID,byte[] data
+     * Return parameters:byte[]
+     * Size of returned parameters: 0
+     * This commands accepts generic structures for CCSDSEngine.
+     * </pre>
+     *
+     * @param cmdID
+     * @param data
+     * @return
+     */
+    byte[] runRawCommand(int cmdID, byte[] data);//8001
 
 }
