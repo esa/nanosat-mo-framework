@@ -20,7 +20,11 @@
  */
 package esa.mo.nmf.apps;
 
+import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.MALException;
 
 /**
  * An NMF App that that takes pictures
@@ -28,10 +32,21 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 public class SnapNMF {
 
     private final NanoSatMOConnectorImpl connector;
+    private ArchiveSyncProviderServiceImpl sync;
 
     public SnapNMF() {
         MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();
-        connector = new NanoSatMOConnectorImpl();
+        connector = new NanoSatMOConnectorImpl() {
+            @Override
+            public void initAdditionalServices() {
+                try {
+                    this.comServices.initArchiveSync();
+                } catch (MALException ex) {
+                    Logger.getLogger(SnapNMF.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        };
+
         adapter.setNMF(connector);
         connector.init(adapter);
     }

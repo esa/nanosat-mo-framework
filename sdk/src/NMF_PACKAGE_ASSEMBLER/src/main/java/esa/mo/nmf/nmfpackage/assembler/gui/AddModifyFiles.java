@@ -50,9 +50,19 @@ public final class AddModifyFiles extends javax.swing.JDialog {
         this.setModal(true);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        
+        center.setVisible(true);
+        center.add("dvdfvsd", table);
+        table.setVisible(true);
 
-        componentsPanel.add(table); // Add the table to the middle
-        componentsPanel.repaint();
+        
+//            tabs.addTab("", tabs);
+
+//            tabs.setTabComponentAt(tabs.getTabCount() - 1, componentsPanel);
+//            tabs.setSelectedIndex(tabs.getTabCount() - 1);
+
+//        tabs.add(table, WIDTH); // Add the table to the middle
+//        componentsPanel.repaint();
     }
 
     /**
@@ -69,9 +79,11 @@ public final class AddModifyFiles extends javax.swing.JDialog {
         addFiles = new javax.swing.JButton();
         removeSelectedFiles = new javax.swing.JButton();
         objectBodyButton2 = new javax.swing.JButton();
-        componentsPanel = new javax.swing.JPanel();
         bottomPanel = new javax.swing.JPanel();
         button = new javax.swing.JToggleButton();
+        center = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setTitle("Add or Modify Files");
         setMinimumSize(new java.awt.Dimension(600, 550));
@@ -115,11 +127,11 @@ public final class AddModifyFiles extends javax.swing.JDialog {
             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(topPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(addFiles, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addComponent(addFiles, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(removeSelectedFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(objectBodyButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addComponent(objectBodyButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                 .addContainerGap())
         );
         topPanelLayout.setVerticalGroup(
@@ -137,23 +149,6 @@ public final class AddModifyFiles extends javax.swing.JDialog {
 
         getContentPane().add(topPanel, java.awt.BorderLayout.PAGE_START);
 
-        componentsPanel.setMinimumSize(new java.awt.Dimension(150, 100));
-        componentsPanel.setName(""); // NOI18N
-        componentsPanel.setPreferredSize(new java.awt.Dimension(550, 200));
-
-        javax.swing.GroupLayout componentsPanelLayout = new javax.swing.GroupLayout(componentsPanel);
-        componentsPanel.setLayout(componentsPanelLayout);
-        componentsPanelLayout.setHorizontalGroup(
-            componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        componentsPanelLayout.setVerticalGroup(
-            componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(componentsPanel, java.awt.BorderLayout.CENTER);
-
         bottomPanel.setMaximumSize(new java.awt.Dimension(3000, 32767));
         bottomPanel.setName(""); // NOI18N
         bottomPanel.setPreferredSize(new java.awt.Dimension(400, 40));
@@ -169,7 +164,7 @@ public final class AddModifyFiles extends javax.swing.JDialog {
         bottomPanel.setLayout(bottomPanelLayout);
         bottomPanelLayout.setHorizontalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addComponent(button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
         );
         bottomPanelLayout.setVerticalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,6 +175,38 @@ public final class AddModifyFiles extends javax.swing.JDialog {
         );
 
         getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout centerLayout = new javax.swing.GroupLayout(center);
+        center.setLayout(centerLayout);
+        centerLayout.setHorizontalGroup(
+            centerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(centerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        centerLayout.setVerticalGroup(
+            centerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(centerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(center, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -215,8 +242,10 @@ public final class AddModifyFiles extends javax.swing.JDialog {
     private javax.swing.JButton addFiles;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JToggleButton button;
-    private javax.swing.JPanel componentsPanel;
+    private javax.swing.JPanel center;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton objectBodyButton2;
     private javax.swing.JButton removeSelectedFiles;
     private javax.swing.JPanel topPanel;

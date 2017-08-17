@@ -32,6 +32,7 @@ import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
 import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.nmf.ctt.services.com.ArchiveSyncConsumerManagerPanel;
 import esa.mo.nmf.ctt.services.sm.PackageManagementConsumerPanel;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
@@ -126,6 +127,12 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                     int count = serviceTabs.getTabCount();
                     serviceTabs.insertTab("Event service", null, panel, "Event Tab", count);
                     panel.init();
+                }
+
+                if (services.getCOMServices().getArchiveSyncService() != null) {
+                    ArchiveSyncConsumerManagerPanel panel = new ArchiveSyncConsumerManagerPanel(services.getCOMServices().getArchiveService(), services.getCOMServices().getArchiveSyncService());
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("ArchiveSync service", null, panel, "ArchiveSync Tab", count);
                 }
             }
 
