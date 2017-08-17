@@ -24,70 +24,64 @@ import java.awt.Color;
 import java.io.Serializable;
 
 /**
- * Class that extends the basic Swing label class to add in automatic handling for displaying an update and also
- * calculating the transmission delay for the specific update. It also interacts with the DelayManager to calculate the
+ * Class that extends the basic Swing label class to add in automatic handling
+ * for displaying an update and also calculating the transmission delay for the
+ * specific update. It also interacts with the DelayManager to calculate the
  * total delay.
  */
-public class ParameterLabel extends javax.swing.JLabel implements Serializable
-{
-  private final Color[] colours = new Color[]
-  {
-    Color.GREEN, Color.BLACK, Color.BLACK, Color.GREEN
-  };
-  private final ParameterValueLabel value;
-  private short oldval;
+public class ParameterLabel extends javax.swing.JLabel implements Serializable {
 
-  public ParameterLabel(final int index)
-  {
-    super();
-    value = new ParameterValueLabel();
-    oldval = 1;
-  }
+    private final Color[] colours = new Color[]{
+        Color.GREEN, Color.BLACK, Color.BLACK, Color.GREEN
+    };
+    private final ParameterValueLabel value;
+    private short oldval;
 
-  public void setNewValue(final String newVal, final long iDiff)
-  {
-    value.setNewValue(newVal, iDiff);
-    displayValue();
-  }
-
-  public void displayValue()
-  {
-    String newVal = value.getLabelValue();
-    
-    // display the new value
-    if ( newVal.equals("") ){
-        setText("");
-    }else{
-        setText(String.valueOf(newVal));
-   }
-
-    // if we are in error we highlight the label in a different colour
-    final int ii = Math.abs(oldval % 2);
-    if ( !newVal.equals("") )
-        oldval++;
-    if (value.isInError())
-    {
-      setBackground(Color.RED);
-    }
-    else
-    {
-      setBackground(colours[2 + ii]);
-      if ( newVal.equals("") )
-          setBackground(Color.WHITE);
+    public ParameterLabel(final int index) {
+        super();
+        value = new ParameterValueLabel();
+        oldval = 1;
     }
 
-    setForeground(colours[ii]);
-  }
+    public void setNewValue(final String newVal, final long iDiff) {
+        value.setNewValue(newVal, iDiff);
+        displayValue();
+    }
 
-  public void setRed()
-  {
-      setBackground(Color.RED);
-      setForeground(Color.BLACK);
-  }
+    public void displayValue() {
+        String newVal = value.getLabelValue();
 
-  public void reset()
-  {
-    value.reset();
-    displayValue();
-  }
+        // display the new value
+        if (newVal.equals("")) {
+            setText("");
+        } else {
+            setText(String.valueOf(newVal));
+        }
+
+        // if we are in error we highlight the label in a different colour
+        final int ii = Math.abs(oldval % 2);
+        if (!newVal.equals("")) {
+            oldval++;
+        }
+        if (value.isInError()) {
+            setBackground(Color.RED);
+        } else {
+            setBackground(colours[2 + ii]);
+            if (newVal.equals("")) {
+                setBackground(Color.WHITE);
+            }
+        }
+
+        setForeground(colours[ii]);
+    }
+
+    public void setRed() {
+        setBackground(Color.RED);
+        setForeground(Color.BLACK);
+    }
+
+    public void reset() {
+        value.reset();
+        displayValue();
+    }
 }
