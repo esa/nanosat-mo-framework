@@ -68,6 +68,7 @@
         <module>CTT</module>
         <module>PLAYGROUND_GENERATOR</module> 
         <module>NMF_PACKAGE_ASSEMBLER</module> 
+        <module>NMF_JAVADOCS_GENERATOR</module> 
     </modules>
   
     <repositories>
