@@ -208,20 +208,31 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.0-M1</version>
                 <executions>
-<!--
-                    <execution>
-                        <id>aggregate</id>
-                        <goals>
-                            <goal>aggregate</goal>
-                        </goals>
-                        <phase>site</phase>
-                        <configuration>
-                              <aggregate>true</aggregate>
-                              <includeDependencySources>true</includeDependencySources>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                    </execution>
--->                    
+                    <!--
+                                        <execution>
+                                            <id>aggregate</id>
+                                            <goals>
+                                                <goal>aggregate</goal>
+                                            </goals>
+                                            <phase>site</phase>
+                                            <configuration>
+                                                  <aggregate>true</aggregate>
+                                                  <includeDependencySources>true</includeDependencySources>
+                                                <additionalparam>-Xdoclint:none</additionalparam>
+                                            </configuration>
+                                        </execution>
+                    -->                    
+
+                    <!--
+                    Warning: If the javadocs is missing information, it is because
+                        the sources are not being generated for the individual
+                        projects. Instead of adding the maven-source-plugin to
+                        all projects, it is easier to just change the configuration
+                        of the NMF Core project to "release-profile" and build it.
+                        This will generate all the sources that will then be found
+                        by this project upon compilation.
+                    -->
+
                     <execution>
                         <id>attach-javadocs</id>
                         <phase>package</phase>
@@ -261,13 +272,13 @@
             -->
         </plugins>
     </build>
-<!--
-    <repositories>
-        <repository>
-            <id>AGSA-GITLAB</id>
-            <name>The GitLab repository from the AGSA server.</name>
-            <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
-        </repository>
-    </repositories>
--->    
+    <!--
+        <repositories>
+            <repository>
+                <id>AGSA-GITLAB</id>
+                <name>The GitLab repository from the AGSA server.</name>
+                <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
+            </repository>
+        </repositories>
+    -->    
 </project>
