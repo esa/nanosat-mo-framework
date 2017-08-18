@@ -186,9 +186,6 @@
                         <goals>
                             <!-- produce source artifact for main project sources -->
                             <goal>jar-no-fork</goal>
-              
-                            <!-- produce source artifact for project test sources -->
-                            <goal>test-jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
