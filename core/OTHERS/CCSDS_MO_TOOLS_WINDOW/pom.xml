@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.2</version>
+        <version>0.3-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>MAL_ELEMENTS_WINDOW</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.1</version>
+    <version>0.1.2-SNAPSHOT</version>
 
     <name>MAL Elements Display Window</name>
     <description>A tool to edit and display a MO element structure in a window interface</description>
