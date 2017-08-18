@@ -58,17 +58,13 @@
     <developers>
         <developer>
             <id>CesarCoelho</id>
-            <name>César Coelho</name>
+            <name>Cesar Coelho</name>
             <email>Cesar.Coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
 
     <dependencies>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>MAL_IMPL</artifactId>
-        </dependency>
         <!-- APIs -->
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
@@ -176,29 +172,61 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
             </plugin>
+            <!--
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.1</version>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>bundle-sources</id>
-                        <phase>package</phase>
+                        <phase>generate-sources</phase>
                         <goals>
                             <!-- produce source artifact for main project sources -->
                             <goal>jar-no-fork</goal>
+                            
+                            <!-- produce source artifact for project test sources -->
+                            <!--  <goal>test-jar-no-fork</goal> -->
                         </goals>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
+                <version>3.0.0-M1</version>
                 <executions>
+<!--
+                    <execution>
+                        <id>aggregate</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                              <aggregate>true</aggregate>
+                              <includeDependencySources>true</includeDependencySources>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </execution>
+-->                    
                     <execution>
                         <id>attach-javadocs</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>javadoc</goal>
                         </goals>
                         <configuration>
                             <includeDependencySources>true</includeDependencySources>
@@ -207,6 +235,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -229,9 +258,10 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
         </plugins>
     </build>
-
+<!--
     <repositories>
         <repository>
             <id>AGSA-GITLAB</id>
@@ -239,5 +269,5 @@
             <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
         </repository>
     </repositories>
-    
+-->    
 </project>
