@@ -43,7 +43,6 @@ import org.ccsds.moims.mo.mc.check.structures.ReferenceCheckDefinition;
 import org.ccsds.moims.mo.mc.check.structures.ReferenceValue;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import esa.mo.mc.impl.provider.check.model.ParameterValueEntry;
 
 /**
  * This class manages all monitorings for parameter-updates. The new

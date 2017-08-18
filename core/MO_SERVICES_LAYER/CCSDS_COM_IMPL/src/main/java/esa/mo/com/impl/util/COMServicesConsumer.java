@@ -21,6 +21,7 @@
 package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
+import esa.mo.com.impl.consumer.ArchiveSyncConsumerServiceImpl;
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -28,6 +29,7 @@ import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
+import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -40,6 +42,7 @@ public class COMServicesConsumer {
 
     private EventConsumerServiceImpl eventService;
     private ArchiveConsumerServiceImpl archiveService;
+    private ArchiveSyncConsumerServiceImpl archiveSyncService;
 
     /**
      * Initializes all the COM services consumer side automatically from the
@@ -62,6 +65,12 @@ public class COMServicesConsumer {
             if (details != null) {
                 eventService = new EventConsumerServiceImpl(details);
             }
+
+            // Initialize the Event service (without an Archive)
+            details = connectionConsumer.getServicesDetails().get(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME);
+            if (details != null) {
+                archiveSyncService = new ArchiveSyncConsumerServiceImpl(details);
+            }
         } catch (MALException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -77,6 +86,10 @@ public class COMServicesConsumer {
 
     public ArchiveConsumerServiceImpl getArchiveService() {
         return this.archiveService;
+    }
+
+    public ArchiveSyncConsumerServiceImpl getArchiveSyncService() {
+        return this.archiveSyncService;
     }
 
     /**
@@ -119,6 +132,10 @@ public class COMServicesConsumer {
 
         if (this.archiveService != null) {
             this.archiveService.closeConnection();
+        }
+
+        if (this.archiveSyncService != null) {
+            this.archiveSyncService.closeConnection();
         }
     }
 

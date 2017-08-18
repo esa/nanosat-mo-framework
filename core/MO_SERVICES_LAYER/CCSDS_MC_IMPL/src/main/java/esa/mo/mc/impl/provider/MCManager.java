@@ -27,7 +27,7 @@ import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.mc.impl.provider.model.GroupRetrieval;
+import esa.mo.mc.impl.util.GroupRetrieval;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;

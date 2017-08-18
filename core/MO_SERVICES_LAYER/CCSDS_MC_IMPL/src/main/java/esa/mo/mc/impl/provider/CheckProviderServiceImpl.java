@@ -26,7 +26,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.provider.check.CheckLinkMonitorManager;
 import esa.mo.mc.impl.provider.check.ParameterMonitoringManager;
-import esa.mo.mc.impl.provider.model.GroupRetrieval;
+import esa.mo.mc.impl.util.GroupRetrieval;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import java.net.MalformedURLException;
 import java.util.HashMap;

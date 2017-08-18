@@ -38,8 +38,6 @@ import org.ccsds.moims.mo.mc.check.structures.DeltaCheckDefinition;
 import org.ccsds.moims.mo.mc.check.structures.LimitCheckDefinition;
 import org.ccsds.moims.mo.mc.check.structures.ReferenceCheckDefinition;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import esa.mo.mc.impl.provider.check.model.CheckLinkEvaluation;
-import esa.mo.mc.impl.provider.check.model.EvaluationResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

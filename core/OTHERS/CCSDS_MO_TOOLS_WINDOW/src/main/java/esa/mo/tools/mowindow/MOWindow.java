@@ -377,7 +377,6 @@ public final class MOWindow extends javax.swing.JDialog {
 
         // Composite not list
         if (this.receivedObj instanceof Composite && !(this.receivedObj instanceof ElementList)) {
-
             Field[] fields = FieldsHandler.getDeclaredFields(this.receivedObj);
 
             if (fields.length < 6) {

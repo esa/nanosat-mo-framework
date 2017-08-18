@@ -21,8 +21,6 @@ package esa.mo.mc.impl.provider.check;
 
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.mc.impl.provider.check.model.CheckLinkEvaluation;
-import esa.mo.mc.impl.provider.check.model.EvaluationResult;
 import java.util.HashMap;
 import java.util.List;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;

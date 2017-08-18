@@ -131,6 +131,16 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     public void reset() {
         manager.resetTable();
     }
+    
+    /**
+     * This method should only be used by the Archive Sync service. Any other
+     * calls should go through the COM Archive interface and not this one.
+     *
+     * @return The Archive Manager.
+     */
+    public ArchiveManager getArchiveManager(){
+        return manager;
+    }
 
     @Override
     public void retrieve(final ObjectType inObjectType, final IdentifierList inDomain,

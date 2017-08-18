@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package esa.mo.mc.impl.provider.check.model;
+package esa.mo.mc.impl.provider.check;
 
 import java.util.ArrayList;
 import java.util.HashMap;

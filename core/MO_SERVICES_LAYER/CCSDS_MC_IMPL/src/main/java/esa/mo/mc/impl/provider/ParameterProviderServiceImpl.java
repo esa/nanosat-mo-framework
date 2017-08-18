@@ -25,7 +25,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.mc.impl.provider.model.GroupRetrieval;
+import esa.mo.mc.impl.util.GroupRetrieval;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

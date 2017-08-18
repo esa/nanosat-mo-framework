@@ -22,6 +22,7 @@ package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ActivityTrackingProviderServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
+import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import org.ccsds.moims.mo.mal.MALException;
 
@@ -34,6 +35,7 @@ public class COMServicesProvider {
     private ArchiveProviderServiceImpl archiveService;
     private EventProviderServiceImpl eventService;
     private ActivityTrackingProviderServiceImpl activityTrackingService;
+    private ArchiveSyncProviderServiceImpl archiveSyncService;
 
     /**
      * Initializes all the COM services automatically.
@@ -69,6 +71,15 @@ public class COMServicesProvider {
 
     public ActivityTrackingProviderServiceImpl getActivityTrackingService() {
         return this.activityTrackingService;
+    }
+
+    public ArchiveSyncProviderServiceImpl getArchiveSyncService() {
+        return this.archiveSyncService;
+    }
+
+    public void initArchiveSync() throws MALException {
+        archiveSyncService = new ArchiveSyncProviderServiceImpl();
+        this.archiveSyncService.init(archiveService.getArchiveManager());
     }
 
     /**
