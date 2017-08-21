@@ -72,7 +72,7 @@
 						</mal:errorRef>
 					</mal:errors>
 				</mal:progressIP>
-				<mal:submitIP comment="The abortMemoryDump operation allows a consumer to abort on-going dumping processes." name="abortMemoryDump" number="4" supportInReplay="false">
+				<mal:submitIP comment="The abortMemoryDump operation allows a consumer to abort on-going dumping processes." name="abortMemoryDump" number="3" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment="">
 							<mal:field canBeNull="true" comment="The requestIds field shall contain the request ids to be aborted." name="requestIds">
@@ -83,7 +83,7 @@
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:invokeIP comment="The checkMemory operation allows a consumer to check memory areas of a selected device. The response contains the checksum for the selected checksum algorithm." name="checkMemory" number="3" supportInReplay="false">
+				<mal:invokeIP comment="The checkMemory operation allows a consumer to check memory areas of a selected device. The response contains the checksum for the selected checksum algorithm." name="checkMemory" number="4" supportInReplay="false">
 					<mal:messages>
 						<mal:invoke comment="">
 							<mal:field canBeNull="true" comment="The deviceName field shall contain the name of the destination device. The interpretation of the value is implementation-specific." name="deviceName">
