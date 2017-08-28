@@ -45,7 +45,8 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public class DemoHelloWorld {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    private static final String PARAMETER_HELLO = "A_Parameter";
+    private static final String PARAMETER_NAME = "A_Parameter";
+    private static final String PARAMETER_DESCRIPTION = "My first parameter!";
     private String str = "Hello World!";
 
     public DemoHelloWorld() {
@@ -73,7 +74,7 @@ public class DemoHelloWorld {
             final IdentifierList names = new IdentifierList();
 
             defsOther.add(new ParameterDefinitionDetails(
-                    "A demo parameter!",
+                    PARAMETER_DESCRIPTION,
                     Union.STRING_SHORT_FORM.byteValue(),
                     "",
                     false,
@@ -81,14 +82,13 @@ public class DemoHelloWorld {
                     null,
                     null
             ));
-            names.add(new Identifier(PARAMETER_HELLO));
-
+            names.add(new Identifier(PARAMETER_NAME));
             registrationObject.registerParameters(names, defsOther);
         }
 
         @Override
         public Attribute onGetValue(Identifier identifier, Byte rawType) {
-            if (PARAMETER_HELLO.equals(identifier.getValue())) {
+            if (PARAMETER_NAME.equals(identifier.getValue())) {
                 return (Attribute) HelperAttributes.javaType2Attribute(str);
             }
 
@@ -97,7 +97,7 @@ public class DemoHelloWorld {
 
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            if (PARAMETER_HELLO.equals(identifiers.get(0).getValue())) {
+            if (PARAMETER_NAME.equals(identifiers.get(0).getValue())) {
                 str = values.get(0).getRawValue().toString(); // Let's set the str variable
                 return true;  // to confirm that the variable was set                
             }
@@ -124,7 +124,7 @@ public class DemoHelloWorld {
             final IdentifierList names = new IdentifierList();
 
             defsOther.add(new ParameterDefinitionDetails(
-                    "My first parameter!",
+                    PARAMETER_DESCRIPTION,
                     Union.STRING_SHORT_FORM.byteValue(),
                     "",
                     false,
@@ -132,8 +132,7 @@ public class DemoHelloWorld {
                     null,
                     null
             ));
-            names.add(new Identifier(PARAMETER_HELLO));
-
+            names.add(new Identifier(PARAMETER_NAME));
             registrationObject.registerParameters(names, defsOther);
         }
 
@@ -144,7 +143,7 @@ public class DemoHelloWorld {
 
         @Override
         public Serializable onGetValueSimple(String name) {
-            if (PARAMETER_HELLO.equals(name)) {
+            if (PARAMETER_NAME.equals(name)) {
                 return str;
             }
 
@@ -153,7 +152,7 @@ public class DemoHelloWorld {
 
         @Override
         public boolean onSetValueSimple(String name, Serializable value) {
-            if (PARAMETER_HELLO.equals(name)) {
+            if (PARAMETER_NAME.equals(name)) {
                 str = value.toString(); // Let's set the str variable
                 return true;  // to confirm that the variable was set
             }
