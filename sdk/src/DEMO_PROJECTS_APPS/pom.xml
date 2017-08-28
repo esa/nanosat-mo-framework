@@ -62,7 +62,7 @@
     </developers>
 
     <modules>
-        <module>demo-hello_world</module>
+        <module>demo-hello-world</module>
         <module>demo-push-clock</module>
         <module>demo-10-sec-alert</module>
         <module>demo-5-stages-action</module>
