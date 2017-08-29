@@ -73,13 +73,19 @@ public class NMFPackageCreator {
             }
             out.close();
         } catch (Exception ex) {
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, "The Files could not be zipped!", ex);
+            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
+                    "The Files could not be zipped!", ex);
         }
     }
 
     public static void nmfPackageCreator(final NMFPackageDetails details,
-            final ArrayList<String> files, final ArrayList<String> newLocations) {
+            final ArrayList<String> filesInput, final ArrayList<String> newLocationsInput) {
         NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
+        final ArrayList<String> files = new ArrayList<String>();
+        files.addAll(filesInput);
+
+        final ArrayList<String> newLocations = new ArrayList<String>();
+        newLocations.addAll(newLocationsInput);
 
         for (int i = 0; i < newLocations.size(); i++) {
             try {
@@ -91,9 +97,10 @@ public class NMFPackageCreator {
             }
         }
 
-        // -----------------------------------------------------------------------------------
+        // -------------------------------------------------------------------
         // Generate nmfPackage.receipt
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO, "Generating receipt file...");
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "Generating receipt file...");
 
         try { // Write down all the new paths
             FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.RECEIPT_FILENAME);
@@ -113,9 +120,9 @@ public class NMFPackageCreator {
         File receipt = new File(HelperNMFPackage.RECEIPT_FILENAME);
         files.add(receipt.getPath());
         newLocations.add(HelperNMFPackage.RECEIPT_FILENAME);
-        // -----------------------------------------------------------------------------------
+        // -------------------------------------------------------------------
 
-        // -----------------------------------------------------------------------------------        
+        // -------------------------------------------------------------------
         // Generate digital signature
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO, "Generating digital signature...");
 
@@ -137,19 +144,21 @@ public class NMFPackageCreator {
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
-        // -----------------------------------------------------------------------------------        
+        // -------------------------------------------------------------------
 
         // Add the signature file to the list of Files to be zipped
         File digitalSignature = new File(HelperNMFPackage.DS_FILENAME);
         files.add((new File(HelperNMFPackage.DS_FILENAME)).getPath());
         newLocations.add(HelperNMFPackage.DS_FILENAME);
-        // -----------------------------------------------------------------------------------        
+        // -------------------------------------------------------------------
 
-        // -----------------------------------------------------------------------------------        
+        // -------------------------------------------------------------------
         // Compress:
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO, "Compressing...");
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "Compressing...");
 
-        String packageOutputPath = details.getPackageName() + "-" + details.getVersion() + "." + HelperNMF.NMF_PACKAGE_SUFFIX;
+        String packageOutputPath = details.getPackageName() + "-"
+                + details.getVersion() + "." + HelperNMF.NMF_PACKAGE_SUFFIX;
         NMFPackageCreator.zipFiles(packageOutputPath, files, newLocations);
 
         // Output the secret privateKey into a file

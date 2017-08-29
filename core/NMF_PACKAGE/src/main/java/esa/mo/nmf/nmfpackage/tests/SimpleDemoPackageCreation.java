@@ -25,6 +25,8 @@ import esa.mo.nmf.nmfpackage.NMFPackageCreator;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
@@ -60,19 +62,27 @@ public class SimpleDemoPackageCreation {
         final Time time = new Time(System.currentTimeMillis());
         final String timestamp = HelperTime.time2readableString(time);
 
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "\n------------- Package 1 Generation -------------\n");
+
         // Package 1
         NMFPackageDetails details = new NMFPackageDetails("TestPackage", "1.0", timestamp);
         NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
 
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "\n------------- Package 2 Generation -------------\n");
+
         // Package 2
         NMFPackageDetails details2 = new NMFPackageDetails("TestPackage", "2.0", timestamp);
-        NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
+        NMFPackageCreator.nmfPackageCreator(details2, files, newLocations);
+
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "\n------------- Package 3 Generation -------------\n");
 
         // Package 3
         NMFPackageDetails details3 = new NMFPackageDetails("TestPackage", "3.0", timestamp);
-        NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
-        
-        
+        NMFPackageCreator.nmfPackageCreator(details3, files, newLocations);
+
         // If Yes:
         // Select the jar file (without dependencies)
         // Select the provider.properties file

@@ -116,7 +116,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
     @Override
     public void reportActionExecutionProgress(final boolean success, final int errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws NMFException {
+            final int progressStage, final int totalNumberOfProgressStages,
+            final long actionInstId) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
@@ -146,7 +147,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws NMFException {
+    public Boolean pushParameterValue(final String name, final Serializable content,
+            final boolean storeIt) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
@@ -169,7 +171,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
-    public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters, final boolean storeIt) throws NMFException {
+    public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters,
+            final boolean storeIt) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
