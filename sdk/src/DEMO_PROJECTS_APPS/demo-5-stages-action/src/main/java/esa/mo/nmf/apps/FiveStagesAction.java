@@ -30,7 +30,6 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
@@ -43,18 +42,18 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
- * A simple demo that reports 5 stages of an Action every 2 seconds
+ * A simple NMF App demo that reports 5 stages of an Action every 2 seconds
  *
  */
 public class FiveStagesAction {
 
-    private final NanoSatMOConnectorImpl nanoSatMOFramework = new NanoSatMOConnectorImpl();
+    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private final static int TOTAL_N_OF_STAGES = 5; // 5 stages
     private final static int SLEEP_TIME = 2; // 2 seconds
     private final static String ACTION5STAGES = "Go";
 
     public FiveStagesAction() {
-        nanoSatMOFramework.init(new MCAdapter());
+        connector.init(new MCAdapter());
     }
 
     /**
@@ -74,7 +73,7 @@ public class FiveStagesAction {
             ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
             IdentifierList names = new IdentifierList();
 
-            ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+            ArgumentDefinitionDetailsList argDef = new ArgumentDefinitionDetailsList();
             {
                 Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
                 String rawUnit = "seconds";
@@ -82,7 +81,7 @@ public class FiveStagesAction {
                 Byte convertedType = null;
                 String convertedUnit = null;
 
-                arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit,
+                argDef.add(new ArgumentDefinitionDetails(rawType, rawUnit,
                         conditionalConversions, convertedType, convertedUnit));
             }
 
@@ -90,13 +89,12 @@ public class FiveStagesAction {
                     "Example of an Action with 5 stages.",
                     new UOctet((short) 0),
                     new UShort(5),
-                    arguments1,
+                    argDef,
                     null
             );
             names.add(new Identifier(ACTION5STAGES));
-
             actionDefs.add(actionDef1);
-            LongList actionObjIds = registrationObject.registerActions(names, actionDefs);
+            registrationObject.registerActions(names, actionDefs);
         }
 
         @Override
@@ -115,9 +113,10 @@ public class FiveStagesAction {
             if (ACTION5STAGES.equals(name.getValue())) {
                 try {
                     // action1 was called?
-                    fiveStepsAction(actionInstanceObjId);
+                    reportFiveStepsAction(actionInstanceObjId);
                 } catch (NMFException ex) {
-                    Logger.getLogger(FiveStagesAction.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(FiveStagesAction.class.getName()).log(Level.SEVERE,
+                            "The action could not report the five steps!", ex);
                     return new UInteger(0);
                 }
 
@@ -128,12 +127,12 @@ public class FiveStagesAction {
         }
     }
 
-    public void fiveStepsAction(Long actionId) throws NMFException {
+    public void reportFiveStepsAction(Long actionId) throws NMFException {
         for (int stage = 1; stage < TOTAL_N_OF_STAGES + 1; stage++) {
-            nanoSatMOFramework.reportActionExecutionProgress(true, 0, stage, TOTAL_N_OF_STAGES, actionId);
+            connector.reportActionExecutionProgress(true, 0, stage, TOTAL_N_OF_STAGES, actionId);
 
-            try {
-                Thread.sleep(SLEEP_TIME * 1000); //1000 is milliseconds multiplier.
+            try { // Quick and dirty, but enough for demo purposes!
+                Thread.sleep(SLEEP_TIME * 1000); // 1000 is the ms multiplier.
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }

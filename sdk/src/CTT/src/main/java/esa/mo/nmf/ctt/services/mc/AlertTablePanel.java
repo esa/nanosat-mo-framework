@@ -40,8 +40,9 @@ public class AlertTablePanel extends SharedTablePanel {
 
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
-        if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
+        if (comObject == null) {
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                    "The table cannot process a null COM Object.");
             return;
         }
 
@@ -52,7 +53,7 @@ public class AlertTablePanel extends SharedTablePanel {
         }
 
         AlertDefinitionDetails pDef = (AlertDefinitionDetails) comObject.getObject();
-        
+
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getDetails().getRelated(),
             name.toString(),
@@ -65,7 +66,7 @@ public class AlertTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
-    public void switchEnabledstatus(boolean status){
+    public void switchEnabledstatus(boolean status) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -75,55 +76,52 @@ public class AlertTablePanel extends SharedTablePanel {
         // 4 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
         ((AlertDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
-        
+
         semaphore.release();
     }
 
-    public void switchEnabledstatusAll(boolean status){
-        
+    public void switchEnabledstatusAll(boolean status) {
+
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // 4 because it is where generationEnabled is!
-        for (int i = 0; i < this.getTable().getRowCount() ; i++){
+        for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
             ((AlertDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
         }
-        
+
         semaphore.release();
-        
+
     }
-    
-    
+
     @Override
     public void defineTableContent() {
-    
         String[] tableCol = new String[]{
-            "Identity", "name", "description", "Severity", "generationEnabled" };
+            "Identity", "name", "description", "Severity", "generationEnabled"};
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {
-                    Class[] types = new Class[]{
-                        java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
-                        java.lang.String.class, java.lang.Boolean.class
-                    };
+            Class[] types = new Class[]{
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                java.lang.String.class, java.lang.Boolean.class
+            };
 
-                    @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                    @Override
-                    public Class getColumnClass(int columnIndex) {
-                        return types[columnIndex];
-                    }
-                };
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
 
         super.getTable().setModel(tableData);
-
     }
-    
+
 }

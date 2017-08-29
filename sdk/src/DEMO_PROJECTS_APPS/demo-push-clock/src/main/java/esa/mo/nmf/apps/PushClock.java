@@ -42,14 +42,13 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
- * This app is a simple clock. It pushes the day of the week, the hours, the
+ * This NMF App is a simple clock. It pushes the day of the week, the hours, the
  * minutes and the seconds.
  *
  */
 public class PushClock {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-//    private final NanoSatMOFrameworkInterface nanoSatMOFramework = new NanoSatMOMonolithicSim(new mcAdapter());
     private final Timer timer = new Timer("PushClockTimerThread");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
     private int hours = 0;
@@ -63,13 +62,15 @@ public class PushClock {
 
     public PushClock() {
         connector.init(new MCAdapter());
+
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 try {
                     pushClock();
                 } catch (NMFException ex) {
-                    Logger.getLogger(PushClock.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(PushClock.class.getName()).log(Level.SEVERE,
+                            "The Clock could not be pushed to the consumer!", ex);
                 }
             }
         }, 5 * 1000, REFRESH_RATE * 1000); // conversion to milliseconds
@@ -112,13 +113,14 @@ public class PushClock {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-            // Not necessary because the NMF will do the registrations automatically
-            // after the first push
+            // Not necessary because the NMF will do the registrations
+            // automatically after the first push
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln, MALInteraction mali) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl,
+                Long l, boolean bln, MALInteraction mali) {
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
@@ -128,9 +130,7 @@ public class PushClock {
 
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported.");
         }
-
     }
-
 }

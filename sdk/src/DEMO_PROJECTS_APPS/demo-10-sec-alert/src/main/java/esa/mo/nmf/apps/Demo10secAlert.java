@@ -55,7 +55,8 @@ public class Demo10secAlert {
                 try {
                     connector.publishAlertEvent("10SecondsAlert", null);
                 } catch (NMFException ex) {
-                    Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE,
+                            "The Alert could not be published to the consumer!", ex);
                 }
             }
         }, 0, 10 * 1000); // 10 seconds
@@ -78,18 +79,19 @@ public class Demo10secAlert {
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln, MALInteraction mali) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl,
+                Long l, boolean bln, MALInteraction mali) {
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
         public Attribute onGetValue(Identifier idntfr, Byte b) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported.");
         }
 
     }

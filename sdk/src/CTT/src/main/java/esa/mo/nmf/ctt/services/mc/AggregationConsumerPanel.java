@@ -65,8 +65,8 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class AggregationConsumerPanel extends javax.swing.JPanel {
 
-    private AggregationConsumerServiceImpl serviceMCAggregation;
-    private AggregationTablePanel aggregationTable;
+    private final AggregationConsumerServiceImpl serviceMCAggregation;
+    private final AggregationTablePanel aggregationTable;
 
     /**
      *
@@ -79,8 +79,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         aggregationTable = new AggregationTablePanel(serviceMCAggregation.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(aggregationTable);
     }
-    
-    public void init(){
+
+    public void init() {
         this.listDefinitionAllButtonActionPerformed(null);
 
         // Subscribe to ParametersValues
@@ -93,7 +93,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        
+
     /**
      * This method is called from within the constructor to initialize the
      * formAddModifyParameter. WARNING: Do NOT modify this code. The content of
@@ -363,8 +363,11 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             }
 
             // Get the stored Parameter Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAggregation.getCOMServices().getArchiveService().getArchiveStub(),
-                    AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, serviceMCAggregation.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                    this.serviceMCAggregation.getCOMServices().getArchiveService().getArchiveStub(),
+                    AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                    serviceMCAggregation.getConnectionDetails().getDomain(),
+                    objIds.get(0).getObjDefInstanceId());
 
             // Add the Action Definition to the table
             aggregationTable.addEntry(requestList.get(0).getName(), comObject);
@@ -426,7 +429,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
     private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
-/*
+        /*
         ObjectInstancePairList output;
         try {
             output = this.serviceMCAggregation.getAggregationStub().listDefinition(idList);
@@ -442,7 +445,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         }
         
         Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
-*/
+         */
 
         try {
             this.serviceMCAggregation.getAggregationStub().asyncListDefinition(idList, new AggregationAdapter() {
@@ -693,8 +696,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 if (msgBoxOn.isSelected() && !lUpdateHeaderList.isEmpty() && lAggregationValueList.size() != 0) {
                     String str = "";
                     final AggregationValue aggregationValue = lAggregationValueList.get(0);
-                    str += "AggregationValue generationMode: " + aggregationValue.getGenerationMode().toString() + 
-                            " (filtered: " + aggregationValue.getFiltered().toString() + ")" + "\n";
+                    str += "AggregationValue generationMode: " + aggregationValue.getGenerationMode().toString()
+                            + " (filtered: " + aggregationValue.getFiltered().toString() + ")" + "\n";
 
                     str += "Aggregation objId " + objId + " (name: " + Aggname + "):" + "\n";
 
@@ -710,7 +713,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                             }
 
                             ParameterValue paramValue = parameterSetsValue.getValues().get(j).getValue();
-                            
+
                             str += "values index: " + j + "\n";
                             str += "validityState: " + paramValue.getValidityState().toString() + "\n";
                             if (paramValue.getRawValue() != null) {
