@@ -130,7 +130,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues) throws NMFException {
+    public Long publishAlertEvent(final String alertDefinitionName,
+            final AttributeValueList attributeValues) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
@@ -164,6 +165,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1); // We just add 1 element
         parameters.add(instance);
+
+        return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
+    }
+
+    public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters, final boolean storeIt) throws NMFException {
+        if (this.getMCServices() == null) {
+            throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
+        }
 
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }

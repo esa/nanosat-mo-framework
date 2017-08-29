@@ -60,10 +60,19 @@ public class SimpleDemoPackageCreation {
         final Time time = new Time(System.currentTimeMillis());
         final String timestamp = HelperTime.time2readableString(time);
 
+        // Package 1
         NMFPackageDetails details = new NMFPackageDetails("TestPackage", "1.0", timestamp);
-
         NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
 
+        // Package 2
+        NMFPackageDetails details2 = new NMFPackageDetails("TestPackage", "2.0", timestamp);
+        NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
+
+        // Package 3
+        NMFPackageDetails details3 = new NMFPackageDetails("TestPackage", "3.0", timestamp);
+        NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
+        
+        
         // If Yes:
         // Select the jar file (without dependencies)
         // Select the provider.properties file
