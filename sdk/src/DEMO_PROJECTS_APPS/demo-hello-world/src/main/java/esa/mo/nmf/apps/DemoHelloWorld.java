@@ -22,6 +22,7 @@ package esa.mo.nmf.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
@@ -47,7 +48,7 @@ public class DemoHelloWorld {
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private static final String PARAMETER_NAME = "A_Parameter";
     private static final String PARAMETER_DESCRIPTION = "My first parameter!";
-    private String str = "Hello World!";
+    private String var = "Hello World!";
 
     public DemoHelloWorld() {
         connector.init(new MCAdapterSimple());
@@ -67,13 +68,13 @@ public class DemoHelloWorld {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-            registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
+            registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
-            final ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+            final ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
             final IdentifierList names = new IdentifierList();
 
-            defsOther.add(new ParameterDefinitionDetails(
+            defs.add(new ParameterDefinitionDetails(
                     PARAMETER_DESCRIPTION,
                     Union.STRING_SHORT_FORM.byteValue(),
                     "",
@@ -83,13 +84,13 @@ public class DemoHelloWorld {
                     null
             ));
             names.add(new Identifier(PARAMETER_NAME));
-            registrationObject.registerParameters(names, defsOther);
+            registrationObject.registerParameters(names, defs);
         }
 
         @Override
         public Attribute onGetValue(Identifier identifier, Byte rawType) {
             if (PARAMETER_NAME.equals(identifier.getValue())) {
-                return (Attribute) HelperAttributes.javaType2Attribute(str);
+                return (Attribute) HelperAttributes.javaType2Attribute(var);
             }
 
             return null;
@@ -98,8 +99,8 @@ public class DemoHelloWorld {
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
             if (PARAMETER_NAME.equals(identifiers.get(0).getValue())) {
-                str = values.get(0).getRawValue().toString(); // Let's set the str variable
-                return true;  // to confirm that the variable was set                
+                var = values.get(0).getRawValue().toString();
+                return true;  // to confirm that the variable was set
             }
 
             return false;
@@ -110,20 +111,19 @@ public class DemoHelloWorld {
                 Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
             return null;  // Action service not integrated
         }
-
     }
 
     public class MCAdapterSimple extends SimpleMonitorAndControlAdapter {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-            registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
+            registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
-            final ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+            final ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
             final IdentifierList names = new IdentifierList();
 
-            defsOther.add(new ParameterDefinitionDetails(
+            defs.add(new ParameterDefinitionDetails(
                     PARAMETER_DESCRIPTION,
                     Union.STRING_SHORT_FORM.byteValue(),
                     "",
@@ -133,18 +133,13 @@ public class DemoHelloWorld {
                     null
             ));
             names.add(new Identifier(PARAMETER_NAME));
-            registrationObject.registerParameters(names, defsOther);
-        }
-
-        @Override
-        public boolean actionArrivedSimple(String name, Serializable[] values, Long actionInstanceObjId) {
-            return false;
+            registrationObject.registerParameters(names, defs);
         }
 
         @Override
         public Serializable onGetValueSimple(String name) {
             if (PARAMETER_NAME.equals(name)) {
-                return str;
+                return var;
             }
 
             return null;
@@ -153,12 +148,17 @@ public class DemoHelloWorld {
         @Override
         public boolean onSetValueSimple(String name, Serializable value) {
             if (PARAMETER_NAME.equals(name)) {
-                str = value.toString(); // Let's set the str variable
+                var = value.toString();
                 return true;  // to confirm that the variable was set
             }
 
             return false;
         }
-    }
 
+        @Override
+        public boolean actionArrivedSimple(String name, Serializable[] values,
+                Long actionInstanceObjId) {
+            return false;
+        }
+    }
 }
