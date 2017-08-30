@@ -219,7 +219,6 @@ public class DemoGPSData {
                 }
 
                 if (PARAMETER_GPS_N_SATS_IN_VIEW.equals(identifier.getValue())) {
-
                     final Semaphore sem = new Semaphore(0);
                     final IntegerList nOfSats = new IntegerList();
 
