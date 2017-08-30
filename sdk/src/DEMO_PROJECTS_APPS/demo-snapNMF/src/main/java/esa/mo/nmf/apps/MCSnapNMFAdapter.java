@@ -41,7 +41,6 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
@@ -61,14 +60,13 @@ import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import esa.mo.nmf.NMFInterface;
 
 /**
- * The adapter for the app
+ * The adapter for the NMF App
  */
 public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
-    private NMFInterface nmf;
+    private NMFInterface connector;
 
     private static final String PARAMETER_SNAPS_TAKEN = "NumberOfSnapsTaken";
-
     private static final String ACTION_TAKE_PICTURE_RAW = "TakeSnap.RAW";
     private static final String ACTION_TAKE_PICTURE_JPG = "TakeSnap.JPG";
 
@@ -77,8 +75,8 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     private final int height = 1944;
     private final int TOTAL_STAGES = 3;
 
-    public void setNMF(NMFInterface nanosatmoframework) {
-        this.nmf = nanosatmoframework;
+    public void setNMF(NMFInterface connector) {
+        this.connector = connector;
     }
 
     @Override
@@ -135,12 +133,12 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         ));
         actionNames.add(new Identifier(ACTION_TAKE_PICTURE_JPG));
 
-        LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
+        registration.registerActions(actionNames, actionDefs);
     }
 
     @Override
     public Attribute onGetValue(Identifier identifier, Byte rawType) {
-        if (nmf == null) {
+        if (connector == null) {
             return null;
         }
 
@@ -153,22 +151,26 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-        return false;  // to confirm that the variable was set
+        return false;  // to confirm that the variable was not set
     }
 
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-        if (nmf == null) {
+        if (connector == null) {
             return new UInteger(0);
         }
 
-        if (ACTION_TAKE_PICTURE_RAW.equals(name.getValue())) {
-            PixelResolution resolution = new PixelResolution(new UInteger(width), new UInteger(height));
+        PixelResolution resolution = new PixelResolution(new UInteger(width), new UInteger(height));
 
+        if (ACTION_TAKE_PICTURE_RAW.equals(name.getValue())) {
             try {
-                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.RAW,
-                        new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
+                connector.getPlatformServices().getCameraService().takePicture(
+                        resolution,
+                        PictureFormat.RAW,
+                        new Duration(0.200),
+                        new DataReceivedAdapter(actionInstanceObjId)
+                );
                 return null; // Success!
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,12 +184,13 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         if (ACTION_TAKE_PICTURE_JPG.equals(name.getValue())) {
-            PixelResolution resolution = new PixelResolution(new UInteger(width), new UInteger(height));
-
             try {
-                nmf.getPlatformServices().getCameraService().takePicture(resolution, PictureFormat.JPG,
-                        new Duration(0.200), new DataReceivedAdapter(actionInstanceObjId));
-                
+                connector.getPlatformServices().getCameraService().takePicture(
+                        resolution,
+                        PictureFormat.JPG,
+                        new Duration(0.200),
+                        new DataReceivedAdapter(actionInstanceObjId)
+                );
                 return null; // Success!
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
@@ -202,7 +205,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         return new UInteger(0);  // Action service not integrated
     }
-    
+
     public class DataReceivedAdapter extends CameraAdapter {
 
         private final int STAGE_ACK = 1;
@@ -216,9 +219,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         @Override
         public void takePictureAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
             try {
-                nmf.reportActionExecutionProgress(true, 0, STAGE_ACK, TOTAL_STAGES, actionInstanceObjId);
+                connector.reportActionExecutionProgress(true, 0, STAGE_ACK, TOTAL_STAGES, actionInstanceObjId);
             } catch (NMFException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
+                        "The action progress could not be reported!", ex);
             }
         }
 
@@ -229,9 +233,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             snapsTaken.incrementAndGet();
 
             try {
-                nmf.reportActionExecutionProgress(true, 0, STAGE_RSP, TOTAL_STAGES, actionInstanceObjId);
+                connector.reportActionExecutionProgress(true, 0, STAGE_RSP, TOTAL_STAGES, actionInstanceObjId);
             } catch (NMFException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
+                        "The action progress could not be reported!", ex);
             }
 
             final String folder = "snaps";
@@ -241,37 +246,37 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             Date date = new Date(System.currentTimeMillis());
             Format format = new SimpleDateFormat("yyyyMMdd_HHmmss_");
             final String timeNow = format.format(date);
+            final String filenamePrefix = folder + File.separator + timeNow;
 
             try {
                 // Store it in a file!
                 if (picture.getFormat().equals(PictureFormat.RAW)) {
-                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myPicture.raw");
+                    FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.raw");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
                 if (picture.getFormat().equals(PictureFormat.PNG)) {
-                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myPicture.png");
+                    FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.png");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
                 if (picture.getFormat().equals(PictureFormat.BMP)) {
-                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myPicture.bmp");
+                    FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.bmp");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
                 if (picture.getFormat().equals(PictureFormat.JPG)) {
-                    FileOutputStream fos = new FileOutputStream(folder + File.separator + timeNow + "myPicture.jpg");
+                    FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.jpg");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
-
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -281,9 +286,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             }
 
             try { // Stored
-                nmf.reportActionExecutionProgress(true, 0, 3, TOTAL_STAGES, actionInstanceObjId);
+                connector.reportActionExecutionProgress(true, 0, 3, TOTAL_STAGES, actionInstanceObjId);
             } catch (NMFException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
+                        "The action progress could not be reported!", ex);
             }
         }
 
@@ -291,9 +297,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
             try {
-                nmf.reportActionExecutionProgress(false, 1, STAGE_ACK, TOTAL_STAGES, actionInstanceObjId);
+                connector.reportActionExecutionProgress(false, 1, STAGE_ACK, TOTAL_STAGES, actionInstanceObjId);
             } catch (NMFException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
+                        "The action progress could not be reported!", ex);
             }
         }
 
@@ -301,9 +308,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
             try {
-                nmf.reportActionExecutionProgress(false, 1, STAGE_RSP, TOTAL_STAGES, actionInstanceObjId);
+                connector.reportActionExecutionProgress(false, 1, STAGE_RSP, TOTAL_STAGES, actionInstanceObjId);
             } catch (NMFException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
+                        "The action progress could not be reported!", ex);
             }
         }
 
