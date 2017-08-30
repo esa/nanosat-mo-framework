@@ -22,6 +22,7 @@ package esa.mo.nmf.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
@@ -95,7 +96,11 @@ public class DemoGPSData {
             final ObjectId source = null;
             final Time timestamp = new Time((new Date()).getTime());
 
-            return connector.getMCServices().getAggregationService().pushAggregationAdhocUpdate(new Identifier("GPS"), source, timestamp);
+            return connector.getMCServices().getAggregationService().pushAggregationAdhocUpdate(
+                    new Identifier("GPS"),
+                    source,
+                    timestamp
+            );
         } catch (NMFException ex) {
             Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -106,14 +111,14 @@ public class DemoGPSData {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-            registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
+            registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
-            ParameterDefinitionDetailsList defsGPS = new ParameterDefinitionDetailsList();
+            ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
             IdentifierList paramNames = new IdentifierList();
 
             // Create the GPS.Latitude
-            defsGPS.add(new ParameterDefinitionDetails(
+            parDef.add(new ParameterDefinitionDetails(
                     "The GPS Latitude",
                     Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                     "degrees",
@@ -125,7 +130,7 @@ public class DemoGPSData {
             paramNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
             // Create the GPS.Longitude
-            defsGPS.add(new ParameterDefinitionDetails(
+            parDef.add(new ParameterDefinitionDetails(
                     "The GPS Longitude",
                     Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                     "degrees",
@@ -137,7 +142,7 @@ public class DemoGPSData {
             paramNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
             // Create the GPS.Altitude
-            defsGPS.add(new ParameterDefinitionDetails(
+            parDef.add(new ParameterDefinitionDetails(
                     "The GPS Altitude",
                     Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                     "meters",
@@ -148,7 +153,7 @@ public class DemoGPSData {
             ));
             paramNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
-            defsGPS.add(new ParameterDefinitionDetails(
+            parDef.add(new ParameterDefinitionDetails(
                     "The number of satellites in view of GPS receiver.",
                     Union.INTEGER_SHORT_FORM.byteValue(),
                     "sats",
@@ -159,10 +164,10 @@ public class DemoGPSData {
             ));
             paramNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
-            LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, defsGPS);
+            LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, parDef);
 
             // ------------------ Aggregations ------------------
-            AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
+            AggregationDefinitionDetailsList aggDef = new AggregationDefinitionDetailsList();
             IdentifierList aggNames = new IdentifierList();
 
             // Create the Aggregation GPS
@@ -186,8 +191,8 @@ public class DemoGPSData {
                     null
             ));
 
-            aggs.add(defGPSAgg);
-            registrationObject.registerAggregations(aggNames, aggs);
+            aggDef.add(defGPSAgg);
+            registrationObject.registerAggregations(aggNames, aggDef);
         }
 
         @Override
@@ -197,9 +202,8 @@ public class DemoGPSData {
                     return null;
                 }
 
-                GetLastKnownPositionResponse pos;
                 try {
-                    pos = connector.getPlatformServices().getGPSService().getLastKnownPosition();
+                    GetLastKnownPositionResponse pos = connector.getPlatformServices().getGPSService().getLastKnownPosition();
 
                     if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
                         return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
@@ -228,7 +232,6 @@ public class DemoGPSData {
                         public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                                 org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
                             nOfSats.add(gpsSatellitesInfo.size());
-
                             sem.release();
                         }
                     }

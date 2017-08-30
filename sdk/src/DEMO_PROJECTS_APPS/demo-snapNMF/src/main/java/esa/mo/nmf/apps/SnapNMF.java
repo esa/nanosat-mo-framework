@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 
 /**
@@ -29,7 +28,6 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 public class SnapNMF {
 
     private final NanoSatMOConnectorImpl connector;
-    private ArchiveSyncProviderServiceImpl sync;
 
     public SnapNMF() {
         MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();

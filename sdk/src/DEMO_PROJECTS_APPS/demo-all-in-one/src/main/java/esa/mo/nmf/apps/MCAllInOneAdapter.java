@@ -22,8 +22,10 @@ package esa.mo.nmf.apps;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
@@ -125,8 +127,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     private Long nadirPointingObjId = null;
     private final Timer timer = new Timer();
 
-    public void setNMF(final NMFInterface nanosatmoframework) {
-        this.nmf = nanosatmoframework;
+    public void setNMF(final NMFInterface nmfProvider) {
+        this.nmf = nmfProvider;
     }
 
     public void startTimerThread() {
@@ -148,9 +150,9 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public void initialRegistrations(MCRegistration registration) {
-        registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
+        registration.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
-        // ======================================================================= 
+        // =================================================================== 
         PairList mappings = new PairList();
         mappings.add(new Pair(new UOctet((short) AttitudeMode.BDOT.getOrdinal()), new Union("BDOT")));
         mappings.add(new Pair(new UOctet((short) AttitudeMode.SUNPOINTING.getOrdinal()), new Union("SUNPOINTING_INDEX")));
@@ -353,7 +355,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
             Byte convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit,
+                    conditionalConversions, convertedType, convertedUnit));
         }
 
         ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
@@ -399,7 +402,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(actionDef2);
         actionDefs.add(actionDef3);
         actionDefs.add(actionDef4);
-        LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
+        registration.registerActions(actionNames, actionDefs);
     }
 
     @Override
@@ -409,7 +412,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         }
 
         if (identifier == null) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, "The identifier object is null! Something is wrong!");
+            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE,
+                    "The identifier object is null! Something is wrong!");
             return null;
         }
 
@@ -532,7 +536,6 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-
         if (nmf == null) {
             return new UInteger(0);
         }
@@ -544,31 +547,34 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 }
             }
 
+            Attribute argValue = attributeValues.get(0).getValue();
+
+            // Negative Durations are not allowed!
+            if (((Duration) argValue).getValue() < 0) {
+                return new UInteger(1);
+            }
+
             try {
-                Attribute argValue = attributeValues.get(0).getValue();
-
-                // Negative Durations are not allowed!
-                if (((Duration) argValue).getValue() < 0) {
-                    return new UInteger(123);
-                }
-
                 System.out.println(ACTION_SUN_POINTING_MODE + " with value is ["
-                        + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
+                        + HelperAttributes.attribute2string(argValue) + "]");
 
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(sunPointingObjId, (Duration) argValue, new Duration(2));
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
+                        sunPointingObjId,
+                        (Duration) argValue,
+                        new Duration(2)
+                );
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(3);
             } catch (IOException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(3);
             } catch (NMFException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(3);
             }
-
         }
 
         if (ACTION_NADIR_POINTING_MODE.equals(name.getValue())) {
@@ -578,27 +584,33 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 }
             }
 
+            Attribute argValue = attributeValues.get(0).getValue();
+
+            // Negative Durations are not allowed!
+            if (((Duration) argValue).getValue() < 0) {
+                return new UInteger(1);
+            }
+
             try {
-                Attribute argValue = attributeValues.get(0).getValue();
+                System.out.println(ACTION_NADIR_POINTING_MODE + " with value is ["
+                        + HelperAttributes.attribute2string(argValue) + "]");
 
-                // Negative Durations are not allowed!
-                if (((Duration) argValue).getValue() < 0) {
-                    return new UInteger(123);
-                }
-
-                System.out.println(ACTION_NADIR_POINTING_MODE + " with value is [" + esa.mo.helpertools.helpers.HelperAttributes.attribute2string(argValue) + "]");
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(nadirPointingObjId, (Duration) argValue, new Duration(2));
+                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
+                        nadirPointingObjId,
+                        (Duration) argValue,
+                        new Duration(2)
+                );
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(3);
             } catch (IOException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(3);
             } catch (NMFException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(3);
             }
         }
 
@@ -619,15 +631,15 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 nmf.getPlatformServices().getAutonomousADCSService().unsetAttitude();
             } catch (MALInteractionException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(3);
             } catch (IOException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(3);
             } catch (NMFException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(3);
             }
         }
 
@@ -636,7 +648,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 return multiStageAction(actionInstanceObjId, 5);
             } catch (NMFException ex) {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(0);
+                return new UInteger(4);
             }
         }
 
@@ -673,12 +685,12 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 LongList nadirObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(nadirDefs);
                 nadirPointingObjId = nadirObj.get(0);
             }
-
         } catch (IOException ex) {
             Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
             if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.INFO, "The Attitude Definition already exists!");
+                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.INFO,
+                        "The Attitude Definition already exists!");
             } else {
                 Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -690,7 +702,10 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
         try {
             // Subscribe monitorAttitude
-            nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcard(), new DataReceivedAdapter());
+            nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
+                    ConnectionConsumer.subscriptionWildcard(),
+                    new DataReceivedAdapter()
+            );
         } catch (IOException ex) {
             Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
@@ -764,9 +779,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                         } catch (NMFException ex) {
                             Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                         }
-
                     }
-
                 }
             }
         }
@@ -775,15 +788,19 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     // push a sample of the ADCS Mode using the Parameter Service
     private void pushAdcsModeParam(AttitudeMode attMode) throws NMFException {
         Identifier name = new Identifier(PARAMETER_ADCS_MODE);
-        ObjectId source = null;
         UOctet validityState = new UOctet((short) 0);
         Attribute rawValue = new UOctet((short) attMode.getOrdinal());
         Attribute convertedValue = new Identifier(attMode.toString());
 
-        ParameterValue pValue = new ParameterValue(validityState, rawValue, convertedValue);
+        ParameterInstance instance = new ParameterInstance(
+                name,
+                new ParameterValue(validityState, rawValue, convertedValue),
+                null,
+                HelperTime.getTimestampMillis()
+        );
 
         final ArrayList<ParameterInstance> instances = new ArrayList<ParameterInstance>();
-        instances.add(new ParameterInstance(name, pValue, null, new Time(System.currentTimeMillis())));
+        instances.add(instance);
 
         nmf.getMCServices().getParameterService().pushMultipleParameterValues(instances);
     }
