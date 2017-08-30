@@ -10,4 +10,4 @@ NMF bespoke services:
 	ServiceSpecSoftwareManagement.pdf
 
 
-Please notice that the NMF bespokse services have been automatically generated from the corresponding XML file.
+Please notice that the NMF bespoke services have been automatically generated from the corresponding XML file.
