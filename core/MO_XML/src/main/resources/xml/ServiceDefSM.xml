@@ -147,8 +147,8 @@
 				</mal:composite>
 			</mal:dataTypes>
 			<mal:errors>
-				<mal:error comment="" name="UNKNOWN_DEVICE" number="711"/>
-				<mal:error comment="" name="INVALID_ADDRESS" number="712"/>
+				<mal:error comment="The device is unknown." name="UNKNOWN_DEVICE" number="711"/>
+				<mal:error comment="The selected address is invalid." name="INVALID_ADDRESS" number="712"/>
 			</mal:errors>
 			<com:features/>
 		</mal:service>		
@@ -606,12 +606,9 @@ The process of loading a software image from non-volatile memory to RAM upon boo
           </mal:field>
         </mal:composite>
       </mal:dataTypes>
-			<mal:errors>
-				<mal:error comment="" name="DEPENDENCY_NOT_FOUND" number="31"/>
-			</mal:errors>
 			<com:features>
         <mal:diagram name="PackageManagementObjects">
-          <svg:svg height="200" version="1.1" width="700">
+          <svg:svg height="200" version="1.1" width="500">
             <svg:defs>
               <svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
                 <svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
@@ -632,7 +629,7 @@ The process of loading a software image from non-volatile memory to RAM upon boo
               <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="65" y="45">1</svg:text>
               <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="65" y="65">PackageDefinition</svg:text>
             </svg:g>
-            <svg:g id="Installation" transform="translate(70,50)">
+          <svg:g id="Installation" transform="translate(70,50)">
               <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="130" x="4" y="4"/>
               <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="130"/>
               <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="65" y="25">Installation</svg:text>
@@ -688,21 +685,21 @@ The process of loading a software image from non-volatile memory to RAM upon boo
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:submitIP comment="" name="startProcess" number="5" supportInReplay="false">
+				<mal:submitIP comment="" name="startProcess" number="3" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment=""/>
 					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="3">
-				<mal:submitIP comment="" name="endProcess" number="6" supportInReplay="false">
+				<mal:submitIP comment="" name="endProcess" number="4" supportInReplay="false">
 					<mal:messages>
 						<mal:submit comment=""/>
 					</mal:messages>
 				</mal:submitIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="4">
-				<mal:requestIP comment="" name="getProcessSummary" number="7" supportInReplay="false">
+				<mal:requestIP comment="" name="getProcessSummary" number="5" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
               <mal:field canBeNull="true" comment="" name="processesInfo">

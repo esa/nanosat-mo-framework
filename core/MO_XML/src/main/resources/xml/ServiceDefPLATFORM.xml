@@ -530,7 +530,7 @@
 				<mal:pubsubIP comment="The monitorAttitude operation allows a consumer to subscribe for the satellite's current attitude.&#10;The pointingTo field shall contain the attitude instance in a reference frame.&#10;The MAL EntityKey.firstSubKey shall contain the AttitudeDefinition name.&#10;The MAL EntityKey.secondSubKey shall contain the AttitudeDefinition object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall contain the numeric value of the AttitudeMode of the AttitudeDefinition.&#10;The MAL EntityKey.fourthSubKey shall be NULL.&#10;The timestamp of the update shall be on-board clock at the time of the sampling.&#10;The ObjectId shall be set to NULL." name="monitorAttitude" number="1" supportInReplay="false">
 					<mal:messages>
 						<mal:publishNotify comment="">
-							<mal:field canBeNull="true" comment="The attitudeInstance filed shall hold the instance of the current attitude." name="attitudeInstance">
+							<mal:field canBeNull="true" comment="The attitudeInstance field shall hold the instance of the current attitude." name="attitudeInstance">
 								<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
 							</mal:field>
 						</mal:publishNotify>
@@ -683,63 +683,63 @@
 					<mal:item comment="Quaternions reference frame." nvalue="2" value="UNIT_QUATERNIONS"/>
 					<mal:item comment="Rotation Matrix reference frame." nvalue="3" value="ROTATION_MATRIX"/>
 				</mal:enumeration>
-				<mal:composite comment="" name="AttitudeInstance">
+				<mal:composite comment="The AttitudeInstance holds an attitude instance." name="AttitudeInstance">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
 				</mal:composite>		
-				<mal:composite comment="" name="AttitudeInstanceBDot" shortFormPart="11">
+				<mal:composite comment="The AttitudeInstanceBDot structure holds an attitude instance of type BDot." name="AttitudeInstanceBDot" shortFormPart="11">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
 					</mal:extends>
-					<mal:field canBeNull="false" comment="" name="magneticField">
+					<mal:field canBeNull="false" comment="The magnetic field instance." name="magneticField">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="" name="wheelSpeed">
+					<mal:field canBeNull="true" comment="The wheels speed instance." name="wheelSpeed">
 						<mal:type area="Platform" list="false" name="WheelSpeed"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="" name="mtqDipoleMomentum">
+					<mal:field canBeNull="true" comment="The magnetorquer momentum." name="mtqDipoleMomentum">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeInstanceSunPointing" shortFormPart="12">
+				<mal:composite comment="The AttitudeInstanceSunPointing structure holds an attitude instance of type Sun Pointing." name="AttitudeInstanceSunPointing" shortFormPart="12">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
 					</mal:extends>
-					<mal:field canBeNull="false" comment="" name="sunVector">
+					<mal:field canBeNull="false" comment="The sun vector instance." name="sunVector">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
-					<mal:field canBeNull="false" comment="" name="valid">
+					<mal:field canBeNull="false" comment="The validity of the instance." name="valid">
 						<mal:type area="MAL" list="false" name="Boolean"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="" name="wheelSpeed">
+					<mal:field canBeNull="true" comment="The wheels speed instance." name="wheelSpeed">
 						<mal:type area="Platform" list="false" name="WheelSpeed"/>
 					</mal:field>
 					<mal:field canBeNull="true" comment="This value shall not be used" name="mtqDipoleMomentum">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeInstanceSingleSpinning" shortFormPart="13">
+				<mal:composite comment="The AttitudeInstanceSingleSpinning structure holds an attitude instance of type Single Spinning." name="AttitudeInstanceSingleSpinning" shortFormPart="13">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
 					</mal:extends>
-					<mal:field canBeNull="false" comment="" name="sunVector">
+					<mal:field canBeNull="false" comment="The sun vector instance." name="sunVector">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
-					<mal:field canBeNull="false" comment="" name="magneticField">
+					<mal:field canBeNull="false" comment="The magnetic field instance." name="magneticField">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
-					<mal:field canBeNull="false" comment="" name="currentQuaternions">
+					<mal:field canBeNull="false" comment="The quaternions of the current attitude instance." name="currentQuaternions">
 						<mal:type area="Platform" list="false" name="Quaternions"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="" name="angularMomentum">
+					<mal:field canBeNull="true" comment="The angular momentum vector." name="angularMomentum">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="" name="mtqDipoleMomentum">
+					<mal:field canBeNull="true" comment="The magnetorquer momentum." name="mtqDipoleMomentum">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeInstanceTargetTracking" shortFormPart="14">
+				<mal:composite comment="The AttitudeInstanceTargetTracking structure holds an attitude instance of type Target Tracking." name="AttitudeInstanceTargetTracking" shortFormPart="14">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
 					</mal:extends>
@@ -759,7 +759,7 @@
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeInstanceNadirPointing" shortFormPart="15">
+				<mal:composite comment="The AttitudeInstanceNadirPointing structure holds an attitude instance of type Nadir Pointing." name="AttitudeInstanceNadirPointing" shortFormPart="15">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeInstance" service="AutonomousADCS"/>
 					</mal:extends>
@@ -772,30 +772,30 @@
 					<mal:field canBeNull="true" comment="The wheels speed instance." name="speed">
 						<mal:type area="Platform" list="false" name="WheelSpeed"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="WGS84" name="positionVector">
+					<mal:field canBeNull="true" comment="WGS84 reference." name="positionVector">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
 					<mal:field canBeNull="true" comment="The angular velocity in rpm." name="angularVelocity">
 						<mal:type area="Platform" list="false" name="Vector3D"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeDefinition">
+				<mal:composite comment="The AttitudeInstance holds an attitude definition." name="AttitudeDefinition">
 					<mal:extends>
 						<mal:type area="MAL" list="false" name="Composite"/>
 					</mal:extends>
-					<mal:field canBeNull="true" comment="" name="name">
+					<mal:field canBeNull="true" comment="The name of the attitude definition." name="name">
 						<mal:type area="MAL" list="false" name="Identifier"/>
 					</mal:field>
-					<mal:field canBeNull="true" comment="" name="description">
+					<mal:field canBeNull="true" comment="The description of the attitude definition." name="description">
 						<mal:type area="MAL" list="false" name="String"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeDefinitionBDot" shortFormPart="21">
+				<mal:composite comment="The AttitudeDefinitionBDot structure holds an attitude definition of type BDot." name="AttitudeDefinitionBDot" shortFormPart="21">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
 					</mal:extends>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeDefinitionSingleSpinning" shortFormPart="22">
+				<mal:composite comment="The AttitudeDefinitionSingleSpinning structure holds an attitude definition of type Sun Pointing." name="AttitudeDefinitionSingleSpinning" shortFormPart="22">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
 					</mal:extends>
@@ -806,12 +806,12 @@
 						<mal:type area="MAL" list="false" name="Double"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeDefinitionSunPointing" shortFormPart="23">
+				<mal:composite comment="The AttitudeDefinitionSunPointing structure holds an attitude definition of type Single Spinning." name="AttitudeDefinitionSunPointing" shortFormPart="23">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
 					</mal:extends>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeDefinitionTargetTracking" shortFormPart="24">
+				<mal:composite comment="The AttitudeDefinitionTargetTracking structure holds an attitude definition of type Target Tracking." name="AttitudeDefinitionTargetTracking" shortFormPart="24">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
 					</mal:extends>
@@ -822,7 +822,7 @@
 						<mal:type area="MAL" list="false" name="Double"/>
 					</mal:field>
 				</mal:composite>
-				<mal:composite comment="" name="AttitudeDefinitionNadirPointing" shortFormPart="25">
+				<mal:composite comment="The AttitudeDefinitionNadirPointing structure holds an attitude definition of type Nadir Pointing." name="AttitudeDefinitionNadirPointing" shortFormPart="25">
 					<mal:extends>
 						<mal:type area="Platform" list="false" name="AttitudeDefinition" service="AutonomousADCS"/>
 					</mal:extends>
@@ -1092,21 +1092,32 @@
 		</mal:service>
 		<mal:service comment="The Power Control service provides a generic mechanism to list the available power units in a spacecraft platform and to enable/disable them." name="PowerControl" number="7" xsi:type="com:ExtendedServiceType">
 			<mal:capabilitySet comment="" number="1">
-				<mal:requestIP comment="" name="listUnitsAvailable" number="1" supportInReplay="false">
+				<mal:requestIP comment="The listUnitsAvailable operation allows a consumer to request the list of the units available and their respective status." name="listUnitsAvailable" number="1" supportInReplay="false">
 					<mal:messages>
-						<mal:request comment=""/>
-						<mal:response comment=""/>
+						<mal:request comment="">
+              <mal:field canBeNull="true" comment="The names field holds the name of the units." name="names">
+                <mal:type area="MAL" list="true" name="Identifier"/>
+              </mal:field>
+            </mal:request>
+						<mal:response comment="">
+              <mal:field canBeNull="true" comment="The unitObjInstIds field holds the object instance identifier of the units." name="unitObjInstIds">
+                <mal:type area="MAL" list="true" name="Long"/>
+              </mal:field>
+              <mal:field canBeNull="true" comment="The enabled field holds the status of the unit. True if enabled, false if disabled." name="enabled">
+                <mal:type area="MAL" list="true" name="Boolean"/>
+              </mal:field>
+            </mal:response>
 					</mal:messages>
 				</mal:requestIP>
 			</mal:capabilitySet>
 			<mal:capabilitySet comment="" number="2">
-				<mal:requestIP comment="" name="enableUnit" number="2" supportInReplay="false">
+				<mal:requestIP comment="The enableUnit operation allows a consumer to enable and disable a specific Unit. " name="enableUnit" number="2" supportInReplay="false">
 					<mal:messages>
 						<mal:request comment="">
-							<mal:field canBeNull="true" comment="" name="enable">
+							<mal:field canBeNull="true" comment="The enable field holds the boolean value to enable or disable the unit." name="enable">
 								<mal:type area="MAL" list="false" name="Boolean"/>
 							</mal:field>
-							<mal:field canBeNull="true" comment="" name="unitObjInstIds">
+							<mal:field canBeNull="true" comment="The unitObjInstId field holds the object instance identifier of the unit to be enabled or disabled." name="unitObjInstId">
 								<mal:type area="MAL" list="false" name="Long"/>
 							</mal:field>
 						</mal:request>
