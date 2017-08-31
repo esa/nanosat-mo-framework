@@ -50,7 +50,6 @@ import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Pair;
 import org.ccsds.moims.mo.mal.structures.PairList;
-import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
@@ -98,7 +97,7 @@ import esa.mo.nmf.NMFInterface;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
 /**
- * The adapter for the app
+ * The adapter for the NMF App
  */
 public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
@@ -136,7 +135,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
             @Override
             public void run() {
                 AttributeValueList atts = new AttributeValueList();
-                AttributeValue att = new AttributeValue(new Union("Hello from the other side!"));
+                AttributeValue att = new AttributeValue(new Union("This is an Alert!"));
                 atts.add(att);
 
                 try {
