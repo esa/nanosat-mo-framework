@@ -72,12 +72,8 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
-<!--
-            <scope>provided</scope>
--->            
         </dependency>
     </dependencies>
-
         
     <build>
         <resources>
