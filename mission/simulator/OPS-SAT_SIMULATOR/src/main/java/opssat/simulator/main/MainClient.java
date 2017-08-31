@@ -32,13 +32,9 @@ public class MainClient {
     private static GuiApp guiApp;
 
     public static void main(String[] args) {
-        //guiApp=new GuiApp("192.168.5.102");
-        if (args.length==2)
-        {
+        if (args.length == 2) {
             guiApp = new GuiApp(args[0], Integer.valueOf(args[1]));
-        }
-        else
-        {
+        } else {
             guiApp = new GuiApp("127.0.0.1", 11111);
         }
     }

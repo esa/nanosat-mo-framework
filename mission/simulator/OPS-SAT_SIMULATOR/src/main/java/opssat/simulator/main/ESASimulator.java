@@ -21,10 +21,6 @@
  */
 package opssat.simulator.main;
 
-/**
- *
- * @author Cezar Suteu
- */
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,6 +38,10 @@ import opssat.simulator.peripherals.POpticalReceiver;
 import opssat.simulator.peripherals.PSDR;
 import opssat.simulator.util.LoggerFormatter1Line;
 
+/**
+ *
+ * @author Cezar Suteu
+ */
 public class ESASimulator extends GenericSimulator {
 
     SimulatorNode simulatorNode;

@@ -30,10 +30,6 @@ public class MainServer {
     private static ESASimulator esaSimulator;
 
     public static void main(String[] args) {
-        //esaSimulator=new ESASimulator("192.168.5.102");
         esaSimulator = new ESASimulator("127.0.0.1");
-        //esaSimulator = new ESASimulator("192.168.100.103");
-        //System.out.println(esaSimulator.getpGPS().getNMEASentence("GPGGA"));
     }
-
 }

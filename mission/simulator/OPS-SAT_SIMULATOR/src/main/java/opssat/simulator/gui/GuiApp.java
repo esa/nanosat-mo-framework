@@ -35,10 +35,10 @@ import opssat.simulator.util.LoggerFormatter1Line;
  */
 public class GuiApp {
 
-    private GuiMainWindow guiMainWindow;
+    private final GuiMainWindow guiMainWindow;
+    private final ConcurrentLinkedQueue<Object> toServerQueue;
+    private final ConcurrentLinkedQueue<Object> fromServerQueue;
     private SocketClient socketClient;
-    private ConcurrentLinkedQueue<Object> toServerQueue;
-    private ConcurrentLinkedQueue<Object> fromServerQueue;
     private String targetURL;
     private int targetPort;
     Logger logger;
@@ -70,12 +70,12 @@ public class GuiApp {
     public Logger getLogger() {
         return logger;
     }
-    
+
     public GuiApp(String targetURL, int targetPort) {
         this.logger = Logger.getLogger(GuiMainWindow.class.getName());
         logger.setUseParentHandlers(false);
         logger.setLevel(Level.ALL);
-        ConsoleHandler consoleHandler=(new ConsoleHandler());
+        ConsoleHandler consoleHandler = (new ConsoleHandler());
         consoleHandler.setFormatter(new LoggerFormatter1Line(GuiMainWindow.class.getName()));
         logger.addHandler(consoleHandler);
         fromServerQueue = new ConcurrentLinkedQueue<Object>();
@@ -84,13 +84,14 @@ public class GuiApp {
         this.targetPort = targetPort;
         guiMainWindow = new GuiMainWindow(this, targetURL, targetPort);
         (new Thread(guiMainWindow)).start();
-        
+
     }
-    public void startSocket()
-    {
+
+    public void startSocket() {
         socketClient = new SocketClient(targetURL, targetPort, this);
         socketClient.start();
     }
+
     public void addGUIInteraction(Object data) {
 
         toServerQueue.add(data);

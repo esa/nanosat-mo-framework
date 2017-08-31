@@ -26,10 +26,10 @@ package opssat.simulator.main;
  * @author Cezar Suteu
  */
 public class Main {
+
     private static ESASimulator esaSimulator;
+
     public static void main(String[] args) {
-        esaSimulator=new ESASimulator();
-        
+        esaSimulator = new ESASimulator();
     }
-    
 }
