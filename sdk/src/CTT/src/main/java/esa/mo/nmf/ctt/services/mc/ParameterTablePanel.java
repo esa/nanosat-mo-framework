@@ -43,7 +43,8 @@ public class ParameterTablePanel extends SharedTablePanel {
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
 
         if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, 
+                    "The table cannot process a null COM Object.");
             return;
         }
 

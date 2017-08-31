@@ -405,7 +405,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) {
+    public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException {
         if (nmf == null) {
             return null;
         }
@@ -433,10 +433,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
                 try {
                     nmf.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
-                } catch (IOException ex) {
-                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NMFException ex) {
-                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new IOException(ex);
                 }
 
                 try {

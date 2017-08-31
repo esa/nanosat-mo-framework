@@ -43,8 +43,8 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
         oldval = 1;
     }
 
-    public void setNewValue(final String newVal, final long iDiff) {
-        value.setNewValue(newVal, iDiff);
+    public void setNewValue(final String newVal, final boolean isError) {
+        value.setNewValue(newVal, isError);
         displayValue();
     }
 

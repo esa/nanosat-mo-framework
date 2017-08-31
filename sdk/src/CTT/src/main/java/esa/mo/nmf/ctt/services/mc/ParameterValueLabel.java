@@ -46,12 +46,12 @@ public class ParameterValueLabel implements Serializable
     return inError;
   }
 
-  public void setNewValue(final String newVal, final long iDiff)
+  public void setNewValue(final String newVal, final boolean isError)
   {
 
 //    boolean updatelabel = false;
     boolean updatelabel = true;
-    inError = false;
+    inError = isError;
 
     // display the new value
     if (updatelabel)

@@ -78,10 +78,10 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
         }
 
         // Info
-        labels[0 * numberOfColumns].setNewValue("Obj Instance Id", 0);
-        labels[1 * numberOfColumns].setNewValue("Validity State", 0);
-        labels[2 * numberOfColumns].setNewValue("Raw Value", 0);
-        labels[3 * numberOfColumns].setNewValue("Converted Value", 0);
+        labels[0 * numberOfColumns].setNewValue("Obj Instance Id", false);
+        labels[1 * numberOfColumns].setNewValue("Validity State", false);
+        labels[2 * numberOfColumns].setNewValue("Raw Value", false);
+        labels[3 * numberOfColumns].setNewValue("Converted Value", false);
 
         for (int i = 0; i < labels.length; ++i) {
             this.add(labels[i]);
@@ -117,32 +117,26 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
                     final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5)) + objId % numberOfColumns);
 
-//          pictureLabel.setIcon(map.addCoordinate(+37.0620, -7.8070));
                     if ((0 <= index) && (index < labels.length)) {
                         UOctet validityState = parameterValue.getValidityState();
-//            Validity validityString = Validity.fromNumericValue(new UInteger(validityState.getValue()));
-//                        Union rawValue = (Union) parameterValue.getRawValue();
                         String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
-
-//                        Union convertedValue = (Union) parameterValue.getConvertedValue();
                         String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
-//                        String convertedValueStr = (convertedValue == null) ? "null" : convertedValue.getStringValue();
 
-                        labels[index + 0 * numberOfColumns].setNewValue("(" + String.valueOf(objId) + ") " + updateHeader.getKey().getFirstSubKey().getValue(), iDiff);
-//            labels[index+1*numberOfColumns].setNewValue( validityString.toString() , iDiff);
+                        boolean isError = false;
+                        
+                        labels[index + 0 * numberOfColumns].setNewValue("(" + String.valueOf(objId) + ") " + updateHeader.getKey().getFirstSubKey().getValue(), isError);
                         String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
-                        labels[index + 1 * numberOfColumns].setNewValue(validity, iDiff);
-//                        labels[index + 2 * numberOfColumns].setNewValue(rawValue.toString(), iDiff);
-//                        labels[index + 3 * numberOfColumns].setNewValue(convertedValueStr.toString(), iDiff);
-                        labels[index + 2 * numberOfColumns].setNewValue(rawValue, iDiff);
-                        labels[index + 3 * numberOfColumns].setNewValue(convertedValue, iDiff);
+                        labels[index + 1 * numberOfColumns].setNewValue(validity, isError);
+                        labels[index + 2 * numberOfColumns].setNewValue(rawValue, isError);
+                        labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isError);
 
                         // Aggregation Map
 //            if (!labels[12].getText().equals("") && !labels[13].getText().equals("") )
 //                pictureLabel.setIcon(map.addCoordinate(Double.valueOf(labels[12].getText()), Double.valueOf(labels[13].getText()) ));
                     }
                 } catch (NumberFormatException ex) {
-                    Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING, "Error decoding update with name: {0}", name);
+                    Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING, 
+                            "Error decoding update with name: {0}", name);
                 }
             }
         }
