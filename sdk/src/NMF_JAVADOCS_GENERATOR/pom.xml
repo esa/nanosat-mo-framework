@@ -206,7 +206,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.4</version>
+                <!--
                 <version>3.0.0-M1</version>
+                -->
                 <executions>
                     <!--
                                         <execution>
