@@ -121,7 +121,7 @@ public class SocketClient extends Thread {
 
             if (s == null) {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
                     this.parent.getFromServerQueue().offer("Local;Trying to reconnect..");
                     continue;
                 } catch (InterruptedException ex) {

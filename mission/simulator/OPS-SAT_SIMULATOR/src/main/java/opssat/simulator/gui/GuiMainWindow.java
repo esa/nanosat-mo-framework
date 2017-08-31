@@ -70,6 +70,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
+import opssat.simulator.threading.SimulatorNode;
 import opssat.simulator.util.ArgumentDescriptor;
 import opssat.simulator.util.ArgumentTemplate;
 import opssat.simulator.util.SimulatorData;
@@ -185,10 +186,16 @@ public class GuiMainWindow implements Runnable {
      */
     private ImageIcon createImageIconFromBMPResource(String path) {
         //java.net.URL imgURL = GuiMainWindow.class.getClassLoader().getResource(path);
+        /*
         String workingdir = System.getProperty("user.dir");
         File interfacesFile = new File(workingdir, "src/main/resources/" + path);
         String targetPath = "";
         targetPath = interfacesFile.getAbsolutePath();
+        */
+        String absolutePath=SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader());
+        File interfacesFile = new File(absolutePath);
+        String targetPath = interfacesFile.getAbsolutePath();
+        
         if (interfacesFile.exists()) {
             try {
                 Image image = ImageIO.read(interfacesFile);
