@@ -24,23 +24,24 @@ import java.awt.Color;
 import java.io.Serializable;
 
 /**
- * Class that extends the basic Swing label class to add in automatic handling
- * for displaying an update and also calculating the transmission delay for the
- * specific update. It also interacts with the DelayManager to calculate the
- * total delay.
+ *
  */
 public class ParameterLabel extends javax.swing.JLabel implements Serializable {
 
-    private final Color[] colours = new Color[]{
-        Color.GREEN, Color.BLACK, Color.BLACK, Color.GREEN
+    private final Color[] coloursBackground = new Color[]{
+        Color.GREEN, Color.BLACK
     };
+    private final Color[] coloursText = new Color[]{
+        Color.BLACK, Color.WHITE
+    };
+    
     private final ParameterValueLabel value;
-    private short oldval;
+    private short counter;
 
     public ParameterLabel(final int index) {
         super();
         value = new ParameterValueLabel();
-        oldval = 1;
+        counter = 1;
     }
 
     public void setNewValue(final String newVal, final boolean isError) {
@@ -59,20 +60,22 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
         }
 
         // if we are in error we highlight the label in a different colour
-        final int ii = Math.abs(oldval % 2);
+        final int ii = Math.abs(counter % 2);
+
         if (!newVal.equals("")) {
-            oldval++;
+            counter++;
         }
+        
         if (value.isInError()) {
             setBackground(Color.RED);
         } else {
-            setBackground(colours[2 + ii]);
+            setBackground(coloursBackground[ii]);
             if (newVal.equals("")) {
                 setBackground(Color.WHITE);
             }
         }
 
-        setForeground(colours[ii]);
+        setForeground(coloursText[ii]);
     }
 
     public void setRed() {

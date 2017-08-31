@@ -23,46 +23,38 @@ package esa.mo.nmf.ctt.services.mc;
 import java.io.Serializable;
 
 /**
- * Class that extends the basic Swing label class to add in automatic handling for displaying an update and also
- * calculating the transmission delay for the specific update. It also interacts with the DelayManager to calculate the
+ * Class that extends the basic Swing label class to add in automatic handling
+ * for displaying an update and also calculating the transmission delay for the
+ * specific update. It also interacts with the DelayManager to calculate the
  * total delay.
  */
-public class ParameterValueLabel implements Serializable
-{
-  private String labelValue = "";
-  private boolean inError = false;
+public class ParameterValueLabel implements Serializable {
 
-  public ParameterValueLabel()
-  {
-  }
+    private String labelValue = "";
+    private boolean inError = false;
 
-  public String getLabelValue()
-  {
-    return labelValue;
-  }
-
-  public boolean isInError()
-  {
-    return inError;
-  }
-
-  public void setNewValue(final String newVal, final boolean isError)
-  {
-
-//    boolean updatelabel = false;
-    boolean updatelabel = true;
-    inError = isError;
-
-    // display the new value
-    if (updatelabel)
-    {
-      labelValue = newVal;
+    public ParameterValueLabel() {
     }
 
-  }
+    public String getLabelValue() {
+        return labelValue;
+    }
 
-  public void reset()
-  {
-    inError = false;
-  }
+    public boolean isInError() {
+        return inError;
+    }
+
+    public void setNewValue(final String newVal, final boolean isError) {
+        boolean updatelabel = true;
+        inError = isError;
+
+        // display the new value
+        if (updatelabel) {
+            labelValue = newVal;
+        }
+    }
+
+    public void reset() {
+        inError = false;
+    }
 }

@@ -23,7 +23,6 @@ package esa.mo.nmf.ctt.services.mc;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.helpers.HelperTime;
 import java.awt.Color;
 import java.util.Map;
 import java.util.logging.Level;
@@ -101,11 +100,8 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                 final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
                 final ObjectIdList lObjectIdList, final ParameterValueList lParameterValueList,
                 final Map qosp) {
-
             Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.FINE,
                     "Received update parameters list of size : {0}", lObjectIdList.size());
-
-            final long iDiff = HelperTime.getTimestampMillis().getValue() - msgHeader.getTimestamp().getValue();
 
             for (int i = 0; i < lObjectIdList.size(); i++) {
                 final UpdateHeader updateHeader = lUpdateHeaderList.get(i);
@@ -118,24 +114,21 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5)) + objId % numberOfColumns);
 
                     if ((0 <= index) && (index < labels.length)) {
+                        String nameId = "(" + String.valueOf(objId) + ") " + updateHeader.getKey().getFirstSubKey().getValue();
                         UOctet validityState = parameterValue.getValidityState();
+                        String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
                         String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
                         String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 
-                        boolean isError = false;
-                        
-                        labels[index + 0 * numberOfColumns].setNewValue("(" + String.valueOf(objId) + ") " + updateHeader.getKey().getFirstSubKey().getValue(), isError);
-                        String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
-                        labels[index + 1 * numberOfColumns].setNewValue(validity, isError);
-                        labels[index + 2 * numberOfColumns].setNewValue(rawValue, isError);
-                        labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isError);
+                        boolean isNotValid = (validityState.getValue() != ValidityState._VALID_INDEX);
 
-                        // Aggregation Map
-//            if (!labels[12].getText().equals("") && !labels[13].getText().equals("") )
-//                pictureLabel.setIcon(map.addCoordinate(Double.valueOf(labels[12].getText()), Double.valueOf(labels[13].getText()) ));
+                        labels[index + 0 * numberOfColumns].setNewValue(nameId, isNotValid);
+                        labels[index + 1 * numberOfColumns].setNewValue(validity, isNotValid);
+                        labels[index + 2 * numberOfColumns].setNewValue(rawValue, isNotValid);
+                        labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isNotValid);
                     }
                 } catch (NumberFormatException ex) {
-                    Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING, 
+                    Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING,
                             "Error decoding update with name: {0}", name);
                 }
             }
