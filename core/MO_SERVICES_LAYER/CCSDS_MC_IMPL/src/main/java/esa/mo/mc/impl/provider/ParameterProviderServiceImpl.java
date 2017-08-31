@@ -325,8 +325,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList readOnlyIndexList = new UIntegerList();
 
-        if (null == rawValueList) // Is the input null?
-        {
+        if (null == rawValueList) {
             throw new IllegalArgumentException("rawValueList inputs must not be null");
         }
 

@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -54,6 +55,7 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.FineTimeList;
 
@@ -316,7 +318,7 @@ public class ParameterManager extends MCManager {
             Attribute rawValue = getRawValue(identityId, pDef);
             // Generate final Parameter Value
             return generateNewParameterValue(rawValue, pDef, aggrExpired);
-        }catch(Exception ex){
+        }catch(IOException ex){
             return new ParameterValue(getAsUOctet(ValidityState.INVALID_RAW), null, null);
         }
     }
@@ -336,7 +338,13 @@ public class ParameterManager extends MCManager {
         //TODO: contains the expression defintion or identity-id? -> issue #132, #179
         final Long paramIdentityId = expression.getParameterId().getInstId();
         ParameterDefinitionDetails pDef = this.getParameterDefinition(paramIdentityId);
-        Attribute value = parametersMonitoring.onGetValue(super.getName(paramIdentityId), pDef.getRawType());
+        Attribute value;
+        try {
+            value = parametersMonitoring.onGetValue(super.getName(paramIdentityId), pDef.getRawType());
+        } catch (IOException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
 
         if (expression.getUseConverted()) { // Is the validity checking for the converted or for the raw value?
             value = conversionService.generateConvertedValue(value, pDef.getConversion());
@@ -405,7 +413,6 @@ public class ParameterManager extends MCManager {
      * @return the converted validityState as an UOctet
      */
     private UOctet getAsUOctet(ValidityState valState) {
-///        return new UOctet(new Short("" + valState.getNumericValue()));
         return new UOctet((short) valState.getNumericValue().getValue());
     }
 
@@ -417,7 +424,13 @@ public class ParameterManager extends MCManager {
      */
     private UOctet getValidityState(final ParameterExpression validityExpression, boolean aggrExpired) {
         final Long expPIdentityId = validityExpression.getParameterId().getInstId();
-        final Attribute expParamValue = parametersMonitoring.onGetValue(super.getName(expPIdentityId), null);
+        final Attribute expParamValue;
+        try {
+            expParamValue = parametersMonitoring.onGetValue(super.getName(expPIdentityId), null);
+        } catch (IOException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            return getAsUOctet(ValidityState.INVALID_RAW);
+        }
         final ParameterDefinitionDetails expPDef = getParameterDefinition(expPIdentityId);
         final UOctet expPValState = generateValidityState(this.getParameterDefinition(expPIdentityId),
                 expParamValue, getConvertedValue(expParamValue, expPDef), aggrExpired);
@@ -624,8 +637,9 @@ public class ParameterManager extends MCManager {
 //            successFlags.add(success);
         }
 
-        parametersMonitoring.onSetValue(names, newRawValues);
-
+        // setSuccessful is not being used anywhere... weird
+        Boolean setSuccessful = parametersMonitoring.onSetValue(names, newRawValues);
+        
         return paramValList;
     }
 
@@ -682,7 +696,7 @@ public class ParameterManager extends MCManager {
      * @param pDef the definition of the parameter
      * @return the raw value. null if there is no parametersMonitoring
      */
-    private Attribute getRawValue(Long identityId, ParameterDefinitionDetails pDef) {
+    private Attribute getRawValue(Long identityId, ParameterDefinitionDetails pDef) throws IOException {
         return (parametersMonitoring != null)
                 ? parametersMonitoring.onGetValue(this.getName(identityId), pDef.getRawType())
                 : null;

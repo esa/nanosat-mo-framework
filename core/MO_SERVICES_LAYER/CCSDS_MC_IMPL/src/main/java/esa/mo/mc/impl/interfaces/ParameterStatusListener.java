@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.impl.interfaces;
 
+import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -35,14 +36,53 @@ public interface ParameterStatusListener {
 
     /**
      * The user must implement this interface in order to acquire a certain
-     * parameter/rawType combination of a variable in the application
+     * parameter/rawType combination of a variable in the application.
      *
      * @param identifier Name of the Parameter
      * @param rawType Type of the requested parameter
      * @return The value of the parameter that was requested
+     * @throws java.io.IOException if the parameter value could not be acquired
      */
-    public Attribute onGetValue(Identifier identifier, Byte rawType);
-    
+    public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException;
+
+    /**
+     * The user must implement this interface in order to set a collection of
+     * parameter values to a set variables in the application logic.
+     *
+     * @param identifiers Name of the Parameters
+     * @param values The raw values to be set at the parameter
+     * @return True if the value was set successfully, false if not
+     */
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values);
+
+    /**
+     * This method allows to use implementation specific mechanisms to determine
+     * parameter validity. Also it supports the value to have
+     * deployment-specific validityStates.
+     *
+     * @param rawValue The raw value to be set
+     * @param pDef The parameter definition details of the parameter
+     *
+     * @return the validity state of the value. if it is deployment-specific
+     * then the values must be greater than 127. if null then there are no
+     * custom mechanisms and values, and the standard ones must be used
+     */
+    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinitionDetails pDef);
+
+    /**
+     * Checks if a Parameter is read-only
+     *
+     * @param name The name of the parameter
+     * @return True, if it is read-only. False, if you can set it.
+     */
+    public boolean isReadOnly(Identifier name);
+
+    /**
+     * Gets the intervals supported by the provider
+     *
+     * @return a list with the supported intervals as durations
+     */
+//    public DurationList getProvidedIntervals();
     /**
      * The user must implement this interface in order to acquire a certain
      * parameter values timestamp in the application.
@@ -51,52 +91,4 @@ public interface ParameterStatusListener {
      * @return The timestamp when the parameters value was set
      */
 //    public Long onGetValueTimestamp(Identifier identifier);
-
-    /**
-     * The user must implement this interface in order to set a certain
-     * parameter value to a variable in the application
-     *
-     * @param identifiers Name of the Parameters
-     * @param values The raw values to be set at the parameter
-     * @return True if the value was set successfully, false if not
-     */
-//    public Boolean onSetValue(Identifier identifier, Attribute value, Long timestamp);
-    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values);
-
-    /**
-     * this method allows to use implementation specific mechanisms to determine
-     * parameter validity. Also it supports the value to have
-     * deployment-specific validityStates.
-     *
-     * @param rawValue the raw value to be set
-     * @param pDef the definition of the parameter the value should be created
-     * from
-     * @return the validity state of the value. if it is deployment-specific
-     * then the values must be greater than 127. if null then there are no
-     * custom mechanisms and values, and the standard ones must be used
-     */
-    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinitionDetails pDef);
-
-    /**
-     * checks if a Parameter is read-only
-     *
-     * @param name the anme of the parameter
-     * @return true, if it is readonly. false, if you can set it.
-     */
-    public boolean isReadOnly(Identifier name);
-
-    /**
-     * gets the intervals supported by the provider
-     *
-     * @return a list with the supported intervals as durations
-     */
-//    public DurationList getProvidedIntervals();
-
-    /**
-     * removes the given parameters with its values from the provider.
-     * 
-     * @param parameterNames the names of the parameters of which the values should be removed. The value "*" removes all of them.
-     */
-//    public void removeParameters(IdentifierList parameterNames);
-
 }

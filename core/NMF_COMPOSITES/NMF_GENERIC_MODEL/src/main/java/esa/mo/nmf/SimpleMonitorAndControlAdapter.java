@@ -122,6 +122,42 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
         obj = (Serializable) HelperAttributes.attribute2JavaType(value);
 
         return this.onSetValueSimple(identifier.getValue(), obj);
+        
+        /* If we ever change the interface to support a boolean list, then use the code below */
+        /*
+        final BooleanList output = new BooleanList();
+
+        if (identifiers.isEmpty() || values.isEmpty()) { // Validation
+            return output;
+        }
+
+        for (int i = 0; i < values.size(); i++) {
+            final Identifier identifier = identifiers.get(i);
+            final Attribute value = values.get(i).getRawValue();
+            Serializable obj;
+
+            if (value instanceof Blob) { // Try to unserialize it!
+                try {
+                    obj = HelperAttributes.blobAttribute2serialObject((Blob) value);
+                    boolean success = this.onSetValueSimple(identifier.getValue(), obj); // Success!
+                    output.add(success);
+                    continue;
+                } catch (IOException ex) {
+                    // It didn't work? Maybe it really just a Blob (not a serialized object)
+                }
+            }
+
+            // Convert it to java type
+            obj = (Serializable) HelperAttributes.attribute2JavaType(value);
+
+            boolean success = this.onSetValueSimple(identifier.getValue(), obj);
+            output.add(success);
+        }
+
+        return output;
+        
+        
+        */
     }
 
 }
