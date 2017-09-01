@@ -135,7 +135,7 @@ public class TCPIPFixedBinaryElementInputStream extends BinaryElementInputStream
                                 String to = header.getURITo() + destinationId;
                                 header.setURITo(new URI(to));
 			}
-		}
+                }
 		if (priorityFlag) {
 			header.setPriority(dec.decodeUInteger());
 		}

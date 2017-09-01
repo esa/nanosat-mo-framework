@@ -20,10 +20,7 @@
  */
 package esa.mo.mal.encoder.tcpip;
 
-import java.util.logging.Level;
-
 import org.ccsds.moims.mo.mal.MALException;
-
 import esa.mo.mal.transport.gen.GENMessage;
 import esa.mo.mal.transport.gen.GENReceptionHandler;
 import esa.mo.mal.transport.gen.GENTransport;

@@ -126,7 +126,8 @@ public class TCPIPFixedBinaryDecoder extends FixedBinaryDecoder {
 //			String logString = "Decode string: length " + len;
 
 			if (len > Integer.MAX_VALUE) {
-				throw new MALException("Value is too big to decode! Please provide a string with a length lower than INT_MAX");
+				throw new MALException("Value is too big to decode! "
+                                        + "Please provide a string with a length lower than INT_MAX");
 			}
 			
 			if (len >= 0) {
