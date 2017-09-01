@@ -85,63 +85,63 @@ public final class ConfigurationProviderSingleton {
      * Additionally, it sets the session to SessionType.LIVE
      */
     private static void init() {
-        if (System.getProperty(HelperMisc.ORGANIZATION_NAME) == null) {  // The property does not exist? 
+        if (System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME) == null) {  // The property does not exist? 
             HelperMisc.loadPropertiesFile(); // try to load the properties from the file...
         }
 
         // ------------------------Domain------------------------
-        if (System.getProperty(HelperMisc.PROPERTY_DOMAIN) != null) {
+        if (System.getProperty(HelperMisc.PROP_DOMAIN) != null) {
             // Get directly the domain from the property
-            DOMAIN.addAll(HelperMisc.domainId2domain(System.getProperty(HelperMisc.PROPERTY_DOMAIN)));
+            DOMAIN.addAll(HelperMisc.domainId2domain(System.getProperty(HelperMisc.PROP_DOMAIN)));
         } else {
             // Or generate it for the provider
-            if (System.getProperty(HelperMisc.ORGANIZATION_NAME) != null) {  // Include the name of the organization in the Domain
-                DOMAIN.add(new Identifier(System.getProperty(HelperMisc.ORGANIZATION_NAME)));
+            if (System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME) != null) {  // Include the name of the organization in the Domain
+                DOMAIN.add(new Identifier(System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME)));
             } else {
                 DOMAIN.add(new Identifier("domainNotFoundInPropertiesFile"));
             }
 
-            if (System.getProperty(HelperMisc.MISSION_NAME) != null) {  // Include the name of the mission in the Domain
-                DOMAIN.add(new Identifier(System.getProperty(HelperMisc.MISSION_NAME)));
+            if (System.getProperty(HelperMisc.PROP_MISSION_NAME) != null) {  // Include the name of the mission in the Domain
+                DOMAIN.add(new Identifier(System.getProperty(HelperMisc.PROP_MISSION_NAME)));
             }
 
-            if (System.getProperty(HelperMisc.MO_APP_NAME) != null) {  // Include the name of the app in the Domain
-                DOMAIN.add(new Identifier(System.getProperty(HelperMisc.MO_APP_NAME)));
+            if (System.getProperty(HelperMisc.PROP_MO_APP_NAME) != null) {  // Include the name of the app in the Domain
+                DOMAIN.add(new Identifier(System.getProperty(HelperMisc.PROP_MO_APP_NAME)));
             }
         }
 
         // -------------------------------------------------------
         // ------------------------Network------------------------
         String networkString = "";
-        if (System.getProperty(HelperMisc.NETWORK) != null) {
-            networkString = System.getProperty(HelperMisc.NETWORK);
+        if (System.getProperty(HelperMisc.PROP_NETWORK) != null) {
+            networkString = System.getProperty(HelperMisc.PROP_NETWORK);
         } else {
-            if (System.getProperty(HelperMisc.ORGANIZATION_NAME) != null) {
-                networkString = networkString.concat(System.getProperty(HelperMisc.ORGANIZATION_NAME));
+            if (System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME));
             } else {
                 networkString += "OrganizationName";
             }
 
             networkString += ".";
 
-            if (System.getProperty(HelperMisc.MISSION_NAME) != null) {
-                networkString = networkString.concat(System.getProperty(HelperMisc.MISSION_NAME));
+            if (System.getProperty(HelperMisc.PROP_MISSION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.PROP_MISSION_NAME));
             } else {
                 networkString += "MissionName";
             }
 
             networkString += ".";
 
-            if (System.getProperty(HelperMisc.NETWORK_ZONE) != null) {
-                networkString = networkString.concat(System.getProperty(HelperMisc.NETWORK_ZONE));
+            if (System.getProperty(HelperMisc.PROP_NETWORK_ZONE) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.PROP_NETWORK_ZONE));
             } else {
                 networkString += "NetworkZone";
             }
 
             networkString += ".";
 
-            if (System.getProperty(HelperMisc.DEVICE_NAME) != null) {
-                networkString = networkString.concat(System.getProperty(HelperMisc.DEVICE_NAME));
+            if (System.getProperty(HelperMisc.PROP_DEVICE_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.PROP_DEVICE_NAME));
             } else {
                 networkString += "DeviceName";
             }

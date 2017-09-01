@@ -137,7 +137,7 @@ public class ConnectionProvider {
             sharedBrokerURI = new URI(System.getProperty(HelperMisc.PROPERTY_SHARED_BROKER_URI));
         }
 
-        final String moAppName = System.getProperty(HelperMisc.MO_APP_NAME);
+        final String moAppName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
         final String uriName = (moAppName != null) ? moAppName + "-" + serviceName : serviceName;  // Create the uri string name
 
         Properties props = new Properties();

@@ -69,7 +69,7 @@ public class ConfigurationConsumer {
      * session name as LIVE.
      */
     public ConfigurationConsumer() {
-        if (System.getProperty(HelperMisc.ORGANIZATION_NAME) == null) {
+        if (System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME) == null) {
             try {
                 // The property does not exist?
                 HelperMisc.loadConsumerProperties(); // try to load the properties from the file...
@@ -80,35 +80,35 @@ public class ConfigurationConsumer {
 
         // ------------------------Network----------------------------
         String networkString = "";
-        if (System.getProperty(HelperMisc.NETWORK) != null) {
-            networkString = System.getProperty(HelperMisc.NETWORK);
+        if (System.getProperty(HelperMisc.PROP_NETWORK) != null) {
+            networkString = System.getProperty(HelperMisc.PROP_NETWORK);
         } else {
-            if (System.getProperty(HelperMisc.ORGANIZATION_NAME) != null) {
-                networkString = networkString.concat(System.getProperty(HelperMisc.ORGANIZATION_NAME));
+            if (System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME));
             } else {
                 networkString += "OrganizationName";
             }
 
             networkString += ".";
 
-            if (System.getProperty(HelperMisc.MISSION_NAME) != null) {
-                networkString = networkString.concat(System.getProperty(HelperMisc.MISSION_NAME));
+            if (System.getProperty(HelperMisc.PROP_MISSION_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.PROP_MISSION_NAME));
             } else {
                 networkString += "MissionName";
             }
 
             networkString += ".";
 
-            if (System.getProperty(HelperMisc.NETWORK_ZONE) != null) {
-                networkString = networkString.concat(System.getProperty(HelperMisc.NETWORK_ZONE));
+            if (System.getProperty(HelperMisc.PROP_NETWORK_ZONE) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.PROP_NETWORK_ZONE));
             } else {
                 networkString += "NetworkZone";
             }
 
             networkString += ".";
 
-            if (System.getProperty(HelperMisc.DEVICE_NAME) != null) {
-                networkString = networkString.concat(System.getProperty(HelperMisc.DEVICE_NAME));
+            if (System.getProperty(HelperMisc.PROP_DEVICE_NAME) != null) {
+                networkString = networkString.concat(System.getProperty(HelperMisc.PROP_DEVICE_NAME));
             } else {
                 networkString += "DeviceName";
             }
