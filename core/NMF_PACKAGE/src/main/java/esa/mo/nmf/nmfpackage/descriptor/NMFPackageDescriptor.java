@@ -21,7 +21,6 @@
 package esa.mo.nmf.nmfpackage.descriptor;
 
 import esa.mo.nmf.nmfpackage.HelperNMFPackage;
-import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,6 +56,12 @@ public class NMFPackageDescriptor {
         this.files.add(file);
     }
 
+    /**
+     * Parses a receipt file and creates the respective NMFPackageDescriptor.
+     *
+     * @param stream The input stream of the file.
+     * @return The descriptor of the NMF Package.
+     */
     public static NMFPackageDescriptor parseInputStream(final InputStream stream) {
         NMFPackageDescriptor newDescriptor = null;
         InputStreamReader isr = new InputStreamReader(stream, Charset.forName("UTF-8"));

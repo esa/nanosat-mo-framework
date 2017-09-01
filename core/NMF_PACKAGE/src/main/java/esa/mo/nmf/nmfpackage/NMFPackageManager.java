@@ -74,7 +74,8 @@ public class NMFPackageManager {
             ZipEntry entry = zipFile.getEntry(file.getPath());
 
             if (entry == null) {
-                throw new IOException("The descriptor is incorrect. One of the files does not exist: " + file.getPath());
+                throw new IOException("The descriptor is incorrect. "
+                        + "One of the files does not exist: " + file.getPath());
             }
 
             if (file.getCRC() != entry.getCrc()) {
@@ -239,7 +240,7 @@ public class NMFPackageManager {
 
         ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
         NMFPackageDescriptor descriptorFromPackage;
-        long crcDescriptorFromPackage = 0;
+        long crcDescriptorFromPackage;
 
         try {
             InputStream zis = zipFile.getInputStream(receipt);
@@ -273,14 +274,47 @@ public class NMFPackageManager {
             return false;
         }
 
+        // Check the version of the installed receipt
+        NMFPackageDescriptor descriptorFromExistingReceipt;
+        long crcDescriptorFromExistingReceipt;
+
+        try {
+            FileInputStream fis = new FileInputStream(receiptFile);
+            descriptorFromExistingReceipt = NMFPackageDescriptor.parseInputStream(fis);
+            fis.close();
+            fis = new FileInputStream(receiptFile);
+            crcDescriptorFromExistingReceipt = HelperNMFPackage.calculateCRCFromInputStream(fis);
+            fis.close();
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+        if (descriptorFromExistingReceipt == null) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "This is unexpected!");
+            return false;
+        }
+
+        // Compare the versions
+        String version = descriptorFromExistingReceipt.getDetails().getVersion();
+        if (!descriptorFromPackage.getDetails().getVersion().equals(version)) {
+            return false;
+        }
+
+        // We need to double check if the crc match!
+        if (crcDescriptorFromPackage != crcDescriptorFromExistingReceipt) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "The CRC of the receipts do not match!"
+                    + "Maybe the NMF Package is tainted!");
+            return false;
+        }
+
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
                 "The package "
                 + descriptorFromPackage.getDetails().getPackageName()
                 + " is installed!");
 
-        // We need to double check if the crc match!
-//        long crc = HelperNMFPackage.calculateCRCFromInputStream(null);
-//        crcDescriptorFromPackage == 
         return true;
     }
 
@@ -314,7 +348,8 @@ public class NMFPackageManager {
         return out2;
     }
 
-    private static void installFiles(final NMFPackageDescriptor descriptor, final ZipFile zipFile) throws IOException {
+    private static void installFiles(final NMFPackageDescriptor descriptor,
+            final ZipFile zipFile) throws IOException {
         // Default location of the folder
         File installationFolder = getInstallationFolder();
 

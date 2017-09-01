@@ -72,7 +72,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             final PMBackend backend) throws MALException {
         if (backend == null) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).severe(
-                    "Package Management service could not be initialized! The backend object cannot be null.");
+                    "Package Management service could not be initialized! "
+                    + "The backend object cannot be null.");
             return;
         }
 
@@ -104,7 +105,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             connection.closeAll();
         }
 
-        packageManagementServiceProvider = connection.startService(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME.toString(), PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, false, this);
+        packageManagementServiceProvider = connection.startService(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME.toString(),
+                PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, false, this);
         running = true;
         initialiased = true;
         Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).info("Package Management service READY");
@@ -128,7 +130,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction) throws MALInteractionException, MALException {
+    public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
+            throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         FindPackageResponse outList = new FindPackageResponse();
 
@@ -193,7 +196,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     @Override
     public void install(final IdentifierList names, final InstallInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement(null);
-        
+
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -212,7 +215,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     unkIndexList.add(new UInteger(i));
                 }
 
-                if (backend.isPackageInstalled(availablePackages.get(i))) {
+                if (backend.isPackageInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
                 }
 
@@ -269,7 +272,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     unkIndexList.add(new UInteger(i));
                 }
 
-                if (!backend.isPackageInstalled(availablePackages.get(i))) {
+                if (backend.isPackageInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
                 }
 
@@ -325,7 +328,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     unkIndexList.add(new UInteger(i));
                 }
 
-                if (!backend.isPackageInstalled(availablePackages.get(i))) {
+                if (backend.isPackageInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
                 }
 
@@ -354,12 +357,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
             backend.upgrade(packageName.getValue());
         }
-        
+
         interaction.sendResponse();
     }
 
     @Override
-    public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names, MALInteraction interaction) throws MALInteractionException, MALException {
+    public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -379,13 +383,12 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     unkIndexList.add(new UInteger(i));
                 }
 
-                if (!backend.isPackageInstalled(availablePackages.get(i))) {
+                if (backend.isPackageInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
                 }
 
                 // Throw error if already installed!
                 // Before installing, we need to check the package integrity!
-
                 // The installation cannot go forward here if the integrity is false!
             }
         } catch (IOException ex) {
@@ -403,18 +406,18 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         final BooleanList integrities = new BooleanList();
         final StringList publicKeys = new StringList();
-        
+
         for (Identifier packageName : names) {
             boolean integrity = backend.checkPackageIntegrity(packageName.getValue());
             String publicKey = backend.getPublicKey(packageName.getValue());
             integrities.add(integrity);
             publicKeys.add(publicKey);
         }
-        
+
         CheckPackageIntegrityResponse out = new CheckPackageIntegrityResponse();
         out.setBodyElement0(integrities);
         out.setBodyElement1(publicKeys);
-        
+
         return out;
     }
 
