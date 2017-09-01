@@ -133,10 +133,12 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
                     ep.sendMessage(dMsg);
                 }
             } catch (MALException ex) {
-                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, "MALException", ex);
+                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, 
+                        "MALException", ex);
                 // ToDo need to bounce this back to source... maybe
             } catch (MALTransmitErrorException ex) {
-                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, "MALTransmitErrorException", ex);
+                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, 
+                        "MALTransmitErrorException", ex);
                 // ToDo need to bounce this back to source... maybe
             }
         }

@@ -77,10 +77,10 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         HelperMisc.setInputProcessorsProperty();
 
         // Enforce the App Name property to be HelperMisc.NMF_NMS_NAME
-        System.setProperty(HelperMisc.MO_APP_NAME, HelperNMF.NMF_NMS_NAME);
+        System.setProperty(HelperMisc.PROP_MO_APP_NAME, HelperNMF.NMF_NMS_NAME);
 
         // Provider name to be used on the Directory service...
-        this.providerName = System.getProperty(HelperMisc.MO_APP_NAME);
+        this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
 
         this.platformServices = platformServices;
 
@@ -96,7 +96,8 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             this.initPlatformServices(comServices);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
-                    "The services could not be initialized. Perhaps there's something wrong with the Transport Layer.", ex);
+                    "The services could not be initialized. "
+                    + "Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
 
@@ -125,7 +126,8 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         }
 
         // Populate the Directory service with the entries from the URIs File
-        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO, "Populating Directory service...");
+        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
+                "Populating Directory service...");
         this.directoryService.loadURIs(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME);
 
         final String primaryURI = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();

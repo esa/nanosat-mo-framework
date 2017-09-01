@@ -68,7 +68,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
-        super.providerName = System.getProperty(HelperMisc.MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
+        super.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
 
         super.platformServices = platformServices;
 

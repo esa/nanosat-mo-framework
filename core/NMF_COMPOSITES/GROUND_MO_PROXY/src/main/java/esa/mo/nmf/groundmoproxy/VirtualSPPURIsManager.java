@@ -23,6 +23,8 @@ package esa.mo.nmf.groundmoproxy;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VirtualSPPURIsManager {
 
@@ -57,7 +59,8 @@ public class VirtualSPPURIsManager {
             reverse = reverseMap.get(virtualSPPURI);
 
             if (reverse == null) {
-                System.out.println("The reverse APID for virtualSPPURI: " + virtualSPPURI + " could not be found!");
+                Logger.getLogger(VirtualSPPURIsManager.class.getName()).log(Level.SEVERE,
+                        "The reverse APID for virtualSPPURI: " + virtualSPPURI + " could not be found!");
             }
         }
 
@@ -76,7 +79,8 @@ public class VirtualSPPURIsManager {
                 reverseMap.put(virtualAPID, uriFrom);
             }
 
-            System.out.println("The virtualAPID is: " + virtualAPID);
+            Logger.getLogger(VirtualSPPURIsManager.class.getName()).log(Level.INFO,
+                    "The virtualAPID is: " + virtualAPID);
         }
 
         return virtualAPID;
@@ -99,8 +103,8 @@ public class VirtualSPPURIsManager {
 
         return PROTOCOL_SPP + ":" + APID_QUALIFIER + "/" + apid + "/" + sourceId;
     }
-    
-    public static int getAPIDFromVirtualSPPURI(final String virtualSPPURI){
+
+    public static int getAPIDFromVirtualSPPURI(final String virtualSPPURI) {
         String[] str = virtualSPPURI.split("/");
         return Integer.parseInt(str[1]);
     }

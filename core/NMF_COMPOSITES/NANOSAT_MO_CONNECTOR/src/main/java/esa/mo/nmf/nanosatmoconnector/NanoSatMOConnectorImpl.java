@@ -103,7 +103,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         String appName = "Unknown";
         try { // Use the folder name
             appName = (new File((new File("")).getCanonicalPath())).getName();
-            System.setProperty(HelperMisc.MO_APP_NAME, appName);
+            System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
         } catch (IOException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
                     "The NMF App name could not be established.");

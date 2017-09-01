@@ -48,14 +48,12 @@ public class ProtocolBridge {
     public void init(final String protocolA, final String protocolB, final Map properties) throws MALException, Exception {
         transportA = createTransport(protocolA, properties);
         transportB = createTransport(protocolB, properties);
-        
         epA = createEndpoint(protocolA, transportA);
         epB = createEndpoint(protocolB, transportB);
 
         System.out.println("Linking transports...");
         epA.setMessageListener(new BridgeMessageHandler(epB));
         epB.setMessageListener(new BridgeMessageHandler(epA));
-
         System.out.println("Starting message delivery...");
         epA.startMessageDelivery();
         epB.startMessageDelivery();
@@ -136,7 +134,7 @@ public class ProtocolBridge {
     protected static MALMessage cloneForwardMessage(MALEndpoint destination, MALMessage srcMessage) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
-        
+
         System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");

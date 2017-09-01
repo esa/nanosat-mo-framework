@@ -96,7 +96,6 @@ public class GroundMOProxy {
                 }
             }
         }, 0, PERIOD);
-
     }
 
     public void syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
@@ -168,7 +167,8 @@ public class GroundMOProxy {
      * @param proxyURI The URI of the protocol bridge
      * @throws IllegalArgumentException if the providers object is null
      */
-    public static void addProxyPrefix(final ProviderSummaryList providers, final String proxyURI) throws IllegalArgumentException {
+    public static void addProxyPrefix(final ProviderSummaryList providers,
+            final String proxyURI) throws IllegalArgumentException {
         if (providers == null) {
             throw new IllegalArgumentException("The provider object cannot be null.");
         }
