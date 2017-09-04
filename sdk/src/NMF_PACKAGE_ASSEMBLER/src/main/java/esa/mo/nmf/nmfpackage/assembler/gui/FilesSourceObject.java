@@ -25,5 +25,21 @@ package esa.mo.nmf.nmfpackage.assembler.gui;
  * @author Cesar Coelho
  */
 public class FilesSourceObject {
-    
+
+    private final String file;
+    private final String from;
+
+    public FilesSourceObject(String file, String from) {
+        this.file = file;
+        this.from = from;
+    }
+
+    public String getFile() {
+        return this.file;
+    }
+
+    public String getFrom() {
+        return this.from;
+    }
+
 }

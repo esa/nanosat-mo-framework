@@ -41,7 +41,8 @@ public class DemoGround0 {
         try {
             connection.loadURIs();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE,
+                    "The URIs could not be loaded.", ex);
         }
 
         moGroundAdapter = new GroundMOAdapterImpl(connection);

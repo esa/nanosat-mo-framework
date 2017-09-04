@@ -29,8 +29,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
     
-    private final static String TYPE_APPLICATION = "Application";
-    private final static String TYPE_LIBRARY = "Library";
+    public final static String TYPE_APPLICATION = "Application";
+    public final static String TYPE_LIBRARY = "Library";
 
     /**
      * Main command line entry point.
@@ -322,7 +322,7 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         // Here we add a new Library to the NMF Package:
         final String name = textFieldName.getText();
         textFieldName.setText(""); // reset text field
-        javax.swing.JPanel newPanel = new SlicePanel(this, TYPE_LIBRARY, name);
+        javax.swing.JPanel newPanel = new SlicePanel(this, TYPE_LIBRARY, name, null);
         jPanel2.add(newPanel);
         repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -331,7 +331,7 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         // Here we add a new Application to the NMF Package:
         final String name = textFieldName.getText();
         textFieldName.setText(""); // reset text field
-        javax.swing.JPanel newPanel = new SlicePanel(this, TYPE_APPLICATION, name);
+        javax.swing.JPanel newPanel = new SlicePanel(this, TYPE_APPLICATION, name, null);
         jPanel2.add(newPanel);
         repaint();
     }//GEN-LAST:event_jButton2ActionPerformed

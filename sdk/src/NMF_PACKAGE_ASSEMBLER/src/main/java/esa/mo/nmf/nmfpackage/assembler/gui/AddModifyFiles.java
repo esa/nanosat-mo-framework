@@ -22,7 +22,9 @@ package esa.mo.nmf.nmfpackage.assembler.gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,16 +32,18 @@ import javax.swing.JFileChooser;
  */
 public final class AddModifyFiles extends javax.swing.JDialog {
 
-    private final FilesSourceObject source;
-    private final FilesTablePanel table = new FilesTablePanel();
+    private final DefaultTableModel filesTableData;
+    private final ArrayList<FilesSourceObject> source;
+    private final String folderPrefix;
 
     /**
      * Creates new form MOWindow
      *
+     * @param folderPrefix
      * @param source
      * @throws java.io.IOException
      */
-    public AddModifyFiles(final FilesSourceObject source) throws IOException {
+    public AddModifyFiles(final String folderPrefix, final ArrayList<FilesSourceObject> source) throws IOException {
         initComponents();
 
         if (source == null) {
@@ -47,22 +51,62 @@ public final class AddModifyFiles extends javax.swing.JDialog {
         }
 
         this.source = source;
+        this.folderPrefix = folderPrefix;
         this.setModal(true);
         this.setLocationRelativeTo(null);
+
+        String[] archiveTableCol = new String[]{"Files", "From"};
+
+        filesTableData = new javax.swing.table.DefaultTableModel(
+                new Object[][]{}, archiveTableCol) {
+            Class[] types = new Class[]{
+                java.lang.String.class, java.lang.String.class
+            };
+
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
+
+        jTable1.setModel(filesTableData);
+        displayFromSources(source);
+
         this.setVisible(true);
+    }
+
+    public synchronized int[] getSelectedRow() {
+        return jTable1.getSelectedRows();
+    }
+
+    public synchronized void removeSelectedEntry() {
+        int[] selectedRows = this.getSelectedRow();
+
+        for (int i = selectedRows.length - 1; i > -1; i--) {
+            filesTableData.removeRow(selectedRows[i]);
+        }
+    }
+
+    public synchronized void removeAllEntries() {
+        while (filesTableData.getRowCount() != 0) {
+            filesTableData.removeRow(filesTableData.getRowCount() - 1);
+        }
+    }
+
+    public synchronized void displayFromSources(ArrayList<FilesSourceObject> sources) {
+        removeAllEntries();
         
-        center.setVisible(true);
-        center.add("dvdfvsd", table);
-        table.setVisible(true);
-
-        
-//            tabs.addTab("", tabs);
-
-//            tabs.setTabComponentAt(tabs.getTabCount() - 1, componentsPanel);
-//            tabs.setSelectedIndex(tabs.getTabCount() - 1);
-
-//        tabs.add(table, WIDTH); // Add the table to the middle
-//        componentsPanel.repaint();
+        for (int i = 0; i < sources.size(); i++) {
+            filesTableData.addRow(new Object[]{
+                sources.get(i).getFile(),
+                sources.get(i).getFrom()
+            });
+        }
     }
 
     /**
@@ -178,13 +222,13 @@ public final class AddModifyFiles extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Files", "From", "nullreerg"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -225,12 +269,19 @@ public final class AddModifyFiles extends javax.swing.JDialog {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File[] files = fc.getSelectedFiles();
+
+            for (int i = 0; i < files.length; i++) {
+                String newfile = folderPrefix + File.separator + files[i].getName();
+                source.add(new FilesSourceObject(newfile, files[i].getPath()));
+            }
         }
+
+        this.displayFromSources(source);
 
     }//GEN-LAST:event_addFilesActionPerformed
 
     private void removeSelectedFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSelectedFilesActionPerformed
-        // TODO add your handling code here:
+        this.removeSelectedEntry();
     }//GEN-LAST:event_removeSelectedFilesActionPerformed
 
     private void objectBodyButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectBodyButton2ActionPerformed

@@ -20,7 +20,9 @@
  */
 package esa.mo.nmf.nmfpackage.assembler.gui;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,8 +32,9 @@ import java.util.logging.Logger;
  */
 public class SlicePanel extends javax.swing.JPanel {
 
-    private final String name;
+    private String folderPrefix;
     private final NMFPackageAssemblerGUI parentFrame;
+    private final ArrayList<FilesSourceObject> sources;
 
     /**
      * Creates new form ConsumerPanelArchive
@@ -39,13 +42,28 @@ public class SlicePanel extends javax.swing.JPanel {
      * @param parentFrame The parent panel
      * @param type The type, can be an application or a library
      * @param name The name of the application or library
+     * @param sources The sources of the application or library
      */
-    public SlicePanel(final NMFPackageAssemblerGUI parentFrame, 
-            final String type, final String name) {
+    public SlicePanel(final NMFPackageAssemblerGUI parentFrame,
+            final String type, final String name, ArrayList<FilesSourceObject> sources) {
         initComponents();
 
-        this.name = name;
+        if (sources == null) {
+            this.sources = new ArrayList<FilesSourceObject>();
+        } else {
+            this.sources = sources;
+        }
+
         this.parentFrame = parentFrame;
+
+        if (type.equals(NMFPackageAssemblerGUI.TYPE_APPLICATION)) {
+            this.folderPrefix = "apps" + File.separator + name;
+        }
+
+        if (type.equals(NMFPackageAssemblerGUI.TYPE_LIBRARY)) {
+            this.folderPrefix = "libs" + File.separator + name;
+        }
+
         this.type.setText(type + ":");
         this.value.setText(name);
     }
@@ -120,21 +138,20 @@ public class SlicePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addOrModifyFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOrModifyFilesActionPerformed
-
-        FilesSourceObject source = new FilesSourceObject();
-        
         try {
-            AddModifyFiles files = new AddModifyFiles(source);
+            AddModifyFiles files = new AddModifyFiles(folderPrefix, sources);
         } catch (IOException ex) {
             Logger.getLogger(SlicePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_addOrModifyFilesActionPerformed
 
     private void deleteEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteEntryActionPerformed
-        // remove the entry:
         parentFrame.removeEntry(this);
     }//GEN-LAST:event_deleteEntryActionPerformed
+
+    public ArrayList<FilesSourceObject> getSources() {
+        return sources;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addOrModifyFiles;
