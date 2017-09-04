@@ -169,7 +169,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -193,7 +194,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             final URI uri = connection.getConnectionDetails().getProviderURI();
             final Long pValObjId = manager.storeAndGenerateNearbyPositionAlertId(isInside, objId, uri);
 
-            final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId, pValObjId, null);
+            final EntityKey ekey = new EntityKey(
+                    new Identifier(manager.get(objId).getName().toString()), 
+                    objId, pValObjId, 
+                    null
+            );
             final Time timestamp = HelperTime.getTimestampMillis();
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
@@ -205,16 +210,20 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             publisher.publish(hdrlst, bools);
 
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during publishing process on the provider {0}", ex);
         } catch (MALException ex) {
-            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during publishing process on the provider {0}", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during publishing process on the provider {0}", ex);
         }
     }
 
     @Override
-    public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction) throws MALInteractionException, MALException {
+    public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction) 
+            throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
@@ -230,7 +239,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction) throws MALInteractionException, MALException {
+    public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction) 
+            throws MALInteractionException, MALException {
         GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
         final Position pos;
         final long startTime;
@@ -352,7 +362,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public void removeNearbyPosition(LongList objInstIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void removeNearbyPosition(LongList objInstIds, MALInteraction interaction) 
+            throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Long tempLong;
         LongList tempLongLst = new LongList();
@@ -433,8 +444,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             return false;
         }
 
-        // Is the size 1?
-        if (configurationObjectDetails.getConfigObjects().size() != 1) {  // 1 because we just have NearbyPosition as configuration objects in this service
+        // 1 because we just have NearbyPosition as configuration objects in this service
+        if (configurationObjectDetails.getConfigObjects().size() != 1) {
             return false;
         }
 

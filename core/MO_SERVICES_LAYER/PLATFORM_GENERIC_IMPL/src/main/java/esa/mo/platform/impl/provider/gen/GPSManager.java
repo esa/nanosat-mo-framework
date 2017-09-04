@@ -24,7 +24,6 @@ import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
