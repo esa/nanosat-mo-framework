@@ -45,6 +45,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -3121,7 +3122,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.HDOP) {
                                 result += "0" + separator;
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.ALTITUDE) {
-                                result += String.format("%.2f", simulatorSpacecraftState.getAltitude()) + separator;
+                                result += String.format(Locale.ROOT, "%.2f", simulatorSpacecraftState.getAltitude()) + separator;
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.ALTITUDE_UNITS) {
                                 result += "M" + separator;
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.UNDULATION) {
@@ -3145,7 +3146,7 @@ public class SimulatorNode extends TaskNode {
                                      "1"+separator+//quality                                                                        #5
                                      "0"+separator+//# sats in use                                                                  #6
                                      "0"+separator+//# hdop horizontal dilution of precision                                        #7
-                                     String.format("%.2f",orbitData.getGPSaltitude())+separator+//altitude from mean sea level      #8
+                                     String.format(Locale.ROOT, "%.2f",orbitData.getGPSaltitude())+separator+//altitude from mean sea level      #8
                                      "M"+separator+//units of antenna altitude                                                      #9
                                      "0"+separator+//undulation - relation between the geoid and the WGS84 ellipsoid                #10
                                      "M"+separator+//units of undulation                                                            #11
@@ -3177,7 +3178,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.HDOP) {
                                 result += "0" + separator;
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.ALTITUDE) {
-                                result += String.format("%.3f", simulatorSpacecraftState.getAltitude()) + separator;
+                                result += String.format(Locale.ROOT, "%.3f", simulatorSpacecraftState.getAltitude()) + separator;
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.ALTITUDE_UNITS) {
                                 result += "M" + separator;
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.UNDULATION) {
@@ -3215,7 +3216,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.HDOP) {
                                 result += "0" + separator;
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.ALTITUDE) {
-                                result += String.format("%.3f", simulatorSpacecraftState.getAltitude()) + separator;
+                                result += String.format(Locale.ROOT, "%.3f", simulatorSpacecraftState.getAltitude()) + separator;
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.ALTITUDE_UNITS) {
                                 result += "M" + separator;
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.NULL1) {

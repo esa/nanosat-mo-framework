@@ -22,6 +22,7 @@
 package opssat.simulator.util;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 
 /**
@@ -219,7 +220,7 @@ public class ArgumentDescriptor implements Serializable {
             formattedArgs = formattedArgs + "float " + name + "={" + type + "}";
         }
         if (type instanceof Double) {
-            formattedArgs = formattedArgs + "double " + name + "={" + String.format("%.17f",type) + "}";
+            formattedArgs = formattedArgs + "double " + name + "={" + String.format(Locale.ROOT, "%.17f",type) + "}";
         }
         return formattedArgs;
     }

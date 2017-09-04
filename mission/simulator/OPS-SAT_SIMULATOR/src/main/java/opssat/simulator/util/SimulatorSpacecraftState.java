@@ -22,8 +22,8 @@
 package opssat.simulator.util;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  *
@@ -208,9 +208,9 @@ public class SimulatorSpacecraftState {
 
     public String getRotationAsString() {
         return "\n"+
-                String.format("%+03f", this.rotation[0][0])+" "+String.format("%+03f", this.rotation[0][1])+" "+String.format("%+03f", this.rotation[0][2])+"\n"+
-                String.format("%+03f", this.rotation[1][0])+" "+String.format("%+03f", this.rotation[1][1])+" "+String.format("%+03f", this.rotation[1][2])+"\n"+
-                String.format("%+03f", this.rotation[2][0])+" "+String.format("%+03f", this.rotation[2][1])+" "+String.format("%+03f", this.rotation[2][2]);
+                String.format(Locale.ROOT, "%+03f", this.rotation[0][0])+" "+String.format(Locale.ROOT, "%+03f", this.rotation[0][1])+" "+String.format(Locale.ROOT, "%+03f", this.rotation[0][2])+"\n"+
+                String.format(Locale.ROOT, "%+03f", this.rotation[1][0])+" "+String.format(Locale.ROOT, "%+03f", this.rotation[1][1])+" "+String.format(Locale.ROOT, "%+03f", this.rotation[1][2])+"\n"+
+                String.format(Locale.ROOT, "%+03f", this.rotation[2][0])+" "+String.format(Locale.ROOT, "%+03f", this.rotation[2][1])+" "+String.format(Locale.ROOT, "%+03f", this.rotation[2][2]);
     }
     
     

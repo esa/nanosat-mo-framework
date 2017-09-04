@@ -24,26 +24,26 @@ import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
 import java.io.IOException;
 import opssat.simulator.main.ESASimulator;
 
-/** 
+/**
  *
  * @author Cesar Coelho
  */
 public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter {
-    
+
     private final ESASimulator instrumentsSimulator;
-    
-    public GPSSoftSimAdapter(ESASimulator instrumentsSimulator){
+
+    public GPSSoftSimAdapter(ESASimulator instrumentsSimulator) {
         this.instrumentsSimulator = instrumentsSimulator;
     }
 
     @Override
     public synchronized String getNMEASentence(final String sentenceIdentifier) throws IOException {
         final String nmeaSentence = instrumentsSimulator.getpGPS().getNMEASentence(sentenceIdentifier);
-        
-        if(nmeaSentence == null){
+
+        if (nmeaSentence == null) {
             throw new IOException("The Simulator returned a null object!");
         }
-        
+
         return nmeaSentence;
     }
 
@@ -51,5 +51,5 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter {
     public boolean isUnitAvailable() {
         return true;
     }
-    
+
 }
