@@ -226,15 +226,20 @@ public class NMFPackageManager {
                 "Package successfully upgraded from location: " + packageLocation);
     }
 
+    /**
+     * Based on the name, goes to the receipts folder and checks.
+     *
+     * @param packageLocation The package location.
+     * @return If it is installed or not.
+     */
     public static boolean isPackageInstalled(final String packageLocation) {
-        // based on the name, we have to go to the receipts folder and check!
-
         // Find the receipt and get it out of the package
         ZipFile zipFile;
         try {
             zipFile = new ZipFile(packageLocation);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
+                    "The package could not be opened from file: " + packageLocation, ex);
             return false;
         }
 
