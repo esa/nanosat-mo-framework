@@ -86,6 +86,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         try {
             this.comServices.init();
+            this.comServices.initArchiveSync();
             this.heartbeatService.init();
 
             this.directoryService.init(comServices);

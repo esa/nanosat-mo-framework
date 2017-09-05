@@ -77,18 +77,22 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
                     "Initializing services...");
 
             comServices.init();
+            comServices.initArchiveSync();
+
             heartbeatService.init();
             super.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
             directoryService.init(comServices);
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE,
-                    "The services could not be initialized. Perhaps there's something wrong with the selected Transport Layer.", ex);
+                    "The services could not be initialized. Perhaps there's "
+                    + "something wrong with the selected Transport Layer.", ex);
             return;
         }
 
         // Populate the Directory service with the entries from the URIs File
-        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Populating Directory service...");
+        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
+                "Populating Directory service...");
         directoryService.loadURIs(this.providerName);
 
         // Are the dynamic changes enabled?
@@ -97,10 +101,19 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
                     "Loading previous configurations...");
 
             // Activate the previous configuration
-            final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
-                    new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+            final ObjectId confId = new ObjectId(
+                    ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                    new ObjectKey(
+                            ConfigurationProviderSingleton.getDomain(),
+                            DEFAULT_PROVIDER_CONFIGURATION_OBJID
+                    )
+            );
 
-            super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());
+            super.providerConfiguration = new PersistProviderConfiguration(
+                    this,
+                    confId,
+                    comServices.getArchiveService()
+            );
 
             try {
                 super.providerConfiguration.loadPreviousConfigurations();

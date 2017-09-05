@@ -113,6 +113,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         try {
             comServices.init();
+            comServices.initArchiveSync();
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
                     "The services could not be initialized. "
