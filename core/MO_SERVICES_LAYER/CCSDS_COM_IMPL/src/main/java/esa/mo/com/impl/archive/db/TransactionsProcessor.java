@@ -355,7 +355,13 @@ public class TransactionsProcessor {
 
                     // Double check if the filter fields are really not null
                     if (pfilter.getLimit() != null && pfilter.getOffset() != null) {
-                        queryString += "ORDER BY PU.timestampArchiveDetails ASC "
+                        String sortOrder = "ASC ";
+                        if(archiveQuery.getSortOrder() != null){
+                            sortOrder = (archiveQuery.getSortOrder()) ? "ASC " : "DESC ";
+                        }
+                        
+                        queryString += "ORDER BY PU.timestampArchiveDetails "
+                                + sortOrder
                                 + "LIMIT "
                                 + pfilter.getLimit().getValue()
                                 + " OFFSET "
