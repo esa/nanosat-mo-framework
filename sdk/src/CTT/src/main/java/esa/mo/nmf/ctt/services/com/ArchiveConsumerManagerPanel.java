@@ -25,6 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.tools.mowindow.MOWindow;
 import java.awt.Component;
 import java.awt.Font;
@@ -44,6 +45,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
@@ -77,8 +79,6 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
-import org.ccsds.moims.mo.mc.check.structures.CheckState;
-import org.ccsds.moims.mo.mc.check.structures.CheckStateList;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
@@ -98,6 +98,9 @@ import org.ccsds.moims.mo.mc.group.structures.GroupDetailsList;
 public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     private final ArchiveConsumerServiceImpl serviceCOMArchive;
+    private int location;
+    private JTabbedPane serviceTabs = null;
+    private GroundMOAdapterImpl services;
 
     /**
      * Creates new form ArchiveConsumerPanel
@@ -107,6 +110,12 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     public ArchiveConsumerManagerPanel(ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         serviceCOMArchive = archiveService;
+    }
+
+    public void setArchiveSyncConfigs(int count, JTabbedPane serviceTabs, GroundMOAdapterImpl services) {
+        this.location = count;
+        this.serviceTabs = serviceTabs;
+        this.services = services;
     }
 
     public static AggregationDefinitionDetails generateAggregationDefinition(String name) {
@@ -469,7 +478,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         jButtonStoreGroups = new javax.swing.JButton();
         TBoxStore = new javax.swing.JTextField();
         jButtonDeleteAll = new javax.swing.JButton();
-        test_button = new javax.swing.JButton();
+        open_ArchiveSync = new javax.swing.JButton();
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -568,10 +577,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             }
         });
 
-        test_button.setText("Test Button");
-        test_button.addActionListener(new java.awt.event.ActionListener() {
+        open_ArchiveSync.setText("Open ArchiveSync Tab");
+        open_ArchiveSync.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                test_buttonActionPerformed(evt);
+                open_ArchiveSyncActionPerformed(evt);
             }
         });
 
@@ -603,7 +612,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                     .addComponent(jButtonStoreGroups, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(test_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(open_ArchiveSync, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonStoreAggregation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -632,7 +641,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                     .addComponent(jButtonDelete)
                     .addComponent(jButtonStoreActions)
                     .addComponent(jButtonStoreConversions)
-                    .addComponent(test_button))
+                    .addComponent(open_ArchiveSync))
                 .addContainerGap(438, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -975,7 +984,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         archiveQuery.setSortFieldName(null);
 
         archiveQueryList.add(archiveQuery);
-        
+
         PaginationFilter filter = new PaginationFilter();
         filter.setLimit(new UInteger(5));
         filter.setOffset(new UInteger(0));
@@ -986,7 +995,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         } catch (InterruptedIOException ex) {
             return;
         }
-        
+
         PaginationFilterList list = new PaginationFilterList();
         list.add(filter);
 
@@ -998,7 +1007,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
         /*
         // Object Type
         ObjectType objType = new ObjectType(new UShort(4), new UShort(1), new UOctet((short) 1), new UShort(1));
@@ -1063,7 +1071,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
+         */
 
     }//GEN-LAST:event_jButtonStoreActionsActionPerformed
 
@@ -1179,87 +1187,18 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     }
 
 
-    private void test_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test_buttonActionPerformed
+    private void open_ArchiveSyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_open_ArchiveSyncActionPerformed
 
-        // Object Type
-        ObjectType objType = new ObjectType(new UShort(4), new UShort(8), new UOctet((short) 1), new UShort(1));
-
-        // Domain
-        IdentifierList domain = serviceCOMArchive.getConnectionDetails().getDomain();
-
-        // Archive details
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
-
-        /*        
-        ParameterDefinitionDetails objectBody = new ParameterDefinitionDetails();
-        objectBody.setName(new Identifier("ffdsv"));
-        objectBody.setDescription("dfvfdv");
-        objectBody.setRawType((byte) 4343);
-        objectBody.setRawUnit("fggfd");
-        objectBody.setGenerationEnabled(true);
-        objectBody.setUpdateInterval(new Duration(67));
-        objectBody.setValidityExpression(null);
-        objectBody.setConversion(new ParameterConversion());
-
-        objectBody.getConversion().setConvertedType((byte) 3);
-        objectBody.getConversion().setConvertedUnit("fdfd");
-        objectBody.getConversion().setConversionConditions(new ConditionalReferenceList());
-        
-        ParameterDefinitionDetailsList objectBodyList = new ParameterDefinitionDetailsList();
-        objectBodyList.add(objectBody);
-         */
-//        CheckState objectBody = new CheckState();
-        CheckStateList objectBodyList = new CheckStateList();
-        objectBodyList.add(CheckState.DISABLED);
-
-        try {
-            serviceCOMArchive.getArchiveStub().store(false, objType, domain, archiveDetailsList, objectBodyList);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        if (serviceTabs != null) {
+            if (services.getCOMServices().getArchiveSyncService() != null) {
+                ArchiveSyncConsumerManagerPanel panel = new ArchiveSyncConsumerManagerPanel(
+                        services.getCOMServices().getArchiveService(),
+                        services.getCOMServices().getArchiveSyncService()
+                );
+                serviceTabs.insertTab("ArchiveSync service", null, panel, "ArchiveSync Tab", location);
+            }
         }
-
-        ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter("Get All");
-
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-
-        archiveQuery.setDomain(domain);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(new Long(0));
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(null);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortOrder(false);
-        archiveQuery.setSortFieldName(null);
-        archiveQueryList.add(archiveQuery);
-
-        CompositeFilterList compositeFilterList = new CompositeFilterList();
-        CompositeFilter compositeFilter = new CompositeFilter();
-
-        compositeFilter.setFieldName("");
-        compositeFilter.setType(ExpressionOperator.GREATER);
-        compositeFilter.setFieldValue(new UInteger(0));
-
-        compositeFilterList.add(compositeFilter);
-        CompositeFilterSetList filterSetList = new CompositeFilterSetList();
-        CompositeFilterSet filterSet = new CompositeFilterSet();
-        filterSet.setFilters(compositeFilterList);
-        filterSetList.add(filterSet);
-
-        objType = new ObjectType(new UShort(0), new UShort(8), new UOctet((short) 1), new UShort(1));
-
-        try {
-            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, filterSetList, adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_test_buttonActionPerformed
+    }//GEN-LAST:event_open_ArchiveSyncActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField TBoxStore;
@@ -1276,7 +1215,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButtonStoreGroups;
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton open_ArchiveSync;
     private javax.swing.JTabbedPane tabs;
-    private javax.swing.JButton test_button;
     // End of variables declaration//GEN-END:variables
 }

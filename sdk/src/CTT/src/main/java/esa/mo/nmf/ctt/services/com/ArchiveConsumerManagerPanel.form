@@ -45,7 +45,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="test_button" max="32767" attributes="0"/>
+                  <Component id="open_ArchiveSync" max="32767" attributes="0"/>
                   <Component id="jButtonStoreAggregation" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -79,7 +79,7 @@
                   <Component id="jButtonDelete" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonStoreActions" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonStoreConversions" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="test_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="open_ArchiveSync" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="438" max="32767" attributes="0"/>
           </Group>
@@ -230,12 +230,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDeleteAllActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="test_button">
+    <Component class="javax.swing.JButton" name="open_ArchiveSync">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Test Button"/>
+        <Property name="text" type="java.lang.String" value="Open ArchiveSync Tab"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="test_buttonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="open_ArchiveSyncActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

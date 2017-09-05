@@ -120,19 +120,21 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                     ArchiveConsumerManagerPanel panel = new ArchiveConsumerManagerPanel(services.getCOMServices().getArchiveService());
                     int count = serviceTabs.getTabCount();
                     serviceTabs.insertTab("Archive Manager", null, panel, "Archive Tab", count);
+                    panel.setArchiveSyncConfigs(count + 1, serviceTabs, services);
                 }
 
+                /*
+                if (services.getCOMServices().getArchiveSyncService() != null) {
+                    ArchiveSyncConsumerManagerPanel panel = new ArchiveSyncConsumerManagerPanel(services.getCOMServices().getArchiveService(), services.getCOMServices().getArchiveSyncService());
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("ArchiveSync service", null, panel, "ArchiveSync Tab", count);
+                }
+                 */
                 if (services.getCOMServices().getEventService() != null) {
                     EventConsumerPanel panel = new EventConsumerPanel(services.getCOMServices().getEventService(), services.getCOMServices().getArchiveService());
                     int count = serviceTabs.getTabCount();
                     serviceTabs.insertTab("Event service", null, panel, "Event Tab", count);
                     panel.init();
-                }
-
-                if (services.getCOMServices().getArchiveSyncService() != null) {
-                    ArchiveSyncConsumerManagerPanel panel = new ArchiveSyncConsumerManagerPanel(services.getCOMServices().getArchiveService(), services.getCOMServices().getArchiveSyncService());
-                    int count = serviceTabs.getTabCount();
-                    serviceTabs.insertTab("ArchiveSync service", null, panel, "ArchiveSync Tab", count);
                 }
             }
 
