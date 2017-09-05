@@ -32,7 +32,6 @@ import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
 import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.nmf.ctt.services.com.ArchiveSyncConsumerManagerPanel;
 import esa.mo.nmf.ctt.services.sm.PackageManagementConsumerPanel;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
@@ -299,10 +298,12 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
             status.setText("Alive! ");
             status.setForeground(Color.BLUE);
-            lastReceived.setText("(Clocks diff: " + iDiff + " ms"
+            lastReceived.setText(
+                    "(Clocks diff: " + iDiff + " ms"
                     + " | Round-Trip Delay time: " + lag + " ms"
                     + " | Last beat received at: " + HelperTime.time2readableString(lastBeatAt)
-                    + ")");
+                    + ")"
+            );
         }
 
     }
