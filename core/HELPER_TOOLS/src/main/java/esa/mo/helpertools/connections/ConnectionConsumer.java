@@ -43,12 +43,12 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * The class responsible for starting the MAL layer and takes care of 
- * establishing the connection to the Provider set. The URIs of the service
- * and broker must be provided directly to the operations. The class contains
- * a holder for the connection details but it does not necessarily means that
- * the class is connected to these.
- * 
+ * The class responsible for starting the MAL layer and takes care of
+ * establishing the connection to the Provider set. The URIs of the service and
+ * broker must be provided directly to the operations. The class contains a
+ * holder for the connection details but it does not necessarily means that the
+ * class is connected to these.
+ *
  * @author Cesar Coelho
  */
 public class ConnectionConsumer {
@@ -105,8 +105,8 @@ public class ConnectionConsumer {
     }
 
     /**
-     * Starts the MALConsumer and creates the MAL consumer for the provided 
-     * URIs and domain.
+     * Starts the MALConsumer and creates the MAL consumer for the provided URIs
+     * and domain.
      *
      * @param uriP The service provider URI
      * @param uriB The broker URI
@@ -118,8 +118,9 @@ public class ConnectionConsumer {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
-            final MALService malService) throws MALException, MalformedURLException {
+    public MALConsumer startService(final URI uriP, final URI uriB,
+            final IdentifierList domain, final MALService malService)
+            throws MALException, MalformedURLException {
         this.startMAL();
         return this.createMALconsumer(uriP, uriB, domain, malService);
     }
@@ -137,12 +138,13 @@ public class ConnectionConsumer {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public MALConsumer createMALconsumer(final URI uriP, final URI uriB, final IdentifierList domain,
-            final MALService malService) throws MALException, MalformedURLException {
+    public MALConsumer createMALconsumer(final URI uriP, final URI uriB,
+            final IdentifierList domain, final MALService malService)
+            throws MALException, MalformedURLException {
 
         Properties props = new Properties();
         props.putAll(System.getProperties());
-        
+
         tmConsumer = consumerMgr.createConsumer((String) null,
                 uriP,
                 uriB,
@@ -174,8 +176,9 @@ public class ConnectionConsumer {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
-            final QoSLevelList qosLevels, final UInteger priorityLevels, final MALService malService)
+    public MALConsumer startService(final URI uriP, final URI uriB,
+            final IdentifierList domain, final QoSLevelList qosLevels,
+            final UInteger priorityLevels, final MALService malService)
             throws MALException, MalformedURLException {
 
         this.startMAL();
@@ -251,9 +254,9 @@ public class ConnectionConsumer {
         final Identifier subscriptionId = new Identifier("SUB" + Integer.toString(random.nextInt()));
         return ConnectionConsumer.subscriptionWildcard(subscriptionId);
     }
-    
+
     /**
-     * Returns a subscription object with the entity keys field set as the 
+     * Returns a subscription object with the entity keys field set as the
      * provided keys
      *
      * @param key1 First key
@@ -262,7 +265,8 @@ public class ConnectionConsumer {
      * @param key4 Fourth key
      * @return The subscription object
      */
-    public static Subscription subscriptionKeys(Identifier key1, Long key2, Long key3, Long key4) {
+    public static Subscription subscriptionKeys(final Identifier key1,
+            final Long key2, final Long key3, final Long key4) {
         final Identifier subscriptionId = new Identifier("SUB");
         return ConnectionConsumer.subscriptionKeys(subscriptionId, key1, key2, key3, key4);
     }
@@ -279,7 +283,8 @@ public class ConnectionConsumer {
         final EntityKey entitykey = new EntityKey(new Identifier("*"), 0L, 0L, 0L);
         entityKeys.add(entitykey);
 
-        final EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
+        final EntityRequest entity = new EntityRequest(
+                null, false, false, false, false, entityKeys);
         final EntityRequestList entities = new EntityRequestList();
         entities.add(entity);
 
@@ -287,7 +292,7 @@ public class ConnectionConsumer {
     }
 
     /**
-     * Returns a subscription object with the entity keys field set as the 
+     * Returns a subscription object with the entity keys field set as the
      * provided keys
      *
      * @param subscriptionId The subscription Identifier
@@ -297,16 +302,18 @@ public class ConnectionConsumer {
      * @param key4 Fourth key
      * @return The subscription object
      */
-    public static Subscription subscriptionKeys(final Identifier subscriptionId, Identifier key1, Long key2, Long key3, Long key4) {
+    public static Subscription subscriptionKeys(final Identifier subscriptionId,
+            final Identifier key1, final Long key2, final Long key3, final Long key4) {
         final EntityKeyList entityKeys = new EntityKeyList();
         final EntityKey entitykey = new EntityKey(key1, key2, key3, key4);
         entityKeys.add(entitykey);
 
-        final EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
+        final EntityRequest entity = new EntityRequest(
+                null, false, false, false, false, entityKeys);
         final EntityRequestList entities = new EntityRequestList();
         entities.add(entity);
 
         return new Subscription(subscriptionId, entities);
     }
-    
+
 }

@@ -1036,16 +1036,20 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                     if (active) {
                         AggregationDefinitionDetails def = manager.getAggregationDefinition(identityId);
                         checkSampleIntervalAndSampleParam(identityId, true);
-                        if (!def.getFilterEnabled()) { // The Filter is not enabled? // requirement: 3.7.2.a.a, 
-                            publishPeriodicAggregationUpdate(identityId, 
-                                    manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
-                            manager.resetAggregationSampleHelperVariables(identityId);
-                        } else {  // requirement: 3.7.2.a.c, 
-                            if (manager.isFilterTriggered(identityId) == true) { // The Filter is on and triggered? requirement: 3.7.2.6
+                        
+                        // To prevent race conditions with the other timer
+                        synchronized (lock) {
+                            if (!def.getFilterEnabled()) { // The Filter is not enabled? // requirement: 3.7.2.a.a, 
                                 publishPeriodicAggregationUpdate(identityId, 
                                         manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
                                 manager.resetAggregationSampleHelperVariables(identityId);
-                                resetFilterTimeoutTimer(identityId);        // Reset the timer
+                            } else {  // requirement: 3.7.2.a.c, 
+                                if (manager.isFilterTriggered(identityId) == true) { // The Filter is on and triggered? requirement: 3.7.2.6
+                                    publishPeriodicAggregationUpdate(identityId, 
+                                            manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
+                                    manager.resetAggregationSampleHelperVariables(identityId);
+                                    resetFilterTimeoutTimer(identityId);        // Reset the timer
+                                }
                             }
                         }
                     }
@@ -1209,9 +1213,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 @Override
                 public void run() {
                     if (active) {
-                        //create the new paraemtersamples and set them if filter triggered or not enabled
-                        manager.sampleAndFilterParam(identityId, indexOfparameterSet);
-
+                        // To prevent race conditions with the other timer
+                        synchronized (lock) {
+                            //create the new paraemtersamples and set them if filter triggered or not enabled
+                            manager.sampleAndFilterParam(identityId, indexOfparameterSet);
+                        }
                     }
                 }
             }, 0, (int) (interval.getValue() * 1000)); // the time has to be converted to milliseconds by multiplying by 1000
