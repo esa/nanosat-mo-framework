@@ -32,7 +32,7 @@ public class BenchmarkApp {
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
 
     public BenchmarkApp() {
-        connector.init(new MCAdapter());
+        connector.init(new MCAdapter(connector));
     }
 
     /**
