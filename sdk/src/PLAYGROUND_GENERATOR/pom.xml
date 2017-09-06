@@ -66,6 +66,7 @@
         <module>PG_INSTALLER_DEMO_PUSH_CLOCK</module>
         <module>PG_INSTALLER_DEMO_SNAPNMF</module>
         <module>PG_INSTALLER_DEMO_ALLINONE_PRESENTATION</module>
+        <module>PG_INSTALLER_BENCHMARK_APP</module>
     </modules>
 
     <repositories>
