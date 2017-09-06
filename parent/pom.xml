@@ -112,6 +112,9 @@
         <!-- NMF Mission Library -->
         <esa.nmf.mission.softwaresimulator.library>0.1.2-SNAPSHOT</esa.nmf.mission.softwaresimulator.library>
 
+        <!-- NMF - Default Apps -->
+        <esa.nmf.benchmarkapp>0.1.2-SNAPSHOT</esa.nmf.benchmarkapp>
+
         <!-- NMF Mission Library -->
         <esa.nmf.sdk.app.helloworld>0.1.2-SNAPSHOT</esa.nmf.sdk.app.helloworld>
         <esa.nmf.sdk.app.pushclock>0.1.2-SNAPSHOT</esa.nmf.sdk.app.pushclock>
@@ -255,6 +258,13 @@
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
                 <version>${esa.nmf.mission.softwaresimulator.library}</version>
+            </dependency>
+
+            <!-- NMF - Default Apps -->
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>Benchmark_App</artifactId>
+                <version>${esa.nmf.benchmarkapp}</version>
             </dependency>
 
             <!-- NMF SDK -->
