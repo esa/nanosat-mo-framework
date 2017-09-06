@@ -25,6 +25,7 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import java.io.File;
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
@@ -56,7 +57,9 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 //    private static int NUMBER_OF_OBJS = 5000;
     private static final int NUMBER_OF_OBJS = 10;
     private static final String ACTION_STORE_AGGS = "StoreAggregations";
-    private static final String PERIODIC_PARAMETER = "Periodic_Parameter";
+    private static final String ACTION_STORE_PARS = "StoreParameters";
+    private static final String PARAMETER_PERIODIC = "Periodic_Parameter";
+    private static final String PARAMETER_ARCHIVE_SIZE = "COM_Archive.size";
 
     MCAdapter(NanoSatMOConnectorImpl connector) {
         this.connector = connector;
@@ -70,7 +73,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
         IdentifierList paramNames = new IdentifierList();
 
-        // Create the GPS.Latitude
+        // Creates a periodic parameter
         parDef.add(new ParameterDefinitionDetails(
                 "A periodic parameter with a double value.",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
@@ -80,9 +83,21 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
-        paramNames.add(new Identifier(PERIODIC_PARAMETER));
+        paramNames.add(new Identifier(PARAMETER_PERIODIC));
 
-        LongList parameterObjIdsGPS = registration.registerParameters(paramNames, parDef);
+        // Creates a periodic parameter
+        parDef.add(new ParameterDefinitionDetails(
+                "The COM Archive size.",
+                Union.LONG_TYPE_SHORT_FORM.byteValue(),
+                "bytes",
+                false,
+                new Duration(0),
+                null,
+                null
+        ));
+        paramNames.add(new Identifier(PARAMETER_ARCHIVE_SIZE));
+        
+        registration.registerParameters(paramNames, parDef);
 
         // ------------------ Actions ------------------
         ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
@@ -90,8 +105,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
         {
-            Byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
-            String rawUnit = "KB";
+            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            String rawUnit = "-";
             ConditionalConversionList conditionalConversions = null;
             Byte convertedType = null;
             String convertedUnit = null;
@@ -109,13 +124,28 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         ));
         actionNames.add(new Identifier(ACTION_STORE_AGGS));
 
+        actionDefs.add(new ActionDefinitionDetails(
+                "Stores " + NUMBER_OF_OBJS + " parameter value objects in the COM Archive.",
+                new UOctet((short) 0),
+                new UShort(0),
+                arguments1,
+                null
+        ));
+        actionNames.add(new Identifier(ACTION_STORE_PARS));
+        
         LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
     }
 
     @Override
     public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException {
-        if (PERIODIC_PARAMETER.equals(identifier.getValue())) {
+        if (PARAMETER_PERIODIC.equals(identifier.getValue())) {
             return (Attribute) HelperAttributes.javaType2Attribute(123.456);
+        }
+        
+        if (PARAMETER_ARCHIVE_SIZE.equals(identifier.getValue())) {
+            File f = new File("comArchive.db");
+            long size = f.length();
+            return (Attribute) HelperAttributes.javaType2Attribute(size);
         }
 
         throw new IOException("The value could not be acquired!");
@@ -129,9 +159,12 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-
         if (ACTION_STORE_AGGS.equals(name.getValue())) {
             StoreAggregations.storeAggregations(NUMBER_OF_OBJS, connector);
+        }
+
+        if (ACTION_STORE_PARS.equals(name.getValue())) {
+            StoreParameters.storeParameterValues(NUMBER_OF_OBJS, connector);
         }
 
         return null;  // Action service not integrated

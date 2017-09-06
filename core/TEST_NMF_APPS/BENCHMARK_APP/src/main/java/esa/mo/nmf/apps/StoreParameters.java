@@ -21,6 +21,7 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
@@ -29,45 +30,30 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
+import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class StoreAggregations {
+public class StoreParameters {
 
-    public static void storeAggregations(int numberOfObjs, NMFInterface connector) {
+    public static void storeParameterValues(int numberOfObjs, NMFInterface connector) {
         try {
-            AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
-            AggregationDefinitionDetails def = new AggregationDefinitionDetails();
-            def.setDescription("dfvgdf");
-            def.setCategory(new UOctet((short) 1));
-            def.setSendUnchanged(false);
-            def.setGenerationEnabled(true);
-            def.setReportInterval(new Duration(45));
-            def.setFilterEnabled(false);
-            def.setFilteredTimeout(new Duration(54));
-            def.setSendDefinitions(false);
-            AggregationParameterSetList aaa = new AggregationParameterSetList();
-            AggregationParameterSet aa = new AggregationParameterSet();
-            aa.setDomain(null);
-            LongList lissssst = new LongList();
-            lissssst.add(new Long(65));
-            aa.setParameters(lissssst);
-            aa.setSampleInterval(new Duration(43));
-            aa.setReportFilter(null);
-            aaa.add(aa);
-            def.setParameterSets(aaa);
+            ParameterValue pValue = new ParameterValue(
+                    new UOctet((short) 0),
+                    (Attribute) HelperAttributes.javaType2Attribute(123.4567),
+                    null
+            );
+
+            ParameterValueList values = new ParameterValueList();
+
             for (int i = 0; i < numberOfObjs; i++) {
-                defs.add(def);
+                values.add(pValue);
             }
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
                     connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
@@ -111,22 +97,21 @@ public class StoreAggregations {
             
              */
             try {
-
-                for (int i = 0; i < defs.size(); i++) {
+                for (int i = 0; i < values.size(); i++) {
                     ArchiveDetailsList xxx = new ArchiveDetailsList();
-                    AggregationDefinitionDetailsList yyy = new AggregationDefinitionDetailsList();
+                    ParameterValueList yyy = new ParameterValueList();
                     xxx.add(archDetails.get(0));
-                    yyy.add(defs.get(i));
+                    yyy.add(values.get(i));
 
-                    connector.getCOMServices().getArchiveService().store(true,
-                            AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                    connector.getCOMServices().getArchiveService().store(
+                            true,
+                            ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
                             connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
                             xxx,
                             yyy,
                             null);
 
                 }
-
             } catch (MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
