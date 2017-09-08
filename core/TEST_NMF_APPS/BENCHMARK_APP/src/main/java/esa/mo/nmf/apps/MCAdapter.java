@@ -55,7 +55,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     private final NMFInterface connector;
 //    private static int NUMBER_OF_OBJS = 5000;
-    private static final int NUMBER_OF_OBJS = 10;
+    private static final int NUMBER_OF_OBJS = 10000;
     private static final String ACTION_STORE_AGGS = "StoreAggregations";
     private static final String ACTION_STORE_PARS = "StoreParameters";
     private static final String PARAMETER_PERIODIC = "Periodic_Parameter";
