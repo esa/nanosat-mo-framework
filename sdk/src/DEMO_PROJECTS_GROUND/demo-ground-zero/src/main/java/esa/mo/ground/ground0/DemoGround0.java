@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  */
 public class DemoGround0 {
 
-    private final GroundMOAdapterImpl moGroundAdapter;
+    private final GroundMOAdapterImpl gma;
 
     public DemoGround0() {
         ConnectionConsumer connection = new ConnectionConsumer();
@@ -45,8 +45,8 @@ public class DemoGround0 {
                     "The URIs could not be loaded.", ex);
         }
 
-        moGroundAdapter = new GroundMOAdapterImpl(connection);
-        moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
+        gma = new GroundMOAdapterImpl(connection);
+        gma.addDataReceivedListener(new DataReceivedAdapter());
     }
 
     /**

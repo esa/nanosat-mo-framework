@@ -34,33 +34,33 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * Ground consumer: Demo Ground 0
+ * Demo application using the Directory service
  *
  * @author Cesar Coelho
  */
-public class DemoGround0 {
+public class DemoGroundDirectory {
 
-    private GroundMOAdapterImpl moGroundAdapter;
+    private GroundMOAdapterImpl gma;
     private final static URI DIRECTORY_URI = new URI("maltcp://x:1024-NanoSat_MO_Supervisor-Directory");
 
-    public DemoGround0() {
+    public DemoGroundDirectory() {
         try {
             ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(DIRECTORY_URI);
 
             if (!providers.isEmpty()) {
                 // Connect to provider on index 0
-                moGroundAdapter = new GroundMOAdapterImpl(providers.get(0));
-                moGroundAdapter.addDataReceivedListener(new CompleteDataReceivedAdapter());
+                gma = new GroundMOAdapterImpl(providers.get(0));
+                gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
             } else {
-                Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, "Something went wrong!");
+                Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.SEVERE,
+                        "The returned list of providers is empty!");
             }
-
         } catch (MALException ex) {
-            Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
-            Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(DemoGround0.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -71,16 +71,20 @@ public class DemoGround0 {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        DemoGround0 demo = new DemoGround0();
+        DemoGroundDirectory demo = new DemoGroundDirectory();
     }
 
     private class SimpleDataReceivedAdapter extends SimpleDataReceivedListener {
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
-            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO,
+            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.INFO,
                     "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
-                    new Object[]{parameterName, data.toString()});
+                    new Object[]{
+                        parameterName,
+                        data.toString()
+                    }
+            );
         }
 
     }
@@ -89,9 +93,13 @@ public class DemoGround0 {
 
         @Override
         public void onDataReceived(ParameterInstance parameterInstance) {
-            Logger.getLogger(DemoGround0.class.getName()).log(Level.INFO,
+            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.INFO,
                     "\nParameter name: {0}" + "\n" + "Parameter Value: {1}",
-                    new Object[]{parameterInstance.getName(), parameterInstance.getParameterValue().toString()});
+                    new Object[]{
+                        parameterInstance.getName(),
+                        parameterInstance.getParameterValue().toString()
+                    }
+            );
         }
     }
 }
