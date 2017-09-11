@@ -97,10 +97,11 @@ public class NMFConsumer {
         } catch (MalformedURLException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING, "The file "
-                    + HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! "
-                    + "This error can happen if the user is trying to run the application from "
-                    + "a different folder other than the one where the file is.", ex);
+            Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING,
+                    "The file " + HelperMisc.CONSUMER_PROPERTIES_FILE
+                    + " could not be found! This error can happen if the user "
+                    + "is trying to run the application from a different folder"
+                    + " other than the one where the file is.", ex);
         }
 
         initCOMServices();
@@ -226,9 +227,11 @@ public class NMFConsumer {
         } catch (MalformedURLException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING, "The file "
-                    + HelperMisc.CONSUMER_PROPERTIES_FILE + " could not be found! This error can happen if the user is "
-                    + "trying to run the application from a different folder other than the one where the file is.", ex);
+            Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING,
+                    "The file " + HelperMisc.CONSUMER_PROPERTIES_FILE
+                    + " could not be found! This error can happen if the user "
+                    + "is trying to run the application from a different "
+                    + "folder other than the one where the file is.", ex);
         }
 
         DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI);
