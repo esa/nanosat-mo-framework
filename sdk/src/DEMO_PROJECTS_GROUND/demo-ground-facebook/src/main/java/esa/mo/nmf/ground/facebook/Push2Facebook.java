@@ -36,13 +36,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Ground consumer: Demo Facebook
+ * Demo application pushing data into Facebook
  *
  */
 public class Push2Facebook {
 
     private static final String TOKEN_FILENAME = "token.properties";
-    private GroundMOAdapterImpl moGroundAdapter;
+    private GroundMOAdapterImpl gma;
     private String ACCESS_TOKEN;
 
     public Push2Facebook() {
@@ -55,8 +55,8 @@ public class Push2Facebook {
             Logger.getLogger(Push2Facebook.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        moGroundAdapter = new GroundMOAdapterImpl(connection);
-        moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
+        gma = new GroundMOAdapterImpl(connection);
+        gma.addDataReceivedListener(new DataReceivedAdapter());
 
         final java.util.Properties sysProps = System.getProperties();
 

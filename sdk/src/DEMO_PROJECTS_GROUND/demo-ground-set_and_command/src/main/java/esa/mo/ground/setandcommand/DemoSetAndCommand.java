@@ -35,7 +35,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
  */
 public class DemoSetAndCommand {
 
-    private final GroundMOAdapterImpl moGroundAdapter;
+    private final GroundMOAdapterImpl gma;
 
     public DemoSetAndCommand() {
         ConnectionConsumer connection = new ConnectionConsumer();
@@ -46,21 +46,20 @@ public class DemoSetAndCommand {
             Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        moGroundAdapter = new GroundMOAdapterImpl(connection);
-        moGroundAdapter.addDataReceivedListener(new DataReceivedAdapter());
+        gma = new GroundMOAdapterImpl(connection);
+        gma.addDataReceivedListener(new DataReceivedAdapter());
 
         // Set a parameter with a double value
 //        Double parameterValue = 1.2345;
-//        moGroundAdapter.sendData("Parameter_name", parameterValue);
+//        gma.sendData("Parameter_name", parameterValue);
         AggregationDefinitionDetails aaa = new AggregationDefinitionDetails();
-        moGroundAdapter.setParameter("Parameter_name", aaa);
+        gma.setParameter("Parameter_name", aaa);
 
         // Send a command with a Double argument
         Double value = 1.35565;
         Double[] values = new Double[1];
         values[0] = value;
-        moGroundAdapter.invokeAction("Something", values);
-
+        gma.invokeAction("Something", values);
     }
 
     /**
