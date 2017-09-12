@@ -41,7 +41,6 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
@@ -171,12 +170,20 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
                 // Subscribe to all Events
                 // Select all object numbers from the Apps Launcher service Events
+                subscription = HelperCOM.generateSubscriptionCOMEvent(
+                        "CloseAppEventListener",
+                        AppsLauncherHelper.APP_OBJECT_TYPE);
+
+                /* Previous code */
+                /*
                 final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
                 final Random random = new Random();
                 subscription = ConnectionConsumer.subscriptionKeys(
                         new Identifier("CloseAppEventListener" + random.nextInt()),
                         new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
-
+                 */
+                /* ------------- */
+                
                 // Register with the subscription key provided
                 serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
 
@@ -288,7 +295,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 "NanoSat MO Connector initialized in "
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
                 + " seconds!");
-        
+
         final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                 "URI: {0}\n", uri);

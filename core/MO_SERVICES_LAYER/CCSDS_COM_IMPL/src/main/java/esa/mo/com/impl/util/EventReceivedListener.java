@@ -23,8 +23,8 @@ package esa.mo.com.impl.util;
 import java.util.EventListener;
 
 /**
- * An interface to receive events from the Event service via the monitorEvent
- * operation
+ * An abtract class to receive events from the Event service via the
+ * monitorEvent operation
  *
  * @author Cesar Coelho
  */

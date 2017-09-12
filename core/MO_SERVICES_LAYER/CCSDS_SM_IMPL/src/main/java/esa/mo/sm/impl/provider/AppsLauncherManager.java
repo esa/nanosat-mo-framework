@@ -27,7 +27,6 @@ import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
@@ -365,18 +364,6 @@ public class AppsLauncherManager extends DefinitionsManager {
         Process proc = Runtime.getRuntime().exec(split, null, new File(app_folder));
         handler.startPublishing(proc);
 
-        /*
-        ArrayList<String> args = new ArrayList<String>();
-        args.add("java");
-        args.add("-classpath");
-        args.add("/home/root/software/apps/GPS_Data/Demo_GPS_data-1.0-SNAPSHOT.jar:/home/root/software/libs/NanoSat_MO_Framework/LIB_NANOSAT_MO_FRAMEWORK_OPS_SAT-jar-with-dependencies.jar");
-        args.add("esa.mo.nanosatmoframework.apps.DemoGPSData");
-
-        ProcessBuilder dfdfdf = new ProcessBuilder(args);
-        dfdfdf.directory(outDir);
-        Process proc = dfdfdf.start();
-         */
-//        if (proc.isAlive()) {
         if (proc != null) {
             handlers.put(handler.getAppInstId(), handler);
             this.setRunning(handler.getAppInstId(), true, interaction); // Update the Archive
@@ -420,11 +407,17 @@ public class AppsLauncherManager extends DefinitionsManager {
         // Register on the Event service of the respective apps
         for (int i = 0; i < appConnections.size(); i++) {
             // Select all object numbers from the Apps Launcher service Events
+            Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent(
+                    "ClosingAppEvents",
+                    AppsLauncherHelper.APP_OBJECT_TYPE);
+
+            /*
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
 
             Subscription eventSub = ConnectionConsumer.subscriptionKeys(
                     new Identifier("ClosingAppEvents" + random.nextInt()),
                     new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
+             */
             try { // Subscribe to events
                 EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.get(i));
                 Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE,
