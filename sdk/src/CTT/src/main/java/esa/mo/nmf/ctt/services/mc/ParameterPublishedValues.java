@@ -59,13 +59,11 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
     public ParameterPublishedValues(final ParameterConsumerServiceImpl parameterService) {
         this.parameterService = parameterService;
         this.setEnabled(false);
-//        this.setName("ObjIdslotsTab"); // NOI18N
         this.setPreferredSize(new java.awt.Dimension(800, 600));
         this.setLayout(new java.awt.GridLayout(32, 16, 1, 1));
 
         final java.awt.Dimension dim = new java.awt.Dimension(64, 16);
         for (int i = 0; i < labels.length; ++i) {
-
             labels[i] = new ParameterLabel(i);
             labels[i].setMinimumSize(dim);
             labels[i].setPreferredSize(dim);
@@ -121,7 +119,6 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                         String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 
                         boolean isNotValid = (validityState.getValue() != ValidityState._VALID_INDEX);
-
                         labels[index + 0 * numberOfColumns].setNewValue(nameId, isNotValid);
                         labels[index + 1 * numberOfColumns].setNewValue(validity, isNotValid);
                         labels[index + 2 * numberOfColumns].setNewValue(rawValue, isNotValid);
