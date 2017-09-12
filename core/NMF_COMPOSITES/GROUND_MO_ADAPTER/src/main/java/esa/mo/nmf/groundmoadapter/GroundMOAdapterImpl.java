@@ -28,7 +28,6 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.AggregationInstance;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.NMFException;
-import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -62,6 +61,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessage;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
+import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
@@ -73,6 +73,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueList;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
+import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
@@ -142,8 +143,10 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             }
         }
 
+        ParameterStub parameterService = super.getMCServices().getParameterService().getParameterStub();
+
         try {
-            ObjectInstancePairList objIds = super.getMCServices().getParameterService().getParameterStub().listDefinition(parameters);
+            ObjectInstancePairList objIds = parameterService.listDefinition(parameters);
 
             if (objIds == null) {
                 return;  // something went wrong... Connection problem?
@@ -173,7 +176,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                 request.add(new ParameterCreationRequest(new Identifier(parameterName), parameterDefinition));
 
                 // Now, add the definition to the service provider
-                objIds = super.getMCServices().getParameterService().getParameterStub().addParameter(request);
+                objIds = parameterService.addParameter(request);
             }
 
             // Continues here...
@@ -182,9 +185,9 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             raws.add(raw);
 
             // Ok, now, let's finally set the Value!
-            super.getMCServices().getParameterService().getParameterStub().setValue(raws);
+            parameterService.setValue(raws);
         } catch (MALInteractionException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "The parameter could not be set!", ex);
         } catch (MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -295,7 +298,8 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
         try {
             // Register for pub-sub of all parameters
-            super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(this.parameterSubscription, new DataReceivedParameterAdapter());
+            super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(
+                    this.parameterSubscription, new DataReceivedParameterAdapter());
         } catch (MALInteractionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -304,7 +308,8 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
         try {
             // Register for pub-sub of all aggregations
-            super.getMCServices().getAggregationService().getAggregationStub().monitorValueRegister(this.aggregationSubscription, new DataReceivedAggregationAdapter());
+            super.getMCServices().getAggregationService().getAggregationStub().monitorValueRegister(
+                    this.aggregationSubscription, new DataReceivedAggregationAdapter());
         } catch (MALInteractionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -317,9 +322,11 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         IdentifierList actionNames = new IdentifierList(1);
         actionNames.add(new Identifier(actionName));
 
+        ActionStub actionService = super.getMCServices().getActionService().getActionStub();
+
         try {
             // Check if the action exists
-            ObjectInstancePairList objIds = super.getMCServices().getActionService().getActionStub().listDefinition(actionNames);
+            ObjectInstancePairList objIds = actionService.listDefinition(actionNames);
 
             if (objIds == null) {
                 return;  // something went wrong...
@@ -369,7 +376,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                 ActionCreationRequestList acrl = new ActionCreationRequestList();
                 acrl.add(new ActionCreationRequest(new Identifier(actionName), actionDefinition));
 
-                objIds = super.getMCServices().getActionService().getActionStub().addAction(acrl);
+                objIds = actionService.addAction(acrl);
                 objId = objIds.get(0);
             }
 
@@ -395,7 +402,8 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                     argValue.setValue(rawValue);
                 } else {
                     try {
-                        // Well, if it is something else, then it will have to serialize it and put it inside a Blob
+                        // Well, if it is something else, then it will have to 
+                        // serialize it and put it inside a Blob
                         rawValue = HelperAttributes.serialObject2blobAttribute(object);
                         argValue.setValue(rawValue);
                     } catch (IOException ex) {
@@ -414,7 +422,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             ParameterRawValueList raws = new ParameterRawValueList();
 
             // Use action service to submit the action
-            super.getMCServices().getActionService().getActionStub().submitAction(objId.getObjIdentityInstanceId(), action);
+            actionService.submitAction(objId.getObjIdentityInstanceId(), action);
 
             // Todo: This will not work because we need to do the trick of the actions...
         } catch (MALInteractionException ex) {
@@ -490,9 +498,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         }
 
         if (this.smServices != null) {
-            HeartbeatConsumerServiceImpl heartbeatService = this.smServices.getHeartbeatService();
-            heartbeatService.stopListening();
-
+            this.smServices.getHeartbeatService().stopListening();
             this.smServices.closeConnections();
         }
 
@@ -502,9 +508,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
     public Long invokeAction(Long defInstId, AttributeValueList argumentValues) throws NMFException {
         Long instanceObjId = null;
 
-        ///////////////////////////////////////////////////////////////////////////
-        // create an ActionInstanceDetails object for the invocation of this action
-        ///////////////////////////////////////////////////////////////////////////
+        // Create an ActionInstanceDetails object for the invocation of this action
         Boolean stageStartedRequired = true;
         Boolean stageProgressRequired = true;
         Boolean stageCompletedRequired = true;
@@ -521,11 +525,10 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                             argumentIds,
                             null);
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // Store the Action Instance in the Archive and get an object instance identifier to use during the submit
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Store the Action Instance in the Archive and get an 
+            // object instance identifier to use during the submit
             Long related = defInstId;
-            ObjectId source = null;     // TBD - should be the OperationActivity object
+            ObjectId source = null; // TBD - should be the OperationActivity object
             SingleConnectionDetails actionConnection = super.getMCServices().getActionService().getConnectionDetails();
 
             ArchiveDetailsList archiveDetailsListActionInstance = HelperArchive.generateArchiveDetailsList(
@@ -551,12 +554,11 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                 throw new NMFException("Failed to store new Action Instance in COM Archive");
             }
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Submit the action instance
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // WORKAROUND: submit the action asynchronously so that we can find out the Transaction ID of the
-            //             MAL message and include it in the corresponding OperationActivity
-            //actionService.submitAction(instanceObjId, instanceDetails);
+            // WORKAROUND: submit the action asynchronously so that we can find 
+            // out the Transaction ID of the MAL message and include it in the 
+            // corresponding OperationActivity
+            // actionService.submitAction(instanceObjId, instanceDetails);
             MALMessage msg = super.getMCServices().getActionService().getActionStub().asyncSubmitAction(
                     instanceObjId,
                     instanceDetails,
@@ -564,9 +566,8 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             }
             );
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // Store the corresponding OperationActivity object instance in the Archive and publish its release
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Store the corresponding OperationActivity object instance in the 
+            // Archive and publish its release
             OperationActivityList opActivityList = new OperationActivityList();
             opActivityList.add(new OperationActivity(msg.getHeader().getInteractionType()));
 
@@ -594,7 +595,8 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                 if (ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()) {
                     throw new NMFException("The storing of the Operation Activity failed. (1)", ex);
                 } else {
-                    // It's a Duplicate error, the object already exists... Do nothing!
+                    // It's a Duplicate error, the object already exists... 
+                    // Do nothing!
                 }
             } catch (MALException ex) {
                 throw new NMFException("The storing of the Operation Activity failed. (2)", ex);
