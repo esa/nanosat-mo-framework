@@ -352,7 +352,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Archive Manager");
+        jLabel6.setText("ArchiveSync Tester");
         jLabel6.setToolTipText("");
 
         jButtonStoreAggregation.setText("getTime");

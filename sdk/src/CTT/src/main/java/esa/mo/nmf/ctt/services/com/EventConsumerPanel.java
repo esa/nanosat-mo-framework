@@ -171,7 +171,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
 
             // Add to the table
             comObjects.add(comObject);
-
         }
 
     }

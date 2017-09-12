@@ -22,15 +22,13 @@ package esa.mo.ground.setandcommand;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 
 /**
- * Ground consumer: Demo Set and Command
+ * Set and Command demo application. This demo should be used with the Hello
+ * World demo provider.
  *
  */
 public class DemoSetAndCommand {
@@ -43,23 +41,21 @@ public class DemoSetAndCommand {
         try {
             connection.loadURIs();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.SEVERE,
+                    "The URIs could not be loaded from the file!", ex);
         }
 
         gma = new GroundMOAdapterImpl(connection);
-        gma.addDataReceivedListener(new DataReceivedAdapter());
 
-        // Set a parameter with a double value
-//        Double parameterValue = 1.2345;
-//        gma.sendData("Parameter_name", parameterValue);
-        AggregationDefinitionDetails aaa = new AggregationDefinitionDetails();
-        gma.setParameter("Parameter_name", aaa);
+        // Set a parameter with a string value
+        String parameterValue = "The parameter was set!";
+        gma.setParameter("A_Parameter", parameterValue);
 
         // Send a command with a Double argument
         Double value = 1.35565;
         Double[] values = new Double[1];
         values[0] = value;
-        gma.invokeAction("Something", values);
+        gma.invokeAction("Go", values);
     }
 
     /**
@@ -70,15 +66,5 @@ public class DemoSetAndCommand {
      */
     public static void main(final String args[]) throws Exception {
         DemoSetAndCommand demo = new DemoSetAndCommand();
-    }
-
-    class DataReceivedAdapter extends SimpleDataReceivedListener {
-
-        @Override
-        public void onDataReceived(String parameterName, Serializable data) {
-            Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.INFO,
-                    "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
-                    new Object[]{parameterName, data.toString()});
-        }
     }
 }

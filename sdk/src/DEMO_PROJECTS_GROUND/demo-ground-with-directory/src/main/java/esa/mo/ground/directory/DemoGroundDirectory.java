@@ -46,7 +46,7 @@ public class DemoGroundDirectory {
     public DemoGroundDirectory() {
         try {
             ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(DIRECTORY_URI);
-            
+
             if (!providers.isEmpty()) {
                 // Connect to provider on index 0
                 gma = new GroundMOAdapterImpl(providers.get(0));
