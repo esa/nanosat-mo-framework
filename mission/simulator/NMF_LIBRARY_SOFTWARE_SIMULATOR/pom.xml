@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.3-SNAPSHOT</version>
+        <version>0.3</version>
         <relativePath/>
     </parent>
   
     <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.2</version>
 
     <name>NMF Library: Software Simulator</name>
     <description>Library for the Software Simulator</description>
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR</artifactId>
-            <version>0.1.2-SNAPSHOT</version>
+            <version>0.1.2</version>
         </dependency>
     </dependencies>
     
