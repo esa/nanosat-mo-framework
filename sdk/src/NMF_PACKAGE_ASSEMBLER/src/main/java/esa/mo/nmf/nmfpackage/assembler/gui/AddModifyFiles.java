@@ -277,7 +277,6 @@ public final class AddModifyFiles extends javax.swing.JDialog {
         }
 
         this.displayFromSources(source);
-
     }//GEN-LAST:event_addFilesActionPerformed
 
     private void removeSelectedFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSelectedFilesActionPerformed

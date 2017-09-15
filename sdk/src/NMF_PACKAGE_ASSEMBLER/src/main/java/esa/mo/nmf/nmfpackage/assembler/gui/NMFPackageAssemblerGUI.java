@@ -21,6 +21,8 @@
 package esa.mo.nmf.nmfpackage.assembler.gui;
 
 import java.awt.EventQueue;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -114,6 +116,11 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jSeparator8 = new javax.swing.JSeparator();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        textFieldPath = new javax.swing.JTextField();
+        changePath = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -287,6 +294,48 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
 
         jPanel3.add(jPanel10);
 
+        jPanel14.setMinimumSize(new java.awt.Dimension(693, 40));
+        jPanel14.setName("jPanel14"); // NOI18N
+        jPanel14.setPreferredSize(new java.awt.Dimension(2510, 40));
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Path:");
+        jLabel4.setMaximumSize(new java.awt.Dimension(100, 14));
+        jLabel4.setMinimumSize(new java.awt.Dimension(100, 14));
+        jLabel4.setName("jLabel4"); // NOI18N
+        jLabel4.setPreferredSize(new java.awt.Dimension(100, 14));
+        jPanel14.add(jLabel4);
+
+        textFieldPath.setMinimumSize(new java.awt.Dimension(400, 20));
+        textFieldPath.setName("textFieldPath"); // NOI18N
+        textFieldPath.setPreferredSize(new java.awt.Dimension(400, 20));
+        textFieldPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldPathActionPerformed(evt);
+            }
+        });
+        jPanel14.add(textFieldPath);
+
+        changePath.setText("Change path...");
+        changePath.setName("changePath"); // NOI18N
+        changePath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changePathActionPerformed(evt);
+            }
+        });
+        jPanel14.add(changePath);
+
+        jButton4.setText("Generate NMF Package!");
+        jButton4.setName("jButton4"); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(jButton4);
+
+        jPanel3.add(jPanel14);
+
         tabs.addTab("Step 3: Generate NMF Package", jPanel3);
 
         getContentPane().add(tabs, java.awt.BorderLayout.CENTER);
@@ -336,12 +385,43 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void textFieldPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldPathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldPathActionPerformed
+
+    private void changePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePathActionPerformed
+        //Create a file chooser
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        fc.setMultiSelectionEnabled(true);
+
+        //In response to a button click:
+        int returnVal = fc.showDialog(changePath, "Change Path...");
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File[] files = fc.getSelectedFiles();
+
+            for (int i = 0; i < files.length; i++) {
+                String path = files[i].getName();
+                textFieldPath.setText(path);
+            }
+        }
+
+    }//GEN-LAST:event_changePathActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton changePath;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -353,6 +433,7 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel8;
@@ -364,6 +445,7 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTextField textFieldName;
+    private javax.swing.JTextField textFieldPath;
     // End of variables declaration//GEN-END:variables
 
 }
