@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-	<version>0.3-SNAPSHOT</version>
+	<version>0.3</version>
         <relativePath/>
     </parent>
   
     <artifactId>CCSDS_MC_IMPL</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.2</version>
 
     <name>ESA/DLR MC Implementation</name>
     <description>The ESA/TU Graz/DLR implementation of the CCSDS MO MC services</description>
