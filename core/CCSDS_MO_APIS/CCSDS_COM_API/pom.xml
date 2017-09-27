@@ -24,7 +24,7 @@
   </parent>
 
   <artifactId>API_COM_NMF</artifactId>
-  <version>0.1.2</version>
+  <version>0.1.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>ESA COM for NMF Java API</name>

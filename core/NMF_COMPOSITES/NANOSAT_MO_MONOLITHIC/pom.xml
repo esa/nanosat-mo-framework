@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.3</version>
+        <version>0.4-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.2</version>
+    <version>0.1.3-SNAPSHOT</version>
 
     <name>NanoSat MO Monolithic: Generic</name>
     <description>NanoSat MO Framework</description>
