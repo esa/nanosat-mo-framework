@@ -559,53 +559,55 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
         }
 
-        for (int index = 0; index < lArchiveDetailsList.size(); index++) { // Validation of ArchiveDetails object
-            if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
-                // Shall be taken care in the manager & per inserted entry
-            } else { // Does it exist already?  // requirement: 3.4.6.2.6
-                if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
-                    dupIndexList.add(new UInteger(index));
-                    continue;
+        synchronized(manager) {
+            for (int index = 0; index < lArchiveDetailsList.size(); index++) { // Validation of ArchiveDetails object
+                if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
+                    // Shall be taken care in the manager & per inserted entry
+                } else { // Does it exist already?  // requirement: 3.4.6.2.6
+                    if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
+                        dupIndexList.add(new UInteger(index));
+                        continue;
+                    }
                 }
-            }
 
-            if (HelperArchive.archiveDetailsContainsWildcard(lArchiveDetailsList.get(index))) { // requirement: 3.4.6.2.11
-                invIndexList.add(new UInteger(index));
-//                continue;
-            }
-
-            // There's a requirement missing: 3.4.6.2.12
-            // Can only be made after the JAVA API supports COM features: https://github.com/SamCooper/JAVA_SPEC_RIDS/issues/2
-/*
-            if (lElementList != null) {
-                if (!manager.isObjectTypeLikeDeclaredServiceType(lObjectType, (Element) lElementList.get(index))
-                        && lElementList.get(index) != null) { // requirement: 3.4.6.2.12
+                if (HelperArchive.archiveDetailsContainsWildcard(lArchiveDetailsList.get(index))) { // requirement: 3.4.6.2.11
                     invIndexList.add(new UInteger(index));
-                    continue;
+    //                continue;
                 }
+
+                // There's a requirement missing: 3.4.6.2.12
+                // Can only be made after the JAVA API supports COM features: https://github.com/SamCooper/JAVA_SPEC_RIDS/issues/2
+    /*
+                if (lElementList != null) {
+                    if (!manager.isObjectTypeLikeDeclaredServiceType(lObjectType, (Element) lElementList.get(index))
+                            && lElementList.get(index) != null) { // requirement: 3.4.6.2.12
+                        invIndexList.add(new UInteger(index));
+                        continue;
+                    }
+                }
+                 */
             }
-             */
-        }
 
-        // Errors
-        if (!invIndexList.isEmpty()) { // requirement: 3.4.6.3 (error: a)
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-        }
+            // Errors
+            if (!invIndexList.isEmpty()) { // requirement: 3.4.6.3 (error: a)
+                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            }
 
-        if (!dupIndexList.isEmpty()) { // requirement: 3.4.6.3 (error: b)
-            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
-        }
+            if (!dupIndexList.isEmpty()) { // requirement: 3.4.6.3 (error: b)
+                throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+            }
 
-        // The errors have to be before the store operation to fulfil requirement: 3.4.6.2.13
-        if (returnObjId == true) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
-            // Execute the store operation (objType, domain, archiveDetails, objs)
-            LongList outLongLst = manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
-            // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
-            return outLongLst;
-        } else {
-            // Cannot be Threaded because is does not lock the access to the db and out of order will happen
-            manager.insertEntriesFast(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
-            return null;
+            // The errors have to be before the store operation to fulfil requirement: 3.4.6.2.13
+            if (returnObjId == true) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
+                // Execute the store operation (objType, domain, archiveDetails, objs)
+                LongList outLongLst = manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
+                // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
+                return outLongLst;
+            } else {
+                // Cannot be Threaded because is does not lock the access to the db and out of order will happen
+                manager.insertEntriesFast(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
+                return null;
+            }
         }
     }
 
@@ -645,30 +647,32 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, error));
         }
 
-        for (int index = 0; index < lArchiveDetailsList.size(); index++) {
-            ArchiveDetails tmpArchiveDetails = lArchiveDetailsList.get(index);
+        synchronized(manager) {
+            for (int index = 0; index < lArchiveDetailsList.size(); index++) {
+                ArchiveDetails tmpArchiveDetails = lArchiveDetailsList.get(index);
 
-            if (tmpArchiveDetails.getInstId() == 0) { // requirement: 3.4.7.2.8 (second part)
-                invIndexList.add(new UInteger(index));
-                continue;
+                if (tmpArchiveDetails.getInstId() == 0) { // requirement: 3.4.7.2.8 (second part)
+                    invIndexList.add(new UInteger(index));
+                    continue;
+                }
+
+                if (!manager.objIdExists(lObjectType, domain, tmpArchiveDetails.getInstId())) { // requirement: 3.4.7.2.4
+                    unkIndexList.add(new UInteger(index)); // requirement: 3.4.7.2.5
+                }
             }
 
-            if (!manager.objIdExists(lObjectType, domain, tmpArchiveDetails.getInstId())) { // requirement: 3.4.7.2.4
-                unkIndexList.add(new UInteger(index)); // requirement: 3.4.7.2.5
+            // Errors
+            if (!unkIndexList.isEmpty()) { // requirement: 3.4.7.3 (error: a)
+                throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
             }
-        }
 
-        // Errors
-        if (!unkIndexList.isEmpty()) { // requirement: 3.4.7.3 (error: a)
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
-        }
+            if (!invIndexList.isEmpty()) { // requirement: 3.4.7.3 (error: b)
+                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            }
 
-        if (!invIndexList.isEmpty()) { // requirement: 3.4.7.3 (error: b)
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            // The errors have to be before the update operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
+            manager.updateEntries(lObjectType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.7.2.6 and 3.4.7.2.7
         }
-
-        // The errors have to be before the update operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
-        manager.updateEntries(lObjectType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.7.2.6 and 3.4.7.2.7
     }
 
     @Override
@@ -690,34 +694,36 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.8.2.3
         }
 
-        for (int index = 0; index < lLongList.size(); index++) {
-            Long tempObjId = lLongList.get(index);
-            if (tempObjId == 0) {  // Is it the wildcard 0? requirement: 3.4.8.2.5
-                toBeDeleted.clear();  // if the wildcard is in the middle of the input list, we clear the list...
-                toBeDeleted.addAll(manager.getAllObjIds(lObjectType, lIdentifierList)); // ... add all
-                break;
+        synchronized(manager) {
+            for (int index = 0; index < lLongList.size(); index++) {
+                Long tempObjId = lLongList.get(index);
+                if (tempObjId == 0) {  // Is it the wildcard 0? requirement: 3.4.8.2.5
+                    toBeDeleted.clear();  // if the wildcard is in the middle of the input list, we clear the list...
+                    toBeDeleted.addAll(manager.getAllObjIds(lObjectType, lIdentifierList)); // ... add all
+                    break;
+                }
+
+                if (!manager.objIdExists(lObjectType, lIdentifierList, tempObjId)) {
+                    unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.6
+                    continue;
+                }
+
+                toBeDeleted.add(tempObjId);
             }
 
-            if (!manager.objIdExists(lObjectType, lIdentifierList, tempObjId)) {
-                unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.6
-                continue;
+            // Errors
+            if (!unkIndexList.isEmpty()) { // requirement: 3.4.8.3 (error: a)
+                throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
             }
 
-            toBeDeleted.add(tempObjId);
-        }
+            if (!invIndexList.isEmpty()) { // requirement: 3.4.8.3 (error: b)
+                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            }
 
-        // Errors
-        if (!unkIndexList.isEmpty()) { // requirement: 3.4.8.3 (error: a)
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            // requirement: 3.4.8.2.4 and 3.4.8.2.7
+            LongList outObjIds = manager.removeEntries(lObjectType, lIdentifierList, toBeDeleted, interaction);
+            return outObjIds; // requirement: 3.4.8.2.8
         }
-
-        if (!invIndexList.isEmpty()) { // requirement: 3.4.8.3 (error: b)
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-        }
-
-        // requirement: 3.4.8.2.4 and 3.4.8.2.7
-        LongList outObjIds = manager.removeEntries(lObjectType, lIdentifierList, toBeDeleted, interaction);
-        return outObjIds; // requirement: 3.4.8.2.8
     }
 
 }

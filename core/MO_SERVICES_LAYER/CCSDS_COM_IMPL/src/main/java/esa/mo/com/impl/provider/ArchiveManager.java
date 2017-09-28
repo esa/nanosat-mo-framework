@@ -244,7 +244,7 @@ public class ArchiveManager {
         return this.getPersistenceObject(objType, domain, objId).getArchiveDetails();
     }
 
-    protected synchronized Boolean objIdExists(final ObjectType objType, final IdentifierList domain, final Long objId) {
+    protected Boolean objIdExists(final ObjectType objType, final IdentifierList domain, final Long objId) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         return this.dbProcessor.existsCOMObject(objTypeId, domainId, objId);
