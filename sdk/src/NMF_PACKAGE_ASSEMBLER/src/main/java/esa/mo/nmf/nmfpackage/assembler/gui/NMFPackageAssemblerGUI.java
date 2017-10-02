@@ -25,9 +25,12 @@ import esa.mo.nmf.nmfpackage.NMFPackageCreator;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import java.awt.EventQueue;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -460,12 +463,32 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         File oldFile = new File(filename);
         File newFile = new File(outputPath.getText() + File.separator + filename);
 
+        InputStream in;
         try {
-            Files.copy(oldFile.toPath(), newFile.toPath(), REPLACE_EXISTING);
-            oldFile.delete();
+            in = new FileInputStream(oldFile);
+
+            try {
+                OutputStream out = new FileOutputStream(newFile);
+                try {
+                    // Transfer bytes from in to out
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ((len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                    }
+                } finally {
+                    out.close();
+                }
+            } finally {
+                in.close();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NMFPackageAssemblerGUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageAssemblerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        oldFile.delete();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
