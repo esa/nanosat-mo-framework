@@ -78,7 +78,7 @@ public class NMFPackageCreator {
         }
     }
 
-    public static void nmfPackageCreator(final NMFPackageDetails details,
+    public static String nmfPackageCreator(final NMFPackageDetails details,
             final ArrayList<String> filesInput, final ArrayList<String> newLocationsInput) {
         NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         final ArrayList<String> files = new ArrayList<String>();
@@ -178,6 +178,8 @@ public class NMFPackageCreator {
         // Delete temporary files:
         receipt.delete();
         digitalSignature.delete();
+        
+        return packageOutputPath;
     }
 
 }
