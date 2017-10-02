@@ -20,19 +20,31 @@
  */
 package esa.mo.nmf.nmfpackage.assembler.gui;
 
+import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.nmf.nmfpackage.NMFPackageCreator;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import java.awt.EventQueue;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * This class provides a simple form for the control of the consumer.
  */
 public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
-    
+
     public final static String TYPE_APPLICATION = "Application";
     public final static String TYPE_LIBRARY = "Library";
+    public final ArrayList<SlicePanel> slices = new ArrayList<SlicePanel>();
 
     /**
      * Main command line entry point.
@@ -73,16 +85,29 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
     }
 
     /**
-     * Removes an Panel entry.
+     * Removes a Panel entry.
      *
      * @param aPanel The panel to be removed
      */
-    public void removeEntry(SlicePanel aPanel) {
+    public synchronized void removeEntry(SlicePanel aPanel) {
         // Remove the entry:
         jPanel2.remove(aPanel);
+        slices.remove(aPanel);
         repaint();
     }
-    
+
+    /**
+     * Adds a Panel entry.
+     *
+     * @param aPanel The panel to be added
+     */
+    public synchronized void addEntry(SlicePanel aPanel) {
+        // Add the entry:
+        jPanel2.add(aPanel);
+        slices.add(aPanel);
+        repaint();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,10 +124,10 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         jPanel11 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        packageName = new javax.swing.JTextField();
         jPanel12 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        packageVersion = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
@@ -118,7 +143,7 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         jSeparator8 = new javax.swing.JSeparator();
         jPanel14 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        textFieldPath = new javax.swing.JTextField();
+        outputPath = new javax.swing.JTextField();
         changePath = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -171,15 +196,15 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(150, 14));
         jPanel11.add(jLabel1);
 
-        jTextField1.setMinimumSize(new java.awt.Dimension(400, 20));
-        jTextField1.setName("jTextField1"); // NOI18N
-        jTextField1.setPreferredSize(new java.awt.Dimension(400, 20));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        packageName.setMinimumSize(new java.awt.Dimension(400, 20));
+        packageName.setName("packageName"); // NOI18N
+        packageName.setPreferredSize(new java.awt.Dimension(400, 20));
+        packageName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                packageNameActionPerformed(evt);
             }
         });
-        jPanel11.add(jTextField1);
+        jPanel11.add(packageName);
 
         jPanel1.add(jPanel11);
 
@@ -194,15 +219,15 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         jLabel3.setPreferredSize(new java.awt.Dimension(150, 14));
         jPanel12.add(jLabel3);
 
-        jTextField5.setMinimumSize(new java.awt.Dimension(400, 20));
-        jTextField5.setName("jTextField5"); // NOI18N
-        jTextField5.setPreferredSize(new java.awt.Dimension(400, 20));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        packageVersion.setMinimumSize(new java.awt.Dimension(400, 20));
+        packageVersion.setName("packageVersion"); // NOI18N
+        packageVersion.setPreferredSize(new java.awt.Dimension(400, 20));
+        packageVersion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                packageVersionActionPerformed(evt);
             }
         });
-        jPanel12.add(jTextField5);
+        jPanel12.add(packageVersion);
 
         jPanel1.add(jPanel12);
 
@@ -299,22 +324,22 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         jPanel14.setPreferredSize(new java.awt.Dimension(2510, 40));
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Path:");
+        jLabel4.setText("Output folder:");
         jLabel4.setMaximumSize(new java.awt.Dimension(100, 14));
         jLabel4.setMinimumSize(new java.awt.Dimension(100, 14));
         jLabel4.setName("jLabel4"); // NOI18N
         jLabel4.setPreferredSize(new java.awt.Dimension(100, 14));
         jPanel14.add(jLabel4);
 
-        textFieldPath.setMinimumSize(new java.awt.Dimension(400, 20));
-        textFieldPath.setName("textFieldPath"); // NOI18N
-        textFieldPath.setPreferredSize(new java.awt.Dimension(400, 20));
-        textFieldPath.addActionListener(new java.awt.event.ActionListener() {
+        outputPath.setMinimumSize(new java.awt.Dimension(400, 20));
+        outputPath.setName("outputPath"); // NOI18N
+        outputPath.setPreferredSize(new java.awt.Dimension(400, 20));
+        outputPath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldPathActionPerformed(evt);
+                outputPathActionPerformed(evt);
             }
         });
-        jPanel14.add(textFieldPath);
+        jPanel14.add(outputPath);
 
         changePath.setText("Change path...");
         changePath.setName("changePath"); // NOI18N
@@ -355,13 +380,13 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void packageNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_packageNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_packageNameActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void packageVersionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_packageVersionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_packageVersionActionPerformed
 
     private void textFieldNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldNameActionPerformed
         // TODO add your handling code here:
@@ -370,47 +395,92 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Here we add a new Library to the NMF Package:
         final String name = textFieldName.getText();
-        textFieldName.setText(""); // reset text field
-        javax.swing.JPanel newPanel = new SlicePanel(this, TYPE_LIBRARY, name, null);
-        jPanel2.add(newPanel);
-        repaint();
+        if (!checkIfEqualsToNull(name)) {
+            textFieldName.setText(""); // reset text field
+            SlicePanel newPanel = new SlicePanel(this, TYPE_LIBRARY, name, null);
+            this.addEntry(newPanel);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Here we add a new Application to the NMF Package:
         final String name = textFieldName.getText();
-        textFieldName.setText(""); // reset text field
-        javax.swing.JPanel newPanel = new SlicePanel(this, TYPE_APPLICATION, name, null);
-        jPanel2.add(newPanel);
-        repaint();
+        if (!checkIfEqualsToNull(name)) {
+            textFieldName.setText(""); // reset text field
+            SlicePanel newPanel = new SlicePanel(this, TYPE_APPLICATION, name, null);
+            this.addEntry(newPanel);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void textFieldPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldPathActionPerformed
+    private boolean checkIfEqualsToNull(String name) {
+        boolean isNull = ("".equals(name));
+
+        if (isNull) {
+            JOptionPane.showMessageDialog(null, "The Name is empty. Please select a name.",
+                    "Error", JOptionPane.PLAIN_MESSAGE);
+        }
+
+        return isNull;
+    }
+
+    private void outputPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputPathActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldPathActionPerformed
+    }//GEN-LAST:event_outputPathActionPerformed
 
     private void changePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePathActionPerformed
         //Create a file chooser
         final JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//        fc.setMultiSelectionEnabled(true);
 
         //In response to a button click:
         int returnVal = fc.showDialog(changePath, "Change Path...");
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File[] files = fc.getSelectedFiles();
-
-            for (int i = 0; i < files.length; i++) {
-                String path = files[i].getName();
-                textFieldPath.setText(path);
+            File file = fc.getSelectedFile();
+            try {
+                outputPath.setText(file.getCanonicalPath());
+            } catch (IOException ex) {
+                Logger.getLogger(NMFPackageAssemblerGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }//GEN-LAST:event_changePathActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        ArrayList<String> froms = new ArrayList<String>();
+        ArrayList<String> newLocations = new ArrayList<String>();
+
+        // Iterate through all the Slice Panels
+        for (int i = 0; i < slices.size(); i++) {
+            ArrayList<FilesSourceObject> sources = slices.get(i).getSources();
+
+            for (FilesSourceObject source : sources) {
+                froms.add(source.getFrom());
+                newLocations.add(source.getFile());
+            }
+        }
+
+        final Time time = new Time(System.currentTimeMillis());
+        final String timestamp = HelperTime.time2readableString(time);
+
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "\n------------- Package Generation -------------\n");
+
+        // Package
+        NMFPackageDetails details = new NMFPackageDetails(packageName.getText(),
+                packageVersion.getText(), timestamp);
+
+        String filename = NMFPackageCreator.nmfPackageCreator(details, froms, newLocations);
+
+        // Now we need to copy the file into the right folder!
+        File oldFile = new File(filename);
+        File newFile = new File(outputPath.getText() + File.separator + filename);
+
+        try {
+            Files.copy(oldFile.toPath(), newFile.toPath(), REPLACE_EXISTING);
+            oldFile.delete();
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageAssemblerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -441,11 +511,10 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField outputPath;
+    private javax.swing.JTextField packageName;
+    private javax.swing.JTextField packageVersion;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTextField textFieldName;
-    private javax.swing.JTextField textFieldPath;
     // End of variables declaration//GEN-END:variables
-
 }
