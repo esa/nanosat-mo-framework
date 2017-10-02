@@ -146,9 +146,6 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         outputPath = new javax.swing.JTextField();
         changePath = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 600));
@@ -365,18 +362,6 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
 
         getContentPane().add(tabs, java.awt.BorderLayout.CENTER);
 
-        jMenuBar1.setName("jMenuBar1"); // NOI18N
-
-        jMenu1.setText("File");
-        jMenu1.setName("jMenu1"); // NOI18N
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenu2.setName("jMenu2"); // NOI18N
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -495,9 +480,6 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;

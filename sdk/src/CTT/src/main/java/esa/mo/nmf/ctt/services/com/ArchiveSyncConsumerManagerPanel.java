@@ -185,11 +185,13 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         public void retrieveRangeAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 Long interactionTicket, UInteger numberOfChunks, java.util.Map qosProperties) {
             // Later on, do something...
+            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Received!");
         }
 
         @Override
         public void retrieveRangeUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 Blob chunk, UInteger index, java.util.Map qosProperties) {
+            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Received!");
             n_objs_counter++;
             refreshTabCounter();
             repaint();
@@ -198,6 +200,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         @Override
         public void retrieveRangeResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 java.util.Map qosProperties) {
+            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Received!");
         }
 
         @Override
