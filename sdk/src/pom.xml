@@ -64,9 +64,9 @@
     <modules>
         <module>DEMO_PROJECTS_APPS</module>
         <module>DEMO_PROJECTS_GROUND</module>
-        <module>MONOLITHIC_PROVIDER</module>
         <module>CTT</module>
         <module>NMF_PACKAGE_ASSEMBLER</module> 
+        <module>MONOLITHIC_PROVIDER</module>
         <module>PLAYGROUND_GENERATOR</module>
         <!--
         <module>NMF_JAVADOCS_GENERATOR</module>
