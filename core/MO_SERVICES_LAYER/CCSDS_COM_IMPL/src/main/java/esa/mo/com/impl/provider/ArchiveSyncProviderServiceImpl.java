@@ -165,6 +165,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             perObjs = manager.queryCOMObjectEntity(objectTypes.get(i), archiveQuery, null);
             dispatcher.addObjects(perObjs);
         }
+        
+        dispatcher.setQueriesAreDone(true);
 
         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
                 "The objects were queried and are now being sent back to the consumer!");
@@ -203,7 +205,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         private final ArrayList<byte[]> chunksFlushed = new ArrayList<byte[]>();
 
         private final LinkedBlockingQueue<byte[]> dataToFlush = new LinkedBlockingQueue<byte[]>();
-
+        
         private boolean queriesAreDone = false;
         private boolean processingIsDone = false;
 
@@ -233,7 +235,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                     try {
                         boolean exit = false;
 
-                        while (exit) {
+                        while (!exit) {
                             boolean done = queriesAreDone;
                             COMObjectEntity entity = tempQueue.poll(5, TimeUnit.SECONDS);
 
@@ -259,6 +261,17 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             };
         }
 
+        public void sendUpdateToConsumer(int index, byte[] aChunk) {
+            chunksFlushed.add(index, aChunk);
+            try {
+                interaction.sendUpdate(new Blob(aChunk), new UInteger(index));
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         public Runnable getFlushingRunnable() {
             return new Runnable() {
                 @Override
@@ -269,33 +282,20 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                         byte[] aChunk = new byte[CHUNK_SIZE];
                         int pos = 0;
 
-                        while (exit) {
+                        while (!exit) {
                             boolean done = processingIsDone;
                             byte[] data = dataToFlush.poll(5, TimeUnit.SECONDS);
-
+                            
                             if (data != null) {
-                                boolean chunkIsFull = (data.length + pos > CHUNK_SIZE);
-                                int length = chunkIsFull ? CHUNK_SIZE - pos : data.length;
-                                System.arraycopy(data, 0, aChunk, pos, length);
-
-                                if (chunkIsFull) {
-                                    // Send it to the consumer!
-                                    chunksFlushed.add(index, aChunk);
-                                    try {
-                                        interaction.sendUpdate(new Blob(aChunk), new UInteger(index));
-                                    } catch (MALInteractionException ex) {
-                                        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (MALException ex) {
-                                        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                                for (int i = 0; i < data.length; i++){
+                                    aChunk[pos] = data[i];
+                                    pos++;
+                                    
+                                    if(pos == CHUNK_SIZE){
+                                        sendUpdateToConsumer(index, aChunk);
+                                        index++;
+                                        pos = 0;
                                     }
-                                    index++;
-
-                                    // Clean the aChunk and copy the rest of the data!
-                                    aChunk = new byte[CHUNK_SIZE];
-                                    System.arraycopy(data, length, aChunk, pos, length);
-                                    pos = length;
-                                } else {
-                                    pos += length;
                                 }
                             } else {
                                 if (done) {
@@ -305,19 +305,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                                     byte[] lastChunk = new byte[pos]; // We need to trim to fit!
                                     System.arraycopy(aChunk, 0, lastChunk, 0, pos);
 
-                                    chunksFlushed.add(index, lastChunk);
-                                    try {
-                                        interaction.sendUpdate(new Blob(aChunk), new UInteger(index));
-                                    } catch (MALInteractionException ex) {
-                                        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (MALException ex) {
-                                        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
+                                    sendUpdateToConsumer(index, lastChunk);
                                     index++;
                                 }
                             }
                         }
-
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -349,15 +341,27 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             be.encodeElement(objType);
 
             // --- Source Link ---
-            IdentifierList sourceDomain = manager.getFastDomain().getDomain(entity.getSourceLink().getDomainId());
-            Integer wordId3 = dictionary.getWordId(sourceDomain.toString());
-            be.encodeShort(wordId3.shortValue());
+            if (entity.getSourceLink().getDomainId() == null) {
+                be.encodeNullableShort(null);
+            } else {
+                IdentifierList sourceDomain = manager.getFastDomain().getDomain(entity.getSourceLink().getDomainId());
+                Integer wordId3 = dictionary.getWordId(sourceDomain.toString());
+                be.encodeNullableShort(wordId3.shortValue());
+            }
 
-            ObjectType sourceObjType = manager.getFastObjectType().getObjectType(entity.getSourceLink().getObjectTypeId());
-            be.encodeElement(sourceObjType);
+            if (entity.getSourceLink().getObjectTypeId() == null) {
+                be.encodeNullableElement(null);
+            } else {
+                ObjectType sourceObjType = manager.getFastObjectType().getObjectType(entity.getSourceLink().getObjectTypeId());
+                be.encodeNullableElement(sourceObjType);
+            }
 
-            Long sourceObjId = entity.getSourceLink().getObjId();
-            be.encodeNullableLong(sourceObjId);
+            if (entity.getSourceLink().getObjectTypeId() == null) {
+                be.encodeNullableLong(null);
+            } else {
+                Long sourceObjId = entity.getSourceLink().getObjId();
+                be.encodeNullableLong(sourceObjId);
+            }
             // --- Source Link ---
 
             Long relatedLink = entity.getRelatedLink();
