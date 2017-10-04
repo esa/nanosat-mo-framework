@@ -55,6 +55,8 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 
 /**
@@ -585,7 +587,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
         // Select Parameter Definitions by default
         ObjectTypeList objTypes = new ObjectTypeList();
-        objTypes.add(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE);
+        UShort shorty = new UShort((short) 0);
+        objTypes.add(new ObjectType(shorty, shorty, new UOctet((short) 0), shorty));
         MOWindow genObjType = new MOWindow(objTypes, true);
         try {
             objTypes = (ObjectTypeList) genObjType.getObject();
