@@ -25,55 +25,55 @@ import org.ccsds.moims.mo.mal.structures.URI;
 /**
  * A container class which keeps the raw packet data of an incoming message, as
  * well as the TCP/IP address of both the source and the destination.
- * 
+ *
  * @author Rian van Gijlswijk
  *
  */
 public class TCPIPPacketInfoHolder {
-	
-	/**
-	 * The raw packet data of an incoming message
-	 */
-	private byte[] packetData;
-	
-	/**
-	 * The TCP/IP address of the source
-	 */
-	private URI tcpipFrom;
-	
-	/**
-	 * The TCP/IP address of the destination
-	 */
-	private URI tcpipTo;
-	
-	public TCPIPPacketInfoHolder(byte[] packetData, URI from, URI to) {
-		this.packetData = packetData;
-		this.tcpipFrom = from;
-		this.tcpipTo = to;
-	}
 
-	public byte[] getPacketData() {
-		return packetData;
-	}
+    /**
+     * The raw packet data of an incoming message
+     */
+    private byte[] packetData;
 
-	public void setPacketData(byte[] packetData) {
-		this.packetData = packetData;
-	}
+    /**
+     * The TCP/IP address of the source
+     */
+    private URI tcpipFrom;
 
-	public URI getUriFrom() {
-		return tcpipFrom;
-	}
+    /**
+     * The TCP/IP address of the destination
+     */
+    private URI tcpipTo;
 
-	public void setUriFrom(URI uriFrom) {
-		this.tcpipFrom = uriFrom;
-	}
+    public TCPIPPacketInfoHolder(byte[] packetData, URI from, URI to) {
+        this.packetData = packetData;
+        this.tcpipFrom = from;
+        this.tcpipTo = to;
+    }
 
-	public URI getUriTo() {
-		return tcpipTo;
-	}
+    public byte[] getPacketData() {
+        return packetData;
+    }
 
-	public void setUriTo(URI uriTo) {
-		this.tcpipTo = uriTo;
-	}
+    public void setPacketData(byte[] packetData) {
+        this.packetData = packetData;
+    }
+
+    public URI getUriFrom() {
+        return tcpipFrom;
+    }
+
+    public void setUriFrom(URI uriFrom) {
+        this.tcpipFrom = uriFrom;
+    }
+
+    public URI getUriTo() {
+        return tcpipTo;
+    }
+
+    public void setUriTo(URI uriTo) {
+        this.tcpipTo = uriTo;
+    }
 
 }

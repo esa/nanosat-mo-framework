@@ -30,34 +30,34 @@ import org.ccsds.moims.mo.mal.encoding.MALElementOutputStream;
 import esa.mo.mal.encoder.binary.BinaryStreamFactory;
 
 /**
- * A factory implementation for the generation of input and output stream classes,
- * which manage decoding and encoding, respectively.
- * 
+ * A factory implementation for the generation of input and output stream
+ * classes, which manage decoding and encoding, respectively.
+ *
  * @author Rian van Gijlswijk
  *
  */
 public class TCPIPFixedBinaryStreamFactory extends BinaryStreamFactory {
 
-	@Override
-	protected void init(String protocol, Map properties)
-			throws IllegalArgumentException, MALException {
-	}
+    @Override
+    protected void init(String protocol, Map properties)
+            throws IllegalArgumentException, MALException {
+    }
 
-	@Override
-	public MALElementInputStream createInputStream(InputStream is)
-			throws IllegalArgumentException, MALException {
-		return new TCPIPFixedBinaryElementInputStream(is);
-	}
+    @Override
+    public MALElementInputStream createInputStream(InputStream is)
+            throws IllegalArgumentException, MALException {
+        return new TCPIPFixedBinaryElementInputStream(is);
+    }
 
-	@Override
-	public MALElementInputStream createInputStream(byte[] bytes, int offset) {
-		return new TCPIPFixedBinaryElementInputStream(bytes, offset);
-	}
+    @Override
+    public MALElementInputStream createInputStream(byte[] bytes, int offset) {
+        return new TCPIPFixedBinaryElementInputStream(bytes, offset);
+    }
 
-	@Override
-	public MALElementOutputStream createOutputStream(OutputStream os)
-			throws IllegalArgumentException, MALException {
-		return new TCPIPFixedBinaryElementOutputStream(os);
-	}
+    @Override
+    public MALElementOutputStream createOutputStream(OutputStream os)
+            throws IllegalArgumentException, MALException {
+        return new TCPIPFixedBinaryElementOutputStream(os);
+    }
 
 }

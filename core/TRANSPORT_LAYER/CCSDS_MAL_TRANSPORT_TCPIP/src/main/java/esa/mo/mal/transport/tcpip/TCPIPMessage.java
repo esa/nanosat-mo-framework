@@ -41,99 +41,97 @@ import static esa.mo.mal.transport.tcpip.TCPIPTransport.RLOGGER;
 /**
  * This TCPIP implementation of MAL Message provides encoding methods for
  * encoding the MAL Message according to the TCPIP Transport Binding red book.
- * 
+ *
  * @author Rian van Gijlswijk
  *
  */
 public class TCPIPMessage extends GENMessage {
-    
-        public TCPIPMessage(boolean wrapBodyParts,
-			GENMessageHeader header, Map qosProperties, byte[] packet,
-			MALElementStreamFactory encFactory) throws MALException {
-		super(wrapBodyParts, true, header, qosProperties, packet, encFactory);
-	}
-	
-	public TCPIPMessage(boolean wrapBodyParts, GENMessageHeader header, Map qosProperties, MALOperation operation,
-	          MALElementStreamFactory encFactory, Object... body) throws MALInteractionException {
-		super(wrapBodyParts, header, qosProperties, operation, encFactory, body);
-	}
-	
-	/**
-	 * Encode a MAL Message.
-	 * 
-	 * Header and body are encoded separately, each with their own separate
-	 * stream Factory. This is done because the header needs to be encoded
-	 * according to the specifications in the TCPIP Transport Binding red book,
-	 * but the body can be whatever.
-	 * 
-	 * @param bodyStreamFactory
-	 *            the stream factory to use for body encoding
-	 * @param lowLevelOutputStream
-	 *            the stream onto which both the encoded head and body will be written
-	 * @throws MALException
-	 *             if encoding failed
-	 */
-        public void encodeMessage(final MALElementStreamFactory bodyStreamFactory,
-			final OutputStream lowLevelOutputStream)
-			throws MALException {
-		// encode header and body using TCPIPEncoder class
-		ByteArrayOutputStream hdrBaos = new ByteArrayOutputStream();
-		ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
-		MALElementOutputStream bodyEncoder = bodyStreamFactory.createOutputStream(bodyBaos);
-                final MALElementStreamFactory newHeaderStreamFactory = new TCPIPFixedBinaryStreamFactory();  // Header must be always Fixed Binary
 
-		super.encodeMessage(newHeaderStreamFactory, newHeaderStreamFactory.createOutputStream(hdrBaos), hdrBaos, true);
-		super.encodeMessage(bodyStreamFactory, bodyEncoder, bodyBaos, false);
-		
-		// overwrite bodysize parameter in the header
-		byte[] hdrBuf = hdrBaos.toByteArray();
-		ByteBuffer b = ByteBuffer.allocate(4);
-		b.order(ByteOrder.BIG_ENDIAN);
-                b.putInt(hdrBaos.size() + bodyBaos.size() - 23);
-		System.arraycopy(b.array(), 0, hdrBuf, 19, 4);
+    public TCPIPMessage(boolean wrapBodyParts,
+            GENMessageHeader header, Map qosProperties, byte[] packet,
+            MALElementStreamFactory encFactory) throws MALException {
+        super(wrapBodyParts, true, header, qosProperties, packet, encFactory);
+    }
 
+    public TCPIPMessage(boolean wrapBodyParts, GENMessageHeader header, Map qosProperties, MALOperation operation,
+            MALElementStreamFactory encFactory, Object... body) throws MALInteractionException {
+        super(wrapBodyParts, header, qosProperties, operation, encFactory, body);
+    }
+
+    /**
+     * Encode a MAL Message.
+     *
+     * Header and body are encoded separately, each with their own separate
+     * stream Factory. This is done because the header needs to be encoded
+     * according to the specifications in the TCPIP Transport Binding red book,
+     * but the body can be whatever.
+     *
+     * @param bodyStreamFactory the stream factory to use for body encoding
+     * @param lowLevelOutputStream the stream onto which both the encoded head
+     * and body will be written
+     * @throws MALException if encoding failed
+     */
+    public void encodeMessage(final MALElementStreamFactory bodyStreamFactory,
+            final OutputStream lowLevelOutputStream)
+            throws MALException {
+        // encode header and body using TCPIPEncoder class
+        ByteArrayOutputStream hdrBaos = new ByteArrayOutputStream();
+        ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
+        MALElementOutputStream bodyEncoder = bodyStreamFactory.createOutputStream(bodyBaos);
+        // Header must be always Fixed Binary
+        final MALElementStreamFactory headerStreamFactory = new TCPIPFixedBinaryStreamFactory();
+
+        super.encodeMessage(headerStreamFactory, headerStreamFactory.createOutputStream(hdrBaos), hdrBaos, true);
+        super.encodeMessage(bodyStreamFactory, bodyEncoder, bodyBaos, false);
+
+        // overwrite bodysize parameter in the header
+        byte[] hdrBuf = hdrBaos.toByteArray();
+        ByteBuffer b = ByteBuffer.allocate(4);
+        b.order(ByteOrder.BIG_ENDIAN);
+        b.putInt(hdrBaos.size() + bodyBaos.size() - 23);
+        System.arraycopy(b.array(), 0, hdrBuf, 19, 4);
+
+        try {
+            lowLevelOutputStream.write(hdrBuf);
+            if (this.getBody() != null) {
+                lowLevelOutputStream.write(bodyBaos.toByteArray());
+            }
+        } catch (IOException e) {
+            RLOGGER.warning("An IOException was thrown during message encoding! " + e.getMessage());
+            throw new MALException(e.getMessage());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "TCPIPMessage {URIFrom:" + header.getURIFrom()
+                + "URITo:" + header.getURITo() + "}";
+    }
+
+    /**
+     * Ok for debugging but don't put it nowhere near the final code.
+     * Performance!
+     *
+     * @return
+     */
+    public String bodytoString() {
+        if (this.body != null) {
+            StringBuilder output = new StringBuilder();
+            output.append(this.body.getClass().getCanonicalName());
+            for (int i = 0; i < this.body.getElementCount(); i++) {
                 try {
-			lowLevelOutputStream.write(hdrBuf);
-			if (this.getBody() != null) {
-				lowLevelOutputStream.write(bodyBaos.toByteArray());
-			}
-		} catch (IOException e) {
-			RLOGGER.warning("An IOException was thrown during message encoding! " + e.getMessage());
-			throw new MALException(e.getMessage());
-		}
-	}
-
-        @Override
-	public String toString() {
-		return "TCPIPMessage {URIFrom:" 
-			+ header.getURIFrom() 
-			+ "URITo:" + header.getURITo()
-			+ "}";		
-	}
-	
-        /**
-         * Ok for debugging but don't put it nowhere near the final code. Performance!
-         * 
-         * @return
-         */
-        public String bodytoString() {
-		if (this.body != null) {
-			StringBuilder output = new StringBuilder();
-			output.append(this.body.getClass().getCanonicalName());
-			for (int i=0; i < this.body.getElementCount(); i++) {
-				try {
-					if (this.body.getBodyElement(i, null) != null) {
-						output.append(" | ");
-						output.append(this.body.getBodyElement(i, null).toString());
-					}
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (MALException e) {
-                                        e.printStackTrace();
-                                }
-			}
-			return output.toString();
-		}
-		return " --no body--";
-	}
+                    if (this.body.getBodyElement(i, null) != null) {
+                        output.append(" | ");
+                        output.append(this.body.getBodyElement(i, null).toString());
+                    }
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (MALException e) {
+                    e.printStackTrace();
+                }
+            }
+            return output.toString();
+        }
+        return " --no body--";
+    }
 }

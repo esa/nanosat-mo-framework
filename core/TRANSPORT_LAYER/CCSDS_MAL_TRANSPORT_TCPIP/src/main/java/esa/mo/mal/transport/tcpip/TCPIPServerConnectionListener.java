@@ -36,89 +36,87 @@ import java.util.List;
 /**
  * Server Thread for the TCPIP transport.
  *
- * This thread listens for new connections to a predefined port and when new connections arrive it forwards the newly
- * created socket to a dedicated manager thread.
+ * This thread listens for new connections to a predefined port and when new
+ * connections arrive it forwards the newly created socket to a dedicated
+ * manager thread.
  *
  */
 public class TCPIPServerConnectionListener extends Thread {
-	private final TCPIPTransport transport;
-	private final ServerSocket serverSocket;
 
-	/**
-	 * Holds the list of data poller threads
-	 */
-	private final List<Thread> pollerThreads = new ArrayList<Thread>();
+    private final TCPIPTransport transport;
+    private final ServerSocket serverSocket;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param transport
-	 *            The parent TCPIP transport.
-	 * @param serverSocket
-	 *            The server TCPIP socket.
-	 */
-	public TCPIPServerConnectionListener(TCPIPTransport transport, ServerSocket serverSocket) {
-		this.transport = transport;
-		this.serverSocket = serverSocket;
-		setName("TCPIPServerConnectionListener_Thread");
-	}
+    /**
+     * Holds the list of data poller threads
+     */
+    private final List<Thread> pollerThreads = new ArrayList<Thread>();
 
-	/**
-	 * Run and accept new incoming sockets. Each incoming socket is assigned a
-	 * data transceiver, which submits outgoing messages and reads incoming
-	 * messages to and from the socket respectively.
-	 */
-	@Override
-	public void run() {
-		try {
-			serverSocket.setSoTimeout(1000);
-		} catch (IOException e) {
-			RLOGGER.log(Level.WARNING, "Error while setting connection timeout", e);
-		}
+    /**
+     * Constructor.
+     *
+     * @param transport The parent TCPIP transport.
+     * @param serverSocket The server TCPIP socket.
+     */
+    public TCPIPServerConnectionListener(TCPIPTransport transport, ServerSocket serverSocket) {
+        this.transport = transport;
+        this.serverSocket = serverSocket;
+        setName("TCPIPServerConnectionListener_Thread");
+    }
 
-		// setup socket and then listen for connections forever
-		while (!interrupted()) {
-			try {
-				// wait for connection
-				Socket socket = serverSocket.accept();
-				
-				RLOGGER.log(Level.INFO, "Socket accepted at port {0}", socket.getPort());
+    /**
+     * Run and accept new incoming sockets. Each incoming socket is assigned a
+     * data transceiver, which submits outgoing messages and reads incoming
+     * messages to and from the socket respectively.
+     */
+    @Override
+    public void run() {
+        try {
+            serverSocket.setSoTimeout(1000);
+        } catch (IOException e) {
+            RLOGGER.log(Level.WARNING, "Error while setting connection timeout", e);
+        }
 
-				// handle socket in separate thread
-				TCPIPTransportDataTransceiver tc = transport.createDataTransceiver(socket);
+        // setup socket and then listen for connections forever
+        while (!interrupted()) {
+            try {
+                // wait for connection
+                Socket socket = serverSocket.accept();
 
-				GENMessagePoller poller = new GENMessagePoller(
-						transport, tc, tc, new TCPIPMessageDecoderFactory());
-				pollerThreads.add(poller);
-				poller.start();
-			} catch (java.net.SocketTimeoutException ex) {
-				// No socket accepted within timeout. Try again until we accept a socket.
-			} catch (IOException e) {
-				RLOGGER.log(Level.WARNING, "Error while accepting connection", e);
-			}
-		}
+                RLOGGER.log(Level.INFO, "Socket accepted at port {0}", socket.getPort());
 
-		for (Thread pollerThread : pollerThreads) {
-			synchronized (pollerThread) {
-				pollerThread.interrupt();
-			}
-		}
+                // handle socket in separate thread
+                TCPIPTransportDataTransceiver tc = transport.createDataTransceiver(socket);
 
-		pollerThreads.clear();
-	}
-	
-	/**
-	 * Close the server socket for this connection listener.
-	 */
-	public void close() {
+                GENMessagePoller poller = new GENMessagePoller(
+                        transport, tc, tc, new TCPIPMessageDecoderFactory());
+                pollerThreads.add(poller);
+                poller.start();
+            } catch (java.net.SocketTimeoutException ex) {
+                // No socket accepted within timeout. Try again until we accept a socket.
+            } catch (IOException e) {
+                RLOGGER.log(Level.WARNING, "Error while accepting connection", e);
+            }
+        }
 
-		RLOGGER.info("Closing server socket...");
+        for (Thread pollerThread : pollerThreads) {
+            synchronized (pollerThread) {
+                pollerThread.interrupt();
+            }
+        }
 
-		try {
-			serverSocket.close();
-		} catch (IOException e) {
-			RLOGGER.log(Level.WARNING, "Error while closing server socket", e);
-		}
-		
-	}
+        pollerThreads.clear();
+    }
+
+    /**
+     * Close the server socket for this connection listener.
+     */
+    public void close() {
+        RLOGGER.info("Closing server socket...");
+
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            RLOGGER.log(Level.WARNING, "Error while closing server socket", e);
+        }
+    }
 }

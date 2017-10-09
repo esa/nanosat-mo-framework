@@ -25,42 +25,39 @@ import java.util.List;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALListDecoder;
 
-
 /**
  * Decode a list of elements
- * 
+ *
  * @author Rian van Gijlswijk
  *
  */
 public class TCPIPFixedBinaryListDecoder extends TCPIPFixedBinaryDecoder implements MALListDecoder {
-	
-	private final int size;
-	private final List list;
 
-	protected TCPIPFixedBinaryListDecoder(List list, final BufferHolder srcBuffer) throws MALException {
-		super(srcBuffer);
-		
-		this.list = list;
-		
-		// decode number of elements in list
-		this.size = (int) decodeUInteger().getValue();
-	}
+    private final int size;
+    private final List list;
 
-	/**
-	 * Returns false once the list is filled with a number of elements equalling the expected
-	 * size. The expected size is set at the beginning of the output stream. As soon as this
-	 * occurs, all elements are read from the outputstream.
-	 */
-	@Override
-	public boolean hasNext() {
+    protected TCPIPFixedBinaryListDecoder(List list, final BufferHolder srcBuffer) throws MALException {
+        super(srcBuffer);
+        this.list = list;
 
-		return list.size() < size;
-	}
+        // decode number of elements in list
+        this.size = (int) decodeUInteger().getValue();
+    }
 
-	@Override
-	public int size() {
+    /**
+     * Returns false once the list is filled with a number of elements equalling
+     * the expected size. The expected size is set at the beginning of the
+     * output stream. As soon as this occurs, all elements are read from the
+     * outputstream.
+     */
+    @Override
+    public boolean hasNext() {
+        return list.size() < size;
+    }
 
-		return size;
-	}
+    @Override
+    public int size() {
+        return size;
+    }
 
 }
