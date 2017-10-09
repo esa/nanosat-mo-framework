@@ -500,27 +500,6 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
 		// copy body to separate packet
 		byte[] bodyPacketData = new byte[bodySize];
 		System.arraycopy(packetData, decodedHeaderBytes, bodyPacketData, 0, bodySize);
-
-		// debug information
-                /*
-		StringBuilder sb = new StringBuilder();
-		sb.append("\nTCPIPTransport.createMessage() Header results:\n");
-		sb.append(msg.getHeader().toString());
-		sb.append("\nTCPIPTransport.createMessage() TRYING TO DECODE BODY");
-		sb.append("\n---------------------------------------");
-		sb.append("\nTCPIPTransport.createMessage() Total msg in bytes:\n");
-		for (byte b2 : packetData) {
-			sb.append(Integer.toString(b2 & 0xFF, 10) + " ");
-		}
-		sb.append("\nDecoded header bytes: " + decodedHeaderBytes);
-		sb.append("\nBody: sz=" + bodyPacketData.length + " contents=\n");
-		sb = new StringBuilder();
-		for (byte b2 : packetData) {
-			sb.append(Integer.toString(b2 & 0xFF, 10) + " ");
-		}
-		sb.append("\n---------------------------------------");
-		RLOGGER.log(Level.FINEST, sb.toString());
-		*/
                 
 		// decode the body
 		TCPIPMessage messageWithBody = new TCPIPMessage(wrapBodyParts, (TCPIPMessageHeader)msg.getHeader(), qosProperties,
@@ -627,10 +606,6 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
    */
 	private String getDefaultHost() throws MALException {
 		try {
-			// Build url string
-//			final InetAddress addr = Inet4Address.getLocalHost();
-//                        String hAddress = addr.getHostAddress();
-                        
                         Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
                         
                         for (NetworkInterface netint : Collections.list(nets)){
@@ -647,22 +622,6 @@ public class TCPIPTransport extends GENTransport<byte[], byte[]> {
                                 }                
                             }
                         }
-
-/*                        
-			final StringBuilder hostAddress = new StringBuilder();
-			if (addr instanceof Inet6Address) {
-				RLOGGER.fine("TCPIP Address class is IPv6");
-				hostAddress.append('[');
-				hostAddress.append(hAddress);
-				hostAddress.append(']');
-			} else {
-				hostAddress.append(hAddress);
-			}
-
-			return hostAddress.toString();
-                        */
-//		} catch (UnknownHostException ex) {
-//			throw new MALException("Could not determine local host address", ex);
 		} catch (SocketException ex) {
                         Logger.getLogger(TCPIPTransport.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -82,7 +82,7 @@ public enum TCPIPConnectionPoolManager {
 	 */
 	public Socket get(int localPort) {
 		
-		Socket s = null;
+		Socket s;
 		int hash = getSocketHash(localPort);
 		RLOGGER.log(Level.FINEST, "ConnectionPool: get -> hash: " + hash);
 		
@@ -145,7 +145,6 @@ public enum TCPIPConnectionPoolManager {
 	 * Close all sockets and remove them from the connections pool
 	 */
 	public void close() {
-
 		RLOGGER.info("Closing client sockets...");
 		
 		for (int hash : connections.keySet()) {
@@ -161,13 +160,14 @@ public enum TCPIPConnectionPoolManager {
 	
 	/**
 	 * Return a string representation of the current connection pool
+         * @return 
 	 */
+        @Override
 	public String toString() {
-		
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		result.append("LocalSockets:\n");
 		for (int hash : connections.keySet()) {
-			result.append(hash + ": " + connections.get(hash) + "\n");
+			result.append(hash).append(": ").append(connections.get(hash)).append("\n");
 		}
 		
 		return result.toString();

@@ -75,25 +75,11 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 
 	/**
 	 * Send an encoded message out over the socket
-	 * @param packetData
-	 * 				The encoded message to send
+	 * @param packetData The encoded message to send
+         * @throws java.io.IOException
 	 */
 	@Override
 	public void sendEncodedMessage(GENOutgoingMessageHolder packetData) throws IOException {
-
-            /* Playing with strings before sending messages... No thank you!
-		StringBuilder sb = new StringBuilder();
-		sb.append("\nTCPIPTransportDataTransciever.sendEncodedMessage()");
-		sb.append("\nWriting to socket:");
-		sb.append("\n---------------------------------------");
-		sb.append("\npacketData length: " + ((byte[])packetData.getEncodedMessage()).length + "\n");
-		for (byte b2 : (byte[])packetData.getEncodedMessage()) {
-			sb.append(Integer.toString(b2 & 0xFF, 10) + " ");
-		}
-		sb.append("\n---------------------------------------");
-		RLOGGER.log(Level.FINEST, sb.toString());
-*/		
-
                 if(!closed){
                         socketWriteIf.write((byte[])packetData.getEncodedMessage());
         		socketWriteIf.flush();
@@ -120,62 +106,43 @@ public class TCPIPTransportDataTransceiver implements esa.mo.mal.transport.gen.u
 	 */
 	@Override
 	public TCPIPPacketInfoHolder readEncodedMessage() throws IOException {
-		
-                    // figure out length according to mal message mapping to determine byte arr length, then read the rest.		
-                    byte[] rawHeader = new byte[HEADER_SIZE];
+                // figure out length according to mal message mapping to determine byte arr length, then read the rest.		
+                byte[] rawHeader = new byte[HEADER_SIZE];
 
-                    try{
-                            this.readUntilComplete(rawHeader, 0, HEADER_SIZE);
-                    } catch (SocketException socketExc) {
-                            throw new java.io.EOFException(socketExc.getMessage());
-                    } catch (NullPointerException headerReadNullPointer) {
-                            RLOGGER.warning("NullpointerException occured while reading header! " + headerReadNullPointer.getMessage());
-                    } catch (IndexOutOfBoundsException headerReadOutOfBounds) {
-                            RLOGGER.warning("IndexOutOfBoundsException occured while reading header! " + headerReadOutOfBounds.getMessage());			
-                    }
+                try{
+                        this.readUntilComplete(rawHeader, 0, HEADER_SIZE);
+                } catch (SocketException socketExc) {
+                        throw new java.io.EOFException(socketExc.getMessage());
+                } catch (NullPointerException headerReadNullPointer) {
+                        RLOGGER.warning("NullpointerException occured while reading header! " + headerReadNullPointer.getMessage());
+                } catch (IndexOutOfBoundsException headerReadOutOfBounds) {
+                        RLOGGER.warning("IndexOutOfBoundsException occured while reading header! " + headerReadOutOfBounds.getMessage());			
+                }
 
-                    // Get the lenght of the body directly at the byte level
-                    final int bodyLength = byteArrayToInt(Arrays.copyOfRange(rawHeader, 19, 23));
+                // Get the lenght of the body directly at the byte level
+                final int bodyLength = byteArrayToInt(Arrays.copyOfRange(rawHeader, 19, 23));
 
-                    // Allocate memory for header and body
-                    byte[] totalPacketData = new byte[HEADER_SIZE + bodyLength];
-                    System.arraycopy(rawHeader, 0, totalPacketData, 0, HEADER_SIZE);
+                // Allocate memory for header and body
+                byte[] totalPacketData = new byte[HEADER_SIZE + bodyLength];
+                System.arraycopy(rawHeader, 0, totalPacketData, 0, HEADER_SIZE);
 
-                    try {
-                            // read body and copy the body part
-                            this.readUntilComplete(totalPacketData, HEADER_SIZE, bodyLength);
-                    } catch (SocketException socketExc) {
-                            if (socket.isClosed()) {
-                                    // socket has been closed to throw EOF exception higher
-                                    throw new java.io.EOFException();
-                            }
+                try {
+                        // read body and copy the body part
+                        this.readUntilComplete(totalPacketData, HEADER_SIZE, bodyLength);
+                } catch (SocketException socketExc) {
+                        if (socket.isClosed()) {
+                                // socket has been closed to throw EOF exception higher
+                                throw new java.io.EOFException();
+                        }
 
-                            throw socketExc;
-                    } catch (EOFException bodyReadEof) {
-                            RLOGGER.warning("EOF reached for input stream! " + bodyReadEof.getMessage());
-                            throw new IOException("EOF reached for input stream!");
-                    } catch (IOException bodyReadIo) {
-                            RLOGGER.warning("Socket connection closed while reading!");
-                    }
+                        throw socketExc;
+                } catch (EOFException bodyReadEof) {
+                        RLOGGER.warning("EOF reached for input stream! " + bodyReadEof.getMessage());
+                        throw new IOException("EOF reached for input stream!");
+                } catch (IOException bodyReadIo) {
+                        RLOGGER.warning("Socket connection closed while reading!");
+                }
                     
-    
-            /* Same here!
-	    StringBuilder sb = new StringBuilder();
-	    sb.append("\nTCPIPTransportDataTransciever.readEncodedMessage()");
-	    sb.append("\nReading from socket:");
-	    sb.append("\n---------------------------------------");
-	    sb.append("\ntotalPacketData headerLength: " + rawHeader.length + ", BodyLength: " + bodyLength + ", length: " + totalPacketData.length + "\n");
-		for (byte b2 : totalPacketData) {
-			sb.append(Integer.toString(b2 & 0xFF, 10) + " ");
-		}
-	    sb.append("\n---------------------------------------");
-		RLOGGER.log(Level.FINEST, sb.toString());
-		*/
-            
-		// if this is also a provider, update the localport to equal the port of the server socket.
-//		RLOGGER.log(Level.FINE, "Local addr: " + to.toString());
-//		RLOGGER.log(Level.FINE, "Remote addr: " + from.toString());
-		
 		return new TCPIPPacketInfoHolder(totalPacketData, from, to);
 	}
 

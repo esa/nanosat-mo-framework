@@ -59,7 +59,6 @@ public class TCPIPEndpoint extends GENEndpoint {
 			final UShort operation, final UOctet serviceVersion,
 			final Boolean isErrorMessage, final Map qosProperties,
 			final Object... body) throws MALException {
-
 		GENMessageHeader hdr = createMessageHeader(getURI(), authenticationId,
 				uriTo, timestamp, qosLevel, priority, domain, networkZone,
 				session, sessionName, interactionType,
@@ -71,7 +70,6 @@ public class TCPIPEndpoint extends GENEndpoint {
 		} catch (MALInteractionException e) {
 			throw new MALException("Error creating message", e);
 		}
-
 	}
 	
 	@Override
@@ -87,7 +85,6 @@ public class TCPIPEndpoint extends GENEndpoint {
 			final Boolean isErrorMessage, final Map qosProperties,
 			final MALEncodedBody body) throws MALException {
 				return null;
-
 	}
 	
 	@Override
@@ -120,7 +117,6 @@ public class TCPIPEndpoint extends GENEndpoint {
 			final Boolean isErrorMessage, final MALOperation op,
 			final UOctet interactionStage, final Map qosProperties,
 			final Object... body) throws MALException {
-		
 		GENMessageHeader hdr = createMessageHeader(getURI(), authenticationId,
 				uriTo, timestamp, qosLevel, priority, domain, networkZone,
 				session, sessionName, op.getInteractionType(),
@@ -151,7 +147,6 @@ public class TCPIPEndpoint extends GENEndpoint {
 			final UShort serviceArea, final UShort service,
 			final UShort operation, final UOctet serviceVersion,
 			final Boolean isErrorMessage, final Map qosProperties) {
-		
 		String serviceFrom = transport.getRoutingPart(uriFrom.toString());
 		String serviceTo = transport.getRoutingPart(uriTo.toString());
 		
@@ -160,7 +155,6 @@ public class TCPIPEndpoint extends GENEndpoint {
 				networkZone, session, sessionName, interactionType,
 				interactionStage, transactionId, serviceArea, service,
 				operation, serviceVersion, isErrorMessage);
-
 	}
 
 }
