@@ -119,13 +119,13 @@ public class ArchiveManager {
             @Override
             public void run() {
                 synchronized (manager) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
                             "Initializing Fast classes!");
                     fastDomain.init();
                     fastObjectType.init();
                     fastNetwork.init();
                     fastProviderURI.init();
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
                             "The Fast classes are initialized!");
                 }
             }
