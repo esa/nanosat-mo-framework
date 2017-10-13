@@ -46,7 +46,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="test_button" pref="105" max="32767" attributes="0"/>
-                  <Component id="jButtonStoreAggregation" max="32767" attributes="0"/>
+                  <Component id="jButtonGetTime" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="TBoxStore" min="-2" pref="53" max="-2" attributes="0"/>
@@ -65,7 +65,7 @@
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonRetrieve" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonStoreAggregation" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonGetTime" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonUpdate" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonStoreGroups" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="TBoxStore" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -103,12 +103,12 @@
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonStoreAggregation">
+    <Component class="javax.swing.JButton" name="jButtonGetTime">
       <Properties>
         <Property name="text" type="java.lang.String" value="getTime"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStoreAggregationActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGetTimeActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonGetAll">

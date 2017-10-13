@@ -57,7 +57,6 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 
 /**
  *
@@ -116,10 +115,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             this.refreshTabCounter();
 
             tabs.addTab("", archiveTablePanel);
-
             tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
             tabs.setSelectedIndex(tabs.getTabCount() - 1);
-
         }
 
         private void refreshTabCounter() {
@@ -147,12 +144,6 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             }
 
             tabs.setTabComponentAt(index, pnlTab);
-//            pnlTab.revalidate();
-//            pnlTab.repaint();  // not working
-//            tabs.revalidate();
-//            tabs.repaint();    // not working
-//            label.repaint();
-//            repaint();
         }
 
         public synchronized void finalizeAdapter() {
@@ -339,7 +330,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel6 = new javax.swing.JLabel();
-        jButtonStoreAggregation = new javax.swing.JButton();
+        jButtonGetTime = new javax.swing.JButton();
         jButtonGetAll = new javax.swing.JButton();
         jButtonQuery = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
@@ -360,10 +351,10 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         jLabel6.setText("ArchiveSync Tester");
         jLabel6.setToolTipText("");
 
-        jButtonStoreAggregation.setText("getTime");
-        jButtonStoreAggregation.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGetTime.setText("getTime");
+        jButtonGetTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonStoreAggregationActionPerformed(evt);
+                jButtonGetTimeActionPerformed(evt);
             }
         });
 
@@ -488,7 +479,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(test_button, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                    .addComponent(jButtonStoreAggregation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonGetTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -503,7 +494,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonRetrieve)
-                    .addComponent(jButtonStoreAggregation)
+                    .addComponent(jButtonGetTime)
                     .addComponent(jButtonUpdate)
                     .addComponent(jButtonStoreGroups)
                     .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -525,11 +516,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonStoreAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreAggregationActionPerformed
-
-    }//GEN-LAST:event_jButtonStoreAggregationActionPerformed
-
-    private void jButtonGetAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetAllActionPerformed
+    private void jButtonGetTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetTimeActionPerformed
         try {
             GetTimeResponse response = serviceCOMArchiveSync.getArchiveSyncStub().getTime();
             MOWindow genObjType = new MOWindow(response, false);
@@ -538,8 +525,11 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         } catch (MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButtonGetAllActionPerformed
+    }//GEN-LAST:event_jButtonGetTimeActionPerformed
 
+    private void jButtonGetAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetAllActionPerformed
+
+    }//GEN-LAST:event_jButtonGetAllActionPerformed
 
     private void jButtonQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQueryActionPerformed
 
@@ -844,10 +834,10 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonDeleteAll;
     private javax.swing.JButton jButtonGetAll;
+    private javax.swing.JButton jButtonGetTime;
     private javax.swing.JButton jButtonQuery;
     private javax.swing.JButton jButtonRetrieve;
     private javax.swing.JButton jButtonStoreActions;
-    private javax.swing.JButton jButtonStoreAggregation;
     private javax.swing.JButton jButtonStoreConversions;
     private javax.swing.JButton jButtonStoreGroups;
     private javax.swing.JButton jButtonUpdate;
