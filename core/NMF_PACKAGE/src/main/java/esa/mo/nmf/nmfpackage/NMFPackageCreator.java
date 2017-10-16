@@ -124,7 +124,8 @@ public class NMFPackageCreator {
 
         // -------------------------------------------------------------------
         // Generate digital signature
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO, "Generating digital signature...");
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "Generating digital signature...");
 
         // Generate Public and Private keys
         KeyPair pair = NMFDigitalSignature.generateKeyPar();
@@ -155,7 +156,7 @@ public class NMFPackageCreator {
         // -------------------------------------------------------------------
         // Compress:
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "Compressing...");
+                "Creating compressed NMF Package...");
 
         String packageOutputPath = details.getPackageName() + "-"
                 + details.getVersion() + "." + HelperNMF.NMF_PACKAGE_SUFFIX;
@@ -178,7 +179,7 @@ public class NMFPackageCreator {
         // Delete temporary files:
         receipt.delete();
         digitalSignature.delete();
-        
+
         return packageOutputPath;
     }
 
