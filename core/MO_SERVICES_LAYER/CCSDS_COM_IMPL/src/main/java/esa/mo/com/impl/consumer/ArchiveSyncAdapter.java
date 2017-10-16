@@ -20,74 +20,168 @@
  */
 package esa.mo.com.impl.consumer;
 
-import esa.mo.helpertools.misc.ConsumerServiceImpl;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
-import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
-import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
+public class ArchiveSyncAdapter extends org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncAdapter {
 
-    private ArchiveSyncStub archiveSyncService = null;
+    private final ArrayList<byte[]> receivedChunks;
+    private final Semaphore completed;
+    private Long interactionTicket = null;
+    private UInteger numberOfChunks = null;
+    private long lastTimeReceived = 0;
+    private long lastknowIndex = 0;
 
-    @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
-        return new ArchiveSyncStub(tmConsumer);
+    ArchiveSyncAdapter() {
+        this.receivedChunks = new ArrayList<byte[]>();
+        this.completed = new Semaphore(0);
+    }
+
+    ArchiveSyncAdapter(int estimatedNumberOfChunks) {
+        this.receivedChunks = new ArrayList<byte[]>(estimatedNumberOfChunks);
+        this.completed = new Semaphore(0);
     }
 
     @Override
-    public Object getStub() {
-        return this.getArchiveSyncStub();
+    public synchronized void retrieveRangeAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            Long interactionTicket, java.util.Map qosProperties) {
+        // Later on, do something...
+        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
+                "Received Acknowledgement!");
+        this.interactionTicket = interactionTicket;
+        lastTimeReceived = System.currentTimeMillis();
     }
 
-    public ArchiveSyncStub getArchiveSyncStub() {
-        return archiveSyncService;
-    }
+    @Override
+    public synchronized void retrieveRangeUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            Blob chunk, UInteger indexReceived, java.util.Map qosProperties) {
+        int index = (int) indexReceived.getValue();
+        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
+                "Received! Chunk index: " + index);
 
-    public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
-
-        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-            COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
+        lastTimeReceived = System.currentTimeMillis();
+        lastknowIndex = index;
         try {
-            ArchiveSyncHelper.init(MALContextFactory.getElementFactoryRegistry());
+            receivedChunks.add(index, chunk.getValue());
         } catch (MALException ex) {
+            Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
-        this.connectionDetails = connectionDetails;
+    @Override
+    public void retrieveRangeResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            UInteger numberOfChunks, java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
+                "Succcess!");
+        this.numberOfChunks = numberOfChunks;
+        completed.release();
+    }
 
-        // Close old connection
-        if (tmConsumer != null) {
-            try {
-                tmConsumer.close();
-            } catch (MALException ex) {
-                Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+    @Override
+    public void retrieveRangeAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.SEVERE,
+                "retrieveRangeAckErrorReceived: No idea on how this should be handled...", error);
+    }
+
+    @Override
+    public void retrieveRangeAgainAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
+                "Received Acknowledgement from rerequest!");
+    }
+
+    @Override
+    public void retrieveRangeAgainUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            org.ccsds.moims.mo.mal.structures.Blob chunk, org.ccsds.moims.mo.mal.structures.UInteger indexReceived, java.util.Map qosProperties) {
+        int index = (int) indexReceived.getValue();
+        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
+                "Received on rerequest! Chunk index: " + index);
+
+        lastTimeReceived = System.currentTimeMillis();
+        try {
+            receivedChunks.add(index, chunk.getValue());
+        } catch (MALException ex) {
+            Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void retrieveRangeAgainResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
+                "Success from rerequest!");
+    }
+
+    @Override
+    public void retrieveRangeAgainAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.SEVERE,
+                "retrieveRangeAgainAckErrorReceived: No idea on how this should be handled...", error);
+    }
+
+    public void waitUntilResponseReceived() throws InterruptedException {
+        completed.acquire();
+    }
+
+    public boolean waitUntilResponseReceived(long waitThisMilliseconds) throws InterruptedException {
+        return completed.tryAcquire(waitThisMilliseconds, TimeUnit.MILLISECONDS);
+    }
+
+    public long noUpdatesReceivedForThisDuration() {
+        return System.currentTimeMillis() - lastTimeReceived;
+    }
+
+    public boolean transactionCompleted() {
+        return (numberOfChunks != null);
+    }
+
+    public Long getInteractionTicket() {
+        return interactionTicket;
+    }
+
+    public boolean receivedAllChunks() {
+        long nOfChunks = numberOfChunks.getValue();
+
+        for (int i = 0; i < nOfChunks; i++) {
+            if (receivedChunks.get(i) == null) {
+                return false;
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                ArchiveSyncHelper.ARCHIVESYNC_SERVICE);
+        return true;
+    }
 
-        this.archiveSyncService = new ArchiveSyncStub(tmConsumer);
+    public UInteger getLastKnownIndex() {
+        return new UInteger(lastknowIndex);
+    }
+
+    public UIntegerList getMissingIndexes() {
+        UIntegerList missingIndexes = new UIntegerList();
+        long nOfChunks = numberOfChunks.getValue();
+
+        for (int i = 0; i < nOfChunks; i++) {
+            if (receivedChunks.get(i) == null) {
+                missingIndexes.add(new UInteger());
+            }
+        }
+
+        return missingIndexes;
+    }
+
+    public ArrayList<byte[]> getReceivedChunks() {
+        return receivedChunks;
     }
 
 }

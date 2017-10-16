@@ -23,9 +23,11 @@ package esa.mo.com.impl.provider;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.sync.Dictionary;
+import esa.mo.com.impl.sync.EncodeDecode;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
@@ -142,7 +144,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final Dispatcher dispatcher = new Dispatcher(interaction);
         long interactionTicket = interaction.getInteraction().getMessageHeader().getTransactionId();
         dispatchers.put(interactionTicket, dispatcher);
-        interaction.sendAcknowledgement(interactionTicket, new UInteger(0)); // 0 for now...
+        interaction.sendAcknowledgement(interactionTicket);
 
         Runnable processQueriedObjs = dispatcher.getProcessingRunnable();
         Runnable flushProcessedObjs = dispatcher.getFlushingRunnable();
@@ -165,7 +167,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             perObjs = manager.queryCOMObjectEntity(objectTypes.get(i), archiveQuery, null);
             dispatcher.addObjects(perObjs);
         }
-        
+
         dispatcher.setQueriesAreDone(true);
 
         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
@@ -183,10 +185,25 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         interaction.sendAcknowledgement();
 
-        for (UInteger missingIndex : missingIndexes) {
-            byte[] chunk = dispatcher.getFlushedChunk((short) missingIndex.getValue());
+        if (missingIndexes.size() == 2 && missingIndexes.get(1).getValue() == 0) {
+            // Special case! The condition means that we need to retransmit
+            // everything since the value in missingIndexes.get(0)
+            UInteger lastIndex = missingIndexes.get(0);
+            try {
+                int numberOfChunks = dispatcher.numberOfChunks();
 
-            interaction.sendUpdate(new Blob(chunk), missingIndex);
+                for (int i = (int) lastIndex.getValue(); i < numberOfChunks; i++) {
+                    byte[] chunk = dispatcher.getFlushedChunk(i);
+                    interaction.sendUpdate(new Blob(chunk), new UInteger(i));
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            for (UInteger missingIndex : missingIndexes) {
+                byte[] chunk = dispatcher.getFlushedChunk((short) missingIndex.getValue());
+                interaction.sendUpdate(new Blob(chunk), missingIndex);
+            }
         }
 
         interaction.sendResponse();
@@ -205,9 +222,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         private final ArrayList<byte[]> chunksFlushed = new ArrayList<byte[]>();
 
         private final LinkedBlockingQueue<byte[]> dataToFlush = new LinkedBlockingQueue<byte[]>();
-        
+
         private boolean queriesAreDone = false;
         private boolean processingIsDone = false;
+        private int numberOfChunks = 0;
 
         Dispatcher(final RetrieveRangeInteraction interaction) {
             this.interaction = interaction;
@@ -215,6 +233,14 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         public byte[] getFlushedChunk(int index) {
             return chunksFlushed.get(index);
+        }
+
+        public int numberOfChunks() throws IOException {
+            if (numberOfChunks == 0) {
+                throw new IOException("The dispatcher still did not pushed everything to the consumer!");
+            }
+
+            return numberOfChunks;
         }
 
         public void addObjects(final ArrayList<COMObjectEntity> list) {
@@ -237,12 +263,12 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
                         while (!exit) {
                             boolean done = queriesAreDone;
-                            COMObjectEntity entity = tempQueue.poll(5, TimeUnit.SECONDS);
+                            COMObjectEntity entity = tempQueue.poll(1, TimeUnit.SECONDS);
 
                             if (entity != null) {
-                                byte[] objAsByteArray = convertToByteArray(entity);
+                                byte[] objAsByteArray = EncodeDecode.encodeToByteArray(entity, manager, dictionary);
                                 // Compress here?
-                                // compression algorithm
+                                // compression algorithm can go here!
                                 dataToFlush.add(objAsByteArray);
                             } else {
                                 if (done) {
@@ -284,14 +310,14 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
                         while (!exit) {
                             boolean done = processingIsDone;
-                            byte[] data = dataToFlush.poll(5, TimeUnit.SECONDS);
-                            
+                            byte[] data = dataToFlush.poll(1, TimeUnit.SECONDS);
+
                             if (data != null) {
-                                for (int i = 0; i < data.length; i++){
+                                for (int i = 0; i < data.length; i++) {
                                     aChunk[pos] = data[i];
                                     pos++;
-                                    
-                                    if(pos == CHUNK_SIZE){
+
+                                    if (pos == CHUNK_SIZE) {
                                         sendUpdateToConsumer(index, aChunk);
                                         index++;
                                         pos = 0;
@@ -310,79 +336,25 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                                 }
                             }
                         }
+
+                        try {
+                            interaction.sendResponse(new UInteger(index));
+                            numberOfChunks = index;
+                        } catch (MALInteractionException ex) {
+                            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (MALException ex) {
+                            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
-                            "The objects were all successfully flushed!");
+                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(
+                            Level.INFO, "The objects were all successfully flushed!");
                 }
-
             };
         }
-
     }
 
-    private byte[] convertToByteArray(final COMObjectEntity entity) {
-
-        try {
-            final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
-            final BinaryEncoder be = new BinaryEncoder(bodyBaos);
-
-            Identifier network = manager.getFastNetwork().getNetwork(entity.getNetwork());
-            Integer wordId1 = dictionary.getWordId(network.getValue());
-            be.encodeShort(wordId1.shortValue());
-
-            URI providerURI = manager.getFastProviderURI().getProviderURI(entity.getProviderURI());
-            Integer wordId2 = dictionary.getWordId(providerURI.getValue());
-            be.encodeShort(wordId2.shortValue());
-
-            ObjectType objType = manager.getFastObjectType().getObjectType(entity.getObjectTypeId());
-            be.encodeElement(objType);
-
-            // --- Source Link ---
-            if (entity.getSourceLink().getDomainId() == null) {
-                be.encodeNullableShort(null);
-            } else {
-                IdentifierList sourceDomain = manager.getFastDomain().getDomain(entity.getSourceLink().getDomainId());
-                Integer wordId3 = dictionary.getWordId(sourceDomain.toString());
-                be.encodeNullableShort(wordId3.shortValue());
-            }
-
-            if (entity.getSourceLink().getObjectTypeId() == null) {
-                be.encodeNullableElement(null);
-            } else {
-                ObjectType sourceObjType = manager.getFastObjectType().getObjectType(entity.getSourceLink().getObjectTypeId());
-                be.encodeNullableElement(sourceObjType);
-            }
-
-            if (entity.getSourceLink().getObjectTypeId() == null) {
-                be.encodeNullableLong(null);
-            } else {
-                Long sourceObjId = entity.getSourceLink().getObjId();
-                be.encodeNullableLong(sourceObjId);
-            }
-            // --- Source Link ---
-
-            Long relatedLink = entity.getRelatedLink();
-            be.encodeNullableLong(relatedLink);
-
-            byte[] array = entity.getObjectEncoded();
-            Blob value = (array == null) ? null : new Blob(array);
-            be.encodeNullableBlob(value);
-
-            be.encodeLong(entity.getObjectId());
-            be.encodeFineTime(entity.getTimestamp());
-
-            byte[] output = bodyBaos.toByteArray();
-            be.close();
-
-            return output;
-        } catch (Exception ex) {
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return new byte[0]; // Return an empty byte array
-    }
 
 }

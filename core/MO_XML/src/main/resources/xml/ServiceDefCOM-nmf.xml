@@ -494,9 +494,6 @@ If the MAL data type specification is being used the body of an object shall not
               <mal:field canBeNull="true" comment="" name="interactionTicket">
                 <mal:type area="MAL" list="false" name="Long"/>
               </mal:field>
-            <mal:field canBeNull="true" comment="" name="numberOfChunks">
-                <mal:type area="MAL" list="false" name="UInteger"/>
-              </mal:field>
             </mal:acknowledgement>
             <mal:update comment="">
               <mal:field canBeNull="true" comment="" name="chunk">
@@ -506,7 +503,11 @@ If the MAL data type specification is being used the body of an object shall not
                 <mal:type area="MAL" list="false" name="UInteger"/>
               </mal:field>
             </mal:update>
-            <mal:response comment=""/>
+            <mal:response comment="">
+              <mal:field canBeNull="true" comment="" name="numberOfChunks">
+                <mal:type area="MAL" list="false" name="UInteger"/>
+              </mal:field>
+            </mal:response>
           </mal:messages>
         </mal:progressIP>
       </mal:capabilitySet>

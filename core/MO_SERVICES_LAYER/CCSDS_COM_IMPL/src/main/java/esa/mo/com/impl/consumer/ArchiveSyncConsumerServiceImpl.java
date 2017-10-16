@@ -20,18 +20,27 @@
  */
 package esa.mo.com.impl.consumer;
 
+import esa.mo.com.impl.archive.entities.COMObjectEntity;
+import esa.mo.com.impl.sync.Dictionary;
+import esa.mo.com.impl.sync.EncodeDecode;
 import esa.mo.helpertools.misc.ConsumerServiceImpl;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
+import org.ccsds.moims.mo.com.structures.ObjectTypeList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
+import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
 
 /**
  *
@@ -56,7 +65,6 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
-
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -88,6 +96,84 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
                 ArchiveSyncHelper.ARCHIVESYNC_SERVICE);
 
         this.archiveSyncService = new ArchiveSyncStub(tmConsumer);
+    }
+
+    public void retrieveCOMObjects(FineTime from, FineTime until, ObjectTypeList objTypes) {
+        ArchiveSyncAdapter adapter = new ArchiveSyncAdapter();
+
+        try { // Do a retrieve with the correct times
+            archiveSyncService.retrieveRange(from, until, objTypes, adapter);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Wait until it is finished...
+        boolean unfinished = true;
+        long timeout = 1000;
+        while (unfinished) {
+            try {
+                if (adapter.waitUntilResponseReceived(timeout)) {
+                    unfinished = false;
+                    Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
+                            Level.INFO, "Finished!");
+                }
+            } catch (InterruptedException ex) {
+                // Still not complete...
+                Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
+                        Level.INFO, "Still unfinished...");
+
+                // If the last piece was not received in less than x seconds,
+                // then we need to do something about it
+                // Ask to retransmit
+                if (adapter.noUpdatesReceivedForThisDuration() > timeout * 4) {
+                    Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
+                            Level.INFO, "Asking to retransmit the missing part.", ex);
+                    Long interactionTicket = adapter.getInteractionTicket();
+                    UIntegerList missingIndexes = new UIntegerList();
+                    missingIndexes.add(adapter.getLastKnownIndex());
+                    missingIndexes.add(new UInteger(0));
+
+                    try {
+                        archiveSyncService.retrieveRangeAgain(interactionTicket, missingIndexes, adapter);
+                    } catch (MALInteractionException ex1) {
+                        Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
+                    } catch (MALException ex1) {
+                        Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
+                    }
+                }
+            }
+        }
+
+        // Reretrieve the missing pieces
+        boolean complete = false;
+
+        while (!complete) {
+            if (!adapter.receivedAllChunks()) {
+                // Then we will have to retrieve the missing ones...
+                Long interactionTicket = adapter.getInteractionTicket();
+                UIntegerList missingIndexes = adapter.getMissingIndexes();
+
+                try {
+                    archiveSyncService.retrieveRangeAgain(interactionTicket, missingIndexes, adapter);
+                } catch (MALInteractionException ex1) {
+                    Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
+                } catch (MALException ex1) {
+                    Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            } else {
+                complete = true;
+            }
+        }
+
+        // Convert the byte arrays into COM Objects
+        ArrayList<byte[]> chunks = adapter.getReceivedChunks();
+        Dictionary dic = new Dictionary();
+
+        ArrayList<COMObjectEntity> objs = EncodeDecode.decodeFromByteArrayList(chunks, dic);
+
+        // Profit!
     }
 
 }
