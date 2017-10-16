@@ -21,6 +21,7 @@
 package esa.mo.nmf.nmfpackage.assembler.gui;
 
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.nmf.nmfpackage.HelperNMFPackage;
 import esa.mo.nmf.nmfpackage.NMFPackageCreator;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import java.awt.EventQueue;
@@ -458,6 +459,19 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
                 packageVersion.getText(), timestamp);
 
         String filename = NMFPackageCreator.nmfPackageCreator(details, froms, newLocations);
+        copyAndDeleteFileToOutputFolder(filename);
+
+        // Copy also the digital signature file!
+        copyAndDeleteFileToOutputFolder(HelperNMFPackage.PRIVATE_KEY_FILENAME);
+
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "\n----------------------------------------------\n");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void copyAndDeleteFileToOutputFolder(String filename) {
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "The following file is being moved to the selected Output folder: "
+                + filename);
 
         // Now we need to copy the file into the right folder!
         File oldFile = new File(filename);
@@ -489,7 +503,7 @@ public class NMFPackageAssemblerGUI extends javax.swing.JFrame {
         }
 
         oldFile.delete();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton changePath;
