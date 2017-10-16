@@ -20,7 +20,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jButtonGetAll" max="32767" attributes="0"/>
+                  <Component id="retrieveAuto" max="32767" attributes="0"/>
                   <Component id="jButtonRetrieve" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -74,7 +74,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButtonGetAll" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="retrieveAuto" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonDeleteAll" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonDelete" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonStoreActions" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -111,12 +111,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGetTimeActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonGetAll">
+    <Component class="javax.swing.JButton" name="retrieveAuto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="---"/>
+        <Property name="text" type="java.lang.String" value="retrieveAuto"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGetAllActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="retrieveAutoActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonQuery">

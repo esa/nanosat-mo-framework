@@ -176,7 +176,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public void retrieveRangeAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                Long interactionTicket, UInteger numberOfChunks, java.util.Map qosProperties) {
+                Long interactionTicket, java.util.Map qosProperties) {
             // Later on, do something...
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Received!");
         }
@@ -192,7 +192,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public void retrieveRangeResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                java.util.Map qosProperties) {
+                UInteger numberOfChunks, java.util.Map qosProperties) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Received!");
         }
 
@@ -331,7 +331,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
         jLabel6 = new javax.swing.JLabel();
         jButtonGetTime = new javax.swing.JButton();
-        jButtonGetAll = new javax.swing.JButton();
+        retrieveAuto = new javax.swing.JButton();
         jButtonQuery = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
         jButtonRetrieve = new javax.swing.JButton();
@@ -358,10 +358,10 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             }
         });
 
-        jButtonGetAll.setText("---");
-        jButtonGetAll.addActionListener(new java.awt.event.ActionListener() {
+        retrieveAuto.setText("retrieveAuto");
+        retrieveAuto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGetAllActionPerformed(evt);
+                retrieveAutoActionPerformed(evt);
             }
         });
 
@@ -458,7 +458,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonGetAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(retrieveAuto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonRetrieve))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,7 +502,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
                     .addComponent(jButtonCount))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGetAll)
+                    .addComponent(retrieveAuto)
                     .addComponent(jButtonDeleteAll)
                     .addComponent(jButtonDelete)
                     .addComponent(jButtonStoreActions)
@@ -527,9 +527,36 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButtonGetTimeActionPerformed
 
-    private void jButtonGetAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetAllActionPerformed
+    private void retrieveAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrieveAutoActionPerformed
+        FineTime from = new FineTime(0);
+        MOWindow windowFrom = new MOWindow(from, true);
+        try {
+            from = (FineTime) windowFrom.getObject();
+        } catch (InterruptedIOException ex) {
+            return;
+        }
 
-    }//GEN-LAST:event_jButtonGetAllActionPerformed
+        FineTime until = HelperTime.getTimestamp();
+        MOWindow windowUntil = new MOWindow(until, true);
+        try {
+            until = (FineTime) windowUntil.getObject();
+        } catch (InterruptedIOException ex) {
+            return;
+        }
+
+        // Select Parameter Definitions by default
+        ObjectTypeList objTypes = new ObjectTypeList();
+        UShort shorty = new UShort((short) 0);
+        objTypes.add(new ObjectType(shorty, shorty, new UOctet((short) 0), shorty));
+        MOWindow genObjType = new MOWindow(objTypes, true);
+        try {
+            objTypes = (ObjectTypeList) genObjType.getObject();
+        } catch (InterruptedIOException ex) {
+            return;
+        }
+
+        serviceCOMArchiveSync.retrieveCOMObjects(from, until, objTypes);
+    }//GEN-LAST:event_retrieveAutoActionPerformed
 
     private void jButtonQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQueryActionPerformed
 
@@ -833,7 +860,6 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButtonCount;
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonDeleteAll;
-    private javax.swing.JButton jButtonGetAll;
     private javax.swing.JButton jButtonGetTime;
     private javax.swing.JButton jButtonQuery;
     private javax.swing.JButton jButtonRetrieve;
@@ -842,6 +868,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButtonStoreGroups;
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton retrieveAuto;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JButton test_button;
     // End of variables declaration//GEN-END:variables
