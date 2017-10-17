@@ -61,7 +61,6 @@ public class Dictionary {
         final int wordId = uniqueId.incrementAndGet();
         this.fastID.put(word, wordId);
         this.fastIDreverse.put(wordId, word);
-
         return wordId;
     }
 
@@ -74,7 +73,7 @@ public class Dictionary {
         final String word = this.fastIDreverse.get(id);
 
         if (word == null) {
-            throw new Exception();
+            throw new Exception("The word for the id: " + id + "is unknown!");
         }
 
         return word;

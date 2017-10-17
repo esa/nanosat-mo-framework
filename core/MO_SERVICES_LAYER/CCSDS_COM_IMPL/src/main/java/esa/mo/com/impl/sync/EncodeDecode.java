@@ -117,42 +117,31 @@ public class EncodeDecode {
             return null;
         }
 
-        int chunkSize = chunks.get(0).length;
-        int totalSize = chunkSize * (chunks.size() - 1) + chunks.get(chunks.size()).length;
+        int chunkSize = chunks.get(0).length; // We assume all chunks have the same size
+        int totalSize = chunkSize * (chunks.size() - 1) + chunks.get(chunks.size()-1).length;
         byte[] myArray = new byte[totalSize];
 
         for (int i = 0; i < totalSize; i++) {
-            int slot = totalSize % chunkSize;
-            int chunkNumber = totalSize / chunkSize;
+            int slot = i % chunkSize;
+            int chunkNumber = i / chunkSize;
             myArray[i] = chunks.get(chunkNumber)[slot];
         }
 
         final BinaryDecoder bd = new BinaryDecoder(myArray);
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < totalSize; i++) {
             try {
-                Short wordId1 = bd.decodeShort();
-                Identifier network = new Identifier(dictionary.getWord((int) wordId1));
-
-                Short wordId2 = bd.decodeShort();
-                URI providerURI = new URI(dictionary.getWord((int) wordId2));
-
+                Short wordIdNet = bd.decodeShort();
+                Short wordIdProv = bd.decodeShort();
                 ObjectType objType = (ObjectType) bd.decodeElement(new ObjectType());
 
                 // --- Source Link ---
-                Short domainId = bd.decodeNullableShort();
-                IdentifierList domain = HelperMisc.domainId2domain(dictionary.getWord((int) domainId));
-
                 Short sourceDomainId = bd.decodeNullableShort();
-                IdentifierList sourceDomain = HelperMisc.domainId2domain(dictionary.getWord((int) sourceDomainId));
-
                 ObjectType sourceObjType = (ObjectType) bd.decodeNullableElement(new ObjectType());
-
                 Long sourceObjId = bd.decodeNullableLong();
                 // -------------------
 
                 Long relatedLink = bd.decodeNullableLong();
-
                 Blob blob = bd.decodeNullableBlob();
                 Element elem = null;
 
@@ -179,6 +168,10 @@ public class EncodeDecode {
                 Long objId = bd.decodeLong();
                 FineTime timestamp = bd.decodeFineTime();
 
+                Identifier network = new Identifier(dictionary.getWord((int) wordIdNet));
+                URI providerURI = new URI(dictionary.getWord((int) wordIdProv));
+                IdentifierList sourceDomain = HelperMisc.domainId2domain(dictionary.getWord((int) sourceDomainId));
+                
                 /*
                 COMObjectEntity obj = new     COMObjectEntity(
                 Integer objectTypeId,

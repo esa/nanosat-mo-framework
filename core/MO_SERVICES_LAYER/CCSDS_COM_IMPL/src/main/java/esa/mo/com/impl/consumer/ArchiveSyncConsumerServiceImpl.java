@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 
@@ -49,6 +50,7 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
 public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
 
     private ArchiveSyncStub archiveSyncService = null;
+    private Dictionary dictionary = new Dictionary();
 
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
@@ -102,7 +104,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         ArchiveSyncAdapter adapter = new ArchiveSyncAdapter();
 
         try { // Do a retrieve with the correct times
-            archiveSyncService.retrieveRange(from, until, objTypes, adapter);
+            archiveSyncService.retrieveRange(from, until, objTypes, new Identifier(""), adapter);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -169,9 +171,8 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
 
         // Convert the byte arrays into COM Objects
         ArrayList<byte[]> chunks = adapter.getReceivedChunks();
-        Dictionary dic = new Dictionary();
 
-        ArrayList<COMObjectEntity> objs = EncodeDecode.decodeFromByteArrayList(chunks, dic);
+        ArrayList<COMObjectEntity> objs = EncodeDecode.decodeFromByteArrayList(chunks, dictionary);
 
         // Profit!
     }

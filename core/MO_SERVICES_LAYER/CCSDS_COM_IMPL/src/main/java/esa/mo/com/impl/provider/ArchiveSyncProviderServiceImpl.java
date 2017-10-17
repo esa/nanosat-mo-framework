@@ -20,13 +20,11 @@
  */
 package esa.mo.com.impl.provider;
 
-import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.sync.Dictionary;
 import esa.mo.com.impl.sync.EncodeDecode;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +42,6 @@ import org.ccsds.moims.mo.com.archivesync.body.GetTimeResponse;
 import org.ccsds.moims.mo.com.archivesync.provider.ArchiveSyncInheritanceSkeleton;
 import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeAgainInteraction;
 import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeInteraction;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -56,10 +53,10 @@ import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.IntegerList;
+import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  * Archive Sync service Provider.
@@ -139,8 +136,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     }
 
     @Override
-    public void retrieveRange(final FineTime from, final FineTime until, final ObjectTypeList objectTypes,
-            final RetrieveRangeInteraction interaction) throws MALInteractionException, MALException {
+    public void retrieveRange(FineTime from, FineTime until, ObjectTypeList objectTypes,
+            Identifier compression, RetrieveRangeInteraction interaction) throws MALInteractionException, MALException {
         final Dispatcher dispatcher = new Dispatcher(interaction);
         long interactionTicket = interaction.getInteraction().getMessageHeader().getTransactionId();
         dispatchers.put(interactionTicket, dispatcher);
@@ -207,6 +204,25 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         }
 
         interaction.sendResponse();
+    }
+
+    @Override
+    public StringList getDictionary(IntegerList wordIds, MALInteraction interaction) throws MALInteractionException, MALException {
+        StringList output = new StringList();
+
+        for (Integer wordId : wordIds) {
+            String word;
+            try {
+                word = dictionary.getWord(wordId);
+            } catch (Exception ex) {
+                word = null;
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            output.add(word);
+        }
+
+        return output;
     }
 
     private class Dispatcher {
@@ -355,6 +371,5 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             };
         }
     }
-
 
 }

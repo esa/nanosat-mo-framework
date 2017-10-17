@@ -489,6 +489,9 @@ If the MAL data type specification is being used the body of an object shall not
             <mal:field canBeNull="true" comment="" name="objectTypes">
                 <mal:type area="COM" list="true" name="ObjectType"/>
               </mal:field>
+            <mal:field canBeNull="true" comment="" name="compression">
+                <mal:type area="MAL" list="false" name="Identifier"/>
+              </mal:field>
             </mal:progress>
             <mal:acknowledgement comment="">
               <mal:field canBeNull="true" comment="" name="interactionTicket">
@@ -534,6 +537,22 @@ If the MAL data type specification is being used the body of an object shall not
             <mal:response comment=""/>
           </mal:messages>
         </mal:progressIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="4">
+        <mal:requestIP comment="" name="getDictionary" number="4" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="">
+              <mal:field canBeNull="true" comment="" name="wordIds">
+                <mal:type area="MAL" list="true" name="Integer"/>
+              </mal:field>
+            </mal:request>
+            <mal:response comment="">
+              <mal:field canBeNull="true" comment="" name="words">
+                <mal:type area="MAL" list="true" name="String"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
       </mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite comment="The DictionaryEntry structure is used to hold information about a single entry of the Dictionary." name="DictionaryEntry" shortFormPart="7">
