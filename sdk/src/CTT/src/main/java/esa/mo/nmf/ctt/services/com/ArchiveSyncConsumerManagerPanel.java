@@ -614,7 +614,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         try {
-            serviceCOMArchiveSync.getArchiveSyncStub().retrieveRange(from, until, objTypes, adapter);
+            serviceCOMArchiveSync.getArchiveSyncStub().retrieveRange(from, until, objTypes, new Identifier(""), adapter);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
