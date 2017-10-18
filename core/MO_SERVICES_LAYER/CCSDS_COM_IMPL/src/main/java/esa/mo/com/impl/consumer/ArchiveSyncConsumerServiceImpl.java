@@ -23,6 +23,7 @@ package esa.mo.com.impl.consumer;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.sync.Dictionary;
 import esa.mo.com.impl.sync.EncodeDecode;
+import esa.mo.com.impl.util.COMObjectStructure;
 import esa.mo.helpertools.misc.ConsumerServiceImpl;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.net.MalformedURLException;
@@ -100,15 +101,18 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         this.archiveSyncService = new ArchiveSyncStub(tmConsumer);
     }
 
-    public void retrieveCOMObjects(FineTime from, FineTime until, ObjectTypeList objTypes) {
-        ArchiveSyncAdapter adapter = new ArchiveSyncAdapter();
+    public ArrayList<COMObjectStructure> retrieveCOMObjects(FineTime from, FineTime until, ObjectTypeList objTypes) {
+        ArchiveSyncGenAdapter adapter = new ArchiveSyncGenAdapter();
+        Long iTicket;
 
         try { // Do a retrieve with the correct times
-            archiveSyncService.retrieveRange(from, until, objTypes, new Identifier(""), adapter);
+            iTicket = archiveSyncService.retrieveRange(from, until, objTypes, new Identifier(""), adapter);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         } catch (MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
 
         // Wait until it is finished...
@@ -132,13 +136,12 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
                 if (adapter.noUpdatesReceivedForThisDuration() > timeout * 4) {
                     Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
                             Level.INFO, "Asking to retransmit the missing part.", ex);
-                    Long interactionTicket = adapter.getInteractionTicket();
                     UIntegerList missingIndexes = new UIntegerList();
                     missingIndexes.add(adapter.getLastKnownIndex());
                     missingIndexes.add(new UInteger(0));
 
                     try {
-                        archiveSyncService.retrieveRangeAgain(interactionTicket, missingIndexes, adapter);
+                        archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
                     } catch (MALInteractionException ex1) {
                         Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
                     } catch (MALException ex1) {
@@ -154,11 +157,10 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         while (!complete) {
             if (!adapter.receivedAllChunks()) {
                 // Then we will have to retrieve the missing ones...
-                Long interactionTicket = adapter.getInteractionTicket();
                 UIntegerList missingIndexes = adapter.getMissingIndexes();
 
                 try {
-                    archiveSyncService.retrieveRangeAgain(interactionTicket, missingIndexes, adapter);
+                    archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
                 } catch (MALInteractionException ex1) {
                     Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
                 } catch (MALException ex1) {
@@ -172,9 +174,21 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         // Convert the byte arrays into COM Objects
         ArrayList<byte[]> chunks = adapter.getReceivedChunks();
 
-        ArrayList<COMObjectEntity> objs = EncodeDecode.decodeFromByteArrayList(chunks, dictionary);
+        
+        ArrayList<COMObjectStructure> objs = EncodeDecode.decodeFromByteArrayList(chunks, 
+                dictionary, archiveSyncService, this.connectionDetails.getDomain());
 
+        try {
+            // Free the data from the provider!
+            archiveSyncService.free(iTicket);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
+            Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         // Profit!
+        return objs;
     }
 
 }

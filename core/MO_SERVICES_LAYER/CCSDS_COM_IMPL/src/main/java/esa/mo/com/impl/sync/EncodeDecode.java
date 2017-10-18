@@ -23,22 +23,32 @@ package esa.mo.com.impl.sync;
 import esa.mo.com.impl.archive.encoding.BinaryDecoder;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
+import esa.mo.com.impl.consumer.ArchiveSyncConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
+import esa.mo.com.impl.util.COMObjectStructure;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
+import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
+import org.ccsds.moims.mo.com.structures.ObjectDetails;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALElementFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.IntegerList;
+import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
@@ -109,16 +119,16 @@ public class EncodeDecode {
         return new byte[0]; // Return an empty byte array
     }
 
-    public static ArrayList<COMObjectEntity> decodeFromByteArrayList(
-            final ArrayList<byte[]> chunks, Dictionary dictionary) {
-        ArrayList<COMObjectEntity> objs = new ArrayList<COMObjectEntity>();
+    public static ArrayList<COMObjectStructure> decodeFromByteArrayList(ArrayList<byte[]> chunks,
+            Dictionary dictionary, ArchiveSyncStub archiveSyncService, IdentifierList domain) {
+        ArrayList<COMObjectStructure> objs = new ArrayList<COMObjectStructure>();
 
         if (chunks.isEmpty()) {
             return null;
         }
 
         int chunkSize = chunks.get(0).length; // We assume all chunks have the same size
-        int totalSize = chunkSize * (chunks.size() - 1) + chunks.get(chunks.size()-1).length;
+        int totalSize = chunkSize * (chunks.size() - 1) + chunks.get(chunks.size() - 1).length;
         byte[] myArray = new byte[totalSize];
 
         for (int i = 0; i < totalSize; i++) {
@@ -128,8 +138,9 @@ public class EncodeDecode {
         }
 
         final BinaryDecoder bd = new BinaryDecoder(myArray);
+        boolean stillDecoding = true;
 
-        for (int i = 0; i < totalSize; i++) {
+        while (stillDecoding) {
             try {
                 Short wordIdNet = bd.decodeShort();
                 Short wordIdProv = bd.decodeShort();
@@ -168,23 +179,51 @@ public class EncodeDecode {
                 Long objId = bd.decodeLong();
                 FineTime timestamp = bd.decodeFineTime();
 
+                IntegerList ids = new IntegerList();
+
+                if (!dictionary.exists((int) wordIdNet)) {
+                    ids.add((int) wordIdNet);
+                }
+
+                if (!dictionary.exists((int) wordIdProv)) {
+                    ids.add((int) wordIdProv);
+                }
+
+                if (sourceDomainId != null) {
+                    if (!dictionary.exists((int) sourceDomainId)) {
+                        ids.add((int) sourceDomainId);
+                    }
+                }
+
+                if (!ids.isEmpty()) {
+                    // Then request the dictionary from the provider side!
+                    StringList strings = archiveSyncService.getDictionary(ids);
+
+                    for (int j = 0; j < ids.size(); j++) {
+                        dictionary.defineWord(ids.get(j), strings.get(j));
+                        Logger.getLogger(COMObjectEntity.class.getName()).log(Level.INFO,
+                                "Defining id: " + ids.get(j) + " as word: " + strings.get(j));
+                    }
+                }
+
                 Identifier network = new Identifier(dictionary.getWord((int) wordIdNet));
                 URI providerURI = new URI(dictionary.getWord((int) wordIdProv));
-                IdentifierList sourceDomain = HelperMisc.domainId2domain(dictionary.getWord((int) sourceDomainId));
-                
-                /*
-                COMObjectEntity obj = new     COMObjectEntity(
-                Integer objectTypeId,
-                Integer domain,
-                Long objId,
-                Long timestampArchiveDetails,
-                Integer providerURI,
-                Integer network,
-                SourceLinkContainer sourceLink,
-                Long relatedLink,
-                Object object) {;
+                IdentifierList sourceDomain;
+                if (sourceDomainId != null) {
+                    sourceDomain = HelperMisc.domainId2domain(dictionary.getWord((int) sourceDomainId));
+                } else {
+                    sourceDomain = null;
                 }
-                 */
+
+                ObjectId objectId = (sourceObjType == null) ? null : new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
+                ObjectDetails objDetails = new ObjectDetails(relatedLink, objectId);
+
+                ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails,
+                        network, timestamp, providerURI);
+
+                objs.add(new COMObjectStructure(domain, objType, archDetails, elem));
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                stillDecoding = false;
             } catch (MALException ex) {
                 Logger.getLogger(EncodeDecode.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {

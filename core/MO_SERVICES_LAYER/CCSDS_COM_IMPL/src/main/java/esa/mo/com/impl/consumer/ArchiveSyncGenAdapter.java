@@ -34,21 +34,21 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
  *
  * @author Cesar Coelho
  */
-public class ArchiveSyncAdapter extends org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncAdapter {
+public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncAdapter {
 
     private final ArrayList<byte[]> receivedChunks;
     private final Semaphore completed;
-    private Long interactionTicket = null;
+//    private Long interactionTicket = null;
     private UInteger numberOfChunks = null;
     private long lastTimeReceived = 0;
     private long lastknowIndex = 0;
 
-    ArchiveSyncAdapter() {
+    public ArchiveSyncGenAdapter() {
         this.receivedChunks = new ArrayList<byte[]>();
         this.completed = new Semaphore(0);
     }
 
-    ArchiveSyncAdapter(int estimatedNumberOfChunks) {
+    public ArchiveSyncGenAdapter(int estimatedNumberOfChunks) {
         this.receivedChunks = new ArrayList<byte[]>(estimatedNumberOfChunks);
         this.completed = new Semaphore(0);
     }
@@ -57,33 +57,37 @@ public class ArchiveSyncAdapter extends org.ccsds.moims.mo.com.archivesync.consu
     public synchronized void retrieveRangeAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             Long interactionTicket, java.util.Map qosProperties) {
         // Later on, do something...
+        /*
         Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
                 "Received Acknowledgement!");
         this.interactionTicket = interactionTicket;
         lastTimeReceived = System.currentTimeMillis();
+        */
     }
 
     @Override
     public synchronized void retrieveRangeUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             Blob chunk, UInteger indexReceived, java.util.Map qosProperties) {
         int index = (int) indexReceived.getValue();
+        /*
         Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
                 "Received! Chunk index: " + index);
+         */
 
         lastTimeReceived = System.currentTimeMillis();
         lastknowIndex = index;
         try {
             receivedChunks.add(index, chunk.getValue());
         } catch (MALException ex) {
-            Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public void retrieveRangeResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             UInteger numberOfChunks, java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
-                "Succcess!");
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.INFO,
+                "Received the last stage! The total number of chunks is: " + numberOfChunks);
         this.numberOfChunks = numberOfChunks;
         completed.release();
     }
@@ -91,14 +95,14 @@ public class ArchiveSyncAdapter extends org.ccsds.moims.mo.com.archivesync.consu
     @Override
     public void retrieveRangeAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.SEVERE,
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE,
                 "retrieveRangeAckErrorReceived: No idea on how this should be handled...", error);
     }
 
     @Override
     public void retrieveRangeAgainAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.INFO,
                 "Received Acknowledgement from rerequest!");
     }
 
@@ -106,28 +110,28 @@ public class ArchiveSyncAdapter extends org.ccsds.moims.mo.com.archivesync.consu
     public void retrieveRangeAgainUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             org.ccsds.moims.mo.mal.structures.Blob chunk, org.ccsds.moims.mo.mal.structures.UInteger indexReceived, java.util.Map qosProperties) {
         int index = (int) indexReceived.getValue();
-        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.INFO,
                 "Received on rerequest! Chunk index: " + index);
 
         lastTimeReceived = System.currentTimeMillis();
         try {
             receivedChunks.add(index, chunk.getValue());
         } catch (MALException ex) {
-            Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public void retrieveRangeAgainResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.INFO,
                 "Success from rerequest!");
     }
 
     @Override
     public void retrieveRangeAgainAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.SEVERE,
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE,
                 "retrieveRangeAgainAckErrorReceived: No idea on how this should be handled...", error);
     }
 
@@ -145,10 +149,6 @@ public class ArchiveSyncAdapter extends org.ccsds.moims.mo.com.archivesync.consu
 
     public boolean transactionCompleted() {
         return (numberOfChunks != null);
-    }
-
-    public Long getInteractionTicket() {
-        return interactionTicket;
     }
 
     public boolean receivedAllChunks() {

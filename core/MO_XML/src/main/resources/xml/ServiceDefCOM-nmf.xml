@@ -554,6 +554,22 @@ If the MAL data type specification is being used the body of an object shall not
           </mal:messages>
         </mal:requestIP>
       </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="5">
+        <mal:submitIP comment="" name="free" number="5" supportInReplay="false">
+          <mal:messages>
+            <mal:submit comment="">
+              <mal:field canBeNull="true" comment="" name="transactionTicket">
+                <mal:type area="MAL" list="false" name="Long"/>
+              </mal:field>
+            </mal:submit>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="The provided transaction ticket is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
+      </mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite comment="The DictionaryEntry structure is used to hold information about a single entry of the Dictionary." name="DictionaryEntry" shortFormPart="7">
           <mal:extends>

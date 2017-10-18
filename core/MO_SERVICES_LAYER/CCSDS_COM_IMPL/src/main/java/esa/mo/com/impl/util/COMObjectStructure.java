@@ -22,12 +22,14 @@ package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
+import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.URI;
 
 public class COMObjectStructure {
 
@@ -39,12 +41,12 @@ public class COMObjectStructure {
     private Long relatedLink;
     private Identifier network;
     private FineTime timestamp;
-    private String providerURI;
+    private URI providerURI;
 
-    private final ElementList objects;
+    private final Element object;
 
     public COMObjectStructure(final IdentifierList domain, final ObjectType objType,
-            final ArchiveDetails archiveDetails, final ElementList objects) {
+            final ArchiveDetails archiveDetails, final Element object) {
         this.objType = objType;
         this.domain = domain;
         this.objId = archiveDetails.getInstId();
@@ -53,13 +55,14 @@ public class COMObjectStructure {
         this.relatedLink = archiveDetails.getDetails().getRelated();
         this.network = archiveDetails.getNetwork();
         this.timestamp = archiveDetails.getTimestamp();
+        this.providerURI = archiveDetails.getProvider();
 
-        this.objects = objects;
+        this.object = object;
     }
 
     public COMObjectStructure(final ArchivePersistenceObject archivePersistenceObject) {
         this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(),
-                archivePersistenceObject.getArchiveDetails(), (ElementList) archivePersistenceObject.getObject());
+                archivePersistenceObject.getArchiveDetails(), (Element) archivePersistenceObject.getObject());
     }
 
     public ObjectType getObjType() {
@@ -90,11 +93,22 @@ public class COMObjectStructure {
         return timestamp;
     }
 
-    public String getProviderURI() {
+    public URI getProviderURI() {
         return providerURI;
     }
 
-    public ElementList getObjects() {
-        return objects;
+    public Element getObjects() {
+        return object;
     }
+
+    public ArchiveDetails getArchiveDetails() {
+        return new ArchiveDetails(
+                objId,
+                new ObjectDetails(relatedLink, sourceLink),
+                network,
+                timestamp,
+                providerURI
+        );
+    }
+
 }

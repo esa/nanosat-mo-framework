@@ -225,6 +225,18 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         return output;
     }
 
+    @Override
+    public void free(Long transactionTicket, MALInteraction interaction) throws MALInteractionException, MALException {
+        final Dispatcher dispatcher = dispatchers.get(transactionTicket);
+
+        if (dispatcher == null) {
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+        }
+
+        dispatcher.clear();
+        dispatchers.remove(transactionTicket);
+    }
+
     private class Dispatcher {
 
         private final static int CHUNK_SIZE = 512;
@@ -245,6 +257,12 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         Dispatcher(final RetrieveRangeInteraction interaction) {
             this.interaction = interaction;
+        }
+
+        private void clear() {
+            tempQueue.clear();
+            chunksFlushed.clear();
+            dataToFlush.clear();
         }
 
         public byte[] getFlushedChunk(int index) {
@@ -371,5 +389,4 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             };
         }
     }
-
 }

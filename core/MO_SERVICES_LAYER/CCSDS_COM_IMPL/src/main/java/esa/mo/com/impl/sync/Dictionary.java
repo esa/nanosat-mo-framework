@@ -73,7 +73,7 @@ public class Dictionary {
         final String word = this.fastIDreverse.get(id);
 
         if (word == null) {
-            throw new Exception("The word for the id: " + id + "is unknown!");
+            throw new Exception("The word for the id: " + id + " is unknown!");
         }
 
         return word;

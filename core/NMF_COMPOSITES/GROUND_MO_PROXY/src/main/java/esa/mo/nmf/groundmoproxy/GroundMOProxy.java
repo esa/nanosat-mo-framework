@@ -50,7 +50,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class GroundMOProxy {
 
-    private final static long PERIOD = 10000;
+    private final static long PERIOD = 10000; // 10 seconds
     private final AtomicBoolean nmsAliveStatus = new AtomicBoolean(false);
     private final COMServicesProvider localCOMServices;
     private final DirectoryProxyServiceImpl localDirectoryService;
