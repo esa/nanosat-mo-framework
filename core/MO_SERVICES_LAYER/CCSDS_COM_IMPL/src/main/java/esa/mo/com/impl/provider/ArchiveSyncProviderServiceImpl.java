@@ -292,6 +292,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             return new Runnable() {
                 @Override
                 public void run() {
+                    int counter = 0;
+                    
                     try {
                         boolean exit = false;
 
@@ -304,6 +306,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                                 // Compress here?
                                 // compression algorithm can go here!
                                 dataToFlush.add(objAsByteArray);
+                                counter++;
                             } else {
                                 if (done) {
                                     exit = true;
@@ -316,7 +319,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
                     processingIsDone = true;
                     Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
-                            "The objects were all successfully processed!");
+                            "The objects were all successfully processed! " + 
+                                    counter + " objects in total!");
                 }
             };
         }
@@ -384,7 +388,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                     }
 
                     Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(
-                            Level.INFO, "The objects were all successfully flushed!");
+                            Level.INFO, "The objects were all successfully flushed!" + 
+                                    numberOfChunks + " chunks in total!");
                 }
             };
         }

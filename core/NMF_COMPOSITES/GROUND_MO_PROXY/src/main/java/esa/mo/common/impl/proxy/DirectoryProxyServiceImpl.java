@@ -21,11 +21,42 @@
 package esa.mo.common.impl.proxy;
 
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
+import esa.mo.nmf.NMFConsumer;
+import esa.mo.nmf.groundmoproxy.GroundMOProxy;
+import java.net.MalformedURLException;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.SessionType;
+import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  *
  */
 public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
+    public void syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
+            final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
+        ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
+        GroundMOProxy.addProxyPrefix(providers, routedURI.getValue());
 
+        // Clean the current list of provider that are available
+        // on the Local Directory service
+        this.withdrawAllProviders();
+
+        for (ProviderSummary provider : providers) {
+            PublishDetails pub = new PublishDetails();
+            pub.setDomain(provider.getProviderKey().getDomain());
+            pub.setNetwork(new Identifier("not_available"));
+            pub.setProviderDetails(provider.getProviderDetails());
+            pub.setProviderName(provider.getProviderName());
+            pub.setServiceXML(null);
+            pub.setSessionType(SessionType.LIVE);
+            pub.setSourceSessionName(null);
+            this.publishProvider(pub, null);
+        }
+    }
 }

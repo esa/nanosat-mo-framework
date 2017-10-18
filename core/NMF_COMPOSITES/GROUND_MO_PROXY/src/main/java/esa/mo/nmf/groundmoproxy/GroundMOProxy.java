@@ -34,13 +34,10 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
@@ -52,7 +49,7 @@ public class GroundMOProxy {
 
     private final static long PERIOD = 10000; // 10 seconds
     private final AtomicBoolean nmsAliveStatus = new AtomicBoolean(false);
-    private final COMServicesProvider localCOMServices;
+    protected final COMServicesProvider localCOMServices;
     private final DirectoryProxyServiceImpl localDirectoryService;
     private Timer timer;
 
@@ -83,8 +80,7 @@ public class GroundMOProxy {
             public void run() {
                 if (!nmsAliveStatus.get()) {
                     try {
-                        syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI, routedURI);
-
+                        localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI, routedURI);
                         nmsAliveStatus.set(true);
                     } catch (MALException ex) {
                         Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
@@ -98,26 +94,8 @@ public class GroundMOProxy {
         }, 0, PERIOD);
     }
 
-    public void syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
-            final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
-        ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
-        GroundMOProxy.addProxyPrefix(providers, routedURI.getValue());
-
-        // Clean the current list of provider that are available
-        // on the Local Directory service
-        localDirectoryService.withdrawAllProviders();
-
-        for (ProviderSummary provider : providers) {
-            PublishDetails pub = new PublishDetails();
-            pub.setDomain(provider.getProviderKey().getDomain());
-            pub.setNetwork(new Identifier("not_available"));
-            pub.setProviderDetails(provider.getProviderDetails());
-            pub.setProviderName(provider.getProviderName());
-            pub.setServiceXML(null);
-            pub.setSessionType(SessionType.LIVE);
-            pub.setSourceSessionName(null);
-            localDirectoryService.publishProvider(pub, null);
-        }
+    public final DirectoryProxyServiceImpl getLocalDirectoryService() {
+        return localDirectoryService;
     }
 
     /**

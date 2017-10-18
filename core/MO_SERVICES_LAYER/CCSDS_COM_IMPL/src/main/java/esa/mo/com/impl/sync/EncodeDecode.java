@@ -215,7 +215,10 @@ public class EncodeDecode {
                     sourceDomain = null;
                 }
 
-                ObjectId objectId = (sourceObjType == null) ? null : new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
+                ObjectId objectId = (sourceObjType == null)
+                        ? null
+                        : new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
+
                 ObjectDetails objDetails = new ObjectDetails(relatedLink, objectId);
 
                 ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails,

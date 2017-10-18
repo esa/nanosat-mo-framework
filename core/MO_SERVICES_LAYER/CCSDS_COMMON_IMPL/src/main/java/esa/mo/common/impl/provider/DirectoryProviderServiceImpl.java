@@ -117,7 +117,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             connection.closeAll();
         }
 
-        directoryServiceProvider = connection.startService(DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(), 
+        directoryServiceProvider = connection.startService(DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(),
                 DirectoryHelper.DIRECTORY_SERVICE, false, this);
 
         running = true;
@@ -209,9 +209,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Check session name
             if (!filter.getSessionName().toString().equals("*")) {
-                if(!CHAR_S2G.equals(filter.getSessionName().toString())){
-                    if (provider.getSourceSessionName() != null && 
-                            !provider.getSourceSessionName().toString().equals(filter.getSessionName().toString())) {
+                if (!CHAR_S2G.equals(filter.getSessionName().toString())) {
+                    if (provider.getSourceSessionName() != null
+                            && !provider.getSourceSessionName().toString().equals(filter.getSessionName().toString())) {
                         continue;
                     }
                 }
@@ -548,5 +548,15 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     public static ServiceKey generateServiceKey(final IntegerList keys) {
         return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(keys.get(2).shortValue()));
+    }
+
+    public HashMap<Long, PublishDetails> getListOfProviders() {
+        final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
+
+        synchronized (MUTEX) {
+            list.putAll(providersAvailable);
+        }
+
+        return list;
     }
 }

@@ -21,11 +21,13 @@
 package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -97,8 +99,21 @@ public class COMObjectStructure {
         return providerURI;
     }
 
-    public Element getObjects() {
+    public Element getObject() {
         return object;
+    }
+
+    public ElementList getObjects() {
+        ElementList bodies;
+
+        try {
+            bodies = HelperMisc.element2elementList(object);
+            bodies.add(object);
+        } catch (Exception ex) {
+            bodies = null;
+        }
+
+        return bodies;
     }
 
     public ArchiveDetails getArchiveDetails() {

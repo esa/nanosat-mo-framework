@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.consumer;
 
-import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.sync.Dictionary;
 import esa.mo.com.impl.sync.EncodeDecode;
 import esa.mo.com.impl.util.COMObjectStructure;
@@ -174,8 +173,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         // Convert the byte arrays into COM Objects
         ArrayList<byte[]> chunks = adapter.getReceivedChunks();
 
-        
-        ArrayList<COMObjectStructure> objs = EncodeDecode.decodeFromByteArrayList(chunks, 
+        ArrayList<COMObjectStructure> objs = EncodeDecode.decodeFromByteArrayList(chunks,
                 dictionary, archiveSyncService, this.connectionDetails.getDomain());
 
         try {
@@ -186,7 +184,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         } catch (MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // Profit!
         return objs;
     }
