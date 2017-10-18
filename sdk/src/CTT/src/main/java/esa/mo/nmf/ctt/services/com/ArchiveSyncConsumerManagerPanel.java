@@ -22,7 +22,11 @@ package esa.mo.nmf.ctt.services.com;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.consumer.ArchiveSyncConsumerServiceImpl;
+import esa.mo.com.impl.consumer.ArchiveSyncGenAdapter;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
+import esa.mo.com.impl.util.COMObjectStructure;
+import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
 import java.awt.Component;
@@ -33,6 +37,7 @@ import java.awt.event.MouseListener;
 import java.io.InterruptedIOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -40,21 +45,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilter;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.archivesync.body.GetTimeResponse;
-import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncAdapter;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
@@ -80,7 +84,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         this.serviceCOMArchiveSync = serviceCOMArchiveSync;
     }
 
-    protected class ArchiveSyncConsumerAdapter extends ArchiveSyncAdapter {
+    protected class ArchiveSyncTab {
 
         private final ArchiveTablePanel archiveTablePanel = new ArchiveTablePanel(null, serviceCOMArchive);
         private ObjectType objType;
@@ -92,28 +96,10 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         private final Date date = new Date(System.currentTimeMillis());
         private final String functionName;
 
-        ArchiveSyncConsumerAdapter(String stringLabel) {
+        ArchiveSyncTab(String stringLabel) {
             pnlTab.setOpaque(false);
             functionName = stringLabel;
-            /*                    
-            JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter + ")");
-            JLabel closeLabel = new JLabel("x");
-            closeLabel.addMouseListener(new CloseMouseHandler(pnlTab));
-            closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
-            
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.weightx = 1;
-            pnlTab.add(label, gbc);
-
-            gbc.gridx++;
-            gbc.weightx = 0;
-            pnlTab.add(closeLabel, gbc);
-             */
-
             this.refreshTabCounter();
-
             tabs.addTab("", archiveTablePanel);
             tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
             tabs.setSelectedIndex(tabs.getTabCount() - 1);
@@ -173,66 +159,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         protected IdentifierList getDomain() {
             return this.domain;
         }
-
-        @Override
-        public void retrieveRangeAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                Long interactionTicket, java.util.Map qosProperties) {
-            // Later on, do something...
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Received!");
-        }
-
-        @Override
-        public void retrieveRangeUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                Blob chunk, UInteger index, java.util.Map qosProperties) {
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Received!");
-            n_objs_counter++;
-            refreshTabCounter();
-            repaint();
-        }
-
-        @Override
-        public void retrieveRangeResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                UInteger numberOfChunks, java.util.Map qosProperties) {
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Received!");
-        }
-
-        @Override
-        public void retrieveRangeAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, "retrieveRangeAckErrorReceived", error);
-        }
-
-        /*
-        @Override
-        public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader,
-                ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
-            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
-            archiveTablePanel.addEntries(archiveObjectOutput);
-            n_objs_counter = n_objs_counter + objDetails.size();
-            refreshTabCounter();
-        }
-
-        @Override
-        public synchronized void countResponseReceived(MALMessageHeader msgHeader,
-                LongList _LongList0, Map qosProperties) {
-            JOptionPane.showMessageDialog(null, _LongList0.toString(),
-                    "The count operation returned the following data!", JOptionPane.PLAIN_MESSAGE);
-        }
-
-        @Override
-        public synchronized void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-                IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
-            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
-            archiveTablePanel.addEntries(archiveObjectOutput);
-            n_objs_counter = n_objs_counter + objDetails.size();
-            refreshTabCounter();
-
-            isOver.release();
-        }
-
-        @Override
-        public synchronized void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-                IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        
+        public synchronized void add(ObjectType objType, IdentifierList domain, 
+                ArchiveDetailsList objDetails, ElementList objBodies) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
@@ -240,11 +169,6 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             repaint();
         }
 
-        @Override
-        public synchronized void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, "queryAckErrorReceived", error);
-        }
-         */
         protected void deleteAllInTable() {
             try {
                 isOver.acquire();
@@ -277,9 +201,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     public class CloseMouseHandler implements MouseListener {
 
-        private final ArchiveSyncConsumerAdapter adapter;
+        private final ArchiveSyncTab adapter;
 
-        CloseMouseHandler(ArchiveSyncConsumerAdapter adapter) {
+        CloseMouseHandler(ArchiveSyncTab adapter) {
             this.adapter = adapter;
         }
 
@@ -555,7 +479,18 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             return;
         }
 
-        serviceCOMArchiveSync.retrieveCOMObjects(from, until, objTypes);
+        ArrayList<COMObjectStructure> objs = serviceCOMArchiveSync.retrieveCOMObjects(from, until, objTypes);
+
+        ArchiveSyncTab newTab = new ArchiveSyncTab("Synchronized!");
+        
+        for(COMObjectStructure obj : objs){
+            ElementList bodies;
+            ArchiveDetailsList archList = new ArchiveDetailsList();
+            archList.add(obj.getArchiveDetails());
+            
+            newTab.add(obj.getObjType(), obj.getDomain(), archList, obj.getObjects());
+        }
+        
     }//GEN-LAST:event_retrieveAutoActionPerformed
 
     private void jButtonQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQueryActionPerformed
@@ -584,7 +519,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     private void jButtonRetrieveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetrieveActionPerformed
-        ArchiveSyncConsumerAdapter adapter = new ArchiveSyncConsumerAdapter("Retrieve Range...");
+        ArchiveSyncGenAdapter adapter = new ArchiveSyncGenAdapter();
 
         FineTime from = new FineTime(0);
         MOWindow windowFrom = new MOWindow(from, true);

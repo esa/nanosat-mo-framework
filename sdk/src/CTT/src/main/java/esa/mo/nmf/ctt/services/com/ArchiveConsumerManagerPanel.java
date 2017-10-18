@@ -245,30 +245,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveConsumerAdapter(String stringLabel) {
             pnlTab.setOpaque(false);
             functionName = stringLabel;
-            /*                    
-            JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter + ")");
-            JLabel closeLabel = new JLabel("x");
-            closeLabel.addMouseListener(new CloseMouseHandler(pnlTab));
-            closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
-            
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.weightx = 1;
-            pnlTab.add(label, gbc);
-
-            gbc.gridx++;
-            gbc.weightx = 0;
-            pnlTab.add(closeLabel, gbc);
-             */
-
             this.refreshTabCounter();
-
             tabs.addTab("", archiveTablePanel);
-
             tabs.setTabComponentAt(tabs.getTabCount() - 1, pnlTab);
             tabs.setSelectedIndex(tabs.getTabCount() - 1);
-
         }
 
         private void refreshTabCounter() {
@@ -296,12 +276,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             }
 
             tabs.setTabComponentAt(index, pnlTab);
-//            pnlTab.revalidate();
-//            pnlTab.repaint();  // not working
-//            tabs.revalidate();
-//            tabs.repaint();    // not working
-//            label.repaint();
-//            repaint();
         }
 
         public synchronized void finalizeAdapter() {
