@@ -131,14 +131,14 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     public void reset() {
         manager.resetTable();
     }
-    
+
     /**
      * This method should only be used by the Archive Sync service. Any other
      * calls should go through the COM Archive interface and not this one.
      *
      * @return The Archive Manager.
      */
-    public ArchiveManager getArchiveManager(){
+    public ArchiveManager getArchiveManager() {
         return manager;
     }
 
@@ -559,7 +559,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
         }
 
-        synchronized(manager) {
+        synchronized (manager) {
             for (int index = 0; index < lArchiveDetailsList.size(); index++) { // Validation of ArchiveDetails object
                 if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
                     // Shall be taken care in the manager & per inserted entry
@@ -572,12 +572,12 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
                 if (HelperArchive.archiveDetailsContainsWildcard(lArchiveDetailsList.get(index))) { // requirement: 3.4.6.2.11
                     invIndexList.add(new UInteger(index));
-    //                continue;
+                    //                continue;
                 }
 
                 // There's a requirement missing: 3.4.6.2.12
                 // Can only be made after the JAVA API supports COM features: https://github.com/SamCooper/JAVA_SPEC_RIDS/issues/2
-    /*
+                /*
                 if (lElementList != null) {
                     if (!manager.isObjectTypeLikeDeclaredServiceType(lObjectType, (Element) lElementList.get(index))
                             && lElementList.get(index) != null) { // requirement: 3.4.6.2.12
@@ -647,7 +647,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, error));
         }
 
-        synchronized(manager) {
+        synchronized (manager) {
             for (int index = 0; index < lArchiveDetailsList.size(); index++) {
                 ArchiveDetails tmpArchiveDetails = lArchiveDetailsList.get(index);
 
@@ -694,7 +694,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.8.2.3
         }
 
-        synchronized(manager) {
+        synchronized (manager) {
             for (int index = 0; index < lLongList.size(); index++) {
                 Long tempObjId = lLongList.get(index);
                 if (tempObjId == 0) {  // Is it the wildcard 0? requirement: 3.4.8.2.5
@@ -726,4 +726,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
     }
 
+    public ConnectionProvider getConnection() {
+        return this.connection;
+    }
 }

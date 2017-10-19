@@ -119,7 +119,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -146,10 +147,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         this.comServices = comServices;
         this.directoryService = directoryService;
         manager = new AppsLauncherManager(comServices);
-        appsLauncherServiceProvider = connection.startService(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME.toString(), AppsLauncherHelper.APPSLAUNCHER_SERVICE, this);
+        appsLauncherServiceProvider = connection.startService(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME.toString(),
+                AppsLauncherHelper.APPSLAUNCHER_SERVICE, this);
         running = true;
         initialiased = true;
-        
+
         Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Apps Launcher service: READY");
     }
 
@@ -211,11 +213,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
-            if(this.configurationAdapter != null){
+            if (this.configurationAdapter != null) {
                 this.configurationAdapter.onConfigurationChanged(this);
             }
         }
-        
+
         for (int index = 0; index < appInstIds.size(); index++) {
             AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index)); // get it from the list of available apps
 
@@ -269,13 +271,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
-            if(this.configurationAdapter != null){
+            if (this.configurationAdapter != null) {
                 this.configurationAdapter.onConfigurationChanged(this);
             }
         }
-        
+
         for (int index = 0; index < appInstIds.size(); index++) {
-            AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index)); // get it from the list of available apps
+            // Get it from the list of available apps
+            AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index));
 
             // The app id could not be identified?
             if (app == null) {
@@ -321,15 +324,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
-            if(this.configurationAdapter != null){
+            if (this.configurationAdapter != null) {
                 this.configurationAdapter.onConfigurationChanged(this);
             }
         }
-        
+
         IdentifierList appDirectoryNames = new IdentifierList();
 
         for (int i = 0; i < appInstIds.size(); i++) {
-            AppDetails app = (AppDetails) this.manager.get(appInstIds.get(i)); // get it from the list of available apps
+            // Get it from the list of available apps
+            AppDetails app = (AppDetails) this.manager.get(appInstIds.get(i));
 
             // The app id could not be identified?
             if (app == null) {
@@ -361,7 +365,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             try {
                 // Add here the filtering for the best IPC!!!
 
-                final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
+                final SingleConnectionDetails connectionDetails
+                        = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
                 appConnections.add(connectionDetails);
 
                 // Add to the list of Directory service Obj Ids
@@ -405,15 +410,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Refresh the list of available Apps
         boolean anyChanges = manager.refreshAvailableAppsList(connection.getPrimaryConnectionDetails().getProviderURI());
-        
+
         if (anyChanges) {
             // Update the Configuration available on the COM Archive
-            if(this.configurationAdapter != null){
+            if (this.configurationAdapter != null) {
                 this.configurationAdapter.onConfigurationChanged(this);
             }
         }
-        
-        
+
         LongList ids = new LongList();
         BooleanList runningApps = new BooleanList();
 
@@ -496,7 +500,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         for (Long id : confSet.getObjInstIds()) { // Set all running state to false
             manager.setRunning(id, false, null);
         }
-        
+
         return true;
     }
 
@@ -558,7 +562,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     public class ProcessExecutionHandler {
 
         private final Timer timer = new Timer();
-        private final static int PERIOD_PUB = 5 * 1000; // Publish every 5 seconds
+        private final static int PERIOD_PUB = 2 * 1000; // Publish every 2 seconds
         private final Long appObjId;
         private Thread collectStream1;
         private Thread collectStream2;
@@ -587,7 +591,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             final StringBuilder buffer = new StringBuilder();
 
             // Every PERIOD_PUB seconds, publish the String data
-            timer.scheduleAtFixedRate(new TimerTask() {
+            timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     // Change the buffer position
@@ -596,7 +600,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         String output = buffer.substring(0, size);
                         buffer.delete(0, size);
 
-                        // Publish what's on the buffer every PERIOD_PUB milliseconds
+                        // Publish what's in the buffer every PERIOD_PUB
                         // Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, output);
                         publishExecutionMonitoring(appObjId, output);
                     }
@@ -627,8 +631,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         AppDetails details = manager.get(appObjId);
                         Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(
                                 Level.INFO, "The stream of the App " + appObjId
-                                + " (name: " + details.getName().toString() + ")"
-                                + " has been closed.");
+                                + " (name: " + details.getName().toString()
+                                + ") has been closed.");
 
                         close();
                     }

@@ -31,11 +31,6 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -45,12 +40,12 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-public class GroundMOProxy {
+public abstract class GroundMOProxy {
 
     private final static long PERIOD = 10000; // 10 seconds
     private final AtomicBoolean nmsAliveStatus = new AtomicBoolean(false);
     protected final COMServicesProvider localCOMServices;
-    private final DirectoryProxyServiceImpl localDirectoryService;
+    protected final DirectoryProxyServiceImpl localDirectoryService;
     private Timer timer;
 
     // Have a list of providers
@@ -81,7 +76,9 @@ public class GroundMOProxy {
                 if (!nmsAliveStatus.get()) {
                     try {
                         localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI, routedURI);
+                        localDirectoryService.loadURIs("Ground_MO_Proxy");
                         nmsAliveStatus.set(true);
+                        additionalHandling();
                     } catch (MALException ex) {
                         Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (MalformedURLException ex) {
@@ -94,82 +91,13 @@ public class GroundMOProxy {
         }, 0, PERIOD);
     }
 
-    public final DirectoryProxyServiceImpl getLocalDirectoryService() {
-        return localDirectoryService;
-    }
-
-    /**
-     *
-     *
-     * @param connection The connection details of the provider
-     * @return
-     * @throws NMFException
-     */
-    /*
-    public NMFConsumer connectToProvider(ConnectionConsumer connection) throws NMFException {
-
-        synchronized (myProviders) {
-            final String key = "vvfjvfbjsdkvfbsksdfksdfkbvf"; // To be done
-            NMFConsumer cons = myProviders.get(key);
-
-            if (cons != null) {
-                throw new NMFException("The proxy is already connected to this Provider!");
-            }
-
-            cons = new NMFConsumer(connection);
-            myProviders.put(key, cons);
-            return cons;
-        }
-
-    }
-     */
-    /**
-     *
-     *
-     * @param providerDetails The Provider details. This object can be obtained
-     * from the Directory service
-     * @return
-     * @throws NMFException
-     */
-    /*
-    public NMFConsumer connectToProvider(ProviderSummary providerDetails) throws NMFException {
-
-        // To be done...
-        return null;
-    }
-     */
-    /**
-     * Adds the protocol bridge as a prefix to the serviceURI and brokerURI.
-     *
-     * @param providers List of providers
-     * @param proxyURI The URI of the protocol bridge
-     * @throws IllegalArgumentException if the providers object is null
-     */
-    public static void addProxyPrefix(final ProviderSummaryList providers,
-            final String proxyURI) throws IllegalArgumentException {
-        if (providers == null) {
-            throw new IllegalArgumentException("The provider object cannot be null.");
-        }
-
-        for (ProviderSummary provider : providers) {
-            final ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
-
-            for (ServiceCapability capability : capabilities) {
-                for (AddressDetails dets : capability.getServiceAddresses()) {
-//                    dets.setServiceURI(new URI(dets.getServiceURI().getValue() + "@" + proxyURI));
-                    dets.setServiceURI(new URI(proxyURI + "@" + dets.getServiceURI().getValue()));
-
-                    if (dets.getBrokerURI() != null) {
-//                        dets.setBrokerURI(new URI(dets.getBrokerURI().getValue() + "@" + proxyURI));
-                        dets.setBrokerURI(new URI(proxyURI + "@" + dets.getBrokerURI().getValue()));
-                    }
-                }
-            }
-        }
-    }
+    public abstract void additionalHandling();
 
     public URI getDirectoryServiceURI() {
         return localDirectoryService.getConnection().getPrimaryConnectionDetails().getProviderURI();
     }
 
+    public URI getCOMArchiveServiceURI() {
+        return localCOMServices.getArchiveService().getConnection().getPrimaryConnectionDetails().getProviderURI();
+    }
 }

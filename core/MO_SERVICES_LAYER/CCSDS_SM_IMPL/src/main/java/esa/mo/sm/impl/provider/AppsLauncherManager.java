@@ -388,21 +388,17 @@ public class AppsLauncherManager extends DefinitionsManager {
             return true;
         }
 
-//        if (handler.getProcess().isAlive()) {
         handler.close();
         this.setRunning(handler.getAppInstId(), false, interaction); // Update the Archive
         handlers.remove(appInstId); // Get rid of it!
 
-//        app.setRunning(false);
-//        this.update(appInstId, app, connectionDetails, interaction); // Update the Archive
-//        }
         return true;
     }
 
     protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryNames,
             final ArrayList<SingleConnectionDetails> appConnections,
             final StopAppInteraction interaction) throws MALException, MALInteractionException {
-        Random random = new Random(); // to avoid registrations with the same name
+//        Random random = new Random(); // to avoid registrations with the same name
 
         // Register on the Event service of the respective apps
         for (int i = 0; i < appConnections.size(); i++) {
@@ -479,13 +475,11 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         // How many addresses do we have?
         if (capabilities.isEmpty()) { // Throw an error
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "We don't have any services...");
-            throw new IOException();
+            throw new IOException("We don't have any services...");
         }
 
         if (capabilities.size() != 1) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING, "We have more than 1 service...");
-            throw new IOException();
+            throw new IOException("We have more than 1 service...");
         }
 
         final AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();

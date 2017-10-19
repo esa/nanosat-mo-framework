@@ -78,8 +78,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     private boolean initialiased = false;
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final HashMap<Long, PublishDetails> providersAvailable = new HashMap<Long, PublishDetails>();
-    private final Object MUTEX = new Object();
+    protected final HashMap<Long, PublishDetails> providersAvailable = new HashMap<Long, PublishDetails>();
+    protected final Object MUTEX = new Object();
     private COMServicesProvider comServices;
     public static final String CHAR_S2G = "s2g";
 
@@ -305,7 +305,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         // Errors
         // The operation does not return any errors.
         return outputList;  // requirement: 3.4.9.2.d
-
     }
 
     @Override
@@ -550,6 +549,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(keys.get(2).shortValue()));
     }
 
+    /*
     public HashMap<Long, PublishDetails> getListOfProviders() {
         final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
 
@@ -559,4 +559,5 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         return list;
     }
+    */
 }

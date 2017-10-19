@@ -388,7 +388,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                     }
 
                     Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(
-                            Level.INFO, "The objects were all successfully flushed!" + 
+                            Level.INFO, "The objects were all successfully flushed! " + 
                                     numberOfChunks + " chunks in total!");
                 }
             };
