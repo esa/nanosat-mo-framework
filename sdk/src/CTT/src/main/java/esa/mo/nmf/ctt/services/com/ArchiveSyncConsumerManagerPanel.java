@@ -159,8 +159,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         protected IdentifierList getDomain() {
             return this.domain;
         }
-        
-        public synchronized void add(ObjectType objType, IdentifierList domain, 
+
+        public synchronized void add(ObjectType objType, IdentifierList domain,
                 ArchiveDetailsList objDetails, ElementList objBodies) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
@@ -444,6 +444,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         try {
             GetTimeResponse response = serviceCOMArchiveSync.getArchiveSyncStub().getTime();
             MOWindow genObjType = new MOWindow(response, false);
+            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO,
+                    "Current time: " + response.getBodyElement0()
+                    + " - Last sync: " + response.getBodyElement0());
         } catch (MALInteractionException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -482,15 +485,15 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         ArrayList<COMObjectStructure> objs = serviceCOMArchiveSync.retrieveCOMObjects(from, until, objTypes);
 
         ArchiveSyncTab newTab = new ArchiveSyncTab("Synchronized!");
-        
-        for(COMObjectStructure obj : objs){
+
+        for (COMObjectStructure obj : objs) {
             ElementList bodies;
             ArchiveDetailsList archList = new ArchiveDetailsList();
             archList.add(obj.getArchiveDetails());
-            
+
             newTab.add(obj.getObjType(), obj.getDomain(), archList, obj.getObjects());
         }
-        
+
     }//GEN-LAST:event_retrieveAutoActionPerformed
 
     private void jButtonQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQueryActionPerformed
