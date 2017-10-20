@@ -125,7 +125,6 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-
             Element objects = (archiveObjectOutput.getObjectBodies() == null)
                     ? null
                     : (Element) archiveObjectOutput.getObjectBodies().get(i);
