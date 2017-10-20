@@ -117,7 +117,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING, 
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -234,14 +235,12 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         } else {
             interaction.sendResponse(outArchiveDetailsList, outMatchedObjects); // requirement: 3.4.3.2.8
         }
-
     }
 
     @Override
     public void query(Boolean returnObjBody, final ObjectType lObjectType,
             final ArchiveQueryList lArchiveQueryList, final QueryFilterList queryFilterList,
             final QueryInteraction interaction) throws MALException, MALInteractionException {
-
         UIntegerList invIndexList = new UIntegerList();
 
         interaction.sendAcknowledgement();  // "ok, it was received.."
