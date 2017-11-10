@@ -111,34 +111,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
             </plugin>
-<!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <includeDependencySources>true</includeDependencySources>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>  
--->
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>AGSA-GITLAB</id>
-            <name>The GitLab repository from the AGSA server.</name>
-            <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
-        </repository>
-    </repositories>    
-    
 </project>
