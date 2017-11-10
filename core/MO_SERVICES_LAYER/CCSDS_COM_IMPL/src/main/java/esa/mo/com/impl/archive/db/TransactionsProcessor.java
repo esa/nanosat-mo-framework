@@ -59,7 +59,8 @@ public class TransactionsProcessor {
     private final DatabaseBackend dbBackend;
 
     // This executor is responsible for the interactions with the db
-    private final ExecutorService dbTransactionsExecutor = Executors.newSingleThreadExecutor(new DBThreadFactory("Archive_DBTransactionsProcessor")); // Guarantees sequential order
+    // Guarantees sequential order
+    private final ExecutorService dbTransactionsExecutor = Executors.newSingleThreadExecutor(new DBThreadFactory("Archive_DBTransactionsProcessor"));
 
     // This executor is expecting "short-lived" runnables that generate Events.
     // 2 Threads minimum because we need to acquire the lock from 2 different tasks during startup

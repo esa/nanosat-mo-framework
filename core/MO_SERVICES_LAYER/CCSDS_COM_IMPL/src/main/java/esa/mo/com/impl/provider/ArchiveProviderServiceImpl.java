@@ -147,7 +147,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     public void retrieve(final ObjectType inObjectType, final IdentifierList inDomain,
             final LongList inObjIds, final RetrieveInteraction interaction)
             throws MALInteractionException, MALException {
-
         interaction.sendAcknowledgement();  // "ok, it was received.."
         UIntegerList unkIndexList = new UIntegerList();
         LongList longList = new LongList();
@@ -421,7 +420,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     public void count(final ObjectType lObjectType, final ArchiveQueryList lArchiveQueryList,
             final QueryFilterList queryFilterList, final CountInteraction interaction)
             throws MALException, MALInteractionException { // requirement: 3.4.5.2.1
-
         UIntegerList invIndexList = new UIntegerList();
         LongList outLong = new LongList();
         interaction.sendAcknowledgement();  // "ok, it was received.."
@@ -510,7 +508,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         interaction.sendResponse(outLong);
-
     }
 
     @Override
@@ -518,7 +515,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             final IdentifierList domain, final ArchiveDetailsList lArchiveDetailsList,
             final ElementList lElementList, final MALInteraction interaction)
             throws MALException, MALInteractionException {
-
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList;
 
@@ -616,7 +612,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             final ArchiveDetailsList lArchiveDetailsList,
             final ElementList lElementList,
             final MALInteraction interaction) throws MALException, MALInteractionException {
-
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -680,7 +675,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             final LongList lLongList,
             final MALInteraction interaction)
             throws MALException, MALInteractionException {
-
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         LongList toBeDeleted = new LongList();
