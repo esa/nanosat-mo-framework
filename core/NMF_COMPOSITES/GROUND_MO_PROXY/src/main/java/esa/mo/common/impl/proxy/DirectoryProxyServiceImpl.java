@@ -21,6 +21,7 @@
 package esa.mo.common.impl.proxy;
 
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
+import esa.mo.helpertools.misc.HelperNMF;
 import esa.mo.nmf.NMFConsumer;
 import java.net.MalformedURLException;
 import java.util.Collection;
@@ -45,7 +46,20 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
-    public void syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
+    /**
+     * Synchronizes the current list of providers existing in the remote Central
+     * Directory service with the local one. Returns the list of remote
+     * providers.
+     *
+     * @param centralDirectoryServiceURI
+     * @param routedURI
+     * @return The list of the providers from the remote Central Directory
+     * service
+     * @throws MALException
+     * @throws MalformedURLException
+     * @throws MALInteractionException
+     */
+    public ProviderSummaryList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
             final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
         ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
         addProxyPrefix(providers, routedURI.getValue());
@@ -65,6 +79,11 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
             pub.setSourceSessionName(null);
             this.publishProvider(pub, null);
         }
+
+        // Make the Ground MO Proxy (itself) also available in the list of providers
+        this.loadURIs(HelperNMF.NMF_GMP_NAME);
+
+        return providers;
     }
 
     /**

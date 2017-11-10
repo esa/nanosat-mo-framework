@@ -29,5 +29,6 @@ public class HelperNMF {
     public final static String NMF_PACKAGE_ID = "helpertools.configurations.provider.NMFPackageId";
     public final static String NMF_PACKAGE_SUFFIX = "nmfpack";
     public final static String NMF_NMS_NAME = "NanoSat_MO_Supervisor";
+    public final static String NMF_GMP_NAME = "Ground_MO_Proxy";
 
 }
