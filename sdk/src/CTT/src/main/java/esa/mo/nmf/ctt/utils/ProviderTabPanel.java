@@ -305,6 +305,5 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                     + ")"
             );
         }
-
     }
 }

@@ -23,7 +23,7 @@
         <relativePath/>
     </parent>
   
-    <artifactId>PG_INSTALLER_TRIPLE_PRESENTATION</artifactId>
+    <artifactId>PG_INSTALLER_ALL_IN_ONE</artifactId>
     <packaging>jar</packaging>
     <version>0.1.3-SNAPSHOT</version>
 
@@ -130,12 +130,4 @@
             </plugin>
         </plugins>
     </build>
-    <repositories>
-        <repository>
-            <id>AGSA-GITLAB</id>
-            <name>The GitLab repository from the AGSA server.</name>
-            <url>http://agsacloud01.dev.esoc.esa.int:8081/plugin/repository/everything/</url>
-        </repository>
-    </repositories>    
-    
 </project>
