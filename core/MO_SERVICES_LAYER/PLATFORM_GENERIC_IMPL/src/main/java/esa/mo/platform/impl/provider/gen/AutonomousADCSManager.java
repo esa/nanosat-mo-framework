@@ -23,7 +23,7 @@ package esa.mo.platform.impl.provider.gen;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinition;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionBDot;
@@ -57,25 +58,22 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
  */
 public final class AutonomousADCSManager {
 
-    private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
+    // Unique objId Definition (different for every Definition)
+    private Long uniqueObjIdDef = System.currentTimeMillis();
     private final HashMap<Long, AttitudeDefinition> attitudeDefs;
     private final COMServicesProvider comServices;
     private long availableTime = 0;
 
-    public AutonomousADCSManager(COMServicesProvider comServices) {
-
+    public AutonomousADCSManager(final COMServicesProvider comServices) {
         this.comServices = comServices;
         this.attitudeDefs = new HashMap<Long, AttitudeDefinition>();
-
-        this.uniqueObjIdDef = System.currentTimeMillis();
-
     }
 
     public ArchiveProviderServiceImpl getArchiveService() {
         return this.comServices.getArchiveService();
     }
 
-    public synchronized Long add(AttitudeDefinition definition, ObjectId source, SingleConnectionDetails connectionDetails) {
+    public synchronized Long add(AttitudeDefinition definition, ObjectId source, URI uri) {
         uniqueObjIdDef++;
 
         if (comServices.getArchiveService() != null) {
@@ -83,14 +81,14 @@ public final class AutonomousADCSManager {
                 AttitudeDefinitionList defs = (AttitudeDefinitionList) HelperMisc.element2elementList(definition);
                 defs.add(definition);
                 ObjectType objType = AutonomousADCSManager.generateDefinitionObjectType(definition);
-                ArchiveDetailsList adl = HelperArchive.generateArchiveDetailsList(null, source, connectionDetails);
+                ArchiveDetailsList adl = HelperArchive.generateArchiveDetailsList(null, source, uri);
                 adl.get(0).setInstId(uniqueObjIdDef);
 
                 // Store the actual Definition
                 comServices.getArchiveService().store(
                         false,
                         objType,
-                        connectionDetails.getDomain(),
+                        ConfigurationProviderSingleton.getDomain(),
                         adl,
                         defs,
                         null);
