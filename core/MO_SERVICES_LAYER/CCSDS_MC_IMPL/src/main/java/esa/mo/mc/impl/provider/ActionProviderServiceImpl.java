@@ -227,7 +227,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         UIntegerList invIndexList = new UIntegerList();
 
         // requirement: 3.2.10.3.2
-//        if (!manager.existsIdentity(manager.getIdentity(actionDetails.getDefInstId()))) {
         if (!manager.existsDef(actionDetails.getDefInstId())) {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }

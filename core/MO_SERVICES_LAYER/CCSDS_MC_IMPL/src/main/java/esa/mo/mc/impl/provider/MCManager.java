@@ -124,7 +124,7 @@ public abstract class MCManager {
      * @param objId The object instance identifier.
      * @return True if exists. False otherwise.
      */
-    protected synchronized boolean existsDef(final Long objId) {
+    public synchronized boolean existsDef(final Long objId) {
         return this.objIdToDefMap.containsKey(objId);
     }
 

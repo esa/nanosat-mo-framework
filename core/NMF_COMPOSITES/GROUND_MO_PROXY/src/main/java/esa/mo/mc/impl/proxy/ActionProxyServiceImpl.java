@@ -22,8 +22,9 @@ package esa.mo.mc.impl.proxy;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.mc.impl.interfaces.ActionInvocationListener;
+import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.mc.impl.provider.ActionManager;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -35,11 +36,14 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
+import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
@@ -51,26 +55,24 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
-    private final static String IS_INTERMEDIATE_RELAY_PROPERTY = "esa.mo.mc.impl.provider.ActionProviderServiceImpl.isIntermediateRelay";
     private MALProvider actionServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private boolean isRegistered = false;
     private ActionManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
+    private ActionConsumerServiceImpl actionConsumer;
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
-     * @param comServices
-     * @param actions
+     * @param localCOMServices
+     * @param actionConsumer
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, 
-            ActionInvocationListener actions) throws MALException {
+    public synchronized void init(COMServicesProvider localCOMServices,
+            ActionConsumerServiceImpl actionConsumer) throws MALException {
         if (!initialiased) {
-
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
@@ -94,18 +96,18 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
             } catch (MALException ex) {
                 // nothing to be done..
             }
-
         }
 
         // Shut down old service transport
         if (null != actionServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE_NAME.toString(), ActionHelper.ACTION_SERVICE, this);
 
         running = true;
-        manager = new ActionManager(comServices, actions);
+        this.manager = new ActionManager(localCOMServices, null);
+        this.actionConsumer = actionConsumer;
 
         initialiased = true;
         Logger.getLogger(ActionProxyServiceImpl.class.getName()).info("Action service READY");
@@ -120,36 +122,64 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
                 actionServiceProvider.close();
             }
 
-            connection.close();
+            connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during close down of the provider {0}", ex);
         }
     }
-    
-    public ConnectionProvider getConnectionProvider(){
+
+    public ConnectionProvider getConnectionProvider() {
         return this.connection;
     }
 
-
     @Override
-    public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails,
+            MALInteraction interaction) throws MALInteractionException, MALException {
+        // Publish Activity Tracking event: Reception Event
+        manager.getCOMServices().getActivityTrackingService().publishReceptionEvent(
+                interaction,
+                true,
+                new Duration(0),
+                actionConsumer.getConnectionDetails().getProviderURI(),
+                null);
 
-        
-        
+        actionConsumer.getActionStub().asyncSubmitAction(
+                actionInstId,
+                actionDetails,
+                new ActionAdapter() {
+            @Override
+            public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                // Expected!
+            }
+
+            @Override
+            public void submitActionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
+                        "The Action could not be submitted to the provider. {0}", error);
+            }
+        }
+        );
+
+        // Publish Activity Tracking event: Forward Event
+        manager.getCOMServices().getActivityTrackingService().publishForwardEvent(
+                interaction,
+                true,
+                new Duration(0),
+                actionConsumer.getConnectionDetails().getProviderURI(),
+                null);
     }
 
     @Override
-    public Boolean preCheckAction(ActionInstanceDetails actionDetails, MALInteraction interaction) throws MALInteractionException, MALException {
-
+    public Boolean preCheckAction(ActionInstanceDetails actionDetails,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
 
         // 3.2.10.3.2
-        /*
-        if (!manager.exists(actionDetails.getDefInstId())) {
+        if (!manager.existsDef(actionDetails.getDefInstId())) {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
-        s*/
 
         // 3.2.10.2.c
         boolean accepted = manager.checkActionInstanceDetails(actionDetails, invIndexList);
@@ -158,29 +188,31 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
         if (!invIndexList.isEmpty()) { // requirement: 3.2.9.3.1
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
-        
+
         return accepted;
-
-    }    
-
-    @Override
-    public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ObjectInstancePairList addAction(ActionCreationRequestList acrl, MALInteraction mali) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ObjectInstancePairList listDefinition(IdentifierList il,
+            MALInteraction mali) throws MALInteractionException, MALException {
+        return actionConsumer.getActionStub().listDefinition(il);
     }
 
     @Override
-    public LongList updateDefinition(LongList ll, ActionDefinitionDetailsList addl, MALInteraction mali) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ObjectInstancePairList addAction(ActionCreationRequestList acrl,
+            MALInteraction mali) throws MALInteractionException, MALException {
+        return actionConsumer.getActionStub().addAction(acrl);
+    }
+
+    @Override
+    public LongList updateDefinition(LongList ll, ActionDefinitionDetailsList addl,
+            MALInteraction mali) throws MALInteractionException, MALException {
+        return actionConsumer.getActionStub().updateDefinition(ll, addl);
     }
 
     @Override
     public void removeAction(LongList ll, MALInteraction mali) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        actionConsumer.getActionStub().removeAction(ll);
     }
-    
+
 }
