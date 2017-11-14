@@ -100,18 +100,16 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         public void onMessage(MALEndpoint callingEndpoint, MALMessage srcMessage) {
             try {
                 String uriFrom = srcMessage.getHeader().getURIFrom().getValue();
-                System.out.println("\nReceived message from: " + uriFrom);
-
-                boolean isFromSPP = this.isSPP(uriFrom);
+//                System.out.println("\nReceived message from: " + uriFrom);
 
                 MALMessage dMsg;
 
-                if (isFromSPP) {
+                if (this.isSPP(uriFrom)) {
                     String uriTrans = virtualSPPURI.getURI(srcMessage.getHeader().getURITo().getValue());
 
                     // copy source message into destination message format
                     dMsg = cloneForwardMessageFromSPP(epOther, srcMessage, new URI(uriTrans));
-                    System.out.println("Injecting message...");
+                    System.out.println("Injecting message... Ground<-Space");
                     epOther.sendMessage(dMsg);
                 } else {
                     String virtualURIs = virtualSPPURI.getVirtualSPPURI(uriFrom);
@@ -129,17 +127,17 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
                     }
 
                     dMsg = cloneForwardMessageToSPP(ep, srcMessage, virtualURIs);
-                    System.out.println("Injecting message...");
+                    System.out.println("Injecting message... Ground->Space");
                     ep.sendMessage(dMsg);
                 }
             } catch (MALException ex) {
                 Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, 
                         "MALException", ex);
-                // ToDo need to bounce this back to source... maybe
+                // To do: needs to bounce this back to source?
             } catch (MALTransmitErrorException ex) {
                 Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, 
                         "MALTransmitErrorException", ex);
-                // ToDo need to bounce this back to source... maybe
+                // To do: needs to bounce this back to source?
             }
         }
 
@@ -168,8 +166,8 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
         int size = body.getElementCount();
-        System.out.println("Body size: " + size);
-        System.out.println("Local URI: " + destination.getURI());
+//        System.out.println("Body size: " + size);
+//        System.out.println("Local URI: " + destination.getURI());
 
         Object[] objList = new Object[size];
 
@@ -177,14 +175,14 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
             objList[i] = body.getBodyElement(i, null);
         }
 
-        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
+//        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
         endpointUriPart = endpointUriPart.substring(iSecond + 1, endpointUriPart.length());
         URI to = new URI(endpointUriPart);
         URI from = new URI(virtualURI);
 
-        System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
+//        System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
 
         MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),
@@ -217,8 +215,8 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
         int size = body.getElementCount();
-        System.out.println("Body size: " + size);
-        System.out.println("Local URI: " + destination.getURI());
+//        System.out.println("Body size: " + size);
+//        System.out.println("Local URI: " + destination.getURI());
 
         Object[] objList = new Object[size];
 
@@ -226,14 +224,11 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
             objList[i] = body.getBodyElement(i, null);
         }
 
-        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
-//        String endpointUriPart = sourceHdr.getURITo().getValue();
-//        final int iSecond = endpointUriPart.indexOf("@");
-//        endpointUriPart = endpointUriPart.substring(iSecond + 1, endpointUriPart.length());
+//        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
         URI to = reverse;
         URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
 
-        System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
+//        System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
 
         MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),

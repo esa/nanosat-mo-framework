@@ -79,7 +79,7 @@ public class VirtualSPPURIsManager {
                 reverseMap.put(virtualAPID, uriFrom);
             }
 
-            Logger.getLogger(VirtualSPPURIsManager.class.getName()).log(Level.INFO,
+            Logger.getLogger(VirtualSPPURIsManager.class.getName()).log(Level.FINE,
                     "The virtualAPID is: " + virtualAPID);
         }
 

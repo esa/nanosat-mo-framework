@@ -79,6 +79,7 @@ public abstract class GroundMOProxy {
     protected final DirectoryProxyServiceImpl localDirectoryService;
     private Timer timer;
     private ProviderStatusAdapter providerStatusAdapter;
+    private SingleConnectionDetails cdRemoteArchive;
 
     public GroundMOProxy() {
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
@@ -108,6 +109,9 @@ public abstract class GroundMOProxy {
                 if (!nmsAliveStatus.get()) {
                     try {
                         if (firstTime) {
+                            localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI, routedURI);
+                            cdRemoteArchive = cdFromService(ArchiveHelper.ARCHIVE_SERVICE);
+
                             // If it is first time, then we need to conect to the
                             // heartbeat service and listen to the beat
                             SingleConnectionDetails connectionDetails = cdFromService(HeartbeatHelper.HEARTBEAT_SERVICE);
@@ -125,7 +129,6 @@ public abstract class GroundMOProxy {
                             }
                         }
 
-                        localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI, routedURI);
                         nmsAliveStatus.set(true);
                         additionalHandling();
                     } catch (MALException ex) {
@@ -147,12 +150,10 @@ public abstract class GroundMOProxy {
 
             @Override
             public void run() {
-                // If alive
-                if (nmsAliveStatus.get()) {
+                if (nmsAliveStatus.get()) { // If alive
                     try {
                         if (firstRun) {
-                            SingleConnectionDetails connectionDetails = cdFromService(ArchiveHelper.ARCHIVE_SERVICE);
-                            archiveService = new ArchiveConsumerServiceImpl(connectionDetails);
+                            archiveService = new ArchiveConsumerServiceImpl(cdRemoteArchive);
                             firstRun = false;
                         }
 
@@ -163,7 +164,7 @@ public abstract class GroundMOProxy {
                                 archiveService.getConnectionDetails().getDomain(),
                                 null,
                                 null,
-                                null,
+                                new Long(0),
                                 null,
                                 lastTime,
                                 currentTime,
@@ -182,7 +183,8 @@ public abstract class GroundMOProxy {
 
                                 if (count != 0) {
                                     Logger.getLogger(GroundMOProxy.class.getName()).log(Level.INFO,
-                                            "The count is not zero. It returned: " + count);
+                                            "A change in the Central Directory service was detected."
+                                            + " The list of providers will be synchronized...");
                                     try {
                                         // If there are new objects, then synchronize!
                                         localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI, routedURI);
@@ -218,7 +220,7 @@ public abstract class GroundMOProxy {
                 }
             }
 
-        }, 0, PERIOD);
+        }, PERIOD, PERIOD);
 
     }
 
@@ -319,6 +321,8 @@ public abstract class GroundMOProxy {
                         if (currentTime.getValue() > threshold) {
                             // Then the provider is unresponsive
                             nmsAliveStatus.set(false);
+                            Logger.getLogger(ProviderStatusAdapter.class.getName()).log(Level.INFO,
+                                    "The heartbeat message from the provider was not received.");
                         } else {
                             if (tryNumber == 3) { // Every third try...
                                 try {
@@ -335,7 +339,6 @@ public abstract class GroundMOProxy {
                         }
 
                         tryNumber++;
-
                     }
                 }
             }, period, period);
