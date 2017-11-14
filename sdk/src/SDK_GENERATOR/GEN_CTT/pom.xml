@@ -23,12 +23,12 @@
         <relativePath/>
     </parent>
   
-    <artifactId>NMF_PACKAGE_ASSEMBLER</artifactId>
+    <artifactId>GEN_CTT</artifactId>
     <packaging>jar</packaging>
     <version>0.1.3-SNAPSHOT</version>
 
-    <name>NMF Package Assembler</name>
-    <description>A tool to assemble NMF Packages.</description>
+    <name>Generator: CTT</name>
+    <description>The CTT generator.</description>
     <url>http://www.esa.int</url>
   
     <organization>
@@ -59,13 +59,13 @@
     </developers>
     
     <properties>
-        <assembly.mainClass>esa.mo.nmf.GUI</assembly.mainClass>
+        <esa.nmf.artifact.global.folderpath>${basedir}/../../../CTT</esa.nmf.artifact.global.folderpath>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>NMF_PACKAGE_IMPL</artifactId>
+            <artifactId>CTT</artifactId>
         </dependency>
     </dependencies>
 
@@ -75,12 +75,6 @@
                 <directory>${basedir}/..</directory>
                 <includes>
                     <include>LICENCE.md</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/java</directory>
-                <includes>
-                    <include>esa/mo/fw/configurationtool/stuff/mo_pic.png</include>
                 </includes>
             </resource>
         </resources>
@@ -93,6 +87,27 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>int.esa.ccsds.mo</groupId>
+                                    <artifactId>CTT</artifactId>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
+                            </artifactItems>
+                            <includeScope></includeScope>
+                            <outputDirectory>${esa.nmf.artifact.global.folderpath}</outputDirectory>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>     
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -100,20 +115,25 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${esa.nmf.artifact.global.folderpath}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/mainDirectory</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>            
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

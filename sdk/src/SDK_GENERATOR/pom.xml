@@ -23,8 +23,8 @@
         <relativePath/>
     </parent>
   
-    <artifactId>NMF_SDK</artifactId>
-    <name>NMF: SDK</name>
+    <artifactId>SDK_GENERATOR</artifactId>
+    <name>SDK Generator</name>
     <version>1.0</version>
     <packaging>pom</packaging>
 
@@ -62,15 +62,9 @@
     </developers>
 
     <modules>
-        <module>DEMO_PROJECTS_APPS</module>
-        <module>DEMO_PROJECTS_GROUND</module>
-        <module>CTT</module>
-        <module>NMF_PACKAGE_ASSEMBLER</module> 
-        <module>MONOLITHIC_PROVIDER</module>
-        <module>SDK_GENERATOR</module>
-        <!--
-        <module>NMF_JAVADOCS_GENERATOR</module>
-        -->
+        <module>PLAYGROUND_GENERATOR</module>
+        <module>GEN_CTT</module>
+        <module>GEN_NMF_PACKAGE_ASSEMBLER</module>
     </modules>
   
 </project>
