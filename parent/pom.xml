@@ -106,7 +106,7 @@
         <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}</esa.nmf.artifact.app.folder>
         
         <!-- NMF Playground -->
-        <playground.folder.output>${basedir}/../../../Playground</playground.folder.output>
+        <playground.folder.output>${basedir}/../../../../Playground</playground.folder.output>
         <playground.folder.app>${playground.folder.output}/apps/${esa.nmf.artifact.app.artifactid}</playground.folder.app>
 
         <!-- NMF Mission Library -->
@@ -115,7 +115,11 @@
         <!-- NMF - Default Apps -->
         <esa.nmf.benchmarkapp>0.1.3-SNAPSHOT</esa.nmf.benchmarkapp>
 
-        <!-- NMF Mission Library -->
+        <!-- NMF SDK -->
+        <esa.nmf.sdk.ctt>0.1.3-SNAPSHOT</esa.nmf.sdk.ctt>
+        <esa.nmf.sdk.nmfpackageassembler>0.1.3-SNAPSHOT</esa.nmf.sdk.nmfpackageassembler>
+
+        <!-- NMF SDK Apps -->
         <esa.nmf.sdk.app.helloworld>0.1.3-SNAPSHOT</esa.nmf.sdk.app.helloworld>
         <esa.nmf.sdk.app.pushclock>0.1.3-SNAPSHOT</esa.nmf.sdk.app.pushclock>
         <esa.nmf.sdk.app.gpsdata>0.1.3-SNAPSHOT</esa.nmf.sdk.app.gpsdata>
@@ -123,9 +127,6 @@
         <esa.nmf.sdk.app.fivestagesaction>0.1.3-SNAPSHOT</esa.nmf.sdk.app.fivestagesaction>
         <esa.nmf.sdk.app.allinone>0.1.3-SNAPSHOT</esa.nmf.sdk.app.allinone>
         <esa.nmf.sdk.app.snapnmf>0.1.3-SNAPSHOT</esa.nmf.sdk.app.snapnmf>
-
-        <!-- NMF Mission Library -->
-        <esa.nmf.sdk.ctt>0.1.3-SNAPSHOT</esa.nmf.sdk.ctt>
     </properties>
   
     <dependencyManagement>
@@ -272,6 +273,11 @@
                 <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>CTT</artifactId>
                 <version>${esa.nmf.sdk.ctt}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.ccsds.mo</groupId>
+                <artifactId>NMF_PACKAGE_ASSEMBLER</artifactId>
+                <version>${esa.nmf.sdk.nmfpackageassembler}</version>
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
