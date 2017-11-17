@@ -188,7 +188,8 @@ public abstract class GroundMOProxy {
                                     try {
                                         // If there are new objects, then synchronize!
                                         localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI, routedURI);
-                                    } catch (MALException ex) {
+                                        additionalHandling();
+                                   } catch (MALException ex) {
                                         Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
                                     } catch (MalformedURLException ex) {
                                         Logger.getLogger(GroundMOProxy.class.getName()).log(Level.SEVERE, null, ex);
@@ -253,7 +254,6 @@ public abstract class GroundMOProxy {
         filter.setNetwork(new Identifier("*"));
         filter.setSessionType(null);
         filter.setSessionName(new Identifier("*"));
-
         filter.setServiceKey(new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)));
         filter.setRequiredCapabilities(new UIntegerList());
         filter.setServiceProviderName(new Identifier(HelperNMF.NMF_NMS_NAME));
@@ -270,7 +270,6 @@ public abstract class GroundMOProxy {
         filter.setNetwork(new Identifier("*"));
         filter.setSessionType(null);
         filter.setSessionName(new Identifier("*"));
-
         filter.setServiceKey(key);
         filter.setRequiredCapabilities(new UIntegerList());
         filter.setServiceProviderName(new Identifier(HelperNMF.NMF_NMS_NAME));

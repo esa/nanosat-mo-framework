@@ -40,6 +40,8 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.action.ActionHelper;
 
 /**
  *
@@ -105,12 +107,10 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
             for (ServiceCapability capability : capabilities) {
                 for (AddressDetails dets : capability.getServiceAddresses()) {
                     String serviceURI = proxyURI + "@" + dets.getServiceURI().getValue();
-//                    String serviceURI = dets.getServiceURI().getValue() + "@" + proxyURI;
                     dets.setServiceURI(new URI(serviceURI));
 
                     if (dets.getBrokerURI() != null) {
                         String brokerURI = proxyURI + "@" + dets.getBrokerURI().getValue();
-//                        String brokerURI = dets.getBrokerURI().getValue() + "@" + proxyURI;
                         dets.setBrokerURI(new URI(brokerURI));
                     }
                 }
@@ -118,7 +118,14 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
         }
     }
 
-    public void rerouteCOMArchiveURI(IdentifierList providerDomain, URI to) {
+    /**
+     * Reroutes the Archive service URI of a specific provider to a different
+     * URI.
+     *
+     * @param providerDomain The domain of the provider to be routed.
+     * @param to The new URI.
+     */
+    public void rerouteArchiveServiceURI(IdentifierList providerDomain, URI to) {
         synchronized (MUTEX) {
             Collection<PublishDetails> providers = providersAvailable.values();
 
@@ -141,4 +148,36 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
             }
         }
     }
+
+    /**
+     * Reroutes the Action service URI of a specific provider to a different
+     * URI.
+     *
+     * @param providerDomain The domain of the provider to be routed.
+     * @param to The new URI.
+     */
+    public void rerouteActionServiceURI(IdentifierList providerDomain, URI to) {
+        synchronized (MUTEX) {
+            Collection<PublishDetails> providers = providersAvailable.values();
+
+            for (PublishDetails provider : providers) {
+                if (providerDomain.equals(provider.getDomain())) {
+                    ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
+
+                    // Find the Archive service
+                    for (ServiceCapability capability : capabilities) {
+                        ServiceKey key = capability.getServiceKey();
+
+                        if (MCHelper._MC_AREA_NUMBER == key.getArea().getValue()
+                                && ActionHelper._ACTION_SERVICE_NUMBER == key.getService().getValue()
+                                && MCHelper._MC_AREA_VERSION == key.getVersion().getValue()) {
+                            AddressDetails details = capability.getServiceAddresses().get(0);
+                            details.setServiceURI(to);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

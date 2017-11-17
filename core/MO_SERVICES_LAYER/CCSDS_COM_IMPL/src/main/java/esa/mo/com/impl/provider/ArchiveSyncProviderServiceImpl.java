@@ -168,7 +168,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         dispatcher.setQueriesAreDone(true);
 
         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
-                "The objects were queried and are now being sent back to the consumer!");
+                "Stage 1: The objects were queried and are now being sent back to the consumer!");
     }
 
     @Override
@@ -319,7 +319,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
                     processingIsDone = true;
                     Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
-                            "The objects were all successfully processed! " + 
+                            "Stage 2: The objects were all successfully processed! " + 
                                     counter + " objects in total!");
                 }
             };
@@ -388,7 +388,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                     }
 
                     Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(
-                            Level.INFO, "The objects were all successfully flushed! " + 
+                            Level.INFO, "Stage 3: The objects were all successfully flushed! " + 
                                     numberOfChunks + " chunks in total!");
                 }
             };

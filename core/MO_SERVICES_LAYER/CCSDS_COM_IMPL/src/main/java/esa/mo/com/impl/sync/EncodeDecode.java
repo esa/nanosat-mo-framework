@@ -23,7 +23,6 @@ package esa.mo.com.impl.sync;
 import esa.mo.com.impl.archive.encoding.BinaryDecoder;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
-import esa.mo.com.impl.consumer.ArchiveSyncConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.com.impl.util.COMObjectStructure;
@@ -43,7 +42,6 @@ import org.ccsds.moims.mo.mal.MALElementFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -201,7 +199,7 @@ public class EncodeDecode {
 
                     for (int j = 0; j < ids.size(); j++) {
                         dictionary.defineWord(ids.get(j), strings.get(j));
-                        Logger.getLogger(COMObjectEntity.class.getName()).log(Level.INFO,
+                        Logger.getLogger(COMObjectEntity.class.getName()).log(Level.FINE,
                                 "Defining id: " + ids.get(j) + " as word: " + strings.get(j));
                     }
                 }
