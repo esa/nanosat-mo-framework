@@ -26,7 +26,6 @@ import esa.mo.com.impl.consumer.ArchiveSyncGenAdapter;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.COMObjectStructure;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
 import java.awt.Component;
