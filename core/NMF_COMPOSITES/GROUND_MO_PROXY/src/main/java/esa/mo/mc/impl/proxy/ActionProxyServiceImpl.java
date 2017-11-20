@@ -25,6 +25,7 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.mc.impl.provider.ActionManager;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -103,7 +104,9 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
             connection.closeAll();
         }
 
-        actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE_NAME.toString(), ActionHelper.ACTION_SERVICE, false, this);
+        Random random = new Random();
+        String name = ActionHelper.ACTION_SERVICE_NAME.toString() + "_" + random.nextInt();
+        actionServiceProvider = connection.startService(name, ActionHelper.ACTION_SERVICE, false, this);
 
         running = true;
         this.manager = new ActionManager(localCOMServices, null);

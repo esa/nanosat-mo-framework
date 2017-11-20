@@ -141,6 +141,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final Dispatcher dispatcher = new Dispatcher(interaction);
         long interactionTicket = interaction.getInteraction().getMessageHeader().getTransactionId();
         dispatchers.put(interactionTicket, dispatcher);
+        lastSync.set(HelperTime.getTimestamp().getValue());
         interaction.sendAcknowledgement(interactionTicket);
 
         Runnable processQueriedObjs = dispatcher.getProcessingRunnable();

@@ -122,7 +122,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
                 if (adapter.waitUntilResponseReceived(timeout)) {
                     unfinished = false;
                     Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
-                            Level.INFO, "Finished!");
+                            Level.INFO, "Finished the synchronization!\n");
                 }
             } catch (InterruptedException ex) {
                 // Still not complete...
