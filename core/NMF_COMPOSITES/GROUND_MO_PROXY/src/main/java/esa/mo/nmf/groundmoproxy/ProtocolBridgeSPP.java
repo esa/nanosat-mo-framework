@@ -136,7 +136,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
                 // To do: needs to bounce this back to source?
             } catch (MALTransmitErrorException ex) {
                 Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, 
-                        "MALTransmitErrorException", ex);
+                        "MALTransmitErrorException: Maybe the consumer was disconnected?", ex);
                 // To do: needs to bounce this back to source?
             }
         }
