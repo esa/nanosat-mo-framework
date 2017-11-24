@@ -24,12 +24,12 @@
     <name>Image Debayering for OPS-SAT</name>
     <description>Image Debayering for OPS-SAT</description>
     <url>http://www.esa.int</url>    
-  
+    
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
     </organization>
-
+    
     <licenses>
         <license>
             <name>The European Space Agency Public License, Version 2.0</name>
@@ -37,7 +37,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-          
+    
     <developers>
         <developer>
             <id>CesarCoeho</id>
