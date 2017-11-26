@@ -25,7 +25,7 @@
   
     <artifactId>NMF_POM</artifactId>
     <packaging>pom</packaging>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4</version>
     <name>NMF: POM</name>
 
     <organization>
@@ -66,7 +66,7 @@
     </developers>
   
     <properties>
-        <esa.nmf.helper.version>0.1.3-SNAPSHOT</esa.nmf.helper.version>
+        <esa.nmf.helper.version>0.1.3</esa.nmf.helper.version>
 
         <!-- Transports -->
         <esa.ccsds.trans.http.version>1.2</esa.ccsds.trans.http.version>
@@ -76,30 +76,30 @@
         -->
         
         <!-- APIs -->
-        <esa.ccsds.api.comNMF.version>0.1.3-SNAPSHOT</esa.ccsds.api.comNMF.version>
+        <esa.ccsds.api.comNMF.version>0.1.3</esa.ccsds.api.comNMF.version>
         <esa.ccsds.api.mc.version>1.0</esa.ccsds.api.mc.version>
         <esa.ccsds.api.common.version>1.0-RC1</esa.ccsds.api.common.version>
-        <esa.ccsds.api.sm.version>0.1.3-SNAPSHOT</esa.ccsds.api.sm.version>
-        <esa.ccsds.api.platform.version>0.1.3-SNAPSHOT</esa.ccsds.api.platform.version>
+        <esa.ccsds.api.sm.version>0.1.3</esa.ccsds.api.sm.version>
+        <esa.ccsds.api.platform.version>0.1.3</esa.ccsds.api.platform.version>
 
         <!-- Services Implementations -->
-        <esa.ccsds.impl.com.version>0.1.3-SNAPSHOT</esa.ccsds.impl.com.version>
-        <esa.ccsds.impl.reconfigurable.version>0.1.3-SNAPSHOT</esa.ccsds.impl.reconfigurable.version>
-        <esa.ccsds.impl.mc.version>0.1.3-SNAPSHOT</esa.ccsds.impl.mc.version>
-        <esa.ccsds.impl.common.version>0.1.3-SNAPSHOT</esa.ccsds.impl.common.version>
-        <esa.ccsds.impl.sm.version>0.1.3-SNAPSHOT</esa.ccsds.impl.sm.version>
-        <esa.ccsds.impl.plat.version>0.1.3-SNAPSHOT</esa.ccsds.impl.plat.version>
+        <esa.ccsds.impl.com.version>0.1.3</esa.ccsds.impl.com.version>
+        <esa.ccsds.impl.reconfigurable.version>0.1.3</esa.ccsds.impl.reconfigurable.version>
+        <esa.ccsds.impl.mc.version>0.1.3</esa.ccsds.impl.mc.version>
+        <esa.ccsds.impl.common.version>0.1.3</esa.ccsds.impl.common.version>
+        <esa.ccsds.impl.sm.version>0.1.3</esa.ccsds.impl.sm.version>
+        <esa.ccsds.impl.plat.version>0.1.3</esa.ccsds.impl.plat.version>
 
         <!-- NMF Composites -->
-        <esa.nmf.composites.genericmodel.version>0.1.3-SNAPSHOT</esa.nmf.composites.genericmodel.version>
-        <esa.nmf.composites.nmm.version>0.1.3-SNAPSHOT</esa.nmf.composites.nmm.version>
-        <esa.nmf.composites.nmc.version>0.1.3-SNAPSHOT</esa.nmf.composites.nmc.version>
-        <esa.nmf.composites.nms.version>0.1.3-SNAPSHOT</esa.nmf.composites.nms.version>
-        <esa.nmf.composites.gma.version>0.1.3-SNAPSHOT</esa.nmf.composites.gma.version>
-        <esa.nmf.composites.gmp.version>0.1.3-SNAPSHOT</esa.nmf.composites.gmp.version>
+        <esa.nmf.composites.genericmodel.version>0.1.3</esa.nmf.composites.genericmodel.version>
+        <esa.nmf.composites.nmm.version>0.1.3</esa.nmf.composites.nmm.version>
+        <esa.nmf.composites.nmc.version>0.1.3</esa.nmf.composites.nmc.version>
+        <esa.nmf.composites.nms.version>0.1.3</esa.nmf.composites.nms.version>
+        <esa.nmf.composites.gma.version>0.1.3</esa.nmf.composites.gma.version>
+        <esa.nmf.composites.gmp.version>0.1.3</esa.nmf.composites.gmp.version>
 
         <!-- NMF Packager -->
-        <esa.nmf.packager.version>0.1.3-SNAPSHOT</esa.nmf.packager.version>
+        <esa.nmf.packager.version>0.1.3</esa.nmf.packager.version>
 
         <!-- NMF Artifacts -->
         <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
@@ -110,23 +110,23 @@
         <playground.folder.app>${playground.folder.output}/apps/${esa.nmf.artifact.app.artifactid}</playground.folder.app>
 
         <!-- NMF Mission Library -->
-        <esa.nmf.mission.softwaresimulator.library>0.1.3-SNAPSHOT</esa.nmf.mission.softwaresimulator.library>
+        <esa.nmf.mission.softwaresimulator.library>0.1.3</esa.nmf.mission.softwaresimulator.library>
 
         <!-- NMF - Default Apps -->
-        <esa.nmf.benchmarkapp>0.1.3-SNAPSHOT</esa.nmf.benchmarkapp>
+        <esa.nmf.benchmarkapp>0.1.3</esa.nmf.benchmarkapp>
 
         <!-- NMF SDK -->
-        <esa.nmf.sdk.ctt>0.1.3-SNAPSHOT</esa.nmf.sdk.ctt>
-        <esa.nmf.sdk.nmfpackageassembler>0.1.3-SNAPSHOT</esa.nmf.sdk.nmfpackageassembler>
+        <esa.nmf.sdk.ctt>0.1.3</esa.nmf.sdk.ctt>
+        <esa.nmf.sdk.nmfpackageassembler>0.1.3</esa.nmf.sdk.nmfpackageassembler>
 
         <!-- NMF SDK Apps -->
-        <esa.nmf.sdk.app.helloworld>0.1.3-SNAPSHOT</esa.nmf.sdk.app.helloworld>
-        <esa.nmf.sdk.app.pushclock>0.1.3-SNAPSHOT</esa.nmf.sdk.app.pushclock>
-        <esa.nmf.sdk.app.gpsdata>0.1.3-SNAPSHOT</esa.nmf.sdk.app.gpsdata>
-        <esa.nmf.sdk.app.tensecondsalert>0.1.3-SNAPSHOT</esa.nmf.sdk.app.tensecondsalert>
-        <esa.nmf.sdk.app.fivestagesaction>0.1.3-SNAPSHOT</esa.nmf.sdk.app.fivestagesaction>
-        <esa.nmf.sdk.app.allinone>0.1.3-SNAPSHOT</esa.nmf.sdk.app.allinone>
-        <esa.nmf.sdk.app.snapnmf>0.1.3-SNAPSHOT</esa.nmf.sdk.app.snapnmf>
+        <esa.nmf.sdk.app.helloworld>0.1.3</esa.nmf.sdk.app.helloworld>
+        <esa.nmf.sdk.app.pushclock>0.1.3</esa.nmf.sdk.app.pushclock>
+        <esa.nmf.sdk.app.gpsdata>0.1.3</esa.nmf.sdk.app.gpsdata>
+        <esa.nmf.sdk.app.tensecondsalert>0.1.3</esa.nmf.sdk.app.tensecondsalert>
+        <esa.nmf.sdk.app.fivestagesaction>0.1.3</esa.nmf.sdk.app.fivestagesaction>
+        <esa.nmf.sdk.app.allinone>0.1.3</esa.nmf.sdk.app.allinone>
+        <esa.nmf.sdk.app.snapnmf>0.1.3</esa.nmf.sdk.app.snapnmf>
     </properties>
   
     <dependencyManagement>
