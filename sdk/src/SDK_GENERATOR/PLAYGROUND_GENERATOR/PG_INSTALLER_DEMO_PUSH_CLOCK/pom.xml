@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.4</version>
+        <version>0.5-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>PG_INSTALLER_PUSH_CLOCK</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.3</version>
+    <version>0.1.5-SNAPSHOT</version>
 
     <name>PG: Installer of Push Clock App</name>
     <description>The Push Clock App installer for the Playground environment.</description>

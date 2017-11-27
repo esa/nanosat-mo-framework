@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.4</version>
+        <version>0.5-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>Demo_5_stages_action</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.3</version>
+    <version>0.1.5-SNAPSHOT</version>
 
     <name>Demo 5 stages Action</name>
     <description>The app receives an action and reports 5 stages of action progress.</description>
