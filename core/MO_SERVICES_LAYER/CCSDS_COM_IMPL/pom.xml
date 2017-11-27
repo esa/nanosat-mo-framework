@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.4</version>
+        <version>0.5-SNAPSHOT</version>
         <relativePath/>
     </parent>
   
     <artifactId>CCSDS_COM_IMPL</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.3</version>
+    <version>0.1.5-SNAPSHOT</version>
 
     <name>ESA COM Implementation</name>
     <description>The ESA/TU Graz implementation of the CCSDS Mission Operations COM services</description>
