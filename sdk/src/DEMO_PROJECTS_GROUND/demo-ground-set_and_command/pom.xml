@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.4</version>
         <relativePath/>
     </parent>
   
     <artifactId>Demo_Set_and_Command</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.3-SNAPSHOT</version>
+    <version>0.1.3</version>
 
     <name>Demo Ground Set and Command</name>
     <description>A simple demo for the Ground part to set a parameter and to command a provider</description>
