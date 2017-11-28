@@ -19,7 +19,7 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>POM</artifactId>
-        <version>6</version>
+        <version>7</version>
         <relativePath/>
     </parent>
   
@@ -69,15 +69,15 @@
         <esa.nmf.helper.version>0.1.5-SNAPSHOT</esa.nmf.helper.version>
 
         <!-- Transports -->
-        <esa.ccsds.trans.http.version>1.2</esa.ccsds.trans.http.version>
+        <esa.ccsds.trans.tcp.version>1.7</esa.ccsds.trans.tcp.version>
         <!--
+        <esa.ccsds.trans.http.version>1.2</esa.ccsds.trans.http.version>
         <esa.ccsds.trans.tcptp.version>1.1</esa.ccsds.trans.tcptp.version>
-        <esa.ccsds.trans.tcp.version>1.2-SNAPSHOT</esa.ccsds.trans.tcp.version>
         -->
         
         <!-- APIs -->
         <esa.ccsds.api.comNMF.version>0.1.5-SNAPSHOT</esa.ccsds.api.comNMF.version>
-        <esa.ccsds.api.mc.version>1.0</esa.ccsds.api.mc.version>
+        <esa.ccsds.api.mc.version>1.7</esa.ccsds.api.mc.version>
         <esa.ccsds.api.common.version>1.0-RC1</esa.ccsds.api.common.version>
         <esa.ccsds.api.sm.version>0.1.5-SNAPSHOT</esa.ccsds.api.sm.version>
         <esa.ccsds.api.platform.version>0.1.5-SNAPSHOT</esa.ccsds.api.platform.version>
@@ -140,14 +140,14 @@
             <!-- Transports -->
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>TRANSPORT_HTTP_TP</artifactId>
-                <version>${esa.ccsds.trans.http.version}</version>
+                <artifactId>TRANSPORT_TCPIP</artifactId>
+                <version>${esa.ccsds.trans.tcp.version}</version>
             </dependency>
             <!--
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>TRANSPORT_TCPIP</artifactId>
-                <version>${esa.ccsds.trans.tcp.version}</version>
+                <artifactId>TRANSPORT_HTTP_TP</artifactId>
+                <version>${esa.ccsds.trans.http.version}</version>
             </dependency>
             <dependency>
                 <groupId>int.esa.ccsds.mo</groupId>
