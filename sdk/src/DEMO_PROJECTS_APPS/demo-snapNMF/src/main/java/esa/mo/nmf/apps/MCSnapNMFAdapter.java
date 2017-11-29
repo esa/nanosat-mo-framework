@@ -111,16 +111,15 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             Byte convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit,
-                    conditionalConversions, convertedType, convertedUnit));
+            arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), null, 
+                    rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
         }
 
         actionDefs.add(new ActionDefinitionDetails(
                 "Uses the NMF Camera service to take a picture.",
                 new UOctet((short) 0),
                 new UShort(0),
-                arguments1,
-                null
+                arguments1
         ));
         actionNames.add(new Identifier(ACTION_TAKE_PICTURE_RAW));
 
@@ -128,8 +127,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 "Uses the NMF Camera service to take a picture.",
                 new UOctet((short) 0),
                 new UShort(0),
-                arguments1,
-                null
+                arguments1
         ));
         actionNames.add(new Identifier(ACTION_TAKE_PICTURE_JPG));
 

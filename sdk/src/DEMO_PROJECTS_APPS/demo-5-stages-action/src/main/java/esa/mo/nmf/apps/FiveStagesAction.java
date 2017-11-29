@@ -81,16 +81,15 @@ public class FiveStagesAction {
                 Byte convertedType = null;
                 String convertedUnit = null;
 
-                argDef.add(new ArgumentDefinitionDetails(rawType, rawUnit,
-                        conditionalConversions, convertedType, convertedUnit));
+                argDef.add(new ArgumentDefinitionDetails(new Identifier("1"), null,
+                        rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
             }
 
             ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
                     "Example of an Action with 5 stages.",
                     new UOctet((short) 0),
                     new UShort(5),
-                    argDef,
-                    null
+                    argDef
             );
             names.add(new Identifier(ACTION5STAGES));
             actionDefs.add(actionDef1);

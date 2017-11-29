@@ -354,16 +354,15 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
             Byte convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit,
-                    conditionalConversions, convertedType, convertedUnit));
+            arguments1.add(new ArgumentDefinitionDetails(new Identifier("0"), null,
+                    rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
         }
 
         ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
                 "Changes the spacecraft's attitude to sun pointing mode.",
                 new UOctet((short) 0),
                 new UShort(0),
-                arguments1,
-                null
+                arguments1
         );
         actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
 
@@ -371,9 +370,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 "Changes the spacecraft's attitude to nadir pointing mode.",
                 new UOctet((short) 0),
                 new UShort(0),
-                //                arguments2,
-                arguments1,
-                null
+                arguments1
         );
         actionNames.add(new Identifier(ACTION_NADIR_POINTING_MODE));
 
@@ -381,9 +378,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 "Unsets the spacecraft's attitude.",
                 new UOctet((short) 0),
                 new UShort(0),
-                //                detailsList,
-                new ArgumentDefinitionDetailsList(),
-                null
+                new ArgumentDefinitionDetailsList()
         );
         actionNames.add(new Identifier(ACTION_UNSET));
 
@@ -391,9 +386,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 "Example of an Action with 5 stages.",
                 new UOctet((short) 0),
                 new UShort(5),
-                //                detailsList,
-                new ArgumentDefinitionDetailsList(),
-                null
+                new ArgumentDefinitionDetailsList()
         );
         actionNames.add(new Identifier(ACTION_5_STAGES));
 

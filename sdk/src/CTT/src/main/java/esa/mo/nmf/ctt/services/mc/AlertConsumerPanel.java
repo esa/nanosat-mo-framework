@@ -263,11 +263,11 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
         ArgumentDefinitionDetails details = new ArgumentDefinitionDetails();
         details.setRawType((byte) 1);
+        details.setArgId(new Identifier("0"));
 
         ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
         detailsList.add(null);
         alertDefinition.setArguments(detailsList);
-        alertDefinition.setArgumentIds(null);
         
         AlertCreationRequest request = new AlertCreationRequest();
         request.setAlertDefDetails(alertDefinition);

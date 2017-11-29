@@ -341,11 +341,11 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
         ArgumentDefinitionDetails details = new ArgumentDefinitionDetails();
         details.setRawType((byte) 1);
+        details.setArgId(new Identifier("0"));
 
         ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
         detailsList.add(null);
         actionDefinition.setArguments(detailsList);
-        actionDefinition.setArgumentIds(null);
 
         ActionCreationRequest creation = new ActionCreationRequest();
         creation.setActionDefDetails(actionDefinition);
