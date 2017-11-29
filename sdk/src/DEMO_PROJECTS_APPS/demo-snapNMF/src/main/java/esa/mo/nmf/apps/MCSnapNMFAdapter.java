@@ -118,7 +118,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(new ActionDefinitionDetails(
                 "Uses the NMF Camera service to take a picture.",
                 new UOctet((short) 0),
-                new UShort(0),
+                new UShort(TOTAL_STAGES),
                 arguments1
         ));
         actionNames.add(new Identifier(ACTION_TAKE_PICTURE_RAW));
@@ -126,7 +126,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(new ActionDefinitionDetails(
                 "Uses the NMF Camera service to take a picture.",
                 new UOctet((short) 0),
-                new UShort(0),
+                new UShort(TOTAL_STAGES),
                 arguments1
         ));
         actionNames.add(new Identifier(ACTION_TAKE_PICTURE_JPG));
