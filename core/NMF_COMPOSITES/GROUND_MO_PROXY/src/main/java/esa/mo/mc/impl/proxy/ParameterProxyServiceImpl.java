@@ -191,9 +191,9 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public void enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
             final MALInteraction interaction) throws MALException, MALInteractionException {
-
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private URI removePrefix(URI uriTo) {

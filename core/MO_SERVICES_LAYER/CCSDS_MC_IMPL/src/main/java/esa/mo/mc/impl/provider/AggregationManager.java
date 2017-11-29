@@ -885,21 +885,20 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
-    public boolean setGenerationEnabled(Long identityId, Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
+    public Long setGenerationEnabled(Long identityId, Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
         AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
 
         if (def == null) {
-            return false;
+            return null;
         }
         //requirement: 3.7.9.2.f    
         if (def.getGenerationEnabled().booleanValue() == bool) // Is it set with the requested value already?
         {
-            return false; // the value was not changed
+            return identityId; // the value was not changed
         }
         def.setGenerationEnabled(bool);
         //requirement: 3.7.9.2.j, k
-        this.update(identityId, def, source, connectionDetails);
-        return true;
+        return this.update(identityId, def, source, connectionDetails);
     }
 
     public void setGenerationEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {

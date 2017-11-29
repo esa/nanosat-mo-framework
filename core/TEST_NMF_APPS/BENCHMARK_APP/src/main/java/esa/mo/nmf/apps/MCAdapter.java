@@ -111,7 +111,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             Byte convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(rawType, rawUnit,
+            arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), "", rawType, rawUnit,
                     conditionalConversions, convertedType, convertedUnit));
         }
 
@@ -119,8 +119,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                 "Stores " + NUMBER_OF_OBJS + " aggregation definition objects in the COM Archive.",
                 new UOctet((short) 0),
                 new UShort(0),
-                arguments1,
-                null
+                arguments1
         ));
         actionNames.add(new Identifier(ACTION_STORE_AGGS));
 
@@ -128,8 +127,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                 "Stores " + NUMBER_OF_OBJS + " parameter value objects in the COM Archive.",
                 new UOctet((short) 0),
                 new UShort(0),
-                arguments1,
-                null
+                arguments1
         ));
         actionNames.add(new Identifier(ACTION_STORE_PARS));
         

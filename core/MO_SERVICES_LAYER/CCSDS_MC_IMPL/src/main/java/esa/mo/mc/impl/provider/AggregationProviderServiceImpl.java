@@ -326,7 +326,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public void enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -387,13 +387,17 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         if (!invIndexList.isEmpty()) { // requirement: 3.7.9.3.2
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
+        
+        LongList output = new LongList();
 
         // requirement: 3.7.9.2.i (This part of the code is not reached if an error is thrown)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.c, 3.7.9.2.f and 3.7.9.2.j, k
-            boolean changed = manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), source, connection.getConnectionDetails());
+            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), source, connection.getConnectionDetails());
+            output.add(out);
+            
             //requirement: 3.7.9.2.e, l
-            if (changed) {
+            if (objIdToBeEnabled.get(index).longValue() != out.longValue()) {
                 periodicReportingManager.refresh(objIdToBeEnabled.get(index));
                 periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
             }
@@ -402,6 +406,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
+        
+        return output;
     }
 
     @Override

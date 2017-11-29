@@ -154,7 +154,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
         
     @Override
-    public void enableGeneration(Boolean isGroupIds, InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(Boolean isGroupIds, InstanceBooleanPairList enableInstances,
             MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -246,15 +246,21 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
+        LongList output = new LongList();
+
         // requirement: 3.4.8.2.i (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
-            manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), source, connection.getConnectionDetails());
+            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index), 
+                    valueToBeEnabled.get(index), source, connection.getConnectionDetails());
+            output.add(out);
         }
 
         if (configurationAdapter != null){
             configurationAdapter.onConfigurationChanged(this);
         }
+        
+        return output;
     }
 
     @Override
@@ -468,17 +474,6 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             return null;
         }
 
-        /*
-        Long identityId = manager.getIdentity(alertDefinitionName); // Does it exist in the manager?
-        final Long defId = manager.getDefinitionId(identityId);
-        
-        if  (identityId == null) {
-            // It doesn't... let's automatically generate the Alert Definition
-            identityId = generateAlertDefinition(argumentValues, alertDefinitionName, interaction, identityId);
-        }
-        */
-        
-
         ObjectInstancePair pair  = manager.getIdentityDefinition(alertDefinitionName);
 
         if  (pair == null) {
@@ -501,10 +496,12 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         // Check if the argumentIds match
-        if (alertDef.getArgumentIds() != null) {
-            for (int index = 0; index < alertDef.getArgumentIds().size(); index++) {
-                if (!alertDef.getArgumentIds().get(index).equals(argumentIds.get(index))) {  // If it doesn't match?
-                    return null;
+        if (alertDef.getArguments() != null) {
+            if(argumentIds != null){
+                for (int index = 0; index < alertDef.getArguments().size(); index++) {
+                    if (!alertDef.getArguments().get(index).getArgId().getValue().equals(argumentIds.get(index).getValue())) {  // If it doesn't match?
+                        return null;
+                    }
                 }
             }
         }
@@ -568,12 +565,12 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                 arg.setConditionalConversions(null);
                 arg.setConvertedType(null);
                 arg.setConvertedUnit(null);
+                arg.setArgId(new Identifier(String.valueOf(i)));
 
                 args.add(arg);
             }
         }
         alertDef.setArguments(args);
-        alertDef.setArgumentIds(null); // Not necessary to fill-in
         //fill creation object
         alertCreationDef.setName(alertDefinitionName);
         alertCreationDef.setAlertDefDetails(alertDef);

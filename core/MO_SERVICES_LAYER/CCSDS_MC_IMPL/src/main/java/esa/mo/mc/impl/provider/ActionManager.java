@@ -275,11 +275,11 @@ public final class ActionManager extends MCManager {
             }
         }
 
-        if (oldDef.getArgumentIds() == null && newDef.getArgumentIds() == null) {  // If both are null then skip the rest of the code
+        if (oldDef.getArguments() == null && newDef.getArguments() == null) {  // If both are null then skip the rest of the code
             return true;
         }
 
-        if (oldDef.getArgumentIds() == null || newDef.getArgumentIds() == null) { // But if only one of them is null, well, then we have an error here
+        if (oldDef.getArguments() == null || newDef.getArguments() == null) { // But if only one of them is null, well, then we have an error here
             return false;
         }
 
@@ -287,10 +287,10 @@ public final class ActionManager extends MCManager {
             return false;
         }
 
-        for (int index = 0; index < oldDef.getArgumentIds().size(); index++) {
-            if (oldDef.getArgumentIds().get(index) != null && newDef.getArgumentIds().get(index) != null) {
+        for (int index = 0; index < oldDef.getArguments().size(); index++) {
+            if (oldDef.getArguments().get(index) != null && newDef.getArguments().get(index) != null) {
 
-                if (!oldDef.getArgumentIds().get(index).getValue().equals(newDef.getArgumentIds().get(index).getValue())) {
+                if (!oldDef.getArguments().get(index).getArgId().getValue().equals(newDef.getArguments().get(index).getArgId().getValue())) {
                     return false;
                 }
             }
@@ -337,9 +337,9 @@ public final class ActionManager extends MCManager {
         }
 
         // Do the argument ids are not null? (it is optional)
-        if (actionDef.getArgumentIds() != null && actionInstance.getArgumentIds() != null) {
+        if (actionDef.getArguments() != null && actionInstance.getArgumentIds() != null) {
             // Ids must be of the same size as well
-            int sizeDefArgIds = actionDef.getArgumentIds().size();
+            int sizeDefArgIds = actionDef.getArguments().size();
             int sizeInstArgIds = actionInstance.getArgumentIds().size();
 
             int min = (sizeDefArgIds < sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
@@ -353,7 +353,7 @@ public final class ActionManager extends MCManager {
             }
             // Are the argumentIds the same?
             for (int index = 0; index < sizeDefArgIds; index++) {
-                if (!(actionDef.getArgumentIds().get(index).equals(actionInstance.getArgumentIds().get(index)))) {
+                if (!(actionDef.getArguments().get(index).getArgId().getValue().equals(actionInstance.getArgumentIds().get(index).getValue()))) {
                     errorList.add(new UInteger(index));
                 }
                 if (!errorList.isEmpty()) {

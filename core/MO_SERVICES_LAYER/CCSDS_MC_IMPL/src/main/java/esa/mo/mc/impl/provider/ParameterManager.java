@@ -55,7 +55,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.FineTimeList;
 
@@ -566,23 +565,22 @@ public class ParameterManager extends MCManager {
      * @return true if it was successfully updated. false if def is null or the
      * new bool value was the same as the current value.
      */
-    protected boolean setGenerationEnabled(Long identityId, Boolean bool, ObjectId source,
+    protected Long setGenerationEnabled(Long identityId, Boolean bool, ObjectId source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
         ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getParameterDefinition(identityId);
 
         if (def == null) {
-            return false;
+            return null;
         }
 
         //requirement: 3.3.10.2.f
         if (def.getGenerationEnabled().booleanValue() == bool) { // Is it set with the requested value already?
-            return false; // the value was not changed
+            return identityId; // the value was not changed
         }
         def.setGenerationEnabled(bool);
 
         //requirement: 3.3.10.2.k
-        this.update(identityId, def, source, connectionDetails);
-        return true;
+        return this.update(identityId, def, source, connectionDetails);
     }
 
     /**

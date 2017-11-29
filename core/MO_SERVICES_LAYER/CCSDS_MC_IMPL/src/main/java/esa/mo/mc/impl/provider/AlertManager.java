@@ -159,21 +159,20 @@ public final class AlertManager extends MCManager {
         return false;
     }
 
-    public boolean setGenerationEnabled(final Long identityId, final Boolean bool,
+    public Long setGenerationEnabled(final Long identityId, final Boolean bool,
             final ObjectId source, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         AlertDefinitionDetails def = this.getAlertDefinitionFromIdentityId(identityId);
         if (def == null) {
-            return false;
+            return null;
         }
 
         if (def.getGenerationEnabled().booleanValue() == bool) { // Is it set with the requested value already?
-            return false; // the value was not changed
+            return identityId; // the value was not changed
         }
 
         def.setGenerationEnabled(bool);
-        this.update(identityId, def, source, connectionDetails);
-
-        return true;
+        
+        return this.update(identityId, def, source, connectionDetails);
     }
 
     public void setGenerationEnabledAll(final Boolean bool, final ObjectId source,

@@ -99,14 +99,6 @@
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>ENCODING_BINARY</artifactId>
         </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>ENCODING_BINARY_FIXED</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>ENCODING_BINARY_SPLIT</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
@@ -114,14 +106,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>TRANSPORT_TCPIP_TEMP</artifactId>
-            <version>1.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>TRANSPORT_TCPIP</artifactId>
         </dependency>
     </dependencies>
     

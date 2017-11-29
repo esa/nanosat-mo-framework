@@ -367,11 +367,11 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                     argDef.setConvertedType(null);
                     argDef.setConvertedUnit(null);
                     argDef.setRawType(null);
+                    argDef.setArgId(null);
                     argList.add(argDef);
                 }
 
                 actionDefinition.setArguments(argList); // Change this...
-                actionDefinition.setArgumentIds(null);
 
                 ActionCreationRequestList acrl = new ActionCreationRequestList();
                 acrl.add(new ActionCreationRequest(new Identifier(actionName), actionDefinition));

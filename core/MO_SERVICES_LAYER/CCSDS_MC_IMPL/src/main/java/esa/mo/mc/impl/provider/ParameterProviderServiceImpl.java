@@ -241,7 +241,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public void enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -302,13 +302,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
+        LongList output = new LongList();
+
         // requirement: 3.3.10.2.i (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
-            boolean changed = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
+            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
                     valueToBeEnabled.get(index), source, connection.getConnectionDetails());
+            output.add(out);
+            
             // requirement: 3.3.10.2.l
-            if (changed) {
+            if (out.longValue() != objIdToBeEnabled.get(index)) {
                 periodicReportingManager.refresh(objIdToBeEnabled.get(index));
             }
         }
@@ -316,6 +320,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
+        
+        return output;
     }
 
     @Override
