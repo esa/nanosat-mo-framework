@@ -445,7 +445,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * different from the on supplied
      */
     public void reportExecutionProgress(final boolean success, final UInteger errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages, 
+            final int progressStage, final int totalNumberOfProgressStages,
             final Long actionInstId) throws IOException {
         // Some validation
         if (progressStage < 1) {
@@ -463,6 +463,12 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             }
 
             UShort totalSteps = actionDefinition.getProgressStepCount();
+
+            if (totalNumberOfProgressStages != totalSteps.getValue()) {
+                throw new IOException("The reported total number of progress stages "
+                        + "does not match the number stated in the Action Definition: "
+                        + totalNumberOfProgressStages + " vs. " + totalSteps.getValue());
+            }
 
             if (totalSteps.getValue() == 0) {
                 throw new IOException("The Action Definition includes 0 progress step count and so, it cannot be reported on it.");
