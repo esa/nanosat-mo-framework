@@ -93,6 +93,10 @@
           <include>LICENCE.md</include>
         </includes>
       </resource>
+      <resource>
+        <directory>${esa.stubgen.xmlDirectory}</directory>
+        <targetPath>xml</targetPath>
+      </resource>
     </resources>
     
     <plugins>
