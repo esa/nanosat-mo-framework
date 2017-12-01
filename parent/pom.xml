@@ -70,10 +70,6 @@
 
         <!-- Transports -->
         <esa.ccsds.trans.tcp.version>1.7</esa.ccsds.trans.tcp.version>
-        <!--
-        <esa.ccsds.trans.http.version>1.2</esa.ccsds.trans.http.version>
-        <esa.ccsds.trans.tcptp.version>1.1</esa.ccsds.trans.tcptp.version>
-        -->
         
         <!-- APIs -->
         <esa.ccsds.api.comNMF.version>0.1.5-SNAPSHOT</esa.ccsds.api.comNMF.version>
@@ -143,18 +139,6 @@
                 <artifactId>TRANSPORT_TCPIP</artifactId>
                 <version>${esa.ccsds.trans.tcp.version}</version>
             </dependency>
-            <!--
-            <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>TRANSPORT_HTTP_TP</artifactId>
-                <version>${esa.ccsds.trans.http.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>TRANSPORT_TCPIP_TP</artifactId>
-                <version>${esa.ccsds.trans.tcptp.version}</version>
-            </dependency>
-            -->
 
             <!-- APIs -->
             <dependency>
