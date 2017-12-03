@@ -1,7 +1,18 @@
-CCSDS MO Applications
+Demos of NMF Apps
 ============
 
-Some sample applications and tools.
+The source code examples include a package containing a set of demos with NMF Apps. These demos are very simple applications which can be used by the developers as models. The following NMF Apps demos are available:
+* Hello World App
+* Push Clock App
+* 10 seconds Alert App
+* 5 stages Action App
+* GPS data App
+* All in One App
+* SnapNMF
+* Serialized object
 
 
-For more information about the MO services, such as documentation, FAQs, tutorials, and open source software, please see the [CCSDS MO wiki](http://github.com/esa/CCSDS_MO/wiki).
+Each one of these NMF Apps has a different functionality and it is intended to demonstrate something different. For example, the Hello World App demonstrates the use of the getter and setter of the Parameter service, and the SnapNMF demonstrates how to take a picture using the Camera service.
+
+The NMF Apps development guide includes more information.
+
