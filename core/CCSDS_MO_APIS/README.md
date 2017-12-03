@@ -7,6 +7,7 @@ Holds the specific Java APIs for the NanoSat MO Framework. It includes:
 * COM services
 
 
-The COM services are like the original with an extension for a Pagination Filter for queries.
-
+The COM services are like the standardized version with 2 additional extensions:
+* Pagination Filter for queries
+* ArchiveSync service defined for the NMF
 

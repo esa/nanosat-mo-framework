@@ -1,4 +1,4 @@
-NMF Package
+NMF Package implementation
 ============
 
 A NMF Package is a digital content distribution package intended to be used to install, uninstall and update applications on a spacecraft system that uses the NanoSat MO Framework. The package shall support versioning, digital signature and file checksums in order to facilitate updates, prevent content tainting and checking for possible data corruption.
