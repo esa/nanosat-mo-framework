@@ -9,11 +9,11 @@ The design of the NMF Composites is done in a modular and flexible manner which 
 
 
 The family of NMF Composites is the following:
-- NanoSat MO Monolithic
-- NanoSat MO Supervisor
-- NanoSat MO Connector
-- Ground MO Adapter
-- Ground MO Proxy
+* NanoSat MO Monolithic
+* NanoSat MO Supervisor
+* NanoSat MO Connector
+* Ground MO Adapter
+* Ground MO Proxy
 
 
 
