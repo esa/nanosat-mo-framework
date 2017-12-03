@@ -1,7 +1,10 @@
-CCSDS MO Applications
+CCSDS MO services layer
 ============
 
-Some sample applications and tools.
-
-
-For more information about the MO services, such as documentation, FAQs, tutorials, and open source software, please see the [CCSDS MO wiki](http://github.com/esa/CCSDS_MO/wiki).
+The CCSDS MO services layer project includes the implementation of 5 sets of services:
+	- COM services
+	- M&C services
+	- Common services
+	- Software Management services
+	- Platform services
+	

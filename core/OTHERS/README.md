@@ -1,7 +1,8 @@
-CCSDS MO Java APIs
+Others
 ============
 
-Holds the generated Java APIs for the CCSDS MO services.
+This folder holds a set of projects that didn't have a better place to be.
+These should actually be removed from the NMF Core and put in an independent repository.
 
 
-For more information about the MO services, such as documentation, FAQs, tutorials, and open source software, please see the [CCSDS MO wiki](http://github.com/esa/CCSDS_MO/wiki).
+To do: Read above!
