@@ -80,7 +80,6 @@
 
         <!-- Services Implementations -->
         <esa.ccsds.impl.com.version>0.1.5-SNAPSHOT</esa.ccsds.impl.com.version>
-        <esa.ccsds.impl.reconfigurable.version>0.1.5-SNAPSHOT</esa.ccsds.impl.reconfigurable.version>
         <esa.ccsds.impl.mc.version>0.1.5-SNAPSHOT</esa.ccsds.impl.mc.version>
         <esa.ccsds.impl.common.version>0.1.5-SNAPSHOT</esa.ccsds.impl.common.version>
         <esa.ccsds.impl.sm.version>0.1.5-SNAPSHOT</esa.ccsds.impl.sm.version>
@@ -172,11 +171,6 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>CCSDS_COM_IMPL</artifactId>
                 <version>${esa.ccsds.impl.com.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>RECONFIGURABLE_MO</artifactId>
-                <version>${esa.ccsds.impl.reconfigurable.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
