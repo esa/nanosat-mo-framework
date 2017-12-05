@@ -25,7 +25,7 @@
   
     <artifactId>HELPER_TOOLS</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>Helper Tools</name>
     <description>Helper Tools for the NanoSat MO Framework</description>

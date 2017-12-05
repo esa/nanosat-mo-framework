@@ -25,7 +25,7 @@
   
     <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>NanoSat MO Monolithic: Generic</name>
     <description>NanoSat MO Framework</description>

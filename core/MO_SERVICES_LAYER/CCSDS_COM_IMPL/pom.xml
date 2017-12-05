@@ -25,7 +25,7 @@
   
     <artifactId>CCSDS_COM_IMPL</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>ESA COM Implementation</name>
     <description>The ESA/TU Graz implementation of the CCSDS Mission Operations COM services</description>

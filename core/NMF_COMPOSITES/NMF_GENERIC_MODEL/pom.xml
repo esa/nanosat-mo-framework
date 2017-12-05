@@ -25,7 +25,7 @@
   
     <artifactId>NMF_GENERIC_MODEL</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>NMF Generic Model</name>
     <description>NanoSat MO Framework Generic Model</description>

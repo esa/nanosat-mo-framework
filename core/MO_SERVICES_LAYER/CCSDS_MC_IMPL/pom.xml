@@ -25,7 +25,7 @@
   
     <artifactId>CCSDS_MC_IMPL</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>ESA/DLR MC Implementation</name>
     <description>The ESA/TU Graz/DLR implementation of the CCSDS MO MC services</description>

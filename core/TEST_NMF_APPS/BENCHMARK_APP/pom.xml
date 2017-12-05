@@ -25,7 +25,7 @@
   
     <artifactId>Benchmark_App</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>Benchmark App</name>
     <description>A simple demo to test the Archive</description>

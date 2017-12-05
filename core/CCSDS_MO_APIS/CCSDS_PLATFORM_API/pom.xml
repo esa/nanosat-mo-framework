@@ -24,7 +24,7 @@
     </parent>
 
     <artifactId>API_PLATFORM</artifactId>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>Platform Java API</name>

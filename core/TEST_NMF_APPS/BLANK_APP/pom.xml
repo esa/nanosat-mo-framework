@@ -25,7 +25,7 @@
     
     <artifactId>Blank_App</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>Blank App</name>
     <description>A blank app to start new projects</description>
