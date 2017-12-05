@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.5-SNAPSHOT</version>
+        <version>1</version>
         <relativePath/>
     </parent>
   
     <artifactId>CTT</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>CTT: Consumer Test Tool</name>
     <description>A tool to test NMF-related providers.</description>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>MAL_ELEMENTS_WINDOW</artifactId>
-            <version>0.1.5-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.jdesktop</groupId>
