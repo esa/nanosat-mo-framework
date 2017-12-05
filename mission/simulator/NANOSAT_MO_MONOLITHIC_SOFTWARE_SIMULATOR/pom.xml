@@ -19,13 +19,13 @@
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>0.5-SNAPSHOT</version>
+        <version>1</version>
         <relativePath/>
     </parent>
   
     <artifactId>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>NanoSat MO Monolithic: Software Simulator</name>
     <description>NanoSat MO Framework for OPS-SAT Software Simulator</description>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>PLATFORM_SOFTWARE_SIMULATOR_IMPL</artifactId>
-            <version>0.1.5-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
     
