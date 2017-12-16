@@ -1,0 +1,15 @@
+This file contains the instructions to create the Software Development Kit to be distributed to developers.
+
+Instructions:
+
+	1. Compile in with "release-profile" the following projects: NMF_POM, NMF_CORE
+	2. Open the SDK_GENERATOR project and compile. This generates the folders:
+		- CTT
+		- NMF Package Assembler
+		- Playground
+	3. Delete the folder: docs/Javadocs
+	4. Open the NMF_JAVADOCS_GENERATOR project and compile with the "release-profile". This generates the new Javadocs in the docs/Javadocs folder
+	5. Clean the projects: SDK_GENERATOR, and NMF_JAVADOCS_GENERATOR
+	6. Update the MO ICDs if there were changes in the NMF MO XML files
+
+
