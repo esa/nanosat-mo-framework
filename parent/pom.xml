@@ -36,7 +36,7 @@
     <licenses>
         <license>
             <name>The European Space Agency Public License, Version 2.0</name>
-            <url>https://raw.github.com/esa/CCSDS_MO_TESTBEDS/master/LICENCE_ESA.md</url>
+            <url>https://github.com/esa/NMF_POM/blob/master/LICENCE</url>
             <distribution>repo</distribution>
         </license>
         <license>
