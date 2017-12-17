@@ -43,12 +43,18 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-  
+
+    <scm>
+        <connection>scm:git:git@github.com:esa/NMF_SDK.git</connection>
+        <developerConnection>scm:git:git@github.com:esa/NMF_SDK.git</developerConnection>
+        <url>https://github.com/esa/NMF_SDK</url>
+    </scm>
+
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
+        <url>https://github.com/esa/NMF_SDK/issues</url>
     </issueManagement>
-  
+
     <developers>
         <developer>
             <id>CesarCoelho</id>
@@ -63,7 +69,6 @@
     </properties>
 
     <dependencies>
-        
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
@@ -71,19 +76,6 @@
                         <scope>provided</scope>
             -->            
         </dependency>
-
-                
-        <!--        
-                <dependency>
-                    <groupId>int.esa.ccsds.mo</groupId>
-                    <artifactId>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</artifactId>
-                    <version>1.0</version>
-        -->            
-        <!--
-                    <scope>provided</scope>
-        -->            
-        <!--        </dependency>
-        -->            
     </dependencies>
 
     <build>

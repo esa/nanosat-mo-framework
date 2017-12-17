@@ -44,11 +44,17 @@
         </license>
     </licenses>
     
+    <scm>
+        <connection>scm:git:git@github.com:esa/NMF_SDK.git</connection>
+        <developerConnection>scm:git:git@github.com:esa/NMF_SDK.git</developerConnection>
+        <url>https://github.com/esa/NMF_SDK</url>
+    </scm>
+
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
+        <url>https://github.com/esa/NMF_SDK/issues</url>
     </issueManagement>
-  
+
     <developers>
         <developer>
             <id>CesarCoelho</id>
