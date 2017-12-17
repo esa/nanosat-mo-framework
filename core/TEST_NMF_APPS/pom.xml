@@ -14,50 +14,56 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
   
-  <parent>
-    <groupId>int.esa.ccsds.mo</groupId>
-    <artifactId>POM</artifactId>
-    <version>7</version>
-    <relativePath/>
-  </parent>
+    <parent>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>POM</artifactId>
+        <version>7</version>
+        <relativePath/>
+    </parent>
   
-  <artifactId>TEST_NMF_APPS_REACTOR</artifactId>
-  <version>1.0</version>
-  <packaging>pom</packaging>
-  <name>Test NMF Apps</name>
+    <artifactId>TEST_NMF_APPS_REACTOR</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>Test NMF Apps</name>
 
-  <organization>
-    <name>ESA</name>
-    <url>http://www.esa.int</url>
-  </organization>
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
   
-  <licenses>
-    <license>
-      <name>The European Space Agency Public License, Version 2.0</name>
-      <url>https://raw.github.com/esa/CCSDS_MO_APPS/master/LICENCE.md</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>The European Space Agency Public License, Version 2.0</name>
+            <url>https://raw.github.com/esa/CCSDS_MO_APPS/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
-  </issueManagement>
+    <scm>
+        <connection>scm:git:git@github.com:esa/NMF_CORE.git</connection>
+        <developerConnection>scm:git:git@github.com:esa/NMF_CORE.git</developerConnection>
+        <url>https://github.com/esa/NMF_CORE</url>
+    </scm>
+      
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/esa/NMF_CORE/issues</url>
+    </issueManagement>
   
-  <developers>
+    <developers>
         <developer>
             <id>CesarCoelho</id>
             <name>César Coelho</name>
             <email>Cesar.Coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
-  </developers>
+    </developers>
 
-  <modules>
-    <module>BLANK_APP</module>
-    <module>BENCHMARK_APP</module>
-  </modules>
+    <modules>
+        <module>BLANK_APP</module>
+        <module>BENCHMARK_APP</module>
+    </modules>
    
 </project>

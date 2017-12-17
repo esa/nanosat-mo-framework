@@ -41,9 +41,15 @@
         </license>
     </licenses>
 
+    <scm>
+        <connection>scm:git:git@github.com:esa/NMF_CORE.git</connection>
+        <developerConnection>scm:git:git@github.com:esa/NMF_CORE.git</developerConnection>
+        <url>https://github.com/esa/NMF_CORE</url>
+    </scm>
+      
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/esa/CCSDS_MO_APIS/issues</url>
+        <url>https://github.com/esa/NMF_CORE/issues</url>
     </issueManagement>
   
     <developers>

@@ -45,14 +45,14 @@
     </licenses>
   
     <scm>
-        <connection>scm:git:git@github.com:esa/CCSDS_APPS.git</connection>
-        <developerConnection>scm:git:git@github.com:esa/CCSDS_APPS.git</developerConnection>
-        <url>https://github.com/esa/CCSDS_APPS</url>
+        <connection>scm:git:git@github.com:esa/NMF_CORE.git</connection>
+        <developerConnection>scm:git:git@github.com:esa/NMF_CORE.git</developerConnection>
+        <url>https://github.com/esa/NMF_CORE</url>
     </scm>
-  
+      
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
+        <url>https://github.com/esa/NMF_CORE/issues</url>
     </issueManagement>
   
     <developers>
@@ -114,7 +114,6 @@
             <!--            <version>3.7.2</version> -->
             <version>3.18.0</version>
         </dependency>
-
     </dependencies>
   
     <build>

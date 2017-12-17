@@ -43,7 +43,18 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-  
+
+    <scm>
+        <connection>scm:git:git@github.com:esa/NMF_CORE.git</connection>
+        <developerConnection>scm:git:git@github.com:esa/NMF_CORE.git</developerConnection>
+        <url>https://github.com/esa/NMF_CORE</url>
+    </scm>
+      
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/esa/NMF_CORE/issues</url>
+    </issueManagement>
+    
     <developers>
         <developer>
             <id>CesarCoelho</id>
@@ -64,7 +75,6 @@
             <url>https://github.com/NicolasVorwerg</url>
         </developer>
     </developers>
-
 
     <dependencies>
         <dependency>
