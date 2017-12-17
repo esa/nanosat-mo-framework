@@ -53,9 +53,15 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
+        <url>https://github.com/esa/NMF_POM/issues</url>
     </issueManagement>
   
+    <scm>
+        <connection>scm:git:git@github.com:esa/NMF_POM.git</connection>
+        <developerConnection>scm:git:git@github.com:esa/NMF_POM.git</developerConnection>
+        <url>https://github.com/esa/NMF_POM</url>
+    </scm>
+
     <developers>
         <developer>
             <id>CesarCoelho</id>
