@@ -21,11 +21,14 @@
 package esa.mo.tools.mowindow;
 
 import esa.mo.helpertools.helpers.HelperMisc;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.io.InterruptedIOException;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
+import javax.swing.JTextField;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALService;
@@ -202,7 +205,10 @@ public final class MOWindow extends javax.swing.JDialog {
     }
 
     public void refreshVerticalSize() {
-        this.setSize(this.getWidth(), componentsPanel.getComponentCount() * 23 + 110);
+        // This is needed for screens that have the zoom property set
+        // sizeFactor used to be a static 23
+        int sizeFactor = (new javax.swing.JTextField()).getPreferredSize().height + 5;
+        this.setSize(this.getWidth(), componentsPanel.getComponentCount() * sizeFactor + 110);
 
         this.validate();
         this.repaint();
@@ -274,7 +280,7 @@ public final class MOWindow extends javax.swing.JDialog {
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topPanelLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(objIdentification)
                 .addContainerGap())
         );
