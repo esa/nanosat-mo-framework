@@ -21,14 +21,11 @@
 package esa.mo.tools.mowindow;
 
 import esa.mo.helpertools.helpers.HelperMisc;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.io.InterruptedIOException;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
-import javax.swing.JTextField;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALService;
