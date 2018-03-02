@@ -12,20 +12,19 @@
     See the License for the specific language governing permissions and limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
   
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>POM</artifactId>
         <version>7</version>
-        <relativePath/>
+        <relativePath />
     </parent>
   
     <artifactId>NMF_POM</artifactId>
     <packaging>pom</packaging>
-    <version>1</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>NMF: POM</name>
 
     <organization>
@@ -72,36 +71,6 @@
     </developers>
   
     <properties>
-        <esa.nmf.helper.version>1.0</esa.nmf.helper.version>
-
-        <!-- Transports -->
-        <esa.ccsds.trans.tcp.version>1.7</esa.ccsds.trans.tcp.version>
-        
-        <!-- APIs -->
-        <esa.ccsds.api.comNMF.version>1.0</esa.ccsds.api.comNMF.version>
-        <esa.ccsds.api.mc.version>1.7</esa.ccsds.api.mc.version>
-        <esa.ccsds.api.common.version>1.0-RC1</esa.ccsds.api.common.version>
-        <esa.ccsds.api.sm.version>1.0</esa.ccsds.api.sm.version>
-        <esa.ccsds.api.platform.version>1.0</esa.ccsds.api.platform.version>
-
-        <!-- Services Implementations -->
-        <esa.ccsds.impl.com.version>1.0</esa.ccsds.impl.com.version>
-        <esa.ccsds.impl.mc.version>1.0</esa.ccsds.impl.mc.version>
-        <esa.ccsds.impl.common.version>1.0</esa.ccsds.impl.common.version>
-        <esa.ccsds.impl.sm.version>1.0</esa.ccsds.impl.sm.version>
-        <esa.ccsds.impl.plat.version>1.0</esa.ccsds.impl.plat.version>
-
-        <!-- NMF Composites -->
-        <esa.nmf.composites.genericmodel.version>1.0</esa.nmf.composites.genericmodel.version>
-        <esa.nmf.composites.nmm.version>1.0</esa.nmf.composites.nmm.version>
-        <esa.nmf.composites.nmc.version>1.0</esa.nmf.composites.nmc.version>
-        <esa.nmf.composites.nms.version>1.0</esa.nmf.composites.nms.version>
-        <esa.nmf.composites.gma.version>1.0</esa.nmf.composites.gma.version>
-        <esa.nmf.composites.gmp.version>1.0</esa.nmf.composites.gmp.version>
-
-        <!-- NMF Packager -->
-        <esa.nmf.packager.version>1.0</esa.nmf.packager.version>
-
         <!-- NMF Artifacts -->
         <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
         <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}</esa.nmf.artifact.app.folder>
@@ -109,194 +78,166 @@
         <!-- NMF Playground -->
         <playground.folder.output>${basedir}/../../../../Playground</playground.folder.output>
         <playground.folder.app>${playground.folder.output}/apps/${esa.nmf.artifact.app.artifactid}</playground.folder.app>
-
-        <!-- NMF Mission Library -->
-        <esa.nmf.mission.softwaresimulator.library>1.0</esa.nmf.mission.softwaresimulator.library>
-
-        <!-- NMF - Default Apps -->
-        <esa.nmf.benchmarkapp>1.0</esa.nmf.benchmarkapp>
-
-        <!-- NMF SDK -->
-        <esa.nmf.sdk.ctt>1.0</esa.nmf.sdk.ctt>
-        <esa.nmf.sdk.nmfpackageassembler>1.0</esa.nmf.sdk.nmfpackageassembler>
-
-        <!-- NMF SDK Apps -->
-        <esa.nmf.sdk.app.helloworld>1.0</esa.nmf.sdk.app.helloworld>
-        <esa.nmf.sdk.app.pushclock>1.0</esa.nmf.sdk.app.pushclock>
-        <esa.nmf.sdk.app.gpsdata>1.0</esa.nmf.sdk.app.gpsdata>
-        <esa.nmf.sdk.app.tensecondsalert>1.0</esa.nmf.sdk.app.tensecondsalert>
-        <esa.nmf.sdk.app.fivestagesaction>1.0</esa.nmf.sdk.app.fivestagesaction>
-        <esa.nmf.sdk.app.allinone>1.0</esa.nmf.sdk.app.allinone>
-        <esa.nmf.sdk.app.snapnmf>1.0</esa.nmf.sdk.app.snapnmf>
     </properties>
   
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>HELPER_TOOLS</artifactId>
-                <version>${esa.nmf.helper.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
-            <!-- Transports -->
-            <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>TRANSPORT_TCPIP</artifactId>
-                <version>${esa.ccsds.trans.tcp.version}</version>
-            </dependency>
-
-            <!-- APIs -->
+            <!-- Customized COM, specific to NMF -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>API_COM_NMF</artifactId>
-                <version>${esa.ccsds.api.comNMF.version}</version>
+                <version>${project.version}</version>
             </dependency>
+            <!-- API_COMMON released as a part of the Java baseline,
+                 but not yet referenced from the ESA MO POM -->
             <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>API_MC</artifactId>
-                <version>${esa.ccsds.api.mc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
+                <groupId>int.esa.ccsds.mo</groupId>
                 <artifactId>API_COMMON</artifactId>
-                <version>${esa.ccsds.api.common.version}</version>
+                <version>1.0-RC1</version>
             </dependency>
+            <!-- APIs not yet released as a part of the baseline -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>API_PLATFORM</artifactId>
-                <version>${esa.ccsds.api.platform.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>API_SM</artifactId>
-                <version>${esa.ccsds.api.sm.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- Services Implementations -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>CCSDS_COM_IMPL</artifactId>
-                <version>${esa.ccsds.impl.com.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>CCSDS_MC_IMPL</artifactId>
-                <version>${esa.ccsds.impl.mc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>CCSDS_COMMON_IMPL</artifactId>
-                <version>${esa.ccsds.impl.common.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>CCSDS_SM_IMPL</artifactId>
-                <version>${esa.ccsds.impl.sm.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
-                <version>${esa.ccsds.impl.plat.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- NMF Composites -->
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>NMF_GENERIC_MODEL</artifactId>
-                <version>${esa.nmf.composites.genericmodel.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
-                <version>${esa.nmf.composites.nmm.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
-                <version>${esa.nmf.composites.nmc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>NANOSAT_MO_SUPERVISOR</artifactId>
-                <version>${esa.nmf.composites.nms.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>GROUND_MO_ADAPTER</artifactId>
-                <version>${esa.nmf.composites.gma.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>GROUND_MO_PROXY</artifactId>
-                <version>${esa.nmf.composites.gmp.version}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <!-- Sweeteners -->
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>NMF_PACKAGE_IMPL</artifactId>
-                <version>${esa.nmf.packager.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- NMF Mission -->
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
-                <version>${esa.nmf.mission.softwaresimulator.library}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- NMF - Default Apps -->
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>Benchmark_App</artifactId>
-                <version>${esa.nmf.benchmarkapp}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- NMF SDK -->
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>CTT</artifactId>
-                <version>${esa.nmf.sdk.ctt}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>NMF_PACKAGE_ASSEMBLER</artifactId>
-                <version>${esa.nmf.sdk.nmfpackageassembler}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>Demo_Hello_World</artifactId>
-                <version>${esa.nmf.sdk.app.helloworld}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>Demo_Push_Clock</artifactId>
-                <version>${esa.nmf.sdk.app.pushclock}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>Demo_GPS_data</artifactId>
-                <version>${esa.nmf.sdk.app.gpsdata}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>Demo_10_sec_alert</artifactId>
-                <version>${esa.nmf.sdk.app.tensecondsalert}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>Demo_5_stages_action</artifactId>
-                <version>${esa.nmf.sdk.app.fivestagesaction}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>Demo_All_In_One</artifactId>
-                <version>${esa.nmf.sdk.app.allinone}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>Demo_SnapNMF</artifactId>
-                <version>${esa.nmf.sdk.app.snapnmf}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
