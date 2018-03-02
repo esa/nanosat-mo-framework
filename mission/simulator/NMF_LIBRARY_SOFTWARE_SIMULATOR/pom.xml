@@ -8,24 +8,22 @@
     You on an "as is" basis and without warranties of any kind, including without
     limitation merchantability, fitness for a particular purpose, absence of
     defects or errors, accuracy or non-infringement of intellectual property rights.
- 
+
     See the License for the specific language governing permissions and limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-  
+
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>NMF_POM</artifactId>
-        <version>1</version>
-        <relativePath/>
+        <version>1.1.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
-  
+
     <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
     <packaging>jar</packaging>
-    <version>1.0</version>
 
     <name>NMF Library: Software Simulator</name>
     <description>Library for the Software Simulator</description>
@@ -43,7 +41,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-  
+
     <scm>
         <connection>scm:git:git@github.com:esa/NMF_MISSION_SOFTWARE_SIMULATOR.git</connection>
         <developerConnection>scm:git:git@github.com:esa/NMF_MISSION_SOFTWARE_SIMULATOR.git</developerConnection>
@@ -54,7 +52,7 @@
         <system>GitHub</system>
         <url>https://github.com/esa/NMF_MISSION_SOFTWARE_SIMULATOR/issues</url>
     </issueManagement>
-  
+
     <developers>
         <developer>
             <id>CesarCoelho</id>
@@ -72,10 +70,10 @@
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR</artifactId>
-            <version>1.0</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
-    
+
     <build>
         <resources>
             <resource>
