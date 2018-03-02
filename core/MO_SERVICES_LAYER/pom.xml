@@ -8,23 +8,21 @@
     You on an "as is" basis and without warranties of any kind, including without
     limitation merchantability, fitness for a particular purpose, absence of
     defects or errors, accuracy or non-infringement of intellectual property rights.
- 
+
     See the License for the specific language governing permissions and limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-  
+
     <parent>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>POM</artifactId>
-        <version>7</version>
-        <relativePath/>
+        <artifactId>NMF_POM</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
-  
+
     <artifactId>MO_SERVICES_LAYER_REACTOR</artifactId>
-    <version>1.0</version>
     <packaging>pom</packaging>
     <name>MO services Layer</name>
 
@@ -32,7 +30,7 @@
         <name>ESA</name>
         <url>http://www.esa.int</url>
     </organization>
-  
+
     <licenses>
         <license>
             <name>The European Space Agency Public License, Version 2.0</name>
@@ -46,12 +44,12 @@
         <developerConnection>scm:git:git@github.com:esa/NMF_CORE.git</developerConnection>
         <url>https://github.com/esa/NMF_CORE</url>
     </scm>
-      
+
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/esa/NMF_CORE/issues</url>
     </issueManagement>
-  
+
     <developers>
         <developer>
             <id>CesarCoelho</id>
@@ -68,5 +66,5 @@
         <module>CCSDS_SM_IMPL</module>
         <module>PLATFORM_GENERIC_IMPL</module>
     </modules>
-   
+
 </project>
