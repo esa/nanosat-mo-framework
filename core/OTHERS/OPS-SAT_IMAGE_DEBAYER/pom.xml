@@ -20,7 +20,7 @@
     <version>0.1.0</version>
     <packaging>jar</packaging>
     
-    <name>Image Debayering for OPS-SAT</name>
+    <name>ESA NMF Core Misc - Image Debayering for OPS-SAT</name>
     <description>Image Debayering for OPS-SAT</description>
     <url>http://www.esa.int</url>    
     

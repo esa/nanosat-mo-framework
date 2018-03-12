@@ -16,8 +16,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>NMF_POM</artifactId>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
@@ -25,7 +25,7 @@
     <artifactId>NANOSAT_MO_SUPERVISOR</artifactId>
     <packaging>jar</packaging>
 
-    <name>NanoSat MO Supervisor: Generic</name>
+    <name>ESA NMF Core Composite - Generic NanoSat MO Supervisor</name>
     <description>NanoSat MO Supervisor</description>
     <url>http://www.esa.int</url>
 
@@ -64,7 +64,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>NMF_GENERIC_MODEL</artifactId>
         </dependency>
     </dependencies>

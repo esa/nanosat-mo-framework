@@ -20,7 +20,7 @@
     <packaging>jar</packaging>
     <version>0.1.0</version>
 
-    <name>GPS Simulator</name>
+    <name>ESA NMF Core Misc - GPS Simulator</name>
     <description>A GPS Simulator</description>
     <url>http://www.esa.int</url>
   

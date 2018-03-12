@@ -16,15 +16,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>NMF_POM</artifactId>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <artifactId>TEST_NMF_APPS_REACTOR</artifactId>
     <packaging>pom</packaging>
-    <name>Test NMF Apps</name>
+    <name>ESA NMF Core Reactor - Test NMF Apps</name>
 
     <organization>
         <name>ESA</name>
@@ -58,6 +58,10 @@
             <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
+
+    <properties>
+      <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
     <modules>
         <module>BLANK_APP</module>

@@ -16,8 +16,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>NMF_POM</artifactId>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
@@ -25,7 +25,7 @@
     <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
     <packaging>jar</packaging>
 
-    <name>Platform services: Generic Implementation</name>
+    <name>ESA NMF Core MO Services Implementation - Generic Platform Services</name>
     <description>The ESA/TU Graz implementation of the Platform services</description>
     <url>http://www.esa.int</url>
 
@@ -65,20 +65,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_MAL</artifactId>
+          <groupId>int.esa.ccsds.mo</groupId>
+          <artifactId>API_MAL</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_PLATFORM</artifactId>
+          <groupId>int.esa.nmf</groupId>
+          <artifactId>API_PLATFORM</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>HELPER_TOOLS</artifactId>
+          <groupId>int.esa.nmf</groupId>
+          <artifactId>HELPER_TOOLS</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>CCSDS_COM_IMPL</artifactId>
+          <groupId>int.esa.nmf</groupId>
+          <artifactId>CCSDS_COM_IMPL</artifactId>
         </dependency>
     </dependencies>
 

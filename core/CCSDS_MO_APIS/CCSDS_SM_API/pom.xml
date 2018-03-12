@@ -16,8 +16,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>NMF_POM</artifactId>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
@@ -25,7 +25,7 @@
     <artifactId>API_SM</artifactId>
     <packaging>jar</packaging>
 
-    <name>Software Management Java API</name>
+    <name>ESA NMF Core MO Services API - Software Management Services Java API</name>
     <description>The CCSDS Software Manager API for Java</description>
     <url>http://www.esa.int</url>
 
@@ -63,12 +63,13 @@
     </developers>
 
     <properties>
-        <ccsds.specification.version>1.2-nmf</ccsds.specification.version>
-        <ccsds.specification.download.skip>false</ccsds.specification.download.skip>
-        <ccsds.specification.download.directory>${project.build.directory}</ccsds.specification.download.directory>
-        <ccsds.specification.download.filter>**/ServiceDefSM.xml</ccsds.specification.download.filter>
-        <ccsds.specification.download.ref-skip>false</ccsds.specification.download.ref-skip>
-        <ccsds.specification.download.ref-filter>**/ServiceDefMAL.xml, **/ServiceDefCOM.xml</ccsds.specification.download.ref-filter>
+      <ccsds.specification.download.group>int.esa.nmf</ccsds.specification.download.group>
+      <ccsds.specification.version>${project.version}</ccsds.specification.version>
+      <ccsds.specification.download.skip>false</ccsds.specification.download.skip>
+      <ccsds.specification.download.directory>${project.build.directory}</ccsds.specification.download.directory>
+      <ccsds.specification.download.filter>**/ServiceDefSM.xml</ccsds.specification.download.filter>
+      <ccsds.specification.download.ref-skip>false</ccsds.specification.download.ref-skip>
+      <ccsds.specification.download.ref-filter>**/ServiceDefMAL.xml, **/ServiceDefCOM.xml</ccsds.specification.download.ref-filter>
     </properties>
 
     <dependencies>
@@ -77,8 +78,8 @@
             <artifactId>API_MAL</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_COM</artifactId>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>NMF_API_COM</artifactId>
         </dependency>
     </dependencies>
 

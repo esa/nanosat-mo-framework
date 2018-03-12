@@ -16,8 +16,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>NMF_POM</artifactId>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
@@ -25,7 +25,7 @@
     <artifactId>CCSDS_COM_IMPL</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA COM Implementation</name>
+    <name>ESA NMF Core MO Services Implementation - COM Services</name>
     <description>The ESA/TU Graz implementation of the CCSDS Mission Operations COM services</description>
     <url>http://www.esa.int</url>
 
@@ -71,22 +71,20 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_COM_NMF</artifactId>
+            <artifactId>API_COMMON</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>NMF_API_COM</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>HELPER_TOOLS</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
             <version>2.5.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_COMMON</artifactId>
         </dependency>
 
 <!--

@@ -16,8 +16,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>NMF_POM</artifactId>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
@@ -25,7 +25,7 @@
     <artifactId>CCSDS_SM_IMPL</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA Software Management Implementation</name>
+    <name>ESA NMF Core MO Services Implementation - Software Management</name>
     <description>The ESA/TU Graz implementation of the CCSDS Mission Operations Software Management services</description>
     <url>http://www.esa.int</url>
 
@@ -68,19 +68,19 @@
             <artifactId>API_MAL</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_COM</artifactId>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>NMF_API_COM</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>API_SM</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>HELPER_TOOLS</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>CCSDS_COM_IMPL</artifactId>
         </dependency>
     </dependencies>

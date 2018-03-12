@@ -16,8 +16,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>NMF_POM</artifactId>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
@@ -25,7 +25,7 @@
     <artifactId>Blank_App</artifactId>
     <packaging>jar</packaging>
 
-    <name>Blank App</name>
+    <name>ESA NMF Core App Example - Blank App</name>
     <description>A blank app to start new projects</description>
     <url>http://www.esa.int</url>
 
@@ -63,12 +63,13 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nmf.apps.BlankApp</assembly.mainClass>
+      <assembly.mainClass>esa.mo.nmf.apps.BlankApp</assembly.mainClass>
+      <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
         </dependency>
     </dependencies>
