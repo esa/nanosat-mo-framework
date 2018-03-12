@@ -16,15 +16,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>NMF_POM</artifactId>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <artifactId>NMF_MISSION_SOFTWARE_SIMULATOR</artifactId>
     <packaging>pom</packaging>
-    <name>NMF Mission: Software Simulator</name>
+    <name>ESA NMF Mission Simulator Reactor</name>
 
     <organization>
         <name>ESA</name>
@@ -58,6 +58,10 @@
             <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
+
+    <properties>
+      <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
     <modules>
         <module>OPS-SAT_SIMULATOR</module>

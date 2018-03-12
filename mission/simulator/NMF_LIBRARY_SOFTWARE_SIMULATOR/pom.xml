@@ -16,8 +16,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>NMF_POM</artifactId>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
@@ -25,8 +25,8 @@
     <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
     <packaging>jar</packaging>
 
-    <name>NMF Library: Software Simulator</name>
-    <description>Library for the Software Simulator</description>
+    <name>ESA NMF Mission Simulator Library</name>
+    <description>NMF Mission Simulator library, packaging NMF Mission Simulator Supervisor and generic NMF Connector, used by SDK as a shared library to run applications built against NMF.</description>
     <url>http://www.esa.int</url>
 
     <organization>
@@ -64,11 +64,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR</artifactId>
             <version>${project.version}</version>
         </dependency>
