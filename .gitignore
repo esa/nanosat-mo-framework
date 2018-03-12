@@ -7,3 +7,5 @@
 **/libs/
 **/.svn/
 **/providerURIs.properties
+*.iml
+**/.idea
