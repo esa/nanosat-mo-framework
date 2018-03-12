@@ -16,15 +16,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-      <groupId>int.esa.nmf</groupId>
-      <artifactId>parent</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
-      <relativePath />
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
 
-    <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>reactor</artifactId>
-    <name>ESA NMF SDK Reactor</name>
+    <groupId>int.esa.nmf.sdk.generator</groupId>
+    <artifactId>playground-reactor</artifactId>
+    <name>ESA NMF SDK Reactor - Playground Generator</name>
     <packaging>pom</packaging>
 
     <organization>
@@ -59,14 +59,12 @@
         </developer>
     </developers>
 
-    <properties>
-      <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
-
     <modules>
-        <module>examples</module>
-        <module>tools</module>
-        <module>sdk-generator</module>
+        <module>app-all-mc-services</module>
+        <!--<module>app-benchmark</module>-->
+        <module>app-camera</module>
+        <module>app-publish-clock</module>
+        <module>lib-mission-simulator</module>
     </modules>
 
 </project>

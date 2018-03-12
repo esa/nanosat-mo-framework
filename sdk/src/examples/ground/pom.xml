@@ -16,15 +16,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-      <groupId>int.esa.nmf</groupId>
-      <artifactId>parent</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
-      <relativePath />
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
 
-    <groupId>int.esa.nmf.sdk</groupId>
+    <groupId>int.esa.nmf.sdk.examples.ground</groupId>
     <artifactId>reactor</artifactId>
-    <name>ESA NMF SDK Reactor</name>
+    <name>ESA NMF SDK Reactor - Ground Applications Examples</name>
     <packaging>pom</packaging>
 
     <organization>
@@ -64,9 +64,10 @@
     </properties>
 
     <modules>
-        <module>examples</module>
-        <module>tools</module>
-        <module>sdk-generator</module>
+        <module>simple-ground</module>
+        <module>directory-consumer</module>
+        <module>set-and-command</module>
+        <module>facebook</module>
     </modules>
 
 </project>

@@ -23,8 +23,8 @@
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>reactor</artifactId>
-    <name>ESA NMF SDK Reactor</name>
+    <artifactId>tools-reactor</artifactId>
+    <name>ESA NMF SDK Reactor - Tools</name>
     <packaging>pom</packaging>
 
     <organization>
@@ -64,9 +64,8 @@
     </properties>
 
     <modules>
-        <module>examples</module>
-        <module>tools</module>
-        <module>sdk-generator</module>
+        <module>consumer-test-tool</module>
+        <module>package-assembler</module>
     </modules>
 
 </project>

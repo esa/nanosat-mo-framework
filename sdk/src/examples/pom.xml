@@ -22,11 +22,11 @@
       <relativePath />
     </parent>
 
-    <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>reactor</artifactId>
-    <name>ESA NMF SDK Reactor</name>
+    <groupId>int.esa.nmf.sdk.examples</groupId>
+    <artifactId>examples-reactor</artifactId>
+    <name>ESA NMF SDK Reactor - NMF Applications Examples</name>
     <packaging>pom</packaging>
-
+    
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
@@ -64,9 +64,8 @@
     </properties>
 
     <modules>
-        <module>examples</module>
-        <module>tools</module>
-        <module>sdk-generator</module>
+        <module>space</module>
+        <module>ground</module>
     </modules>
 
 </project>
