@@ -8,13 +8,13 @@
     You on an "as is" basis and without warranties of any kind, including without
     limitation merchantability, fitness for a particular purpose, absence of
     defects or errors, accuracy or non-infringement of intellectual property rights.
- 
+
     See the License for the specific language governing permissions and limitations under the License.
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-  
+
     <parent>
         <groupId>int.esa.nmf</groupId>
         <artifactId>parent</artifactId>
@@ -23,40 +23,39 @@
     </parent>
 
     <groupId>int.esa.nmf.core</groupId>
-    <artifactId>reactor</artifactId>
-    <name>ESA NMF Core Reactor</name>
-    <version>1.1.0-SNAPSHOT</version>
+    <artifactId>nmf-composites-reactor</artifactId>
     <packaging>pom</packaging>
+    <name>ESA NMF Core Reactor - Composites</name>
 
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
     </organization>
-  
+
     <licenses>
         <license>
             <name>The European Space Agency Public License, Version 2.0</name>
-            <url>https://raw.github.com/esa/CCSDS_MO_APPS/master/LICENCE.md</url>
+            <url>https://raw.github.com/esa/CCSDS_MO_APIS/master/LICENCE.md</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:esa/CCSDS_MO_APPS.git</connection>
-        <developerConnection>scm:git:git@github.com:esa/CCSDS_MO_APPS.git</developerConnection>
-        <url>https://github.com/esa/CCSDS_MO_APPS</url>
+        <connection>scm:git:git@github.com:esa/NMF_CORE.git</connection>
+        <developerConnection>scm:git:git@github.com:esa/NMF_CORE.git</developerConnection>
+        <url>https://github.com/esa/NMF_CORE</url>
     </scm>
-  
+
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/esa/CCSDS_MO_APPS/issues</url>
+        <url>https://github.com/esa/NMF_CORE/issues</url>
     </issueManagement>
-  
+
     <developers>
         <developer>
             <id>CesarCoelho</id>
-            <name>César Coelho</name>
-            <email>Cesar.Coelho@esa.int</email>
+            <name>Cesar Coelho</name>
+            <email>cesar.coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
@@ -66,14 +65,12 @@
     </properties>
 
     <modules>
-      <module>helper-tools</module>
-      <module>mo-services-xml</module>
-      <module>nmf-package-lib</module>
-      <module>nmf-composites</module>
-      <module>misc</module>
-      <module>mo-services-impl</module>
-      <module>example-apps</module>
-      <module>mo-services-apis</module>
+      <module>generic-ground-mo-proxy</module>
+      <module>generic-composite-model</module>
+      <module>generic-nanosat-mo-supervisor</module>
+      <module>generic-nanosat-monolithic</module>
+      <module>ground-mo-adapter</module>
+      <module>nanosat-mo-connector</module>
     </modules>
-  
+
 </project>
