@@ -15,22 +15,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
   
-    <parent>
-        <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
-        <relativePath />
-    </parent>
-  
-    <artifactId>OPS-SAT_SOFTWARE_SIMULATOR</artifactId>
+    <groupId>int.esa.opssat</groupId>
+    <artifactId>gps-simulator</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>ESA NMF Mission Simulator - OPS-SAT Software Simulator</name>
-    <description>A simple software simulator of OPS-SAT</description>
+    <name>ESA OPS-SAT - GPS Simulator</name>
+    <description>A simple simulator providing analitical solution for GPS and attitude measurement instruments on OPS-SAT</description>
     <url>http://www.esa.int</url>
-    <properties>
-        <orekit.apache-commons-math.version>3.6.1</orekit.apache-commons-math.version>
-    </properties>
+  
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
@@ -44,52 +37,30 @@
         </license>
     </licenses>
   
-    <scm>
-        <connection>scm:git:git@github.com:esa/NMF_MISSION_SOFTWARE_SIMULATOR.git</connection>
-        <developerConnection>scm:git:git@github.com:esa/NMF_MISSION_SOFTWARE_SIMULATOR.git</developerConnection>
-        <url>https://github.com/esa/NMF_MISSION_SOFTWARE_SIMULATOR</url>
-    </scm>
-
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/esa/NMF_MISSION_SOFTWARE_SIMULATOR/issues</url>
+        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
     </issueManagement>
-
+  
     <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>Cesar Coelho</name>
+            <email>Cesar.Coelho@esa.int</email>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
         <developer>
             <id>CezarSuteu</id>
             <name>Cezar Suteu</name>
             <email>Cezar.Suteu@esa.int</email>
             <url>https://github.com/CezarSuteu</url>
         </developer>
-        <developer>
-            <id>CesarCoelho</id>
-            <name>César Coelho</name>
-            <email>Cesar.Coelho@esa.int</email>
-            <url>https://github.com/CesarCoelho</url>
-        </developer>
     </developers>
-    
-    <dependencies>
-        <dependency>
-            <groupId>int.esa.opssat</groupId>
-            <artifactId>GPS_SIMULATOR</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.orekit</groupId>
-            <artifactId>orekit</artifactId>
-            <version>7.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>${orekit.apache-commons-math.version}</version>
-            <type>jar</type>
-            <optional>false</optional>
-        </dependency>
-    </dependencies>
             
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <build>
         <resources>
             <resource>
@@ -104,48 +75,28 @@
                     <include>earth.jpg</include>
                 </includes>
             </resource>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <includes>
-                    <include>ESA-logo.png</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <includes>
-                    <include>03_logo_dark_blue.bmp</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${basedir}/ops-sat-simulator-resources</directory>
-                <includes>
-                    <include>**</include>
-                </includes>
-            </resource>    
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <includes>
-                    <include>descriptions.txt</include>
-                </includes>
-            </resource>
         </resources>
     
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -154,11 +105,29 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.5.5</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <finalName>${project.artifactId}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
-    </build>
+    </build> 
+    
 </project>

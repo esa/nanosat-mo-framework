@@ -15,14 +15,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
-        <relativePath />
-    </parent>
-
-    <artifactId>NMF_MISSION_SOFTWARE_SIMULATOR</artifactId>
+    <groupId>int.esa.nmf.simulator</groupId>
+    <artifactId>reactor</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ESA NMF Mission Simulator Reactor</name>
 
@@ -64,11 +59,12 @@
     </properties>
 
     <modules>
-        <module>OPS-SAT_SIMULATOR</module>
-        <module>PLATFORM_SOFTWARE_SIMULATOR_IMPL</module>
-        <module>NANOSAT_MO_MONOLITHIC_SOFTWARE_SIMULATOR</module>
-        <module>NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR</module>
-        <module>NMF_LIBRARY_SOFTWARE_SIMULATOR</module>
+      <module>platform-service-impl</module>
+      <module>nanosat-monolithic</module>
+      <module>nanosat-mo-supervisor</module>
+      <module>nmf-library</module>
+      <module>opssat-gps-simulator</module>
+      <module>opssat-spacecraft-simulator</module>
     </modules>
 
 </project>

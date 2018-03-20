@@ -8,27 +8,24 @@
     You on an "as is" basis and without warranties of any kind, including without
     limitation merchantability, fitness for a particular purpose, absence of
     defects or errors, accuracy or non-infringement of intellectual property rights.
-
+ 
     See the License for the specific language governing permissions and limitations under the License.
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
-        <relativePath />
-    </parent>
-
-    <artifactId>PLATFORM_SOFTWARE_SIMULATOR_IMPL</artifactId>
+    <groupId>int.esa.opssat</groupId>
+    <version>1.1.0-SNAPSHOT</version>
+    <artifactId>spacecraft-simulator</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF Mission Simulator - Platform Services Implementation</name>
-    <description>The ESA/TU Graz implementation of the Platform services</description>
+    <name>ESA OPS-SAT - Spacecraft Simulator</name>
+    <description>A simple software simulator of OPS-SAT</description>
     <url>http://www.esa.int</url>
-
+    <properties>
+        <orekit.apache-commons-math.version>3.6.1</orekit.apache-commons-math.version>
+    </properties>
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
@@ -41,7 +38,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
+  
     <scm>
         <connection>scm:git:git@github.com:esa/NMF_MISSION_SOFTWARE_SIMULATOR.git</connection>
         <developerConnection>scm:git:git@github.com:esa/NMF_MISSION_SOFTWARE_SIMULATOR.git</developerConnection>
@@ -55,31 +52,39 @@
 
     <developers>
         <developer>
+            <id>CezarSuteu</id>
+            <name>Cezar Suteu</name>
+            <email>Cezar.Suteu@esa.int</email>
+            <url>https://github.com/CezarSuteu</url>
+        </developer>
+        <developer>
             <id>CesarCoelho</id>
             <name>César Coelho</name>
             <email>Cesar.Coelho@esa.int</email>
             <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
-
-
+    
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf</groupId>
-            <artifactId>OPS-SAT_SOFTWARE_SIMULATOR</artifactId>
+            <groupId>int.esa.opssat</groupId>
+            <artifactId>gps-simulator</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>int.esa.opssat</groupId>
-            <artifactId>OPSSAT_IMAGE_DEBAYER</artifactId>
-            <version>0.1.0</version>
+            <groupId>org.orekit</groupId>
+            <artifactId>orekit</artifactId>
+            <version>7.2</version>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf</groupId>
-            <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>${orekit.apache-commons-math.version}</version>
+            <type>jar</type>
+            <optional>false</optional>
         </dependency>
     </dependencies>
-
+            
     <build>
         <resources>
             <resource>
@@ -88,8 +93,38 @@
                     <include>LICENCE.md</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>earth.jpg</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>ESA-logo.png</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>03_logo_dark_blue.bmp</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/ops-sat-simulator-resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+            </resource>    
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>descriptions.txt</include>
+                </includes>
+            </resource>
         </resources>
-
+    
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -115,21 +150,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
-        </plugins>
-    </build>
-
-    <reporting>
-        <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.5.2</version>
-                <configuration>
-                    <findbugsXmlOutput>true</findbugsXmlOutput>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <xmlOutput>true</xmlOutput>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
             </plugin>
         </plugins>
-    </reporting>
+    </build>
 </project>

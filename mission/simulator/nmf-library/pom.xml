@@ -22,10 +22,11 @@
         <relativePath />
     </parent>
 
-    <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
+    <groupId>int.esa.nmf.simulator</groupId>
+    <artifactId>nmf-library</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF Mission Simulator Library</name>
+    <name>ESA NMF Mission Simulator - NMF Library</name>
     <description>NMF Mission Simulator library, packaging NMF Mission Simulator Supervisor and generic NMF Connector, used by SDK as a shared library to run applications built against NMF.</description>
     <url>http://www.esa.int</url>
 
@@ -64,13 +65,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf</groupId>
-            <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
+          <groupId>int.esa.nmf.core</groupId>
+          <artifactId>nanosat-mo-connector</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf</groupId>
-            <artifactId>NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR</artifactId>
-            <version>${project.version}</version>
+          <groupId>int.esa.nmf.simulator</groupId>
+          <artifactId>nanosat-mo-supervisor</artifactId>
+          <version>${esa.nmf.version-qualifier}</version>
         </dependency>
     </dependencies>
 
