@@ -25,8 +25,11 @@
     <groupId>int.esa.nmf</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <!-- Version is by default inherited by artifacts,
-    although any artifact can introduce patches by increasing the patch version -->
+    <!--
+      Version is by default inherited by artifacts,
+      although any artifact can be released independently when
+      increasing the patch version.
+    -->
     <version>1.1.0-SNAPSHOT</version>
     <name>ESA NMF - The Parent POM</name>
     <description>ESA parent POM for Nanosat MO Framework based artifacts</description>
@@ -75,9 +78,6 @@
     </developers>
 
     <properties>
-      <!-- Workaround for a bug in CCSDS MO POM 7, referencing ${project.groupId} -->
-      <ccsds.specification.download.group>int.esa.ccsds.mo</ccsds.specification.download.group>
-
       <!-- NMF general properties -->
       <esa.nmf.version>1.1.0-SNAPSHOT</esa.nmf.version>
       <esa.nmf.next-version>1.2.0</esa.nmf.next-version>
@@ -177,16 +177,24 @@
           <version>${esa.support.lib.com.version}</version>
         </dependency>
 
+        <!-- NMF Helper Tools -->
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>HELPER_TOOLS</artifactId>
+          <groupId>int.esa.nmf.core</groupId>
+          <artifactId>helper-tools</artifactId>
+          <version>${esa.nmf.version-qualifier}</version>
+        </dependency>
+
+        <!-- MO services XMLs attached to NMF -->
+        <dependency>
+          <groupId>int.esa.nmf.core.moservices</groupId>
+          <artifactId>xml</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
 
         <!-- Customized COM, specific to NMF -->
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>NMF_API_COM</artifactId>
+          <groupId>int.esa.nmf.core.moservices.api</groupId>
+          <artifactId>com-nmf</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <!-- API_COMMON released as a part of the ESA MO packages,
@@ -205,142 +213,79 @@
             </exclusion>
           </exclusions>
         </dependency>
-        <!-- APIs not yet released as a part of the baseline -->
+        <!-- MO service APIs specific to NMF -->
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>API_PLATFORM</artifactId>
+          <groupId>int.esa.nmf.core.moservices.api</groupId>
+          <artifactId>platform</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>API_SM</artifactId>
+          <groupId>int.esa.nmf.core.moservices.api</groupId>
+          <artifactId>software-management</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
 
         <!-- Services Implementations -->
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>CCSDS_COM_IMPL</artifactId>
+          <groupId>int.esa.nmf.core.moservices.impl</groupId>
+          <artifactId>ccsds-com</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>CCSDS_MC_IMPL</artifactId>
+          <groupId>int.esa.nmf.core.moservices.impl</groupId>
+          <artifactId>ccsds-mc</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>CCSDS_COMMON_IMPL</artifactId>
+          <groupId>int.esa.nmf.core.moservices.impl</groupId>
+          <artifactId>ccsds-common</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>CCSDS_SM_IMPL</artifactId>
+          <groupId>int.esa.nmf.core.moservices.impl</groupId>
+          <artifactId>nmf-software-management</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>PLATFORM_GENERIC_IMPL</artifactId>
+          <groupId>int.esa.nmf.core.moservices.impl</groupId>
+          <artifactId>nmf-platform-generic</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
 
         <!-- NMF Composites -->
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>NMF_GENERIC_MODEL</artifactId>
+          <groupId>int.esa.nmf.core</groupId>
+          <artifactId>generic-composite-model</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>NANOSAT_MO_MONOLITHIC</artifactId>
+          <groupId>int.esa.nmf.core</groupId>
+          <artifactId>generic-nanosat-monolithic</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>NANOSAT_MO_CONNECTOR</artifactId>
+          <groupId>int.esa.nmf.core</groupId>
+          <artifactId>nanosat-mo-connector</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>NANOSAT_MO_SUPERVISOR</artifactId>
+          <groupId>int.esa.nmf.core</groupId>
+          <artifactId>generic-nanosat-mo-supervisor</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>GROUND_MO_ADAPTER</artifactId>
+          <groupId>int.esa.nmf.core</groupId>
+          <artifactId>ground-mo-adapter</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>GROUND_MO_PROXY</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-
-        <!-- Sweeteners -->
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>NMF_PACKAGE_IMPL</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-
-        <!-- NMF Mission -->
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>NMF_LIBRARY_SOFTWARE_SIMULATOR</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-
-        <!-- NMF - Default Apps -->
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>Benchmark_App</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-
-        <!-- NMF SDK -->
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>CTT</artifactId>
+          <groupId>int.esa.nmf.core</groupId>
+          <artifactId>generic-ground-mo-proxy</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>NMF_PACKAGE_ASSEMBLER</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>Demo_Hello_World</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>Demo_Push_Clock</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>Demo_GPS_data</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>Demo_10_sec_alert</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>Demo_5_stages_action</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>Demo_All_In_One</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf</groupId>
-          <artifactId>Demo_SnapNMF</artifactId>
+          <groupId>int.esa.nmf.core</groupId>
+          <artifactId>nmf-package-lib</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
       </dependencies>
