@@ -22,7 +22,7 @@
         <relativePath />
     </parent>
 
-    <groupId>int.esa.nmf.simulator.moservices.impl</groupId>
+    <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
     <artifactId>nmf-platform</artifactId>
     <packaging>jar</packaging>
 

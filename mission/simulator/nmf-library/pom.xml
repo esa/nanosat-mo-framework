@@ -22,7 +22,7 @@
         <relativePath />
     </parent>
 
-    <groupId>int.esa.nmf.simulator</groupId>
+    <groupId>int.esa.nmf.mission.simulator</groupId>
     <artifactId>nmf-library</artifactId>
     <packaging>jar</packaging>
 
@@ -69,7 +69,7 @@
           <artifactId>nanosat-mo-connector</artifactId>
         </dependency>
         <dependency>
-          <groupId>int.esa.nmf.simulator</groupId>
+          <groupId>int.esa.nmf.mission.simulator</groupId>
           <artifactId>nanosat-mo-supervisor</artifactId>
           <version>${esa.nmf.version-qualifier}</version>
         </dependency>
