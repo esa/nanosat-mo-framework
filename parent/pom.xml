@@ -45,16 +45,6 @@
         <url>https://raw.github.com/esa/NMF_POM/master/LICENCE.md</url>
         <distribution>repo</distribution>
       </license>
-      <license>
-        <name>CeCILL-C FREE SOFTWARE LICENSE AGREEMENT</name>
-        <url>https://raw.github.com/esa/CCSDS_MO_TESTBEDS/master/LICENCE_CNES.md</url>
-        <distribution>repo</distribution>
-      </license>
-      <license>
-        <name>GNU Lesser General Public License (LGPL), Version 2.1</name>
-        <url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
-        <distribution>repo</distribution>
-      </license>
     </licenses>
 
     <issueManagement>
