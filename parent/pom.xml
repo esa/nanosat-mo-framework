@@ -42,7 +42,7 @@
     <licenses>
       <license>
         <name>The European Space Agency Public License, Version 2.0</name>
-        <url>https://github.com/esa/POM/blob/master/LICENCE</url>
+        <url>https://github.com/esa/NMF_POM/blob/master/LICENCE</url>
         <distribution>repo</distribution>
       </license>
       <license>
@@ -59,13 +59,13 @@
 
     <issueManagement>
       <system>GitHub</system>
-      <url>https://github.com/esa/POM/issues</url>
+      <url>https://github.com/esa/NMF_CORE/issues</url>
     </issueManagement>
 
     <scm>
-      <connection>scm:git:git@github.com:esa/POM.git</connection>
-      <developerConnection>scm:git:git@github.com:esa/POM.git</developerConnection>
-      <url>https://github.com/esa/POM</url>
+      <connection>scm:git:https://github.com/esa/NMF_POM.git</connection>
+      <developerConnection>scm:git:git@github.com:esa/NMF_POM.git</developerConnection>
+      <url>https://github.com/esa/NMF_POM</url>
     </scm>
 
     <developers>
