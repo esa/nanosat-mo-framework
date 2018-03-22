@@ -65,8 +65,8 @@
     </properties>
 
     <modules>
-      <module>api-platform</module>
-      <module>api-sm</module>
-      <module>api-nmf-com</module>
+      <module>platform</module>
+      <module>software-management</module>
+      <module>com-nmf</module>
     </modules>
 </project>
