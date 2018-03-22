@@ -63,8 +63,12 @@
       <developer>
         <id>CesarCoelho</id>
         <name>César Coelho</name>
-        <email>Cesar.Coelho@esa.int</email>
         <url>https://github.com/CesarCoelho</url>
+      </developer>
+      <developer>
+        <id>dmarszk</id>
+        <name>Dominik Marszk</name>
+        <email>dominik.marszk@esa.int</email>
       </developer>
     </developers>
 
