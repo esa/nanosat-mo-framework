@@ -42,7 +42,7 @@
     <licenses>
       <license>
         <name>The European Space Agency Public License, Version 2.0</name>
-        <url>https://github.com/esa/NMF_POM/blob/master/LICENCE</url>
+        <url>https://raw.github.com/esa/NMF_POM/master/LICENCE.md</url>
         <distribution>repo</distribution>
       </license>
       <license>
@@ -293,10 +293,9 @@
     <build>
       <resources>
         <resource>
-          <directory>${basedir}/..</directory>
+          <directory>${basedir}</directory>
           <includes>
-            <include>LICENCE_ESA.md</include>
-            <include>LICENCE_CNES.md</include>
+            <include>LICENCE.md</include>
           </includes>
         </resource>
       </resources>
