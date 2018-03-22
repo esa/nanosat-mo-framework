@@ -1,299 +1,299 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-  <!--
-    Licensed under the European Space Agency Public License, Version 2.0
-    You may not use this file except in compliance with the License.
+<!--
+  Licensed under the European Space Agency Public License, Version 2.0
+  You may not use this file except in compliance with the License.
 
-    Except as expressly set forth in this License, the Software is provided to
-    You on an "as is" basis and without warranties of any kind, including without
-    limitation merchantability, fitness for a particular purpose, absence of
-    defects or errors, accuracy or non-infringement of intellectual property rights.
+  Except as expressly set forth in this License, the Software is provided to
+  You on an "as is" basis and without warranties of any kind, including without
+  limitation merchantability, fitness for a particular purpose, absence of
+  defects or errors, accuracy or non-infringement of intellectual property rights.
 
-    See the License for the specific language governing permissions and limitations under the License.
+  See the License for the specific language governing permissions and limitations under the License.
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-      <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>POM</artifactId>
-      <version>7</version>
-      <relativePath />
-    </parent>
+  <parent>
+    <groupId>int.esa.ccsds.mo</groupId>
+    <artifactId>POM</artifactId>
+    <version>7</version>
+    <relativePath />
+  </parent>
 
-    <groupId>int.esa.nmf</groupId>
-    <artifactId>parent</artifactId>
-    <packaging>pom</packaging>
-    <!--
-      Version is by default inherited by artifacts,
-      although any artifact can be released independently when
-      increasing the patch version.
-    -->
-    <version>1.1.0-SNAPSHOT</version>
-    <name>ESA NMF - The Parent POM</name>
-    <description>ESA parent POM for Nanosat MO Framework based artifacts</description>
-    <url>https://nanosat-mo-framework.github.io</url>
+  <groupId>int.esa.nmf</groupId>
+  <artifactId>parent</artifactId>
+  <packaging>pom</packaging>
+  <!--
+    Version is by default inherited by artifacts,
+    although any artifact can be released independently when
+    increasing the patch version.
+  -->
+  <version>1.1.0-SNAPSHOT</version>
+  <name>ESA NMF - The Parent POM</name>
+  <description>ESA parent POM for Nanosat MO Framework based artifacts</description>
+  <url>https://nanosat-mo-framework.github.io</url>
 
-    <organization>
-      <name>ESA</name>
-      <url>http://www.esa.int</url>
-    </organization>
+  <organization>
+    <name>ESA</name>
+    <url>http://www.esa.int</url>
+  </organization>
 
-    <licenses>
-      <license>
-        <name>The European Space Agency Public License, Version 2.0</name>
-        <url>https://raw.github.com/esa/NMF_POM/master/LICENCE.md</url>
-        <distribution>repo</distribution>
-      </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>The European Space Agency Public License, Version 2.0</name>
+      <url>https://raw.github.com/esa/NMF_POM/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
-    <issueManagement>
-      <system>GitHub</system>
-      <url>https://github.com/esa/NMF_CORE/issues</url>
-    </issueManagement>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/esa/NMF_CORE/issues</url>
+  </issueManagement>
 
-    <scm>
-      <connection>scm:git:https://github.com/esa/NMF_POM.git</connection>
-      <developerConnection>scm:git:git@github.com:esa/NMF_POM.git</developerConnection>
-      <url>https://github.com/esa/NMF_POM</url>
-    </scm>
+  <scm>
+    <connection>scm:git:https://github.com/esa/NMF_POM.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/NMF_POM.git</developerConnection>
+    <url>https://github.com/esa/NMF_POM</url>
+  </scm>
 
-    <developers>
-      <developer>
-        <id>CesarCoelho</id>
-        <name>César Coelho</name>
-        <url>https://github.com/CesarCoelho</url>
-      </developer>
-      <developer>
-        <id>dmarszk</id>
-        <name>Dominik Marszk</name>
-        <email>dominik.marszk@esa.int</email>
-      </developer>
-    </developers>
+  <developers>
+    <developer>
+      <id>CesarCoelho</id>
+      <name>César Coelho</name>
+      <url>https://github.com/CesarCoelho</url>
+    </developer>
+    <developer>
+      <id>dmarszk</id>
+      <name>Dominik Marszk</name>
+      <email>dominik.marszk@esa.int</email>
+    </developer>
+  </developers>
 
-    <properties>
-      <!-- NMF general properties -->
-      <esa.nmf.version>1.1.0-SNAPSHOT</esa.nmf.version>
-      <esa.nmf.next-version>1.2.0</esa.nmf.next-version>
-      <!-- Automatically use the latest patch of each component for the current major.minor version -->
-      <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.next-version})</esa.nmf.version-qualifier>
+  <properties>
+    <!-- NMF general properties -->
+    <esa.nmf.version>1.1.0-SNAPSHOT</esa.nmf.version>
+    <esa.nmf.next-version>1.2.0</esa.nmf.next-version>
+    <!-- Automatically use the latest patch of each component for the current major.minor version -->
+    <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.next-version})</esa.nmf.version-qualifier>
 
-      <!-- NMF Artifacts -->
-      <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
-      <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}</esa.nmf.artifact.app.folder>
+    <!-- NMF Artifacts -->
+    <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
+    <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}</esa.nmf.artifact.app.folder>
 
-      <!-- NMF Playground -->
-      <playground.folder.output>${basedir}/../../../../Playground</playground.folder.output>
-      <playground.folder.app>${playground.folder.output}/apps/${esa.nmf.artifact.app.artifactid}</playground.folder.app>
-    </properties>
+    <!-- NMF Playground -->
+    <playground.folder.output>${basedir}/../../../../Playground</playground.folder.output>
+    <playground.folder.app>${playground.folder.output}/apps/${esa.nmf.artifact.app.artifactid}</playground.folder.app>
+  </properties>
 
-    <dependencyManagement>
-      <dependencies>
-        <!-- Workaround for a bug in CCSDS MO POM 7, referencing ${project.groupId} -->
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>API_MAL</artifactId>
-          <version>${esa.api.mal.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>API_MC</artifactId>
-          <version>${esa.api.mc.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>MAL_IMPL</artifactId>
-          <version>${esa.mal.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>ENCODING_GEN</artifactId>
-          <version>${esa.gen.encoder.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>ENCODING_STRING</artifactId>
-          <version>${esa.string.encoder.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>ENCODING_BINARY</artifactId>
-          <version>${esa.binary.encoder.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>ENCODING_BINARY_FIXED</artifactId>
-          <version>${esa.binary_fixed.encoder.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>ENCODING_BINARY_SPLIT</artifactId>
-          <version>${esa.binary_split.encoder.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>TRANSPORT_GEN</artifactId>
-          <version>${esa.gen.transport.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>TRANSPORT_RMI</artifactId>
-          <version>${esa.rmi.transport.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>TRANSPORT_TCPIP</artifactId>
-          <version>${esa.tcpip.transport.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>TRANSPORT_JMS</artifactId>
-          <version>${esa.jms.transport.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>TRANSPORT_ACTIVEMQ</artifactId>
-          <version>${esa.jms.transport.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>TRANSPORT_SPP</artifactId>
-          <version>${esa.spp.transport.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>SUPPORT_LIB_MAL</artifactId>
-          <version>${esa.support.lib.mal.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>SUPPORT_LIB_COM</artifactId>
-          <version>${esa.support.lib.com.version}</version>
-        </dependency>
+  <dependencyManagement>
+    <dependencies>
+      <!-- Workaround for a bug in CCSDS MO POM 7, referencing ${project.groupId} -->
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>API_MAL</artifactId>
+        <version>${esa.api.mal.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>API_MC</artifactId>
+        <version>${esa.api.mc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>MAL_IMPL</artifactId>
+        <version>${esa.mal.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>ENCODING_GEN</artifactId>
+        <version>${esa.gen.encoder.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>ENCODING_STRING</artifactId>
+        <version>${esa.string.encoder.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>ENCODING_BINARY</artifactId>
+        <version>${esa.binary.encoder.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>ENCODING_BINARY_FIXED</artifactId>
+        <version>${esa.binary_fixed.encoder.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>ENCODING_BINARY_SPLIT</artifactId>
+        <version>${esa.binary_split.encoder.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>TRANSPORT_GEN</artifactId>
+        <version>${esa.gen.transport.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>TRANSPORT_RMI</artifactId>
+        <version>${esa.rmi.transport.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>TRANSPORT_TCPIP</artifactId>
+        <version>${esa.tcpip.transport.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>TRANSPORT_JMS</artifactId>
+        <version>${esa.jms.transport.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>TRANSPORT_ACTIVEMQ</artifactId>
+        <version>${esa.jms.transport.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>TRANSPORT_SPP</artifactId>
+        <version>${esa.spp.transport.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>SUPPORT_LIB_MAL</artifactId>
+        <version>${esa.support.lib.mal.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>SUPPORT_LIB_COM</artifactId>
+        <version>${esa.support.lib.com.version}</version>
+      </dependency>
 
-        <!-- NMF Helper Tools -->
-        <dependency>
-          <groupId>int.esa.nmf.core</groupId>
-          <artifactId>helper-tools</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
+      <!-- NMF Helper Tools -->
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>helper-tools</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
 
-        <!-- MO services XMLs attached to NMF -->
-        <dependency>
-          <groupId>int.esa.nmf.core.moservices</groupId>
-          <artifactId>xml</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
+      <!-- MO services XMLs attached to NMF -->
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices</groupId>
+        <artifactId>xml</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
 
-        <!-- Customized COM, specific to NMF -->
-        <dependency>
-          <groupId>int.esa.nmf.core.moservices.api</groupId>
-          <artifactId>com-nmf</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <!-- API_COMMON released as a part of the ESA MO packages,
-        but not yet referenced from the ESA MO POM -->
-        <dependency>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>API_COMMON</artifactId>
-          <version>1.0-RC1</version>
-          <!-- Workaround for dependency conflict introduced
-          by API_COMMON-RC1 including API_COM-1.2, conflicting API_COM-1.7.
-          TODO: Update to RC2 so API_COM versions match -->
-          <exclusions>
-            <exclusion>
-              <groupId>int.esa.ccsds.mo</groupId>
-              <artifactId>API_COM</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <!-- MO service APIs specific to NMF -->
-        <dependency>
-          <groupId>int.esa.nmf.core.moservices.api</groupId>
-          <artifactId>platform</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core.moservices.api</groupId>
-          <artifactId>software-management</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
+      <!-- Customized COM, specific to NMF -->
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices.api</groupId>
+        <artifactId>com-nmf</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <!-- API_COMMON released as a part of the ESA MO packages,
+      but not yet referenced from the ESA MO POM -->
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>API_COMMON</artifactId>
+        <version>1.0-RC1</version>
+        <!-- Workaround for dependency conflict introduced
+        by API_COMMON-RC1 including API_COM-1.2, conflicting API_COM-1.7.
+        TODO: Update to RC2 so API_COM versions match -->
+        <exclusions>
+          <exclusion>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>API_COM</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <!-- MO service APIs specific to NMF -->
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices.api</groupId>
+        <artifactId>platform</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices.api</groupId>
+        <artifactId>software-management</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
 
-        <!-- Services Implementations -->
-        <dependency>
-          <groupId>int.esa.nmf.core.moservices.impl</groupId>
-          <artifactId>ccsds-com</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core.moservices.impl</groupId>
-          <artifactId>ccsds-mc</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core.moservices.impl</groupId>
-          <artifactId>ccsds-common</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core.moservices.impl</groupId>
-          <artifactId>nmf-software-management</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core.moservices.impl</groupId>
-          <artifactId>nmf-platform-generic</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
+      <!-- Services Implementations -->
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices.impl</groupId>
+        <artifactId>ccsds-com</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices.impl</groupId>
+        <artifactId>ccsds-mc</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices.impl</groupId>
+        <artifactId>ccsds-common</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices.impl</groupId>
+        <artifactId>nmf-software-management</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices.impl</groupId>
+        <artifactId>nmf-platform-generic</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
 
-        <!-- NMF Composites -->
-        <dependency>
-          <groupId>int.esa.nmf.core</groupId>
-          <artifactId>generic-composite-model</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core</groupId>
-          <artifactId>generic-nanosat-monolithic</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core</groupId>
-          <artifactId>nanosat-mo-connector</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core</groupId>
-          <artifactId>generic-nanosat-mo-supervisor</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core</groupId>
-          <artifactId>ground-mo-adapter</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core</groupId>
-          <artifactId>generic-ground-mo-proxy</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-        <dependency>
-          <groupId>int.esa.nmf.core</groupId>
-          <artifactId>nmf-package-lib</artifactId>
-          <version>${esa.nmf.version-qualifier}</version>
-        </dependency>
-      </dependencies>
-    </dependencyManagement>
-    <build>
-      <resources>
-        <resource>
-          <directory>${basedir}</directory>
-          <includes>
-            <include>LICENCE.md</include>
-          </includes>
-        </resource>
-      </resources>
-    </build>
+      <!-- NMF Composites -->
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>generic-composite-model</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>generic-nanosat-monolithic</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>nanosat-mo-connector</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>generic-nanosat-mo-supervisor</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>ground-mo-adapter</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>generic-ground-mo-proxy</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>nmf-package-lib</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>LICENCE.md</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
 </project>
 
