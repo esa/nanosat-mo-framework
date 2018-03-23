@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   Licensed under the European Space Agency Public License, Version 2.0
   You may not use this file except in compliance with the License.
@@ -11,17 +10,14 @@
 
   See the License for the specific language governing permissions and limitations under the License.
 -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>int.esa.ccsds.mo</groupId>
     <artifactId>POM</artifactId>
     <version>7</version>
-    <relativePath />
+    <relativePath/>
   </parent>
-
   <groupId>int.esa.nmf</groupId>
   <artifactId>parent</artifactId>
   <packaging>pom</packaging>
@@ -34,12 +30,10 @@
   <name>ESA NMF - The Parent POM</name>
   <description>ESA parent POM for Nanosat MO Framework based artifacts</description>
   <url>https://nanosat-mo-framework.github.io</url>
-
   <organization>
     <name>ESA</name>
     <url>http://www.esa.int</url>
   </organization>
-
   <licenses>
     <license>
       <name>The European Space Agency Public License, Version 2.0</name>
@@ -47,18 +41,15 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
   <issueManagement>
     <system>GitHub</system>
     <url>https://github.com/esa/NMF_CORE/issues</url>
   </issueManagement>
-
   <scm>
     <connection>scm:git:https://github.com/esa/NMF_POM.git</connection>
     <developerConnection>scm:git:git@github.com:esa/NMF_POM.git</developerConnection>
     <url>https://github.com/esa/NMF_POM</url>
   </scm>
-
   <developers>
     <developer>
       <id>CesarCoelho</id>
@@ -71,23 +62,19 @@
       <email>dominik.marszk@esa.int</email>
     </developer>
   </developers>
-
   <properties>
     <!-- NMF general properties -->
     <esa.nmf.version>1.2.0-SNAPSHOT</esa.nmf.version>
     <esa.nmf.next-version>1.3.0</esa.nmf.next-version>
     <!-- Automatically use the latest patch of each component for the current major.minor version -->
     <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.next-version})</esa.nmf.version-qualifier>
-
     <!-- NMF Artifacts -->
     <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
     <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}</esa.nmf.artifact.app.folder>
-
     <!-- NMF Playground -->
     <playground.folder.output>${basedir}/../../../../Playground</playground.folder.output>
     <playground.folder.app>${playground.folder.output}/apps/${esa.nmf.artifact.app.artifactid}</playground.folder.app>
   </properties>
-
   <dependencyManagement>
     <dependencies>
       <!-- Workaround for a bug in CCSDS MO POM 7, referencing ${project.groupId} -->
@@ -171,21 +158,18 @@
         <artifactId>SUPPORT_LIB_COM</artifactId>
         <version>${esa.support.lib.com.version}</version>
       </dependency>
-
       <!-- NMF Helper Tools -->
       <dependency>
         <groupId>int.esa.nmf.core</groupId>
         <artifactId>helper-tools</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
       </dependency>
-
       <!-- MO services XMLs attached to NMF -->
       <dependency>
         <groupId>int.esa.nmf.core.moservices</groupId>
         <artifactId>xml</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
       </dependency>
-
       <!-- Customized COM, specific to NMF -->
       <dependency>
         <groupId>int.esa.nmf.core.moservices.api</groupId>
@@ -219,7 +203,6 @@
         <artifactId>software-management</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
       </dependency>
-
       <!-- Services Implementations -->
       <dependency>
         <groupId>int.esa.nmf.core.moservices.impl</groupId>
@@ -246,7 +229,6 @@
         <artifactId>nmf-platform-generic</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
       </dependency>
-
       <!-- NMF Composites -->
       <dependency>
         <groupId>int.esa.nmf.core</groupId>
@@ -296,4 +278,3 @@
     </resources>
   </build>
 </project>
-
