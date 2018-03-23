@@ -40,11 +40,6 @@
         <url>https://github.com/esa/NMF_MISSION_SOFTWARE_SIMULATOR</url>
     </scm>
 
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
-    </issueManagement>
-
     <developers>
         <developer>
             <id>CesarCoelho</id>

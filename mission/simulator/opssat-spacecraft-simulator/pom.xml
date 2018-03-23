@@ -45,11 +45,6 @@
         <url>https://github.com/esa/NMF_MISSION_SOFTWARE_SIMULATOR</url>
     </scm>
 
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/esa/NMF_MISSION_SOFTWARE_SIMULATOR/issues</url>
-    </issueManagement>
-
     <developers>
         <developer>
             <id>CezarSuteu</id>
