@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-  <!--
+<!--
     Licensed under the European Space Agency Public License, Version 2.0
     You may not use this file except in compliance with the License.
 
@@ -11,50 +10,42 @@
 
     See the License for the specific language governing permissions and limitations under the License.
 -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
-        <relativePath />
-    </parent>
-
-    <groupId>int.esa.nmf.core</groupId>
-    <artifactId>misc-reactor</artifactId>
-    <packaging>pom</packaging>
-    <name>ESA NMF Core Reactor - Misc Modules</name>
-
-    <organization>
-        <name>ESA</name>
-        <url>http://www.esa.int</url>
-    </organization>
-
-    <licenses>
-        <license>
-            <name>The European Space Agency Public License, Version 2.0</name>
-            <url>https://raw.github.com/esa/CCSDS_MO_APIS/master/LICENCE.md</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>CesarCoelho</id>
-            <name>Cesar Coelho</name>
-            <email>cesar.coelho@esa.int</email>
-            <url>https://github.com/CesarCoelho</url>
-        </developer>
-    </developers>
-
-    <properties>
-      <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
-
-    <modules>
-      <module>image-debayer</module>
-      <module>mal-elements-window</module>
-    </modules>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>int.esa.nmf</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+  <groupId>int.esa.nmf.core</groupId>
+  <artifactId>misc-reactor</artifactId>
+  <packaging>pom</packaging>
+  <name>ESA NMF Core Reactor - Misc Modules</name>
+  <organization>
+    <name>ESA</name>
+    <url>http://www.esa.int</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>The European Space Agency Public License, Version 2.0</name>
+      <url>https://raw.github.com/esa/CCSDS_MO_APIS/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>CesarCoelho</id>
+      <name>Cesar Coelho</name>
+      <email>cesar.coelho@esa.int</email>
+      <url>https://github.com/CesarCoelho</url>
+    </developer>
+  </developers>
+  <properties>
+    <maven.deploy.skip>true</maven.deploy.skip>
+  </properties>
+  <modules>
+    <module>image-debayer</module>
+    <module>mal-elements-window</module>
+  </modules>
 </project>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-  <!--
+<!--
     Licensed under the European Space Agency Public License, Version 2.0
     You may not use this file except in compliance with the License.
 
@@ -11,125 +10,114 @@
 
     See the License for the specific language governing permissions and limitations under the License.
 -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
-        <relativePath />
-    </parent>
-
-    <groupId>int.esa.nmf.core.moservices.impl</groupId>
-    <artifactId>ccsds-common</artifactId>
-    <packaging>jar</packaging>
-
-    <name>ESA NMF Core MO Services Implementation - Common Services</name>
-    <description>The ESA/TU Graz implementation of the CCSDS MO Common</description>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>int.esa.nmf</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+  <groupId>int.esa.nmf.core.moservices.impl</groupId>
+  <artifactId>ccsds-common</artifactId>
+  <packaging>jar</packaging>
+  <name>ESA NMF Core MO Services Implementation - Common Services</name>
+  <description>The ESA/TU Graz implementation of the CCSDS MO Common</description>
+  <url>http://www.esa.int</url>
+  <organization>
+    <name>ESA</name>
     <url>http://www.esa.int</url>
-
-    <organization>
-        <name>ESA</name>
-        <url>http://www.esa.int</url>
-    </organization>
-
-    <licenses>
-        <license>
-            <name>The European Space Agency Public License, Version 2.0</name>
-            <url>https://raw.github.com/esa/CCSDS_APPS/master/LICENCE.md</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <scm>
-        <connection>scm:git:git@github.com:esa/NMF_CORE.git</connection>
-        <developerConnection>scm:git:git@github.com:esa/NMF_CORE.git</developerConnection>
-        <url>https://github.com/esa/NMF_CORE</url>
-    </scm>
-
-    <developers>
-        <developer>
-            <id>CesarCoelho</id>
-            <name>César Coelho</name>
-            <email>Cesar.Coelho@esa.int</email>
-            <url>https://github.com/CesarCoelho</url>
-        </developer>
-        <developer>
-            <id>SamCooper</id>
-            <name>Sam Cooper</name>
-            <email>sam.cooper@scisys.co.uk</email>
-            <url>https://github.com/SamCooper</url>
-        </developer>
-        <developer>
-            <id>qa41yjus</id>
-            <name>Thomas Pignede</name>
-            <email>thomas.pignede@esa.int</email>
-        </developer>
-    </developers>
-
-    <dependencies>
-        <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_COMMON</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core.moservices.api</groupId>
-            <artifactId>com-nmf</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>helper-tools</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core.moservices.impl</groupId>
-            <artifactId>ccsds-com</artifactId>
-        </dependency>
-        <!--
+  </organization>
+  <licenses>
+    <license>
+      <name>The European Space Agency Public License, Version 2.0</name>
+      <url>https://raw.github.com/esa/CCSDS_APPS/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:git@github.com:esa/NMF_CORE.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/NMF_CORE.git</developerConnection>
+    <url>https://github.com/esa/NMF_CORE</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>CesarCoelho</id>
+      <name>César Coelho</name>
+      <email>Cesar.Coelho@esa.int</email>
+      <url>https://github.com/CesarCoelho</url>
+    </developer>
+    <developer>
+      <id>SamCooper</id>
+      <name>Sam Cooper</name>
+      <email>sam.cooper@scisys.co.uk</email>
+      <url>https://github.com/SamCooper</url>
+    </developer>
+    <developer>
+      <id>qa41yjus</id>
+      <name>Thomas Pignede</name>
+      <email>thomas.pignede@esa.int</email>
+    </developer>
+  </developers>
+  <dependencies>
+    <dependency>
+      <groupId>int.esa.ccsds.mo</groupId>
+      <artifactId>API_COMMON</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.api</groupId>
+      <artifactId>com-nmf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core</groupId>
+      <artifactId>helper-tools</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.impl</groupId>
+      <artifactId>ccsds-com</artifactId>
+    </dependency>
+    <!--
                 <dependency>
                     <groupId>int.esa.ccsds.mo</groupId>
                     <artifactId>ENCODING_XML</artifactId>
                     <version>1.0.1</version>
                 </dependency>
         -->
-    </dependencies>
-
-    <build>
-        <resources>
-            <resource>
-                <directory>${basedir}/..</directory>
-                <includes>
-                    <include>LICENCE.md</include>
-                </includes>
-            </resource>
-        </resources>
-
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+  </dependencies>
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/..</directory>
+        <includes>
+          <include>LICENCE.md</include>
+        </includes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>
