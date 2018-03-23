@@ -49,11 +49,6 @@
         <url>https://github.com/esa/NMF_CORE</url>
     </scm>
 
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
-    </issueManagement>
-
     <developers>
         <developer>
             <id>CesarCoelho</id>

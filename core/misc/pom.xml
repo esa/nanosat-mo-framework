@@ -40,11 +40,6 @@
         </license>
     </licenses>
 
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/esa/CCSDS_MO_APIS/issues</url>
-    </issueManagement>
-
     <developers>
         <developer>
             <id>CesarCoelho</id>

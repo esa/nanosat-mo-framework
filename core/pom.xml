@@ -46,11 +46,6 @@
         <url>https://github.com/esa/NMF_CORE</url>
     </scm>
   
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/esa/CCSDS_MO_APPS/issues</url>
-    </issueManagement>
-  
     <developers>
         <developer>
             <id>CesarCoelho</id>
