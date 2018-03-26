@@ -277,4 +277,17 @@
       </resource>
     </resources>
   </build>
+  <profiles>
+    <profile>
+      <id>assembly-with-dependencies</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
