@@ -110,16 +110,6 @@
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>ENCODING_BINARY_FIXED</artifactId>
-        <version>${esa.binary_fixed.encoder.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>ENCODING_BINARY_SPLIT</artifactId>
-        <version>${esa.binary_split.encoder.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>TRANSPORT_GEN</artifactId>
         <version>${esa.gen.transport.version}</version>
       </dependency>
