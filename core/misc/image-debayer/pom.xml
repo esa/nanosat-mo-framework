@@ -38,6 +38,11 @@
       <url>https://github.com/CesarCoelho</url>
     </developer>
   </developers>
+  <scm>
+    <connection>scm:git:git@github.com:esa/NMF_CORE.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/NMF_CORE.git</developerConnection>
+    <url>https://github.com/esa/NMF_CORE</url>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>gov.nih.imagej</groupId>
