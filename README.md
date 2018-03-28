@@ -13,7 +13,11 @@ Prerequisites:
 - Java SDK 1.8+
 - Apache Maven
 
-Clone this repository and run "mvn install" in the root directory.
+Clone this repository and run `mvn install` in the root directory.
+
+In order to produce independently runnable Java executables (JAR artifacts with dependencies), use `mvn install -P assembly-with-dependencies`.
+
+Note that Maven `install` goal deploys artifacts to the local repository. If desired, `package` goal can be used just to build and package artifacts.
 
 # Source Code
 The source code of the NanoSat MO Framework can be found on [GitHub].
