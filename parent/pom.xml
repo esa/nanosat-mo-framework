@@ -37,18 +37,18 @@
   <licenses>
     <license>
       <name>The European Space Agency Public License, Version 2.0</name>
-      <url>https://raw.github.com/esa/NMF_POM/master/LICENCE.md</url>
+      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/esa/NMF_CORE/issues</url>
+    <url>https://github.com/esa/nanosat-mo-framework/issues</url>
   </issueManagement>
   <scm>
-    <connection>scm:git:https://github.com/esa/NMF_POM.git</connection>
-    <developerConnection>scm:git:git@github.com:esa/NMF_POM.git</developerConnection>
-    <url>https://github.com/esa/NMF_POM</url>
+    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
   <developers>
     <developer>
