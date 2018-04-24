@@ -50,6 +50,7 @@
   <properties>
     <assembly.mainClass>esa.mo.nmf.apps.BlankApp</assembly.mainClass>
     <maven.deploy.skip>true</maven.deploy.skip>
+    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
   </properties>
   <dependencies>
     <dependency>
