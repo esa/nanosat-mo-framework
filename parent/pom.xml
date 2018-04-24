@@ -10,7 +10,8 @@
 
   See the License for the specific language governing permissions and limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>int.esa.ccsds.mo</groupId>
@@ -70,7 +71,8 @@
     <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.next-version})</esa.nmf.version-qualifier>
     <!-- NMF Artifacts -->
     <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
-    <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}</esa.nmf.artifact.app.folder>
+    <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}
+    </esa.nmf.artifact.app.folder>
     <!-- NMF Playground -->
     <playground.folder.output>${basedir}/../../../../Playground</playground.folder.output>
     <playground.folder.app>${playground.folder.output}/apps/${esa.nmf.artifact.app.artifactid}</playground.folder.app>
@@ -266,6 +268,39 @@
         </includes>
       </resource>
     </resources>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.8</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>default-deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>false</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
   <profiles>
     <profile>
