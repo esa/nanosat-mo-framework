@@ -27,7 +27,7 @@
     although any artifact can be released independently when
     increasing the patch version.
   -->
-  <version>1.2.0</version>
+  <version>1.2.1-SNAPSHOT</version>
   <name>ESA NMF - The Parent POM</name>
   <description>ESA parent POM for Nanosat MO Framework based artifacts</description>
   <url>https://nanosat-mo-framework.github.io</url>
@@ -65,7 +65,7 @@
   </developers>
   <properties>
     <!-- NMF general properties -->
-    <esa.nmf.version>1.2.0</esa.nmf.version>
+    <esa.nmf.version>1.2.1-SNAPSHOT</esa.nmf.version>
     <esa.nmf.next-version>1.3.0</esa.nmf.next-version>
     <!-- Automatically use the latest patch of each component for the current major.minor version -->
     <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.next-version})</esa.nmf.version-qualifier>
