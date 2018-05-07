@@ -23,11 +23,11 @@
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>package-assembler</artifactId>
+    <artifactId>mission-simulator-nmf-lib</artifactId>
     <packaging>jar</packaging>
-
-    <name>ESA NMF SDK Tool - Package Assembler</name>
-    <description>A tool to produce installable NMF Packages.</description>
+    
+    <name>ESA NMF SDK Generator - Mission Simulator NMF Lib</name>
+    <description>Generates an NMF + Mission Simulator as an assembled library with all dependencies.</description>
     <url>http://www.esa.int</url>
 
     <organization>
@@ -55,60 +55,24 @@
     </issueManagement>
 
     <developers>
-        <developer>
-            <id>CesarCoelho</id>
-            <name>César Coelho</name>
-            <url>https://github.com/CesarCoelho</url>
-        </developer>
     </developers>
 
     <properties>
-      <assembly.mainClass>esa.mo.nmf.nmfpackage.assembler.gui.NMFPackageAssemblerGUI</assembly.mainClass>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-package-lib</artifactId>
+            <groupId>int.esa.nmf.mission.simulator</groupId>
+            <artifactId>nmf-library</artifactId>
+            <version>${esa.nmf.version-qualifier}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>${basedir}/..</directory>
-                <includes>
-                    <include>LICENCE.md</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/java</directory>
-                <includes>
-                    <include>esa/mo/fw/configurationtool/stuff/mo_pic.png</include>
-                </includes>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
