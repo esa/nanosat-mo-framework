@@ -260,7 +260,7 @@
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
-                                  <outputDirectory>${basedir}/../../nmf-sdk-${esa.nmf.version}/docs/Javadocs</outputDirectory>
+                                  <outputDirectory>${basedir}/../nmf-sdk-${esa.nmf.version}/docs/Javadocs</outputDirectory>
                                     <resources>
                                         <resource>
                                             <directory>${basedir}/target/site/apidocs</directory>

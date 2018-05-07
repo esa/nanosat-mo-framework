@@ -63,7 +63,7 @@
     </developers>
 
     <properties>
-      <esa.nmf.sdk.generator.baseoutputdir>${basedir}/../../nmf-sdk-${esa.nmf.version}</esa.nmf.sdk.generator.baseoutputdir>
+      <esa.nmf.sdk.generator.baseoutputdir>${basedir}/../nmf-sdk-${esa.nmf.version}</esa.nmf.sdk.generator.baseoutputdir>
     </properties>
 
     <dependencies>
