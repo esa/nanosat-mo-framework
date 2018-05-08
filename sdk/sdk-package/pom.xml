@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Licensed under the European Space Agency Public License, Version 2.0
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>int.esa.nmf</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.2.0-SNAPSHOT</version>
+    <relativePath />
+  </parent>
+
+  <groupId>int.esa.nmf.sdk</groupId>
+  <artifactId>package</artifactId>
+  <name>ESA NMF SDK Package Assembly</name>
+  <packaging>pom</packaging>
+
+  <organization>
+    <name>ESA</name>
+    <url>http://www.esa.int</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The European Space Agency Public License, Version 2.0</name>
+      <url>https://raw.github.com/esa/CCSDS_MO_APPS/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:esa/NMF_SDK.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/NMF_SDK.git</developerConnection>
+    <url>https://github.com/esa/NMF_SDK</url>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/esa/NMF_SDK/issues</url>
+  </issueManagement>
+
+  <developers>
+    <developer>
+      <id>CesarCoelho</id>
+      <name>César Coelho</name>
+      <url>https://github.com/CesarCoelho</url>
+    </developer>
+  </developers>
+
+  <properties>
+    <esa.nmf.sdk.assembly.outputdir>${project.build.directory}/nmf-sdk-${esa.nmf.version}</esa.nmf.sdk.assembly.outputdir>
+  </properties>
+  <dependencies>
+    <!-- NOTE: Imprecise version resolution using ${esa.nmf.version-qualifier} cannot be used here,
+      as maven-dependency-plugin:copy does not support it. -->
+    <dependency>
+      <groupId>int.esa.nmf.sdk</groupId>
+      <artifactId>consumer-test-tool</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk</groupId>
+      <artifactId>package-assembler</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>all-mc-services</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>camera</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>publish-clock</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk</groupId>
+      <artifactId>mission-simulator-nmf-lib</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk</groupId>
+      <artifactId>nmf-javadocs</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>extract-nmf-javadocs</id>
+            <phase>package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>int.esa.nmf.sdk</groupId>
+                  <artifactId>nmf-javadocs</artifactId>
+                  <classifier>javadoc</classifier>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/Javadoc</outputDirectory>
+              <excludeTransitive>true</excludeTransitive>
+              <stripVersion>true</stripVersion>
+              <stripClassifier>true</stripClassifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>appassembler-maven-plugin</artifactId>
+        <version>1.10</version>
+        <configuration>
+          <!-- Shared configuration -->
+          <assembleDirectory>${esa.nmf.sdk.assembly.outputdir}/bin</assembleDirectory>
+          <repositoryLayout>flat</repositoryLayout>
+          <repositoryName>lib</repositoryName>
+          <useWildcardClassPath>true</useWildcardClassPath>
+          <platforms>
+            <platform>unix</platform>
+            <platform>windows</platform>
+          </platforms>
+        </configuration>
+        <executions>
+          <execution>
+            <id>emit-package-assembler</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+            <configuration>
+              <binFolder>nmf-package-assembler</binFolder>
+              <programs>
+                <program>
+                  <mainClass>esa.mo.nmf.nmfpackage.assembler.gui.NMFPackageAssemblerGUI</mainClass>
+                  <id>nmf-package-assembler</id>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>emit-ctt</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+            <configuration>
+              <binFolder>consumer-test-tool</binFolder>
+              <programs>
+                <program>
+                  <mainClass>esa.mo.nmf.ctt.guis.ConsumerTestToolGUI</mainClass>
+                  <id>consumer-test-tool</id>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>emit-simulator-gui</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+            <configuration>
+              <binFolder>spacecraft-simulator-gui</binFolder>
+              <programs>
+                <program>
+                  <mainClass>opssat.simulator.main.MainClient</mainClass>
+                  <id>spacecraft-simulator-gui</id>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>emit-space-supervisor</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+            <configuration>
+              <binFolder>space-nanosat-mo-supervisor</binFolder>
+              <programs>
+                <program>
+                  <mainClass>esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl</mainClass>
+                  <id>nanosat-mo-supervisor</id>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>emit-space-app-all-mc-services</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+            <configuration>
+              <binFolder>space-app-all-mc-services</binFolder>
+              <programs>
+                <program>
+                  <mainClass>esa.mo.nmf.apps.AllInOne</mainClass>
+                  <id>all-mc-services</id>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>emit-space-app-publish-clock</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+            <configuration>
+              <binFolder>space-app-publish-clock</binFolder>
+              <programs>
+                <program>
+                  <mainClass>esa.mo.nmf.apps.PushClock</mainClass>
+                  <id>publish-clock</id>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>emit-space-app-camera</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+            <configuration>
+              <binFolder>space-app-camera</binFolder>
+              <programs>
+                <program>
+                  <mainClass>esa.mo.nmf.apps.SnapNMF</mainClass>
+                  <id>camera</id>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>emit-space-app-benchmark</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+            <configuration>
+              <binFolder>space-app-benchmark</binFolder>
+              <programs>
+                <program>
+                  <mainClass>esa.mo.nmf.apps.BenchmarkApp</mainClass>
+                  <id>benchmark</id>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+        </executions>
+
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-sdk-resources</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/resources</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
