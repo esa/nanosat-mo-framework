@@ -300,7 +300,7 @@
               <resources>
                 <resource>
                   <directory>${basedir}/resources</directory>
-                  <filtering>true</filtering>
+                  <filtering>false</filtering>
                 </resource>
               </resources>
             </configuration>
