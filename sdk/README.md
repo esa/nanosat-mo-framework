@@ -1,6 +1,8 @@
 # NanoSat MO Framework SDK
 The SDK contains a set of tools and example projects in order to facilitate quicker development of applications by the framework users.
 
+The SDK depends on the NMF Mission - Software Simulator.
+
 ## SDK content
 
 ### Tools
@@ -24,7 +26,7 @@ Various supporting documents, including:
 - Javadocs (only in Release Package) - aggregated javadocs of the CCSDS MO Framework and the NanoSat MO Framework
 
 ### SDK Release package
-The release packages contain binaries of the tools, most relevant examples, and documentation.
+The release packages contain binaries of the tools, most relevant examples, mission simulator GUI, and documentation.
 
 ## Building a release package
 Instructions:
@@ -42,8 +44,6 @@ The source code of the NanoSat MO Framework can be found on [GitHub].
 
 ## Bugs Reporting
 Bug Reports can be submitted on: [Bug Reports]
-
-Or directly in the respective source code repository.
 
 ## License
 The NanoSat MO Framework is **licensed** under the **[European Space Agency Public License - v2.0]**.
