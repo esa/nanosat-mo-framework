@@ -66,7 +66,6 @@
   <modules>
     <module>examples</module>
     <module>tools</module>
-    <module>mission-simulator-nmf-lib</module>
     <module>nmf-javadocs</module>
     <module>sdk-package</module>
   </modules>
