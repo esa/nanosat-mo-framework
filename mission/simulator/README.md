@@ -1,21 +1,38 @@
-# NanoSat MO Framework
-The NanoSat MO Framework is a software framework for nanosatellites based on CCSDS Mission Operations services.
+# NanoSat MO Framework - Mission - Simulator
+The simulator contains a set of libraries and tools capable of simulating
+most of the spacecraft functionalities available through the NMF.
 
-It introduces the concept of apps in space that can be started and stopped from ground. Apps can retrieve data from the platform through a set of well-defined MO services. Many possibilities for extensions are available due to its modular and flexible design approach which is not limited to the space segment but extends down to ground by providing all the building blocks for a complete and free end-to-end solution. The research was carried by Graz University of Technology in partnership with the European Space Agency.
+This project is also an example implementation of mission-specific components of the NMF.
 
-A Software Development Kit (SDK) is available in order to facilitate the development with the NanoSat MO Framework.
+The simulator platform is based on OPS-SAT mission.
 
-The official website of the NanoSat MO Framework is available [here].
+## Repository content
 
-# Source Code
+### [OPS-SAT GPS Simulator](opssat-gps-simulator)
+Lightweight simulator of the basic orbital parameters, using an analytical solution.
+
+### [OPS-SAT Spacecraft Simulator](opssat-spacecraft-simulator)
+Simulates most of the spacecraft functionalities available through the NMF.
+
+### [Platform Services Implementation](platform-services-impl)
+Implements NMF Platform Services adapter layer, binding it to the simulator.
+
+### [Nanosat MO Supervisor](nanosat-mo-supervisor)
+Implements Space Applications Supervisor, exposing NMF Platform Services to the space apps.
+
+### [Nanosat Monolithic](nanosat-monolithic)
+Framework for a single, integrated space application, without Supervisor/Apps split.
+
+## Building
+Invoke `mvn clean install` in the main directory.
+
+## Source Code
 The source code of the NanoSat MO Framework can be found on [GitHub].
 
-# Bugs Reporting
+## Bugs Reporting
 Bug Reports can be submitted on: [Bug Reports]
 
-Or directly in the respective source code repository.
-
-# License
+## License
 The NanoSat MO Framework is **licensed** under the **[European Space Agency Public License - v2.0]**.
 
 [![][ESAImage]][website]
@@ -24,6 +41,6 @@ The NanoSat MO Framework is **licensed** under the **[European Space Agency Publ
 [ESAImage]: http://www.esa.int/esalogo/images/logotype/img_colorlogo_darkblue.gif
 [here]: https://nanosat-mo-framework.github.io/
 [European Space Agency Public License - v2.0]: https://github.com/esa/CCSDS_MO_TRANS/blob/master/LICENCE.md
-[GitHub]: https://github.com/NanoSat-MO-Framework
-[Bug Reports]: https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues
+[GitHub]: https://github.com/esa
+[Bug Reports]: https://github.com/esa/nanosat-mo-framework/issues
 [website]: http://www.esa.int/

@@ -50,7 +50,7 @@
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
   </properties>
   <modules>
-    <module>platform-service-impl</module>
+    <module>platform-services-impl</module>
     <module>nanosat-monolithic</module>
     <module>nanosat-mo-supervisor</module>
     <module>nmf-library</module>
