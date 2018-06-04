@@ -1,8 +1,0 @@
-This file contains the instructions to create the Software Development Kit to be distributed to developers.
-
-Instructions:
-
-	1. Update the MO ICDs if there were changes in the NMF MO XML files
-	2. Compile with "clean install" target the main POM file
-
-
