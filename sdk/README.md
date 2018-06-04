@@ -13,14 +13,15 @@ Various space applications demonstrating the uses of the on-board framework.
 ### [Ground Examples](examples/ground)
 Various ground applications demonstrating the uses of the ground framework.
 
-### Documentation
-- Javadocs - Aggregated javadocs of the CCSDS MO Framework and the NanoSat MO Framework
+### [Documentation](sdk-package/resources/docs)
+Various supporting documents, including:
 - Space Apps Development Guide
 - Ground Apps Development Guide
 - Software Requirements Document
 - Software Design Document
 - Relevant CCSDS standards
 - CCSDS MO Services Interface Control Documents (MO ICDs)
+- Javadocs (only in Release Package) - aggregated javadocs of the CCSDS MO Framework and the NanoSat MO Framework
 
 ### SDK Release package
 The release packages contain binaries of the tools, most relevant examples, and documentation.
