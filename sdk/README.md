@@ -29,6 +29,7 @@ The release packages contain binaries of the tools, most relevant examples, and 
 Instructions:
 1. Update the MO ICDs if there were changes in the NMF MO XML files
 2. Invoke `mvn clean install` target on the main POM file
+3. The packaged binaries can be found under `sdk-package/target`
   
 Tips:
 - Full build takes some time.
