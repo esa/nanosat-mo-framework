@@ -23,7 +23,7 @@
   </parent>
 
   <groupId>int.esa.nmf.sdk</groupId>
-  <artifactId>assembly</artifactId>
+  <artifactId>reactor</artifactId>
   <name>ESA NMF SDK Reactor</name>
   <packaging>pom</packaging>
 

@@ -279,7 +279,6 @@
             </configuration>
           </execution>
         </executions>
-
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -301,9 +300,112 @@
                 <resource>
                   <directory>${basedir}/resources</directory>
                   <filtering>false</filtering>
+                  <excludes>
+                    <exclude>**/*.docx</exclude>
+                    <exclude>**/*.doc</exclude>
+                  </excludes>
                 </resource>
               </resources>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.googlecode.maven-download-plugin</groupId>
+        <artifactId>download-maven-plugin</artifactId>
+        <version>1.4.0</version>
+        <executions>
+          <execution>
+            <id>get-mal-spec</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://public.ccsds.org/Pubs/521x0b2e1.pdf</url>
+              <outputFileName>CCSDS_MO_MAL_521x0b2e1.pdf</outputFileName>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>get-mal-java-api-spec</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://public.ccsds.org/Pubs/523x1m1.pdf</url>
+              <outputFileName>CCSDS_MO_MAL_Java_API_523x1m1.pdf</outputFileName>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>get-mo-services-concept</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://public.ccsds.org/Pubs/520x0g3.pdf</url>
+              <outputFileName>CCSDS_MO_Services_Concept_520x0g3.pdf</outputFileName>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>get-com-spec</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://public.ccsds.org/Pubs/521x1b1.pdf</url>
+              <outputFileName>CCSDS_MO_COM_521x1b1.pdf</outputFileName>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services_ICDs</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>get-mc-spec</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://public.ccsds.org/Pubs/522x1b1.pdf</url>
+              <outputFileName>CCSDS_MO_MC_522x1b1.pdf</outputFileName>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services_ICDs</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>get-common-spec</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://public.ccsds.org/Lists/CCSDS%205220R1/522x0r1.pdf</url>
+              <outputFileName>CCSDS_MO_Common_Draft_522x0r1.pdf</outputFileName>
+              <!-- default target location, just to demonstrate the parameter -->
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services_ICDs</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration combine.self="override">
+          <finalName>nmf-sdk-${pom.version}</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>src/main/assembly/zip.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
