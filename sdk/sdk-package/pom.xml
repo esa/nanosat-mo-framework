@@ -396,7 +396,7 @@
           <finalName>nmf-sdk-${pom.version}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
-            <descriptor>src/main/assembly/zip.xml</descriptor>
+            <descriptor>${basedir}/src/main/assembly/zip.xml</descriptor>
           </descriptors>
         </configuration>
         <executions>
