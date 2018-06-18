@@ -21,7 +21,7 @@ https://maven.apache.org/plugins/maven-javadoc-plugin/examples/aggregate-depende
     <groupId>int.esa.nmf</groupId>
     <artifactId>parent</artifactId>
     <version>1.2.1-SNAPSHOT</version>
-    <relativePath/>
+    <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>int.esa.nmf.sdk</groupId>
