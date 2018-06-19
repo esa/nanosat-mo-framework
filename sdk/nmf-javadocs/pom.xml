@@ -170,7 +170,7 @@ https://maven.apache.org/plugins/maven-javadoc-plugin/examples/aggregate-depende
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.1</version>
         <executions>
           <!--
               Warning: If the javadocs is missing information, it is because
