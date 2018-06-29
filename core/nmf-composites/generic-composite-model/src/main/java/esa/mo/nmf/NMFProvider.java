@@ -64,7 +64,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     public final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     private final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
     public final static String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
-    public final static String NANOSAT_MO_SUPERVISOR_NAME = "NanoSat_MO_Supervisor";
+    public final static String NANOSAT_MO_SUPERVISOR_NAME = "space-nanosat-mo-supervisor";
     public final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
     protected final COMServicesProvider comServices = new COMServicesProvider();
     protected final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();

@@ -76,12 +76,9 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     private final OSValidator osValidator = new OSValidator();
 
-    private static final String RUN_LIN_FILENAME = "runAppLin.sh";
-    private static final String RUN_WIN_FILENAME = "runAppWin.bat";
     private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.sm.impl.provider.appslauncher.FolderLocation";
     private static final String APPS_DIRECTORY_NAME = "apps";  // dir name
     private File apps_folder_path = new File(".." + File.separator + ".." + File.separator + APPS_DIRECTORY_NAME);  // Location of the folder
-    private final String runnable_filename;
     private final HashMap<Long, ProcessExecutionHandler> handlers = new HashMap<Long, ProcessExecutionHandler>();
 
     private AtomicLong uniqueObjIdDef; // Counter
@@ -93,8 +90,6 @@ public class AppsLauncherManager extends DefinitionsManager {
         if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
             apps_folder_path = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
         }
-
-        runnable_filename = osValidator.isWindows() ? RUN_WIN_FILENAME : RUN_LIN_FILENAME;
 
         try {
             AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -250,10 +245,11 @@ public class AppsLauncherManager extends DefinitionsManager {
         for (File folder : fList) { // Roll all the apps inside the apps folder
             if (folder.isDirectory()) {
                 for (File file : folder.listFiles()) { // Roll all the files inside each app folder
-                    // Check if the folder contains the app executable
-                    if (runnable_filename.equals(file.getName())) {
+                    // Check if the folder contains the provider properties
+                    if (HelperMisc.PROVIDER_PROPERTIES_FILE.equals(file.getName())) {
                         AppDetails app = this.readAppDescriptorFromFolder(folder);
                         apps.add(app);
+                        break;
                     }
                 }
             }
@@ -305,8 +301,8 @@ public class AppsLauncherManager extends DefinitionsManager {
                 if (folder.isDirectory()) {
                     if (folder.getName().equals(localApp.getName().getValue())) {
                         for (File file : folder.listFiles()) { // Roll all the files inside each app folder
-                            // Check if the folder contains the app executable
-                            if (runnable_filename.equals(file.getName())) {
+                            // Check if the folder contains the provider properties
+                            if (HelperMisc.PROVIDER_PROPERTIES_FILE.equals(file.getName())) {
                                 // All Good!
                                 appStillIntact = true;
                                 break;
@@ -344,6 +340,14 @@ public class AppsLauncherManager extends DefinitionsManager {
         return this.get(appId).getRunning();
     }
 
+    protected String assembleAppLauncherName(String appName)
+    {
+        String ret = appName.replaceAll("space-app-", "");
+        if (osValidator.isWindows())
+            ret += ".bat";
+        return ret;
+    }
+
     protected void startAppProcess(final ProcessExecutionHandler handler,
             final MALInteraction interaction) throws IOException {
         // get it from the list of available apps
@@ -351,16 +355,12 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         // Go to the folder where the app are installed
         String app_folder = apps_folder_path + File.separator + app.getName().getValue();
-        final String full_path = app_folder + File.separator + runnable_filename;
+        final String full_path = app_folder + File.separator + assembleAppLauncherName(app.getName().getValue());
         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                 "Reading and initializing ''{0}'' app on path: {1}",
                 new Object[]{app.getName().getValue(), full_path});
 
-        BufferedReader brTest = new BufferedReader(new FileReader(new File(full_path)));
-        String text = brTest.readLine();
-        String split[] = text.split(" ");
-
-        Process proc = Runtime.getRuntime().exec(split, null, new File(app_folder));
+        Process proc = Runtime.getRuntime().exec(full_path, null, new File(app_folder));
         handler.startPublishing(proc);
 
         if (proc != null) {
