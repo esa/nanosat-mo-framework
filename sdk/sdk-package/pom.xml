@@ -91,8 +91,13 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>int.esa.nmf.core</groupId>
+      <artifactId>nanosat-mo-connector</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>int.esa.nmf.mission.simulator</groupId>
-      <artifactId>nmf-library</artifactId>
+      <artifactId>nanosat-mo-supervisor</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
