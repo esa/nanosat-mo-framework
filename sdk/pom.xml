@@ -68,5 +68,6 @@
     <module>tools</module>
     <module>nmf-javadocs</module>
     <module>sdk-package</module>
+    <module>appassembler-nested-bin-fix</module>
   </modules>
 </project>
