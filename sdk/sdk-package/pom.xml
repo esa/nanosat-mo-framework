@@ -141,8 +141,8 @@
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>appassembler-maven-plugin</artifactId>
-        <version>1.10</version>
+        <artifactId>appassembler-maven-plugin-nested-bin-fix</artifactId>
+        <version>2.0.0</version>
         <configuration>
           <!-- Shared configuration -->
           <assembleDirectory>${esa.nmf.sdk.assembly.outputdir}/bin</assembleDirectory>
@@ -153,6 +153,9 @@
             <platform>unix</platform>
             <platform>windows</platform>
           </platforms>
+          <binFileExtensions>
+            <unix>.sh</unix>
+          </binFileExtensions>
         </configuration>
         <executions>
           <execution>
@@ -162,7 +165,7 @@
               <goal>assemble</goal>
             </goals>
             <configuration>
-              <binFolder>nmf-package-assembler</binFolder>
+              <binFolder>tools/nmf-package-assembler</binFolder>
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.nmfpackage.assembler.gui.NMFPackageAssemblerGUI</mainClass>
@@ -178,7 +181,7 @@
               <goal>assemble</goal>
             </goals>
             <configuration>
-              <binFolder>consumer-test-tool</binFolder>
+              <binFolder>tools/consumer-test-tool</binFolder>
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.ctt.guis.ConsumerTestToolGUI</mainClass>
@@ -194,7 +197,7 @@
               <goal>assemble</goal>
             </goals>
             <configuration>
-              <binFolder>spacecraft-simulator-gui</binFolder>
+              <binFolder>tools/spacecraft-simulator-gui</binFolder>
               <programs>
                 <program>
                   <mainClass>opssat.simulator.main.MainClient</mainClass>
@@ -210,11 +213,11 @@
               <goal>assemble</goal>
             </goals>
             <configuration>
-              <binFolder>space-nanosat-mo-supervisor</binFolder>
+              <binFolder>space/nanosat-mo-supervisor-sim</binFolder>
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl</mainClass>
-                  <id>nanosat-mo-supervisor</id>
+                  <id>nanosat-mo-supervisor-sim</id>
                 </program>
               </programs>
             </configuration>
@@ -226,7 +229,7 @@
               <goal>assemble</goal>
             </goals>
             <configuration>
-              <binFolder>space-app-all-mc-services</binFolder>
+              <binFolder>space/apps/all-mc-services</binFolder>
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.apps.AllInOne</mainClass>
@@ -242,7 +245,7 @@
               <goal>assemble</goal>
             </goals>
             <configuration>
-              <binFolder>space-app-publish-clock</binFolder>
+              <binFolder>space/apps/publish-clock</binFolder>
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.apps.PushClock</mainClass>
@@ -258,7 +261,7 @@
               <goal>assemble</goal>
             </goals>
             <configuration>
-              <binFolder>space-app-camera</binFolder>
+              <binFolder>space/apps/camera</binFolder>
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.apps.SnapNMF</mainClass>
@@ -274,7 +277,7 @@
               <goal>assemble</goal>
             </goals>
             <configuration>
-              <binFolder>space-app-benchmark</binFolder>
+              <binFolder>space/apps/benchmark</binFolder>
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.apps.BenchmarkApp</mainClass>
@@ -389,7 +392,6 @@
             <configuration>
               <url>https://public.ccsds.org/Lists/CCSDS%205220R1/522x0r1.pdf</url>
               <outputFileName>CCSDS_MO_Common_Draft_522x0r1.pdf</outputFileName>
-              <!-- default target location, just to demonstrate the parameter -->
               <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services_ICDs</outputDirectory>
             </configuration>
           </execution>
@@ -398,7 +400,7 @@
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration combine.self="override">
-          <finalName>nmf-sdk-${pom.version}</finalName>
+          <finalName>nmf-sdk-${project.version}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/zip.xml</descriptor>
