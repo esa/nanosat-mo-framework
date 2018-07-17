@@ -61,6 +61,7 @@
 
   <properties>
     <esa.nmf.sdk.assembly.outputdir>${project.build.directory}/nmf-sdk-${esa.nmf.version}</esa.nmf.sdk.assembly.outputdir>
+    <esa.nmf.sdk.assembly.quickbuild>false</esa.nmf.sdk.assembly.quickbuild>
   </properties>
   <dependencies>
     <!-- NOTE: Imprecise version resolution using ${esa.nmf.version-qualifier} cannot be used here,
@@ -124,6 +125,7 @@
               <goal>unpack</goal>
             </goals>
             <configuration>
+              <skip>${esa.nmf.sdk.assembly.quickbuild}</skip>
               <artifactItems>
                 <artifactItem>
                   <groupId>int.esa.nmf.sdk</groupId>
@@ -400,6 +402,7 @@
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration combine.self="override">
+          <skip>${esa.nmf.sdk.assembly.quickbuild}</skip>
           <finalName>nmf-sdk-${project.version}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>

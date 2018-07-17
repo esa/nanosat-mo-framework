@@ -23,7 +23,7 @@ Various supporting documents, including:
 - Software Design Document
 - Relevant CCSDS standards
 - CCSDS MO Services Interface Control Documents (MO ICDs)
-- Javadocs (only in Release Package) - aggregated javadocs of the CCSDS MO Framework and the NanoSat MO Framework
+- Javadocs (only in the SDK Release Package) - aggregated javadocs of the CCSDS MO Framework and the NanoSat MO Framework
 
 ### SDK Release package
 The release packages contain binaries of the tools, most relevant examples, mission simulator GUI, and documentation.
@@ -38,7 +38,7 @@ Instructions:
 Tips:
 - Full build takes some time.
 Afterwards it is possible to rebuild particular sub-projects individually,
-or to use `mvn install -Dmaven.javadoc.skip=true` to speed up the build process.
+or to use `mvn install -Dmaven.javadoc.skip=true -Desa.nmf.sdk.assembly.quickbuild=true` to speed up the intermediate build process.
 
 ## Source Code
 The source code of the NanoSat MO Framework can be found on [GitHub].
