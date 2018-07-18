@@ -124,6 +124,7 @@ public class NMFPackageCreator {
 
         // -------------------------------------------------------------------
         // Generate digital signature
+        /*
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
                 "Generating digital signature...");
 
@@ -151,6 +152,7 @@ public class NMFPackageCreator {
         File digitalSignature = new File(HelperNMFPackage.DS_FILENAME);
         files.add((new File(HelperNMFPackage.DS_FILENAME)).getPath());
         newLocations.add(HelperNMFPackage.DS_FILENAME);
+        */
         // -------------------------------------------------------------------
 
         // -------------------------------------------------------------------
@@ -163,6 +165,7 @@ public class NMFPackageCreator {
         NMFPackageCreator.zipFiles(packageOutputPath, files, newLocations);
 
         // Output the secret privateKey into a file
+        /*
         try {
             byte[] key = pair.getPrivate().getEncoded();
             FileOutputStream keyfos = new FileOutputStream(HelperNMFPackage.PRIVATE_KEY_FILENAME);
@@ -175,10 +178,11 @@ public class NMFPackageCreator {
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
 
         // Delete temporary files:
         receipt.delete();
-        digitalSignature.delete();
+        //digitalSignature.delete();
 
         return packageOutputPath;
     }
