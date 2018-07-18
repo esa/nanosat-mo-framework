@@ -95,7 +95,7 @@ public class AppsLauncherManager extends DefinitionsManager {
       appsFolderPath = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
     } else {
       Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-          "Property {} not set. Using default apps directory '{}'",
+          "Property {0} not set. Using default apps directory '{1}'",
           new Object[]{FOLDER_LOCATION_PROPERTY, DEFAULT_APPS_FOLDER_PATH});
       appsFolderPath = new File(DEFAULT_APPS_FOLDER_PATH);
     }
@@ -352,10 +352,12 @@ public class AppsLauncherManager extends DefinitionsManager {
     return this.get(appId).getRunning();
   }
 
-  protected String assembleAppLauncherName(String appName) {
+  protected String assembleAppLauncherCommand(String appName) {
     String ret = appName.replaceAll("space-app-", "");
     if (osValidator.isWindows()) {
-      ret += ".bat";
+      ret = "cmd /c " + ret + ".bat";
+    } else {
+      ret = "/bin/sh " + ret + ".sh";
     }
     return ret;
   }
@@ -366,14 +368,14 @@ public class AppsLauncherManager extends DefinitionsManager {
     AppDetails app = (AppDetails) this.getDef(handler.getAppInstId());
 
     // Go to the folder where the app are installed
-    String app_folder = appsFolderPath + File.separator + app.getName().getValue();
-    final String full_path = app_folder + File.separator + assembleAppLauncherName(app.getName().
-        getValue());
+    final File appFolder
+        = new File(appsFolderPath + File.separator + app.getName().getValue());
+    final String appLauncherName = assembleAppLauncherCommand(app.getName().getValue());
     Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-        "Reading and initializing ''{0}'' app on path: {1}",
-        new Object[]{app.getName().getValue(), full_path});
+        "Reading and initializing ''{0}'' app in dir: {1}, using launcher: {2}",
+        new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), appLauncherName});
 
-    Process proc = Runtime.getRuntime().exec(full_path, null, new File(app_folder));
+    Process proc = Runtime.getRuntime().exec(appLauncherName, null, appFolder);
     handler.startPublishing(proc);
 
     if (proc != null) {
