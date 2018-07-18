@@ -409,7 +409,7 @@
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration combine.self="override">
-          <skip>${esa.nmf.sdk.assembly.quickbuild}</skip>
+          <skipAssembly>${esa.nmf.sdk.assembly.quickbuild}</skipAssembly>
           <finalName>nmf-sdk-${project.version}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
