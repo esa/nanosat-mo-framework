@@ -105,6 +105,12 @@
       <groupId>int.esa.nmf.sdk</groupId>
       <artifactId>nmf-javadocs</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>int.esa.ccsds.mo</groupId>
+          <artifactId>API_COM</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <build>
