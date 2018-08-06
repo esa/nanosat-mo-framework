@@ -47,17 +47,19 @@ public class CloseAppEventListener extends EventReceivedListener {
         // Make sure that it is indeed a Close App event for us!
         final Identifier name = (Identifier) eventCOMObject.getBody();
 
-        if (!provider.providerName.equals(name.getValue())) {
+        if (!provider.getProviderName().getValue().equals(name.getValue())) {
             Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINE,
-                    "This Event is not for us! App Directory Id: " + provider.getAppDirectoryId()
-                    + " , Related: " + eventCOMObject.getRelated() + " name: " + name.getValue());
+                "This Event is not for us! App Directory Id: {0} , Related: {1} name: {2}",
+                new Object[]{provider.getAppDirectoryId(),
+              eventCOMObject.getRelated(), name.getValue()});
 
             return; // If not, get out..
         }
 
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINE,
-                "This Event is for us! App Directory Id: " + provider.getAppDirectoryId()
-                + " , Related: " + eventCOMObject.getRelated() + " name: " + name.getValue());
+            "This Event is for us! App Directory Id: {0} , Related: {1} name: {2}",
+            new Object[]{provider.getAppDirectoryId(),
+          eventCOMObject.getRelated(), name.getValue()});
 
         // Even though the subscription will guarantee that...
         // It is better to double-check if it is a Close App Event request...
@@ -66,8 +68,8 @@ public class CloseAppEventListener extends EventReceivedListener {
         }
 
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
-                "New StopApp Event Received! " + "For provider: '" + name.getValue()
-                + "' (Related link: " + eventCOMObject.getRelated() + ")");
+            "New StopApp Event Received! For provider: ''{0}'' (Related link: {1})",
+            new Object[]{name.getValue(), eventCOMObject.getRelated()});
 
         final ObjectId source = eventCOMObject.getObjectId();
         this.provider.closeGracefully(source);
