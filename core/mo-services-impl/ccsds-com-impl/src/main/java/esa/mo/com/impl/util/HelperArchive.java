@@ -23,6 +23,7 @@ package esa.mo.com.impl.util;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -564,11 +565,13 @@ public class HelperArchive {
                     ((ArchiveHandler) archiveService).retrieve(objType, domain, objIds, adapter);
                 } catch (MALInteractionException ex2) {
                     Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO,
-                            "(debug code: 01) The object could not be retrieved from the Archive! A null will be returned!");
+                            "(MALInteractionException) The object {0}, domain = {1}, objIds = {2} could not be retrieved from the Archive! A null will be returned!",
+                            new Object[]{objType.toString(), HelperMisc.domain2domainId(domain),
+                                objIds.toString()});
                     return null;
                 } catch (MALException ex2) {
                     Logger.getLogger(HelperArchive.class.getName()).log(Level.INFO,
-                            "(debug code: 02) The object could not be retrieved from the Archive! A null will be returned! {0}", ex2);
+                            "(MALException) The object could not be retrieved from the Archive! A null will be returned! {0}", ex2);
                     return null;
                 }
 
