@@ -25,6 +25,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.nmf.NMFProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -96,7 +97,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         directoryService.loadURIs(this.providerName);
 
         // Are the dynamic changes enabled?
-        if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
+        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
                     "Loading previous configurations...");
 

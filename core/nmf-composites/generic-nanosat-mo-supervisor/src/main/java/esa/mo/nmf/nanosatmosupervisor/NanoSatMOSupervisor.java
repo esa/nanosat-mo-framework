@@ -26,6 +26,7 @@ import esa.mo.nmf.NMFProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.HelperNMF;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.CloseAppListener;
@@ -103,7 +104,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         }
 
         // Are the dynamic changes enabled?
-        if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
+        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
             Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
                     "Loading previous configurations...");
 
@@ -129,7 +130,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
                 "Populating Directory service...");
-        this.directoryService.loadURIs(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME);
+        this.directoryService.loadURIs(Const.NANOSAT_MO_SUPERVISOR_NAME);
 
         final String primaryURI = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
 

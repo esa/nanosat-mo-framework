@@ -21,11 +21,11 @@
 package esa.mo.sm.impl.util;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
@@ -39,7 +39,7 @@ public class SMServicesProvider {
     private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
     private final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
 
-    public void init(COMServicesProvider comServices, DirectoryInheritanceSkeleton directoryService) {
+    public void init(COMServicesProvider comServices, DirectoryProviderServiceImpl directoryService) {
         try {
             applicationsManagerService.init(comServices, directoryService);
             heartbeatService.init();

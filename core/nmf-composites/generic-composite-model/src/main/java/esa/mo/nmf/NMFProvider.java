@@ -23,6 +23,7 @@ package esa.mo.nmf;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
@@ -61,23 +62,20 @@ import esa.mo.reconfigurable.provider.ReconfigurableProvider;
  */
 public abstract class NMFProvider implements ReconfigurableProvider, NMFInterface {
 
-    public final static String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
-    private final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
-    public final static String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
-    public final static String NANOSAT_MO_SUPERVISOR_NAME = "space-nanosat-mo-supervisor";
-    public final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
+    protected final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
+    protected final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
     protected final COMServicesProvider comServices = new COMServicesProvider();
     protected final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
     protected final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
-    public MCServicesProviderNMF mcServices;
-    public PlatformServicesConsumer platformServices;
-    public CloseAppListener closeAppAdapter = null;
-    public ConfigurationChangeListener providerConfigurationAdapter = null;
-    public String providerName;
+    protected MCServicesProviderNMF mcServices;
+    protected PlatformServicesConsumer platformServices;
+    protected CloseAppListener closeAppAdapter = null;
+    protected ConfigurationChangeListener providerConfigurationAdapter = null;
+    protected String providerName;
     protected long startTime;
 
-    public PersistProviderConfiguration providerConfiguration;
-    public final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<ReconfigurableService>();
+    protected PersistProviderConfiguration providerConfiguration;
+    protected final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<ReconfigurableService>();
 
     /**
      * Initializes the NMF provider using a monitoring and control adapter that
@@ -241,40 +239,49 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      * @return The URI of the Central Directory service or null if not found.
      */
     public final URI readCentralDirectoryServiceURI() {
-        String path = ".."
+        if (System.getProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY) != null)
+        {
+          return new URI(System.getProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY));
+        }
+        else {
+            String path = ".."
+                + File.separator + ".."
                 + File.separator
-                + NMFProvider.NANOSAT_MO_SUPERVISOR_NAME
+                + Const.NANOSAT_MO_SUPERVISOR_NAME
                 + File.separator
-                + FILENAME_CENTRAL_DIRECTORY_SERVICE;
+                + Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
+            Logger.getLogger(NMFProvider.class.getName()).log(Level.INFO,
+                "Property {0} not set. Falling back to reading from {1}.", new Object[]{
+                Const.CENTRAL_DIRECTORY_URI_PROPERTY, path});
 
-        File file = new File(path); // Select the file that we want to read from
-
-        try {
-            // Get the text out of that file...
-            InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
-            BufferedReader br = new BufferedReader(isr);
+            File file = new File(path); // Select the file that we want to read from
 
             try {
-                String line = br.readLine(); // Reads the first line!
-                br.close();
-                return new URI(line);
-            } catch (IOException ex) {
-                Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE,
-                        "An error happened!", ex);
+                // Get the text out of that file...
+                InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
+                BufferedReader br = new BufferedReader(isr);
+
+                try {
+                    String line = br.readLine(); // Reads the first line!
+                    br.close();
+                    return new URI(line);
+                } catch (IOException ex) {
+                    Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE,
+                            "An error happened!", ex);
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
+                        "The File {0} could not be found!", file.getPath());
+                return null;
             }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
-                    "The File {0} could not be found!", file.getPath());
             return null;
         }
-
-        return null;
     }
 
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
         BufferedWriter wrt = null;
         try { // Reset the file
-            wrt = new BufferedWriter(new FileWriter(FILENAME_CENTRAL_DIRECTORY_SERVICE, false));
+            wrt = new BufferedWriter(new FileWriter(Const.FILENAME_CENTRAL_DIRECTORY_SERVICE, false));
             if (secondaryURI != null) {
                 wrt.write(secondaryURI);
                 wrt.write("\n");

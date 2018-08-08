@@ -30,6 +30,7 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -150,7 +151,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 final ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(),
                         eventCOM.getNumber(), eventCOM.getArea().getVersion());
                 final ServiceFilter sf = new ServiceFilter(
-                        new Identifier(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME),
+                        new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), null, new Identifier("*"),
                         serviceKey, new UIntegerList());
                 final ProviderSummaryList supervisorEventServiceConnectionDetails = centralDirectory.getDirectoryStub().lookupProvider(sf);
@@ -190,7 +191,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 // Lookup for the Platform services on the NanoSat MO Supervisor
                 final ServiceKey sk = new ServiceKey(PlatformHelper.PLATFORM_AREA_NUMBER,
                         new UShort(0), new UOctet((short) 0));
-                final ServiceFilter sf2 = new ServiceFilter(new Identifier(NMFProvider.NANOSAT_MO_SUPERVISOR_NAME),
+                final ServiceFilter sf2 = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), null, new Identifier("*"), sk, new UIntegerList());
                 final ProviderSummaryList supervisorConnections = centralDirectory.getDirectoryStub().lookupProvider(sf2);
 
@@ -268,7 +269,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         }
 
         // Are the dynamic changes enabled?
-        if ("true".equals(System.getProperty(DYNAMIC_CHANGES_PROPERTY))) {
+        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
             Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.INFO,
                     "Loading previous configurations...");
 

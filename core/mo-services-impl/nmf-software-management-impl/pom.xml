@@ -68,6 +68,12 @@
       <groupId>int.esa.nmf.core.moservices.impl</groupId>
       <artifactId>ccsds-com</artifactId>
     </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.impl</groupId>
+      <artifactId>ccsds-common</artifactId>
+      <version>1.2.1-SNAPSHOT</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
   <build>
     <resources>

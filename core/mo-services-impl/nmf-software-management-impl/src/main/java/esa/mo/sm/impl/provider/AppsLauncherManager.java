@@ -29,12 +29,14 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl.ProcessExecutionHandler;
 import esa.mo.sm.impl.util.OSValidator;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
@@ -352,33 +354,60 @@ public class AppsLauncherManager extends DefinitionsManager {
     return this.get(appId).getRunning();
   }
 
-  protected String assembleAppLauncherCommand(String appName) {
-    String ret = appName.replaceAll("space-app-", "");
+  protected String[] assembleAppLauncherCommand(final String appName,
+      final String directoryServiceURI) {
+    ArrayList<String> ret = new ArrayList<String>();
+    String trimmedAppName = appName.replaceAll("space-app-", "");
     if (osValidator.isWindows()) {
-      ret = "cmd /c " + ret + ".bat";
+      ret.add("cmd");
+      ret.add("/c");
+      ret.add(
+          "set JAVA_OPTS=-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=\"" + directoryServiceURI + "\" && " + trimmedAppName + ".bat");
     } else {
-      ret = "/bin/sh " + ret + ".sh";
+      ret.add("/bin/sh");
+      ret.add(trimmedAppName + ".sh");
     }
-    return ret;
+    return ret.toArray(new String[ret.size()]);
+  }
+
+  protected String[] assembleAppLauncherEnvironment(final String directoryServiceURI) {
+
+    if (!osValidator.isWindows()) {
+      ArrayList<String> ret = new ArrayList<String>();
+      ret.add("JAVA_OPTS=-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=" + directoryServiceURI + "");
+      return ret.toArray(new String[ret.size()]);
+    } else {
+      return null;
+    }
   }
 
   protected void startAppProcess(final ProcessExecutionHandler handler,
-      final MALInteraction interaction) throws IOException {
+      final MALInteraction interaction, final String directoryServiceURI) throws IOException {
     // get it from the list of available apps
     AppDetails app = (AppDetails) this.getDef(handler.getAppInstId());
 
     // Go to the folder where the app are installed
     final File appFolder
         = new File(appsFolderPath + File.separator + app.getName().getValue());
-    final String appLauncherName = assembleAppLauncherCommand(app.getName().getValue());
+    final String[] appLauncherCommand = assembleAppLauncherCommand(app.getName().getValue(),
+        directoryServiceURI);
+    final String[] appLauncherEnvironment = assembleAppLauncherEnvironment(directoryServiceURI);
     Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-        "Reading and initializing ''{0}'' app in dir: {1}, using launcher: {2}",
-        new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), appLauncherName});
+        "Reading and initializing ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
+        new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
+          appLauncherCommand), Arrays.toString(appLauncherEnvironment)});
 
-    Process proc = Runtime.getRuntime().exec(appLauncherName, null, appFolder);
+    final Process proc = Runtime.getRuntime().exec(appLauncherCommand, appLauncherEnvironment,
+        appFolder);
     handler.startPublishing(proc);
 
     if (proc != null) {
+      Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+        @Override
+        public void run() {
+          proc.destroy();
+        }
+      }));
       handlers.put(handler.getAppInstId(), handler);
       this.setRunning(handler.getAppInstId(), true, interaction); // Update the Archive
     } else {

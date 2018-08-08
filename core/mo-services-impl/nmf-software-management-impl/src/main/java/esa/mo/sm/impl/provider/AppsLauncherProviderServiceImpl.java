@@ -22,6 +22,7 @@ package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -44,7 +45,6 @@ import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
-import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
@@ -98,7 +98,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     private AppsLauncherManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private COMServicesProvider comServices;
-    private DirectoryInheritanceSkeleton directoryService;
+    private DirectoryProviderServiceImpl directoryService;
     private ConfigurationChangeListener configurationAdapter;
 
     /**
@@ -109,7 +109,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
      * @throws MALException On initialization error.
      */
     public synchronized void init(final COMServicesProvider comServices,
-            final DirectoryInheritanceSkeleton directoryService) throws MALException {
+            final DirectoryProviderServiceImpl directoryService) throws MALException {
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -246,7 +246,15 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // Run the apps!
         for (int i = 0; i < appInstIds.size(); i++) {
             try {
-                manager.startAppProcess(new ProcessExecutionHandler(appInstIds.get(i)), interaction);
+                String directoryServiceURI;
+                if (directoryService.getConnection().getSecondaryConnectionDetails() != null) {
+                  // For applications in space, the primary URI is MALSPP, and secondary a MALTCP
+                  directoryServiceURI = directoryService.getConnection().getSecondaryConnectionDetails().getProviderURI().toString();
+                }
+                else {
+                  directoryServiceURI = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
+                }
+                manager.startAppProcess(new ProcessExecutionHandler(appInstIds.get(i)), interaction, directoryServiceURI);
             } catch (IOException ex) {
                 UIntegerList intIndexList = new UIntegerList();
                 intIndexList.add(new UInteger(i));
