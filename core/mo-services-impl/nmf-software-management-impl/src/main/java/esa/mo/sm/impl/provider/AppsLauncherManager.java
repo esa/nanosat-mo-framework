@@ -42,6 +42,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -371,9 +372,16 @@ public class AppsLauncherManager extends DefinitionsManager {
   }
 
   protected String[] assembleAppLauncherEnvironment(final String directoryServiceURI) {
-
     if (!osValidator.isWindows()) {
-      ArrayList<String> ret = new ArrayList<String>();
+      // Extend the current environment by JAVA_OPTS
+      String[] currentEnv;
+      try {
+        currentEnv = EnvironmentUtils.toStrings(EnvironmentUtils.getProcEnvironment());
+      } catch (IOException ex) {
+        // getProcEnvironment failed
+        currentEnv = new String[0];
+      }
+      ArrayList<String> ret = new ArrayList<String>(Arrays.asList(currentEnv));
       ret.add("JAVA_OPTS=-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=" + directoryServiceURI + "");
       return ret.toArray(new String[ret.size()]);
     } else {
