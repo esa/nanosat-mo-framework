@@ -164,29 +164,31 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     // Convert provider to connectionDetails...
                     final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
-                } catch (IOException ex) {
+                } catch (IOException | MALException | MALInteractionException ex) {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
-                            "Something went wrong...");
+                            "Could not retrieve supervisor COM Event service details from the Central Directory.", ex);
                 }
+                if (serviceCOMEvent != null)
+                {
+                    // Subscribe to all Events
+                    // Select all object numbers from the Apps Launcher service Events
+                    subscription = HelperCOM.generateSubscriptionCOMEvent(
+                            "CloseAppEventListener",
+                            AppsLauncherHelper.APP_OBJECT_TYPE);
 
-                // Subscribe to all Events
-                // Select all object numbers from the Apps Launcher service Events
-                subscription = HelperCOM.generateSubscriptionCOMEvent(
-                        "CloseAppEventListener",
-                        AppsLauncherHelper.APP_OBJECT_TYPE);
+                    /* Previous code */
+                    /*
+                    final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
+                    final Random random = new Random();
+                    subscription = ConnectionConsumer.subscriptionKeys(
+                            new Identifier("CloseAppEventListener" + random.nextInt()),
+                            new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
+                     */
+                    /* ------------- */
 
-                /* Previous code */
-                /*
-                final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
-                final Random random = new Random();
-                subscription = ConnectionConsumer.subscriptionKeys(
-                        new Identifier("CloseAppEventListener" + random.nextInt()),
-                        new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
-                 */
-                /* ------------- */
-                
-                // Register with the subscription key provided
-                serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
+                    // Register with the subscription key provided
+                    serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
+                }
 
                 // Lookup for the Platform services on the NanoSat MO Supervisor
                 final ServiceKey sk = new ServiceKey(PlatformHelper.PLATFORM_AREA_NUMBER,
@@ -215,7 +217,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             supervisorConnections.get(0).getProviderName());
                 } else {
                     Logger.getLogger(NanoSatMOConnectorImpl.class.getName()).log(Level.SEVERE,
-                            "The NanoSat MO Connector was expecting a single NanoSat MO Supervisor provider!"
+                            "The NanoSat MO Connector was expecting a single NMF Platform services provider!"
                             + " Instead it found {0}.", supervisorConnections.size());
                 }
             } catch (MALException ex) {

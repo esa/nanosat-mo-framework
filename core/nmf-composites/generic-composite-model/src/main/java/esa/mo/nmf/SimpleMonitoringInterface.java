@@ -67,7 +67,7 @@ public interface SimpleMonitoringInterface {
      * push Attribute values through the monitorValue operation of the Parameter
      * service. If there is no parameter definition with the submitted name, the
      * method shall automatically create the parameter definition in the
-     * Parameter service. By default, the parameter value will not be stored in
+     * Parameter service. By default, the parameter value will be stored in
      * the COM Archive.
      *
      * @param name The name of the Parameter as set in the parameter definition
