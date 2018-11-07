@@ -84,4 +84,11 @@ public interface AutonomousADCSAdapterInterface
    */
   public String validateAttitudeDescriptor(AttitudeMode attitude);
 
+  /**
+   * Get active attitude mode.
+   *
+   * @return Descriptor of the attitude currently set in the ADCS or NULL if none (IDLE)
+   */
+  public AttitudeMode getActiveAttitudeMode();
+
 }

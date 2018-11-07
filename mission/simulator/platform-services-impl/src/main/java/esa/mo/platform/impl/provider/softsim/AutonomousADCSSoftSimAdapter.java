@@ -33,9 +33,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPoin
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.MagnetorquersState;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.Vector3D;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed;
 
 /**
  *
@@ -45,7 +43,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 {
 
   private final ESASimulator instrumentsSimulator;
-  private AttitudeMode attitude;
+  private AttitudeMode activeAttitudeMode;
 
   // Time from Epoch in milliseconds
   private final static long[] BEGIN_END_TIMES = {0, Long.MAX_VALUE}; // StartTime, StopTime in (milliseconds)
@@ -66,7 +64,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   @Override
   public synchronized void setDesiredAttitude(final AttitudeMode att) throws IOException
   {
-    this.attitude = att;
+    this.activeAttitudeMode = att;
 
     if (att instanceof AttitudeModeBDot) {
       instrumentsSimulator.getpFineADCS().opModeDetumble((byte) 1, BEGIN_END_TIMES);
@@ -123,6 +121,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   {
     // Set the ADCS to Idle mode
     instrumentsSimulator.getpFineADCS().opModeIdle();
+    this.activeAttitudeMode = null;
   }
 
   @Override
@@ -154,6 +153,12 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   {
     // TODO do some rudimentary checks (i.e. if the angles make sense)
     return null;
+  }
+
+  @Override
+  public AttitudeMode getActiveAttitudeMode()
+  {
+    return activeAttitudeMode;
   }
 
 }
