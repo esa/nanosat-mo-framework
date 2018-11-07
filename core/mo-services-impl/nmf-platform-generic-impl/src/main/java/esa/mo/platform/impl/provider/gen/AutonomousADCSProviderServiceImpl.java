@@ -25,8 +25,6 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.reconfigurable.service.ConfigurationChangeListener;
-import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Timer;
@@ -34,10 +32,6 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.COMService;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -51,14 +45,10 @@ import org.ccsds.moims.mo.mal.structures.DurationList;
 import org.ccsds.moims.mo.mal.structures.EntityKey;
 import org.ccsds.moims.mo.mal.structures.EntityKeyList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.structures.UpdateType;
@@ -97,7 +87,6 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   private boolean adcsInUse;
   private Timer publishTimer = new Timer();
   private Thread autoUnsetThread = null;
-  private AttitudeMode activeAttitudeMode = null;
   private long attitudeControlEndTime = 0;
   private int monitoringPeriod = 5000; // Default value: 5 seconds
 
@@ -205,6 +194,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
           = (ActuatorsTelemetryList) HelperMisc.element2elementList(actuatorsTelemetry);
       actuatorsTelemetryList.add(actuatorsTelemetry);
 
+      final AttitudeMode activeAttitudeMode = adapter.getActiveAttitudeMode();
+
       AttitudeModeList attitudeModeList;
       if (activeAttitudeMode == null) {
         // Pick a dummy concrete type type just to fill it with a null value
@@ -236,7 +227,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       MALInteraction interaction) throws MALInteractionException, MALException
   {
     if (enableGeneration == false) {
-      publishTimer.cancel();
+      stopGeneration();
       return;
     }
     // Is the requested streaming rate less than the minimum period?
@@ -259,6 +250,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     try {
       final AttitudeTelemetry attitudeTelemetry = adapter.getAttitudeTelemetry();
       final ActuatorsTelemetry actuatorsTelemetry = adapter.getActuatorsTelemetry();
+      final AttitudeMode activeAttitudeMode = adapter.getActiveAttitudeMode();
       return new GetStatusResponse(attitudeTelemetry, actuatorsTelemetry, getAttitudeControlRemainingDuration(),
           generationEnabled, new Duration(monitoringPeriod / 1000.f), activeAttitudeMode);
     } catch (IOException ex) {
@@ -303,7 +295,6 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       try {
         // Now we can finally set the desiredAttitude!
         adapter.setDesiredAttitude(desiredAttitude);
-        activeAttitudeMode = desiredAttitude;
       } catch (IOException ex) {
         LOGGER.log(Level.SEVERE, "Error when setting desired attitude.", ex);
         // Operation not supported by the implementation...
@@ -332,6 +323,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   {
     publishTimer.cancel();
     publishTimer = new Timer();
+    generationEnabled = true;
     publishTimer.scheduleAtFixedRate(new TimerTask()
     {
       @Override
@@ -358,7 +350,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   public synchronized void setAttitudeControlDuration(final Duration duration)
   {
     if (duration == null) {
-      this.attitudeControlEndTime = 0;
+      attitudeControlEndTime = 0;
       return;
     }
 
@@ -372,6 +364,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       {
         try {
           Thread.sleep(remainingMillis);
+          attitudeControlEndTime = 0;
           unsetAttitude();
         } catch (InterruptedException ex) {
           // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
@@ -385,10 +378,10 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
   public synchronized Duration getAttitudeControlRemainingDuration()
   {
-    if (this.attitudeControlEndTime == 0) {
+    if (attitudeControlEndTime == 0) {
       return null; // Return null if the time left is unknown...
     } else {
-      return new Duration((this.attitudeControlEndTime - System.currentTimeMillis()) * 1000);
+      return new Duration((attitudeControlEndTime - System.currentTimeMillis()) / 1000.f);
     }
   }
 
