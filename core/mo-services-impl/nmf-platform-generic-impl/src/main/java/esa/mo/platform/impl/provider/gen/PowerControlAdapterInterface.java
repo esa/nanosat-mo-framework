@@ -20,19 +20,17 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
-import org.ccsds.moims.mo.platform.magnetometer.structures.MagneticFieldInstance;
+import java.io.IOException;
+import java.util.Map;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
 
-/**
- *
- * @author Cesar Coelho
- */
-public interface MagnetometerAdapterInterface {
+public interface PowerControlAdapterInterface
+{
 
-    /**
-     * Retrieves the magnetic field.
-     *
-     * @return The magnetic field
-     */
-    MagneticFieldInstance getMagneticField();
+  public Map<Identifier, Device> getDeviceMap();
+
+  public void enableDevices(DeviceList devices) throws IOException;
 
 }

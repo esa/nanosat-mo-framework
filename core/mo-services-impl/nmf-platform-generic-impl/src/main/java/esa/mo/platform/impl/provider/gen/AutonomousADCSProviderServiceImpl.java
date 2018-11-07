@@ -25,8 +25,8 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Timer;
@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -46,6 +47,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.DurationList;
 import org.ccsds.moims.mo.mal.structures.EntityKey;
 import org.ccsds.moims.mo.mal.structures.EntityKeyList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -64,440 +66,363 @@ import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
+import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.autonomousadcs.provider.MonitorAttitudePublisher;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinition;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionList;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceList;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeBDotList;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList;
 
 /**
  * AutonomousADCS service Provider.
  */
-public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritanceSkeleton implements ReconfigurableService {
+public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritanceSkeleton
+{
 
-    private final static Duration MINIMUM_PERIOD = new Duration(0.1); // 100 Milliseconds
-    private MALProvider autonomousADCSServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
-    private MonitorAttitudePublisher publisher;
-    private boolean isRegistered = false;
-    private final Object lock = new Object();
-    private AutonomousADCSManager manager;
-    private final ConnectionProvider connection = new ConnectionProvider();
-    private AutonomousADCSAdapterInterface adapter;
-    private boolean adcsInUse;
-    private Timer publishTimer = new Timer();
-    private ConfigurationChangeListener configurationAdapter;
-    private Thread autoUnsetThread = null;
-    private Long currentAttitudeObjId = (long) 0;
-    private int period = 5000; // Default value: 5 seconds
+  private final static Logger LOGGER = Logger.getLogger(
+      AutonomousADCSProviderServiceImpl.class.getName());
+  private final static Duration MINIMUM_MONITORING_PERIOD = new Duration(0.1); // 100 Milliseconds
+  private MALProvider autonomousADCSServiceProvider;
+  private boolean initialiased = false;
+  private boolean generationEnabled = false;
+  private MonitorAttitudePublisher publisher;
+  private boolean isRegistered = false;
+  private final Object lock = new Object();
+  private final ConnectionProvider connection = new ConnectionProvider();
+  private AutonomousADCSAdapterInterface adapter;
+  private boolean adcsInUse;
+  private Timer publishTimer = new Timer();
+  private Thread autoUnsetThread = null;
+  private AttitudeMode activeAttitudeMode = null;
+  private long attitudeControlEndTime = 0;
+  private int monitoringPeriod = 5000; // Default value: 5 seconds
 
-    /**
-     * creates the MAL objects, the publisher used to create updates and starts
-     * the publishing thread
-     *
-     * @param comServices COM services provider
-     * @param adapter The adapter for the ADCS unit interaction
-     * @throws MALException On initialisation error.
-     */
-    public synchronized void init(COMServicesProvider comServices, AutonomousADCSAdapterInterface adapter) throws MALException {
-        if (!initialiased) {
+  /**
+   * creates the MAL objects, the publisher used to create updates and starts the publishing thread
+   *
+   * @param comServices COM services provider
+   * @param adapter     The adapter for the ADCS unit interaction
+   * @throws MALException On initialisation error.
+   */
+  public synchronized void init(COMServicesProvider comServices,
+      AutonomousADCSAdapterInterface adapter) throws MALException
+  {
+    if (!initialiased) {
 
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+      if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
+        MALHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) == null) {
-                PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+      if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+          PlatformHelper.PLATFORM_AREA_VERSION) == null) {
+        PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
 
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+      if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
+        COMHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
 
-            try {
-                AutonomousADCSHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) { // nothing to be done..
-            }
-        }
-
-        publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(),
-                SessionType.LIVE,
-                ConfigurationProviderSingleton.getSourceSessionName(),
-                QoSLevel.BESTEFFORT,
-                null,
-                new UInteger(0));
-
-        // Shut down old service transport
-        if (null != autonomousADCSServiceProvider) {
-            connection.closeAll();
-        }
-
-        this.adapter = adapter;
-        autonomousADCSServiceProvider = connection.startService(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME.toString(),
-                AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
-
-        manager = new AutonomousADCSManager(comServices);
-        running = true;
-        initialiased = true;
-        Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).info("AutonomousADCS service READY");
+      try {
+        AutonomousADCSHelper.init(MALContextFactory.getElementFactoryRegistry());
+      } catch (MALException ex) { // nothing to be done..
+      }
     }
 
-    /**
-     * Closes all running threads and releases the MAL resources.
-     */
-    public synchronized void close() {
+    publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
+        ConfigurationProviderSingleton.getNetwork(),
+        SessionType.LIVE,
+        ConfigurationProviderSingleton.getSourceSessionName(),
+        QoSLevel.BESTEFFORT,
+        null,
+        new UInteger(0));
+
+    // Shut down old service transport
+    if (null != autonomousADCSServiceProvider) {
+      connection.closeAll();
+    }
+
+    this.adapter = adapter;
+    autonomousADCSServiceProvider = connection.startService(
+        AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME.toString(),
+        AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
+
+    initialiased = true;
+    LOGGER.info(
+        "AutonomousADCS service READY");
+  }
+
+  /**
+   * Closes all running threads and releases the MAL resources.
+   */
+  public synchronized void close()
+  {
+    try {
+      if (null != autonomousADCSServiceProvider) {
+        autonomousADCSServiceProvider.close();
+      }
+
+      connection.closeAll();
+      stopGeneration();
+    } catch (MALException ex) {
+      LOGGER.log(Level.WARNING, "Exception during close down of the provider.", ex);
+    }
+  }
+
+  private void publishCurrentAttitude()
+  {
+    if (!adapter.isUnitAvailable()) {
+      // Abort publishing
+      stopGeneration();
+      return;
+    }
+
+    synchronized (lock) {
+      if (!isRegistered) {
+        final EntityKeyList lst = new EntityKeyList();
+        lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
         try {
-            if (null != autonomousADCSServiceProvider) {
-                autonomousADCSServiceProvider.close();
-            }
-
-            connection.closeAll();
-            running = false;
-        } catch (MALException ex) {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during close down of the provider {0}", ex);
+          publisher.register(lst, new PublishInteractionListener());
+        } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
+          LOGGER.log(Level.WARNING, "Error when registering the publisher!", ex);
+          return;
         }
+        isRegistered = true;
+      }
     }
 
-    private void publishCurrentAttitude() {
+    try {
+      final AttitudeTelemetry attitudeTelemetry = adapter.getAttitudeTelemetry();
+      final AttitudeTelemetryList attitudeTelemetryList
+          = (AttitudeTelemetryList) HelperMisc.element2elementList(attitudeTelemetry);
+      attitudeTelemetryList.add(attitudeTelemetry);
+
+      final ActuatorsTelemetry actuatorsTelemetry = adapter.getActuatorsTelemetry();
+      final ActuatorsTelemetryList actuatorsTelemetryList
+          = (ActuatorsTelemetryList) HelperMisc.element2elementList(actuatorsTelemetry);
+      actuatorsTelemetryList.add(actuatorsTelemetry);
+
+      AttitudeModeList attitudeModeList;
+      if (activeAttitudeMode == null) {
+        // Pick a dummy concrete type type just to fill it with a null value
+        attitudeModeList = new AttitudeModeBDotList();
+      } else {
+        attitudeModeList = (AttitudeModeList) HelperMisc.element2elementList(
+            activeAttitudeMode);
+      }
+      attitudeModeList.add(activeAttitudeMode);
+
+      final DurationList durationList = new DurationList();
+      durationList.add(getAttitudeControlRemainingDuration());
+
+      final EntityKey ekey = new EntityKey(null, null, null, null);
+      final Time timestamp = HelperTime.getTimestampMillis();
+      final UpdateHeaderList hdrlst = new UpdateHeaderList();
+      hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(),
+          UpdateType.UPDATE, ekey));
+
+      publisher.publish(hdrlst, attitudeTelemetryList, actuatorsTelemetryList, durationList,
+          attitudeModeList);
+    } catch (IOException | IllegalArgumentException | MALException | MALInteractionException ex) {
+      LOGGER.log(Level.SEVERE, "Error when trying to publish data!", ex);
+    }
+  }
+
+  @Override
+  public void enableMonitoring(Boolean enableGeneration, Duration monitoringInterval,
+      MALInteraction interaction) throws MALInteractionException, MALException
+  {
+    if (enableGeneration == false) {
+      publishTimer.cancel();
+      return;
+    }
+    // Is the requested streaming rate less than the minimum period?
+    if (monitoringInterval == null || monitoringInterval.getValue() < MINIMUM_MONITORING_PERIOD.getValue()) {
+      throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
+          MINIMUM_MONITORING_PERIOD));
+    }
+
+    monitoringPeriod = (int) (monitoringInterval.getValue() * 1000); // In milliseconds
+    this.startGeneration();
+  }
+
+  @Override
+  public GetStatusResponse getStatus(MALInteraction interaction) throws MALInteractionException
+  {
+    if (!adapter.isUnitAvailable()) {
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+    try {
+      final AttitudeTelemetry attitudeTelemetry = adapter.getAttitudeTelemetry();
+      final ActuatorsTelemetry actuatorsTelemetry = adapter.getActuatorsTelemetry();
+      return new GetStatusResponse(attitudeTelemetry, actuatorsTelemetry, getAttitudeControlRemainingDuration(),
+          generationEnabled, new Duration(monitoringPeriod / 1000.f), activeAttitudeMode);
+    } catch (IOException ex) {
+      Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE,
+          "Error when producing getStatus response", ex);
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+
+  }
+
+  @Override
+  public synchronized void setDesiredAttitude(final Duration duration, AttitudeMode desiredAttitude,
+      MALInteraction interaction) throws MALInteractionException, MALException
+  {
+    if (!adapter.isUnitAvailable()) { // Is the ADCS unit available?
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+
+    if (desiredAttitude == null) {
+      // Stop the current Thread to automatically unset the Attitude
+      if (autoUnsetThread != null) {
+        autoUnsetThread.interrupt();
+        autoUnsetThread = null;
+      }
+      unsetAttitude();
+    } else {
+      if (adcsInUse) { // Is the ADCS unit in use?
+        throw new MALInteractionException(new MALStandardError(
+            PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, getAttitudeControlRemainingDuration()));
+      }
+
+      // Validate the attitude definition...
+      String validationResult = adapter.validateAttitudeDescriptor(desiredAttitude);
+
+      if (validationResult != null) {
+        throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
+            validationResult));
+      }
+
+      try {
+        // Now we can finally set the desiredAttitude!
+        adapter.setDesiredAttitude(desiredAttitude);
+        activeAttitudeMode = desiredAttitude;
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, "Error when setting desired attitude.", ex);
+        // Operation not supported by the implementation...
+        throw new MALInteractionException(new MALStandardError(
+            MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));
+      }
+      adcsInUse = true;
+
+      // Set automatic unset time
+      setAttitudeControlDuration(duration);
+    }
+  }
+
+  private void unsetAttitude()
+  {
+    try {
+      adapter.unset();
+      adcsInUse = false;
+    } catch (IOException ex) {
+      LOGGER.log(Level.SEVERE,
+          "Cannot disengage attitude control.", ex);
+    }
+  }
+
+  private void startGeneration()
+  {
+    publishTimer.cancel();
+    publishTimer = new Timer();
+    publishTimer.scheduleAtFixedRate(new TimerTask()
+    {
+      @Override
+      public void run()
+      {
+        if (generationEnabled) {
+          publishCurrentAttitude();
+        }
+      }
+    }, monitoringPeriod, monitoringPeriod);
+  }
+
+  private void stopGeneration()
+  {
+    generationEnabled = false;
+    publishTimer.cancel();
+  }
+
+  /**
+   * Sets the remaining duration of the currently set attitude control mode.
+   *
+   * @param duration remaining duration of the iADCS control
+   */
+  public synchronized void setAttitudeControlDuration(final Duration duration)
+  {
+    if (duration == null) {
+      this.attitudeControlEndTime = 0;
+      return;
+    }
+
+    final long remainingMillis = (long) (duration.getValue() * 1000);
+    attitudeControlEndTime = System.currentTimeMillis() + remainingMillis;
+    // Start auto-timer to unset
+    autoUnsetThread = new Thread()
+    {
+      @Override
+      public void run()
+      {
         try {
-            final Long objId;
-            final AttitudeDefinition attDef;
-
-            synchronized (lock) {
-                if (!isRegistered) {
-                    final EntityKeyList lst = new EntityKeyList();
-                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                    publisher.register(lst, new PublishInteractionListener());
-                    isRegistered = true;
-                }
-
-                objId = this.currentAttitudeObjId;
-                attDef = manager.get(objId);
-            }
-
-            final AttitudeInstance ai = adapter.getAttitudeInstance();
-            AttitudeInstanceList ail = (AttitudeInstanceList) HelperMisc.element2elementList(ai);
-            ail.add(ai);
-
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.FINER,
-                    "Generating Parameter update for the Parameter Definition: {0} (Identifier: {1})",
-                    new Object[]{objId, attDef.getName()});
-
-            final EntityKey ekey = new EntityKey(attDef.getName(), objId, AutonomousADCSManager.getAttitudeMode(attDef).getNumericValue().getValue(), null);
-            final Time timestamp = HelperTime.getTimestampMillis();
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
-
-            publisher.publish(hdrlst, ail);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during publishing process on the provider {0}", ex);
-        } catch (MALException ex) {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during publishing process on the provider {0}", ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during publishing process on the provider {0}", ex);
-        } catch (IOException ex) {
-            return;
-        } catch (Exception ex) { // Could not generate the Element List
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                    "Could not create the Element List!", ex);
+          Thread.sleep(remainingMillis);
+          unsetAttitude();
+        } catch (InterruptedException ex) {
+          // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
         }
+
+      }
+    };
+    autoUnsetThread.start();
+
+  }
+
+  public synchronized Duration getAttitudeControlRemainingDuration()
+  {
+    if (this.attitudeControlEndTime == 0) {
+      return null; // Return null if the time left is unknown...
+    } else {
+      return new Duration((this.attitudeControlEndTime - System.currentTimeMillis()) * 1000);
+    }
+  }
+
+  private static final class PublishInteractionListener implements MALPublishInteractionListener
+  {
+
+    @Override
+    public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+        throws MALException
+    {
+      LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
     }
 
     @Override
-    public synchronized void setDesiredAttitude(final Long objInstId, final Duration autoUnset,
-            final Duration streamingRate, final MALInteraction interaction) throws MALInteractionException, MALException {
-
-        if (null == objInstId) { // Is the input null?
-            throw new IllegalArgumentException("objInstId argument must not be null");
-        }
-
-        if (!adapter.isUnitAvailable()) { // Is the ADCS unit available?
-            throw new MALInteractionException(new MALStandardError(AutonomousADCSHelper.ADCS_NOT_AVAILABLE_ERROR_NUMBER, null));
-        }
-
-        if (adcsInUse) { // Is the ADCS unit in use?
-            Duration duration = manager.getTimeLeft();
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, duration));
-        }
-
-        // Is the requested streaming rate less than the minimum period?
-        if (streamingRate.getValue() < MINIMUM_PERIOD.getValue()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, MINIMUM_PERIOD));
-        }
-
-        AttitudeDefinition attitude = manager.get(objInstId);
-
-        if (attitude == null) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
-        }
-
-        // Validate the attitude definition...
-        String invalidField = manager.invalidField(attitude);
-
-        if (invalidField != null) {
-            // Oppss.. there's an invalid field! Throw it!
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invalidField));
-        }
-
-        try {
-            // Now we can finally set the desiredAttitude!
-            adapter.setDesiredAttitude(attitude);
-            currentAttitudeObjId = objInstId;
-        } catch (IOException ex) {
-            // Operation not supported by the implementation...
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));
-        }
-
-        period = (int) (streamingRate.getValue() * 1000); // In milliseconds
-        this.restartPublishTimer();
-
-        // Store current time
-        manager.markAvailableTime(autoUnset);
-        adcsInUse = true;
-
-        if (autoUnset.getValue() != 0) {
-            // Start auto-timer to unset
-            autoUnsetThread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep((long) autoUnset.getValue() * 1000); // Conversion to miliseconds
-
-                        try {
-                            publishTimer.cancel();
-                            adapter.unset();
-                            adcsInUse = false;
-                        } catch (IOException ex) {
-                            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    } catch (InterruptedException ex) {
-                        // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
-                    }
-
-                }
-            };
-
-            autoUnsetThread.start();
-        }
-
+    public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+        final Map qosProperties)
+        throws MALException
+    {
+      LOGGER.warning("PublishInteractionListener::publishErrorReceived");
     }
 
     @Override
-    public synchronized void unsetAttitude(MALInteraction interaction) throws MALInteractionException, MALException {
-        // Stop the current Thread to automatically unset the Attitude
-        if (autoUnsetThread != null) {
-            autoUnsetThread.interrupt();
-        }
-
-        if (!adapter.isUnitAvailable()) { // Is the ADCS unit available?
-            throw new MALInteractionException(new MALStandardError(AutonomousADCSHelper.ADCS_NOT_AVAILABLE_ERROR_NUMBER, null));
-        }
-
-        try {
-            publishTimer.cancel();
-            adapter.unset();
-            adcsInUse = false;
-        } catch (IOException ex) {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+        throws MALException
+    {
+      LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
     }
 
     @Override
-    public synchronized LongList addAttitudeDefinition(AttitudeDefinitionList attitudeDefinitions,
-            MALInteraction interaction) throws MALInteractionException, MALException {
-        LongList outLongLst = new LongList();
-        UIntegerList invIndexList = new UIntegerList();
-        UIntegerList dupIndexList = new UIntegerList();
-        AttitudeDefinition def;
-
-        if (null == attitudeDefinitions) { // Is the input null?
-            throw new IllegalArgumentException("attitudeDefinitions argument must not be null");
-        }
-
-        for (int index = 0; index < attitudeDefinitions.size(); index++) {
-            def = (AttitudeDefinition) attitudeDefinitions.get(index);
-
-            // Check if the name field of the AttitudeDefinition is invalid.
-            if (def.getName() == null
-                    || def.getName().equals(new Identifier("*"))
-                    || def.getName().equals(new Identifier(""))) {
-                invIndexList.add(new UInteger(index));
-            }
-
-            if (manager.list(def.getName()) != null) { // Is the supplied name unique?
-                dupIndexList.add(new UInteger(index));
-            }
-        }
-
-        // Errors
-        if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
-            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
-        }
-
-        if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-        }
-
-        // If no errors, then add!  // requirement: 3.6.13.2.h
-        for (Object attitudeDefinition : attitudeDefinitions) {  // requirement: 3.6.13.2.i
-            final ObjectId source = manager.storeCOMOperationActivity(interaction);
-            final URI uriFrom = connection.getConnectionDetails().getProviderURI();
-            outLongLst.add(manager.add((AttitudeDefinition) attitudeDefinition, source, uriFrom));
-        }
-
-        if (configurationAdapter != null) {
-            configurationAdapter.onConfigurationChanged(this);
-        }
-
-        return outLongLst;
+    public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+        final Map qosProperties) throws MALException
+    {
+      LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
     }
-
-    @Override
-    public synchronized void removeAttitudeDefinition(final LongList objIds,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
-        UIntegerList unkIndexList = new UIntegerList();
-        Long tempLong;
-        LongList tempLongLst = new LongList();
-
-        if (null == objIds) { // Is the input null?
-            throw new IllegalArgumentException("objIds argument must not be null");
-        }
-
-        for (int index = 0; index < objIds.size(); index++) {
-            tempLong = objIds.get(index);
-
-            if (tempLong == 0) {  // Is it the wildcard '0'?
-                tempLongLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
-                tempLongLst.addAll(manager.listAll()); // ... add all in a row
-                break;
-            }
-
-            if (manager.exists(tempLong)) { // Does it match an existing definition?
-                tempLongLst.add(tempLong);
-            } else {
-                unkIndexList.add(new UInteger(index));
-            }
-        }
-
-        // Errors
-        if (!unkIndexList.isEmpty()) { // requirement: 3.4.12.3.1
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
-        }
-
-        // Inserting the errors before this line guarantees that the requirement is met
-        for (Long tempLong2 : tempLongLst) {
-            manager.delete(tempLong2);  // COM archive is left untouched.
-        }
-
-        if (configurationAdapter != null) {
-            configurationAdapter.onConfigurationChanged(this);
-        }
-    }
-
-    @Override
-    public synchronized LongList listAttitudeDefinition(final IdentifierList names,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
-        LongList outLongLst = new LongList();
-
-        if (null == names) { // Is the input null?
-            throw new IllegalArgumentException("names argument must not be null");
-        }
-
-        for (Identifier attitudeName : names) {
-            // Check for the wildcard
-            if (attitudeName.toString().equals("*")) {
-                outLongLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
-                outLongLst.addAll(manager.listAll()); // ... add all in a row
-                break;
-            }
-
-            outLongLst.add(manager.list(attitudeName));
-        }
-
-        // Errors
-        // The operation does not return any errors.
-        return outLongLst;
-    }
-
-    private void restartPublishTimer() {
-        publishTimer.cancel();
-        publishTimer = new Timer();
-        publishTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (running) {
-                    publishCurrentAttitude();
-                }
-            }
-        }, period, period);
-    }
-
-    @Override
-    public synchronized void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
-        this.configurationAdapter = configurationAdapter;
-    }
-
-    @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
-        // Validate the returned configuration...
-        if (configurationObjectDetails == null) {
-            return false;
-        }
-
-        if (configurationObjectDetails.getConfigObjects() == null) {
-            return false;
-        }
-
-        // Is the size 5?
-        if (configurationObjectDetails.getConfigObjects().size() != 5) {  // 5 because we just have 5 definition types
-            return false;
-        }
-
-        return manager.reloadConfiguration(ConfigurationProviderSingleton.getDomain(), configurationObjectDetails);
-    }
-
-    @Override
-    public ConfigurationObjectDetails getCurrentConfiguration() {
-        return manager.getCurrentConfiguration(ConfigurationProviderSingleton.getDomain());
-    }
-
-    @Override
-    public COMService getCOMService() {
-        return AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE;
-    }
-
-    public static final class PublishInteractionListener implements MALPublishInteractionListener {
-
-        @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishDeregisterAckReceived");
-        }
-
-        @Override
-        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties)
-                throws MALException {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishErrorReceived");
-        }
-
-        @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterAckReceived");
-        }
-
-        @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties) throws MALException {
-            Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).warning("PublishInteractionListener::publishRegisterErrorReceived");
-        }
-    }
+  }
 
 }

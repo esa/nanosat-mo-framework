@@ -22,21 +22,18 @@ package esa.mo.nmf.apps;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFInterface;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
@@ -69,7 +66,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
@@ -77,747 +73,738 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
+import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionList;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionNadirPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionNadirPointingList;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionSunPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinitionSunPointingList;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceNadirPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceSunPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeBDot;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeNadirPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSingleSpinning;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.Vector3D;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
-import org.ccsds.moims.mo.platform.magnetometer.structures.MagneticFieldInstance;
-import org.ccsds.moims.mo.platform.structures.Quaternions;
-import org.ccsds.moims.mo.platform.structures.Vector3D;
-import org.ccsds.moims.mo.platform.structures.WheelSpeed;
-import esa.mo.nmf.NMFInterface;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
 /**
  * The adapter for the NMF App
  */
-public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
+public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
+{
 
-    private NMFInterface nmf;
+  private static final String ACTION_5_STAGES = "5StagesAction";
+  private static final String ACTION_NADIR_POINTING_MODE = "ADCS_NadirPointingMode";
+  private static final String ACTION_SUN_POINTING_MODE = "ADCS_SunPointingMode";
+  private static final String ACTION_UNSET = "ADCS_UnsetAttitude";
+  private static final String AGGREGATION_GPS = "GPS_Aggregation";
+  private static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
+  private static final String PARAMETER_ADCS_MODE = "ADCS_ModeOperation";
+  private static final String PARAMETER_ADCS_DURATION = "ADCS_RemainingControlDuration";
+  private static final String PARAMETER_ANGULAR_VELOCITY_X = "AngularVelocity_X";
+  private static final String PARAMETER_ANGULAR_VELOCITY_Y = "AngularVelocity_Y";
+  private static final String PARAMETER_ANGULAR_VELOCITY_Z = "AngularVelocity_Z";
+  private static final String PARAMETER_ATTITUDE_Q_A = "AttitudeQuaternion_a";
+  private static final String PARAMETER_ATTITUDE_Q_B = "AttitudeQuaternion_b";
+  private static final String PARAMETER_ATTITUDE_Q_C = "AttitudeQuaternion_c";
+  private static final String PARAMETER_ATTITUDE_Q_D = "AttitudeQuaternion_d";
+  private static final String PARAMETER_GPS_ALTITUDE = "GPS_Altitude";
+  private static final String PARAMETER_GPS_ELAPSED_TIME = "GPS_ElapsedTime";
+  private static final String PARAMETER_GPS_LATITUDE = "GPS_Latitude";
+  private static final String PARAMETER_GPS_LONGITUDE = "GPS_Longitude";
+  private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "GPS_NumberOfSatellitesInView";
+  private static final String PARAMETER_MAG_X = "MagneticField_X";
+  private static final String PARAMETER_MAG_Y = "MagneticField_Y";
+  private static final String PARAMETER_MAG_Z = "MagneticField_Z";
+  private static final String PARAMETER_MTQ_X = "MagnetorquerMoment_X";
+  private static final String PARAMETER_MTQ_Y = "MagnetorquerMoment_Y";
+  private static final String PARAMETER_MTQ_Z = "MagnetorquerMoment_Z";
+  private static final String PARAMETER_SUN_VECTOR_X = "SunVector_X";
+  private static final String PARAMETER_SUN_VECTOR_Y = "SunVector_Y";
+  private static final String PARAMETER_SUN_VECTOR_Z = "SunVector_Z";
 
-    private static final String PARAMETER_ADCS_MODE = "ADCS.ModeOperation";
-    private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
-    private static final String PARAMETER_GPS_LONGITUDE = "GPS.Longitude";
-    private static final String PARAMETER_GPS_ALTITUDE = "GPS.Altitude";
-    private static final String PARAMETER_MAG_X = "Magnetometer.X";
-    private static final String PARAMETER_MAG_Y = "Magnetometer.Y";
-    private static final String PARAMETER_MAG_Z = "Magnetometer.Z";
-    private static final String PARAMETER_GPS_ELAPSED_TIME = "GPS.ElapsedTime";
-    private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "GPS.NumberOfSatellitesInView";
+  private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
+  private static final Logger LOGGER = Logger.getLogger(MCAllInOneAdapter.class.getName());
+  private NMFInterface nmf;
 
-    private static final String AGGREGATION_GPS = "GPS.Aggregation";
-    private static final String AGGREGATION_MAG = "Magnetometer.Aggregation";
+  private boolean attitudeMonitoringSetup = false;
+  private final Timer timer = new Timer();
 
-    private static final String ACTION_SUN_POINTING_MODE = "ADCS.SunPointingMode";
-    private static final String ACTION_NADIR_POINTING_MODE = "ADCS.NadirPointingMode";
-    private static final String ACTION_UNSET = "ADCS.UnsetAttitude";
-    private static final String ACTION_5_STAGES = "5StagesAction";
 
-    private boolean adcsDefsAdded = false;
-    private Long sunPointingObjId = null;
-    private Long nadirPointingObjId = null;
-    private final Timer timer = new Timer();
-
-    public void setNMF(final NMFInterface nmfProvider) {
-        this.nmf = nmfProvider;
+  private static enum AttitudeModeEnum
+  {
+    IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING
+  }
+  
+  private UOctet attitudeModeToParamValue(AttitudeMode attitude)
+  {
+    AttitudeModeEnum modeEnum;
+    if (attitude == null) {
+      modeEnum = AttitudeModeEnum.IDLE;
+    } else if (attitude instanceof AttitudeModeBDot) {
+      modeEnum = AttitudeModeEnum.BDOT;
+    } else if (attitude instanceof AttitudeModeSunPointing) {
+      modeEnum = AttitudeModeEnum.SUNPOINTING;
+    } else if (attitude instanceof AttitudeModeSingleSpinning) {
+      modeEnum = AttitudeModeEnum.SINGLESPINNING;
+    } else if (attitude instanceof AttitudeModeTargetTracking) {
+      modeEnum = AttitudeModeEnum.TARGETTRACKING;
+    } else if (attitude instanceof AttitudeModeNadirPointing) {
+      modeEnum = AttitudeModeEnum.NADIRPOINTING;
+    } else {
+      throw new IllegalArgumentException("Unrecognized attitude mode type!");
     }
+    return new UOctet((short) modeEnum.ordinal());
+  }
 
-    public void startTimerThread() {
-        this.timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                AttributeValueList atts = new AttributeValueList();
-                AttributeValue att = new AttributeValue(new Union("This is an Alert!"));
-                atts.add(att);
+  public void setNMF(final NMFInterface nmfProvider)
+  {
+    this.nmf = nmfProvider;
+  }
 
-                try {
-                    nmf.publishAlertEvent("10SecondsAlert", atts);
-                } catch (NMFException ex) {
-                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }, 0, 10 * 1000); // 10 seconds
-    }
-
-    @Override
-    public void initialRegistrations(MCRegistration registration) {
-        registration.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
-
-        // =================================================================== 
-        PairList mappings = new PairList();
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.BDOT.getOrdinal()), new Union("BDOT")));
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.SUNPOINTING.getOrdinal()), new Union("SUNPOINTING_INDEX")));
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.SINGLESPINNING.getOrdinal()), new Union("SINGLESPINNING")));
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.TARGETTRACKING.getOrdinal()), new Union("TARGETTRACKING")));
-        mappings.add(new Pair(new UOctet((short) AttitudeMode.NADIRPOINTING.getOrdinal()), new Union("NADIRPOINTING")));
-
-        DiscreteConversionDetailsList conversions = new DiscreteConversionDetailsList();
-        conversions.add(new DiscreteConversionDetails(mappings));
-        ParameterConversion paramConversion = null;
+  public void startTimerThread()
+  {
+    this.timer.scheduleAtFixedRate(new TimerTask()
+    {
+      @Override
+      public void run()
+      {
+        AttributeValueList atts = new AttributeValueList();
+        AttributeValue att = new AttributeValue(new Union("This is an Alert!"));
+        atts.add(att);
 
         try {
-            ObjectIdList objIds = registration.registerConversions(conversions);
-
-            if (objIds.size() == 1) {
-                ObjectId objId = objIds.get(0);
-                ParameterExpression paramExpr = null;
-
-                ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getKey());
-                ConditionalConversionList conditionalConversions = new ConditionalConversionList();
-                conditionalConversions.add(condition);
-
-                Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
-                String convertedUnit = "n/a";
-
-                paramConversion = new ParameterConversion(convertedType, convertedUnit, conditionalConversions);
-            }
+          nmf.publishAlertEvent("10SecondsAlert", atts);
         } catch (NMFException ex) {
-            // ooops, ignore the parameter conversion
-        } catch (MALException ex) {
-            // ooops, ignore the parameter conversion
-        } catch (MALInteractionException ex) {
+          LOGGER.log(Level.SEVERE, null, ex);
         }
+      }
+    }, 0, 10 * 1000); // 10 seconds
+  }
 
-        // ------------------ Parameters ------------------
-        ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
-        IdentifierList paramOtherNames = new IdentifierList();
-        ParameterDefinitionDetailsList defsGPS = new ParameterDefinitionDetailsList();
-        IdentifierList paramGPSNames = new IdentifierList();
-        ParameterDefinitionDetailsList defsMag = new ParameterDefinitionDetailsList();
-        IdentifierList paramMagNames = new IdentifierList();
+  @Override
+  public void initialRegistrations(MCRegistration registration)
+  {
+    registration.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
-        defsOther.add(new ParameterDefinitionDetails(
-                "The ADCS mode of operation",
-                Union.UOCTET_SHORT_FORM.byteValue(),
-                "",
-                false,
-                new Duration(0),
-                null,
-                paramConversion
-        ));
-        paramOtherNames.add(new Identifier(PARAMETER_ADCS_MODE));
+    // ===================================================================
+    PairList mappings = new PairList();
+    mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.IDLE.ordinal()), new Union("IDLE")));
+    mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.BDOT.ordinal()), new Union("BDOT")));
+    mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.SUNPOINTING.ordinal()), new Union(
+        "SUNPOINTING")));
+    mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.SINGLESPINNING.ordinal()), new Union(
+        "SINGLESPINNING")));
+    mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.TARGETTRACKING.ordinal()), new Union(
+        "TARGETTRACKING")));
+    mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.NADIRPOINTING.ordinal()), new Union(
+        "NADIRPOINTING")));
 
-        defsOther.add(new ParameterDefinitionDetails(
-                "The number of satellites in view of GPS receiver.",
-                Union.INTEGER_SHORT_FORM.byteValue(),
-                "sats",
-                false,
-                new Duration(4),
-                null,
-                null
-        ));
-        paramOtherNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
+    DiscreteConversionDetailsList conversions = new DiscreteConversionDetailsList();
+    conversions.add(new DiscreteConversionDetails(mappings));
+    ParameterConversion paramConversion = null;
 
-        // Create the GPS.Latitude
-        defsGPS.add(new ParameterDefinitionDetails(
-                "The GPS Latitude",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                "degrees",
-                false,
-                new Duration(2),
-                null,
-                null
-        ));
-        paramGPSNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
+    try {
+      ObjectIdList objIds = registration.registerConversions(conversions);
 
-        // Create the GPS.Longitude
-        defsGPS.add(new ParameterDefinitionDetails(
-                "The GPS Longitude",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                "degrees",
-                false,
-                new Duration(2),
-                null,
-                null
-        ));
-        paramGPSNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
+      if (objIds.size() == 1) {
+        ObjectId objId = objIds.get(0);
+        ParameterExpression paramExpr = null;
 
-        // Create the GPS.Altitude
-        defsGPS.add(new ParameterDefinitionDetails(
-                "The GPS Altitude",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                "meters",
-                false,
-                new Duration(2),
-                null,
-                null
-        ));
-        paramGPSNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
+        ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getKey());
+        ConditionalConversionList conditionalConversions = new ConditionalConversionList();
+        conditionalConversions.add(condition);
 
-        // Create the Magnetometer.X
-        defsMag.add(new ParameterDefinitionDetails(
-                "The Magnetometer X component",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                "microTesla",
-                false,
-                new Duration(2),
-                null,
-                null
-        ));
-        paramMagNames.add(new Identifier(PARAMETER_MAG_X));
+        Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
+        String convertedUnit = "n/a";
 
-        // Create the Magnetometer.Y
-        defsMag.add(new ParameterDefinitionDetails(
-                "The Magnetometer Y component",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                "microTesla",
-                false,
-                new Duration(2),
-                null,
-                null
-        ));
-        paramMagNames.add(new Identifier(PARAMETER_MAG_Y));
+        paramConversion = new ParameterConversion(convertedType, convertedUnit,
+            conditionalConversions);
+      }
+    } catch (NMFException | MALException | MALInteractionException ex) {
+      Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE,
+          "Failed to register conversion.", ex);
+    }
 
-        // Create the Magnetometer.Z
-        defsMag.add(new ParameterDefinitionDetails(
-                "The Magnetometer Z component",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                "microTesla",
-                false,
-                new Duration(2),
-                null,
-                null
-        ));
-        paramMagNames.add(new Identifier(PARAMETER_MAG_Z));
+    // ------------------ Parameters ------------------
+    ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+    IdentifierList paramOtherNames = new IdentifierList();
+    ParameterDefinitionDetailsList defsGPS = new ParameterDefinitionDetailsList();
+    IdentifierList paramGPSNames = new IdentifierList();
+    ParameterDefinitionDetailsList defsMag = new ParameterDefinitionDetailsList();
+    IdentifierList paramMagNames = new IdentifierList();
 
-        registration.registerParameters(paramOtherNames, defsOther);
-        LongList parameterObjIdsGPS = registration.registerParameters(paramGPSNames, defsGPS);
-        LongList parameterObjIdsMag = registration.registerParameters(paramMagNames, defsMag);
+    defsOther.add(new ParameterDefinitionDetails(
+        "The ADCS mode of operation",
+        Union.UOCTET_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(0),
+        null,
+        paramConversion
+    ));
+    paramOtherNames.add(new Identifier(PARAMETER_ADCS_MODE));
 
-        // ------------------ Aggregations ------------------
-        AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
-        IdentifierList aggNames = new IdentifierList();
+    defsOther.add(new ParameterDefinitionDetails(
+        "The number of satellites in view of GPS receiver.",
+        Union.INTEGER_SHORT_FORM.byteValue(),
+        "sats",
+        false,
+        new Duration(4),
+        null,
+        null
+    ));
+    paramOtherNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
-        // Create the Aggregation GPS
-        AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
-                "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
-                new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
-                new Duration(10),
-                true,
-                false,
-                false,
-                new Duration(20),
-                false,
-                new AggregationParameterSetList()
-        );
-        aggNames.add(new Identifier(AGGREGATION_GPS));
+    // Create the GPS.Latitude
+    defsGPS.add(new ParameterDefinitionDetails(
+        "The GPS Latitude",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "degrees",
+        false,
+        new Duration(2),
+        null,
+        null
+    ));
+    paramGPSNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
-        defGPSAgg.getParameterSets().add(new AggregationParameterSet(
-                null,
-                parameterObjIdsGPS,
-                new Duration(3),
-                null
-        ));
+    // Create the GPS.Longitude
+    defsGPS.add(new ParameterDefinitionDetails(
+        "The GPS Longitude",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "degrees",
+        false,
+        new Duration(2),
+        null,
+        null
+    ));
+    paramGPSNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
-        // Create the Aggregation Magnetometer
-        AggregationDefinitionDetails defMagAgg = new AggregationDefinitionDetails(
-                "Aggregates Magnetometer components: X, Y, Z.",
-                new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
-                new Duration(10),
-                true,
-                false,
-                false,
-                new Duration(20),
-                false,
-                new AggregationParameterSetList()
-        );
-        aggNames.add(new Identifier(AGGREGATION_MAG));
+    // Create the GPS.Altitude
+    defsGPS.add(new ParameterDefinitionDetails(
+        "The GPS Altitude",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "meters",
+        false,
+        new Duration(2),
+        null,
+        null
+    ));
+    paramGPSNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
-        defMagAgg.getParameterSets().add(new AggregationParameterSet(
-                null,
-                parameterObjIdsMag,
-                new Duration(3),
-                null
-        ));
+    // Create the Magnetometer.X
+    defsMag.add(new ParameterDefinitionDetails(
+        "The Magnetometer X component",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "microTesla",
+        false,
+        new Duration(2),
+        null,
+        null
+    ));
+    paramMagNames.add(new Identifier(PARAMETER_MAG_X));
 
-        aggs.add(defGPSAgg);
-        aggs.add(defMagAgg);
-        registration.registerAggregations(aggNames, aggs);
+    // Create the Magnetometer.Y
+    defsMag.add(new ParameterDefinitionDetails(
+        "The Magnetometer Y component",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "microTesla",
+        false,
+        new Duration(2),
+        null,
+        null
+    ));
+    paramMagNames.add(new Identifier(PARAMETER_MAG_Y));
 
-        // ------------------ Actions ------------------
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-        IdentifierList actionNames = new IdentifierList();
+    // Create the Magnetometer.Z
+    defsMag.add(new ParameterDefinitionDetails(
+        "The Magnetometer Z component",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "microTesla",
+        false,
+        new Duration(2),
+        null,
+        null
+    ));
+    paramMagNames.add(new Identifier(PARAMETER_MAG_Z));
 
-        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+    registration.registerParameters(paramOtherNames, defsOther);
+    LongList parameterObjIdsGPS = registration.registerParameters(paramGPSNames, defsGPS);
+    LongList parameterObjIdsMag = registration.registerParameters(paramMagNames, defsMag);
+
+    // ------------------ Aggregations ------------------
+    AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
+    IdentifierList aggNames = new IdentifierList();
+
+    // Create the Aggregation GPS
+    AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
+        "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
+        new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
+        new Duration(10),
+        true,
+        false,
+        false,
+        new Duration(20),
+        false,
+        new AggregationParameterSetList()
+    );
+    aggNames.add(new Identifier(AGGREGATION_GPS));
+
+    defGPSAgg.getParameterSets().add(new AggregationParameterSet(
+        null,
+        parameterObjIdsGPS,
+        new Duration(3),
+        null
+    ));
+
+    // Create the Aggregation Magnetometer
+    AggregationDefinitionDetails defMagAgg = new AggregationDefinitionDetails(
+        "Aggregates Magnetometer components: X, Y, Z.",
+        new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
+        new Duration(10),
+        true,
+        false,
+        false,
+        new Duration(20),
+        false,
+        new AggregationParameterSetList()
+    );
+    aggNames.add(new Identifier(AGGREGATION_MAG));
+
+    defMagAgg.getParameterSets().add(new AggregationParameterSet(
+        null,
+        parameterObjIdsMag,
+        new Duration(3),
+        null
+    ));
+
+    aggs.add(defGPSAgg);
+    aggs.add(defMagAgg);
+    registration.registerAggregations(aggNames, aggs);
+
+    // ------------------ Actions ------------------
+    ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+    IdentifierList actionNames = new IdentifierList();
+
+    ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+    {
+      Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
+      String rawUnit = "seconds";
+      ConditionalConversionList conditionalConversions = null;
+      Byte convertedType = null;
+      String convertedUnit = null;
+
+      arguments1.add(new ArgumentDefinitionDetails(new Identifier("0"), null,
+          rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+    }
+
+    ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
+        "Changes the spacecraft's attitude to sun pointing mode.",
+        new UOctet((short) 0),
+        new UShort(0),
+        arguments1
+    );
+    actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
+
+    ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
+        "Changes the spacecraft's attitude to nadir pointing mode.",
+        new UOctet((short) 0),
+        new UShort(0),
+        arguments1
+    );
+    actionNames.add(new Identifier(ACTION_NADIR_POINTING_MODE));
+
+    ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails(
+        "Unsets the spacecraft's attitude.",
+        new UOctet((short) 0),
+        new UShort(0),
+        new ArgumentDefinitionDetailsList()
+    );
+    actionNames.add(new Identifier(ACTION_UNSET));
+
+    ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails(
+        "Example of an Action with 5 stages.",
+        new UOctet((short) 0),
+        new UShort(5),
+        new ArgumentDefinitionDetailsList()
+    );
+    actionNames.add(new Identifier(ACTION_5_STAGES));
+
+    actionDefs.add(actionDef1);
+    actionDefs.add(actionDef2);
+    actionDefs.add(actionDef3);
+    actionDefs.add(actionDef4);
+    registration.registerActions(actionNames, actionDefs);
+  }
+
+  @Override
+  public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException
+  {
+    if (nmf == null) {
+      return null;
+    }
+
+    if (identifier == null) {
+      LOGGER.log(Level.SEVERE,
+          "The identifier object is null! Something is wrong!");
+      return null;
+    }
+
+    try {
+      if (PARAMETER_GPS_N_SATS_IN_VIEW.equals(identifier.getValue())) {
+        final Semaphore sem = new Semaphore(0);
+        final IntegerList nOfSats = new IntegerList();
+
+        class AdapterImpl extends GPSAdapter
         {
-            Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
-            String rawUnit = "seconds";
-            ConditionalConversionList conditionalConversions = null;
-            Byte convertedType = null;
-            String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(new Identifier("0"), null,
-                    rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
-        }
-
-        ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
-                "Changes the spacecraft's attitude to sun pointing mode.",
-                new UOctet((short) 0),
-                new UShort(0),
-                arguments1
-        );
-        actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
-
-        ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
-                "Changes the spacecraft's attitude to nadir pointing mode.",
-                new UOctet((short) 0),
-                new UShort(0),
-                arguments1
-        );
-        actionNames.add(new Identifier(ACTION_NADIR_POINTING_MODE));
-
-        ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails(
-                "Unsets the spacecraft's attitude.",
-                new UOctet((short) 0),
-                new UShort(0),
-                new ArgumentDefinitionDetailsList()
-        );
-        actionNames.add(new Identifier(ACTION_UNSET));
-
-        ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails(
-                "Example of an Action with 5 stages.",
-                new UOctet((short) 0),
-                new UShort(5),
-                new ArgumentDefinitionDetailsList()
-        );
-        actionNames.add(new Identifier(ACTION_5_STAGES));
-
-        actionDefs.add(actionDef1);
-        actionDefs.add(actionDef2);
-        actionDefs.add(actionDef3);
-        actionDefs.add(actionDef4);
-        registration.registerActions(actionNames, actionDefs);
-    }
-
-    @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException {
-        if (nmf == null) {
-            return null;
-        }
-
-        if (identifier == null) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE,
-                    "The identifier object is null! Something is wrong!");
-            return null;
+          @Override
+          public void getSatellitesInfoResponseReceived(MALMessageHeader msgHeader,
+              SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties)
+          {
+            nOfSats.add(gpsSatellitesInfo.size());
+            sem.release();
+          }
         }
 
         try {
-            if (PARAMETER_GPS_N_SATS_IN_VIEW.equals(identifier.getValue())) {
-                final Semaphore sem = new Semaphore(0);
-                final IntegerList nOfSats = new IntegerList();
-
-                class AdapterImpl extends GPSAdapter {
-
-                    @Override
-                    public void getSatellitesInfoResponseReceived(MALMessageHeader msgHeader,
-                            SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
-                        nOfSats.add(gpsSatellitesInfo.size());
-                        sem.release();
-                    }
-                }
-
-                try {
-                    nmf.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
-                } catch (NMFException ex) {
-                    throw new IOException(ex);
-                }
-
-                try {
-                    sem.acquire();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
-            }
-
-            if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())
-                    || PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())
-                    || PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())
-                    || PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
-                GetLastKnownPositionResponse pos;
-
-                try {
-                    pos = nmf.getPlatformServices().getGPSService().getLastKnownPosition();
-
-                    if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
-                        return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
-                    }
-
-                    if (PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())) {
-                        return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLongitude());
-                    }
-
-                    if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
-                        return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
-                    }
-
-                    if (PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
-                        return pos.getBodyElement1();
-                    }
-                } catch (IOException ex) {
-                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NMFException ex) {
-                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            if (PARAMETER_MAG_X.equals(identifier.getValue())
-                    || PARAMETER_MAG_Y.equals(identifier.getValue())
-                    || PARAMETER_MAG_Z.equals(identifier.getValue())) {
-                MagneticFieldInstance magField;
-                try {
-                    magField = nmf.getPlatformServices().getMagnetometerService().getMagneticField();
-
-                    if (PARAMETER_MAG_X.equals(identifier.getValue())) {
-                        return (Attribute) HelperAttributes.javaType2Attribute(magField.getX());
-                    }
-
-                    if (PARAMETER_MAG_Y.equals(identifier.getValue())) {
-                        return (Attribute) HelperAttributes.javaType2Attribute(magField.getY());
-                    }
-
-                    if (PARAMETER_MAG_Z.equals(identifier.getValue())) {
-                        return (Attribute) HelperAttributes.javaType2Attribute(magField.getZ());
-                    }
-                } catch (IOException ex) {
-                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NMFException ex) {
-                    Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-        } catch (MALException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return null;
-    }
-
-    @Override
-    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-        return false;  // to confirm that the variable was set
-    }
-
-    /**
-     * The user must implement this interface in order to link a certain action
-     * Identifier to the method on the application
-     *
-     * @param name Name of the Parameter
-     * @param attributeValues
-     * @param actionInstanceObjId
-     * @param reportProgress Determines if it is necessary to report the
-     * execution
-     * @param interaction The interaction object progress of the action
-     *
-     * @return Returns null if the Action was successful. If not null, then the
-     * returned value should hold the error number
-     */
-    @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-        if (nmf == null) {
-            return new UInteger(0);
-        }
-
-        if (ACTION_SUN_POINTING_MODE.equals(name.getValue())) {
-            synchronized (this) {
-                if (!adcsDefsAdded) {
-                    this.prepareADCSServiceForApp();
-                }
-            }
-
-            Attribute argValue = attributeValues.get(0).getValue();
-
-            // Negative Durations are not allowed!
-            if (((Duration) argValue).getValue() < 0) {
-                return new UInteger(1);
-            }
-
-            try {
-                System.out.println(ACTION_SUN_POINTING_MODE + " with value is ["
-                        + HelperAttributes.attribute2string(argValue) + "]");
-
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
-                        sunPointingObjId,
-                        (Duration) argValue,
-                        new Duration(2)
-                );
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(3);
-            } catch (IOException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(3);
-            } catch (NMFException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(3);
-            }
-        }
-
-        if (ACTION_NADIR_POINTING_MODE.equals(name.getValue())) {
-            synchronized (this) {
-                if (!adcsDefsAdded) {
-                    this.prepareADCSServiceForApp();
-                }
-            }
-
-            Attribute argValue = attributeValues.get(0).getValue();
-
-            // Negative Durations are not allowed!
-            if (((Duration) argValue).getValue() < 0) {
-                return new UInteger(1);
-            }
-
-            try {
-                System.out.println(ACTION_NADIR_POINTING_MODE + " with value is ["
-                        + HelperAttributes.attribute2string(argValue) + "]");
-
-                nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
-                        nadirPointingObjId,
-                        (Duration) argValue,
-                        new Duration(2)
-                );
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(3);
-            } catch (IOException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(3);
-            } catch (NMFException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(3);
-            }
-        }
-
-        if (ACTION_UNSET.equals(name.getValue())) {
-            synchronized (this) {
-                if (!adcsDefsAdded) {
-                    this.prepareADCSServiceForApp();
-                }
-            }
-
-            try {
-                // if PUSH_USING_PARAMETER_SERVICE
-                pushAdcsModeParam(AttitudeMode.BDOT);
-                // else
-                nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) AttitudeMode.BDOT.getOrdinal())); // endif
-
-                System.out.println(ACTION_UNSET + " was called");
-                nmf.getPlatformServices().getAutonomousADCSService().unsetAttitude();
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(3);
-            } catch (IOException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(3);
-            } catch (NMFException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(3);
-            }
-        }
-
-        if (ACTION_5_STAGES.equals(name.getValue())) {
-            try {
-                return multiStageAction(actionInstanceObjId, 5);
-            } catch (NMFException ex) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                return new UInteger(4);
-            }
-        }
-
-        return null;  // Action service not integrated
-    }
-
-    private void prepareADCSServiceForApp() {
-        AttitudeDefinitionList nadirDefs = new AttitudeDefinitionNadirPointingList();
-        AttitudeDefinitionNadirPointing nadirDef = new AttitudeDefinitionNadirPointing();
-        nadirDef.setName(new Identifier("NadirPointing"));
-        nadirDef.setDescription("A definition pointing to Nadir");
-        nadirDefs.add(nadirDef);
-
-        AttitudeDefinitionSunPointingList sunDefs = new AttitudeDefinitionSunPointingList();
-        AttitudeDefinitionSunPointing sunDef = new AttitudeDefinitionSunPointing();
-        sunDef.setName(new Identifier("SunPointing"));
-        sunDef.setDescription("A definition pointing to the sun");
-        sunDefs.add(sunDef);
-
-        try {
-            IdentifierList names = new IdentifierList();
-            names.add(sunDef.getName());
-            names.add(nadirDef.getName());
-            LongList objIds = nmf.getPlatformServices().getAutonomousADCSService().listAttitudeDefinition(names);
-            sunPointingObjId = objIds.get(0);
-            nadirPointingObjId = objIds.get(1);
-
-            if (sunPointingObjId == null) { // It does not exist
-                LongList sunObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(sunDefs);
-                sunPointingObjId = sunObj.get(0);
-            }
-
-            if (nadirPointingObjId == null) { // It does not exist
-                LongList nadirObj = nmf.getPlatformServices().getAutonomousADCSService().addAttitudeDefinition(nadirDefs);
-                nadirPointingObjId = nadirObj.get(0);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.INFO,
-                        "The Attitude Definition already exists!");
-            } else {
-                Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (MALException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
+          nmf.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
         } catch (NMFException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
+          throw new IOException(ex);
         }
 
         try {
-            // Subscribe monitorAttitude
-            nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
-                    ConnectionConsumer.subscriptionWildcard(),
-                    new DataReceivedAdapter()
-            );
-        } catch (IOException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NMFException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
+          sem.acquire();
+        } catch (InterruptedException ex) {
+          LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        adcsDefsAdded = true;
-    }
+        return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
+      }
 
-    public class DataReceivedAdapter extends AutonomousADCSAdapter {
+      if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())
+          || PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())
+          || PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())
+          || PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
+        GetLastKnownPositionResponse pos;
 
-        @Override
-        public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,
-                final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
-                final org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstanceList attitudeInstanceList,
-                final Map qosp) {
+        try {
+          pos = nmf.getPlatformServices().getGPSService().getLastKnownPosition();
 
-            if (attitudeInstanceList.size() == lUpdateHeaderList.size()) {
-                for (int i = 0; i < lUpdateHeaderList.size(); i++) {
+          if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
+            return (Attribute) HelperAttributes.javaType2Attribute(
+                pos.getBodyElement0().getLatitude());
+          }
 
-                    AttitudeInstance attitudeInstance = (AttitudeInstance) attitudeInstanceList.get(i);
-                    Long mode = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
-                    AttitudeMode attMode = AttitudeMode.fromNumericValue(new UInteger(mode));
+          if (PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())) {
+            return (Attribute) HelperAttributes.javaType2Attribute(
+                pos.getBodyElement0().getLongitude());
+          }
 
-                    // Sun Pointing
-                    if (attitudeInstance instanceof AttitudeInstanceSunPointing) {
-                        Vector3D sunVector = ((AttitudeInstanceSunPointing) attitudeInstance).getSunVector();
-                        WheelSpeed wheelSpeed = ((AttitudeInstanceSunPointing) attitudeInstance).getWheelSpeed();
+          if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
+            return (Attribute) HelperAttributes.javaType2Attribute(
+                pos.getBodyElement0().getAltitude());
+          }
 
-                        try {
-                            // if PUSH_USING_PARAMETER_SERVICE
-                            pushAdcsModeParam(attMode);
-                            // else
-                            //     nmf.pushParameterValue(PARAMETER_ADCS_MODE, attMode);
-                            // endif
-                            if (sunVector != null) {
-                                nmf.pushParameterValue("sunVector3D_X", sunVector.getX());
-                                nmf.pushParameterValue("sunVector3D_Y", sunVector.getY());
-                                nmf.pushParameterValue("sunVector3D_Z", sunVector.getZ());
-                            }
-
-                        } catch (NMFException ex) {
-                            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-
-                    // Nadir Pointing
-                    if (attitudeInstance instanceof AttitudeInstanceNadirPointing) {
-                        Vector3D positionVector = ((AttitudeInstanceNadirPointing) attitudeInstance).getPositionVector();
-                        Quaternions quaternions = ((AttitudeInstanceNadirPointing) attitudeInstance).getCurrentQuaternions();
-                        attMode = AttitudeMode.NADIRPOINTING;
-
-                        try {
-                            // if PUSH_USING_PARAMETER_SERVICE
-                            pushAdcsModeParam(attMode);
-                            // else
-                            //     nmf.pushParameterValue(PARAMETER_ADCS_MODE, new UOctet((short) attMode.getOrdinal()));
-                            // endif
-                            nmf.pushParameterValue("positionVector3D_X", positionVector.getX());
-                            nmf.pushParameterValue("positionVector3D_Y", positionVector.getY());
-                            nmf.pushParameterValue("positionVector3D_Z", positionVector.getZ());
-
-                            nmf.pushParameterValue("quaternion1", quaternions.getQ1());
-                            nmf.pushParameterValue("quaternion2", quaternions.getQ2());
-                            nmf.pushParameterValue("quaternion3", quaternions.getQ3());
-                            nmf.pushParameterValue("quaternion4", quaternions.getQ4());
-                        } catch (NMFException ex) {
-                            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            }
+          if (PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
+            return pos.getBodyElement1();
+          }
+        } catch (IOException | NMFException ex) {
+          LOGGER.log(Level.SEVERE, null, ex);
         }
+      }
+
+      if (PARAMETER_MAG_X.equals(identifier.getValue())
+          || PARAMETER_MAG_Y.equals(identifier.getValue())
+          || PARAMETER_MAG_Z.equals(identifier.getValue())) {
+        try {
+          GetStatusResponse adcsStatus
+              = nmf.getPlatformServices().getAutonomousADCSService().getStatus();
+          Vector3D magField = adcsStatus.getBodyElement0().getMagneticField();
+
+          if (PARAMETER_MAG_X.equals(identifier.getValue())) {
+            return (Attribute) HelperAttributes.javaType2Attribute(magField.getX());
+          }
+
+          if (PARAMETER_MAG_Y.equals(identifier.getValue())) {
+            return (Attribute) HelperAttributes.javaType2Attribute(magField.getY());
+          }
+
+          if (PARAMETER_MAG_Z.equals(identifier.getValue())) {
+            return (Attribute) HelperAttributes.javaType2Attribute(magField.getZ());
+          }
+        } catch (IOException | NMFException ex) {
+          LOGGER.log(Level.SEVERE, null, ex);
+        }
+      }
+
+    } catch (MALException | MALInteractionException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
 
-    // push a sample of the ADCS Mode using the Parameter Service
-    private void pushAdcsModeParam(AttitudeMode attMode) throws NMFException {
-        Identifier name = new Identifier(PARAMETER_ADCS_MODE);
-        UOctet validityState = new UOctet((short) 0);
-        Attribute rawValue = new UOctet((short) attMode.getOrdinal());
-        Attribute convertedValue = new Identifier(attMode.toString());
+    return null;
+  }
 
-        ParameterInstance instance = new ParameterInstance(
-                name,
-                new ParameterValue(validityState, rawValue, convertedValue),
-                null,
-                HelperTime.getTimestampMillis()
-        );
+  @Override
+  public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
+  {
+    return false;  // to confirm that the variable was set
+  }
 
-        final ArrayList<ParameterInstance> instances = new ArrayList<ParameterInstance>();
-        instances.add(instance);
-
-        nmf.getMCServices().getParameterService().pushMultipleParameterValues(instances);
+  /**
+   * The user must implement this interface in order to link a certain action Identifier to the
+   * method on the application
+   *
+   * @param name                Name of the Parameter
+   * @param attributeValues
+   * @param actionInstanceObjId
+   * @param reportProgress      Determines if it is necessary to report the execution
+   * @param interaction         The interaction object progress of the action
+   *
+   * @return Returns null if the Action was successful. If not null, then the returned value should
+   * hold the error number
+   */
+  @Override
+  public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
+      Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
+  {
+    if (nmf == null) {
+      return new UInteger(0);
     }
 
+    if (ACTION_SUN_POINTING_MODE.equals(name.getValue())) {
+      synchronized (this) {
+        if (!attitudeMonitoringSetup) {
+          this.monitorAdcsAttitude();
+        }
+      }
+
+      Attribute argValue = attributeValues.get(0).getValue();
+
+      // Negative Durations are not allowed!
+      if (((Duration) argValue).getValue() < 0) {
+        return new UInteger(1);
+      }
+
+      try {
+        System.out.println(ACTION_SUN_POINTING_MODE + " with value is ["
+            + HelperAttributes.attribute2string(argValue) + "]");
+
+        nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude((Duration) argValue,
+            new AttitudeModeSunPointing());
+      } catch (MALInteractionException | MALException | NMFException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+        return new UInteger(3);
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+        return new UInteger(4);
+      }
+    }
+
+    if (ACTION_NADIR_POINTING_MODE.equals(name.getValue())) {
+      synchronized (this) {
+        if (!attitudeMonitoringSetup) {
+          this.monitorAdcsAttitude();
+        }
+      }
+
+      Attribute argValue = attributeValues.get(0).getValue();
+
+      // Negative Durations are not allowed!
+      if (((Duration) argValue).getValue() < 0) {
+        return new UInteger(1);
+      }
+
+      try {
+        System.out.println(ACTION_NADIR_POINTING_MODE + " with value is ["
+            + HelperAttributes.attribute2string(argValue) + "]");
+
+        nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude((Duration) argValue,
+            new AttitudeModeNadirPointing());
+      } catch (MALInteractionException | MALException | NMFException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+        return new UInteger(3);
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+        return new UInteger(4);
+      }
+    }
+
+    if (ACTION_UNSET.equals(name.getValue())) {
+      synchronized (this) {
+        if (!attitudeMonitoringSetup) {
+          this.monitorAdcsAttitude();
+        }
+      }
+
+      try {
+        // if PUSH_USING_PARAMETER_SERVICE
+        pushAdcsModeParam(null);
+
+        System.out.println(ACTION_UNSET + " was called");
+        nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(null, null);
+      } catch (MALInteractionException | MALException | NMFException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+        return new UInteger(3);
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+        return new UInteger(4);
+      }
+    }
+
+    if (ACTION_5_STAGES.equals(name.getValue())) {
+      try {
+        return multiStageAction(actionInstanceObjId, 5);
+      } catch (NMFException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+        return new UInteger(4);
+      }
+    }
+
+    return null;  // Action service not integrated
+  }
+
+  private void monitorAdcsAttitude()
+  {
+    try {
+      // Subscribe monitorAttitude
+      nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
+          ConnectionConsumer.subscriptionWildcard(),
+          new DataReceivedAdapter()
+      );
+      nmf.getPlatformServices().getAutonomousADCSService().enableMonitoring(true,
+          ATTITUDE_MONITORING_INTERVAL);
+    } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+      LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
+    }
+
+    attitudeMonitoringSetup = true;
+  }
+
+  // push a sample of the ADCS Mode using the Parameter Service
+  private void pushAdcsModeParam(AttitudeMode attMode) throws NMFException
+  {
+    // Workaround for a buggy conversion implementation in the Parameter Service Provider
     /*
+    Identifier name = new Identifier(PARAMETER_ADCS_MODE);
+    UOctet validityState = new UOctet((short) 0);
+    Attribute rawValue = new UOctet((short) attMode.getOrdinal());
+    Attribute convertedValue = new Identifier(attMode.toString());
+
+    ParameterInstance instance = new ParameterInstance(
+        name,
+        new ParameterValue(validityState, rawValue, convertedValue),
+        null,
+        HelperTime.getTimestampMillis()
+    );
+
+    final ArrayList<ParameterInstance> instances = new ArrayList<ParameterInstance>();
+    instances.add(instance);
+
+    nmf.getMCServices().getParameterService().pushMultipleParameterValues(instances);
+     */
+    nmf.pushParameterValue(PARAMETER_ADCS_MODE, attitudeModeToParamValue(attMode));
+  }
+
+  /*
      * @param actionInstanceObjId
      * @param total_n_of_stages
      *
      * @return Returns null if the Action was successful. If not null, then the
      * returned value should hold the error number
-     */
-    public UInteger multiStageAction(Long actionInstanceObjId, int total_n_of_stages) throws NMFException {
-        final int sleepTime = 2; // 2 seconds
+   */
+  public UInteger multiStageAction(Long actionInstanceObjId, int total_n_of_stages) throws
+      NMFException
+  {
+    final int sleepTime = 2; // 2 seconds
 
-        UInteger errorNumber = null;
+    UInteger errorNumber = null;
 
-        for (int stage = 1; stage < total_n_of_stages + 1; stage++) {
-            nmf.reportActionExecutionProgress(true, 0, stage, total_n_of_stages, actionInstanceObjId);
+    for (int stage = 1; stage < total_n_of_stages + 1; stage++) {
+      nmf.reportActionExecutionProgress(true, 0, stage, total_n_of_stages, actionInstanceObjId);
 
-            try {
-                Thread.sleep(sleepTime * 1000); //1000 milliseconds multiplier.
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-        }
-
-        return errorNumber;
+      try {
+        Thread.sleep(sleepTime * 1000); //1000 milliseconds multiplier.
+      } catch (InterruptedException ex) {
+        Thread.currentThread().interrupt();
+      }
     }
 
+    return errorNumber;
+  }
+
+  public class DataReceivedAdapter extends AutonomousADCSAdapter
+  {
+
+    @Override
+    public void monitorAttitudeNotifyReceived(
+        final MALMessageHeader msgHeader,
+        final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
+        org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList,
+        final Map qosp)
+    {
+      for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
+        try {
+          Vector3D sunVector = attitudeTm.getSunVector();
+          Vector3D magneticField = attitudeTm.getMagneticField();
+          Vector3D angularVelocity = attitudeTm.getAngularVelocity();
+          Quaternion attitude = attitudeTm.getAttitude();
+          //attMode = AttitudeMode.NADIRPOINTING;
+          nmf.pushParameterValue(PARAMETER_SUN_VECTOR_X, sunVector.getX());
+          nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Y, sunVector.getY());
+          nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Z, sunVector.getZ());
+
+          nmf.pushParameterValue(PARAMETER_MAG_X, magneticField.getX());
+          nmf.pushParameterValue(PARAMETER_MAG_Y, magneticField.getY());
+          nmf.pushParameterValue(PARAMETER_MAG_Z, magneticField.getZ());
+
+          nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_X, angularVelocity.getX());
+          nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getY());
+          nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getZ());
+
+          nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_A, attitude.getA());
+          nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_B, attitude.getB());
+          nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_C, attitude.getC());
+          nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_D, attitude.getD());
+        } catch (NMFException ex) {
+          LOGGER.log(Level.SEVERE, "Error when propagating Sensors TM", ex);
+        }
+      }
+      for (ActuatorsTelemetry actuatorsTm : actuatorsTelemetryList) {
+        try {
+          Vector3D mtqDipoleMoment = actuatorsTm.getMtqDipoleMoment();
+          //Vector3D angularVelocity = attitudeTm.getAngularVelocity();
+          //Quaternion attitude = attitudeTm.getAttitude();
+          nmf.pushParameterValue(PARAMETER_MTQ_X, mtqDipoleMoment.getX());
+          nmf.pushParameterValue(PARAMETER_MTQ_Y, mtqDipoleMoment.getY());
+          nmf.pushParameterValue(PARAMETER_MTQ_Z, mtqDipoleMoment.getZ());
+        } catch (NMFException ex) {
+          LOGGER.log(Level.SEVERE, "Error when propagating Actuators TM", ex);
+        }
+      }
+      for (Object activeAttitudeMode : attitudeModeList) {
+        try {
+          pushAdcsModeParam((AttitudeMode) activeAttitudeMode);
+        } catch (NMFException ex) {
+          LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode", ex);
+        }
+      }
+      for (Duration remainingDuration : controlDurationList) {
+        try {
+          if (remainingDuration != null) {
+            nmf.pushParameterValue(PARAMETER_ADCS_DURATION, remainingDuration);
+          } else {
+            nmf.pushParameterValue(PARAMETER_ADCS_DURATION, new Duration(0));
+          }
+        } catch (NMFException ex) {
+          LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode duration", ex);
+        }
+      }
+    }
+  }
 }

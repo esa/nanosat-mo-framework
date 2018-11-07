@@ -24,14 +24,14 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.CameraProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.GPSProviderServiceImpl;
-import esa.mo.platform.impl.provider.gen.MagnetometerProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.OpticalDataReceiverProviderServiceImpl;
+import esa.mo.platform.impl.provider.gen.PowerControlProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioProviderServiceImpl;
 import esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter;
-import esa.mo.platform.impl.provider.softsim.MagnetometerSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter;
+import esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.MALException;
@@ -51,17 +51,17 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     private final AutonomousADCSProviderServiceImpl autonomousADCSService = new AutonomousADCSProviderServiceImpl();
     private final CameraProviderServiceImpl cameraService = new CameraProviderServiceImpl();
     private final GPSProviderServiceImpl gpsService = new GPSProviderServiceImpl();
-    private final MagnetometerProviderServiceImpl magnetometerService = new MagnetometerProviderServiceImpl();
     private final OpticalDataReceiverProviderServiceImpl opticalDataReceiverService = new OpticalDataReceiverProviderServiceImpl();
     private final SoftwareDefinedRadioProviderServiceImpl sdrService = new SoftwareDefinedRadioProviderServiceImpl();
+    private final PowerControlProviderServiceImpl powerService = new PowerControlProviderServiceImpl();
 
     public void init(COMServicesProvider comServices) throws MALException {
         autonomousADCSService.init(comServices, new AutonomousADCSSoftSimAdapter(instrumentsSimulator));
         cameraService.init(comServices, new CameraSoftSimAdapter(instrumentsSimulator));
         gpsService.init(comServices, new GPSSoftSimAdapter(instrumentsSimulator));
-        magnetometerService.init(new MagnetometerSoftSimAdapter(instrumentsSimulator));
         opticalDataReceiverService.init(new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator));
         sdrService.init(new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator));
+        powerService.init(new PowerControlSoftSimAdapter(instrumentsSimulator));
     }
 
     @Override

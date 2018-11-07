@@ -33,16 +33,16 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.processmanagement.ProcessManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.processmanagement.consumer.ProcessManagementStub;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.consumer.CommandExecutorStub;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class ProcessManagementConsumerServiceImpl extends ConsumerServiceImpl {
-    
-    private ProcessManagementStub processManagementService = null;
+public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
+
+    private CommandExecutorStub commandExecutorService = null;
     private COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
@@ -51,19 +51,20 @@ public class ProcessManagementConsumerServiceImpl extends ConsumerServiceImpl {
 
     @Override
     public Object getStub() {
-        return this.getProcessManagementStub();
+        return this.getCommandExecutorStub();
     }
 
-    public ProcessManagementStub getProcessManagementStub() {
-        return this.processManagementService;
+    public CommandExecutorStub getCommandExecutorStub() {
+        return this.commandExecutorService;
     }
 
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
-        return new ProcessManagementStub(tmConsumer);
+        return new CommandExecutorStub(tmConsumer);
     }
 
-    public ProcessManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public CommandExecutorConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
+            final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -73,12 +74,13 @@ public class ProcessManagementConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         try {
-            ProcessManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
+            CommandExecutorHelper.init(MALContextFactory.getElementFactoryRegistry());
         } catch (MALException ex) {
             // nothing to be done..
         }
@@ -91,7 +93,7 @@ public class ProcessManagementConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(ProcessManagementConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CommandExecutorConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -99,9 +101,9 @@ public class ProcessManagementConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                ProcessManagementHelper.PROCESSMANAGEMENT_SERVICE);
+                CommandExecutorHelper.COMMANDEXECUTOR_SERVICE);
 
-        this.processManagementService = new ProcessManagementStub(tmConsumer);
+        this.commandExecutorService = new CommandExecutorStub(tmConsumer);
     }
 
 }

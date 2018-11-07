@@ -28,7 +28,9 @@ import java.io.IOException;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
@@ -79,29 +81,28 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface {
          */
 
         PixelResolution resolution = new PixelResolution(new UInteger(800), new UInteger(600));
+        Time timestamp = HelperTime.getTimestampMillis();
         byte[] data = instrumentsSimulator.getpCamera().takePicture((int) resolution.getWidth().getValue(), (int) resolution.getHeight().getValue());
 
-        Picture picture = new Picture();
-        picture.setCreationDate(HelperTime.getTimestampMillis());
-        picture.setContent(new Blob(data));
-        picture.setDimension(resolution);
-        picture.setFormat(PictureFormat.RAW);
+        CameraSettings pictureSettings = new CameraSettings();
+        pictureSettings.setResolution(resolution);
+        pictureSettings.setFormat(PictureFormat.RAW);
+        Picture picture = new Picture(timestamp, pictureSettings, new Blob(data));
 
         return picture;
     }
 
     @Override
-    public synchronized Picture takePicture(final PixelResolution dimensions, 
+    public synchronized Picture takePicture(final PixelResolution resolution,
             final PictureFormat format, final Duration exposureTime) throws IOException {
         // Get a picture from the simulator...
-        byte[] data = instrumentsSimulator.getpCamera().takePicture((int) dimensions.getWidth().getValue(), (int) dimensions.getHeight().getValue());
+        Time timestamp = HelperTime.getTimestampMillis();
+        byte[] data = instrumentsSimulator.getpCamera().takePicture((int) resolution.getWidth().getValue(), (int) resolution.getHeight().getValue());
 
-        Picture picture = new Picture();
-        picture.setCreationDate(HelperTime.getTimestampMillis());
-        picture.setContent(new Blob(data));
-        picture.setDimension(dimensions);
-        picture.setFormat(PictureFormat.RAW);
-
+        CameraSettings pictureSettings = new CameraSettings();
+        pictureSettings.setResolution(resolution);
+        pictureSettings.setFormat(PictureFormat.RAW);
+        Picture picture = new Picture(timestamp, pictureSettings, new Blob(data));
         return picture;
 
     }

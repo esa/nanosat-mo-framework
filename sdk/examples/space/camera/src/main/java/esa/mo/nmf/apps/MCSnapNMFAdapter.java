@@ -58,6 +58,7 @@ import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import esa.mo.nmf.NMFInterface;
+import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 
 /**
  * The adapter for the NMF App
@@ -163,10 +164,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         if (ACTION_TAKE_PICTURE_RAW.equals(name.getValue())) {
             try {
-                connector.getPlatformServices().getCameraService().takePicture(
-                        resolution,
-                        PictureFormat.RAW,
-                        new Duration(0.200),
+                connector.getPlatformServices().getCameraService().takePicture(new CameraSettings(resolution, PictureFormat.RAW, new Duration(0.200)),
                         new DataReceivedAdapter(actionInstanceObjId)
                 );
                 return null; // Success!
@@ -183,10 +181,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         if (ACTION_TAKE_PICTURE_JPG.equals(name.getValue())) {
             try {
-                connector.getPlatformServices().getCameraService().takePicture(
-                        resolution,
-                        PictureFormat.JPG,
-                        new Duration(0.200),
+                connector.getPlatformServices().getCameraService().takePicture(new CameraSettings(resolution, PictureFormat.RAW, new Duration(0.200)),
                         new DataReceivedAdapter(actionInstanceObjId)
                 );
                 return null; // Success!
@@ -248,28 +243,28 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
             try {
                 // Store it in a file!
-                if (picture.getFormat().equals(PictureFormat.RAW)) {
+                if (picture.getSettings().getFormat().equals(PictureFormat.RAW)) {
                     FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.raw");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
-                if (picture.getFormat().equals(PictureFormat.PNG)) {
+                else if (picture.getSettings().getFormat().equals(PictureFormat.PNG)) {
                     FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.png");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
-                if (picture.getFormat().equals(PictureFormat.BMP)) {
+                else if (picture.getSettings().getFormat().equals(PictureFormat.BMP)) {
                     FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.bmp");
                     fos.write(picture.getContent().getValue());
                     fos.flush();
                     fos.close();
                 }
 
-                if (picture.getFormat().equals(PictureFormat.JPG)) {
+                else if (picture.getSettings().getFormat().equals(PictureFormat.JPG)) {
                     FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.jpg");
                     fos.write(picture.getContent().getValue());
                     fos.flush();

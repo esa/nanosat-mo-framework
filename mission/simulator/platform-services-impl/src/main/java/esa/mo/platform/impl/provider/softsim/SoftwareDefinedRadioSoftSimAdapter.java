@@ -22,7 +22,7 @@ package esa.mo.platform.impl.provider.softsim;
 
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface;
 import opssat.simulator.main.ESASimulator;
-import org.ccsds.moims.mo.mal.structures.DoubleList;
+import org.ccsds.moims.mo.mal.structures.FloatList;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsList;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
@@ -55,12 +55,13 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
         int nSamples = 10000;
         double[] data = instrumentsSimulator.getpSDR().readFromBuffer(nSamples);
         
-        DoubleList inPhase = new DoubleList();
-        DoubleList quadrature = new DoubleList();
-        
+        FloatList inPhase = new FloatList();
+        FloatList quadrature = new FloatList();
+
+        // Trim the accuracy to match NMF interface
         for(int i = 0; i < nSamples; i++){
-            inPhase.add(data[2*i]);
-            quadrature.add(data[2*i+1]);
+            inPhase.add((float) data[2*i]);
+            quadrature.add((float) data[2*i+1]);
         }
  
         IQComponents iqComponents = new IQComponents();
