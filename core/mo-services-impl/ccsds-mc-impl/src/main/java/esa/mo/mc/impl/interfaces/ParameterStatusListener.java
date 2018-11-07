@@ -35,6 +35,9 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 public interface ParameterStatusListener {
 
     /**
+     * Called by the NMF core whenever a parameter value needs to be propagated to the consumer,
+     * either through Aggregation or Parameter service.
+     *
      * The user must implement this interface in order to acquire a certain
      * parameter/rawType combination of a variable in the application.
      *

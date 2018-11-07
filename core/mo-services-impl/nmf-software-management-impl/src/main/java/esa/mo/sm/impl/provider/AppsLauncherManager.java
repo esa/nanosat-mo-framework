@@ -517,13 +517,12 @@ public class AppsLauncherManager extends DefinitionsManager {
     if (providersList.isEmpty()) { // Throw error!
       Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.WARNING,
           "The app could not be found in the Directory service... Possible reasons: "
-          + "1. Not a NMF app! If so, one needs to use killApp operation! "
-          + "2. (to be deleted) The property 'MOappName' of the app might not match its folder name ");
+          + "1. Not a NMF app! If so, one needs to use killApp operation!");
       throw new IOException();
     }
 
     if (providersList.size() != 1) { // Throw error!
-      throw new IOException("There are more than 1 provider rergistered for this app! "
+      throw new IOException("There are more than 1 provider registered for this app! "
           + "Most likely the app was forcefully killed before.");
     }
 
