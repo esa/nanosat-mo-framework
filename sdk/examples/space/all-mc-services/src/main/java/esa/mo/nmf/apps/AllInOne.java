@@ -30,11 +30,11 @@ public class AllInOne {
     private final NanoSatMOConnectorImpl connector;
 
     public AllInOne() {
-        MCAllInOneAdapter adapter = new MCAllInOneAdapter();
         connector = new NanoSatMOConnectorImpl();
-        adapter.setNMF(connector);
+        MCAllInOneAdapter adapter = new MCAllInOneAdapter(connector);
         connector.init(adapter);
-        adapter.startTimerThread();
+        adapter.startAdcsAttitudeMonitoring();
+        adapter.startPeriodicAlertsPublishing();
     }
 
     /**
