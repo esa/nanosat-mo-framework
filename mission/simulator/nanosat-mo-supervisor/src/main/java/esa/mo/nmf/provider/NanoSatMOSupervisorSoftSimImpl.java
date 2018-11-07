@@ -53,7 +53,7 @@ public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
         try {
             platformServicesSim = new PlatformServicesProviderSoftSim();
             platformServicesSim.init(comServices);
-            this.reconfigurableServices.add(platformServicesSim.getAutonomousADCSService());
+            this.reconfigurableServices.add(platformServicesSim.getGPSService());
         } catch (MALException ex) {
             Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

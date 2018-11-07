@@ -26,7 +26,6 @@ import esa.mo.platform.impl.consumer.GPSConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.platform.impl.consumer.AutonomousADCSConsumerServiceImpl;
-import esa.mo.platform.impl.consumer.MagnetometerConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.OpticalDataReceiverConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.SoftwareDefinedRadioConsumerServiceImpl;
 import java.io.IOException;
@@ -41,8 +40,6 @@ import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
-import org.ccsds.moims.mo.platform.magnetometer.MagnetometerHelper;
-import org.ccsds.moims.mo.platform.magnetometer.consumer.MagnetometerStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelper;
@@ -57,7 +54,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     private AutonomousADCSConsumerServiceImpl autonomousADCSService;
     private CameraConsumerServiceImpl cameraService;
     private GPSConsumerServiceImpl gpsService;
-    private MagnetometerConsumerServiceImpl magnetometerService;
     private OpticalDataReceiverConsumerServiceImpl odrService;
     private SoftwareDefinedRadioConsumerServiceImpl sdrService;
 
@@ -81,12 +77,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
             details = connectionConsumer.getServicesDetails().get(GPSHelper.GPS_SERVICE_NAME);
             if (details != null) {
                 gpsService = new GPSConsumerServiceImpl(details, comServices);
-            }
-
-            // Initialize the Magnetometer service
-            details = connectionConsumer.getServicesDetails().get(MagnetometerHelper.MAGNETOMETER_SERVICE_NAME);
-            if (details != null) {
-                magnetometerService = new MagnetometerConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Optical Data Receiver service
@@ -137,15 +127,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     }
 
     @Override
-    public MagnetometerStub getMagnetometerService() throws IOException {
-        if (this.magnetometerService == null) {
-            throw new IOException("The service consumer is not connected to the provider.");
-        }
-
-        return this.magnetometerService.getMagnetometerStub();
-    }
-
-    @Override
     public OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException {
         if (this.odrService == null) {
             throw new IOException("The service consumer is not connected to the provider.");
@@ -176,10 +157,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         this.gpsService = gpsService;
     }
 
-    public void setMagnetometerService(MagnetometerConsumerServiceImpl magnetometerService) {
-        this.magnetometerService = magnetometerService;
-    }
-
     public void setOpticalDataReceiverService(OpticalDataReceiverConsumerServiceImpl odrService) {
         this.odrService = odrService;
     }
@@ -203,10 +180,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
         if (this.gpsService != null) {
             this.gpsService.closeConnection();
-        }
-
-        if (this.magnetometerService != null) {
-            this.magnetometerService.closeConnection();
         }
 
         if (this.odrService != null) {

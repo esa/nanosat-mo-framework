@@ -63,7 +63,7 @@ public class HelperMisc {
     public final static String APP_CATEGORY = "helpertools.configurations.provider.app.category";
     public final static String APP_COPYRIGHT = "helpertools.configurations.provider.app.copyright";
     public final static String APP_DESCRIPTION = "helpertools.configurations.provider.app.description";
-    
+
     public static final String PROP_MO_APP_NAME = "helpertools.configurations.MOappName";
     public static final String PROP_DOMAIN = "helpertools.configurations.provider.Domain";
     public static final String PROP_NETWORK = "helpertools.configurations.Network";
@@ -328,9 +328,9 @@ public class HelperMisc {
      *
      * @param obj The MAL Element
      * @return The MAL Element List
-     * @throws java.lang.Exception
+     * @throws org.ccsds.moims.mo.mal.MALException
      */
-    public static ElementList element2elementList(Object obj) throws Exception {
+    public static ElementList element2elementList(Object obj) throws IllegalArgumentException, MALException {
         if (obj == null) {
             return null;
         }
@@ -343,12 +343,11 @@ public class HelperMisc {
 
             if (eleFact == null) {
                 Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
-                        "The element could not be found in the MAL ElementFactory! The object type is: '"
-                        + obj.getClass().getSimpleName()
-                        + "'. Maybe the service Helper for this object was not initialized. "
-                        + "Try initializing the Service Helper of this object.");
+                        "The element could not be found in the MAL ElementFactory! The object type is: ''{0}''." +
+                        " Maybe the service Helper for this object was not initialized." +
+                        " Try initializing the Service Helper of this object.", obj.getClass().getSimpleName());
+                throw new MALException("Cannot instantiate a list of " + obj.getClass().getSimpleName());
             }
-
             return (ElementList) eleFact.createElement();
         } else {
             return HelperAttributes.generateElementListFromJavaType(obj);
@@ -373,11 +372,7 @@ public class HelperMisc {
         MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(ll);
 
         if (eleFact == null) {
-            Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
-                    "The element could not be found in the MAL ElementFactory! The object type is: '"
-                    + obj.getClass().getSimpleName()
-                    + "'. Maybe the service Helper for this object was not initialized. "
-                    + "Try initializing the Service Helper of this object.");
+            Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE, "The element could not be found in the MAL ElementFactory! The object type is: ''{0}''. Maybe the service Helper for this object was not initialized. Try initializing the Service Helper of this object.", obj.getClass().getSimpleName());
         }
 
         return (Element) eleFact.createElement();

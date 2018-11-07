@@ -24,7 +24,6 @@ import java.io.IOException;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
-import org.ccsds.moims.mo.platform.magnetometer.consumer.MagnetometerStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
@@ -39,8 +38,6 @@ public interface PlatformServicesConsumerInterface {
     CameraStub getCameraService() throws IOException;
 
     GPSStub getGPSService() throws IOException;
-
-    MagnetometerStub getMagnetometerService() throws IOException;
 
     OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException;
 

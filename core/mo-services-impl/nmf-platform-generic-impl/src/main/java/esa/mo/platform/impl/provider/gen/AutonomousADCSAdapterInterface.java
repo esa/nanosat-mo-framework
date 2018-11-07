@@ -21,47 +21,67 @@
 package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDefinition;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeInstance;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 
 /**
  *
  * @author Cesar Coelho
  */
-public interface AutonomousADCSAdapterInterface {
-    
-    /**
-     * The isADCSAvailable operation checks if the ADCS unit.
-     *
-     * @return
-     */
-    boolean isUnitAvailable();
+public interface AutonomousADCSAdapterInterface
+{
 
-    /**
-     * The setAttitudeDefinition operation shall set a certain attitude based
-     * on the AttitudeDefinition 
-     *
-     * @param attitude
-     * @throws IOException
-     */
-    void setDesiredAttitude(AttitudeDefinition attitude) throws IOException;
+  /**
+   * The isADCSAvailable operation checks if the ADCS unit is present and accessible.
+   *
+   * @return
+   */
+  boolean isUnitAvailable();
 
-    /**
-     * The unset operation shall set a certain attitude based
-     * on the AttitudeDefinition 
-     *
-     * @throws IOException
-     */
-    void unset() throws IOException;
-    
-    /**
-     * The getAttitudeTM returns an object representing the information
-     * usually provided by an ADCS unit
-     *
-     * @return The Attitude Telemetry from the ADCS
-     * @throws IOException
-     */
-    AttitudeInstance getAttitudeInstance() throws IOException;
-    
-    
+  /**
+   * The setDesiredAttitude operation shall set a certain attitude based on the AttitudeMode
+   * descriptor
+   *
+   * @param attitude
+   * @throws IOException in case of failure on the interface
+   * @throws UnsupportedOperationException if the implementation does not support the requested ADCS
+   * mode
+   */
+  void setDesiredAttitude(AttitudeMode attitude) throws IOException, UnsupportedOperationException;
+
+  /**
+   * The unset operation shall reset the attitude mode.
+   *
+   * @throws IOException
+   */
+  void unset() throws IOException;
+
+  /**
+   * The getAttitudeTelemetry returns an object representing the attitude information provided by an
+   * ADCS unit
+   *
+   * @return The Attitude Telemetry from the ADCS
+   * @throws IOException
+   */
+  AttitudeTelemetry getAttitudeTelemetry() throws IOException;
+
+  /**
+   * The getActuatorsTelemetry returns an object representing the actuators information provided by
+   * an ADCS unit
+   *
+   * @return The Attitude Telemetry from the ADCS
+   * @throws IOException
+   */
+  ActuatorsTelemetry getActuatorsTelemetry() throws IOException;
+
+  /**
+   * Validate Attitude Descriptor
+   *
+   * @param attitude requested attitude mode descriptor to be validated
+   * @return null if attitude descriptor is valid. Human readable string with error message if
+   * validation fails.
+   */
+  public String validateAttitudeDescriptor(AttitudeMode attitude);
+
 }

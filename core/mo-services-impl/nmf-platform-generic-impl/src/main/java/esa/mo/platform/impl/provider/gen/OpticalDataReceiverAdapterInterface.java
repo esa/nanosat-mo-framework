@@ -20,12 +20,14 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
+import org.ccsds.moims.mo.mal.structures.Duration;
+
 /**
  *
  * @author Cesar Coelho
  */
 public interface OpticalDataReceiverAdapterInterface {
 
-    byte[] getOpticalReceiverData();
+    byte[] recordOpticalReceiverData(Duration recordingLength);
 
 }

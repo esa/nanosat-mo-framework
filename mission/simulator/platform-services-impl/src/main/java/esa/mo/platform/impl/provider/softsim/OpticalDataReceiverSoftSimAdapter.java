@@ -22,23 +22,27 @@ package esa.mo.platform.impl.provider.softsim;
 
 import esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface;
 import opssat.simulator.main.ESASimulator;
+import org.ccsds.moims.mo.mal.structures.Duration;
 
-/** 
+/**
  *
  * @author Cesar Coelho
  */
-public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAdapterInterface {
-    
-    private final ESASimulator instrumentsSimulator;
-    
-    public OpticalDataReceiverSoftSimAdapter(ESASimulator instrumentsSimulator){
-        this.instrumentsSimulator = instrumentsSimulator;
-    }
+public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAdapterInterface
+{
 
-    @Override
-    public byte[] getOpticalReceiverData() {
-        int nSamples = 100000;
-        return instrumentsSimulator.getpOpticalReceiver().readFromMessageBuffer(nSamples);
-    }
+  private final ESASimulator instrumentsSimulator;
+
+  public OpticalDataReceiverSoftSimAdapter(ESASimulator instrumentsSimulator)
+  {
+    this.instrumentsSimulator = instrumentsSimulator;
+  }
+
+  @Override
+  public byte[] recordOpticalReceiverData(Duration recordingLength)
+  {
+    int nSamples = (int) (recordingLength.getValue() * 1000); // Assume 1kHz sample rate
+    return instrumentsSimulator.getpOpticalReceiver().readFromMessageBuffer(nSamples);
+  }
 
 }
