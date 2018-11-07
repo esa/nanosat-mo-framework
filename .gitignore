@@ -1,6 +1,3 @@
-**/**/target/
-**/**/libs/
-**/**/.svn/
 **/comArchive.db
 **/comArchive.db-journal
 **/target/
@@ -9,4 +6,4 @@
 **/providerURIs.properties
 *.iml
 **/.idea
-nbactions.xml
+*/**/nbactions.xml
