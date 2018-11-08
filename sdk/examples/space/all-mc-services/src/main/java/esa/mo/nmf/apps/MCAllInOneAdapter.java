@@ -598,7 +598,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
           return executeAdcsModeAction((Duration) attributeValues.get(0).getValue(),
               new AttitudeModeNadirPointing());
         case ACTION_UNSET:
-          return executeAdcsModeAction(new Duration(0.0), null);
+          return executeAdcsModeAction(null, null);
         case ACTION_5_STAGES:
           try {
             return multiStageAction(actionInstanceObjId, 5);
@@ -615,13 +615,16 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
 
   private UInteger executeAdcsModeAction(Duration duration, AttitudeMode attitudeMode)
   {
-    // Negative Durations are not allowed!
-    if (duration.getValue() < 0) {
-      return new UInteger(1);
-    }
-    if (duration.getValue() == 0) {
-      // Adhere to the ADCS Service interface
-      duration = null;
+    if (duration != null)
+    {
+      // Negative Durations are not allowed!
+      if (duration.getValue() < 0) {
+        return new UInteger(1);
+      }
+      if (duration.getValue() == 0) {
+        // Adhere to the ADCS Service interface
+        duration = null;
+      }
     }
     try {
       nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
