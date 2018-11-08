@@ -25,6 +25,7 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
+import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 
@@ -32,34 +33,34 @@ import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
  *
  * @author Cesar Coelho
  */
-public interface CameraAdapterInterface {
+public interface CameraAdapterInterface
+{
 
-    /**
-     * This method should be a static method! Java 6 does not allow static
-     * methods in interfaces.
-     * 
-     * @return The available resolutions
-     */
-    PixelResolutionList getAvailableResolutions();
-    
-    Picture getPicturePreview() throws IOException;
+  /**
+   * @return The resolutions supported by the Camera Adapter
+   */
+  PixelResolutionList getAvailableResolutions();
 
-    Picture takePicture(PixelResolution resolution, PictureFormat format, Duration exposureTime) throws IOException;    
+  /**
+   * @return The formats supported by the Camera Adapter
+   */
+  PictureFormatList getAvailableFormats();
 
-    /**
-     * The getMinimumPeriod method shall return the duration of taking a picture.
-     * This value is intended to be used to limit the number of consecutive calls
-     * for the takePicture method and therefore the minimum period of the stream 
-     * shall be the duration of taking a picture.
-     * This method should be a static method however Java 6 does not allow static
-     * methods in interfaces.
-     * 
-     * @return The minimum period of the stream. Or the duration of taking a picture.
-     */
-    Duration getMinimumPeriod();
-    
-    String getExtraInfo();
+  Picture getPicturePreview() throws IOException;
 
-    BufferedImage getBufferedImageFromRaw(byte[] rawImage);
-    
+  Picture takePicture(PixelResolution resolution, PictureFormat format, Duration exposureTime)
+      throws IOException;
+
+  /**
+   * The getMinimumPeriod method shall return the duration of taking a picture. This value is
+   * intended to be used to limit the number of consecutive calls for the takePicture method and
+   * therefore the minimum period of the stream shall be the duration of taking a picture. This
+   * method should be a static method however Java 6 does not allow static methods in interfaces.
+   *
+   * @return The minimum period of the stream. Or the duration of taking a picture.
+   */
+  Duration getMinimumPeriod();
+
+  String getExtraInfo();
+
 }

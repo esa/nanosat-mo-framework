@@ -46,7 +46,7 @@ public class TestProcessing {
             f.readFully(data);
 
 //            byte[] data = Files.readAllBytes(path);
-            OPSSATCameraDebayering.getBufferedImageFromBytes(data);
+            OPSSATCameraDebayering.getDebayeredImage(data);
         } catch (IOException ex) {
             Logger.getLogger(TestProcessing.class.getName()).log(Level.SEVERE, null, ex);
         }
