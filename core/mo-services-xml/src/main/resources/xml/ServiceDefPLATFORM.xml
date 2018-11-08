@@ -169,7 +169,8 @@
         </mal:composite>
         <mal:enumeration comment="PictureFormat is an enumeration definition holding the format of the picture." name="PictureFormat" shortFormPart="3">
           <mal:item comment="RAW bitmap with native sensor data" nvalue="1" value="RAW"/>
-          <mal:item comment="RGB BMP file" nvalue="3" value="BMP"/>
+          <mal:item comment="RGB24 raw stream" nvalue="2" value="RGB24"/>
+          <mal:item comment="BMP file" nvalue="3" value="BMP"/>
           <mal:item comment="PNG file" nvalue="4" value="PNG"/>
           <mal:item comment="JPG file" nvalue="5" value="JPG"/>
         </mal:enumeration>

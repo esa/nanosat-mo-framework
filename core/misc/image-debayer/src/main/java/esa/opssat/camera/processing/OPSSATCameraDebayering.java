@@ -43,8 +43,8 @@ public class OPSSATCameraDebayering {
      * @param data
      * @return
      */
-    public static BufferedImage getBufferedImageFromBytes(byte[] data) {
-        return OPSSATCameraDebayering.getBufferedImageFromBytes(data, 0);
+    public static BufferedImage getDebayeredImage(byte[] data) {
+        return OPSSATCameraDebayering.getDebayeredImage(data, 0);
     }
 
     /**
@@ -61,7 +61,7 @@ public class OPSSATCameraDebayering {
      * @param algorithm
      * @return
      */
-    public static BufferedImage getBufferedImageFromBytes(byte[] data, int algorithm) {
+    public static BufferedImage getDebayeredImage(byte[] data, int algorithm) {
         FileInfo fi = new FileInfo();
         fi.fileFormat = FileInfo.RAW;
         fi.width = 2048;

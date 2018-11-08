@@ -76,6 +76,7 @@ import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
 {
 
+  private static final Logger LOGGER = Logger.getLogger(CameraProviderServiceImpl.class.getName());
   private Duration minimumPeriod;
   private final Duration serviceLowestMinimumPeriod = new Duration(0.01); // 10 millisecods
   private MALProvider cameraServiceProvider;
@@ -89,7 +90,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
   private Timer publishTimer = new Timer();
   private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
   private CameraAdapterInterface adapter;
-  PictureFormatList availableFormats;
+  private PictureFormatList availableFormats;
 
   /**
    * creates the MAL objects, the publisher used to create updates and starts the publishing thread
@@ -139,15 +140,10 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
     cameraServiceProvider = connection.startService(CameraHelper.CAMERA_SERVICE_NAME.toString(),
         CameraHelper.CAMERA_SERVICE, this);
 
-    availableFormats = new PictureFormatList();
-    availableFormats.add(PictureFormat.RAW);
-    availableFormats.add(PictureFormat.PNG);
-    availableFormats.add(PictureFormat.BMP);
-    availableFormats.add(PictureFormat.JPG);
-
+    availableFormats = adapter.getAvailableFormats();
     running = true;
     initialiased = true;
-    Logger.getLogger(CameraProviderServiceImpl.class.getName()).info("Camera service READY");
+    LOGGER.info("Camera service READY");
   }
 
   /**
@@ -163,13 +159,14 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
       connection.closeAll();
       running = false;
     } catch (MALException ex) {
-      Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING,
+      LOGGER.log(Level.WARNING,
           "Exception during close down of the provider {0}", ex);
     }
   }
 
   private void streamPicturesUpdate(final Identifier firstEntityKey,
-      final PixelResolution resolution, final PictureFormat targetFormat, final Duration exposureTime)
+      final PixelResolution resolution, final PictureFormat targetFormat,
+      final Duration exposureTime)
   {
     try {
       final Long objId;
@@ -186,16 +183,12 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
         objId = uniqueObjId.incrementAndGet();
         try {
           picture = adapter.takePicture(resolution, targetFormat, exposureTime);
-
-          if (!PictureFormat.RAW.equals(targetFormat)) {
-            picture = convertImage(picture, targetFormat);
-          }
         } catch (IOException ex) {
-          Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+          LOGGER.log(Level.SEVERE, null, ex);
         }
       }
 
-      Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.FINER,
+      LOGGER.log(Level.FINER,
           "Generating streaming Picture update with objId: " + objId);
 
       final EntityKey ekey = new EntityKey(firstEntityKey, objId, resolution.getWidth().getValue(),
@@ -208,14 +201,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
       PictureList picList = new PictureList();
       picList.add(picture);
       publisher.publish(hdrlst, picList);
-    } catch (IllegalArgumentException ex) {
-      Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALException ex) {
-      Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALInteractionException ex) {
-      Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.WARNING,
+    } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
+      LOGGER.log(Level.WARNING,
           "Exception during publishing process on the provider {0}", ex);
     }
   }
@@ -342,20 +329,13 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
         Picture picture = adapter.takePicture(settings.getResolution(), settings.getFormat(),
             settings.getExposureTime());
 
-        Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO,
+        LOGGER.log(Level.INFO,
             "The picture has been taken!");
 
-        if (!PictureFormat.RAW.equals(settings.getFormat())) {
-          picture = this.convertImage(picture, settings.getFormat());
-          Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO,
-              "The picture has been converted!");
-        }
-
         interaction.sendResponse(picture);
-        Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO,
+        LOGGER.log(Level.INFO,
             "The picture has been sent!");
 
-        picture = null;
       } catch (IOException ex) {
         interaction.sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
             null));
@@ -380,7 +360,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
     public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
         throws MALException
     {
-      Logger.getLogger(CameraProviderServiceImpl.class.getName()).fine(
+      LOGGER.fine(
           "PublishInteractionListener::publishDeregisterAckReceived");
     }
 
@@ -389,7 +369,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
         final Map qosProperties)
         throws MALException
     {
-      Logger.getLogger(CameraProviderServiceImpl.class.getName()).warning(
+      LOGGER.warning(
           "PublishInteractionListener::publishErrorReceived");
     }
 
@@ -397,7 +377,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
     public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
         throws MALException
     {
-      Logger.getLogger(CameraProviderServiceImpl.class.getName()).log(Level.INFO,
+      LOGGER.log(Level.INFO,
           "Registration Ack: {0}", header.toString());
     }
 
@@ -405,51 +385,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
     public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
         final Map qosProperties) throws MALException
     {
-      Logger.getLogger(CameraProviderServiceImpl.class.getName()).warning(
+      LOGGER.warning(
           "PublishInteractionListener::publishRegisterErrorReceived");
     }
   }
-
-  private Picture convertImage(final Picture inputPicture, final PictureFormat targetFormat) throws
-      IOException, MALException
-  {
-    BufferedImage bufferedImage = adapter.getBufferedImageFromRaw(
-        inputPicture.getContent().getValue());
-    // Get a shallow copy of the original settings
-    CameraSettings settings = new CameraSettings(inputPicture.getSettings().getResolution(),
-        inputPicture.getSettings().getFormat(), inputPicture.getSettings().getExposureTime());
-    Picture newPicture = new Picture(inputPicture.getTimestamp(), settings, null);
-
-    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-    if (targetFormat.equals(PictureFormat.PNG)) {
-      ImageIO.write(bufferedImage, "PNG", stream);
-      newPicture.setContent(new Blob(stream.toByteArray()));
-      stream.close();
-      settings.setFormat(PictureFormat.PNG);
-      return newPicture;
-    }
-
-    if (targetFormat.equals(PictureFormat.BMP)) {
-      ImageIO.write(bufferedImage, "BMP", stream);
-      newPicture.setContent(new Blob(stream.toByteArray()));
-      stream.close();
-      stream = null;
-      settings.setFormat(PictureFormat.BMP);
-      return newPicture;
-    }
-
-    if (targetFormat.equals(PictureFormat.JPG)) {
-      ImageIO.write(bufferedImage, "JPEG", stream);
-      newPicture.setContent(new Blob(stream.toByteArray()));
-      stream.close();
-      stream = null;
-      settings.setFormat(PictureFormat.JPG);
-      return newPicture;
-    }
-
-    throw new IOException(
-        "Something went wrong! The Image could not be converted into the selected format.");
-  }
-
 }
