@@ -24,6 +24,7 @@ import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.misc.ConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.Map;
@@ -147,7 +148,8 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                         ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
                         objType.setNumber(new UShort(Integer.parseInt(entityKey1.toString())));
 
-                        Element body = (Element) ((elementList == null) ? null : elementList.get(i));
+                        Object nativeBody = ((elementList == null) ? null : elementList.get(i));
+                        Element body = (Element) HelperAttributes.javaType2Attribute(nativeBody);
 
                         // ----
                         EventCOMObject newEvent = new EventCOMObject();
