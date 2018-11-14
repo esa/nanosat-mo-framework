@@ -592,7 +592,7 @@ public class HelperArchive {
         }
 
         // The submitted Archive is a consumer instance...
-        if (archiveService instanceof ArchiveStub) {
+        else if (archiveService instanceof ArchiveStub) {
             ArchiveRetrieveAdapter2 adapter = new ArchiveRetrieveAdapter2();
             Object obj = null;
 
@@ -624,6 +624,12 @@ public class HelperArchive {
             }
 
             return obj;
+        }
+        else
+        {
+            Logger.getLogger(HelperArchive.class.getName()).log(Level.SEVERE,
+                    "The Archive service provided ({0}) is not a supported class!",
+                    archiveService.getClass().toString());
         }
 
         return null;
