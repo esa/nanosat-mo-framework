@@ -28,16 +28,6 @@ import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
  */
 public class MonolithicProviderDemo {
 
-    private final NanoSatMOMonolithicSim monolithic;
-
-    public MonolithicProviderDemo() {
-        monolithic = new NanoSatMOMonolithicSim();
-        MCAllInOneAdapter adapter = new MCAllInOneAdapter();
-        adapter.setNMF(monolithic);
-        monolithic.init(adapter);
-        adapter.startTimerThread();
-    }
-
     /**
      * Main command line entry point.
      *
@@ -45,7 +35,11 @@ public class MonolithicProviderDemo {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        MonolithicProviderDemo demo = new MonolithicProviderDemo();
+        final NanoSatMOMonolithicSim monolithic = new NanoSatMOMonolithicSim();
+        MCAllInOneAdapter adapter = new MCAllInOneAdapter(monolithic);
+        monolithic.init(adapter);
+        adapter.startAdcsAttitudeMonitoring();
+        adapter.startPeriodicAlertsPublishing();
     }
 
 }

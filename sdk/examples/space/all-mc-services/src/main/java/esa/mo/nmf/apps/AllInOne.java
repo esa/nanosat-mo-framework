@@ -27,16 +27,6 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
  */
 public class AllInOne {
 
-    private final NanoSatMOConnectorImpl connector;
-
-    public AllInOne() {
-        connector = new NanoSatMOConnectorImpl();
-        MCAllInOneAdapter adapter = new MCAllInOneAdapter(connector);
-        connector.init(adapter);
-        adapter.startAdcsAttitudeMonitoring();
-        adapter.startPeriodicAlertsPublishing();
-    }
-
     /**
      * Main command line entry point.
      *
@@ -44,7 +34,11 @@ public class AllInOne {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        AllInOne demo = new AllInOne();
+        final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+        MCAllInOneAdapter adapter = new MCAllInOneAdapter(connector);
+        connector.init(adapter);
+        adapter.startAdcsAttitudeMonitoring();
+        adapter.startPeriodicAlertsPublishing();
     }
 
 }
