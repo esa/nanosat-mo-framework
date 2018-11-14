@@ -32,6 +32,7 @@ import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
 import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.nmf.ctt.services.sm.CommandExecutorConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.PackageManagementConsumerPanel;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
@@ -102,6 +103,13 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                     AppsLauncherConsumerPanel panel = new AppsLauncherConsumerPanel(services.getSMServices().getAppsLauncherService());
                     int count = serviceTabs.getTabCount();
                     serviceTabs.insertTab("Apps Launcher service", null, panel, "Apps Launcher Tab", count);
+                    panel.init();
+                }
+
+                if (services.getSMServices().getCommandExecutorService()!= null) {
+                    CommandExecutorConsumerPanel panel = new CommandExecutorConsumerPanel(services.getSMServices().getCommandExecutorService());
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Command Executor service", null, panel, "Command Executor Tab", count);
                     panel.init();
                 }
 
