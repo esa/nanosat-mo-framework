@@ -70,7 +70,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
       instrumentsSimulator.getpFineADCS().opModeDetumble((byte) 1, BEGIN_END_TIMES);
     }
 
-    if (att instanceof AttitudeModeSingleSpinning) {
+    else if (att instanceof AttitudeModeSingleSpinning) {
       AttitudeModeSingleSpinning singleSpinAtt = (AttitudeModeSingleSpinning) att;
       Vector3D body = singleSpinAtt.getBodyAxis();
       final float[] targetVector = new float[7];
@@ -85,7 +85,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
           targetVector);
     }
 
-    if (att instanceof AttitudeModeSunPointing) {
+    else if (att instanceof AttitudeModeSunPointing) {
       final byte actuatorMode = 0; // Zero because it is dummy and only RW is available
       // [0]: Mode Zero means stop; One means start
       // [1]: Actuator mode
@@ -99,7 +99,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
       instrumentsSimulator.getpFineADCS().opModeSunPointing(mode, BEGIN_END_TIMES, targetVector);
     }
 
-    if (att instanceof AttitudeModeTargetTracking) {
+    else if (att instanceof AttitudeModeTargetTracking) {
       AttitudeModeTargetTracking targetTrackingAtt = (AttitudeModeTargetTracking) att;
 
       float[] latitudeLongitude = new float[2];
@@ -110,7 +110,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
           BEGIN_END_TIMES, latitudeLongitude);
     }
 
-    if (att instanceof AttitudeModeNadirPointing) {
+    else if (att instanceof AttitudeModeNadirPointing) {
       instrumentsSimulator.getpFineADCS().opModeSetNadirTargetTracking(MODE_START, BEGIN_END_TIMES);
     }
 
