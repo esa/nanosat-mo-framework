@@ -44,7 +44,7 @@
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Apps Launcher Service"/>
+        <Property name="text" type="java.lang.String" value="Command Executor Service"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
@@ -84,34 +84,19 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="runAppButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="runApp"/>
+                <Property name="text" type="java.lang.String" value="runCommand"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runAppButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="stopAppButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="stopApp"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopAppButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="killAppButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="killApp"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="killAppButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runCommandButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="listAppAllButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="listApp(&quot;*&quot;)"/>
+                <Property name="text" type="java.lang.String" value="List Recent Commands"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listAppAllButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listRecentCommandsButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
