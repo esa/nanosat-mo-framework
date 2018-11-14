@@ -35,6 +35,7 @@ import esa.mo.nmf.NMFException;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
+import esa.mo.sm.impl.provider.CommandExecutorProviderServiceImpl;
 import esa.mo.sm.impl.util.PMBackend;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import java.io.IOException;
@@ -56,7 +57,8 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 public abstract class NanoSatMOSupervisor extends NMFProvider {
 
     private final PackageManagementProviderServiceImpl packageManagementService = new PackageManagementProviderServiceImpl();
-    private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
+    private final AppsLauncherProviderServiceImpl appsLauncherService = new AppsLauncherProviderServiceImpl();
+    private final CommandExecutorProviderServiceImpl commandExecutorService = new CommandExecutorProviderServiceImpl();
 
     /**
      * Initializes the NanoSat MO Supervisor. The MonitorAndControlAdapter
@@ -90,10 +92,11 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             this.heartbeatService.init();
 
             this.directoryService.init(comServices);
-            this.applicationsManagerService.init(comServices, directoryService);
+            this.appsLauncherService.init(comServices, directoryService);
+            this.commandExecutorService.init(comServices);
             this.packageManagementService.init(comServices, packageManagementBackend);
             this.comServices.initArchiveSync();
-            super.reconfigurableServices.add(this.applicationsManagerService);
+            super.reconfigurableServices.add(this.appsLauncherService);
             this.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
         } catch (MALException ex) {
