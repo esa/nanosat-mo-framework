@@ -310,43 +310,43 @@
           </mal:field>
         </mal:composite>
       </mal:dataTypes>
-      <com:objects comment="A Command COM object represents an instance of direct command execution requested from the provider. The COM object body shall hold the details of the command.&#10;&lt;ol&gt;&#10;&lt;/ol&gt;">
-        <com:object comment="" name="Command" number="1">
-          <com:objectType>
-            <mal:type area="SoftwareManagement" list="false" name="CommandDetails" service="CommandExecutor"/>
-          </com:objectType>
-          <com:relatedObject comment=""/>
-          <com:sourceObject comment=""/>
-        </com:object>
-      </com:objects>
       <com:features>
+        <com:objects comment="A Command COM object represents an instance of direct command execution requested from the provider. The COM object body shall hold the details of the command.&#10;&lt;ol&gt;&#10;&lt;/ol&gt;">
+          <com:object comment="" name="Command" number="1">
+            <com:objectType>
+              <mal:type area="SoftwareManagement" list="false" name="CommandDetails" service="CommandExecutor"/>
+            </com:objectType>
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment=""/>
+          </com:object>
+        </com:objects>
         <com:events comment="">
           <com:event comment="This event is produced to allow monitoring of the command stdout output. It contains a buffer of an arbitrary size with a chunk of stdout output." name="StandardOutput" number="2">
             <com:objectType>
               <mal:type area="MAL" list="false" name="String"/>
             </com:objectType>
-            <com:relatedObject comment="">
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment="">
               <com:objectType area="SoftwareManagement" number="1" service="CommandExecutor"/>
-            </com:relatedObject>
-            <com:sourceObject comment=""/>
+            </com:sourceObject>
           </com:event>
           <com:event comment="This event is produced to allow monitoring of the command stderr output. It contains a buffer of an arbitrary size with a chunk of stderr output." name="StandardError" number="3">
             <com:objectType>
               <mal:type area="MAL" list="false" name="String"/>
             </com:objectType>
-            <com:relatedObject comment="">
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment="">
               <com:objectType area="SoftwareManagement" number="1" service="CommandExecutor"/>
-            </com:relatedObject>
-            <com:sourceObject comment=""/>
+            </com:sourceObject>
           </com:event>
           <com:event comment="This event is produced to indicate that the command has finished its execution. Contains an exit code." name="ExecutionFinished" number="4">
             <com:objectType>
               <mal:type area="MAL" list="false" name="Integer"/>
             </com:objectType>
-            <com:relatedObject comment="">
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment="">
               <com:objectType area="SoftwareManagement" number="1" service="CommandExecutor"/>
-            </com:relatedObject>
-            <com:sourceObject comment=""/>
+            </com:sourceObject>
           </com:event>
         </com:events>
       </com:features>
