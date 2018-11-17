@@ -46,15 +46,21 @@ import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 public class CameraSoftSimAdapter implements CameraAdapterInterface
 {
 
-  private final ESASimulator instrumentsSimulator;
   private final static Duration MINIMUM_DURATION = new Duration(10); // 10 seconds for now...
   private final static int IMAGE_WIDTH = 2048;
   private final static int IMAGE_HEIGHT = 1944;
   private final static int PREVIEW_WIDTH = 600;
   private final static int PREVIEW_HEIGHT = 600;
+  private final ESASimulator instrumentsSimulator;
+  private final PictureFormatList supportedFormats = new PictureFormatList();
 
   public CameraSoftSimAdapter(ESASimulator instrumentsSimulator)
   {
+    supportedFormats.add(PictureFormat.RAW);
+    supportedFormats.add(PictureFormat.RGB24);
+    supportedFormats.add(PictureFormat.BMP);
+    supportedFormats.add(PictureFormat.PNG);
+    supportedFormats.add(PictureFormat.JPG);
     this.instrumentsSimulator = instrumentsSimulator;
   }
 
@@ -164,13 +170,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
   @Override
   public PictureFormatList getAvailableFormats()
   {
-    PictureFormatList ret = new PictureFormatList();
-    ret.add(PictureFormat.RAW);
-    ret.add(PictureFormat.RGB24);
-    ret.add(PictureFormat.BMP);
-    ret.add(PictureFormat.PNG);
-    ret.add(PictureFormat.JPG);
-    return ret;
+    return supportedFormats;
   }
 
 }
