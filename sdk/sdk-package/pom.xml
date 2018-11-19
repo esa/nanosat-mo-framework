@@ -25,7 +25,7 @@
   <groupId>int.esa.nmf.sdk</groupId>
   <artifactId>package</artifactId>
   <name>ESA NMF SDK Package Assembly</name>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <organization>
     <name>ESA</name>
@@ -65,17 +65,19 @@
   </properties>
   <dependencies>
     <!-- NOTE: Imprecise version resolution using ${esa.nmf.version-qualifier} cannot be used here,
-      as maven-dependency-plugin:copy does not support it. -->
+    as maven-dependency-plugin:copy does not support it. -->
     <dependency>
       <groupId>int.esa.nmf.sdk</groupId>
       <artifactId>consumer-test-tool</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!--
     <dependency>
       <groupId>int.esa.nmf.sdk</groupId>
       <artifactId>package-assembler</artifactId>
       <version>${project.version}</version>
     </dependency>
+    -->
     <dependency>
       <groupId>int.esa.nmf.sdk.examples.space</groupId>
       <artifactId>all-mc-services</artifactId>
@@ -120,6 +122,18 @@
   </dependencies>
   <build>
     <plugins>
+      <!-- disable JAR assembly -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase/>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -172,6 +186,7 @@
           </binFileExtensions>
         </configuration>
         <executions>
+          <!--
           <execution>
             <id>emit-package-assembler</id>
             <phase>package</phase>
@@ -188,6 +203,7 @@
               </programs>
             </configuration>
           </execution>
+          -->
           <execution>
             <id>emit-ctt</id>
             <phase>package</phase>
@@ -309,28 +325,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-sdk-resources</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${basedir}/resources</directory>
-                  <filtering>false</filtering>
-                  <excludes>
-                    <exclude>**/*.docx</exclude>
-                    <exclude>**/*.doc</exclude>
-                  </excludes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
+
       </plugin>
       <plugin>
         <groupId>com.googlecode.maven-download-plugin</groupId>
@@ -412,6 +407,13 @@
         </executions>
       </plugin>
       <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.2</version>
+        <configuration>
+          <skip>${esa.nmf.sdk.assembly.quickbuild}</skip>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration combine.self="override">
           <skipAssembly>${esa.nmf.sdk.assembly.quickbuild}</skipAssembly>
@@ -432,5 +434,43 @@
         </executions>
       </plugin>
     </plugins>
+    <resources>
+      <resource>
+        <targetPath>${esa.nmf.sdk.assembly.outputdir}/docs</targetPath>
+        <directory>${basedir}/src/main/resources/docs</directory>
+        <excludes>
+          <exclude>**/*.docx</exclude>
+          <exclude>**/*.doc</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/tools/consumer-test-tool</targetPath>
+        <directory>${basedir}/src/main/resources/ground-consumer-root</directory>
+      </resource>
+      <resource>
+        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space</targetPath>
+        <directory>${basedir}/src/main/resources/space-root</directory>
+      </resource>
+      <resource>
+        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/nanosat-mo-supervisor-sim</targetPath>
+        <directory>${basedir}/src/main/resources/space-supervisor-root</directory>
+      </resource>
+      <resource>
+        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/all-mc-services</targetPath>
+        <directory>${basedir}/src/main/resources/space-app-root</directory>
+      </resource>
+      <resource>
+        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/benchmark</targetPath>
+        <directory>${basedir}/src/main/resources/space-app-root</directory>
+      </resource>
+      <resource>
+        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/camera</targetPath>
+        <directory>${basedir}/src/main/resources/space-app-root</directory>
+      </resource>
+      <resource>
+        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/publish-clock</targetPath>
+        <directory>${basedir}/src/main/resources/space-app-root</directory>
+      </resource>
+    </resources>
   </build>
 </project>
