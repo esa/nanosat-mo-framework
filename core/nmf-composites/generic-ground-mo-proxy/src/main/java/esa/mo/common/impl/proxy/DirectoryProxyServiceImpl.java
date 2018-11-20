@@ -21,7 +21,7 @@
 package esa.mo.common.impl.proxy;
 
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.helpertools.misc.HelperNMF;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
 import java.net.MalformedURLException;
 import java.util.Collection;
@@ -83,7 +83,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
         }
 
         // Make the Ground MO Proxy (itself) also available in the list of providers
-        this.loadURIs(HelperNMF.NMF_GMP_NAME);
+        this.loadURIs(Const.NANOSAT_MO_GROUND_PROXY_NAME);
 
         return providers;
     }

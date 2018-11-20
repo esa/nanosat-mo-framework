@@ -20,8 +20,8 @@
  */
 package esa.mo.nmf.nmfpackage;
 
+import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
-import esa.mo.helpertools.misc.HelperNMF;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
 import esa.mo.nmf.nmfpackage.descriptor.ReceiptVersion1;
@@ -161,7 +161,7 @@ public class NMFPackageCreator {
                 "Creating compressed NMF Package...");
 
         String packageOutputPath = details.getPackageName() + "-"
-                + details.getVersion() + "." + HelperNMF.NMF_PACKAGE_SUFFIX;
+                + details.getVersion() + "." + Const.NMF_PACKAGE_SUFFIX;
         NMFPackageCreator.zipFiles(packageOutputPath, files, newLocations);
 
         // Output the secret privateKey into a file

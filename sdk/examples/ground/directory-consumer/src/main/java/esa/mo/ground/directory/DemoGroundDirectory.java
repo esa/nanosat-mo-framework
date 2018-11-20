@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class DemoGroundDirectory {
 
     private GroundMOAdapterImpl gma;
-    private final static URI DIRECTORY_URI = new URI("maltcp://x:1024-NanoSat_MO_Supervisor-Directory");
+    private final static URI DIRECTORY_URI = new URI("maltcp://x:1024-nanosat-mo-supervisor-Directory");
 
     public DemoGroundDirectory() {
         try {

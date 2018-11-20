@@ -519,8 +519,9 @@ public class AppsLauncherManager extends DefinitionsManager
   {
     if (providersList.isEmpty()) { // Throw error!
       LOGGER.log(Level.WARNING,
-          "The app could not be found in the Directory service... Possible reasons: "
-          + "1. Not a NMF app! If so, one needs to use killApp operation!");
+          "The service could not be found in the Directory service... Possible reasons:\n"
+          + "1. Wrong area number.\n"
+          + "2. User is trying to control a non-NMF app! If so, one needs to use killApp operation!\n");
       throw new IOException();
     }
 

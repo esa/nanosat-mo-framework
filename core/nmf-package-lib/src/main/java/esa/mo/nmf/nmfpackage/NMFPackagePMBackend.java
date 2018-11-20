@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage;
 
-import esa.mo.helpertools.misc.HelperNMF;
+import esa.mo.helpertools.misc.Const;
 import java.io.File;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class NMFPackagePMBackend implements PMBackend {
             String name = file.getName();
 
             // Check if the package ends with the expected suffix
-            if (name.endsWith(HelperNMF.NMF_PACKAGE_SUFFIX)) {
+            if (name.endsWith(Const.NMF_PACKAGE_SUFFIX)) {
                 packageNames.add(name);
             }
         }

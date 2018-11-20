@@ -55,7 +55,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class AlertTest2 {
 
-    static final String URL_DIRECTORY_SERVICE = "maltcp://x:1024-NanoSat_MO_Supervisor-Directory";
+    static final String URL_DIRECTORY_SERVICE = "maltcp://x:1024-nanosat-mo-supervisor-Directory";
     public final GroundMOAdapterImpl groundAdapter;
     private final Identifier subscriptionId;
     private final Random random = new Random();

@@ -28,7 +28,7 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.helpertools.misc.HelperNMF;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
@@ -149,7 +149,7 @@ public abstract class GroundMOProxy
     filter.setServiceKey(new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet(
         (short) 0)));
     filter.setRequiredCapabilities(new UIntegerList());
-    filter.setServiceProviderName(new Identifier(HelperNMF.NMF_NMS_NAME));
+    filter.setServiceProviderName(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME));
 
     return localDirectoryService.lookupProvider(filter, null);
   }
@@ -167,7 +167,7 @@ public abstract class GroundMOProxy
     filter.setSessionName(new Identifier("*"));
     filter.setServiceKey(key);
     filter.setRequiredCapabilities(new UIntegerList());
-    filter.setServiceProviderName(new Identifier(HelperNMF.NMF_NMS_NAME));
+    filter.setServiceProviderName(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME));
 
     return localDirectoryService.lookupProvider(filter, null);
   }

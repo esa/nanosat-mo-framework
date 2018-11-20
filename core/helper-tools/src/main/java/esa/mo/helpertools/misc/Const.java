@@ -20,11 +20,15 @@
  */
 package esa.mo.helpertools.misc;
 
+/**
+ * A Helper class dedicated to the NanoSat MO Framework specific properties and constants
+ */
 public class Const {
-
   public final static String CENTRAL_DIRECTORY_URI_PROPERTY = "esa.mo.nmf.centralDirectoryURI";
   public static final String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
   public static final String DYNAMIC_CHANGES_PROPERTY
       = "esa.mo.nanosatmoframework.provider.dynamicchanges";
   public static final String NANOSAT_MO_SUPERVISOR_NAME = "nanosat-mo-supervisor";
+  public final static String NANOSAT_MO_GROUND_PROXY_NAME = "ground-mo-proxy";
+  public final static String NMF_PACKAGE_SUFFIX = "nmfpack";
 }
