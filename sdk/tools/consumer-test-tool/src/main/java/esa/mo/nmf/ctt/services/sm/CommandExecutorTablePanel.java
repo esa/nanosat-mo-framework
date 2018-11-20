@@ -89,7 +89,10 @@ public class CommandExecutorTablePanel extends SharedTablePanel
       int index = findIndex(objInstId);
       tableData.setValueAt(Integer.toString(exitCode), index, 3);
     } catch (NoSuchElementException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+      // It is typical to get the exit code before archive retrieval of the Command can complete
+      LOGGER.log(Level.WARNING,
+          "Received exitCode update for objId {0}, but the object has not yet been received.",
+          objInstId);
     }
 
     semaphore.release();
@@ -108,7 +111,8 @@ public class CommandExecutorTablePanel extends SharedTablePanel
       }
     }
 
-    throw new NoSuchElementException("The objInstId could not be found on the table. objInstId: " + objInstId);
+    throw new NoSuchElementException(
+        "The objInstId could not be found on the table. objInstId: " + objInstId);
   }
 
   @Override

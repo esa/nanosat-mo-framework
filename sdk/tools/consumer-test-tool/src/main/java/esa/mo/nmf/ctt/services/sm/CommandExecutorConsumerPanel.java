@@ -55,7 +55,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
       = Logger.getLogger(CommandExecutorConsumerPanel.class.getName());
   private final CommandExecutorConsumerServiceImpl serviceSMCommandExecutor;
   private final CommandExecutorConsumerAdapter asyncAdapter = new CommandExecutorConsumerAdapter();
-  private CommandExecutorTablePanel recentCommandsTable;
+  private final CommandExecutorTablePanel recentCommandsTable;
   private final HashMap<Long, StringBuffer> outputBuffers = new HashMap<>();
 
   /**
@@ -84,18 +84,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
       @Override
       public void mouseReleased(MouseEvent e)
       {
-        // If there is a concrete row selected...
-        if (recentCommandsTable.getSelectedRow() != -1) {
-          final Long objId
-              = recentCommandsTable.getCOMObjects().get(recentCommandsTable.getSelectedRow()).getArchiveDetails().getInstId();
-          StringBuffer outputBuf = outputBuffers.get(objId);
-          if (outputBuf != null) {
-            appVerboseTextArea.setText(outputBuffers.get(objId).toString());
-          } else {
-            appVerboseTextArea.setText("");
-          }
-          appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
-        }
+        refreshOutputBufferWindow(null);
       }
 
       @Override
@@ -121,6 +110,25 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
     // Produce wildcard subscribtion to all event objects
     serviceSMCommandExecutor.getCOMServices().getEventService().addEventReceivedListener(
         subscription, new EventReceivedAdapter());
+  }
+
+  private void refreshOutputBufferWindow(Long justUpdatedObjId)
+  {
+    // If there is a concrete row selected...
+    if (recentCommandsTable.getSelectedRow() != -1) {
+      final Long objId
+          = recentCommandsTable.getCOMObjects().get(recentCommandsTable.getSelectedRow()).getArchiveDetails().getInstId();
+      if (justUpdatedObjId != null && !justUpdatedObjId.equals(objId)) {
+        return;
+      }
+      StringBuffer outputBuf = outputBuffers.get(objId);
+      if (outputBuf != null) {
+        appVerboseTextArea.setText(outputBuffers.get(objId).toString());
+      } else {
+        appVerboseTextArea.setText("");
+      }
+      appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
+    }
   }
 
   /**
@@ -274,6 +282,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
         outputBuffers.put(sourceObjId, new StringBuffer());
       }
       outputBuffers.get(sourceObjId).append(data);
+      refreshOutputBufferWindow(sourceObjId);
     }
   }
 
