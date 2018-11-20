@@ -40,9 +40,10 @@ import org.ccsds.moims.mo.mal.transport.MALTransport;
  */
 public class ProtocolBridgeSPP extends ProtocolBridge {
 
-    public final static String PROPERTY_APID_RANGE_START = "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start";
-    public final static String PROPERTY_APID_RANGE_END = "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.end";
-    private final static String PROTOCOL_SPP = "malspp";
+    private static final Logger LOGGER = Logger.getLogger(ProtocolBridgeSPP.class.getName());
+    public static final String PROPERTY_APID_RANGE_START = "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start";
+    public static final String PROPERTY_APID_RANGE_END = "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.end";
+    private static final String PROTOCOL_SPP = "malspp";
     private MALTransport transportA;
     private MALTransport transportB;
     private MALEndpoint epB;
@@ -65,10 +66,10 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
         epB = createEndpoint(protocol, transportB);
 
-        System.out.println("Linking transports...");
+        LOGGER.log(Level.INFO, "Linking transports...");
         epB.setMessageListener(new BridgeMessageHandlerSPP(null, epB));
 
-        System.out.println("Starting message delivery...");
+        LOGGER.log(Level.INFO, "Starting message delivery...");
         epB.startMessageDelivery();
     }
 
@@ -100,7 +101,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         public void onMessage(MALEndpoint callingEndpoint, MALMessage srcMessage) {
             try {
                 String uriFrom = srcMessage.getHeader().getURIFrom().getValue();
-//                System.out.println("\nReceived message from: " + uriFrom);
+                LOGGER.log(Level.FINER, "Received message from: {0}", uriFrom);
 
                 MALMessage dMsg;
 
@@ -109,7 +110,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
                     // copy source message into destination message format
                     dMsg = cloneForwardMessageFromSPP(epOther, srcMessage, new URI(uriTrans));
-                    System.out.println("Injecting message... Ground<-Space");
+                    LOGGER.log(Level.FINE, "Injecting message... Ground<-Space");
                     epOther.sendMessage(dMsg);
                 } else {
                     String virtualURIs = virtualSPPURI.getVirtualSPPURI(uriFrom);
@@ -127,15 +128,15 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
                     }
 
                     dMsg = cloneForwardMessageToSPP(ep, srcMessage, virtualURIs);
-                    System.out.println("Injecting message... Ground->Space");
+                    LOGGER.log(Level.FINE, "Injecting message... Ground->Space");
                     ep.sendMessage(dMsg);
                 }
             } catch (MALException ex) {
-                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, 
+                LOGGER.log(Level.SEVERE,
                         "MALException", ex);
                 // To do: needs to bounce this back to source?
             } catch (MALTransmitErrorException ex) {
-                Logger.getLogger(ProtocolBridgeSPP.class.getName()).log(Level.SEVERE, 
+                LOGGER.log(Level.SEVERE,
                         "MALTransmitErrorException: Maybe the consumer was disconnected?", ex);
                 // To do: needs to bounce this back to source?
             }
@@ -166,8 +167,8 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
         int size = body.getElementCount();
-//        System.out.println("Body size: " + size);
-//        System.out.println("Local URI: " + destination.getURI());
+        LOGGER.log(Level.FINER, "Body size: {0}", size);
+        LOGGER.log(Level.FINER, "Local URI: {0}", destination.getURI());
 
         Object[] objList = new Object[size];
 
@@ -175,14 +176,16 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
             objList[i] = body.getBodyElement(i, null);
         }
 
-//        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
+        LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{sourceHdr.getURIFrom(),
+          sourceHdr.getURITo()});
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
         endpointUriPart = endpointUriPart.substring(iSecond + 1, endpointUriPart.length());
         URI to = new URI(endpointUriPart);
         URI from = new URI(virtualURI);
 
-//        System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
+        LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{from,
+          to});
 
         MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),
@@ -215,8 +218,8 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
         int size = body.getElementCount();
-//        System.out.println("Body size: " + size);
-//        System.out.println("Local URI: " + destination.getURI());
+        LOGGER.log(Level.FINER, "Body size: {0}", size);
+        LOGGER.log(Level.FINER, "Local URI: {0}", destination.getURI());
 
         Object[] objList = new Object[size];
 
@@ -224,11 +227,12 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
             objList[i] = body.getBodyElement(i, null);
         }
 
-//        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
+        LOGGER.log(Level.FINER, "cloneForwardMessage from : {0} to: {1}", new Object[]{sourceHdr.getURIFrom(),
+          sourceHdr.getURITo()});
         URI to = reverse;
         URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
 
-//        System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
+        LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{from, to});
 
         MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),
