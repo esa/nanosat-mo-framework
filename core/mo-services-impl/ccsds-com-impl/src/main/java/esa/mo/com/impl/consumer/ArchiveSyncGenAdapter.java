@@ -21,6 +21,8 @@
 package esa.mo.com.impl.consumer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -36,7 +38,7 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
  */
 public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncAdapter {
 
-    private final ArrayList<byte[]> receivedChunks;
+    private final Map<Integer, byte[]> receivedChunks;
     private final Semaphore completed;
 //    private Long interactionTicket = null;
     private UInteger numberOfChunks = null;
@@ -44,12 +46,12 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
     private long lastknowIndex = 0;
 
     public ArchiveSyncGenAdapter() {
-        this.receivedChunks = new ArrayList<byte[]>();
+        this.receivedChunks = new HashMap<>();
         this.completed = new Semaphore(0);
     }
 
     public ArchiveSyncGenAdapter(int estimatedNumberOfChunks) {
-        this.receivedChunks = new ArrayList<byte[]>(estimatedNumberOfChunks);
+        this.receivedChunks = new HashMap<>(estimatedNumberOfChunks);
         this.completed = new Semaphore(0);
     }
 
@@ -77,7 +79,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
         lastTimeReceived = System.currentTimeMillis();
         lastknowIndex = index;
         try {
-            receivedChunks.add(index, chunk.getValue());
+            receivedChunks.put(index, chunk.getValue());
         } catch (MALException ex) {
             Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -115,7 +117,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
         lastTimeReceived = System.currentTimeMillis();
         try {
-            receivedChunks.add(index, chunk.getValue());
+            receivedChunks.put(index, chunk.getValue());
         } catch (MALException ex) {
             Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -181,7 +183,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
     }
 
     public ArrayList<byte[]> getReceivedChunks() {
-        return receivedChunks;
+        return new ArrayList<byte[]>(receivedChunks.values());
     }
 
 }
