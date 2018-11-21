@@ -54,6 +54,7 @@ import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter
  */
 public class ProviderTabPanel extends javax.swing.JPanel {
 
+    private static final Logger LOGGER = Logger.getLogger(ProviderTabPanel.class.getName());
     protected final GroundMOAdapterImpl services;
 
     /**
@@ -192,9 +193,9 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 }
             }
         } catch (MALInteractionException ex) {
-            Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, "Could not connect to the provider.", ex);
+            LOGGER.log(Level.SEVERE, "Could not connect to the provider.", ex);
         } catch (MALException ex) {
-            Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -261,38 +262,40 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             status.setText("The provider is reachable! Beat period: " + value + " seconds");
 
             timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                int tryNumber = 0;
+            timer.scheduleAtFixedRate(new TimerTask()
+          {
+            int tryNumber = 0;
 
-                @Override
-                public void run() {
-                    final Time currentTime = HelperTime.getTimestampMillis();
+            @Override
+            public void run()
+            {
+              final Time currentTime = HelperTime.getTimestampMillis();
 
-                    // If the current time has passed the last beat + the beat period + a delta error
-                    long threshold = lastBeatAt.getValue() + period + DELTA_ERROR;
+              // If the current time has passed the last beat + the beat period + a delta error
+              long threshold = lastBeatAt.getValue() + period + DELTA_ERROR;
 
-                    if (currentTime.getValue() > threshold) {
-                        // Then the provider is unresponsive
-                        status.setText("Unresponsive! ");
-                        status.setForeground(Color.RED);
-                    } else {
-                        if (tryNumber == 3) { // Every third try...
-                            try {
-                                long timestamp = System.currentTimeMillis();
-                                heartbeat.getHeartbeatStub().getPeriod();
-                                lag = System.currentTimeMillis() - timestamp; // Calculate the lag
-                            } catch (MALInteractionException ex) {
-                                Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (MALException ex) {
-                                Logger.getLogger(ProviderTabPanel.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            tryNumber = 0;
-                        }
-                    }
-
-                    tryNumber++;
+              if (currentTime.getValue() > threshold) {
+                // Then the provider is unresponsive
+                status.setText("Unresponsive! ");
+                status.setForeground(Color.RED);
+                // Next time the heartbeat comes, trigger the lag measurement
+                tryNumber = 3;
+              } else {
+                if (tryNumber >= 3) {
+                  // Every third try...
+                  try {
+                    long timestamp = System.currentTimeMillis();
+                    heartbeat.getHeartbeatStub().getPeriod();
+                    lag = System.currentTimeMillis() - timestamp; // Calculate the lag
+                  } catch (MALInteractionException | MALException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                  }
+                  tryNumber = 0;
                 }
-            }, period, period);
+                tryNumber++;
+              }
+            }
+          }, period, period);
         }
 
         @Override
