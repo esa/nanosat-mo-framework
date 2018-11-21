@@ -175,7 +175,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
         for (int i = 0; i < nOfChunks; i++) {
             if (receivedChunks.get(i) == null) {
-                missingIndexes.add(new UInteger());
+                missingIndexes.add(new UInteger(i));
             }
         }
 
