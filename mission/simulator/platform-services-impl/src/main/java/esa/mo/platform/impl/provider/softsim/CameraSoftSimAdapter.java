@@ -67,7 +67,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
   @Override
   public String getExtraInfo()
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return "NMF Satellite Simulator - Camera Adapter.";
   }
 
   @Override
@@ -116,7 +116,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
 
     CameraSettings pictureSettings = new CameraSettings();
     pictureSettings.setResolution(resolution);
-    pictureSettings.setFormat(PictureFormat.RAW);
+    pictureSettings.setFormat(format);
     pictureSettings.setExposureTime(exposureTime);
     Picture picture = new Picture(timestamp, pictureSettings, new Blob(data));
     return picture;
