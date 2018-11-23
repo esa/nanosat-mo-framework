@@ -168,30 +168,18 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                         new DataReceivedAdapter(actionInstanceObjId)
                 );
                 return null; // Success!
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NMFException ex) {
+            } catch (MALInteractionException | MALException | IOException | NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
         if (ACTION_TAKE_PICTURE_JPG.equals(name.getValue())) {
             try {
-                connector.getPlatformServices().getCameraService().takePicture(new CameraSettings(resolution, PictureFormat.RAW, new Duration(0.200)),
+                connector.getPlatformServices().getCameraService().takePicture(new CameraSettings(resolution, PictureFormat.JPG, new Duration(0.200)),
                         new DataReceivedAdapter(actionInstanceObjId)
                 );
                 return null; // Success!
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NMFException ex) {
+            } catch (MALInteractionException | MALException | IOException | NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
