@@ -24,6 +24,7 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import java.util.prefs.Preferences;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -52,119 +53,133 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
+public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
+{
 
-    private ConnectionConsumer connectionConsumer;
-    private javax.swing.JTabbedPane tabs;
-    private ProviderSummaryList summaryList;
-    private DefaultTableModel tableData;
-    private final boolean isS2G;
+  private ConnectionConsumer connectionConsumer;
+  private javax.swing.JTabbedPane tabs;
+  private ProviderSummaryList summaryList;
+  private DefaultTableModel tableData;
+  private final boolean isS2G;
+  private static final String LAST_USED_CONSUMER_PREF = "last_used_consumer";
+  private static Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
 
-    /**
-     * Creates new form ConsumerPanelArchive
-     *
-     * @param isS2G Flag that defines if it is a Space to Ground link
-     * @param connectionConsumer
-     * @param tabs
-     */
-    public DirectoryConnectionConsumerPanel(final boolean isS2G,
-            final ConnectionConsumer connectionConsumer, final JTabbedPane tabs) {
-        initComponents();
-        this.connectionConsumer = connectionConsumer;
-        this.tabs = tabs;
-        this.initTextBoxAddress();
-        this.isS2G = isS2G;
+  /**
+   * Creates new form ConsumerPanelArchive
+   *
+   * @param isS2G              Flag that defines if it is a Space to Ground link
+   * @param connectionConsumer
+   * @param tabs
+   */
+  public DirectoryConnectionConsumerPanel(final boolean isS2G,
+      final ConnectionConsumer connectionConsumer, final JTabbedPane tabs)
+  {
+    initComponents();
+    this.connectionConsumer = connectionConsumer;
+    this.tabs = tabs;
+    this.initTextBoxAddress();
+    this.isS2G = isS2G;
 
-        String[] tableCol = new String[]{"Service name", "Supported Capabilities",
-            "Service Properties", "URI address", "Broker URI Address"};
+    String[] tableCol = new String[]{"Service name", "Supported Capabilities",
+      "Service Properties", "URI address", "Broker URI Address"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{
-                java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                java.lang.String.class, java.lang.String.class
-            };
+    tableData = new javax.swing.table.DefaultTableModel(
+        new Object[][]{}, tableCol)
+    {
+      Class[] types = new Class[]{
+        java.lang.String.class, java.lang.String.class, java.lang.String.class,
+        java.lang.String.class, java.lang.String.class
+      };
 
-            @Override               //all cells false
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
+      @Override               //all cells false
+      public boolean isCellEditable(int row, int column)
+      {
+        return false;
+      }
 
-            @Override
-            public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
-            }
-        };
+      @Override
+      public Class getColumnClass(int columnIndex)
+      {
+        return types[columnIndex];
+      }
+    };
 
-        jTable1.setModel(tableData);
+    jTable1.setModel(tableData);
 
-        ListSelectionListener listSelectionListener = new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                // Update the jTable according to the selection of the index
-                // So, remove all...
-                while (tableData.getRowCount() != 0) {
-                    tableData.removeRow(tableData.getRowCount() - 1);
-                }
+    ListSelectionListener listSelectionListener = new ListSelectionListener()
+    {
+      @Override
+      public void valueChanged(ListSelectionEvent listSelectionEvent)
+      {
+        // Update the jTable according to the selection of the index
+        // So, remove all...
+        while (tableData.getRowCount() != 0) {
+          tableData.removeRow(tableData.getRowCount() - 1);
+        }
 
-                int index = providersList.getSelectedIndex();
+        int index = providersList.getSelectedIndex();
 
-                if (index == -1) {
-                    index = 0;
-                }
+        if (index == -1) {
+          index = 0;
+        }
 
-                ServiceCapabilityList services = summaryList.get(index).getProviderDetails().getServiceCapabilities();
+        ServiceCapabilityList services
+            = summaryList.get(index).getProviderDetails().getServiceCapabilities();
 
-                // And then add the new stuff
-                for (int i = 0; i < services.size(); i++) {
-                    ServiceCapability service = services.get(i);
+        // And then add the new stuff
+        for (int i = 0; i < services.size(); i++) {
+          ServiceCapability service = services.get(i);
 
-                    String serviceName;
-                    try {
-                        serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(),
-                                service.getServiceKey().getVersion(), service.getServiceKey().getService());
-                    } catch (MALException ex) {
-                        serviceName = "<Unknown service>";
-                    }
+          String serviceName;
+          try {
+            serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(),
+                service.getServiceKey().getVersion(), service.getServiceKey().getService());
+          } catch (MALException ex) {
+            serviceName = "<Unknown service>";
+          }
 
-                    String serviceURI = "";
-                    String brokerURI = "";
+          String serviceURI = "";
+          String brokerURI = "";
 
-                    if (service.getServiceAddresses().size() > 0) {
-                        serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
-                        // To avoid null pointers here...
-                        brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null)
-                                ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
-                    }
+          if (service.getServiceAddresses().size() > 0) {
+            serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
+            // To avoid null pointers here...
+            brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null)
+                ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
+          }
 
-                    String supportedCapabilities = (service.getSupportedCapabilities() == null)
-                            ? "All Supported" : service.getSupportedCapabilities().toString();
+          String supportedCapabilities = (service.getSupportedCapabilities() == null)
+              ? "All Supported" : service.getSupportedCapabilities().toString();
 
-                    tableData.addRow(new Object[]{
-                        serviceName,
-                        supportedCapabilities,
-                        service.getServiceProperties().toString(),
-                        serviceURI,
-                        brokerURI
-                    });
-                }
-            }
-        };
+          tableData.addRow(new Object[]{
+            serviceName,
+            supportedCapabilities,
+            service.getServiceProperties().toString(),
+            serviceURI,
+            brokerURI
+          });
+        }
+      }
+    };
 
-        providersList.addListSelectionListener(listSelectionListener);
-        connectButton.setEnabled(false);
+    providersList.addListSelectionListener(listSelectionListener);
+    connectButton.setEnabled(false);
+  }
+
+  public void setURITextbox(final String uri)
+  {
+    if (uri.isEmpty()) {
+      uriServiceDirectory.setText(prefs.get(LAST_USED_CONSUMER_PREF, ""));
+    } else {
+      uriServiceDirectory.setText(uri);
     }
+  }
 
-    public void setURITextbox(final String uri) {
-        uriServiceDirectory.setText(uri);
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+  /**
+   * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+   * modify this code. The content of this method is always regenerated by the Form Editor.
+   */
+  @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -319,97 +334,107 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-        if (providersList.getModel().getSize() == 0) {
-            return;
+      if (providersList.getModel().getSize() == 0) {
+        return;
+      }
+
+      final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
+      final int count = tabs.getTabCount();
+
+      Thread t1 = new Thread()
+      {
+        @Override
+        public void run()
+        {
+          this.setName("ConnectButtonActionThread");
+          ProviderTabPanel providerPanel = createNewProviderTabPanel(summary);
+
+          // -- Close Button --
+          final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
+          pnlTab.setOpaque(false);
+          JLabel label = new JLabel(summary.getProviderName().toString());
+          JLabel closeLabel = new JLabel("x");
+          closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
+          closeLabel.setFont(closeLabel.getFont().deriveFont(
+              closeLabel.getFont().getStyle() | Font.BOLD));
+
+          GridBagConstraints gbc = new GridBagConstraints();
+          gbc.gridx = 0;
+          gbc.gridy = 0;
+          gbc.weightx = 1;
+          pnlTab.add(label, gbc);
+
+          gbc.gridx++;
+          gbc.weightx = 0;
+          pnlTab.add(closeLabel, gbc);
+          // ------------------
+
+          tabs.addTab("", providerPanel);
+          tabs.setSelectedIndex(count);
+          tabs.setTabComponentAt(count, pnlTab);
+
+          providerPanel.insertServicesTabs();
         }
+      };
 
-        final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
-        final int count = tabs.getTabCount();
-
-        Thread t1 = new Thread() {
-            @Override
-            public void run() {
-                this.setName("ConnectButtonActionThread");
-                ProviderTabPanel providerPanel = createNewProviderTabPanel(summary);
-
-                // -- Close Button --
-                final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
-                pnlTab.setOpaque(false);
-                JLabel label = new JLabel(summary.getProviderName().toString());
-                JLabel closeLabel = new JLabel("x");
-                closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
-                closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
-
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.gridx = 0;
-                gbc.gridy = 0;
-                gbc.weightx = 1;
-                pnlTab.add(label, gbc);
-
-                gbc.gridx++;
-                gbc.weightx = 0;
-                pnlTab.add(closeLabel, gbc);
-                // ------------------
-
-                tabs.addTab("", providerPanel);
-                tabs.setSelectedIndex(count);
-                tabs.setTabComponentAt(count, pnlTab);
-
-                providerPanel.insertServicesTabs();
-            }
-        };
-
-        t1.start();
+      t1.start();
     }//GEN-LAST:event_connectButtonActionPerformed
 
-    public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary) {
-        return new ProviderTabPanel(providerSummary);
-    }
+  public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary)
+  {
+    return new ProviderTabPanel(providerSummary);
+  }
 
-    private void errorConnectionProvider(String service, Throwable ex) {
-        JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!"
-                + "\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
-    }
+  private void errorConnectionProvider(String service, Throwable ex)
+  {
+    JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!"
+        + "\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
+  }
 
     private void uriServiceDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
-        // TODO add your handling code here:
+      // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceDirectoryActionPerformed
 
-    @SuppressWarnings("unchecked")
+  @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
-        try {
-            summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(isS2G, this.getAddressToBeUsed());
+      try {
+        summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(isS2G,
+            this.getAddressToBeUsed());
 
-            DefaultListModel listOfProviders = new DefaultListModel();
+        DefaultListModel listOfProviders = new DefaultListModel();
 
-            for (ProviderSummary summary : summaryList) {
-                listOfProviders.addElement(summary.getProviderKey().getInstId().toString()
-                        + ". " + summary.getProviderName().toString());
-            }
-
-            providersList.setModel(listOfProviders);
-
-            if (!listOfProviders.isEmpty()) {
-                providersList.setSelectedIndex(0);
-            }
-
-            connectButton.setEnabled(true);
-        } catch (MALException ex) {
-            errorConnectionProvider("Directory", ex);
-            providersList.setModel(new DefaultListModel());
-            connectButton.setEnabled(false);
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            errorConnectionProvider("Directory", ex);
-            providersList.setModel(new DefaultListModel());
-            connectButton.setEnabled(false);
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            errorConnectionProvider("Directory", ex);
-            providersList.setModel(new DefaultListModel());
-            connectButton.setEnabled(false);
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        for (ProviderSummary summary : summaryList) {
+          listOfProviders.addElement(summary.getProviderKey().getInstId().toString()
+              + ". " + summary.getProviderName().toString());
         }
+
+        providersList.setModel(listOfProviders);
+
+        if (!listOfProviders.isEmpty()) {
+          providersList.setSelectedIndex(0);
+        }
+        prefs.put(LAST_USED_CONSUMER_PREF, uriServiceDirectory.getText());
+
+        connectButton.setEnabled(true);
+      } catch (MALException ex) {
+        errorConnectionProvider("Directory", ex);
+        providersList.setModel(new DefaultListModel());
+        connectButton.setEnabled(false);
+        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
+            ex);
+      } catch (MalformedURLException ex) {
+        errorConnectionProvider("Directory", ex);
+        providersList.setModel(new DefaultListModel());
+        connectButton.setEnabled(false);
+        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
+            ex);
+      } catch (MALInteractionException ex) {
+        errorConnectionProvider("Directory", ex);
+        providersList.setModel(new DefaultListModel());
+        connectButton.setEnabled(false);
+        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
+            ex);
+      }
     }//GEN-LAST:event_load_URI_links1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -428,72 +453,84 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private javax.swing.JTextField uriServiceDirectory;
     // End of variables declaration//GEN-END:variables
 
-    private URI getAddressToBeUsed() {  // updates the 
-        return new URI(this.uriServiceDirectory.getText());
+  private URI getAddressToBeUsed()
+  {  // updates the
+    return new URI(this.uriServiceDirectory.getText());
+  }
+
+  private void initTextBoxAddress()
+  {  // runs during the init of the app
+    // Common services
+    SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(
+        DirectoryHelper.DIRECTORY_SERVICE_NAME);
+
+    if (details != null) {
+      this.uriServiceDirectory.setText(details.getProviderURI().toString());
+    }
+  }
+
+  public class CloseMouseHandler implements MouseListener
+  {
+
+    private final javax.swing.JPanel panel;
+    private final ProviderTabPanel providerPanel;
+
+    CloseMouseHandler(final javax.swing.JPanel panel, final ProviderTabPanel providerPanel)
+    {
+      this.panel = panel;
+      this.providerPanel = providerPanel;
     }
 
-    private void initTextBoxAddress() {  // runs during the init of the app
-        // Common services
-        SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
+    @Override
+    public void mouseClicked(MouseEvent evt)
+    {
+      Thread t1 = new Thread()
+      {
+        @Override
+        public void run()
+        {
+          this.setName("CloseButtonTabThread");
+          for (int i = 0; i < tabs.getTabCount(); i++) {
+            Component component = tabs.getTabComponentAt(i);
 
-        if (details != null) {
-            this.uriServiceDirectory.setText(details.getProviderURI().toString());
+            if (component == panel) {
+              tabs.remove(i);
+
+              try {
+                providerPanel.getServices().closeConnections();
+              } catch (Exception ex) {
+                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
+                    "The connection was not closed correctly. Maybe the provider was unreachable!");
+              }
+
+              return;
+            }
+          }
         }
+      };
+
+      t1.start();
     }
 
-    public class CloseMouseHandler implements MouseListener {
-
-        private final javax.swing.JPanel panel;
-        private final ProviderTabPanel providerPanel;
-
-        CloseMouseHandler(final javax.swing.JPanel panel, final ProviderTabPanel providerPanel) {
-            this.panel = panel;
-            this.providerPanel = providerPanel;
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent evt) {
-            Thread t1 = new Thread() {
-                @Override
-                public void run() {
-                    this.setName("CloseButtonTabThread");
-                    for (int i = 0; i < tabs.getTabCount(); i++) {
-                        Component component = tabs.getTabComponentAt(i);
-
-                        if (component == panel) {
-                            tabs.remove(i);
-                            
-                            try {
-                                providerPanel.getServices().closeConnections();
-                            } catch (Exception ex) {
-                                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
-                                        "The connection was not closed correctly. Maybe the provider was unreachable!");
-                            }
-
-                            return;
-                        }
-                    }
-                }
-            };
-
-            t1.start();
-        }
-
-        @Override
-        public void mousePressed(MouseEvent me) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent me) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent me) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent me) {
-        }
+    @Override
+    public void mousePressed(MouseEvent me)
+    {
     }
+
+    @Override
+    public void mouseReleased(MouseEvent me)
+    {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent me)
+    {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent me)
+    {
+    }
+  }
 
 }
