@@ -24,43 +24,40 @@ import java.io.IOException;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
-
 /**
  *
  * @author Cesar Coelho
  */
-public interface GPSAdapterInterface {
-    
-    /**
-     * The isADCSAvailable operation checks if the ADCS unit.
-     *
-     * @return
-     */
-    boolean isUnitAvailable();
-    
-    /**
-     * Request a NMEA sentence from a GPS unit.
-     *
-     * @param identifier The NMEA Identifier
-     * @return
-     * @throws java.io.IOException
-     */
-    String getNMEASentence(final String identifier) throws IOException;
-    
-    /**
-     * Request the current position from the GPS
-     *
-     * @return The Position
-     */
-    Position getCurrentPosition();
+public interface GPSAdapterInterface
+{
+  /**
+   * Checks if the device is present and accessible.
+   *
+   * @return true if the device is present and available for operations.
+   */
+  boolean isUnitAvailable();
 
-    /**
-     * Requests the information of the satellites in view.
-     *
-     * @return The list of Satellites Information
-     */
-    SatelliteInfoList getSatelliteInfoList();
-    
+  /**
+   * Request a NMEA sentence from a GPS unit.
+   *
+   * @param identifier The NMEA Identifier
+   * @return
+   * @throws java.io.IOException
+   */
+  String getNMEASentence(final String identifier) throws IOException;
 
-    
+  /**
+   * Request the current position from the GPS
+   *
+   * @return The Position
+   */
+  Position getCurrentPosition();
+
+  /**
+   * Requests the information of the satellites in view.
+   *
+   * @return The list of Satellites Information
+   */
+  SatelliteInfoList getSatelliteInfoList();
+
 }

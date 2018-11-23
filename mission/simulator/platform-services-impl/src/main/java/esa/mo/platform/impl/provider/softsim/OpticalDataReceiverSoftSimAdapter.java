@@ -39,6 +39,12 @@ public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAda
   }
 
   @Override
+  public boolean isUnitAvailable()
+  {
+    return true;
+  }
+
+  @Override
   public byte[] recordOpticalReceiverData(Duration recordingLength)
   {
     int nSamples = (int) (recordingLength.getValue() * 1000); // Assume 1kHz sample rate

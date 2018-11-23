@@ -67,7 +67,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
   @Override
   public String getExtraInfo()
   {
-    return "NMF Satellite Simulator - Camera Adapter.";
+    return "NMF Satellite Simulator - Camera Adapter";
   }
 
   @Override
@@ -171,6 +171,12 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
   public PictureFormatList getAvailableFormats()
   {
     return supportedFormats;
+  }
+
+  @Override
+  public boolean isUnitAvailable()
+  {
+    return true;
   }
 
 }

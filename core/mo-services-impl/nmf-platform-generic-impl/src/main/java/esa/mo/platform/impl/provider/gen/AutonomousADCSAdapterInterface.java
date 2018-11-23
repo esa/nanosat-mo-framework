@@ -33,9 +33,9 @@ public interface AutonomousADCSAdapterInterface
 {
 
   /**
-   * The isADCSAvailable operation checks if the ADCS unit is present and accessible.
+   * Checks if the device is present and accessible.
    *
-   * @return
+   * @return true if the device is present and available for operations.
    */
   boolean isUnitAvailable();
 

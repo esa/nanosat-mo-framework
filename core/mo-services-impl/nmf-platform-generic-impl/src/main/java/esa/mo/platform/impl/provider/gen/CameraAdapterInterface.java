@@ -37,6 +37,13 @@ public interface CameraAdapterInterface
 {
 
   /**
+   * Checks if the device is present and accessible.
+   *
+   * @return true if the device is present and available for operations.
+   */
+  boolean isUnitAvailable();
+
+  /**
    * @return The resolutions supported by the Camera Adapter
    */
   PixelResolutionList getAvailableResolutions();

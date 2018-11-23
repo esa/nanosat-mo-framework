@@ -27,12 +27,36 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfigurat
  *
  * @author Cesar Coelho
  */
-public interface SoftwareDefinedRadioAdapterInterface {
+public interface SoftwareDefinedRadioAdapterInterface
+{
 
-    boolean setConfiguration(SDRConfiguration configuration);
+  /**
+   * Checks if the device is present and accessible.
+   *
+   * @return true if the device is present and available for operations.
+   */
+  boolean isUnitAvailable();
 
-    boolean enableSDR(Boolean enable);
+  /**
+   * Applies SDR configuration.
+   *
+   * @param configuration SDR configuration
+   * @return true if the configuration was accepted and set on the SDR.
+   */
+  boolean setConfiguration(SDRConfiguration configuration);
 
-    IQComponentsList getIQComponents();
+  /**
+   * Enables or disables the SDR
+   *
+   * @param enable Enable flag.
+   * @return true if the operation ran successfully.
+   */
+  boolean enableSDR(Boolean enable);
+
+  /**
+   * Gets SDR I/Q buffer
+   * @return Buffer of I/Q data
+   */
+  IQComponentsList getIQComponents();
 
 }

@@ -27,51 +27,61 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsList;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
-/** 
+/**
  *
  * @author Cesar Coelho
  */
-public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioAdapterInterface {
-    
-    private final ESASimulator instrumentsSimulator;
-    
-    public SoftwareDefinedRadioSoftSimAdapter(ESASimulator instrumentsSimulator){
-        this.instrumentsSimulator = instrumentsSimulator;
+public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioAdapterInterface
+{
+
+  private final ESASimulator instrumentsSimulator;
+
+  public SoftwareDefinedRadioSoftSimAdapter(ESASimulator instrumentsSimulator)
+  {
+    this.instrumentsSimulator = instrumentsSimulator;
+  }
+
+  @Override
+  public boolean isUnitAvailable()
+  {
+    return true;
+  }
+
+  @Override
+  public boolean setConfiguration(SDRConfiguration configuration)
+  {
+    return false;
+  }
+
+  @Override
+  public boolean enableSDR(Boolean enable)
+  {
+    return true;
+  }
+
+  @Override
+  public IQComponentsList getIQComponents()
+  {
+
+    int nSamples = 10000;
+    double[] data = instrumentsSimulator.getpSDR().readFromBuffer(nSamples);
+
+    FloatList inPhase = new FloatList();
+    FloatList quadrature = new FloatList();
+
+    // Trim the accuracy to match NMF interface
+    for (int i = 0; i < nSamples; i++) {
+      inPhase.add((float) data[2 * i]);
+      quadrature.add((float) data[2 * i + 1]);
     }
 
-    @Override
-    public boolean setConfiguration(SDRConfiguration configuration) {
-        return false;
-    }
+    IQComponents iqComponents = new IQComponents();
+    iqComponents.setInPhase(inPhase);
+    iqComponents.setQuadrature(quadrature);
 
-    @Override
-    public boolean enableSDR(Boolean enable) {
-        return true;
-    }
+    IQComponentsList outList = new IQComponentsList();
+    outList.add(iqComponents);
+    return outList;
+  }
 
-    @Override
-    public IQComponentsList getIQComponents() {
-
-        int nSamples = 10000;
-        double[] data = instrumentsSimulator.getpSDR().readFromBuffer(nSamples);
-        
-        FloatList inPhase = new FloatList();
-        FloatList quadrature = new FloatList();
-
-        // Trim the accuracy to match NMF interface
-        for(int i = 0; i < nSamples; i++){
-            inPhase.add((float) data[2*i]);
-            quadrature.add((float) data[2*i+1]);
-        }
- 
-        IQComponents iqComponents = new IQComponents();
-        iqComponents.setInPhase(inPhase);
-        iqComponents.setQuadrature(quadrature);
-        
-        IQComponentsList outList = new IQComponentsList();
-        outList.add(iqComponents);
-        return outList;
-    }
-
-    
 }
