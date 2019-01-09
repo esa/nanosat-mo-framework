@@ -71,6 +71,45 @@ Specify the URI of a running Supervisor's Directory Service, so the app can conn
 > e.g.
 > `-Desa.mo.nmf.centralDirectoryURI=maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory`
 
+## Adding the application to the SDK packaging
+sdk-package project represents a self-contained reference execution environment for space and ground applications. In order to add your own application to it, follow these steps:
+1. Make sure that the application is being built and installed in your local maven repository. Note that the app can be built and maintained outside of the NMF source tree.
+2. Open the POM file of int.esa.nmf.sdk.package project (under sdk-package directory)
+3. Add your application to the list of dependencies. E.g:
+```
+    <dependency>
+      <groupId>com.example</groupId>
+      <artifactId>test-nmf-app</artifactId>
+      <version>1.2.3-SNAPSHOT</version>
+    </dependency>
+```
+4. Add an application assembly goal to the `appassembler-maven-plugin-nested-bin-fix` plugin execution configuration:
+```
+    <execution>
+      <id>emit-space-app-test-nmf</id>
+      <phase>package</phase>
+      <goals>
+        <goal>assemble</goal>
+      </goals>
+      <configuration>
+        <binFolder>space/apps/test-nmf-app</binFolder>
+        <programs>
+          <program>
+            <mainClass>com.example.test-nmf-app</mainClass>
+            <id>test-nmf-app</id>
+          </program>
+        </programs>
+      </configuration>
+    </execution>
+```
+5. Add a resource assembly entry for your application to the `maven-antrun-plugin` plugin execution configuration:
+```
+    <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/test-nmf-app">
+      <fileset dir="${basedir}/src/main/resources/space-common"/>
+      <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+    </copy>
+```
+
 ## Source Code
 The source code of the NanoSat MO Framework can be found on [GitHub].
 
