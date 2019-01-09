@@ -320,7 +320,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-
       </plugin>
       <plugin>
         <groupId>com.googlecode.maven-download-plugin</groupId>
@@ -428,44 +427,47 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/docs">
+                  <fileset dir="${basedir}/src/main/resources/docs">
+                    <exclude name="**/*.docx"/>
+                    <exclude name="**/*.doc"/>
+                  </fileset>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/tools/consumer-test-tool">
+                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/nanosat-mo-supervisor-sim">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/all-mc-services">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/camera">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/publish-clock">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                </copy>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
-    <resources>
-      <resource>
-        <targetPath>${esa.nmf.sdk.assembly.outputdir}/docs</targetPath>
-        <directory>${basedir}/src/main/resources/docs</directory>
-        <excludes>
-          <exclude>**/*.docx</exclude>
-          <exclude>**/*.doc</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/tools/consumer-test-tool</targetPath>
-        <directory>${basedir}/src/main/resources/ground-consumer-root</directory>
-      </resource>
-      <resource>
-        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space</targetPath>
-        <directory>${basedir}/src/main/resources/space-root</directory>
-      </resource>
-      <resource>
-        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/nanosat-mo-supervisor-sim</targetPath>
-        <directory>${basedir}/src/main/resources/space-supervisor-root</directory>
-      </resource>
-      <resource>
-        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/all-mc-services</targetPath>
-        <directory>${basedir}/src/main/resources/space-app-root</directory>
-      </resource>
-      <resource>
-        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/benchmark</targetPath>
-        <directory>${basedir}/src/main/resources/space-app-root</directory>
-      </resource>
-      <resource>
-        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/camera</targetPath>
-        <directory>${basedir}/src/main/resources/space-app-root</directory>
-      </resource>
-      <resource>
-        <targetPath>${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/publish-clock</targetPath>
-        <directory>${basedir}/src/main/resources/space-app-root</directory>
-      </resource>
-    </resources>
   </build>
 </project>
