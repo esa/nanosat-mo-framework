@@ -134,6 +134,17 @@ public class SimulatorNode extends TaskNode {
         return System.getProperty("user.home") + OPS_SIMULATOR_RESOURCES;
 //        return this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() + OPS_SIMULATOR_RESOURCES;
     }
+
+    public static String calcNMEAChecksum(String sentence)
+    {
+      char result = 0;
+      // Trim "$" at the beginning of the sentence
+      for(char c : sentence.substring(1).toCharArray())
+      {
+        result ^= c;
+      }
+      return String.format("*%02X", (int)result);
+    }
     public static String handleResourcePath(String path,Logger logger,ClassLoader classLoader)
     {
         String resourcesFolder = SimulatorNode.getResourcePath();
@@ -2795,7 +2806,7 @@ public class SimulatorNode extends TaskNode {
                                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.CLK_SHIFT_COARSE) {
                                     result += "0";
                                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.CHECKSUM) {
-                                    result += "*XX";
+                                    result += calcNMEAChecksum(result);
                                 }
                             }
                             result += separatorNewLine;
@@ -2813,7 +2824,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i >= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES1 && i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES12) {
                                 result += "0";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else if (inputSentence.equals("GPGRS")) {
@@ -2829,7 +2840,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i >= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES1 && i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES12) {
                                 result += "0";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else if (inputSentence.equals("GPGST")) {
@@ -2854,7 +2865,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.ALT_STD) {
                                 result += "0";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else if (inputSentence.equals("GPGSV")) {
@@ -2918,7 +2929,7 @@ public class SimulatorNode extends TaskNode {
                                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT4_SNR) {
                                     result += "0";
                                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.CHECKSUM) {
-                                    result += "*XX";
+                                    result += calcNMEAChecksum(result);
                                 }
                             }
                             result += "\n";
@@ -2933,7 +2944,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPHDT_COL.DEGREES_TRUE) {
                                 result += "T";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPHDT_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else if (inputSentence.equals("GPRMB")) {
@@ -2970,7 +2981,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.MODE_IND) {
                                 result += "0";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else if (inputSentence.equals("GPRMC")) {
@@ -3003,7 +3014,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.MODE_IND) {
                                 result += "0";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else if (inputSentence.equals("GPVTG")) {
@@ -3030,7 +3041,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.POS_MODE) {
                                 result += "0";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else if (inputSentence.equals("GPZDA")) {
@@ -3051,7 +3062,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.NULL2) {
                                 result += "";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else if (inputSentence.equals("GPALM")) {
@@ -3094,7 +3105,7 @@ public class SimulatorNode extends TaskNode {
                                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.AF1_CLK_PAR) {
                                     result += "0";
                                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.CHECKSUM) {
-                                    result += "*XX";
+                                    result += calcNMEAChecksum(result);
                                 }
                             }
                             result += separatorNewLine;
@@ -3134,7 +3145,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.DIFF_BASESID) {
                                 result += "";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                         /* optimal but difficult to maintain
@@ -3190,7 +3201,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.DIFF_BASESID) {
                                 result += "";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else if (inputSentence.equals("GPGGARTK")) {
@@ -3228,7 +3239,7 @@ public class SimulatorNode extends TaskNode {
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.DIFF_BASESID) {
                                 result += "";
                             } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.CHECKSUM) {
-                                result += "*XX";
+                                result += calcNMEAChecksum(result);
                             }
                         }
                     } else {
