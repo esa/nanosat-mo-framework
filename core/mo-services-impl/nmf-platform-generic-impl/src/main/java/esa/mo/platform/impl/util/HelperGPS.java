@@ -124,7 +124,7 @@ public class HelperGPS
     SatelliteInfoList sats = new SatelliteInfoList();
     String sentences[] = gpgsv.split("\n");
     for (String sentence : sentences) {
-      String[] words = sentence.split(",");
+      String[] words = sentence.split(",|\\*");
       int count = words.length;
       //System.out.println(count);
       int expectedSize = GPGSV_COL.CHECKSUM + 1;
@@ -138,22 +138,29 @@ public class HelperGPS
             float almanac = 0, ephemeris = 0;
             Time recentFix = new Time();
             UInteger svn = new UInteger();
-            if (i == 0) {
-              azimuth = Float.valueOf(words[GPGSV_COL.SAT1_AZ]);
-              elevation = Float.valueOf(words[GPGSV_COL.SAT1_ELEV]);
-              prn = Integer.valueOf(words[GPGSV_COL.SAT1_PRN]);
-            } else if (i == 1) {
-              azimuth = Float.valueOf(words[GPGSV_COL.SAT2_AZ]);
-              elevation = Float.valueOf(words[GPGSV_COL.SAT2_ELEV]);
-              prn = Integer.valueOf(words[GPGSV_COL.SAT2_PRN]);
-            } else if (i == 2) {
-              azimuth = Float.valueOf(words[GPGSV_COL.SAT3_AZ]);
-              elevation = Float.valueOf(words[GPGSV_COL.SAT3_ELEV]);
-              prn = Integer.valueOf(words[GPGSV_COL.SAT3_PRN]);
-            } else if (i == 3) {
-              azimuth = Float.valueOf(words[GPGSV_COL.SAT4_AZ]);
-              elevation = Float.valueOf(words[GPGSV_COL.SAT4_ELEV]);
-              prn = Integer.valueOf(words[GPGSV_COL.SAT4_PRN]);
+            switch (i) {
+              case 0:
+                azimuth = Float.valueOf(words[GPGSV_COL.SAT1_AZ]);
+                elevation = Float.valueOf(words[GPGSV_COL.SAT1_ELEV]);
+                prn = Integer.valueOf(words[GPGSV_COL.SAT1_PRN]);
+                break;
+              case 1:
+                azimuth = Float.valueOf(words[GPGSV_COL.SAT2_AZ]);
+                elevation = Float.valueOf(words[GPGSV_COL.SAT2_ELEV]);
+                prn = Integer.valueOf(words[GPGSV_COL.SAT2_PRN]);
+                break;
+              case 2:
+                azimuth = Float.valueOf(words[GPGSV_COL.SAT3_AZ]);
+                elevation = Float.valueOf(words[GPGSV_COL.SAT3_ELEV]);
+                prn = Integer.valueOf(words[GPGSV_COL.SAT3_PRN]);
+                break;
+              case 3:
+                azimuth = Float.valueOf(words[GPGSV_COL.SAT4_AZ]);
+                elevation = Float.valueOf(words[GPGSV_COL.SAT4_ELEV]);
+                prn = Integer.valueOf(words[GPGSV_COL.SAT4_PRN]);
+                break;
+              default:
+                break;
             }
             if (satCount++ < totalSats && prn > 0) {
               sats.add(
