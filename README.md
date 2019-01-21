@@ -19,6 +19,8 @@ In order to produce independently runnable Java executables (JAR artifacts with 
 
 Note that Maven `install` goal deploys artifacts to the local repository. If desired, `package` goal can be used just to build and package artifacts.
 
+More documentation on SDK Package building and usage is available under [sdk](sdk) directory.
+
 # Source Code
 The source code of the NanoSat MO Framework can be found on [GitHub].
 
