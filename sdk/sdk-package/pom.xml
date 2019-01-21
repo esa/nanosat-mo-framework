@@ -371,7 +371,7 @@
             <configuration>
               <url>https://public.ccsds.org/Pubs/521x1b1.pdf</url>
               <outputFileName>CCSDS_MO_COM_521x1b1.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services_ICDs</outputDirectory>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -383,7 +383,7 @@
             <configuration>
               <url>https://public.ccsds.org/Pubs/522x1b1.pdf</url>
               <outputFileName>CCSDS_MO_MC_522x1b1.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services_ICDs</outputDirectory>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -395,7 +395,7 @@
             <configuration>
               <url>https://public.ccsds.org/Lists/CCSDS%205220R1/522x0r1.pdf</url>
               <outputFileName>CCSDS_MO_Common_Draft_522x0r1.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services_ICDs</outputDirectory>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
             </configuration>
           </execution>
         </executions>
