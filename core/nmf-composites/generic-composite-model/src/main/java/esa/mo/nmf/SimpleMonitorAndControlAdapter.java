@@ -78,7 +78,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
     public Attribute onGetValue(Identifier identifier, Byte rawType) {
         Serializable ret = this.onGetValueSimple(identifier.getValue());
 
-        if (ret instanceof Attribute) {
+        if (ret instanceof Attribute || ret == null) {
             return (Attribute) ret;
         } else {
             // First try to convert it into a MO type...
