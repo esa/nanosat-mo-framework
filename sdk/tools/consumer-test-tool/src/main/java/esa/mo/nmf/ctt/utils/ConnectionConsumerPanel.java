@@ -38,6 +38,7 @@ import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.StatisticConsumerServiceImpl;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +63,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
 
     private ConnectionConsumer connectionConsumer;
     private javax.swing.JTabbedPane tabs;
+    private static final Logger LOGGER = Logger.getLogger(ConnectionConsumerPanel.class.getName());
 
     /**
      * Creates new form ConsumerPanelArchive
@@ -77,7 +79,9 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         try {
             this.connectionConsumer.loadURIs();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(ConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.INFO, "The file with provider URIs is not present.");
         }
 
         this.refreshTextBoxAdresses();
@@ -524,7 +528,9 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         try {
             con.loadURIs();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(ConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.INFO, "The file with provider URIs is not present.");
         }
         
         
@@ -757,12 +763,15 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         try {
             this.connectionConsumer.loadURIs();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(ConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.INFO, "The file with provider URIs is not present.");
         }
 
         this.refreshTextBoxAdresses();
 
     }//GEN-LAST:event_load_URI_linksActionPerformed
+
 
     private void find_replaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_find_replaceActionPerformed
 

@@ -22,49 +22,52 @@ package esa.mo.ground.setandcommand;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Set and Command demo application. This demo should be used with the Hello
- * World demo provider.
+ * Set and Command demo application. This demo should be used with the Hello World demo provider.
  *
  */
-public class DemoSetAndCommand {
+public class DemoSetAndCommand
+{
 
-    private final GroundMOAdapterImpl gma;
+  private static final Logger LOGGER = Logger.getLogger(DemoSetAndCommand.class.getName());
+  private final GroundMOAdapterImpl gma;
 
-    public DemoSetAndCommand() {
-        ConnectionConsumer connection = new ConnectionConsumer();
+  public DemoSetAndCommand()
+  {
+    ConnectionConsumer connection = new ConnectionConsumer();
 
-        try {
-            connection.loadURIs();
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(DemoSetAndCommand.class.getName()).log(Level.SEVERE,
-                    "The URIs could not be loaded from the file!", ex);
-        }
-
-        gma = new GroundMOAdapterImpl(connection);
-
-        // Set a parameter with a string value
-        String parameterValue = "The parameter was set!";
-        gma.setParameter("A_Parameter", parameterValue);
-
-        // Send a command with a Double argument
-        Double value = 1.35565;
-        Double[] values = new Double[1];
-        values[0] = value;
-        gma.invokeAction("Go", values);
+    try {
+      connection.loadURIs();
+    } catch (MalformedURLException | FileNotFoundException ex) {
+      LOGGER.log(Level.SEVERE, "The URIs could not be loaded from a file.", ex);
     }
 
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
-     */
-    public static void main(final String args[]) throws Exception {
-        DemoSetAndCommand demo = new DemoSetAndCommand();
-    }
+    gma = new GroundMOAdapterImpl(connection);
+
+    // Set a parameter with a string value
+    String parameterValue = "The parameter was set!";
+    gma.setParameter("A_Parameter", parameterValue);
+
+    // Send a command with a Double argument
+    Double value = 1.35565;
+    Double[] values = new Double[1];
+    values[0] = value;
+    gma.invokeAction("Go", values);
+  }
+
+  /**
+   * Main command line entry point.
+   *
+   * @param args the command line arguments
+   * @throws java.lang.Exception If there is an error
+   */
+  public static void main(final String args[]) throws Exception
+  {
+    DemoSetAndCommand demo = new DemoSetAndCommand();
+  }
 }

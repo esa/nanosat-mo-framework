@@ -22,6 +22,7 @@ package esa.mo.helpertools.connections;
 
 import esa.mo.helpertools.helpers.HelperConnections;
 import esa.mo.helpertools.helpers.HelperMisc;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Set;
@@ -58,8 +59,9 @@ public class ServicesConnectionDetails {
      * @return The connection details object generated from the file
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
+     * @throws java.io.FileNotFoundException if the URI file has not been found
      */
-    public ServicesConnectionDetails loadURIFromFiles() throws MalformedURLException {
+    public ServicesConnectionDetails loadURIFromFiles() throws MalformedURLException, FileNotFoundException {
         return this.loadURIFromFiles(null);
     }
 
@@ -70,8 +72,9 @@ public class ServicesConnectionDetails {
      * @return The connection details object generated from the file
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
+     * @throws java.io.FileNotFoundException if the URI file has not been found
      */
-    public ServicesConnectionDetails loadURIFromFiles(String filename) throws MalformedURLException {
+    public ServicesConnectionDetails loadURIFromFiles(String filename) throws MalformedURLException, FileNotFoundException {
 
         java.util.Properties uriProps = null;
         final String configFile;
@@ -86,7 +89,7 @@ public class ServicesConnectionDetails {
         if (file.exists()) {
             uriProps = HelperMisc.loadProperties(file.toURI().toURL(), "providerURI.properties");
         } else {
-            return null;
+            throw new FileNotFoundException(configFile + " not found.");
         }
 
         // Reading the values out of the properties file

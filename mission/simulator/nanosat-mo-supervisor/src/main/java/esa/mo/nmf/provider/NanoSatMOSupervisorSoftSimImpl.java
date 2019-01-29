@@ -28,56 +28,61 @@ import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
- * The implementation of the NanoSat MO Supervisor for the Software Simulator
- * mission.
+ * The implementation of the NanoSat MO Supervisor for the Software Simulator mission.
  *
  * @author Cesar Coelho
  */
-public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor {
+public class NanoSatMOSupervisorSoftSimImpl extends NanoSatMOSupervisor
+{
 
-    private PlatformServicesProviderSoftSim platformServicesSim;
+  private static final Logger LOGGER = Logger.getLogger(
+      NanoSatMOSupervisorSoftSimImpl.class.getName());
 
-    @Override
-    public void init(MonitorAndControlNMFAdapter mcAdapter) {
-        super.init(mcAdapter, new PlatformServicesConsumer(), new NMFPackagePMBackend());
+  private PlatformServicesProviderSoftSim platformServicesSim;
+
+  /**
+   * Main command line entry point.
+   *
+   * @param args the command line arguments
+   * @throws java.lang.Exception If there is an error
+   */
+  public static void main(final String args[]) throws Exception
+  {
+    NanoSatMOSupervisorSoftSimImpl supervisor = new NanoSatMOSupervisorSoftSimImpl();
+    supervisor.init(new MCSoftwareSimulatorAdapter());
+  }
+
+  @Override
+  public void init(MonitorAndControlNMFAdapter mcAdapter)
+  {
+    super.init(mcAdapter, new PlatformServicesConsumer(), new NMFPackagePMBackend());
+  }
+
+  @Override
+  public void initPlatformServices(COMServicesProvider comServices)
+  {
+    try {
+      platformServicesSim = new PlatformServicesProviderSoftSim();
+      platformServicesSim.init(comServices);
+      this.reconfigurableServices.add(platformServicesSim.getGPSService());
+    } catch (MALException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
 
-    @Override
-    public void initPlatformServices(COMServicesProvider comServices) {
-        try {
-            platformServicesSim = new PlatformServicesProviderSoftSim();
-            platformServicesSim.init(comServices);
-            this.reconfigurableServices.add(platformServicesSim.getGPSService());
-        } catch (MALException ex) {
-            Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            ConnectionConsumer connectionConsumer = new ConnectionConsumer();
-            connectionConsumer.loadURIs();
-            super.getPlatformServices().init(connectionConsumer, null);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NMFException ex) {
-            Logger.getLogger(NanoSatMOSupervisorSoftSimImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    try {
+      ConnectionConsumer connectionConsumer = new ConnectionConsumer();
+      connectionConsumer.loadURIs();
+      super.getPlatformServices().init(connectionConsumer, null);
+    } catch (MalformedURLException | NMFException | FileNotFoundException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
-
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
-     */
-    public static void main(final String args[]) throws Exception {
-        NanoSatMOSupervisorSoftSimImpl supervisor = new NanoSatMOSupervisorSoftSimImpl();
-        supervisor.init(new MCSoftwareSimulatorAdapter());
-    }
+  }
 
 }

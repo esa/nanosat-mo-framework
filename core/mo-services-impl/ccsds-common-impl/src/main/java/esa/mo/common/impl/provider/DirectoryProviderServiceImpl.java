@@ -28,6 +28,7 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.ServicesConnectionDetails;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -72,492 +73,520 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 /**
  * Directory service Provider.
  */
-public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
+public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
+{
 
-    private MALProvider directoryServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
-    private final ConnectionProvider connection = new ConnectionProvider();
-    protected final HashMap<Long, PublishDetails> providersAvailable = new HashMap<Long, PublishDetails>();
-    protected final Object MUTEX = new Object();
-    private COMServicesProvider comServices;
-    public static final String CHAR_S2G = "s2g";
+  public static final String CHAR_S2G = "s2g";
+  private static final Logger LOGGER
+      = Logger.getLogger(DirectoryProviderServiceImpl.class.getName());
 
-    /**
-     * creates the MAL objects, the publisher used to create updates and starts
-     * the publishing thread
-     *
-     * @param comServices
-     * @throws MALException On initialisation error.
-     */
-    public synchronized void init(COMServicesProvider comServices) throws MALException {
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+  private MALProvider directoryServiceProvider;
+  private boolean initialiased = false;
+  private boolean running = false;
+  private final ConnectionProvider connection = new ConnectionProvider();
+  protected final HashMap<Long, PublishDetails> providersAvailable
+      = new HashMap<Long, PublishDetails>();
+  protected final Object MUTEX = new Object();
+  private COMServicesProvider comServices;
 
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
+  private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn)
+  {
+    QoSLevelList qos = new QoSLevelList();
+    qos.add(QoSLevel.ASSURED);
+    NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
 
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+    AddressDetails serviceAddress = new AddressDetails();
+    serviceAddress.setSupportedLevels(qos);
+    serviceAddress.setQoSproperties(qosProperties);
+    serviceAddress.setPriorityLevels(new UInteger(1));  // hum?
+    serviceAddress.setServiceURI(conn.getProviderURI());
+    serviceAddress.setBrokerURI(conn.getBrokerURI());
+    serviceAddress.setBrokerProviderObjInstId(null);
 
-            try {
-                DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) { // nothing to be done..
-            }
-        }
+    return serviceAddress;
+  }
 
-        this.comServices = comServices;
-
-        // shut down old service transport
-        if (null != directoryServiceProvider) {
-            connection.closeAll();
-        }
-
-        directoryServiceProvider = connection.startService(DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(),
-                DirectoryHelper.DIRECTORY_SERVICE, false, this);
-
-        running = true;
-        initialiased = true;
-        Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).info("Directory service READY");
-
+  private static AddressDetailsList findAddressDetailsListOfService(final ServiceKey key,
+      final ServiceCapabilityList capabilities)
+  {
+    if (key == null) {
+      return null;
     }
 
-    /**
-     * Closes all running threads and releases the MAL resources.
-     */
-    public void close() {
-        try {
-            if (null != directoryServiceProvider) {
-                directoryServiceProvider.close();
-            }
-
-            connection.closeAll();
-            running = false;
-        } catch (MALException ex) {
-            Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during close down of the provider {0}", ex);
+    // Iterate all capabilities until you find the serviceName
+    for (ServiceCapability capability : capabilities) {
+      if (capability != null) {
+        if (key.equals(capability.getServiceKey())) {
+          return capability.getServiceAddresses();
         }
+      }
     }
 
-    public ConnectionProvider getConnection() {
-        return this.connection;
+    return null; // Not found!
+  }
+
+  public static ServiceKey generateServiceKey(final IntegerList keys)
+  {
+    return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(
+        keys.get(2).shortValue()));
+  }
+
+  /*
+  public HashMap<Long, PublishDetails> getListOfProviders() {
+  final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
+
+  synchronized (MUTEX) {
+  list.putAll(providersAvailable);
+  }
+
+  return list;
+  }
+   */
+  /**
+   * creates the MAL objects, the publisher used to create updates and starts the publishing thread
+   *
+   * @param comServices
+   * @throws MALException On initialisation error.
+   */
+  public synchronized void init(COMServicesProvider comServices) throws MALException
+  {
+    if (!initialiased) {
+      if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
+        MALHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
+
+      if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
+        COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+      }
+
+      if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME,
+          CommonHelper.COMMON_AREA_VERSION) == null) {
+        CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
+
+      try {
+        DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
+      } catch (MALException ex) { // nothing to be done..
+      }
     }
 
-    @Override
-    public ProviderSummaryList lookupProvider(final ServiceFilter filter,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
-        if (null == filter) { // Is the input null?
-            throw new IllegalArgumentException("filter argument must not be null");
-        }
+    this.comServices = comServices;
 
-        final IdentifierList inputDomain = filter.getDomain();
-
-        // Check if the domain contains any wildcard that is not in the end, if so, throw error
-        for (int i = 0; i < inputDomain.size(); i++) {
-            Identifier domainPart = inputDomain.get(i);
-
-            if (domainPart.toString().equals("*") && i != (inputDomain.size() - 1)) {
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-            }
-        }
-
-        final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
-
-        synchronized (MUTEX) {
-            list.putAll(providersAvailable);
-        }
-
-        LongList keys = new LongList();
-        keys.addAll(list.keySet());
-
-        // Initialize the final Provider Summary List
-        ProviderSummaryList outputList = new ProviderSummaryList();
-
-        // Filter...
-        for (int i = 0; i < keys.size(); i++) { // Filter through all providers
-            PublishDetails provider = list.get(keys.get(i));
-            ProviderSummary providerOutput = new ProviderSummary();
-
-            //Check service provider name
-            if (!filter.getServiceProviderName().toString().equals("*")) { // If not a wildcard...
-                if (!provider.getProviderName().toString().equals(filter.getServiceProviderName().toString())) {
-                    continue;
-                }
-            }
-
-            if (HelperCOM.domainContainsWildcard(filter.getDomain())) {  // Does it contain a wildcard in the filter?
-                // Compare each object one by one...
-
-                if (!HelperCOM.domainMatchesWildcardDomain(provider.getDomain(), inputDomain)) {
-                    continue;
-                }
-
-            } else if (!inputDomain.equals(provider.getDomain())) {
-                continue;
-            }
-
-            // Check session type
-            if (filter.getSessionType() != null) {
-                if (!provider.getSessionType().equals(filter.getSessionType())) {
-                    continue;
-                }
-            }
-
-            // Check session name
-            if (!filter.getSessionName().toString().equals("*")) {
-                if (!CHAR_S2G.equals(filter.getSessionName().toString())) {
-                    if (provider.getSourceSessionName() != null
-                            && !provider.getSourceSessionName().toString().equals(filter.getSessionName().toString())) {
-                        continue;
-                    }
-                }
-            }
-
-            // Set the Provider Details structure
-            ProviderDetails outProvDetails = new ProviderDetails();
-            outProvDetails.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
-
-            ServiceCapabilityList outCap = new ServiceCapabilityList();
-
-            // Check each service
-            for (int j = 0; j < provider.getProviderDetails().getServiceCapabilities().size(); j++) { // Go through all the services
-                ServiceCapability serviceCapability = provider.getProviderDetails().getServiceCapabilities().get(j);
-
-                // Check service key - area field
-                if (filter.getServiceKey().getArea().getValue() != 0) {
-                    if (!serviceCapability.getServiceKey().getArea().equals(filter.getServiceKey().getArea())) {
-                        continue;
-                    }
-                }
-
-                // Check service key - service field
-                if (filter.getServiceKey().getService().getValue() != 0) {
-                    if (!serviceCapability.getServiceKey().getService().equals(filter.getServiceKey().getService())) {
-                        continue;
-                    }
-                }
-
-                // Check service key - version field
-                if (filter.getServiceKey().getVersion().getValue() != 0) {
-                    if (!serviceCapability.getServiceKey().getVersion().equals(filter.getServiceKey().getVersion())) {
-                        continue;
-                    }
-                }
-
-                // Check service capabilities
-                if (!filter.getRequiredCapabilities().isEmpty()) { // Not empty...
-                    boolean capExists = false;
-
-                    for (UInteger cap : filter.getRequiredCapabilities()) {
-                        // cycle all the ones available in the provider
-                        for (UInteger proCap : filter.getRequiredCapabilities()) {
-                            if (cap.equals(proCap)) {
-                                capExists = true;
-                            }
-                        }
-                    }
-
-                    if (!capExists) { // If the capability we want does not exist, then get out...
-                        continue;
-                    }
-                }
-
-                ServiceCapability newServiceCapability = new ServiceCapability(
-                        serviceCapability.getServiceKey(),
-                        serviceCapability.getSupportedCapabilities(),
-                        serviceCapability.getServiceProperties(),
-                        new AddressDetailsList()
-                );
-
-                // This is a workaround to save bandwidth on the downlink! It is not part of the standard
-                if (CHAR_S2G.equals(filter.getSessionName().toString())) {
-                    // We assume that we use malspp on the downlink
-                    for (int k = 0; k < serviceCapability.getServiceAddresses().size(); k++) {
-                        AddressDetails address = serviceCapability.getServiceAddresses().get(k);
-
-                        if (address.getServiceURI().toString().startsWith("malspp")) {
-                            newServiceCapability.getServiceAddresses().add(address);
-                        }
-                    }
-                } else {
-                    newServiceCapability.getServiceAddresses().addAll(serviceCapability.getServiceAddresses());
-                }
-
-                // Add the service to the list of matching services
-                outCap.add(newServiceCapability);
-            }
-
-            // It passed all the tests!
-            final ObjectKey objKey = new ObjectKey(provider.getDomain(), keys.get(i));
-            providerOutput.setProviderKey(objKey);
-            providerOutput.setProviderName(provider.getProviderName());
-
-            outProvDetails.setServiceCapabilities(outCap);
-            providerOutput.setProviderDetails(outProvDetails);
-
-            outputList.add(providerOutput);
-        }
-
-        // Errors
-        // The operation does not return any errors.
-        return outputList;  // requirement: 3.4.9.2.d
+    // shut down old service transport
+    if (null != directoryServiceProvider) {
+      connection.closeAll();
     }
 
-    @Override
-    public PublishProviderResponse publishProvider(final PublishDetails newProviderDetails,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
-        Identifier serviceProviderName = newProviderDetails.getProviderName();
-        IdentifierList objBodies = new IdentifierList();
-        objBodies.add(serviceProviderName);
+    directoryServiceProvider = connection.startService(
+        DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(),
+        DirectoryHelper.DIRECTORY_SERVICE, false, this);
 
-        PublishProviderResponse response = new PublishProviderResponse();
+    running = true;
+    initialiased = true;
+    LOGGER.info("Directory service READY");
 
-        synchronized (MUTEX) {
-            final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
-            list.putAll(providersAvailable);
+  }
 
-            // Do we already have this provider in the Directory service?
-            for (Long key : list.keySet()) {
-                PublishDetails provider = this.providersAvailable.get(key);
+  /**
+   * Closes all running threads and releases the MAL resources.
+   */
+  public void close()
+  {
+    try {
+      if (null != directoryServiceProvider) {
+        directoryServiceProvider.close();
+      }
 
-                if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
-                    // It is repeated!!
-                    Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).warning(
-                            "There was already a provider with the same name in the Directory service. "
-                            + "Removing the old one and adding the new one...");
-                    this.providersAvailable.remove(key); // Remove the provider...
-                }
-            }
+      connection.closeAll();
+      running = false;
+    } catch (MALException ex) {
+      LOGGER.log(Level.WARNING,
+          "Exception during close down of the provider {0}", ex);
+    }
+  }
 
-            ArchiveDetailsList archDetails = (interaction == null)
-                    ? HelperArchive.generateArchiveDetailsList(null, null, connection.getPrimaryConnectionDetails().getProviderURI())
-                    : HelperArchive.generateArchiveDetailsList(null, null, interaction);
+  public ConnectionProvider getConnection()
+  {
+    return this.connection;
+  }
 
-            // Check if there are comServices...
-            if (comServices == null) {
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-            }
-
-            // Check if the archive is available...
-            if (comServices.getArchiveService() == null) {
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-            }
-
-            // Store in the Archive the ServiceProvider COM object and get an object instance identifier
-            final LongList returnedServProvObjIds = comServices.getArchiveService().store(
-                    true,
-                    DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    archDetails,
-                    objBodies,
-                    null
-            );
-
-            Long servProvObjId;
-
-            if (!returnedServProvObjIds.isEmpty()) {
-                servProvObjId = returnedServProvObjIds.get(0);
-            } else {  // Nothing was returned...
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-            }
-
-            // related contains the objId of the ServiceProvider object
-            final ArchiveDetailsList archDetails1 = (interaction == null)
-                    ? HelperArchive.generateArchiveDetailsList(servProvObjId, null, connection.getPrimaryConnectionDetails().getProviderURI())
-                    : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
-
-            ProviderDetailsList capabilities = new ProviderDetailsList(1);
-            capabilities.add(newProviderDetails.getProviderDetails());
-
-            // Store in the Archive the ProviderCapabilities COM object
-            comServices.getArchiveService().store(
-                    false,
-                    DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    archDetails1,
-                    capabilities,
-                    null
-            );
-
-            this.providersAvailable.put(servProvObjId, newProviderDetails);
-            response.setBodyElement0(servProvObjId);
-            response.setBodyElement1(null); // All capabilities (does null really mean that?)
-        }
-
-        return response;
+  @Override
+  public ProviderSummaryList lookupProvider(final ServiceFilter filter,
+      final MALInteraction interaction) throws MALInteractionException, MALException
+  {
+    if (null == filter) { // Is the input null?
+      throw new IllegalArgumentException("filter argument must not be null");
     }
 
-    @Override
-    public void withdrawProvider(Long providerObjectKey, MALInteraction interaction) throws MALInteractionException, MALException {
-        synchronized (MUTEX) {
-            PublishDetails details = this.providersAvailable.get(providerObjectKey);
+    final IdentifierList inputDomain = filter.getDomain();
 
-            if (details == null) { // The requested provider does not exist
-                throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+    // Check if the domain contains any wildcard that is not in the end, if so, throw error
+    for (int i = 0; i < inputDomain.size(); i++) {
+      Identifier domainPart = inputDomain.get(i);
+
+      if (domainPart.toString().equals("*") && i != (inputDomain.size() - 1)) {
+        throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+      }
+    }
+
+    final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
+
+    synchronized (MUTEX) {
+      list.putAll(providersAvailable);
+    }
+
+    LongList keys = new LongList();
+    keys.addAll(list.keySet());
+
+    // Initialize the final Provider Summary List
+    ProviderSummaryList outputList = new ProviderSummaryList();
+
+    // Filter...
+    for (int i = 0; i < keys.size(); i++) { // Filter through all providers
+      PublishDetails provider = list.get(keys.get(i));
+      ProviderSummary providerOutput = new ProviderSummary();
+
+      //Check service provider name
+      if (!filter.getServiceProviderName().toString().equals("*")) { // If not a wildcard...
+        if (!provider.getProviderName().toString().equals(filter.getServiceProviderName().toString())) {
+          continue;
+        }
+      }
+
+      if (HelperCOM.domainContainsWildcard(filter.getDomain())) {  // Does it contain a wildcard in the filter?
+        // Compare each object one by one...
+
+        if (!HelperCOM.domainMatchesWildcardDomain(provider.getDomain(), inputDomain)) {
+          continue;
+        }
+
+      } else if (!inputDomain.equals(provider.getDomain())) {
+        continue;
+      }
+
+      // Check session type
+      if (filter.getSessionType() != null) {
+        if (!provider.getSessionType().equals(filter.getSessionType())) {
+          continue;
+        }
+      }
+
+      // Check session name
+      if (!filter.getSessionName().toString().equals("*")) {
+        if (!CHAR_S2G.equals(filter.getSessionName().toString())) {
+          if (provider.getSourceSessionName() != null
+              && !provider.getSourceSessionName().toString().equals(
+                  filter.getSessionName().toString())) {
+            continue;
+          }
+        }
+      }
+
+      // Set the Provider Details structure
+      ProviderDetails outProvDetails = new ProviderDetails();
+      outProvDetails.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
+
+      ServiceCapabilityList outCap = new ServiceCapabilityList();
+
+      // Check each service
+      for (int j = 0; j < provider.getProviderDetails().getServiceCapabilities().size(); j++) { // Go through all the services
+        ServiceCapability serviceCapability
+            = provider.getProviderDetails().getServiceCapabilities().get(j);
+
+        // Check service key - area field
+        if (filter.getServiceKey().getArea().getValue() != 0) {
+          if (!serviceCapability.getServiceKey().getArea().equals(filter.getServiceKey().getArea())) {
+            continue;
+          }
+        }
+
+        // Check service key - service field
+        if (filter.getServiceKey().getService().getValue() != 0) {
+          if (!serviceCapability.getServiceKey().getService().equals(
+              filter.getServiceKey().getService())) {
+            continue;
+          }
+        }
+
+        // Check service key - version field
+        if (filter.getServiceKey().getVersion().getValue() != 0) {
+          if (!serviceCapability.getServiceKey().getVersion().equals(
+              filter.getServiceKey().getVersion())) {
+            continue;
+          }
+        }
+
+        // Check service capabilities
+        if (!filter.getRequiredCapabilities().isEmpty()) { // Not empty...
+          boolean capExists = false;
+
+          for (UInteger cap : filter.getRequiredCapabilities()) {
+            // cycle all the ones available in the provider
+            for (UInteger proCap : filter.getRequiredCapabilities()) {
+              if (cap.equals(proCap)) {
+                capExists = true;
+              }
             }
+          }
 
-            this.providersAvailable.remove(providerObjectKey); // Remove the provider...
-        }
-    }
-
-    public void withdrawAllProviders() throws MALInteractionException, MALException {
-        synchronized (MUTEX) {
-            this.providersAvailable.clear(); // Remove the provider...
-        }
-    }
-
-    public PublishDetails loadURIs(final String providerName) {
-        return this.autoLoadURIsFile(providerName);
-    }
-
-    private PublishDetails autoLoadURIsFile(final String providerName) {
-        ServicesConnectionDetails primaryConnectionDetails = new ServicesConnectionDetails();
-        ServicesConnectionDetails secondaryAddresses = new ServicesConnectionDetails();
-
-        try {
-            primaryConnectionDetails = primaryConnectionDetails.loadURIFromFiles();
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+          if (!capExists) { // If the capability we want does not exist, then get out...
+            continue;
+          }
         }
 
-        try {
-            secondaryAddresses = (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null)
-                    ? secondaryAddresses.loadURIFromFiles(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME)
-                    : null;
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ServiceCapability newServiceCapability = new ServiceCapability(
+            serviceCapability.getServiceKey(),
+            serviceCapability.getSupportedCapabilities(),
+            serviceCapability.getServiceProperties(),
+            new AddressDetailsList()
+        );
 
-        // Services' connections
-        HashMap<String, SingleConnectionDetails> connsMap = primaryConnectionDetails.getServices();
-        Object[] serviceNames = connsMap.keySet().toArray();
+        // This is a workaround to save bandwidth on the downlink! It is not part of the standard
+        if (CHAR_S2G.equals(filter.getSessionName().toString())) {
+          // We assume that we use malspp on the downlink
+          for (int k = 0; k < serviceCapability.getServiceAddresses().size(); k++) {
+            AddressDetails address = serviceCapability.getServiceAddresses().get(k);
 
-        final ServiceCapabilityList capabilities = new ServiceCapabilityList();
-
-        // Iterate all the services and make them available...
-        for (Object serviceName : serviceNames) {
-            SingleConnectionDetails conn = connsMap.get((String) serviceName);
-            AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn);
-            AddressDetailsList serviceAddresses = new AddressDetailsList();
-            serviceAddresses.add(serviceAddress);
-            ServiceKey key = DirectoryProviderServiceImpl.generateServiceKey(conn.getServiceKey());
-            ServiceCapability capability = new ServiceCapability();
-            capability.setServiceKey(key);
-            capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
-            capability.setServiceProperties(new NamedValueList());
-            capability.setServiceAddresses(serviceAddresses);
-            capabilities.add(capability);
-        }
-
-        // Second iteration needed here for the secondaryAddresses
-        if (secondaryAddresses != null) {
-            connsMap = secondaryAddresses.getServices();
-            serviceNames = connsMap.keySet().toArray();
-
-            for (Object serviceName : serviceNames) {
-                SingleConnectionDetails conn2 = connsMap.get((String) serviceName);
-                AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn2);
-                ServiceKey key2 = DirectoryProviderServiceImpl.generateServiceKey(conn2.getServiceKey());
-                AddressDetailsList serviceAddresses = DirectoryProviderServiceImpl.findAddressDetailsListOfService(key2, capabilities);
-                ServiceCapability capability;
-
-                if (serviceAddresses == null) { // If not found
-                    serviceAddresses = new AddressDetailsList();
-
-                    // Then create a new capability object
-                    capability = new ServiceCapability();
-                    capability.setServiceKey(key2);
-                    capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
-                    capability.setServiceProperties(new NamedValueList());
-                    capability.setServiceAddresses(serviceAddresses);
-
-                    capabilities.add(capability);
-                }
-                serviceAddresses.add(serviceAddress);
+            if (address.getServiceURI().toString().startsWith("malspp")) {
+              newServiceCapability.getServiceAddresses().add(address);
             }
+          }
+        } else {
+          newServiceCapability.getServiceAddresses().addAll(serviceCapability.getServiceAddresses());
         }
 
-        ProviderDetails serviceDetails = new ProviderDetails();
-        serviceDetails.setServiceCapabilities(capabilities);
-        serviceDetails.setProviderAddresses(new AddressDetailsList());
+        // Add the service to the list of matching services
+        outCap.add(newServiceCapability);
+      }
 
-        PublishDetails newProviderDetails = new PublishDetails();
-        newProviderDetails.setProviderName(new Identifier(providerName));
-        newProviderDetails.setDomain(ConfigurationProviderSingleton.getDomain());
-        newProviderDetails.setSessionType(ConfigurationProviderSingleton.getSession());
+      // It passed all the tests!
+      final ObjectKey objKey = new ObjectKey(provider.getDomain(), keys.get(i));
+      providerOutput.setProviderKey(objKey);
+      providerOutput.setProviderName(provider.getProviderName());
+
+      outProvDetails.setServiceCapabilities(outCap);
+      providerOutput.setProviderDetails(outProvDetails);
+
+      outputList.add(providerOutput);
+    }
+
+    // Errors
+    // The operation does not return any errors.
+    return outputList;  // requirement: 3.4.9.2.d
+  }
+
+  @Override
+  public PublishProviderResponse publishProvider(final PublishDetails newProviderDetails,
+      final MALInteraction interaction) throws MALInteractionException, MALException
+  {
+    Identifier serviceProviderName = newProviderDetails.getProviderName();
+    IdentifierList objBodies = new IdentifierList();
+    objBodies.add(serviceProviderName);
+
+    PublishProviderResponse response = new PublishProviderResponse();
+
+    synchronized (MUTEX) {
+      final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
+      list.putAll(providersAvailable);
+
+      // Do we already have this provider in the Directory service?
+      for (Long key : list.keySet()) {
+        PublishDetails provider = this.providersAvailable.get(key);
+
+        if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
+          // It is repeated!!
+          LOGGER.warning(
+              "There was already a provider with the same name in the Directory service. "
+              + "Removing the old one and adding the new one...");
+          this.providersAvailable.remove(key); // Remove the provider...
+        }
+      }
+
+      ArchiveDetailsList archDetails = (interaction == null)
+          ? HelperArchive.generateArchiveDetailsList(null, null,
+              connection.getPrimaryConnectionDetails().getProviderURI())
+          : HelperArchive.generateArchiveDetailsList(null, null, interaction);
+
+      // Check if there are comServices...
+      if (comServices == null) {
+        throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+      }
+
+      // Check if the archive is available...
+      if (comServices.getArchiveService() == null) {
+        throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+      }
+
+      // Store in the Archive the ServiceProvider COM object and get an object instance identifier
+      final LongList returnedServProvObjIds = comServices.getArchiveService().store(
+          true,
+          DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE,
+          ConfigurationProviderSingleton.getDomain(),
+          archDetails,
+          objBodies,
+          null
+      );
+
+      Long servProvObjId;
+
+      if (!returnedServProvObjIds.isEmpty()) {
+        servProvObjId = returnedServProvObjIds.get(0);
+      } else {  // Nothing was returned...
+        throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+      }
+
+      // related contains the objId of the ServiceProvider object
+      final ArchiveDetailsList archDetails1 = (interaction == null)
+          ? HelperArchive.generateArchiveDetailsList(servProvObjId, null,
+              connection.getPrimaryConnectionDetails().getProviderURI())
+          : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
+
+      ProviderDetailsList capabilities = new ProviderDetailsList(1);
+      capabilities.add(newProviderDetails.getProviderDetails());
+
+      // Store in the Archive the ProviderCapabilities COM object
+      comServices.getArchiveService().store(
+          false,
+          DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
+          ConfigurationProviderSingleton.getDomain(),
+          archDetails1,
+          capabilities,
+          null
+      );
+
+      this.providersAvailable.put(servProvObjId, newProviderDetails);
+      response.setBodyElement0(servProvObjId);
+      response.setBodyElement1(null); // All capabilities (does null really mean that?)
+    }
+
+    return response;
+  }
+
+  @Override
+  public void withdrawProvider(Long providerObjectKey, MALInteraction interaction) throws
+      MALInteractionException, MALException
+  {
+    synchronized (MUTEX) {
+      PublishDetails details = this.providersAvailable.get(providerObjectKey);
+
+      if (details == null) { // The requested provider does not exist
+        throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+      }
+
+      this.providersAvailable.remove(providerObjectKey); // Remove the provider...
+    }
+  }
+
+  public void withdrawAllProviders() throws MALInteractionException, MALException
+  {
+    synchronized (MUTEX) {
+      this.providersAvailable.clear(); // Remove the provider...
+    }
+  }
+
+  public PublishDetails loadURIs(final String providerName)
+  {
+    return this.autoLoadURIsFile(providerName);
+  }
+
+  private PublishDetails autoLoadURIsFile(final String providerName)
+  {
+    ServicesConnectionDetails primaryConnectionDetails = new ServicesConnectionDetails();
+    ServicesConnectionDetails secondaryAddresses = new ServicesConnectionDetails();
+
+    try {
+      primaryConnectionDetails = primaryConnectionDetails.loadURIFromFiles();
+    } catch (MalformedURLException | FileNotFoundException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+    }
+
+    try {
+      secondaryAddresses = (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null)
+          ? secondaryAddresses.loadURIFromFiles(
+              HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME)
+          : null;
+    } catch (MalformedURLException | FileNotFoundException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+    }
+
+    // Services' connections
+    HashMap<String, SingleConnectionDetails> connsMap = primaryConnectionDetails.getServices();
+    Object[] serviceNames = connsMap.keySet().toArray();
+
+    final ServiceCapabilityList capabilities = new ServiceCapabilityList();
+
+    // Iterate all the services and make them available...
+    for (Object serviceName : serviceNames) {
+      SingleConnectionDetails conn = connsMap.get((String) serviceName);
+      AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn);
+      AddressDetailsList serviceAddresses = new AddressDetailsList();
+      serviceAddresses.add(serviceAddress);
+      ServiceKey key = DirectoryProviderServiceImpl.generateServiceKey(conn.getServiceKey());
+      ServiceCapability capability = new ServiceCapability();
+      capability.setServiceKey(key);
+      capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
+      capability.setServiceProperties(new NamedValueList());
+      capability.setServiceAddresses(serviceAddresses);
+      capabilities.add(capability);
+    }
+
+    // Second iteration needed here for the secondaryAddresses
+    if (secondaryAddresses != null) {
+      connsMap = secondaryAddresses.getServices();
+      serviceNames = connsMap.keySet().toArray();
+
+      for (Object serviceName : serviceNames) {
+        SingleConnectionDetails conn2 = connsMap.get((String) serviceName);
+        AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn2);
+        ServiceKey key2 = DirectoryProviderServiceImpl.generateServiceKey(conn2.getServiceKey());
+        AddressDetailsList serviceAddresses
+            = DirectoryProviderServiceImpl.findAddressDetailsListOfService(key2, capabilities);
+        ServiceCapability capability;
+
+        if (serviceAddresses == null) { // If not found
+          serviceAddresses = new AddressDetailsList();
+
+          // Then create a new capability object
+          capability = new ServiceCapability();
+          capability.setServiceKey(key2);
+          capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
+          capability.setServiceProperties(new NamedValueList());
+          capability.setServiceAddresses(serviceAddresses);
+
+          capabilities.add(capability);
+        }
+        serviceAddresses.add(serviceAddress);
+      }
+    }
+
+    ProviderDetails serviceDetails = new ProviderDetails();
+    serviceDetails.setServiceCapabilities(capabilities);
+    serviceDetails.setProviderAddresses(new AddressDetailsList());
+
+    PublishDetails newProviderDetails = new PublishDetails();
+    newProviderDetails.setProviderName(new Identifier(providerName));
+    newProviderDetails.setDomain(ConfigurationProviderSingleton.getDomain());
+    newProviderDetails.setSessionType(ConfigurationProviderSingleton.getSession());
 //        newProviderDetails.setSourceSessionName(ConfigurationProviderSingleton.getSourceSessionName());
-        newProviderDetails.setSourceSessionName(null); // It just takes bandwidth, so just null it
-        newProviderDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
-        newProviderDetails.setProviderDetails(serviceDetails);
+    newProviderDetails.setSourceSessionName(null); // It just takes bandwidth, so just null it
+    newProviderDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
+    newProviderDetails.setProviderDetails(serviceDetails);
 
-        try {
-            this.publishProvider(newProviderDetails, null);
-            return newProviderDetails;
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(DirectoryProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return null;
+    try {
+      this.publishProvider(newProviderDetails, null);
+      return newProviderDetails;
+    } catch (MALInteractionException | MALException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
 
-    private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn) {
-        QoSLevelList qos = new QoSLevelList();
-        qos.add(QoSLevel.ASSURED);
-        NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
+    return null;
+  }
 
-        AddressDetails serviceAddress = new AddressDetails();
-        serviceAddress.setSupportedLevels(qos);
-        serviceAddress.setQoSproperties(qosProperties);
-        serviceAddress.setPriorityLevels(new UInteger(1));  // hum?
-        serviceAddress.setServiceURI(conn.getProviderURI());
-        serviceAddress.setBrokerURI(conn.getBrokerURI());
-        serviceAddress.setBrokerProviderObjInstId(null);
+  @Override
+  public FileList getServiceXML(Long l, MALInteraction mali) throws MALInteractionException,
+      MALException
+  {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
 
-        return serviceAddress;
-    }
-
-    private static AddressDetailsList findAddressDetailsListOfService(final ServiceKey key,
-            final ServiceCapabilityList capabilities) {
-        if (key == null) {
-            return null;
-        }
-
-        // Iterate all capabilities until you find the serviceName
-        for (ServiceCapability capability : capabilities) {
-            if (capability != null) {
-                if (key.equals(capability.getServiceKey())) {
-                    return capability.getServiceAddresses();
-                }
-            }
-        }
-
-        return null; // Not found!
-    }
-
-    @Override
-    public FileList getServiceXML(Long l, MALInteraction mali) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public static ServiceKey generateServiceKey(final IntegerList keys) {
-        return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(keys.get(2).shortValue()));
-    }
-
-    /*
-    public HashMap<Long, PublishDetails> getListOfProviders() {
-        final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
-
-        synchronized (MUTEX) {
-            list.putAll(providersAvailable);
-        }
-
-        return list;
-    }
-    */
 }

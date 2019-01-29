@@ -38,67 +38,74 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-public class DemoGroundDirectory {
+public class DemoGroundDirectory
+{
 
-    private GroundMOAdapterImpl gma;
-    private final static URI DIRECTORY_URI = new URI("maltcp://x:1024-nanosat-mo-supervisor-Directory");
+  private final static URI DIRECTORY_URI
+      = new URI("maltcp://x:1024-nanosat-mo-supervisor-Directory");
 
-    public DemoGroundDirectory() {
-        try {
-            ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(DIRECTORY_URI);
+  private GroundMOAdapterImpl gma;
+  private static final Logger LOGGER = Logger.getLogger(DemoGroundDirectory.class.getName());
 
-            if (!providers.isEmpty()) {
-                // Connect to provider on index 0
-                gma = new GroundMOAdapterImpl(providers.get(0));
-                gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
-            } else {
-                Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.SEVERE,
-                        "The returned list of providers is empty!");
-            }
-        } catch (MALException ex) {
-            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.SEVERE, null, ex);
-        }
+  public DemoGroundDirectory()
+  {
+    try {
+      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+          DIRECTORY_URI);
+
+      if (!providers.isEmpty()) {
+        // Connect to provider on index 0
+        gma = new GroundMOAdapterImpl(providers.get(0));
+        gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
+      } else {
+        LOGGER.log(Level.SEVERE,
+            "The returned list of providers is empty!");
+      }
+    } catch (MALException | MalformedURLException | MALInteractionException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
+  }
 
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
-     */
-    public static void main(final String args[]) throws Exception {
-        DemoGroundDirectory demo = new DemoGroundDirectory();
+  /**
+   * Main command line entry point.
+   *
+   * @param args the command line arguments
+   * @throws java.lang.Exception If there is an error
+   */
+  public static void main(final String args[]) throws Exception
+  {
+    DemoGroundDirectory demo = new DemoGroundDirectory();
+  }
+
+  private class SimpleDataReceivedAdapter extends SimpleDataReceivedListener
+  {
+
+    @Override
+    public void onDataReceived(String parameterName, Serializable data)
+    {
+      LOGGER.log(Level.INFO,
+          "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
+          new Object[]{
+            parameterName,
+            data.toString()
+          }
+      );
     }
+  }
 
-    private class SimpleDataReceivedAdapter extends SimpleDataReceivedListener {
+  private class CompleteDataReceivedAdapter extends CompleteDataReceivedListener
+  {
 
-        @Override
-        public void onDataReceived(String parameterName, Serializable data) {
-            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.INFO,
-                    "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
-                    new Object[]{
-                        parameterName,
-                        data.toString()
-                    }
-            );
-        }
+    @Override
+    public void onDataReceived(ParameterInstance parameterInstance)
+    {
+      LOGGER.log(Level.INFO,
+          "\nParameter name: {0}" + "\n" + "Parameter Value: {1}",
+          new Object[]{
+            parameterInstance.getName(),
+            parameterInstance.getParameterValue().toString()
+          }
+      );
     }
-
-    private class CompleteDataReceivedAdapter extends CompleteDataReceivedListener {
-
-        @Override
-        public void onDataReceived(ParameterInstance parameterInstance) {
-            Logger.getLogger(DemoGroundDirectory.class.getName()).log(Level.INFO,
-                    "\nParameter name: {0}" + "\n" + "Parameter Value: {1}",
-                    new Object[]{
-                        parameterInstance.getName(),
-                        parameterInstance.getParameterValue().toString()
-                    }
-            );
-        }
-    }
+  }
 }

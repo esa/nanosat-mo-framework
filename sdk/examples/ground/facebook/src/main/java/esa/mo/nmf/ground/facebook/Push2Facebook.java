@@ -30,6 +30,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -39,94 +40,100 @@ import java.util.logging.Logger;
  * Demo application pushing data into Facebook
  *
  */
-public class Push2Facebook {
+public class Push2Facebook
+{
 
-    private static final String TOKEN_FILENAME = "token.properties";
-    private GroundMOAdapterImpl gma;
-    private String ACCESS_TOKEN;
+  private static final Logger LOGGER = Logger.getLogger(Push2Facebook.class.getName());
+  private static final String TOKEN_FILENAME = "token.properties";
+  private GroundMOAdapterImpl gma;
+  private final String ACCESS_TOKEN;
 
-    public Push2Facebook() {
+  public Push2Facebook()
+  {
 
-        ConnectionConsumer connection = new ConnectionConsumer();
+    ConnectionConsumer connection = new ConnectionConsumer();
 
-        try {
-            connection.loadURIs();
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(Push2Facebook.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        gma = new GroundMOAdapterImpl(connection);
-        gma.addDataReceivedListener(new DataReceivedAdapter());
-
-        final java.util.Properties sysProps = System.getProperties();
-
-        // Load the properties out of the file
-        File file = new File(System.getProperty(TOKEN_FILENAME, TOKEN_FILENAME));
-        if (file.exists()) {
-            try {
-                sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), TOKEN_FILENAME));
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(Push2Facebook.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        ACCESS_TOKEN = System.getProperty("access_token", "null");
+    try {
+      connection.loadURIs();
+    } catch (MalformedURLException | FileNotFoundException ex) {
+      LOGGER.log(Level.SEVERE, "The URIs could not be loaded from a file.", ex);
     }
 
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception
-     */
-    public static void main(final String args[]) throws Exception {
-        Push2Facebook demo = new Push2Facebook();
+    gma = new GroundMOAdapterImpl(connection);
+    gma.addDataReceivedListener(new DataReceivedAdapter());
+
+    final java.util.Properties sysProps = System.getProperties();
+
+    // Load the properties out of the file
+    File file = new File(System.getProperty(TOKEN_FILENAME, TOKEN_FILENAME));
+    if (file.exists()) {
+      try {
+        sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), TOKEN_FILENAME));
+      } catch (MalformedURLException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      }
     }
 
-    public class DataReceivedAdapter extends SimpleDataReceivedListener {
+    ACCESS_TOKEN = System.getProperty("access_token", "null");
+  }
 
-        @Override
-        public void onDataReceived(String parameterName, Serializable data) {
+  /**
+   * Main command line entry point.
+   *
+   * @param args the command line arguments
+   * @throws java.lang.Exception
+   */
+  public static void main(final String args[]) throws Exception
+  {
+    Push2Facebook demo = new Push2Facebook();
+  }
 
-            Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO,
-                    "\nPosting on facebook...\nParameter name: {0}"
-                    + "\nData content:\n{1}",
-                    new Object[]{parameterName, data.toString()});
+  public class DataReceivedAdapter extends SimpleDataReceivedListener
+  {
 
-            // Get the Token here: https://developers.facebook.com/tools/explorer/
-            FacebookClient facebookClient = new DefaultFacebookClient(ACCESS_TOKEN, Version.VERSION_2_4);
+    @Override
+    public void onDataReceived(String parameterName, Serializable data)
+    {
 
-            if (facebookClient == null) {
-                Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO,
-                        "The facebookClient is null! The access token might be incorrect...\n");
-            } else {
-                Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO,
-                        "The facebookClient is connected!\n");
-            }
+      LOGGER.log(Level.INFO,
+          "\nPosting on facebook...\nParameter name: {0}"
+          + "\nData content:\n{1}",
+          new Object[]{parameterName, data.toString()});
 
-            FacebookType publishMessageResponse = facebookClient.publish(
-                    "me/feed",
-                    FacebookType.class,
-                    Parameter.with("message", data.toString())
-            );
+      // Get the Token here: https://developers.facebook.com/tools/explorer/
+      FacebookClient facebookClient = new DefaultFacebookClient(ACCESS_TOKEN, Version.VERSION_2_4);
 
-            String str = "";
+      if (facebookClient == null) {
+        LOGGER.log(Level.INFO,
+            "The facebookClient is null! The access token might be incorrect...\n");
+      } else {
+        LOGGER.log(Level.INFO,
+            "The facebookClient is connected!\n");
+      }
 
-            if (publishMessageResponse.getId() != null) {
-                str += publishMessageResponse.getId() + "\n";
-            }
+      FacebookType publishMessageResponse = facebookClient.publish(
+          "me/feed",
+          FacebookType.class,
+          Parameter.with("message", data.toString())
+      );
 
-            if (publishMessageResponse.getMetadata() != null) {
-                str += publishMessageResponse.getMetadata().toString() + "\n";
-            }
+      String str = "";
 
-            if (publishMessageResponse.getType() != null) {
-                str += publishMessageResponse.getType() + "\n";
-            }
+      if (publishMessageResponse.getId() != null) {
+        str += publishMessageResponse.getId() + "\n";
+      }
 
-            Logger.getLogger(Push2Facebook.class.getName()).log(Level.INFO, str);
-        }
+      if (publishMessageResponse.getMetadata() != null) {
+        str += publishMessageResponse.getMetadata().toString() + "\n";
+      }
 
+      if (publishMessageResponse.getType() != null) {
+        str += publishMessageResponse.getType() + "\n";
+      }
+
+      LOGGER.log(Level.INFO, str);
     }
+
+  }
 
 }

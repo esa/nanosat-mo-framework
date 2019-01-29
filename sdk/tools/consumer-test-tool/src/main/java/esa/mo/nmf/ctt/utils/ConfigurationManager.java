@@ -24,6 +24,7 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.awt.EventQueue;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -40,98 +41,104 @@ import org.ccsds.moims.mo.mc.MCHelper;
 /**
  * This class provides a simple form for the control of the consumer.
  */
-public class ConfigurationManager extends javax.swing.JFrame {
+public class ConfigurationManager extends javax.swing.JFrame
+{
 
-    private ConnectionConsumer connection = new ConnectionConsumer();
+  private ConnectionConsumer connection = new ConnectionConsumer();
 
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     */
-    public static void main(final String args[]) {
+  /**
+   * Main command line entry point.
+   *
+   * @param args the command line arguments
+   */
+  public static void main(final String args[])
+  {
 
-        try {
-            // Set cross-platform Java L&F (also called "Metal")
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        } catch (UnsupportedLookAndFeelException e) {
-            // handle exception
-        } catch (ClassNotFoundException e) {
-            // handle exception
-        } catch (InstantiationException e) {
-            // handle exception
-        } catch (IllegalAccessException e) {
-            // handle exception
-        }
+    try {
+      // Set cross-platform Java L&F (also called "Metal")
+      UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+    } catch (UnsupportedLookAndFeelException e) {
+      // handle exception
+    } catch (ClassNotFoundException e) {
+      // handle exception
+    } catch (InstantiationException e) {
+      // handle exception
+    } catch (IllegalAccessException e) {
+      // handle exception
+    }
 
-        try {
-            final Properties sysProps = System.getProperties();
+    try {
+      final Properties sysProps = System.getProperties();
 
-            final File file = new File(System.getProperty("provider.properties", "demoConsumer.properties"));
-            if (file.exists()) {
-                sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
-            }
+      final File file = new File(
+          System.getProperty("provider.properties", "demoConsumer.properties"));
+      if (file.exists()) {
+        sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
+      }
 
-            System.setProperties(sysProps);
+      System.setProperties(sysProps);
 
-            final String name = System.getProperty("application.name", "CCSDS Mission Operations - Consumer Interface");
-            final ConfigurationManager gui = new ConfigurationManager(name);
-       
-/*
+      final String name = System.getProperty("application.name",
+          "CCSDS Mission Operations - Consumer Interface");
+      final ConfigurationManager gui = new ConfigurationManager(name);
+
+      /*
             ArchiveQuery wert = new ArchiveQuery();
 
             MOWindow genericObj = new MOWindow(wert, true);
             Object assfsfd = genericObj.getObject();
             assfsfd = null;
-*/
-            
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    gui.setVisible(true);
-                }
-            });
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE, "Exception thrown during initialisation of Demo Consumer {0}", ex);
+       */
+      EventQueue.invokeLater(new Runnable()
+      {
+        public void run()
+        {
+          gui.setVisible(true);
         }
+      });
+    } catch (MalformedURLException ex) {
+      Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE,
+          "Exception thrown during initialisation of Demo Consumer {0}", ex);
+    }
+  }
+
+  /**
+   * Creates new form MityDemoProviderGui
+   *
+   * @param name The name to display on the title bar of the form.
+   */
+  public ConfigurationManager(final String name)
+  {
+    initComponents();
+    this.setLocationRelativeTo(null);
+    this.setTitle(name);
+
+    try {
+      connection.loadURIs();
+    } catch (MalformedURLException | FileNotFoundException ex) {
+      JOptionPane.showMessageDialog(null, "The URIs could not be loaded from the file!", "Error",
+          JOptionPane.PLAIN_MESSAGE);
+      Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    
-    /**
-     * Creates new form MityDemoProviderGui
-     *
-     * @param name The name to display on the title bar of the form.
-     */
-    public ConfigurationManager(final String name) {
-        initComponents();
-        this.setLocationRelativeTo(null);
-        this.setTitle(name);
-
-        try {
-            connection.loadURIs();
-        } catch (MalformedURLException ex) {
-            JOptionPane.showMessageDialog(null, "The URIs could not be loaded from the file!", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        tabs.insertTab("Communication Settings", null, new ConnectionConsumerPanel(connection, tabs), "Communications Tab", tabs.getTabCount());
-        
+    try {
+      MALHelper.init(MALContextFactory.getElementFactoryRegistry());
+      COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+      MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+    } catch (MALException ex) {
+      Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
     }
 
+    tabs.insertTab("Communication Settings", null, new ConnectionConsumerPanel(connection, tabs),
+        "Communications Tab", tabs.getTabCount());
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+  }
+
+  /**
+   * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+   * modify this code. The content of this method is always regenerated by the Form Editor.
+   */
+  @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -247,16 +254,14 @@ public class ConfigurationManager extends javax.swing.JFrame {
     private void COM_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_COM_buttonActionPerformed
 
 
-
-
     }//GEN-LAST:event_COM_buttonActionPerformed
 
     private void MC_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MC_buttonActionPerformed
-        // TODO add your handling code here:
+      // TODO add your handling code here:
     }//GEN-LAST:event_MC_buttonActionPerformed
 
     private void Platform_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Platform_buttonActionPerformed
-        // TODO add your handling code here:
+      // TODO add your handling code here:
     }//GEN-LAST:event_Platform_buttonActionPerformed
 
 

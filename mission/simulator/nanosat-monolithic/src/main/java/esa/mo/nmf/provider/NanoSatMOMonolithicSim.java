@@ -27,6 +27,7 @@ import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmomonolithic.NanoSatMOMonolithic;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,48 +38,50 @@ import org.ccsds.moims.mo.mal.MALException;
  *
  * @author Cesar Coelho
  */
-public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic {
+public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic
+{
 
-    private PlatformServicesProviderSoftSim provider;
+  private static final Logger LOGGER = Logger.getLogger(NanoSatMOMonolithicSim.class.getName());
 
-    /**
-     * To initialize the NanoSat MO Monolithic with this method, it is necessary
-     * to extend the MonitorAndControlAdapter adapter class. The
-     * SimpleMonitorAndControlAdapter class contains a simpler interface which
-     * allows sending directly parameters of the most common java types and it
-     * also allows the possibility to send serializable objects.
-     *
-     * @param mcAdapter The adapter to connect the actions and parameters to the
-     * corresponding methods and variables of a specific entity.
-     */
-    @Override
-    public void init(MonitorAndControlNMFAdapter mcAdapter) {
-        super.init(mcAdapter, new PlatformServicesConsumer());
+  private PlatformServicesProviderSoftSim provider;
+
+  /**
+   * To initialize the NanoSat MO Monolithic with this method, it is necessary to extend the
+   * MonitorAndControlAdapter adapter class. The SimpleMonitorAndControlAdapter class contains a
+   * simpler interface which allows sending directly parameters of the most common java types and it
+   * also allows the possibility to send serializable objects.
+   *
+   * @param mcAdapter The adapter to connect the actions and parameters to the corresponding methods
+   *                  and variables of a specific entity.
+   */
+  @Override
+  public void init(MonitorAndControlNMFAdapter mcAdapter)
+  {
+    super.init(mcAdapter, new PlatformServicesConsumer());
+  }
+
+  @Override
+  public void initPlatformServices(COMServicesProvider comServices)
+  {
+    // We need to do a bybass here because it a Monolithic implementation
+    // of the Software Simulator. Basically, we initialize the Platform
+    // service providers and then we initialize the consumers' connections
+    // to them.
+
+    try {
+      provider = new PlatformServicesProviderSoftSim();
+      provider.init(comServices);
+    } catch (MALException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
 
-    @Override
-    public void initPlatformServices(COMServicesProvider comServices) {
-        // We need to do a bybass here because it a Monolithic implementation
-        // of the Software Simulator. Basically, we initialize the Platform 
-        // service providers and then we initialize the consumers' connections
-        // to them.
+    ConnectionConsumer connectionConsumer = new ConnectionConsumer();
 
-        try {
-            provider = new PlatformServicesProviderSoftSim();
-            provider.init(comServices);
-        } catch (MALException ex) {
-            Logger.getLogger(NanoSatMOMonolithicSim.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        ConnectionConsumer connectionConsumer = new ConnectionConsumer();
-
-        try {
-            connectionConsumer.loadURIs();
-            super.getPlatformServices().init(connectionConsumer, null);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(NanoSatMOMonolithicSim.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NMFException ex) {
-            Logger.getLogger(NanoSatMOMonolithicSim.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    try {
+      connectionConsumer.loadURIs();
+      super.getPlatformServices().init(connectionConsumer, null);
+    } catch (MalformedURLException | NMFException | FileNotFoundException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
+  }
 }

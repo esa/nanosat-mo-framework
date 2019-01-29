@@ -23,6 +23,7 @@ package esa.mo.ground.simpleground;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -31,41 +32,47 @@ import java.util.logging.Logger;
 /**
  * Ground consumer: Demo Simple Ground
  */
-public class SimpleGround {
+public class SimpleGround
+{
 
-    private final GroundMOAdapterImpl gma;
+  private final GroundMOAdapterImpl gma;
 
-    public SimpleGround() {
-        ConnectionConsumer connection = new ConnectionConsumer();
+  private final Logger LOGGER = Logger.getLogger(SimpleGround.class.getName());
 
-        try {
-            connection.loadURIs();
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(SimpleGround.class.getName()).log(Level.SEVERE,
-                    "The URIs could not be loaded.", ex);
-        }
+  public SimpleGround()
+  {
+    ConnectionConsumer connection = new ConnectionConsumer();
 
-        gma = new GroundMOAdapterImpl(connection);
-        gma.addDataReceivedListener(new DataReceivedAdapter());
+    try {
+      connection.loadURIs();
+    } catch (MalformedURLException | FileNotFoundException ex) {
+      LOGGER.log(Level.SEVERE, "The URIs could not be loaded from a file.", ex);
     }
 
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
-     */
-    public static void main(final String args[]) throws Exception {
-        SimpleGround demo = new SimpleGround();
-    }
+    gma = new GroundMOAdapterImpl(connection);
+    gma.addDataReceivedListener(new DataReceivedAdapter());
+  }
 
-    class DataReceivedAdapter extends SimpleDataReceivedListener {
+  /**
+   * Main command line entry point.
+   *
+   * @param args the command line arguments
+   * @throws java.lang.Exception If there is an error
+   */
+  public static void main(final String args[]) throws Exception
+  {
+    SimpleGround demo = new SimpleGround();
+  }
 
-        @Override
-        public void onDataReceived(String parameterName, Serializable data) {
-            Logger.getLogger(SimpleGround.class.getName()).log(Level.INFO,
-                    "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
-                    new Object[]{parameterName, data.toString()});
-        }
+  class DataReceivedAdapter extends SimpleDataReceivedListener
+  {
+
+    @Override
+    public void onDataReceived(String parameterName, Serializable data)
+    {
+      LOGGER.log(Level.INFO,
+          "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
+          new Object[]{parameterName, data.toString()});
     }
+  }
 }

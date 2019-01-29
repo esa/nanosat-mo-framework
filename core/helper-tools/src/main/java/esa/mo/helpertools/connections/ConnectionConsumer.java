@@ -20,6 +20,7 @@
  */
 package esa.mo.helpertools.connections;
 
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.Properties;
 import java.util.Random;
@@ -215,8 +216,9 @@ public class ConnectionConsumer {
      * @return The connection details object generated from the file
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
+     * @throws java.io.FileNotFoundException if the file with URIs has not been found
      */
-    public ServicesConnectionDetails loadURIs() throws MalformedURLException {
+    public ServicesConnectionDetails loadURIs() throws MalformedURLException, FileNotFoundException {
         return servicesDetails.loadURIFromFiles();
     }
 
@@ -227,8 +229,9 @@ public class ConnectionConsumer {
      * @return The connection details object generated from the file
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
+     * @throws java.io.FileNotFoundException if the file with URIs has not been found
      */
-    public ServicesConnectionDetails loadURIs(String filename) throws MalformedURLException {
+    public ServicesConnectionDetails loadURIs(String filename) throws MalformedURLException, FileNotFoundException {
         return servicesDetails.loadURIFromFiles(filename);
     }
 
