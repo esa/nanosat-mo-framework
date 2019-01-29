@@ -57,6 +57,5 @@
     <module>nmf-package-lib</module>
     <module>nmf-composites</module>
     <module>misc</module>
-    <module>example-apps</module>
   </modules>
 </project>

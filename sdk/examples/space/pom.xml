@@ -66,9 +66,12 @@
     <modules>
         <module>all-mc-services</module>
         <module>all-mc-services-with-sim</module>
+        <module>blank</module>
+        <module>benchmark</module>
         <module>camera</module>
         <module>gps</module>
-        <module>hello-world</module>
+        <module>hello-world-simple</module>
+        <module>hello-world-full</module>
         <module>multistage-action</module>
         <module>periodic-alert</module>
         <module>publish-clock</module>
