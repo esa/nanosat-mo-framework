@@ -6,9 +6,11 @@ It introduces the concept of apps in space that can be started and stopped from 
 A Software Development Kit (SDK) is available in order to facilitate the development with the NanoSat MO Framework.
 
 # Release
-The latest NMF SDK release can be downloaded in [Releases].
+The latest NMF SDK release tag can be downloaded in [Releases]. However, the currently recommended distribution channel is directly from Git repository.
 
-# Building
+# Getting Started
+
+## Building
 Prerequisites:
 - Java SDK 1.8+
 - Apache Maven
@@ -17,9 +19,8 @@ Clone this repository and run `mvn install` in the root directory.
 
 In order to produce independently runnable Java executables (JAR artifacts with dependencies), use `mvn install -P assembly-with-dependencies`.
 
-Note that Maven `install` goal deploys artifacts to the local repository. If desired, `package` goal can be used just to build and package artifacts.
-
-More documentation on SDK Package building and usage is available under [sdk](sdk) directory.
+## SDK and examples
+More documentation about code examples, SDK packaging and usage is available under [sdk](sdk) directory.
 
 # Source Code
 The source code of the NanoSat MO Framework can be found on [GitHub].
