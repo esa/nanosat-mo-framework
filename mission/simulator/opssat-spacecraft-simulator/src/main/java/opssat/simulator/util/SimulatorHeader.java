@@ -135,7 +135,7 @@ public class SimulatorHeader implements Serializable {
                 "#Start and end dates of simulation\n"+
                 "startDate=" + dateFormat.format(startDate) + "\n"+
                 "endDate=" + dateFormat.format(endDate) +"\n"+
-                "#Logging level to files found in USER_HOME/temp/_OPSSAT_SIMULATOR/\n"+
+                "#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n"+
                 "#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\n"+
                 "centralLogLevel=INFO\n" +
                 "simulatorLogLevel=INFO\n" +

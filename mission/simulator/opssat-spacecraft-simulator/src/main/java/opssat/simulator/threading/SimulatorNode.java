@@ -126,13 +126,22 @@ public class SimulatorNode extends TaskNode {
     TCPServerReceiveOnly quaternionTcpServer=null;
     
     private String cameraScriptPath=null;
-//    private final static String OPS_SIMULATOR_RESOURCES= "/ops-sat-simulator-resources//";
-    private final static String OPS_SIMULATOR_RESOURCES= File.separator + "ops-sat-simulator-resources" + File.separator;
+    private final static String OPS_SAT_SIMULATOR_DATA = File.separator + ".ops-sat-simulator" + File.separator;
+    private final static String OPS_SAT_SIMULATOR_RESOURCES = OPS_SAT_SIMULATOR_DATA + "resources" + File.separator;
 
-    public static String getResourcePath()
+    public static String getResourcesPath()
     {
-        return System.getProperty("user.home") + OPS_SIMULATOR_RESOURCES;
-//        return this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() + OPS_SIMULATOR_RESOURCES;
+        return System.getProperty("user.home") + OPS_SAT_SIMULATOR_RESOURCES;
+    }
+
+    public static String getDataPath()
+    {
+        return System.getProperty("user.home") + OPS_SAT_SIMULATOR_DATA;
+    }
+
+    public static String getWorkingDir()
+    {
+        return System.getProperty("user.dir");
     }
 
     public static String calcNMEAChecksum(String sentence)
@@ -147,7 +156,7 @@ public class SimulatorNode extends TaskNode {
     }
     public static String handleResourcePath(String path,Logger logger,ClassLoader classLoader)
     {
-        String resourcesFolder = SimulatorNode.getResourcePath();
+        String resourcesFolder = SimulatorNode.getResourcesPath();
         File folder = new File(resourcesFolder);
         if (!folder.exists()) {
            logger.log(Level.FINE, "Folder [" + folder.getAbsolutePath() + "] has been created");
@@ -637,28 +646,28 @@ public class SimulatorNode extends TaskNode {
     }
     
     public File getGPSOpsFile() {
-        return getFileFromDirAndPath(System.getProperty("user.home"), "ops-sat-simulator-resources/gps-ops.txt");
+        return getFileFromDirAndPath(getResourcesPath(), "gps-ops.txt");
     }
 
     private File getSchedulerFile() {
-        return getFileFromDirAndPath(System.getProperty("user.dir"), "_OPS-SAT-SIMULATOR-scheduler.txt");
+        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-scheduler.txt");
     }
 
     private File getSchedulerFileAsBackup() {
         String now = new SimpleDateFormat("yyyy_MMdd_HHmmss").format(new Date());
-        return getFileFromDirAndPath(System.getProperty("user.dir"), "_OPS-SAT-SIMULATOR-scheduler_backup_" + now + ".txt");
+        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-scheduler_backup_" + now + ".txt");
     }
 
     private File getTemplatesFile() {
-        return getFileFromDirAndPath(System.getProperty("user.dir"), "_OPS-SAT-SIMULATOR-templates.txt");
+        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-templates.txt");
     }
 
     private File getHeaderFile() {
-        return getFileFromDirAndPath(System.getProperty("user.dir"), "_OPS-SAT-SIMULATOR-header.txt");
+        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-header.txt");
     }
 
     private File getCommandsFilterFile() {
-        return getFileFromDirAndPath(System.getProperty("user.dir"), "_OPS-SAT-SIMULATOR-filter.txt");
+        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-filter.txt");
     }
 
     private boolean isValidCommandID(int commandID) {

@@ -95,31 +95,7 @@
       <resource>
         <directory>${basedir}/src/main/resources</directory>
         <includes>
-          <include>earth.jpg</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-        <includes>
-          <include>ESA-logo.png</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-        <includes>
-          <include>03_logo_dark_blue.bmp</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${basedir}/ops-sat-simulator-resources</directory>
-        <includes>
           <include>**</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-        <includes>
-          <include>descriptions.txt</include>
         </includes>
       </resource>
     </resources>

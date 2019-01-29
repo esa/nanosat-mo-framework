@@ -68,11 +68,10 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
 
     @Override
     public boolean preparePath(String path) {
-        //        boolean fileExists = Files.exists(Paths.get(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path), LinkOption.NOFOLLOW_LINKS);
         boolean fileExists = true;
         
         try {
-            RandomAccessFile f = new RandomAccessFile(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path, "r");
+            RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
             f.close();
         } catch (FileNotFoundException ex) {
             fileExists = false;

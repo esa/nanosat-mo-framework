@@ -42,7 +42,7 @@ Simulator helper command: preload into memory a raw data file
 Input parameters:String fileName
 Return parameters:void
 Size of returned parameters: 0
-The filename of the data raw file. It is expected to be found in HOME/ops-sat-resources
+The filename of the data raw file. It is expected to be found in $HOME/.ops-sat-simulator/data
 </pre>
 */
 void simPreloadFile(String fileName);//6002

@@ -59,7 +59,7 @@ public abstract class TaskNode implements Runnable {
     private Logger logObject;
     private FileHandler fh = null;
     private FileHandler fh_static = null;
-    private String LogPath = "/temp/_OPSSAT_SIMULATOR/";
+    private String LogPath;
 
     public Logger getLogObject() {
         return logObject;
@@ -84,7 +84,7 @@ public abstract class TaskNode implements Runnable {
     }
     private void initLogging(Level logLevel,Level consoleLogLevel)
     {
-        LogPath = System.getProperty("user.home") + LogPath;
+        LogPath = SimulatorNode.getDataPath();
         File sourceLoc = new File(LogPath);
 
         if (!sourceLoc.exists()) {

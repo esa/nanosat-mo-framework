@@ -49,7 +49,7 @@ public interface ICamera {
      * </pre>
      *
      * @param fileName The filename of the raw picture. It is expected to be
-     * found in HOME/ops-sat-resources
+     * found in $HOME/.ops-sat-simulator/data
      */
     void simPreloadPicture(String fileName);//3002
 

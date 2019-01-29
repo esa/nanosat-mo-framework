@@ -409,7 +409,7 @@ public class OrekitCore {
         if (path.length() > 0) {
                     path.append(System.getProperty("path.separator"));
         }
-        path.append(SimulatorNode.getResourcePath()+directory);
+        path.append(SimulatorNode.getResourcesPath()+directory);
     }
 
     public OrekitCore(double a, double e, double i, double omega, double raan, double lM, SimulatorHeader simulatorHeader, Logger logger, SimulatorNode simulatorNode) throws OrekitException {

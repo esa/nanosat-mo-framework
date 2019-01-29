@@ -53,7 +53,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
     public boolean loadFromPath(String path) {
         try {
             /*
-            String absolutePath = System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path;
+            String absolutePath = SimulatorNode.getResourcesPath() + path;
             File f = new File(absolutePath);
             if (f.exists() && !f.isDirectory()) {
                 this.logger.log(Level.INFO, "File [" + f.getAbsolutePath() + "] exists");
@@ -113,11 +113,10 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
 
     @Override
     public boolean preparePath(String path) {
-        //        boolean fileExists = Files.exists(Paths.get(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path), LinkOption.NOFOLLOW_LINKS);
         boolean fileExists = true;
         
         try {
-            RandomAccessFile f = new RandomAccessFile(System.getProperty("user.home") + "/ops-sat-simulator-resources//" + path, "r");
+            RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
             f.close();
         } catch (FileNotFoundException ex) {
             fileExists = false;
