@@ -64,7 +64,7 @@ Set the working directory of the CTT project to the working directory of the CTT
 
 ### NMF Space Apps
 Set the working directory of the application to a newly created directory containing:
-* provider.properties file (available in [sdk-package space-common](sdk-package/src/main/resources/space-common) directory)
+* provider.properties file (available in [sdk-package space-app-root](sdk-package/src/main/resources/space-app-root) directory)
 * settings.properties and transport.properties files (available in [sdk-package space-common](sdk-package/src/main/resources/space-common) directory)
 
 The above files are also deployed into all home directories of Space Apps inside an assembled SDK package.
