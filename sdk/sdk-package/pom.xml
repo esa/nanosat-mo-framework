@@ -459,6 +459,10 @@
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/benchmark">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/publish-clock">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
