@@ -17,7 +17,9 @@ Prerequisites:
 
 Clone this repository and run `mvn install` in the root directory.
 
-In order to produce independently runnable Java executables (JAR artifacts with dependencies), use `mvn install -P assembly-with-dependencies`.
+Note that the errors about missing module descriptors during Javadoc generation are to be expected and non breaking.
+
+In order to produce independently runnable Java executables (JAR artifacts with dependencies - equivalent of statically linked executables), use `mvn install -P assembly-with-dependencies`.
 
 ## SDK and examples
 More documentation about code examples, SDK packaging and usage is available under [sdk](sdk) directory.
