@@ -19,7 +19,7 @@
     <relativePath>../../../parent/pom.xml</relativePath>
   </parent>
   <groupId>int.esa.nmf.mission.simulator</groupId>
-  <artifactId>nanosat-mo-supervisor</artifactId>
+  <artifactId>nanosat-mo-supervisor-sim</artifactId>
   <packaging>jar</packaging>
   <name>ESA NMF Mission Simulator - NanoSat MO Supervisor</name>
   <description>NanoSat MO Supervisor for the Software Simulator</description>

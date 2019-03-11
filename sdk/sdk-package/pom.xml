@@ -95,7 +95,7 @@
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.mission.simulator</groupId>
-      <artifactId>nanosat-mo-supervisor</artifactId>
+      <artifactId>nanosat-mo-supervisor-sim</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
