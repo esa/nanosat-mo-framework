@@ -35,20 +35,20 @@
   <licenses>
     <license>
       <name>The European Space Agency Public License, Version 2.0</name>
-      <url>https://raw.github.com/esa/CCSDS_MO_APPS/master/LICENCE.md</url>
+      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:esa/NMF_SDK.git</connection>
-    <developerConnection>scm:git:git@github.com:esa/NMF_SDK.git</developerConnection>
-    <url>https://github.com/esa/NMF_SDK</url>
+    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/esa/NMF_SDK/issues</url>
+    <url>https://github.com/esa/nanosat-mo-framework/issues</url>
   </issueManagement>
 
   <developers>

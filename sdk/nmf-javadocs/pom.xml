@@ -40,20 +40,20 @@ https://maven.apache.org/plugins/maven-javadoc-plugin/examples/aggregate-depende
   <licenses>
     <license>
       <name>The European Space Agency Public License, Version 2.0</name>
-      <url>https://raw.github.com/esa/CCSDS_APPS/master/LICENCE.md</url>
+      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:esa/CCSDS_APPS.git</connection>
-    <developerConnection>scm:git:git@github.com:esa/CCSDS_APPS.git</developerConnection>
-    <url>https://github.com/esa/CCSDS_APPS</url>
+    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/CesarCoelho/BUG_REPORTS_NANOSAT_MO_FRAMEWORK/issues</url>
+    <url>https://github.com/esa/nanosat-mo-framework/issues</url>
   </issueManagement>
 
   <developers>

@@ -47,7 +47,7 @@
     <url>https://github.com/esa/nanosat-mo-framework/issues</url>
   </issueManagement>
   <scm>
-    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
     <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
     <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
