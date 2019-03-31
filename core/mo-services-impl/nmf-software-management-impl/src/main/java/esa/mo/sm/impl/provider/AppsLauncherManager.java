@@ -32,6 +32,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.sm.impl.util.OSValidator;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -271,13 +272,11 @@ public class AppsLauncherManager extends DefinitionsManager
 
     for (File folder : fList) { // Roll all the apps inside the apps folder
       if (folder.isDirectory()) {
-        for (File file : folder.listFiles()) { // Roll all the files inside each app folder
-          // Check if the folder contains the provider properties
-          if (HelperMisc.PROVIDER_PROPERTIES_FILE.equals(file.getName())) {
-            AppDetails app = this.readAppDescriptorFromFolder(folder);
-            apps.add(app);
-            break;
-          }
+        File propsFile = new File(folder, HelperMisc.PROVIDER_PROPERTIES_FILE);
+        if (propsFile.exists() && !propsFile.isDirectory()) {
+          AppDetails app = this.readAppDescriptor(folder.getName(), propsFile);
+          apps.add(app);
+          break;
         }
       }
     }
@@ -375,10 +374,10 @@ public class AppsLauncherManager extends DefinitionsManager
     if (osValidator.isWindows()) {
       ret.add("cmd");
       ret.add("/c");
-      ret.add(trimmedAppName + ".bat");
+      ret.add("start_" + trimmedAppName + ".bat");
     } else {
       ret.add("/bin/sh");
-      ret.add(trimmedAppName + ".sh");
+      ret.add("start_" + trimmedAppName + ".sh");
     }
     return ret.toArray(new String[ret.size()]);
   }
@@ -450,22 +449,12 @@ public class AppsLauncherManager extends DefinitionsManager
       final ArrayList<SingleConnectionDetails> appConnections,
       final StopAppInteraction interaction) throws MALException, MALInteractionException
   {
-//        Random random = new Random(); // to avoid registrations with the same name
-
     // Register on the Event service of the respective apps
     for (int i = 0; i < appConnections.size(); i++) {
       // Select all object numbers from the Apps Launcher service Events
       Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent(
           "ClosingAppEvents",
           AppsLauncherHelper.APP_OBJECT_TYPE);
-
-      /*
-            final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
-
-            Subscription eventSub = ConnectionConsumer.subscriptionKeys(
-                    new Identifier("ClosingAppEvents" + random.nextInt()),
-                    new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
-       */
       try { // Subscribe to events
         EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.
             get(i));
@@ -637,15 +626,16 @@ public class AppsLauncherManager extends DefinitionsManager
     return previousAppDetails.getRunning().booleanValue() != single_app.getRunning().booleanValue();
   }
 
-  private AppDetails readAppDescriptorFromFolder(final File appFolder)
+  private AppDetails readAppDescriptor(final String appName, final File propertiesFile)
   {
     final AppDetails app = new AppDetails();
-    app.setName(new Identifier(appFolder.getName())); // Use the name of the folder
+    app.setName(new Identifier(appName)); // Use the name of the folder
 
     try {
-      String propsFilepath
-          = appFolder.getCanonicalPath() + File.separator + HelperMisc.PROVIDER_PROPERTIES_FILE;
-      final Properties props = HelperMisc.loadProperties(propsFilepath);
+      final Properties props = new Properties();
+      final FileInputStream inputStream = new FileInputStream(propertiesFile);
+      props.load(inputStream);
+      inputStream.close();
       app.setExtraInfo(HelperMisc.PROVIDER_PROPERTIES_FILE);
 
       final String category = (props.getProperty(HelperMisc.APP_CATEGORY) != null) ? props.

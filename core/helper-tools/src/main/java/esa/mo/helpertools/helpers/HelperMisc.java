@@ -21,6 +21,7 @@
 package esa.mo.helpertools.helpers;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -173,21 +174,15 @@ public class HelperMisc {
      *
      * @param path The path of the property file to load.
      * @return The loaded properties or an empty list if no file loaded.
-     * @throws MalformedURLException The file could not be loaded.
+     * @throws IOException The file could not be loaded.
      */
-    public static Properties loadProperties(final String path) throws MalformedURLException, IOException {
+    public static Properties loadProperties(final String path) throws IOException {
         final File file = new File(path);
-        final java.net.URL url = file.toURI().toURL();
-
-        if (null != url) {
-            final Properties myProps = new Properties();
-            InputStream stream = url.openStream();
-            myProps.load(url.openStream());
-            stream.close();
-            return myProps;
-        }
-
-        throw new IOException("The URL of the file is null.");
+        final FileInputStream inputStream = new FileInputStream(file);
+        final Properties ret = new Properties();
+        ret.load(inputStream);
+        inputStream.close();
+        return ret;
     }
 
     /**
