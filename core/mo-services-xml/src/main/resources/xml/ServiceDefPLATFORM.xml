@@ -187,6 +187,15 @@
           <mal:field canBeNull="false" comment="The exposureTime field shall hold the exposure time of the camera." name="exposureTime">
             <mal:type area="MAL" list="false" name="Duration"/>
           </mal:field>
+          <mal:field canBeNull="false" comment="Green channel gain." name="gainRed">
+            <mal:type area="MAL" list="false" name="Float"/>
+          </mal:field>
+          <mal:field canBeNull="false" comment="Blue channel gain." name="gainGreen">
+            <mal:type area="MAL" list="false" name="Float"/>
+          </mal:field>
+          <mal:field canBeNull="false" comment="Red channel gain." name="gainBlue">
+            <mal:type area="MAL" list="false" name="Float"/>
+          </mal:field>
         </mal:composite>
       </mal:dataTypes>
       <com:features/>

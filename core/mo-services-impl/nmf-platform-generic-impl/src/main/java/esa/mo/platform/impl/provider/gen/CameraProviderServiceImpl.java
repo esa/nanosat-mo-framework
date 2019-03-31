@@ -24,8 +24,6 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Timer;
@@ -33,7 +31,6 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -43,7 +40,6 @@ import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
-import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.EntityKey;
 import org.ccsds.moims.mo.mal.structures.EntityKeyList;
@@ -165,8 +161,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
   }
 
   private void streamPicturesUpdate(final Identifier firstEntityKey,
-      final PixelResolution resolution, final PictureFormat targetFormat,
-      final Duration exposureTime)
+      final CameraSettings settings)
   {
     try {
       final Long objId;
@@ -182,17 +177,16 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
 
         objId = uniqueObjId.incrementAndGet();
         try {
-          picture = adapter.takePicture(resolution, targetFormat, exposureTime);
+          picture = adapter.takePicture(settings);
         } catch (IOException ex) {
           LOGGER.log(Level.SEVERE, null, ex);
         }
       }
 
-      LOGGER.log(Level.FINER,
-          "Generating streaming Picture update with objId: " + objId);
+      LOGGER.log(Level.FINER, "Generating streaming Picture update with objId: {0}", objId);
 
-      final EntityKey ekey = new EntityKey(firstEntityKey, objId, resolution.getWidth().getValue(),
-          resolution.getHeight().getValue());
+      final EntityKey ekey = new EntityKey(firstEntityKey, objId, settings.getResolution().getWidth().getValue(),
+          settings.getResolution().getHeight().getValue());
 
       final UpdateHeaderList hdrlst = new UpdateHeaderList();
       hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(),
@@ -292,8 +286,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
         {
           if (running) {
             if (cameraInUse) {
-              streamPicturesUpdate(firstEntityKey, settings.getResolution(), settings.getFormat(),
-                  settings.getExposureTime());
+              streamPicturesUpdate(firstEntityKey, settings);
             }
           }
         }
@@ -326,8 +319,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
 
     synchronized (lock) {
       try {
-        Picture picture = adapter.takePicture(settings.getResolution(), settings.getFormat(),
-            settings.getExposureTime());
+        Picture picture = adapter.takePicture(settings);
 
         LOGGER.log(Level.INFO,
             "The picture has been taken!");

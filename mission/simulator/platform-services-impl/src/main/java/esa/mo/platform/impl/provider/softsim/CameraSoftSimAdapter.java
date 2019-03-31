@@ -102,22 +102,24 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
   }
 
   @Override
-  public synchronized Picture takePicture(final PixelResolution resolution,
-      final PictureFormat format, final Duration exposureTime) throws IOException
+  public synchronized Picture takePicture(final CameraSettings settings) throws IOException
   {
     // Get a picture from the simulator...
     final Time timestamp = HelperTime.getTimestampMillis();
     byte[] data = instrumentsSimulator.getpCamera().takePicture(
-        (int) resolution.getWidth().getValue(), (int) resolution.getHeight().getValue());
+        (int) settings.getResolution().getWidth().getValue(), (int) settings.getResolution().getHeight().getValue());
 
-    if (format != PictureFormat.RAW) {
-      data = convertImage(data, format);
+    if (settings.getFormat() != settings.getFormat().RAW) {
+      data = convertImage(data, settings.getFormat());
     }
 
     CameraSettings pictureSettings = new CameraSettings();
-    pictureSettings.setResolution(resolution);
-    pictureSettings.setFormat(format);
-    pictureSettings.setExposureTime(exposureTime);
+    pictureSettings.setResolution(settings.getResolution());
+    pictureSettings.setFormat(settings.getFormat());
+    pictureSettings.setExposureTime(settings.getExposureTime());
+    pictureSettings.setGainRed(settings.getGainRed());
+    pictureSettings.setGainGreen(settings.getGainGreen());
+    pictureSettings.setGainBlue(settings.getGainBlue());
     Picture picture = new Picture(timestamp, pictureSettings, new Blob(data));
     return picture;
   }

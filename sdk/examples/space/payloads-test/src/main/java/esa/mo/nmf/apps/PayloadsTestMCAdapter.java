@@ -70,6 +70,7 @@ import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
@@ -126,16 +127,21 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   private static final String PARAMETER_SUN_VECTOR_X = "SunVector_X";
   private static final String PARAMETER_SUN_VECTOR_Y = "SunVector_Y";
   private static final String PARAMETER_SUN_VECTOR_Z = "SunVector_Z";
+  private static final String PARAMETER_CAMERA_GAIN_R = "CameraGain_R";
+  private static final String PARAMETER_CAMERA_GAIN_G = "CameraGain_G";
+  private static final String PARAMETER_CAMERA_GAIN_B = "CameraGain_B";
 
   private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
   private static final Logger LOGGER = Logger.getLogger(MonitorAndControlNMFAdapter.class.getName());
   private final NMFInterface nmf;
+  private static final float DEFAULT_CAMERA_GAIN = 6;
 
-  private final AtomicInteger snapsTaken = new AtomicInteger(0);
+  private final AtomicInteger picturesTaken = new AtomicInteger(0);
   private final int defaultPictureWidth = 2048;
   private final int defaultPictureHeight = 1944;
   private final PixelResolution defaultCameraResolution;
   private final int TOTAL_STAGES = 3;
+  private float cameraGainR, cameraGainG, cameraGainB;
 
   public PayloadsTestMCAdapter(final NMFInterface nmfProvider)
   {
@@ -176,7 +182,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   {
     // Prevent definition updates on consecutive application runs
     registration.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
-    registerTelemetry(registration);
+    registerParameters(registration);
     registerTelecommands(registration);
   }
 
@@ -255,7 +261,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     registration.registerActions(actionNames, actionDefs);
   }
 
-  private void registerTelemetry(MCRegistration registration) throws IllegalArgumentException
+  private void registerParameters(MCRegistration registration) throws IllegalArgumentException
   {
     ParameterConversion paramConversion = registerAdcsModeConversion(registration);
 
@@ -268,8 +274,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     IdentifierList paramMagNames = new IdentifierList();
 
     defsOther.add(new ParameterDefinitionDetails(
-        "The number of snaps taken.",
-        Union.STRING_SHORT_FORM.byteValue(),
+        "The number of pictures taken",
+        Union.INTEGER_SHORT_FORM.byteValue(),
         "",
         false,
         new Duration(10),
@@ -277,6 +283,40 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         null
     ));
     paramOtherNames.add(new Identifier(PARAMETER_PICTURES_TAKEN));
+
+    defsOther.add(new ParameterDefinitionDetails(
+        "Camera red channel gain",
+        Union.FLOAT_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(10),
+        null,
+        null
+    ));
+    paramOtherNames.add(new Identifier(PARAMETER_CAMERA_GAIN_R));
+
+    defsOther.add(new ParameterDefinitionDetails(
+        "Camera green channel gain",
+        Union.FLOAT_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(10),
+        null,
+        null
+    ));
+    paramOtherNames.add(new Identifier(PARAMETER_CAMERA_GAIN_G));
+
+    defsOther.add(new ParameterDefinitionDetails(
+        "Camera blue channel gain",
+        Union.FLOAT_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(10),
+        null,
+        null
+    ));
+    paramOtherNames.add(new Identifier(PARAMETER_CAMERA_GAIN_B));
+
     defsOther.add(new ParameterDefinitionDetails(
         "The ADCS mode of operation",
         Union.UOCTET_SHORT_FORM.byteValue(),
@@ -298,7 +338,6 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         null
     ));
     paramOtherNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
-    registration.registerParameters(paramOtherNames, defsOther);
 
     // Create the GPS.Latitude
     defsGPS.add(new ParameterDefinitionDetails(
@@ -374,6 +413,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
     LongList parameterObjIdsGPS = registration.registerParameters(paramGPSNames, defsGPS);
     LongList parameterObjIdsMag = registration.registerParameters(paramMagNames, defsMag);
+    registration.registerParameters(paramOtherNames, defsOther);
 
     // ------------------ Aggregations ------------------
     AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
@@ -570,7 +610,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
             }
             break;
           case PARAMETER_PICTURES_TAKEN:
-            return (Attribute) HelperAttributes.javaType2Attribute(snapsTaken.get());
+            return (Attribute) HelperAttributes.javaType2Attribute(picturesTaken.get());
+          case PARAMETER_CAMERA_GAIN_R:
+            return (Attribute) HelperAttributes.javaType2Attribute(cameraGainR);
+          case PARAMETER_CAMERA_GAIN_G:
+            return (Attribute) HelperAttributes.javaType2Attribute(cameraGainG);
+          case PARAMETER_CAMERA_GAIN_B:
+            return (Attribute) HelperAttributes.javaType2Attribute(cameraGainB);
           default:
             break;
         }
@@ -586,7 +632,40 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   @Override
   public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
   {
-    return false; // Parameter has not been set
+    int i = 0;
+    for (Identifier identifier : identifiers) {
+      Object o = HelperAttributes.attribute2JavaType(values.get(i).getRawValue());
+      switch (identifier.getValue()) {
+        case PARAMETER_CAMERA_GAIN_R:
+          if (o instanceof Float) {
+            cameraGainR = (Float) o;
+          } else {
+            return false;
+          }
+          break;
+        case PARAMETER_CAMERA_GAIN_G:
+          if (o instanceof Float) {
+            cameraGainG = (Float) o;
+          } else {
+            return false;
+          }
+          break;
+        case PARAMETER_CAMERA_GAIN_B:
+          if (o instanceof Float) {
+            cameraGainB = (Float) o;
+          } else {
+            return false;
+          }
+          break;
+        default:
+          return false;
+      }
+      i++;
+    }
+    if (i != 0) {
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -635,7 +714,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
           try {
             nmf.getPlatformServices().getCameraService().takePicture(new CameraSettings(
                 defaultCameraResolution,
-                PictureFormat.RAW, new Duration(0.200)),
+                PictureFormat.RAW, new Duration(0.200), cameraGainR, cameraGainG, cameraGainB),
                 new CameraDataHandler(actionInstanceObjId)
             );
             return null; // Success!
@@ -647,7 +726,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
           try {
             nmf.getPlatformServices().getCameraService().takePicture(new CameraSettings(
                 defaultCameraResolution,
-                PictureFormat.JPG, new Duration(0.200)),
+                PictureFormat.JPG, new Duration(0.200), cameraGainR, cameraGainG, cameraGainB),
                 new CameraDataHandler(actionInstanceObjId)
             );
             return null; // Success!
@@ -807,7 +886,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         org.ccsds.moims.mo.platform.camera.structures.Picture picture, java.util.Map qosProperties)
     {
       // The picture was received!
-      snapsTaken.incrementAndGet();
+      picturesTaken.incrementAndGet();
 
       try {
         nmf.reportActionExecutionProgress(true, 0, STAGE_RSP, TOTAL_STAGES,

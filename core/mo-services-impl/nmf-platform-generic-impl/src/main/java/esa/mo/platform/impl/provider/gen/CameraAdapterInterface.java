@@ -20,13 +20,11 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 
 /**
@@ -55,7 +53,7 @@ public interface CameraAdapterInterface
 
   Picture getPicturePreview() throws IOException;
 
-  Picture takePicture(PixelResolution resolution, PictureFormat format, Duration exposureTime)
+  Picture takePicture(final CameraSettings settings)
       throws IOException;
 
   /**
