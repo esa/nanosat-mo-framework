@@ -150,9 +150,12 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
                     publisher.register(lst, new PublishInteractionListener());
                     isRegistered = true;
                 }
+                iqComponents = adapter.getIQComponents();
+                if (iqComponents == null) {
+                    return;
+                }
 
                 objId = uniqueObjId.incrementAndGet();
-                iqComponents = adapter.getIQComponents();
             }
 
             Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.FINER,
@@ -190,7 +193,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             int period = (int) (publishingPeriod.getValue() * 1000); // In milliseconds
 
             publishTimer = new Timer();
-            publishTimer.scheduleAtFixedRate(new TimerTask() {
+            publishTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     if (running) {

@@ -385,7 +385,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
   }
 
-  private static final class PublishInteractionListener implements MALPublishInteractionListener
+  private class PublishInteractionListener implements MALPublishInteractionListener
   {
 
     @Override
