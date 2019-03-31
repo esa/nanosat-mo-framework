@@ -23,7 +23,7 @@
   </parent>
 
   <groupId>int.esa.nmf.sdk.examples.space</groupId>
-  <artifactId>payloads-tests</artifactId>
+  <artifactId>payloads-test</artifactId>
   <packaging>jar</packaging>
 
   <name>ESA NMF SDK App Example - Payloads Test</name>
@@ -63,7 +63,7 @@
   </developers>
 
   <properties>
-    <assembly.mainClass>esa.mo.nmf.apps.PayloadsTest</assembly.mainClass>
+    <assembly.mainClass>esa.mo.nmf.apps.PayloadsTestApp</assembly.mainClass>
   </properties>
 
   <dependencies>
