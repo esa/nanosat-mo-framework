@@ -57,6 +57,7 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
     devices = new ArrayList<>();
     deviceByName = new HashMap<>();
     deviceByObjInstId = new HashMap<>();
+    initDevices();
   }
 
   private void initDevices()
