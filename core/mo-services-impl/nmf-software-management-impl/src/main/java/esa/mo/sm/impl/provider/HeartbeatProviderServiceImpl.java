@@ -116,7 +116,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton
 
     // Start the timer to publish the heartbeat
     timer = new Timer("HeartbeatThread");
-    timer.scheduleAtFixedRate(new TimerTask()
+    timer.schedule(new TimerTask()
     {
       @Override
       public void run()
