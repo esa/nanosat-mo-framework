@@ -276,7 +276,6 @@ public class AppsLauncherManager extends DefinitionsManager
         if (propsFile.exists() && !propsFile.isDirectory()) {
           AppDetails app = this.readAppDescriptor(folder.getName(), propsFile);
           apps.add(app);
-          break;
         }
       }
     }
@@ -367,6 +366,21 @@ public class AppsLauncherManager extends DefinitionsManager
     return this.get(appId).getRunning();
   }
 
+  protected String[] assembleAppStopCommand(final String appName)
+  {
+    ArrayList<String> ret = new ArrayList<>();
+    String trimmedAppName = appName.replaceAll("space-app-", "");
+    if (osValidator.isWindows()) {
+      ret.add("cmd");
+      ret.add("/c");
+      ret.add("stop_" + trimmedAppName + ".bat");
+    } else {
+      ret.add("/bin/sh");
+      ret.add("stop_" + trimmedAppName + ".sh");
+    }
+    return ret.toArray(new String[ret.size()]);
+  }
+
   protected String[] assembleAppLauncherCommand(final String appName)
   {
     ArrayList<String> ret = new ArrayList<>();
@@ -427,6 +441,46 @@ public class AppsLauncherManager extends DefinitionsManager
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
     ProcessExecutionHandler handler = handlers.get(appInstId);
+
+    if (handler == null) {
+      app.setRunning(false);
+      return false;
+    }
+
+    if (handler.getProcess() == null) {
+      app.setRunning(false);
+      return true;
+    }
+
+    handler.close();
+    this.setRunning(handler.getObjId(), false, interaction); // Update the Archive
+    handlers.remove(appInstId); // Get rid of it!
+
+    return true;
+  }
+
+  protected boolean stopNativeApp(final Long appInstId, MALInteraction interaction) throws IOException
+  {
+    ProcessExecutionHandler handler = handlers.get(appInstId);
+    AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
+
+
+    // Go to the folder where the app are installed
+    final File appFolder
+        = new File(appsFolderPath + File.separator + app.getName().getValue());
+    final String[] appLauncherCommand = assembleAppStopCommand(app.getName().getValue());
+
+    final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
+    Map<String, String> env = pb.environment();
+    env.clear();
+    assembleAppLauncherEnvironment("", env);
+    pb.directory(appFolder);
+    LOGGER.log(Level.INFO,
+        "Initializing ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
+        new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
+          appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
+    final Process proc = pb.start();
+
 
     if (handler == null) {
       app.setRunning(false);
