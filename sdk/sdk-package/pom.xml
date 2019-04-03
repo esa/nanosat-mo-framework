@@ -263,7 +263,7 @@
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.apps.AllInOne</mainClass>
-                  <id>all-mc-services</id>
+                  <id>start_all-mc-services</id>
                 </program>
               </programs>
             </configuration>
@@ -279,7 +279,7 @@
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.apps.PushClock</mainClass>
-                  <id>publish-clock</id>
+                  <id>start_publish-clock</id>
                 </program>
               </programs>
             </configuration>
@@ -295,7 +295,7 @@
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.apps.SnapNMF</mainClass>
-                  <id>camera</id>
+                  <id>start_camera</id>
                 </program>
               </programs>
             </configuration>
@@ -311,7 +311,7 @@
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.apps.BenchmarkApp</mainClass>
-                  <id>benchmark</id>
+                  <id>start_benchmark</id>
                 </program>
               </programs>
             </configuration>
@@ -327,7 +327,7 @@
               <programs>
                 <program>
                   <mainClass>esa.mo.nmf.apps.PayloadsTestApp</mainClass>
-                  <id>payloads-test</id>
+                  <id>start_payloads-test</id>
                 </program>
               </programs>
             </configuration>
