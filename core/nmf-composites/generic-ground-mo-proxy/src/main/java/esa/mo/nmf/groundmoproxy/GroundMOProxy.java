@@ -34,6 +34,7 @@ import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,6 +47,7 @@ import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
@@ -125,33 +127,20 @@ public abstract class GroundMOProxy
 
     try {
       ProviderSummaryList list = getRemoteNMSProviderSpecificService(serviceKey);
+      if (list.isEmpty() || list.get(0).getProviderDetails().getServiceCapabilities().isEmpty()) {
+        return null;
+      }
       return AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(list);
-    } catch (MALInteractionException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    } catch (MALException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+    } catch (MALInteractionException | MALException | IOException ex) {
+      LOGGER.log(Level.SEVERE, "Cannot produce Connection Details for the service", ex);
     }
     return null;
   }
 
   public ProviderSummaryList getRemoteNMSProvider() throws MALInteractionException, MALException
   {
-    IdentifierList wildcardList = new IdentifierList();
-    wildcardList.add(new Identifier("*"));
-
-    ServiceFilter filter = new ServiceFilter();
-    filter.setDomain(wildcardList);
-    filter.setNetwork(new Identifier("*"));
-    filter.setSessionType(null);
-    filter.setSessionName(new Identifier("*"));
-    filter.setServiceKey(new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet(
-        (short) 0)));
-    filter.setRequiredCapabilities(new UIntegerList());
-    filter.setServiceProviderName(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME));
-
-    return localDirectoryService.lookupProvider(filter, null);
+    return getRemoteNMSProviderSpecificService(new ServiceKey(new UShort((short) 0), new UShort(
+        (short) 0), new UOctet((short) 0)));
   }
 
   public ProviderSummaryList getRemoteNMSProviderSpecificService(ServiceKey key) throws
@@ -167,9 +156,17 @@ public abstract class GroundMOProxy
     filter.setSessionName(new Identifier("*"));
     filter.setServiceKey(key);
     filter.setRequiredCapabilities(new UIntegerList());
-    filter.setServiceProviderName(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME));
-
-    return localDirectoryService.lookupProvider(filter, null);
+    filter.setServiceProviderName(new Identifier("*"));
+    ProviderSummaryList list = localDirectoryService.lookupProvider(filter, null);
+    // Post-filter the list
+    Iterator itr = list.iterator();
+    while (itr.hasNext()) {
+      ProviderSummary ps = (ProviderSummary) itr.next();
+      if (!ps.getProviderName().getValue().startsWith(Const.NANOSAT_MO_SUPERVISOR_NAME)) {
+        itr.remove();
+      }
+    }
+    return list;
   }
 
   public abstract void additionalHandling();
@@ -309,32 +306,37 @@ public abstract class GroundMOProxy
             localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI,
                 routedURI);
             cdRemoteArchive = cdFromService(ArchiveHelper.ARCHIVE_SERVICE);
+            if (cdRemoteArchive == null) {
+              LOGGER.log(Level.WARNING,
+                  "Failed to find the remote NMS Archive. Might be still initializing...");
+            } else {
 
-            // If it is first time, then we need to conect to the
-            // heartbeat service and listen to the beat
-            SingleConnectionDetails connectionDetails = cdFromService(
-                HeartbeatHelper.HEARTBEAT_SERVICE);
-            HeartbeatConsumerServiceImpl heartbeat = new HeartbeatConsumerServiceImpl(
-                connectionDetails, null);
-            providerStatusAdapter = new GroundHeartbeatAdapter(heartbeat,
-                esa.mo.nmf.groundmoproxy.GroundMOProxy.this);
-            Subscription heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+              // If it is first time, then we need to conect to the
+              // heartbeat service and listen to the beat
+              SingleConnectionDetails connectionDetails = cdFromService(
+                  HeartbeatHelper.HEARTBEAT_SERVICE);
+              HeartbeatConsumerServiceImpl heartbeat = new HeartbeatConsumerServiceImpl(
+                  connectionDetails, null);
+              providerStatusAdapter = new GroundHeartbeatAdapter(heartbeat,
+                  esa.mo.nmf.groundmoproxy.GroundMOProxy.this);
+              Subscription heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
 
-            try {
-              heartbeat.getHeartbeatStub().beatRegister(heartbeatSubscription, providerStatusAdapter);
-              firstTime = false;
-            } catch (MALInteractionException | MALException ex) {
-              LOGGER.log(Level.SEVERE, null, ex);
+              try {
+                heartbeat.getHeartbeatStub().beatRegister(heartbeatSubscription,
+                    providerStatusAdapter);
+                firstTime = false;
+              } catch (MALInteractionException | MALException ex) {
+                LOGGER.log(Level.SEVERE, "Error when subscribing to the NMS heartbeat.", ex);
+              }
             }
+            setNmsAliveStatus(true);
+            additionalHandling();
           }
-
-          setNmsAliveStatus(true);
-          additionalHandling();
         } catch (MALTransmitErrorException ex) {
           LOGGER.log(Level.WARNING,
               "Failed to start directory service sync. Check the link to the spacecraft.");
         } catch (MALException | MalformedURLException | MALInteractionException ex) {
-          LOGGER.log(Level.SEVERE, null, ex);
+          LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", ex);
         }
       }
     }
