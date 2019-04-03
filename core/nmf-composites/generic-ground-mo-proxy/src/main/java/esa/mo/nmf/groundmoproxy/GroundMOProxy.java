@@ -215,7 +215,8 @@ public abstract class GroundMOProxy
     @Override
     public void run()
     {
-      if (getNmsAliveStatus()) { // If alive
+      // If alive and remote Archive connection details are initialised
+      if (getNmsAliveStatus() && cdRemoteArchive != null) {
         try {
           if (firstRun) {
             archiveService = new ArchiveConsumerServiceImpl(cdRemoteArchive);
