@@ -141,7 +141,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   private final int defaultPictureHeight = 1944;
   private final PixelResolution defaultCameraResolution;
   private final int TOTAL_STAGES = 3;
-  private float cameraGainR, cameraGainG, cameraGainB;
+  private float cameraGainR = DEFAULT_CAMERA_GAIN;
+  private float cameraGainG = DEFAULT_CAMERA_GAIN;
+  private float cameraGainB = DEFAULT_CAMERA_GAIN;
 
   public PayloadsTestMCAdapter(final NMFInterface nmfProvider)
   {
