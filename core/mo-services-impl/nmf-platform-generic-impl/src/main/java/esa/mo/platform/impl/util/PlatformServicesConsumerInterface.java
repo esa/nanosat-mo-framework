@@ -25,22 +25,26 @@ import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
+import org.ccsds.moims.mo.platform.powercontrol.consumer.PowerControlStub;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
 /**
  *
  * @author Cesar Coelho
  */
-public interface PlatformServicesConsumerInterface {
+public interface PlatformServicesConsumerInterface
+{
 
-    AutonomousADCSStub getAutonomousADCSService() throws IOException;
+  AutonomousADCSStub getAutonomousADCSService() throws IOException;
 
-    CameraStub getCameraService() throws IOException;
+  CameraStub getCameraService() throws IOException;
 
-    GPSStub getGPSService() throws IOException;
+  GPSStub getGPSService() throws IOException;
 
-    OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException;
+  OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException;
 
-    SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException;
+  SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException;
+
+  PowerControlStub getPowerControlService() throws IOException;
 
 }
