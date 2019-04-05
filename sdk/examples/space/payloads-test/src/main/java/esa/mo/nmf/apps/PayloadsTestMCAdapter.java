@@ -88,6 +88,9 @@ import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
 /**
  * The adapter for the NMF App
@@ -95,13 +98,17 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 {
 
-  private static final String PARAMETER_PICTURES_TAKEN = "NumberOfPicturesTaken";
   private static final String ACTION_TAKE_PICTURE_RAW = "TakePicture.RAW";
   private static final String ACTION_TAKE_PICTURE_JPG = "TakePicture.JPG";
+  private static final String ACTION_TAKE_PICTURE_BMP = "TakePicture.BMP";
 
   private static final String ACTION_NADIR_POINTING_MODE = "ADCS_NadirPointingMode";
   private static final String ACTION_SUN_POINTING_MODE = "ADCS_SunPointingMode";
   private static final String ACTION_UNSET_ATTITUDE = "ADCS_UnsetAttitude";
+
+  private static final String ACTION_POWER_ON_DEVICE = "PowerOnDevice";
+  private static final String ACTION_POWER_OFF_DEVICE = "PowerOffDevice";
+
   private static final String AGGREGATION_GPS = "GPS_Aggregation";
   private static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
   private static final String PARAMETER_ADCS_MODE = "ADCS_ModeOperation";
@@ -130,11 +137,15 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   private static final String PARAMETER_CAMERA_GAIN_R = "CameraGain_R";
   private static final String PARAMETER_CAMERA_GAIN_G = "CameraGain_G";
   private static final String PARAMETER_CAMERA_GAIN_B = "CameraGain_B";
+  private static final String PARAMETER_CAMERA_EXPOSURE_TIME = "CameraExposureTime";
+  private static final String PARAMETER_CAMERA_PICTURES_TAKEN = "NumberOfPicturesTaken";
 
   private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
   private static final Logger LOGGER = Logger.getLogger(MonitorAndControlNMFAdapter.class.getName());
-  private final NMFInterface nmf;
+  ;
   private static final float DEFAULT_CAMERA_GAIN = 6;
+  private static final Duration DEFAULT_CAMERA_EXPOSURE_TIME = new Duration(0.1);
+  private final NMFInterface nmf;
 
   private final AtomicInteger picturesTaken = new AtomicInteger(0);
   private final int defaultPictureWidth = 2048;
@@ -144,6 +155,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   private float cameraGainR = DEFAULT_CAMERA_GAIN;
   private float cameraGainG = DEFAULT_CAMERA_GAIN;
   private float cameraGainB = DEFAULT_CAMERA_GAIN;
+  private Duration cameraExposureTime = DEFAULT_CAMERA_EXPOSURE_TIME;
 
   public PayloadsTestMCAdapter(final NMFInterface nmfProvider)
   {
@@ -194,7 +206,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
     IdentifierList actionNames = new IdentifierList();
 
-    ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+    ArgumentDefinitionDetailsList argumentsSetAttitude = new ArgumentDefinitionDetailsList();
     {
       Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
       String rawUnit = "seconds";
@@ -202,7 +214,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       Byte convertedType = null;
       String convertedUnit = null;
 
-      arguments1.add(new ArgumentDefinitionDetails(new Identifier("0"), null,
+      argumentsSetAttitude.add(new ArgumentDefinitionDetails(new Identifier("modeHoldDuration"),
+          null,
           rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
     }
 
@@ -210,7 +223,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         "Changes the spacecraft's attitude to sun pointing mode.",
         new UOctet((short) 0),
         new UShort(0),
-        arguments1
+        argumentsSetAttitude
     );
     actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
 
@@ -218,7 +231,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         "Changes the spacecraft's attitude to nadir pointing mode.",
         new UOctet((short) 0),
         new UShort(0),
-        arguments1
+        argumentsSetAttitude
     );
     actionNames.add(new Identifier(ACTION_NADIR_POINTING_MODE));
 
@@ -226,7 +239,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         "Unsets the spacecraft's attitude.",
         new UOctet((short) 0),
         new UShort(0),
-        new ArgumentDefinitionDetailsList()
+        null
     );
     actionNames.add(new Identifier(ACTION_UNSET_ATTITUDE));
 
@@ -234,22 +247,11 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     actionDefs.add(actionDefNadirPointing);
     actionDefs.add(actionDefUnsetAttitude);
 
-    ArgumentDefinitionDetailsList argumentsCam = new ArgumentDefinitionDetailsList();
-    {
-      Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
-      String rawUnit = "Image Format";
-      ConditionalConversionList conditionalConversions = null;
-      Byte convertedType = null;
-      String convertedUnit = null;
-
-      argumentsCam.add(new ArgumentDefinitionDetails(new Identifier("1"), null,
-          rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
-    }
     actionDefs.add(new ActionDefinitionDetails(
         "Uses the NMF Camera service to take a picture.",
         new UOctet((short) 0),
         new UShort(TOTAL_STAGES),
-        argumentsCam
+        null
     ));
     actionNames.add(new Identifier(ACTION_TAKE_PICTURE_RAW));
 
@@ -257,9 +259,43 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         "Uses the NMF Camera service to take a picture.",
         new UOctet((short) 0),
         new UShort(TOTAL_STAGES),
-        argumentsCam
+        null
     ));
     actionNames.add(new Identifier(ACTION_TAKE_PICTURE_JPG));
+
+    actionDefs.add(new ActionDefinitionDetails(
+        "Uses the NMF Camera service to take a picture.",
+        new UOctet((short) 0),
+        new UShort(TOTAL_STAGES),
+        null
+    ));
+    actionNames.add(new Identifier(ACTION_TAKE_PICTURE_BMP));
+
+    ArgumentDefinitionDetailsList argumentsPowerSwitch = new ArgumentDefinitionDetailsList();
+    {
+      Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+      String rawUnit = null;
+      ConditionalConversionList conditionalConversions = null;
+      Byte convertedType = null;
+      String convertedUnit = null;
+
+      argumentsPowerSwitch.add(new ArgumentDefinitionDetails(new Identifier("DeviceType"), null,
+          rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+    }
+    actionDefs.add(new ActionDefinitionDetails(
+        "Use NMF PowerControl to switch a device.",
+        new UOctet((short) 0),
+        new UShort(0),
+        argumentsPowerSwitch
+    ));
+    actionNames.add(new Identifier(ACTION_POWER_ON_DEVICE));
+    actionDefs.add(new ActionDefinitionDetails(
+        "Use NMF PowerControl to switch a device.",
+        new UOctet((short) 0),
+        new UShort(0),
+        argumentsPowerSwitch
+    ));
+    actionNames.add(new Identifier(ACTION_POWER_OFF_DEVICE));
     registration.registerActions(actionNames, actionDefs);
   }
 
@@ -284,7 +320,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         null,
         null
     ));
-    paramOtherNames.add(new Identifier(PARAMETER_PICTURES_TAKEN));
+    paramOtherNames.add(new Identifier(PARAMETER_CAMERA_PICTURES_TAKEN));
 
     defsOther.add(new ParameterDefinitionDetails(
         "Camera red channel gain",
@@ -318,6 +354,17 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         null
     ));
     paramOtherNames.add(new Identifier(PARAMETER_CAMERA_GAIN_B));
+
+    defsOther.add(new ParameterDefinitionDetails(
+        "Camera exposure time",
+        Union.DURATION_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(10),
+        null,
+        null
+    ));
+    paramOtherNames.add(new Identifier(PARAMETER_CAMERA_EXPOSURE_TIME));
 
     defsOther.add(new ParameterDefinitionDetails(
         "The ADCS mode of operation",
@@ -611,7 +658,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
               LOGGER.log(Level.SEVERE, null, ex);
             }
             break;
-          case PARAMETER_PICTURES_TAKEN:
+          case PARAMETER_CAMERA_PICTURES_TAKEN:
             return (Attribute) HelperAttributes.javaType2Attribute(picturesTaken.get());
           case PARAMETER_CAMERA_GAIN_R:
             return (Attribute) HelperAttributes.javaType2Attribute(cameraGainR);
@@ -619,6 +666,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
             return (Attribute) HelperAttributes.javaType2Attribute(cameraGainG);
           case PARAMETER_CAMERA_GAIN_B:
             return (Attribute) HelperAttributes.javaType2Attribute(cameraGainB);
+          case PARAMETER_CAMERA_EXPOSURE_TIME:
+            return cameraExposureTime;
           default:
             break;
         }
@@ -655,6 +704,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         case PARAMETER_CAMERA_GAIN_B:
           if (o instanceof Float) {
             cameraGainB = (Float) o;
+          } else {
+            return false;
+          }
+          break;
+        case PARAMETER_CAMERA_EXPOSURE_TIME:
+          if (o instanceof Duration) {
+            cameraExposureTime = (Duration) o;
           } else {
             return false;
           }
@@ -715,27 +771,59 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         case ACTION_TAKE_PICTURE_RAW:
           try {
             nmf.getPlatformServices().getCameraService().takePicture(new CameraSettings(
-                defaultCameraResolution,
-                PictureFormat.RAW, new Duration(0.200), cameraGainR, cameraGainG, cameraGainB),
-                new CameraDataHandler(actionInstanceObjId)
-            );
+                defaultCameraResolution, PictureFormat.RAW, cameraExposureTime,
+                cameraGainR, cameraGainG, cameraGainB),
+                new CameraDataHandler(actionInstanceObjId));
             return null; // Success!
           } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
+            return new UInteger(1);
           }
-          break;
         case ACTION_TAKE_PICTURE_JPG:
           try {
             nmf.getPlatformServices().getCameraService().takePicture(new CameraSettings(
-                defaultCameraResolution,
-                PictureFormat.JPG, new Duration(0.200), cameraGainR, cameraGainG, cameraGainB),
+                defaultCameraResolution, PictureFormat.JPG, cameraExposureTime,
+                cameraGainR, cameraGainG, cameraGainB),
+                new CameraDataHandler(actionInstanceObjId));
+            return null; // Success!
+          } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            return new UInteger(1);
+          }
+        case ACTION_TAKE_PICTURE_BMP:
+          try {
+            nmf.getPlatformServices().getCameraService().takePicture(new CameraSettings(
+                defaultCameraResolution, PictureFormat.BMP, cameraExposureTime,
+                cameraGainR, cameraGainG, cameraGainB),
                 new CameraDataHandler(actionInstanceObjId)
             );
             return null; // Success!
           } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
+            return new UInteger(1);
           }
-          break;
+        case ACTION_POWER_ON_DEVICE:
+          try {
+            DeviceList deviceList = new DeviceList();
+            deviceList.add(new Device(true, null, null, DeviceType.fromNumericValue(
+                (UInteger) attributeValues.get(0).getValue())));
+            nmf.getPlatformServices().getPowerControlService().enableDevices(deviceList);
+            return null; // Success!
+          } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            return new UInteger(1);
+          }
+        case ACTION_POWER_OFF_DEVICE:
+          try {
+            DeviceList deviceList = new DeviceList();
+            deviceList.add(new Device(false, null, null, DeviceType.fromNumericValue(
+                (UInteger) attributeValues.get(0).getValue())));
+            nmf.getPlatformServices().getPowerControlService().enableDevices(deviceList);
+            return null; // Success!
+          } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            return new UInteger(1);
+          }
         default:
           break;
       }
@@ -950,9 +1038,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       try {
         nmf.reportActionExecutionProgress(false, 1, STAGE_ACK, TOTAL_STAGES,
             actionInstanceObjId);
+        LOGGER.log(Level.WARNING, "takePicture ack error received {0}", error.toString());
       } catch (NMFException ex) {
         LOGGER.log(Level.SEVERE,
-            "The action progress could not be reported!", ex);
+            "takePicture ack error " + error.toString() + " could not be reported!", ex);
       }
     }
 
@@ -964,9 +1053,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       try {
         nmf.reportActionExecutionProgress(false, 1, STAGE_RSP, TOTAL_STAGES,
             actionInstanceObjId);
+        LOGGER.log(Level.WARNING, "takePicture response error received {0}", error.toString());
       } catch (NMFException ex) {
         LOGGER.log(Level.SEVERE,
-            "The action progress could not be reported!", ex);
+            "takePicture response error " + error.toString() + " could not be reported!", ex);
       }
     }
   }
