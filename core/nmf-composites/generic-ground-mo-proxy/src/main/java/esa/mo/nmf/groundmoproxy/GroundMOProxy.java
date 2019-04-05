@@ -310,6 +310,7 @@ public abstract class GroundMOProxy
             if (cdRemoteArchive == null) {
               LOGGER.log(Level.WARNING,
                   "Failed to find the remote NMS Archive. Might be still initializing...");
+              return;
             } else {
 
               // If it is first time, then we need to conect to the
