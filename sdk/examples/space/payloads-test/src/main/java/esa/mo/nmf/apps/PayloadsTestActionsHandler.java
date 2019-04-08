@@ -1,7 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2015      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under the European Space Agency Public License, Version 2.0
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
  */
 package esa.mo.nmf.apps;
 
@@ -47,10 +62,11 @@ import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
  *
  * @author dmars
  */
-public class PayloadsTestActionsHandler {
+public class PayloadsTestActionsHandler
+{
 
   private static final Logger LOGGER = Logger.getLogger(
-          PayloadsTestActionsHandler.class.getName());
+      PayloadsTestActionsHandler.class.getName());
   private static final String ACTION_UNSET_ATTITUDE = "ADCS_UnsetAttitude";
   private static final String ACTION_NADIR_POINTING_MODE = "ADCS_NadirPointingMode";
   private static final String ACTION_SUN_POINTING_MODE = "ADCS_SunPointingMode";
@@ -64,7 +80,8 @@ public class PayloadsTestActionsHandler {
   public static final int TOTAL_STAGES = 3;
 
   static private UInteger executeAdcsModeAction(Duration duration,
-          AttitudeMode attitudeMode, PayloadsTestMCAdapter payloadsTestMCAdapter) {
+      AttitudeMode attitudeMode, PayloadsTestMCAdapter payloadsTestMCAdapter)
+  {
     if (duration != null) {
       // Negative Durations are not allowed!
       if (duration.getValue() < 0) {
@@ -77,7 +94,7 @@ public class PayloadsTestActionsHandler {
     }
     try {
       payloadsTestMCAdapter.nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
-              duration, attitudeMode);
+          duration, attitudeMode);
     } catch (MALInteractionException | MALException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       return new UInteger(3);
@@ -89,7 +106,8 @@ public class PayloadsTestActionsHandler {
   }
 
   static void registerActions(MCRegistration registration,
-          PayloadsTestMCAdapter payloadsTestMCAdapter) {
+      PayloadsTestMCAdapter payloadsTestMCAdapter)
+  {
     // ------------------ Actions ------------------
     ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
     IdentifierList actionNames = new IdentifierList();
@@ -101,35 +119,35 @@ public class PayloadsTestActionsHandler {
       Byte convertedType = null;
       String convertedUnit = null;
       argumentsSetAttitude.add(new ArgumentDefinitionDetails(new Identifier(
-              "modeHoldDuration"), null, rawType, rawUnit,
-              conditionalConversions, convertedType, convertedUnit));
+          "modeHoldDuration"), null, rawType, rawUnit,
+          conditionalConversions, convertedType, convertedUnit));
     }
     ActionDefinitionDetails actionDefSunPointing = new ActionDefinitionDetails(
-            "Changes the spacecraft's attitude to sun pointing mode.",
-            new UOctet((short) 0), new UShort(0), argumentsSetAttitude);
+        "Changes the spacecraft's attitude to sun pointing mode.",
+        new UOctet((short) 0), new UShort(0), argumentsSetAttitude);
     actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
     ActionDefinitionDetails actionDefNadirPointing = new ActionDefinitionDetails(
-            "Changes the spacecraft's attitude to nadir pointing mode.",
-            new UOctet((short) 0), new UShort(0), argumentsSetAttitude);
+        "Changes the spacecraft's attitude to nadir pointing mode.",
+        new UOctet((short) 0), new UShort(0), argumentsSetAttitude);
     actionNames.add(new Identifier(ACTION_NADIR_POINTING_MODE));
     ActionDefinitionDetails actionDefUnsetAttitude = new ActionDefinitionDetails(
-            "Unsets the spacecraft's attitude.", new UOctet((short) 0),
-            new UShort(0), null);
+        "Unsets the spacecraft's attitude.", new UOctet((short) 0),
+        new UShort(0), null);
     actionNames.add(new Identifier(ACTION_UNSET_ATTITUDE));
     actionDefs.add(actionDefSunPointing);
     actionDefs.add(actionDefNadirPointing);
     actionDefs.add(actionDefUnsetAttitude);
     actionDefs.add(new ActionDefinitionDetails(
-            "Uses the NMF Camera service to take a picture.", new UOctet(
-                    (short) 0), new UShort(TOTAL_STAGES), null));
+        "Uses the NMF Camera service to take a picture.", new UOctet(
+            (short) 0), new UShort(TOTAL_STAGES), null));
     actionNames.add(new Identifier(ACTION_TAKE_PICTURE_RAW));
     actionDefs.add(new ActionDefinitionDetails(
-            "Uses the NMF Camera service to take a picture.", new UOctet(
-                    (short) 0), new UShort(TOTAL_STAGES), null));
+        "Uses the NMF Camera service to take a picture.", new UOctet(
+            (short) 0), new UShort(TOTAL_STAGES), null));
     actionNames.add(new Identifier(ACTION_TAKE_PICTURE_JPG));
     actionDefs.add(new ActionDefinitionDetails(
-            "Uses the NMF Camera service to take a picture.", new UOctet(
-                    (short) 0), new UShort(TOTAL_STAGES), null));
+        "Uses the NMF Camera service to take a picture.", new UOctet(
+            (short) 0), new UShort(TOTAL_STAGES), null));
     actionNames.add(new Identifier(ACTION_TAKE_PICTURE_BMP));
     ArgumentDefinitionDetailsList argumentsPowerSwitch = new ArgumentDefinitionDetailsList();
     {
@@ -139,66 +157,67 @@ public class PayloadsTestActionsHandler {
       Byte convertedType = null;
       String convertedUnit = null;
       argumentsPowerSwitch.add(new ArgumentDefinitionDetails(new Identifier(
-              "DeviceType"), null, rawType, rawUnit, conditionalConversions,
-              convertedType, convertedUnit));
+          "DeviceType"), null, rawType, rawUnit, conditionalConversions,
+          convertedType, convertedUnit));
     }
     actionDefs.add(new ActionDefinitionDetails(
-            "Use NMF PowerControl to switch a device.", new UOctet((short) 0),
-            new UShort(0), argumentsPowerSwitch));
+        "Use NMF PowerControl to switch a device.", new UOctet((short) 0),
+        new UShort(0), argumentsPowerSwitch));
     actionNames.add(new Identifier(ACTION_POWER_ON_DEVICE));
     actionDefs.add(new ActionDefinitionDetails(
-            "Use NMF PowerControl to switch a device.", new UOctet((short) 0),
-            new UShort(0), argumentsPowerSwitch));
+        "Use NMF PowerControl to switch a device.", new UOctet((short) 0),
+        new UShort(0), argumentsPowerSwitch));
     actionNames.add(new Identifier(ACTION_POWER_OFF_DEVICE));
 
     actionDefs.add(new ActionDefinitionDetails(
-            "Record SDR samples.", new UOctet((short) 0),
-            new UShort(0), null));
+        "Record SDR samples.", new UOctet((short) 0),
+        new UShort(0), null));
     actionNames.add(new Identifier(ACTION_RECORD_SDR));
 
     actionDefs.add(new ActionDefinitionDetails(
-            "Record Optical RX samples.", new UOctet((short) 0),
-            new UShort(0), null));
+        "Record Optical RX samples.", new UOctet((short) 0),
+        new UShort(0), null));
     actionNames.add(new Identifier(ACTION_RECORD_OPTRX));
     registration.registerActions(actionNames, actionDefs);
   }
 
   static UInteger handleActionArrived(Identifier name,
-          AttributeValueList attributeValues, Long actionInstanceObjId,
-          PayloadsTestMCAdapter payloadsTestMCAdapter) {
+      AttributeValueList attributeValues, Long actionInstanceObjId,
+      PayloadsTestMCAdapter payloadsTestMCAdapter)
+  {
     if (payloadsTestMCAdapter.nmf == null) {
       return new UInteger(0);
     }
     LOGGER.log(Level.INFO, "Action {0} with parameters '{'{1}'}' arrived.",
-            new Object[]{name.toString(), attributeValues.stream().map(
-              HelperAttributes::attribute2string).collect(Collectors.joining(
-                      ", "))});
+        new Object[]{name.toString(), attributeValues.stream().map(
+          HelperAttributes::attribute2string).collect(Collectors.joining(
+              ", "))});
     // Action dispatcher
     if (null != name.getValue()) {
       switch (name.getValue()) {
         case PayloadsTestActionsHandler.ACTION_SUN_POINTING_MODE:
           return PayloadsTestActionsHandler.executeAdcsModeAction(
-                  (Duration) attributeValues.get(0).getValue(),
-                  new AttitudeModeSunPointing(), payloadsTestMCAdapter);
+              (Duration) attributeValues.get(0).getValue(),
+              new AttitudeModeSunPointing(), payloadsTestMCAdapter);
         case PayloadsTestActionsHandler.ACTION_NADIR_POINTING_MODE:
           return PayloadsTestActionsHandler.executeAdcsModeAction(
-                  (Duration) attributeValues.get(0).getValue(),
-                  new AttitudeModeNadirPointing(), payloadsTestMCAdapter);
+              (Duration) attributeValues.get(0).getValue(),
+              new AttitudeModeNadirPointing(), payloadsTestMCAdapter);
         case PayloadsTestActionsHandler.ACTION_UNSET_ATTITUDE:
           return PayloadsTestActionsHandler.executeAdcsModeAction(null, null,
-                  payloadsTestMCAdapter);
+              payloadsTestMCAdapter);
         case PayloadsTestActionsHandler.ACTION_TAKE_PICTURE_RAW:
           try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takePicture(
-                    new CameraSettings(
-                            payloadsTestMCAdapter.defaultCameraResolution,
-                            PictureFormat.RAW,
-                            payloadsTestMCAdapter.cameraExposureTime,
-                            payloadsTestMCAdapter.cameraGainR,
-                            payloadsTestMCAdapter.cameraGainG,
-                            payloadsTestMCAdapter.cameraGainB),
-                    new PayloadsTestCameraDataHandler(actionInstanceObjId,
-                            payloadsTestMCAdapter));
+                new CameraSettings(
+                    payloadsTestMCAdapter.defaultCameraResolution,
+                    PictureFormat.RAW,
+                    payloadsTestMCAdapter.cameraExposureTime,
+                    payloadsTestMCAdapter.cameraGainR,
+                    payloadsTestMCAdapter.cameraGainG,
+                    payloadsTestMCAdapter.cameraGainB),
+                new PayloadsTestCameraDataHandler(actionInstanceObjId,
+                    payloadsTestMCAdapter));
             return null; // Success!
           } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -207,15 +226,15 @@ public class PayloadsTestActionsHandler {
         case PayloadsTestActionsHandler.ACTION_TAKE_PICTURE_JPG:
           try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takePicture(
-                    new CameraSettings(
-                            payloadsTestMCAdapter.defaultCameraResolution,
-                            PictureFormat.JPG,
-                            payloadsTestMCAdapter.cameraExposureTime,
-                            payloadsTestMCAdapter.cameraGainR,
-                            payloadsTestMCAdapter.cameraGainG,
-                            payloadsTestMCAdapter.cameraGainB),
-                    new PayloadsTestCameraDataHandler(actionInstanceObjId,
-                            payloadsTestMCAdapter));
+                new CameraSettings(
+                    payloadsTestMCAdapter.defaultCameraResolution,
+                    PictureFormat.JPG,
+                    payloadsTestMCAdapter.cameraExposureTime,
+                    payloadsTestMCAdapter.cameraGainR,
+                    payloadsTestMCAdapter.cameraGainG,
+                    payloadsTestMCAdapter.cameraGainB),
+                new PayloadsTestCameraDataHandler(actionInstanceObjId,
+                    payloadsTestMCAdapter));
             return null; // Success!
           } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -224,15 +243,15 @@ public class PayloadsTestActionsHandler {
         case PayloadsTestActionsHandler.ACTION_TAKE_PICTURE_BMP:
           try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takePicture(
-                    new CameraSettings(
-                            payloadsTestMCAdapter.defaultCameraResolution,
-                            PictureFormat.BMP,
-                            payloadsTestMCAdapter.cameraExposureTime,
-                            payloadsTestMCAdapter.cameraGainR,
-                            payloadsTestMCAdapter.cameraGainG,
-                            payloadsTestMCAdapter.cameraGainB),
-                    new PayloadsTestCameraDataHandler(
-                            actionInstanceObjId, payloadsTestMCAdapter));
+                new CameraSettings(
+                    payloadsTestMCAdapter.defaultCameraResolution,
+                    PictureFormat.BMP,
+                    payloadsTestMCAdapter.cameraExposureTime,
+                    payloadsTestMCAdapter.cameraGainR,
+                    payloadsTestMCAdapter.cameraGainG,
+                    payloadsTestMCAdapter.cameraGainB),
+                new PayloadsTestCameraDataHandler(
+                    actionInstanceObjId, payloadsTestMCAdapter));
             return null; // Success!
           } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -242,10 +261,10 @@ public class PayloadsTestActionsHandler {
           try {
             DeviceList deviceList = new DeviceList();
             deviceList.add(new Device(true, null, null,
-                    DeviceType.fromNumericValue(
-                            (UInteger) attributeValues.get(0).getValue())));
+                DeviceType.fromNumericValue(
+                    (UInteger) attributeValues.get(0).getValue())));
             payloadsTestMCAdapter.nmf.getPlatformServices().getPowerControlService().enableDevices(
-                    deviceList);
+                deviceList);
             return null; // Success!
           } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -255,10 +274,10 @@ public class PayloadsTestActionsHandler {
           try {
             DeviceList deviceList = new DeviceList();
             deviceList.add(new Device(false, null, null,
-                    DeviceType.fromNumericValue(
-                            (UInteger) attributeValues.get(0).getValue())));
+                DeviceType.fromNumericValue(
+                    (UInteger) attributeValues.get(0).getValue())));
             payloadsTestMCAdapter.nmf.getPlatformServices().getPowerControlService().enableDevices(
-                    deviceList);
+                deviceList);
             return null; // Success!
           } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -267,7 +286,7 @@ public class PayloadsTestActionsHandler {
         case PayloadsTestActionsHandler.ACTION_RECORD_OPTRX:
           try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getOpticalDataReceiverService().recordSamples(
-                    new Duration(5), new OpticalDataReceiverAdapterImpl());
+                new Duration(5), new PayloadsTestOpticalDataHandler());
             return null; // Success!
           } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -280,14 +299,5 @@ public class PayloadsTestActionsHandler {
     return new UInteger(0); // error code 0 - unknown error
   }
 
-  private static class OpticalDataReceiverAdapterImpl extends OpticalDataReceiverAdapter {
-
-    public OpticalDataReceiverAdapterImpl() {
-    }
-
-    public void recordSamplesResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.structures.Blob data, java.util.Map qosProperties) {
-    }
-  }
 
 }

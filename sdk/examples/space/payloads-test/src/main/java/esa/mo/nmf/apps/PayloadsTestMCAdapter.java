@@ -27,18 +27,12 @@ import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
@@ -54,12 +48,9 @@ import org.ccsds.moims.mo.mal.structures.Pair;
 import org.ccsds.moims.mo.mal.structures.PairList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
@@ -70,10 +61,7 @@ import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
@@ -81,22 +69,16 @@ import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.*;
-import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
-import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
-import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
 /**
  * The adapter for the NMF App
  */
-public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
-
+public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
+{
 
   private static final String AGGREGATION_GPS = "GPS_Aggregation";
   private static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
@@ -145,18 +127,21 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
   public float cameraGainB = DEFAULT_CAMERA_GAIN;
   public Duration cameraExposureTime = DEFAULT_CAMERA_EXPOSURE_TIME;
 
-  public PayloadsTestMCAdapter(final NMFInterface nmfProvider) {
+  public PayloadsTestMCAdapter(final NMFInterface nmfProvider)
+  {
     this.defaultCameraResolution
-            = new PixelResolution(new UInteger(defaultPictureWidth), new UInteger(
-                    defaultPictureHeight));
+        = new PixelResolution(new UInteger(defaultPictureWidth), new UInteger(
+            defaultPictureHeight));
     this.nmf = nmfProvider;
   }
 
-  private static enum AttitudeModeEnum {
+  private static enum AttitudeModeEnum
+  {
     IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING
   }
 
-  private UOctet attitudeModeToParamValue(AttitudeMode attitude) {
+  private UOctet attitudeModeToParamValue(AttitudeMode attitude)
+  {
     AttitudeModeEnum modeEnum;
     if (attitude == null) {
       modeEnum = AttitudeModeEnum.IDLE;
@@ -177,16 +162,16 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
   }
 
   @Override
-  public void initialRegistrations(MCRegistration registration) {
+  public void initialRegistrations(MCRegistration registration)
+  {
     // Prevent definition updates on consecutive application runs
     registration.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
     registerParameters(registration);
     PayloadsTestActionsHandler.registerActions(registration, this);
   }
 
-
-
-  private void registerParameters(MCRegistration registration) throws IllegalArgumentException {
+  private void registerParameters(MCRegistration registration) throws IllegalArgumentException
+  {
     ParameterConversion paramConversion = registerAdcsModeConversion(registration);
 
     // ------------------ Parameters ------------------
@@ -198,151 +183,151 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     IdentifierList paramMagNames = new IdentifierList();
 
     defsOther.add(new ParameterDefinitionDetails(
-            "The number of pictures taken",
-            Union.INTEGER_SHORT_FORM.byteValue(),
-            "",
-            false,
-            new Duration(10),
-            null,
-            null
+        "The number of pictures taken",
+        Union.INTEGER_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(10),
+        null,
+        null
     ));
     paramOtherNames.add(new Identifier(PARAMETER_CAMERA_PICTURES_TAKEN));
 
     defsOther.add(new ParameterDefinitionDetails(
-            "Camera red channel gain",
-            Union.FLOAT_SHORT_FORM.byteValue(),
-            "",
-            false,
-            new Duration(10),
-            null,
-            null
+        "Camera red channel gain",
+        Union.FLOAT_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(10),
+        null,
+        null
     ));
     paramOtherNames.add(new Identifier(PARAMETER_CAMERA_GAIN_R));
 
     defsOther.add(new ParameterDefinitionDetails(
-            "Camera green channel gain",
-            Union.FLOAT_SHORT_FORM.byteValue(),
-            "",
-            false,
-            new Duration(10),
-            null,
-            null
+        "Camera green channel gain",
+        Union.FLOAT_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(10),
+        null,
+        null
     ));
     paramOtherNames.add(new Identifier(PARAMETER_CAMERA_GAIN_G));
 
     defsOther.add(new ParameterDefinitionDetails(
-            "Camera blue channel gain",
-            Union.FLOAT_SHORT_FORM.byteValue(),
-            "",
-            false,
-            new Duration(10),
-            null,
-            null
+        "Camera blue channel gain",
+        Union.FLOAT_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(10),
+        null,
+        null
     ));
     paramOtherNames.add(new Identifier(PARAMETER_CAMERA_GAIN_B));
 
     defsOther.add(new ParameterDefinitionDetails(
-            "Camera exposure time",
-            Union.DURATION_SHORT_FORM.byteValue(),
-            "",
-            false,
-            new Duration(10),
-            null,
-            null
+        "Camera exposure time",
+        Union.DURATION_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(10),
+        null,
+        null
     ));
     paramOtherNames.add(new Identifier(PARAMETER_CAMERA_EXPOSURE_TIME));
 
     defsOther.add(new ParameterDefinitionDetails(
-            "The ADCS mode of operation",
-            Union.UOCTET_SHORT_FORM.byteValue(),
-            "",
-            false,
-            new Duration(0),
-            null,
-            paramConversion
+        "The ADCS mode of operation",
+        Union.UOCTET_SHORT_FORM.byteValue(),
+        "",
+        false,
+        new Duration(0),
+        null,
+        paramConversion
     ));
     paramOtherNames.add(new Identifier(PARAMETER_ADCS_MODE));
 
     defsOther.add(new ParameterDefinitionDetails(
-            "The number of satellites in view of GPS receiver.",
-            Union.INTEGER_SHORT_FORM.byteValue(),
-            "sats",
-            false,
-            new Duration(4),
-            null,
-            null
+        "The number of satellites in view of GPS receiver.",
+        Union.INTEGER_SHORT_FORM.byteValue(),
+        "sats",
+        false,
+        new Duration(4),
+        null,
+        null
     ));
     paramOtherNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
     // Create the GPS.Latitude
     defsGPS.add(new ParameterDefinitionDetails(
-            "The GPS Latitude",
-            Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-            "degrees",
-            false,
-            new Duration(2),
-            null,
-            null
+        "The GPS Latitude",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "degrees",
+        false,
+        new Duration(2),
+        null,
+        null
     ));
     paramGPSNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
     // Create the GPS.Longitude
     defsGPS.add(new ParameterDefinitionDetails(
-            "The GPS Longitude",
-            Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-            "degrees",
-            false,
-            new Duration(2),
-            null,
-            null
+        "The GPS Longitude",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "degrees",
+        false,
+        new Duration(2),
+        null,
+        null
     ));
     paramGPSNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
     // Create the GPS.Altitude
     defsGPS.add(new ParameterDefinitionDetails(
-            "The GPS Altitude",
-            Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-            "meters",
-            false,
-            new Duration(2),
-            null,
-            null
+        "The GPS Altitude",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "meters",
+        false,
+        new Duration(2),
+        null,
+        null
     ));
     paramGPSNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
     // Create the Magnetometer.X
     defsMag.add(new ParameterDefinitionDetails(
-            "The Magnetometer X component",
-            Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-            "microTesla",
-            false,
-            new Duration(2),
-            null,
-            null
+        "The Magnetometer X component",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "microTesla",
+        false,
+        new Duration(2),
+        null,
+        null
     ));
     paramMagNames.add(new Identifier(PARAMETER_MAG_X));
 
     // Create the Magnetometer.Y
     defsMag.add(new ParameterDefinitionDetails(
-            "The Magnetometer Y component",
-            Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-            "microTesla",
-            false,
-            new Duration(2),
-            null,
-            null
+        "The Magnetometer Y component",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "microTesla",
+        false,
+        new Duration(2),
+        null,
+        null
     ));
     paramMagNames.add(new Identifier(PARAMETER_MAG_Y));
 
     // Create the Magnetometer.Z
     defsMag.add(new ParameterDefinitionDetails(
-            "The Magnetometer Z component",
-            Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-            "microTesla",
-            false,
-            new Duration(2),
-            null,
-            null
+        "The Magnetometer Z component",
+        Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+        "microTesla",
+        false,
+        new Duration(2),
+        null,
+        null
     ));
     paramMagNames.add(new Identifier(PARAMETER_MAG_Z));
 
@@ -356,44 +341,44 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     // Create the Aggregation GPS
     AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
-            "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
-            new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
-            new Duration(10),
-            true,
-            false,
-            false,
-            new Duration(20),
-            false,
-            new AggregationParameterSetList()
+        "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
+        new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
+        new Duration(10),
+        true,
+        false,
+        false,
+        new Duration(20),
+        false,
+        new AggregationParameterSetList()
     );
     aggNames.add(new Identifier(AGGREGATION_GPS));
 
     defGPSAgg.getParameterSets().add(new AggregationParameterSet(
-            null,
-            parameterObjIdsGPS,
-            new Duration(3),
-            null
+        null,
+        parameterObjIdsGPS,
+        new Duration(3),
+        null
     ));
 
     // Create the Aggregation Magnetometer
     AggregationDefinitionDetails defMagAgg = new AggregationDefinitionDetails(
-            "Aggregates Magnetometer components: X, Y, Z.",
-            new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
-            new Duration(10),
-            true,
-            false,
-            false,
-            new Duration(20),
-            false,
-            new AggregationParameterSetList()
+        "Aggregates Magnetometer components: X, Y, Z.",
+        new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
+        new Duration(10),
+        true,
+        false,
+        false,
+        new Duration(20),
+        false,
+        new AggregationParameterSetList()
     );
     aggNames.add(new Identifier(AGGREGATION_MAG));
 
     defMagAgg.getParameterSets().add(new AggregationParameterSet(
-            null,
-            parameterObjIdsMag,
-            new Duration(3),
-            null
+        null,
+        parameterObjIdsMag,
+        new Duration(3),
+        null
     ));
 
     aggs.add(defGPSAgg);
@@ -402,19 +387,20 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
   }
 
   private ParameterConversion registerAdcsModeConversion(MCRegistration registration) throws
-          IllegalArgumentException {
+      IllegalArgumentException
+  {
     // ===================================================================
     PairList mappings = new PairList();
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.IDLE.ordinal()), new Union("IDLE")));
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.BDOT.ordinal()), new Union("BDOT")));
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.SUNPOINTING.ordinal()), new Union(
-            "SUNPOINTING")));
+        "SUNPOINTING")));
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.SINGLESPINNING.ordinal()), new Union(
-            "SINGLESPINNING")));
+        "SINGLESPINNING")));
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.TARGETTRACKING.ordinal()), new Union(
-            "TARGETTRACKING")));
+        "TARGETTRACKING")));
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.NADIRPOINTING.ordinal()), new Union(
-            "NADIRPOINTING")));
+        "NADIRPOINTING")));
     DiscreteConversionDetailsList conversions = new DiscreteConversionDetailsList();
     conversions.add(new DiscreteConversionDetails(mappings));
     ParameterConversion paramConversion = null;
@@ -433,17 +419,18 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         String convertedUnit = "n/a";
 
         paramConversion = new ParameterConversion(convertedType, convertedUnit,
-                conditionalConversions);
+            conditionalConversions);
       }
     } catch (NMFException | MALException | MALInteractionException ex) {
       LOGGER.log(Level.SEVERE,
-              "Failed to register conversion.", ex);
+          "Failed to register conversion.", ex);
     }
     return paramConversion;
   }
 
   @Override
-  public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException {
+  public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException
+  {
     // Translates NMF core calls for parameter values into calls to the underlying HW
     // exposed as Platform services
     // TODO: Optimise the number of calls through a cache
@@ -453,7 +440,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     if (identifier == null) {
       LOGGER.log(Level.SEVERE,
-              "The identifier object is null! Something is wrong!");
+          "The identifier object is null! Something is wrong!");
       return null;
     }
 
@@ -464,11 +451,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             final Semaphore sem = new Semaphore(0);
             final IntegerList nOfSats = new IntegerList();
 
-            class AdapterImpl extends GPSAdapter {
+            class AdapterImpl extends GPSAdapter
+            {
 
               @Override
               public void getSatellitesInfoResponseReceived(MALMessageHeader msgHeader,
-                      SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
+                  SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties)
+              {
                 nOfSats.add(gpsSatellitesInfo.size());
                 sem.release();
               }
@@ -497,17 +486,17 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
               if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
                 return (Attribute) HelperAttributes.javaType2Attribute(
-                        pos.getBodyElement0().getLatitude());
+                    pos.getBodyElement0().getLatitude());
               }
 
               if (PARAMETER_GPS_LONGITUDE.equals(identifier.getValue())) {
                 return (Attribute) HelperAttributes.javaType2Attribute(
-                        pos.getBodyElement0().getLongitude());
+                    pos.getBodyElement0().getLongitude());
               }
 
               if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
                 return (Attribute) HelperAttributes.javaType2Attribute(
-                        pos.getBodyElement0().getAltitude());
+                    pos.getBodyElement0().getAltitude());
               }
 
               if (PARAMETER_GPS_ELAPSED_TIME.equals(identifier.getValue())) {
@@ -522,7 +511,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
           case PARAMETER_MAG_Z:
             try {
               GetStatusResponse adcsStatus
-                      = nmf.getPlatformServices().getAutonomousADCSService().getStatus();
+                  = nmf.getPlatformServices().getAutonomousADCSService().getStatus();
               Vector3D magField = adcsStatus.getBodyElement0().getMagneticField();
 
               if (PARAMETER_MAG_X.equals(identifier.getValue())) {
@@ -563,7 +552,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
   }
 
   @Override
-  public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+  public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
+  {
     int i = 0;
     for (Identifier identifier : identifiers) {
       Object o = HelperAttributes.attribute2JavaType(values.get(i).getRawValue());
@@ -608,56 +598,60 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
   }
 
   @Override
-  public boolean isReadOnly(Identifier name) {
+  public boolean isReadOnly(Identifier name)
+  {
     return true; // No parameter is directly writable
   }
 
   /**
-   * The user must implement this interface in order to link a certain action
-   * Identifier to the method on the application
+   * The user must implement this interface in order to link a certain action Identifier to the
+   * method on the application
    *
-   * @param name Name of the Parameter
+   * @param name                Name of the Parameter
    * @param attributeValues
    * @param actionInstanceObjId
-   * @param reportProgress Determines if it is necessary to report the execution
-   * @param interaction The interaction object progress of the action
+   * @param reportProgress      Determines if it is necessary to report the execution
+   * @param interaction         The interaction object progress of the action
    *
-   * @return Returns null if the Action was successful. If not null, then the
-   * returned value should hold the error number
+   * @return Returns null if the Action was successful. If not null, then the returned value should
+   * hold the error number
    */
   @Override
   public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-          Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-    return PayloadsTestActionsHandler.handleActionArrived(name, attributeValues, actionInstanceObjId, this); 
+      Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
+  {
+    return PayloadsTestActionsHandler.handleActionArrived(name, attributeValues, actionInstanceObjId,
+        this);
   }
 
-
-
-  public void startAdcsAttitudeMonitoring() {
+  public void startAdcsAttitudeMonitoring()
+  {
     try {
       // Subscribe monitorAttitude
       nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
-              ConnectionConsumer.subscriptionWildcard(),
-              new ADCSDataHandler()
+          ConnectionConsumer.subscriptionWildcard(),
+          new ADCSDataHandler()
       );
       nmf.getPlatformServices().getAutonomousADCSService().enableMonitoring(true,
-              ATTITUDE_MONITORING_INTERVAL);
+          ATTITUDE_MONITORING_INTERVAL);
     } catch (IOException | MALInteractionException | MALException | NMFException ex) {
       LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
     }
   }
 
-  public class ADCSDataHandler extends AutonomousADCSAdapter {
+  public class ADCSDataHandler extends AutonomousADCSAdapter
+  {
 
     @Override
     public void monitorAttitudeNotifyReceived(
-            final MALMessageHeader msgHeader,
-            final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
-            org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList,
-            final Map qosp) {
+        final MALMessageHeader msgHeader,
+        final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
+        org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList,
+        final Map qosp)
+    {
       for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
         try {
           Vector3D sunVector = attitudeTm.getSunVector();
@@ -700,7 +694,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
       for (Object activeAttitudeMode : attitudeModeList) {
         try {
           nmf.pushParameterValue(PARAMETER_ADCS_MODE, attitudeModeToParamValue(
-                  (AttitudeMode) activeAttitudeMode));
+              (AttitudeMode) activeAttitudeMode));
         } catch (NMFException ex) {
           LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode", ex);
         }

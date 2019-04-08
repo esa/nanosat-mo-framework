@@ -13,30 +13,26 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- * 
+ *
  * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * limitations under the License.
  * ----------------------------------------------------------------------------
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverAdapter;
 
-public class PayloadsTestApp
+class PayloadsTestOpticalDataHandler extends OpticalDataReceiverAdapter
 {
 
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   * @throws java.lang.Exception If there is an error
-   */
-  public static void main(final String args[]) throws Exception
+  public PayloadsTestOpticalDataHandler()
   {
-    final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    PayloadsTestMCAdapter adapter = new PayloadsTestMCAdapter(connector);
-    connector.init(adapter);
-    adapter.startAdcsAttitudeMonitoring();
+  }
+
+  public void recordSamplesResponseReceived(
+      org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+      org.ccsds.moims.mo.mal.structures.Blob data, java.util.Map qosProperties)
+  {
   }
 
 }
