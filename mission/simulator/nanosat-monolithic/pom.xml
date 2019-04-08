@@ -57,7 +57,7 @@
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
-      <artifactId>nmf-platform</artifactId>
+      <artifactId>nmf-platform-impl-sim</artifactId>
       <version>${esa.nmf.version-qualifier}</version>
     </dependency>
   </dependencies>
