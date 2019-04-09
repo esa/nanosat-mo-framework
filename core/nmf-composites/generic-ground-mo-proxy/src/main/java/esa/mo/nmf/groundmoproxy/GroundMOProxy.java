@@ -78,8 +78,9 @@ public abstract class GroundMOProxy
 {
 
   private static final Logger LOGGER = Logger.getLogger(GroundMOProxy.class.getName());
-  private final static long PERIOD = 10000; // 10 seconds
-  private AtomicBoolean nmsAliveStatus = new AtomicBoolean(false);
+  private final static long HEARTBEAT_PUBLISH_PERIOD = 10000;
+  private final static long DIRECTORY_SCAN_PERIOD = 10000; // 10 seconds
+  private final AtomicBoolean nmsAliveStatus = new AtomicBoolean(false);
   protected final COMServicesProvider localCOMServices;
   protected final DirectoryProxyServiceImpl localDirectoryService;
   private Timer timer;
@@ -108,12 +109,12 @@ public abstract class GroundMOProxy
 
     // Start the timer to publish the heartbeat
     timer = new Timer("MainProxyTimer");
-    timer.scheduleAtFixedRate(new HeartbeatPublisherTask(centralDirectoryServiceURI, routedURI), 0,
-        PERIOD);
+    timer.schedule(new HeartbeatPublisherTask(centralDirectoryServiceURI, routedURI),
+        0, HEARTBEAT_PUBLISH_PERIOD);
 
     // Add the periodic check if new NMF Apps were started/stopped
-    timer.scheduleAtFixedRate(new DirectoryScanTask(centralDirectoryServiceURI, routedURI), PERIOD,
-        PERIOD);
+    timer.schedule(new DirectoryScanTask(centralDirectoryServiceURI, routedURI),
+        DIRECTORY_SCAN_PERIOD, DIRECTORY_SCAN_PERIOD);
 
   }
 
@@ -223,8 +224,8 @@ public abstract class GroundMOProxy
             firstRun = false;
           }
 
-          // Check the remote COM Archive for new objects!
-          FineTime currentTime = providerStatusAdapter.getLastBeat();
+          // Check the remote COM Archive for new objects! Use On-Board Timestamp.
+          FineTime currentOBT = providerStatusAdapter.getLastBeatOBT();
 
           ArchiveQuery archiveQuery = new ArchiveQuery(
               archiveService.getConnectionDetails().getDomain(),
@@ -233,7 +234,7 @@ public abstract class GroundMOProxy
               new Long(0),
               null,
               lastTime,
-              currentTime,
+              currentOBT,
               false,
               null
           );
@@ -277,7 +278,7 @@ public abstract class GroundMOProxy
           archiveService.getArchiveStub().count(AppsLauncherHelper.STOPAPP_OBJECT_TYPE,
               archiveQueryList, null, adapter);
 
-          lastTime = currentTime;
+          lastTime = currentOBT;
         } catch (MALInteractionException | MALException | IOException ex) {
           LOGGER.log(Level.SEVERE, null, ex);
         }

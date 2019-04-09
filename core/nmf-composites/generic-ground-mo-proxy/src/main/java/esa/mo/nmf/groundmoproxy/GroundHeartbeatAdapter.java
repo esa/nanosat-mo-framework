@@ -41,6 +41,7 @@ class GroundHeartbeatAdapter extends HeartbeatAdapter
   private long lag; // In milliseconds
   private final Timer timer;
   private Time lastBeatAt = HelperTime.getTimestampMillis();
+  private Time lastBeatOBT = null; // Last beat in On-Board timestamp
   private final GroundMOProxy moProxy;
 
   public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat,
@@ -66,8 +67,8 @@ class GroundHeartbeatAdapter extends HeartbeatAdapter
   {
     synchronized (timer) {
       lastBeatAt = HelperTime.getTimestampMillis();
-      final Time onboardTime = msgHeader.getTimestamp();
-      final long iDiff = lastBeatAt.getValue() - onboardTime.getValue();
+      lastBeatOBT = msgHeader.getTimestamp();
+      final long iDiff = lastBeatAt.getValue() - lastBeatOBT.getValue();
       LOGGER.log(Level.INFO,
           "(Clocks diff: {0} ms | Round-Trip Delay time: {1} ms | Last beat received at: {2})",
           new Object[]{iDiff, lag, HelperTime.time2readableString(lastBeatAt)});
@@ -78,6 +79,11 @@ class GroundHeartbeatAdapter extends HeartbeatAdapter
   public FineTime getLastBeat()
   {
     return HelperTime.timeToFineTime(lastBeatAt);
+  }
+
+  public FineTime getLastBeatOBT()
+  {
+    return HelperTime.timeToFineTime(lastBeatOBT);
   }
 
   private class HeartbeatRefreshTask extends TimerTask
