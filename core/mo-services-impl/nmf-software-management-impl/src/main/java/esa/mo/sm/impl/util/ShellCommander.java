@@ -71,7 +71,7 @@ public class ShellCommander {
             Process proc;
 
             if (osValidator.isUnix()) {
-                proc = Runtime.getRuntime().exec(new String[]{"bash", "-c", cmd}, null, dirPath);
+                proc = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd}, null, dirPath);
             } else if (osValidator.isWindows()) {
                 proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
