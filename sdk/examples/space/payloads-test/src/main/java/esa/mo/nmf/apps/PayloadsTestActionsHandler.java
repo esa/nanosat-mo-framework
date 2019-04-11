@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
@@ -29,6 +30,8 @@ import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -38,6 +41,7 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
@@ -57,6 +61,8 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataRecei
 import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioAdapter;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
 /**
  *
@@ -79,7 +85,23 @@ public class PayloadsTestActionsHandler
   private static final String ACTION_RECORD_OPTRX = "RecordOptRXData";
   public static final int TOTAL_STAGES = 3;
 
-  static private UInteger executeAdcsModeAction(Duration duration,
+  private static final float SDR_SAMPLING_FREQUENCY = (float) 1.5;
+  private static final float SDR_LPF_BW = (float) 0.75;
+  private static final int SDR_RX_GAIN = 10;
+  private static final float SDR_CENTER_FREQUENCY = (float) 443.0;
+  private static final Duration SDR_REPORTING_INTERVAL = new Duration(0.2);
+  private static final int SDR_RECORDING_DURATION = 2000;
+
+  private boolean sdrRegistered = false;
+
+  private PayloadsTestMCAdapter payloadsTestMCAdapter;
+
+  public PayloadsTestActionsHandler(PayloadsTestMCAdapter payloadsTestMCAdapter)
+  {
+    this.payloadsTestMCAdapter = payloadsTestMCAdapter;
+  }
+
+  private UInteger executeAdcsModeAction(Duration duration,
       AttitudeMode attitudeMode, PayloadsTestMCAdapter payloadsTestMCAdapter)
   {
     if (duration != null) {
@@ -181,9 +203,8 @@ public class PayloadsTestActionsHandler
     registration.registerActions(actionNames, actionDefs);
   }
 
-  static UInteger handleActionArrived(Identifier name,
-      AttributeValueList attributeValues, Long actionInstanceObjId,
-      PayloadsTestMCAdapter payloadsTestMCAdapter)
+  UInteger handleActionArrived(Identifier name,
+      AttributeValueList attributeValues, Long actionInstanceObjId)
   {
     if (payloadsTestMCAdapter.nmf == null) {
       return new UInteger(0);
@@ -196,15 +217,15 @@ public class PayloadsTestActionsHandler
     if (null != name.getValue()) {
       switch (name.getValue()) {
         case PayloadsTestActionsHandler.ACTION_SUN_POINTING_MODE:
-          return PayloadsTestActionsHandler.executeAdcsModeAction(
+          return executeAdcsModeAction(
               (Duration) attributeValues.get(0).getValue(),
               new AttitudeModeSunPointing(), payloadsTestMCAdapter);
         case PayloadsTestActionsHandler.ACTION_NADIR_POINTING_MODE:
-          return PayloadsTestActionsHandler.executeAdcsModeAction(
+          return executeAdcsModeAction(
               (Duration) attributeValues.get(0).getValue(),
               new AttitudeModeNadirPointing(), payloadsTestMCAdapter);
         case PayloadsTestActionsHandler.ACTION_UNSET_ATTITUDE:
-          return PayloadsTestActionsHandler.executeAdcsModeAction(null, null,
+          return executeAdcsModeAction(null, null,
               payloadsTestMCAdapter);
         case PayloadsTestActionsHandler.ACTION_TAKE_PICTURE_RAW:
           try {
@@ -292,12 +313,42 @@ public class PayloadsTestActionsHandler
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);
           }
+        case PayloadsTestActionsHandler.ACTION_RECORD_SDR:
+          try {
+            if (!sdrRegistered) {
+              payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().
+                  streamRadioRegister(ConnectionConsumer.subscriptionWildcardRandom(),
+                      new PayloadsTestSDRDataHandler());
+              sdrRegistered = true;
+            }
+            SDRConfiguration config = new SDRConfiguration(SDR_CENTER_FREQUENCY, SDR_RX_GAIN,
+                SDR_LPF_BW, SDR_SAMPLING_FREQUENCY);
+            payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().enableSDR(
+                true, config, SDR_REPORTING_INTERVAL);
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask()
+            {
+              @Override
+              public void run()
+              {
+                try {
+                  payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().enableSDR(
+                      false, config, SDR_REPORTING_INTERVAL);
+                } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+                  LOGGER.log(Level.SEVERE, "Failed to stop the SDR", ex);
+                }
+              }
+            }, SDR_RECORDING_DURATION);
+            return null; // Success!
+          } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            return new UInteger(1);
+          }
         default:
           break;
       }
     }
     return new UInteger(0); // error code 0 - unknown error
   }
-
 
 }

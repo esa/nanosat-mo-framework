@@ -22,33 +22,38 @@ package esa.mo.nmf.apps;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverAdapter;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioAdapter;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
 
-class PayloadsTestOpticalDataHandler extends OpticalDataReceiverAdapter
+class PayloadsTestSDRDataHandler extends SoftwareDefinedRadioAdapter
 {
 
   private static final Logger LOGGER = Logger.getLogger(
-      PayloadsTestOpticalDataHandler.class.getName());
+      PayloadsTestSDRDataHandler.class.getName());
 
-  public PayloadsTestOpticalDataHandler()
+  @Override
+  public void streamRadioNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+      org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+      org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1,
+      org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsList _IQComponentsList2,
+      java.util.Map qosProperties)
   {
+    if (_IQComponentsList2.isEmpty()) {
+      LOGGER.log(Level.SEVERE, "empty IQComponentsList");
+      return;
+    }
+    for (IQComponents iqComp : _IQComponentsList2) {
+      LOGGER.log(Level.INFO, "Received I {0} samples and Q {1} samples.",
+          new Object[]{iqComp.getInPhase().size(), iqComp.getQuadrature().size()});
+    }
   }
 
   @Override
-  public void recordSamplesResponseReceived(
-      org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-      org.ccsds.moims.mo.mal.structures.Blob data, java.util.Map qosProperties)
-  {
-    LOGGER.log(Level.INFO, "Received {0} bytes.", data.getLength());
-  }
-
-  @Override
-  public void recordSamplesResponseErrorReceived(
+  public void streamRadioNotifyErrorReceived(
       org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
       org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties)
   {
     LOGGER.log(Level.SEVERE, "MAL Error: {0}", error.toString());
-
   }
 
 }

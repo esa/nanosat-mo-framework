@@ -127,11 +127,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   public float cameraGainB = DEFAULT_CAMERA_GAIN;
   public Duration cameraExposureTime = DEFAULT_CAMERA_EXPOSURE_TIME;
 
+  private PayloadsTestActionsHandler actionsHandler;
+
   public PayloadsTestMCAdapter(final NMFInterface nmfProvider)
   {
     this.defaultCameraResolution
         = new PixelResolution(new UInteger(defaultPictureWidth), new UInteger(
             defaultPictureHeight));
+    actionsHandler = new PayloadsTestActionsHandler(this);
     this.nmf = nmfProvider;
   }
 
@@ -538,7 +541,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
           case PARAMETER_CAMERA_GAIN_B:
             return (Attribute) HelperAttributes.javaType2Attribute(cameraGainB);
           case PARAMETER_CAMERA_EXPOSURE_TIME:
-            return cameraExposureTime;
+            return (Attribute) cameraExposureTime;
           default:
             break;
         }
@@ -620,8 +623,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
       Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
   {
-    return PayloadsTestActionsHandler.handleActionArrived(name, attributeValues, actionInstanceObjId,
-        this);
+    return actionsHandler.handleActionArrived(name, attributeValues, actionInstanceObjId);
   }
 
   public void startAdcsAttitudeMonitoring()
@@ -652,6 +654,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList,
         final Map qosp)
     {
+      LOGGER.log(Level.INFO, "Received monitorAttitude notify");
       for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
         try {
           Vector3D sunVector = attitudeTm.getSunVector();
