@@ -173,7 +173,7 @@ public class PayloadsTestActionsHandler
     actionNames.add(new Identifier(ACTION_TAKE_PICTURE_BMP));
     ArgumentDefinitionDetailsList argumentsPowerSwitch = new ArgumentDefinitionDetailsList();
     {
-      Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+      Byte rawType = Attribute._UINTEGER_TYPE_SHORT_FORM;
       String rawUnit = null;
       ConditionalConversionList conditionalConversions = null;
       Byte convertedType = null;
