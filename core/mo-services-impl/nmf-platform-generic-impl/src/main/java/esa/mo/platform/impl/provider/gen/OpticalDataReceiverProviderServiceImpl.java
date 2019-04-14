@@ -30,8 +30,11 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
@@ -45,17 +48,14 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
 
   private MALProvider opticalDataReceiverServiceProvider;
   private boolean initialiased = false;
-  private final Object lock = new Object();
-  private boolean isRegistered = false;
   private final ConnectionProvider connection = new ConnectionProvider();
-  private Timer publishTimer = new Timer();
-  private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
   private OpticalDataReceiverAdapterInterface adapter;
+  public static double MAX_RECORDING_DURATION = 10.0; // 10 seconds
 
   /**
-   * Initializes the Software-defined Radio service.
+   * Initializes the Optical Receiver Provider service
    *
-   * @param adapter The Camera adapter
+   * @param adapter The Optical Data RX adapter
    * @throws MALException On initialisation error.
    */
   public synchronized void init(OpticalDataReceiverAdapterInterface adapter) throws MALException
@@ -116,7 +116,27 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
   public void recordSamples(Duration recordingDuration, RecordSamplesInteraction interaction) throws
       MALInteractionException, MALException
   {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    if (recordingDuration == null || recordingDuration.getValue() == 0.0)
+    {
+      // TODO Add error code to the service spec
+      interaction.sendError(new MALStandardError(new UInteger(0), null));
+      return;
+    }
+    if (recordingDuration.getValue() > MAX_RECORDING_DURATION)
+    {
+      interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Duration(MAX_RECORDING_DURATION)));
+      return;
+    }
+    interaction.sendAcknowledgement();
+    byte[] data = adapter.recordOpticalReceiverData(recordingDuration);
+    if (data == null)
+    {
+      // TODO Add error code to the service spec
+      interaction.sendError(new MALStandardError(new UInteger(0), null));
+      return;
+    }
+
+    interaction.sendResponse(new Blob(data));
   }
 
 }

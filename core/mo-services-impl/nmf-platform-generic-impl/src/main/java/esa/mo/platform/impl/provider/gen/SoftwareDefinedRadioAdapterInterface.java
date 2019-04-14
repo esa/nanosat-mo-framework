@@ -20,7 +20,7 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
-import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsList;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
 /**
@@ -57,6 +57,6 @@ public interface SoftwareDefinedRadioAdapterInterface
    * Gets SDR I/Q buffer
    * @return Buffer of I/Q data
    */
-  IQComponentsList getIQComponents();
+  IQComponents getIQComponents();
 
 }

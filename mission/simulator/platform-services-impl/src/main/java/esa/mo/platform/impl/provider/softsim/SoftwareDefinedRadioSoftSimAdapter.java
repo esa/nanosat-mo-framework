@@ -60,7 +60,7 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
   }
 
   @Override
-  public IQComponentsList getIQComponents()
+  public IQComponents getIQComponents()
   {
 
     int nSamples = 10000;
@@ -79,9 +79,7 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
     iqComponents.setInPhase(inPhase);
     iqComponents.setQuadrature(quadrature);
 
-    IQComponentsList outList = new IQComponentsList();
-    outList.add(iqComponents);
-    return outList;
+    return iqComponents;
   }
 
 }

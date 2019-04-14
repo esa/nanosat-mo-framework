@@ -54,6 +54,7 @@ import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelper;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.StreamRadioPublisher;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsList;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
@@ -78,7 +79,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
   /**
    * Initializes the Software-defined Radio service.
    *
-   * @param adapter The Camera adapter
+   * @param adapter The SDR adapter
    * @throws MALException On initialisation error.
    */
   public synchronized void init(SoftwareDefinedRadioAdapterInterface adapter) throws MALException
@@ -150,7 +151,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
   {
     try {
       final Long objId;
-      final IQComponentsList iqComponents;
+      final IQComponentsList iqComponentsList = new IQComponentsList(1);
 
       synchronized (lock) {
         if (!isRegistered) {
@@ -159,11 +160,11 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
           publisher.register(lst, new PublishInteractionListener());
           isRegistered = true;
         }
-        iqComponents = adapter.getIQComponents();
+        final IQComponents iqComponents = adapter.getIQComponents();
         if (iqComponents == null) {
           return;
         }
-
+        iqComponentsList.add(iqComponents);
         objId = uniqueObjId.incrementAndGet();
       }
 
@@ -175,7 +176,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
       hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(),
           connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
 
-      publisher.publish(hdrlst, iqComponents);
+      publisher.publish(hdrlst, iqComponentsList);
 
     } catch (IllegalArgumentException ex) {
       Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
