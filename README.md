@@ -12,7 +12,7 @@ The latest NMF SDK release tag can be downloaded in [Releases]. However, the cur
 
 ## Building
 Prerequisites:
-- Java SDK 1.8+
+- Java SDK 1.8 (Build will not work on JDK 9 and above as of now)
 - Apache Maven
 
 Clone this repository and run `mvn install` in the root directory.
