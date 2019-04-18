@@ -54,6 +54,8 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
   private boolean running = false;
   private final ConnectionProvider connection = new ConnectionProvider();
   private PowerControlAdapterInterface adapter;
+  private static final Logger LOGGER = Logger.getLogger(
+      PowerControlProviderServiceImpl.class.getName());
 
   /**
    * Initializes the Power Control service.
@@ -96,8 +98,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 
     running = true;
     initialiased = true;
-    Logger.getLogger(PowerControlProviderServiceImpl.class.getName()).info(
-        "Power Control service READY");
+    LOGGER.info("Power Control service READY");
   }
 
   /**
@@ -113,8 +114,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
       connection.closeAll();
       running = false;
     } catch (MALException ex) {
-      Logger.getLogger(PowerControlProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during close down of the provider", ex);
+      LOGGER.log(Level.WARNING, "Exception during close down of the provider", ex);
     }
   }
 
@@ -155,6 +155,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
     try {
       adapter.enableDevices(devices);
     } catch (IOException ex) {
+      LOGGER.log(Level.SEVERE, "adapter.enableDevices failed", ex);
       throw new MALInteractionException(new MALStandardError(
           PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
