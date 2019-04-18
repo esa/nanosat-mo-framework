@@ -28,10 +28,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;
+import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
@@ -46,36 +50,61 @@ import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
 {
 
-  private final ESASimulator instrumentsSimulator;
+  enum SimPayloadDevice
+  {
+    FineADCS,
+    SEPP1,
+    SEPP2,
+    SBandTRX,
+    XBandTRX,
+    SDR,
+    OpticalRX,
+    HDCamera,
+  }
   private final List<Device> devices;
   private final Map<Identifier, Device> deviceByName;
   private final Map<Long, Device> deviceByObjInstId;
+  private final Map<Long, SimPayloadDevice> payloadIdByObjInstId;
+  private static final Logger LOGGER = Logger.getLogger(PowerControlSoftSimAdapter.class.getName());
+  private final ESASimulator instrumentsSimulator;
 
   public PowerControlSoftSimAdapter(ESASimulator instrumentsSimulator)
   {
+    LOGGER.log(Level.INFO, "Initialisation");
     this.instrumentsSimulator = instrumentsSimulator;
     devices = new ArrayList<>();
     deviceByName = new HashMap<>();
     deviceByObjInstId = new HashMap<>();
+    payloadIdByObjInstId = new HashMap<>();
     initDevices();
   }
 
   private void initDevices()
   {
-    addDevice(new Device(true, new Long(0), new Identifier("Attitude Determination and Control System"), DeviceType.ADCS));
-    addDevice(new Device(true, new Long(1), new Identifier("Satellite Experimental Processing Platform"), DeviceType.OBC));
-    addDevice(new Device(false, new Long(2), new Identifier("S-Band Transceiver"), DeviceType.SBAND));
-    addDevice(new Device(false, new Long(3), new Identifier("X-Band Transmitter"), DeviceType.XBAND));
-    addDevice(new Device(false, new Long(4), new Identifier("Software Defined Radio"), DeviceType.SDR));
-    addDevice(new Device(false, new Long(5), new Identifier("Optical Receiver"), DeviceType.OPTRX));
-    addDevice(new Device(false, new Long(6), new Identifier("HD Camera"), DeviceType.CAMERA));
+    addDevice(new Device(true, new Long(0), new Identifier(
+        "Attitude Determination and Control System"), DeviceType.ADCS), SimPayloadDevice.FineADCS);
+    addDevice(new Device(true, new Long(10), new Identifier(
+        "Satellite Experimental Processing Platform 1"), DeviceType.OBC), SimPayloadDevice.SEPP1);
+    addDevice(new Device(true, new Long(11), new Identifier(
+        "Satellite Experimental Processing Platform 2"), DeviceType.OBC), SimPayloadDevice.SEPP2);
+    addDevice(new Device(false, new Long(2), new Identifier("S-Band Transceiver"), DeviceType.SBAND),
+        SimPayloadDevice.SBandTRX);
+    addDevice(new Device(false, new Long(3), new Identifier("X-Band Transmitter"), DeviceType.XBAND),
+        SimPayloadDevice.XBandTRX);
+    addDevice(new Device(false, new Long(4), new Identifier("Software Defined Radio"),
+        DeviceType.SDR), SimPayloadDevice.SDR);
+    addDevice(new Device(false, new Long(5), new Identifier("Optical Receiver"), DeviceType.OPTRX),
+        SimPayloadDevice.OpticalRX);
+    addDevice(new Device(false, new Long(6), new Identifier("HD Camera"), DeviceType.CAMERA),
+        SimPayloadDevice.HDCamera);
   }
 
-  private void addDevice(Device device)
+  private void addDevice(Device device, SimPayloadDevice payloadId)
   {
     devices.add(device);
     deviceByName.put(device.getName(), device);
     deviceByObjInstId.put(device.getUnitObjInstId(), device);
+    payloadIdByObjInstId.put(device.getUnitObjInstId(), payloadId);
   }
 
   @Override
@@ -98,23 +127,29 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
   public void enableDevices(DeviceList inputList) throws IOException
   {
     for (Device device : inputList) {
-      Device found;
+      LOGGER.log(Level.INFO, "Looking up Device {0}", new Object[]{device});
+      SimPayloadDevice payloadId = payloadIdByObjInstId.get(device.getUnitObjInstId());
       if (device.getUnitObjInstId() != null) {
-        found = deviceByObjInstId.get(device.getUnitObjInstId());
+        payloadId = payloadIdByObjInstId.get(device.getUnitObjInstId());
       } else {
-        found = findByType(device.getDeviceType());
+        Device found = findByType(device.getDeviceType());
+        if (found != null) {
+          payloadId = payloadIdByObjInstId.get(found.getUnitObjInstId());
+        } else {
+          throw new IOException("Cannot find the device.");
+        }
       }
-      if (found != null) {
-        switchDevice(found, device.getEnabled());
+      if (payloadId != null) {
+        switchDevice(payloadId, device.getEnabled());
       } else {
-        throw new IOException("Cannot find the device.");
+        throw new IOException("Cannot find the payload id.");
       }
     }
   }
 
-  private void switchDevice(Device found, Boolean enabled) throws IOException
+  private void switchDevice(SimPayloadDevice device, Boolean enabled) throws IOException
   {
-    // TODO interact with the simulator core
-    found.setEnabled(enabled);
+    LOGGER.log(Level.INFO, "Switching device {0} to enabled: {1}", new Object[]{device, enabled});
+    // TODO interact with simulator core and track the device status locally
   }
 }
