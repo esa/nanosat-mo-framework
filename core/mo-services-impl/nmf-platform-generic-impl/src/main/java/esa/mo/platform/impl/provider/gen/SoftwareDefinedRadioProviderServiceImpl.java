@@ -198,9 +198,12 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     publishTimer.cancel();
 
     if (!enable) {
-
       sdrInUse = false;
     } else {
+      if (!adapter.isUnitAvailable()) {
+        throw new MALInteractionException(new MALStandardError(
+            PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+      }
       if (!adapter.setConfiguration(initialConfiguration)) {
         throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
             null));
@@ -232,9 +235,12 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
   public synchronized void updateConfiguration(final SDRConfiguration sdrConfiguration,
       final MALInteraction interaction) throws MALInteractionException, MALException
   {
+    if (!adapter.isUnitAvailable()) {
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
     if (!adapter.setConfiguration(sdrConfiguration)) {
       throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-
     }
   }
 

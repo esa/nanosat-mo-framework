@@ -116,21 +116,24 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
   public void recordSamples(Duration recordingDuration, RecordSamplesInteraction interaction) throws
       MALInteractionException, MALException
   {
-    if (recordingDuration == null || recordingDuration.getValue() == 0.0)
-    {
+    if (!adapter.isUnitAvailable()) {
+      // TODO Add error code to the service spec
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+    if (recordingDuration == null || recordingDuration.getValue() == 0.0) {
       // TODO Add error code to the service spec
       interaction.sendError(new MALStandardError(new UInteger(0), null));
       return;
     }
-    if (recordingDuration.getValue() > MAX_RECORDING_DURATION)
-    {
-      interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Duration(MAX_RECORDING_DURATION)));
+    if (recordingDuration.getValue() > MAX_RECORDING_DURATION) {
+      interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Duration(
+          MAX_RECORDING_DURATION)));
       return;
     }
     interaction.sendAcknowledgement();
     byte[] data = adapter.recordOpticalReceiverData(recordingDuration);
-    if (data == null)
-    {
+    if (data == null) {
       // TODO Add error code to the service spec
       interaction.sendError(new MALStandardError(new UInteger(0), null));
       return;

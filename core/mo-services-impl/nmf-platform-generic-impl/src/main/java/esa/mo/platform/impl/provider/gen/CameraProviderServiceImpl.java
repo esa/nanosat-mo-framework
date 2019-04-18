@@ -185,7 +185,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
 
       LOGGER.log(Level.FINER, "Generating streaming Picture update with objId: {0}", objId);
 
-      final EntityKey ekey = new EntityKey(firstEntityKey, objId, settings.getResolution().getWidth().getValue(),
+      final EntityKey ekey = new EntityKey(firstEntityKey, objId,
+          settings.getResolution().getWidth().getValue(),
           settings.getResolution().getHeight().getValue());
 
       final UpdateHeaderList hdrlst = new UpdateHeaderList();
@@ -203,6 +204,10 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
 
   private void isCapturePossible(final CameraSettings settings) throws MALInteractionException
   {
+    if (!adapter.isUnitAvailable()) {
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
     if (cameraInUse) { // Is the Camera unit in use?
       throw new MALInteractionException(new MALStandardError(
           PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, null));
@@ -298,7 +303,10 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
   public Picture previewPicture(MALInteraction interaction) throws MALInteractionException,
       MALException
   {
-
+    if (!adapter.isUnitAvailable()) {
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
     // Get some preview Picture from the camera...
     synchronized (lock) {
       try {

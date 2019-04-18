@@ -230,6 +230,10 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       stopGeneration();
       return;
     }
+    if (!adapter.isUnitAvailable()) {
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
     // Is the requested streaming rate less than the minimum period?
     if (monitoringInterval == null || monitoringInterval.getValue() < MINIMUM_MONITORING_PERIOD.getValue()) {
       throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
@@ -251,7 +255,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       final AttitudeTelemetry attitudeTelemetry = adapter.getAttitudeTelemetry();
       final ActuatorsTelemetry actuatorsTelemetry = adapter.getActuatorsTelemetry();
       final AttitudeMode activeAttitudeMode = adapter.getActiveAttitudeMode();
-      return new GetStatusResponse(attitudeTelemetry, actuatorsTelemetry, getAttitudeControlRemainingDuration(),
+      return new GetStatusResponse(attitudeTelemetry, actuatorsTelemetry,
+          getAttitudeControlRemainingDuration(),
           generationEnabled, new Duration(monitoringPeriod / 1000.f), activeAttitudeMode);
     } catch (IOException ex) {
       Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE,
@@ -266,7 +271,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   public synchronized void setDesiredAttitude(final Duration duration, AttitudeMode desiredAttitude,
       MALInteraction interaction) throws MALInteractionException, MALException
   {
-    if (!adapter.isUnitAvailable()) { // Is the ADCS unit available?
+    if (!adapter.isUnitAvailable()) {
       throw new MALInteractionException(new MALStandardError(
           PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
