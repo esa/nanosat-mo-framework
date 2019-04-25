@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -28,13 +29,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public class PushClock {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    private final Timer timer = new Timer("PushClockTimerThread");
+    private final TaskScheduler timer = new TaskScheduler(1);
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
     private int hours = 0;
     private int minutes = 0;
@@ -63,7 +63,7 @@ public class PushClock {
     public PushClock() {
         connector.init(new MCAdapter());
 
-        this.timer.scheduleAtFixedRate(new TimerTask() {
+        this.timer.scheduleTask(new Thread() {
             @Override
             public void run() {
                 try {
@@ -73,7 +73,7 @@ public class PushClock {
                             "The Clock could not be pushed to the consumer!", ex);
                 }
             }
-        }, 5 * 1000, REFRESH_RATE * 1000); // conversion to milliseconds
+        }, 5, REFRESH_RATE, TimeUnit.SECONDS, true); // conversion to milliseconds
     }
 
     public void pushClock() throws NMFException {

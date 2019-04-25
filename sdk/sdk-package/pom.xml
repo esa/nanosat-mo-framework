@@ -80,6 +80,16 @@
     -->
     <dependency>
       <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>waveform</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>hello-world-yannick</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
       <artifactId>all-mc-services</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -205,6 +215,22 @@
           </execution>
           -->
           <execution>
+      <id>emit-space-app-test-nmf</id>
+      <phase>package</phase>
+      <goals>
+        <goal>assemble</goal>
+      </goals>
+      <configuration>
+        <binFolder>space/apps/hello-world-yannick</binFolder>
+        <programs>
+          <program>
+            <mainClass>esa.mo.nmf.apps.HelloWorldYannick</mainClass>
+            <id>start_hello-world-yannick</id>
+          </program>
+        </programs>
+      </configuration>
+    </execution>
+          <execution>
             <id>emit-ctt</id>
             <phase>package</phase>
             <goals>
@@ -328,6 +354,22 @@
                 <program>
                   <mainClass>esa.mo.nmf.apps.PayloadsTestApp</mainClass>
                   <id>start_payloads-test</id>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>emit-space-app-waveform</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+            <configuration>
+              <binFolder>space/apps/waveform</binFolder>
+              <programs>
+                <program>
+                  <mainClass>esa.mo.nmf.apps.Waveform</mainClass>
+                  <id>start_waveform</id>
                 </program>
               </programs>
             </configuration>
@@ -465,6 +507,10 @@
                     <exclude name="**/*.doc"/>
                   </fileset>
                 </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/hello-world-yannick">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/tools/consumer-test-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
                 </copy>
@@ -489,6 +535,10 @@
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/payloads-test">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/waveform">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
