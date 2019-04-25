@@ -25,6 +25,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.util.GroupRetrieval;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,6 +81,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Aggregation service Provider.
@@ -925,13 +927,13 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     private class PeriodicReportingManager { // requirement: 3.7.2.1a
 
-        private HashMap<Long, Timer> updateTimerList; // updateInterval Timers list
-        private HashMap<Long, Timer> filterTimeoutTimerList; // filterTimeout Timers list
+        private HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
+        private HashMap<Long, TaskScheduler> filterTimeoutTimerList; // filterTimeout Timers list
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingManager() {
-            updateTimerList = new HashMap<Long, Timer>();
-            filterTimeoutTimerList = new HashMap<Long, Timer>();
+            updateTimerList = new HashMap<Long, TaskScheduler>();
+            filterTimeoutTimerList = new HashMap<Long, TaskScheduler>();
         }
 
         public void refreshAll() {
@@ -998,7 +1000,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         private void addPeriodicReporting(Long identityId) {
             //requirement: 3.7.9.2.k
             publishImmediatePeriodicUpdate(identityId);
-            Timer timer = new Timer();
+            TaskScheduler timer = new TaskScheduler(1);
             updateTimerList.put(identityId, timer);
 
             final AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
@@ -1015,7 +1017,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             final AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
             // Is the filter enabled? If so, do we have a filter Timeout set?
 //            if (aggrDef.getFilterEnabled() && aggrDef.getFilteredTimeout().getValue() != 0) { // requirement 3.7.2.12
-            Timer timer2 = new Timer();
+            TaskScheduler timer2 = new TaskScheduler(1);
             filterTimeoutTimerList.put(identityId, timer2);
             this.startFilterTimeoutTimer(identityId, aggrDef.getFilteredTimeout());
 //            } else {
@@ -1035,7 +1037,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         private void startUpdatesTimer(final Long identityId, final Duration interval) {
-            updateTimerList.get(identityId).scheduleAtFixedRate(new TimerTask() {
+            updateTimerList.get(identityId).scheduleTask(new Thread() {
 
                 @Override
                 public void run() {  // requirement: 3.7.3.c
@@ -1060,11 +1062,12 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                         }
                     }
                 } // the time is being converted to milliseconds by multiplying by 1000 
-            }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000)); // requirement: 3.7.3.g
+            }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000),
+            TimeUnit.MILLISECONDS, true); // requirement: 3.7.3.g
         }
 
         private void stopUpdatesTimer(final Long objId) {
-            updateTimerList.get(objId).cancel();
+            updateTimerList.get(objId).stopLast();
         }
 
         private void resetFilterTimeoutTimer(Long objId) {
@@ -1075,13 +1078,13 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 return;  // Get out if the timer was not set
             }
             this.stopFilterTimeoutTimer(objId);
-            Timer timer2 = new Timer();
+            TaskScheduler timer2 = new TaskScheduler(1);
             filterTimeoutTimerList.put(objId, timer2);
             this.startFilterTimeoutTimer(objId, manager.getAggregationDefinition(objId).getFilteredTimeout());
         }
 
         private void startFilterTimeoutTimer(final Long identityId, final Duration interval) {
-            filterTimeoutTimerList.get(identityId).scheduleAtFixedRate(new TimerTask() {
+            filterTimeoutTimerList.get(identityId).scheduleTask(new Thread() {
 
                 @Override
                 public void run() {  // requirement: 3.7.2.a.c, 3.7.3.n
@@ -1096,12 +1099,12 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                         manager.resetAggregationSampleHelperVariables(identityId);
                     }
                 } // the time is being converted to milliseconds by multiplying by 1000
-            }, 0, (int) (interval.getValue() * 1000));
+            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true);
         }
 
         private void stopFilterTimeoutTimer(final Long objId) {
             if (filterTimeoutTimerList.get(objId) != null) { // Does it exist?
-                filterTimeoutTimerList.get(objId).cancel();
+                filterTimeoutTimerList.get(objId).stopLast();
             }
         }
 
@@ -1122,13 +1125,13 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      */
     private class PeriodicSamplingManager { // requirement: 3.7.2.1a
 
-        private List<Timer> sampleTimerList; // Timer List. One timer for each parameterSet of each aggregation that needs to be sampled
+        private List<TaskScheduler> sampleTimerList; // Timer List. One timer for each parameterSet of each aggregation that needs to be sampled
         private LongList aggregationObjIdList; // ids of the aggregations whiches parameterSet started the timer above. first index here belongs to the first timer abode. 
         private List<Integer> parameterSetIndexList; // index of the parameter set in the aggregation above, that belongs to the timer. first index here belngs to the first  aggregation id above and belongs to the first timer above.
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicSamplingManager() {
-            sampleTimerList = new ArrayList<Timer>();
+            sampleTimerList = new ArrayList<TaskScheduler>();
             aggregationObjIdList = new LongList();
             parameterSetIndexList = new ArrayList<Integer>();
         }
@@ -1194,7 +1197,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 if (sampleInterval.getValue() != 0) {
                     aggregationObjIdList.add(index, identityId);
                     parameterSetIndexList.add(index, indexOfParameterSet);
-                    Timer timer = new Timer();  // Take care of adding a new timer
+                    TaskScheduler timer = new TaskScheduler(1);  // Take care of adding a new timer
                     sampleTimerList.add(index, timer);
                     startTimer(index, sampleInterval);
                     index++;
@@ -1215,7 +1218,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             final Long identityId = aggregationObjIdList.get(index);
             final int indexOfparameterSet = parameterSetIndexList.get(index);
 
-            sampleTimerList.get(index).scheduleAtFixedRate(new TimerTask() {
+            sampleTimerList.get(index).scheduleTask(new Thread() {
                 @Override
                 public void run() {
                     if (active) {
@@ -1226,11 +1229,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                         }
                     }
                 }
-            }, 0, (int) (interval.getValue() * 1000)); // the time has to be converted to milliseconds by multiplying by 1000
+            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
         }
 
         private void stopTimer(int index) {
-            sampleTimerList.get(index).cancel();
+            sampleTimerList.get(index).stopLast();
         }
 
     }

@@ -24,6 +24,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -976,11 +978,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
          * Key: the id of the ParameterIdentity, Value: the
          * sample-reporting-timer
          */
-        private HashMap<Long, Timer> sampleTimerList; // Timers list
+        private HashMap<Long, TaskScheduler> sampleTimerList; // Timers list
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicSamplingManager() {
-            sampleTimerList = new HashMap<Long, Timer>();
+            sampleTimerList = new HashMap<Long, TaskScheduler>();
         }
 
         public void refreshAll() {
@@ -1059,7 +1061,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             // NOTE: The standard says its "perfectly possible" to set a sampleInterval greater than a reporting or collection interval so no other checks of the sampleinterval necessary here
             Duration sampleInterval = statLink.getLinkDetails().getSamplingInterval();
             if (sampleInterval.getValue() != 0) {
-                Timer timer = new Timer(true);  // Take care of adding a new timer
+                TaskScheduler timer = new TaskScheduler(1, true);  // Take care of adding a new timer
                 sampleTimerList.put(identityId, timer);
                 startTimer(identityId, sampleInterval, statLink.getLinkDetails().getUseConverted());
             }
@@ -1067,14 +1069,14 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         private void startTimer(final Long identityId, final Duration interval, final boolean useConverted) {  // requirement: 3.6.2.g
-            sampleTimerList.get(identityId).scheduleAtFixedRate(new TimerTask() {
+            sampleTimerList.get(identityId).scheduleTask(new Thread() {
                 @Override
                 public void run() { // Periodic sampling
                     if (active) {
                         sampleParamValue(identityId, useConverted);
                     }
                 } // the time has to be converted to milliseconds by multiplying by 1000
-            }, 0, (int) (interval.getValue() * 1000)); // requirement: 3.6.2.g
+            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // requirement: 3.6.2.g
         }
 
         private void sampleParamValue(final Long identityId, final boolean useConverted) {
@@ -1099,18 +1101,18 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         private void stopTimer(Long objId) {
-            sampleTimerList.get(objId).cancel();
+            sampleTimerList.get(objId).stopLast();
         }
 
     }
 
     private class PeriodicCollectionManager {
 
-        private HashMap<Long, Timer> collectionTimerList; // Timers list
+        private HashMap<Long, TaskScheduler> collectionTimerList; // Timers list
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicCollectionManager() {
-            collectionTimerList = new HashMap<Long, Timer>();
+            collectionTimerList = new HashMap<Long, TaskScheduler>();
         }
 
         public void refreshAll() {
@@ -1162,7 +1164,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
             // Add to the Periodic Collection Manager
             if (collectionInterval.getValue() != 0) {
-                Timer timer = new Timer(true);  // Take care of adding a new timer
+                TaskScheduler timer = new TaskScheduler(1, true);  // Take care of adding a new timer
                 collectionTimerList.put(objId, timer);
                 startTimer(objId, collectionInterval);
             }
@@ -1176,7 +1178,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         private void startTimer(final Long statLinkId, Duration interval) {
 
-            collectionTimerList.get(statLinkId).scheduleAtFixedRate(new TimerTask() {
+            collectionTimerList.get(statLinkId).scheduleTask(new Thread() {
                 @Override
                 public void run() { // Periodic sampling
                     if (active) {
@@ -1207,22 +1209,22 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                 }
 
                 // the time has to be converted to milliseconds by multiplying by 1000
-            }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000));
+            }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true);
         }
 
         private void stopTimer(Long objId) {
-            collectionTimerList.get(objId).cancel();
+            collectionTimerList.get(objId).stopLast();
         }
 
     }
 
     private class PeriodicReportingManager { // requirement: 3.7.2.1a
 
-        private HashMap<Long, Timer> updateTimerList; // updateInterval Timers list
+        private HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingManager() {
-            updateTimerList = new HashMap<Long, Timer>();
+            updateTimerList = new HashMap<Long, TaskScheduler>();
         }
 
         public void refreshAll() {
@@ -1280,7 +1282,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         private void addPeriodicReporting(Long statLinkId, boolean immediateReport) {
-            Timer timer = new Timer(true);
+            TaskScheduler timer = new TaskScheduler(1, true);
             updateTimerList.put(statLinkId, timer);
             this.startReportingTimer(statLinkId, manager.getStatisticLink(statLinkId).getLinkDetails().getReportingInterval(), immediateReport); //requirement: 3.6.2.h, 3.6.3.b
         }
@@ -1291,14 +1293,15 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         private void startReportingTimer(final Long statLinkId, final Duration interval, boolean immediateReport) {
-            updateTimerList.get(statLinkId).scheduleAtFixedRate(new TimerTask() {
+            updateTimerList.get(statLinkId).scheduleTask(new Thread() {
                 @Override
                 public void run() {  //requirement: 3.6.2.h, 3.6.3.b
                     if (active) {
                         reportStatistic(statLinkId);
                     }
                 }
-            }, immediateReport ? 0 : (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000)); //requirement: 3.6.2.h, 3.6.3.b
+            }, immediateReport ? 0 : (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000),
+            TimeUnit.MILLISECONDS, true); //requirement: 3.6.2.h, 3.6.3.b
         }
 
         private void reportStatistic(final Long statLinkId) {
@@ -1315,7 +1318,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         private void stopUpdatesTimer(final Long objId) {
-            updateTimerList.get(objId).cancel();
+            updateTimerList.get(objId).stopLast();
         }
 
     }

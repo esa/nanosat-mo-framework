@@ -25,6 +25,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.util.GroupRetrieval;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,6 +93,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Parameter service Provider.
@@ -763,11 +765,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     private class PeriodicReportingManager { // requirement: 3.3.2.a.a
 
-        private HashMap<Long, Timer> timerList; // Timers list
+        private HashMap<Long, TaskScheduler> timerList; // Timers list
         boolean active = false; // Flag that determines if the Manager publishes or not
 
         public PeriodicReportingManager() {
-            timerList = new HashMap<Long, Timer>();
+            timerList = new HashMap<Long, TaskScheduler>();
         }
 
         public void start() {
@@ -826,7 +828,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
          * periodically
          */
         private void addPeriodicReporting(Long identityId) {
-            Timer timer = new Timer();
+            TaskScheduler timer = new TaskScheduler(1);
             timerList.put(identityId, timer);
             publishPeriodicParameterUpdate(identityId);
             //requirement: 3.3.3.c
@@ -844,7 +846,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
          * @param interval
          */
         private void startTimer(final Long identityId, final Duration interval) {  // requirement: 3.3.3.c
-            timerList.get(identityId).scheduleAtFixedRate(new TimerTask() {
+            timerList.get(identityId).scheduleTask(new Thread() {
                 @Override
                 public void run() {
                     if (active) {
@@ -856,11 +858,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                         }
                     }
                 }
-            }, 0, (int) (interval.getValue() * 1000)); // the time has to be converted to milliseconds by multiplying by 1000
+            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
         }
 
         private void stopTimer(final Long identityId) {
-            timerList.get(identityId).cancel();
+            timerList.get(identityId).stopLast();
         }
 
     }

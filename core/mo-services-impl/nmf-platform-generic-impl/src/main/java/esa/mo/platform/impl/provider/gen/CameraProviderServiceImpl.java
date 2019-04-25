@@ -24,10 +24,12 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.misc.TaskScheduler;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,7 +85,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
   private final Object lock = new Object();
   private boolean isRegistered = false;
   private final ConnectionProvider connection = new ConnectionProvider();
-  private Timer publishTimer = new Timer();
+  private TaskScheduler publishTimer = new TaskScheduler(1);
   private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
   private CameraAdapterInterface adapter;
   private PictureFormatList availableFormats;
@@ -252,7 +254,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
   {
     if (enable == false) {
       cameraInUse = false;
-      publishTimer.cancel();
+      publishTimer.stopLast();
     } else {
       if (null == firstEntityKey) { // Is the input null?
         throw new IllegalArgumentException("firstEntityKey argument must not be null");
@@ -280,11 +282,11 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
       }
 
       cameraInUse = true;
-      publishTimer.cancel();
+      publishTimer.stopLast();
       int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
 
-      publishTimer = new Timer();
-      publishTimer.scheduleAtFixedRate(new TimerTask()
+      publishTimer = new TaskScheduler(1);
+      publishTimer.scheduleTask(new Thread()
       {
         @Override
         public void run()
@@ -295,7 +297,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
             }
           }
         }
-      }, period, period);
+      }, period, period, TimeUnit.MILLISECONDS, true);
     }
   }
 

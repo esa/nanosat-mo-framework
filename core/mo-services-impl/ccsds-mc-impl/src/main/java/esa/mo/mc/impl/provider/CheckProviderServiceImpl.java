@@ -24,6 +24,7 @@ import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.provider.check.CheckLinkMonitorManager;
 import esa.mo.mc.impl.provider.check.ParameterMonitoringManager;
 import esa.mo.mc.impl.util.GroupRetrieval;
@@ -33,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -952,11 +954,11 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
     private class PeriodicCheckingManager { // requirement: 3.7.2.1a
 
-        private HashMap<Long, Timer> sampleTimerList; // Timers list
+        private HashMap<Long, TaskScheduler> sampleTimerList; // Timers list
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicCheckingManager() {
-            sampleTimerList = new HashMap<Long, Timer>();
+            sampleTimerList = new HashMap<Long, TaskScheduler>();
 
         }
 
@@ -1013,7 +1015,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             }
 
             // Add to the Periodic Sampling Manager 
-            Timer timer = new Timer();  // Take care of adding a new timer
+            TaskScheduler timer = new TaskScheduler(1);  // Take care of adding a new timer
             sampleTimerList.put(checkLinkId, timer);
             startTimer(checkLinkId, checkInterval);// requirement: 3.5.3.j
         }
@@ -1025,7 +1027,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
         private void startTimer(final Long checkLinkId, Duration interval) {  // requirement: 3.7.2.11
 
-            sampleTimerList.get(checkLinkId).scheduleAtFixedRate(new TimerTask() {
+            sampleTimerList.get(checkLinkId).scheduleTask(new Thread() {
                 @Override
                 public void run() { // Periodic Checking
                     if (active) {
@@ -1040,22 +1042,22 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
                         }
                     }
                 } // the time has to be converted to milliseconds by multiplying by 1000
-            }, 0, (int) (interval.getValue() * 1000)); // requirement: 3.6.2.g
+            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // requirement: 3.6.2.g
         }
 
         private void stopTimer(Long objId) {
-            sampleTimerList.get(objId).cancel();
+            sampleTimerList.get(objId).stopLast();
         }
 
     }
 
     private class PeriodicReportingMaxManager { // requirement: 3.7.2.1a
 
-        private HashMap<Long, Timer> updateTimerList; // updateInterval Timers list
+        private HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingMaxManager() {
-            updateTimerList = new HashMap<Long, Timer>();
+            updateTimerList = new HashMap<Long, TaskScheduler>();
         }
 
         public void refreshAll() {
@@ -1106,7 +1108,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         }
 
         private void addPeriodicReportingMax(Long checkLinkId, Duration maxReportingInterval) {
-            Timer timer = new Timer();
+            TaskScheduler timer = new TaskScheduler(1);
             updateTimerList.put(checkLinkId, timer);
             this.startUpdatesTimer(checkLinkId, maxReportingInterval);
         }
@@ -1117,7 +1119,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         }
 
         private void startUpdatesTimer(final Long checkLinkId, final Duration interval) {
-            updateTimerList.get(checkLinkId).scheduleAtFixedRate(new TimerTask() {
+            updateTimerList.get(checkLinkId).scheduleTask(new Thread() {
 
                 @Override
                 public void run() {
@@ -1130,11 +1132,12 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
                         Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } // the time is being converted to milliseconds by multiplying by 1000  (starting delay included)
-            }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000)); // requirement: 3.5.3.ff
+            }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS,
+            true); // requirement: 3.5.3.ff
         }
 
         private void stopUpdatesTimer(final Long objId) {
-            updateTimerList.get(objId).cancel();
+            updateTimerList.get(objId).stopLast();
         }
 
     }
