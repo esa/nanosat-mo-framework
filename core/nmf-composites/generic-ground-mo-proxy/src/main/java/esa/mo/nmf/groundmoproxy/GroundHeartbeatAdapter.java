@@ -21,9 +21,11 @@
 package esa.mo.nmf.groundmoproxy;
 
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -39,7 +41,7 @@ class GroundHeartbeatAdapter extends HeartbeatAdapter
   private static final long DELTA_ERROR = 2 * 1000; // 2 seconds = 2000 milliseconds
   private final long period; // In seconds
   private long lag; // In milliseconds
-  private final Timer timer;
+  private final TaskScheduler timer;
   private Time lastBeatAt = HelperTime.getTimestampMillis();
   private Time lastBeatOBT = null; // Last beat in On-Board timestamp
   private final GroundMOProxy moProxy;
@@ -54,8 +56,8 @@ class GroundHeartbeatAdapter extends HeartbeatAdapter
     period = (long) (value * 1000);
     LOGGER.log(Level.INFO, "The provider is reachable! Beat period: {0} seconds", value);
     moProxy.setNmsAliveStatus(true);
-    timer = new Timer("HeartbeatMonitorTimer");
-    timer.scheduleAtFixedRate(new HeartbeatRefreshTask(moProxy, heartbeat), period, period);
+    timer = new TaskScheduler(1);
+    timer.scheduleTask(new HeartbeatRefreshTask(moProxy, heartbeat), period, period, TimeUnit.MILLISECONDS, true);
   }
 
   @Override
@@ -86,7 +88,7 @@ class GroundHeartbeatAdapter extends HeartbeatAdapter
     return HelperTime.timeToFineTime(lastBeatOBT);
   }
 
-  private class HeartbeatRefreshTask extends TimerTask
+  private class HeartbeatRefreshTask extends Thread
   {
 
     private final GroundMOProxy moProxy;

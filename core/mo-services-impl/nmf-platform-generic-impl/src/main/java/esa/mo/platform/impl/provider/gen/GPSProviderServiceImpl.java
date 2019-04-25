@@ -25,6 +25,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.platform.impl.util.PositionsCalculator;
 import java.io.IOException;
 import java.util.HashMap;
@@ -81,6 +82,7 @@ import org.ccsds.moims.mo.platform.gps.structures.PositionList;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import java.util.concurrent.TimeUnit;
 
 /**
  * GPS service Provider.
@@ -510,12 +512,12 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     private class PeriodicCurrentPosition {
 
-        private final Timer timer;
+        private final TaskScheduler timer;
         boolean active = false; // Flag that determines if publishes or not
         private static final int PERIOD = 5000; // 5 Seconds
 
         public PeriodicCurrentPosition() {
-            timer = new Timer("GPS_PeriodicReportingManager");
+            timer = new TaskScheduler(1);
         }
 
         public void start() {
@@ -527,7 +529,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         public void init() {
-            timer.scheduleAtFixedRate(new TimerTask() {
+            timer.scheduleTask(new Thread() {
                 @Override
                 public void run() {
                     if (active) {
@@ -571,7 +573,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                         }
                     }
                 }
-            }, 0, PERIOD);
+            }, 0, PERIOD, TimeUnit.MILLISECONDS, true);
         }
     }
 

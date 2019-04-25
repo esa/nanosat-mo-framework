@@ -25,10 +25,12 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.TaskScheduler;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -85,7 +87,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   private final ConnectionProvider connection = new ConnectionProvider();
   private AutonomousADCSAdapterInterface adapter;
   private boolean adcsInUse;
-  private Timer publishTimer = new Timer();
+  private TaskScheduler publishTimer = new TaskScheduler(1);
   private Thread autoUnsetThread = null;
   private long attitudeControlEndTime = 0;
   private int monitoringPeriod = 5000; // Default value: 5 seconds
@@ -326,10 +328,10 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
   private void startGeneration()
   {
-    publishTimer.cancel();
-    publishTimer = new Timer();
+    publishTimer.stopLast(); // is this really necessary?
+    publishTimer = new TaskScheduler(1);
     generationEnabled = true;
-    publishTimer.scheduleAtFixedRate(new TimerTask()
+    publishTimer.scheduleTask(new Thread()
     {
       @Override
       public void run()
@@ -338,13 +340,13 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
           publishCurrentAttitude();
         }
       }
-    }, monitoringPeriod, monitoringPeriod);
+    }, monitoringPeriod, monitoringPeriod, TimeUnit.MILLISECONDS, true);
   }
 
   private void stopGeneration()
   {
     generationEnabled = false;
-    publishTimer.cancel();
+    publishTimer.stopLast();
   }
 
   /**
