@@ -22,6 +22,7 @@ package esa.mo.nmf.apps;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -29,9 +30,9 @@ import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -130,7 +131,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
   private static final Logger LOGGER = Logger.getLogger(MCAllInOneAdapter.class.getName());
   private NMFInterface nmf;
 
-  private final Timer periodicAlertTimer = new Timer();
+  private final TaskScheduler periodicAlertTimer = new TaskScheduler(1);
 
   public MCAllInOneAdapter(final NMFInterface nmfProvider)
   {
@@ -165,7 +166,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
 
   public void startPeriodicAlertsPublishing()
   {
-    this.periodicAlertTimer.scheduleAtFixedRate(new TimerTask()
+    this.periodicAlertTimer.scheduleTask(new Thread()
     {
       @Override
       public void run()
@@ -180,7 +181,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
           LOGGER.log(Level.SEVERE, null, ex);
         }
       }
-    }, 0, 10 * 1000); // 10 seconds
+    }, 0, 10, TimeUnit.SECONDS, true); // 10 seconds
   }
 
   @Override

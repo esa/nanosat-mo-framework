@@ -20,12 +20,13 @@
  */
 package esa.mo.nmf.apps;
 
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -43,13 +44,13 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public class Demo10secAlert {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    private final Timer timer;
+    private final TaskScheduler timer;
 
     public Demo10secAlert() {
         this.connector.init(new Adapter());
-        this.timer = new Timer();
+        this.timer = new TaskScheduler(1);
 
-        this.timer.scheduleAtFixedRate(new TimerTask() {
+        this.timer.scheduleTask(new Thread() {
             @Override
             public void run() {
                 try {
@@ -59,7 +60,7 @@ public class Demo10secAlert {
                             "The Alert could not be published to the consumer!", ex);
                 }
             }
-        }, 0, 10 * 1000); // 10 seconds
+        }, 0, 10, TimeUnit.SECONDS, true); // 10 seconds
     }
 
     /**

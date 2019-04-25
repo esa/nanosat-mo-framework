@@ -1,0 +1,1 @@
+java -classpath "target\Demo_Push_Clock-jar-with-dependencies.jar" esa.mo.nmf.apps.PushClock

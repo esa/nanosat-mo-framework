@@ -32,6 +32,7 @@ import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
 import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.ctt.services.sm.CommandExecutorConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.PackageManagementConsumerPanel;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
@@ -39,6 +40,7 @@ import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.awt.Color;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTabbedPane;
@@ -251,7 +253,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         private static final long DELTA_ERROR = 2 * 1000; // 2 seconds = 2000 milliseconds
         private final long period; // In seconds
         private long lag; // In milliseconds
-        private final Timer timer;
+        private final TaskScheduler timer;
         private Time lastBeatAt = HelperTime.getTimestampMillis();
 
         public ProviderStatusAdapter(final HeartbeatConsumerServiceImpl heartbeat) throws MALInteractionException, MALException {
@@ -261,8 +263,8 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             period = (long) (value * 1000);
             status.setText("The provider is reachable! Beat period: " + value + " seconds");
 
-            timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask()
+            timer = new TaskScheduler(1);
+            timer.scheduleTask(new Thread()
           {
             int tryNumber = 0;
 
@@ -295,7 +297,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 tryNumber++;
               }
             }
-          }, period, period);
+          }, period, period, TimeUnit.MILLISECONDS, true);
         }
 
         @Override
