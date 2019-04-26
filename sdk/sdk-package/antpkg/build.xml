@@ -1,16 +1,124 @@
 <project name="SDK Package" default="build" basedir="../../">
   <property name="outputDir" value="${esa.nmf.sdk.assembly.outputdir}/bin"/>
   <property name="repoName" value="lib"/>
-  <target name="build" depends="emit-ctt">
+  <target name="build" depends="emit-ctt, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
+  emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test, emit-space-app-waveform">
     <!--This empty target is used as the top level target. Add your app targets to the depends attribute! -->
   </target>
-  <target name="emit-ctt">
-    <property name="mainClass" value="esa.mo.nmf.ctt.guis.ConsumerTestToolGUI"/>
-    <property name="id" value="consumer-test-tool"/>
-    <property name="binDir" value="tools/consumer-test-tool"/>
-    <ant antfile="antpkg/build_shell_script.xml"/>
-    <ant antfile="antpkg/build_batch_script.xml"/>
+  <target name="emit-ctt">  
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.ctt.guis.ConsumerTestToolGUI"/>
+      <property name="id" value="consumer-test-tool"/>
+      <property name="binDir" value="tools/consumer-test-tool"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.ctt.guis.ConsumerTestToolGUI"/>
+      <property name="id" value="consumer-test-tool"/>
+      <property name="binDir" value="tools/consumer-test-tool"/>
+    </ant>
   </target>
 
+  <target name="emit-simulator-gui">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="opssat.simulator.main.MainClient"/>
+      <property name="id" value="spacecraft-simulator-gui"/>
+      <property name="binDir" value="tools/spacecraft-simulator-gui"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="opssat.simulator.main.MainClient"/>
+      <property name="id" value="spacecraft-simulator-gui"/>
+      <property name="binDir" value="tools/spacecraft-simulator-gui"/>
+    </ant>
+  </target>
 
+  <target name="emit-space-supervisor">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl"/>
+      <property name="id" value="nanosat-mo-supervisor-sim"/>
+      <property name="binDir" value="space/nanosat-mo-supervisor-sim"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl"/>
+      <property name="id" value="nanosat-mo-supervisor-sim"/>
+      <property name="binDir" value="space/nanosat-mo-supervisor-sim"/>
+    </ant>
+  </target>
+
+  <target name="emit-space-app-all-mc-services">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.AllInOne"/>
+      <property name="id" value="start_all-mc-services"/>
+      <property name="binDir" value="space/apps/all-mc-services"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.AllInOne"/>
+      <property name="id" value="start_all-mc-services"/>
+      <property name="binDir" value="space/apps/all-mc-services"/>
+    </ant>
+  </target>
+
+  <target name="emit-space-app-publish-clock">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.PushClock"/>
+      <property name="id" value="start_publish-clock"/>
+      <property name="binDir" value="space/apps/publish-clock"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.PushClock"/>
+      <property name="id" value="start_publish-clock"/>
+      <property name="binDir" value="space/apps/publish-clock"/>
+    </ant>
+  </target>
+
+  <target name="emit-space-app-camera">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.SnapNMF"/>
+      <property name="id" value="start_camera"/>
+      <property name="binDir" value="space/apps/camera"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.SnapNMF"/>
+      <property name="id" value="start_camera"/>
+      <property name="binDir" value="space/apps/camera"/>
+    </ant>
+  </target>
+
+  <target name="emit-space-app-benchmark">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.BenchmarkApp"/>
+      <property name="id" value="start_benchmark"/>
+      <property name="binDir" value="space/apps/benchmark"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.BenchmarkApp"/>
+      <property name="id" value="start_benchmark"/>
+      <property name="binDir" value="space/apps/benchmark"/>
+    </ant>
+  </target>
+
+  <target name="emit-space-app-payloads-test">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.PayloadsTestApp"/>
+      <property name="id" value="start_payloads-test"/>
+      <property name="binDir" value="space/apps/payloads-test"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.PayloadsTestApp"/>
+      <property name="id" value="start_payloads-test"/>
+      <property name="binDir" value="space/apps/payloads-test"/>
+    </ant>
+  </target>
+
+  <target name="emit-space-app-waveform">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.Waveform"/>
+      <property name="id" value="start_waveform"/>
+      <property name="binDir" value="space/apps/waveform"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.Waveform"/>
+      <property name="id" value="start_waveform"/>
+      <property name="binDir" value="space/apps/waveform"/>
+    </ant>
+  </target>
 </project>

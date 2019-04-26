@@ -1,7 +1,11 @@
 <project default="shell">
   <target name="shell">
     <echo>Building start shell script for [${id}]</echo>
-    <loadfile property="license" srcFile="license-header.txt"/>
+    <loadfile property="license" srcFile="license-header.txt">
+      <filterchain>
+        <prefixlines prefix="#"/>
+      </filterchain>
+    </loadfile>
     <property name="fulloutput" value="${outputDir}/${binDir}"/>
     <property name="binbaserelpath" basedir="${fulloutput}" value="${outputDir}" relative="true"/>
     <copy file="antpkg/unixBinTemplate" tofile="newShellScript"/>
