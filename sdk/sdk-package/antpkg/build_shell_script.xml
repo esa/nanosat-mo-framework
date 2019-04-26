@@ -1,0 +1,27 @@
+<project default="shell">
+  <target name="shell">
+    <echo>Building start shell script for [${id}]</echo>
+    <loadfile property="license" srcFile="license-header.txt"/>
+    <property name="fulloutput" value="${outputDir}/${binDir}"/>
+    <property name="binbaserelpath" basedir="${fulloutput}" value="${outputDir}" relative="true"/>
+    <copy file="antpkg/unixBinTemplate" tofile="newShellScript"/>
+    <replace file="newShellScript" token="@LICENSE_HEADER@" value="${license}"/>
+    <replace file="newShellScript" token="@BIN_BASE_RELATIVE_PATH@" value="${binbaserelpath}"/>
+    <replace file="newShellScript" token="@ENV_SETUP@" value=""/>
+    <replace file="newShellScript" token="@REPO@" value="${repoName}"/>
+    <!-- TODO: Make the value of CLASSPATH variable according to appassembler plugin? -->
+    <replace file="newShellScript" token="@CLASSPATH@" value='"$BASEDIR"/etc:"$REPO"/*'/>
+    <replace file="newShellScript" token="@ENDORSED_DIR@" value=""/>
+    <!-- TODO: Make value of EXTRA_JVM_ARGUMENTS variable according to appassembler plugin?-->
+    <replace file="newShellScript" token="@EXTRA_JVM_ARGUMENTS@" value=""/>
+    <replace file="newShellScript" token="@APP_NAME@" value="${id}"/>
+    <replace file="newShellScript" token="@MAINCLASS@" value="${mainClass}"/>
+    <!-- TODO: Construct the following two values dynamically?-->
+    <replace file="newShellScript" token="@APP_ARGUMENTS@" value=""/>
+    <replace file="newShellScript" token="@UNIX_BACKGROUND@" value=""/>
+    <move file="newShellScript" toFile="${id}.sh"/>
+    <chmod file="${id}.sh" perm="0777"/>
+    <mkdir dir="${fulloutput}"/>
+    <move file="${id}.sh" todir="${fulloutput}"/>
+  </target>
+</project>

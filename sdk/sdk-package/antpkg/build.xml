@@ -1,0 +1,16 @@
+<project name="SDK Package" default="build" basedir="../../">
+  <property name="outputDir" value="${esa.nmf.sdk.assembly.outputdir}/bin"/>
+  <property name="repoName" value="lib"/>
+  <target name="build" depends="emit-ctt">
+    <!--This empty target is used as the top level target. Add your app targets to the depends attribute! -->
+  </target>
+  <target name="emit-ctt">
+    <property name="mainClass" value="esa.mo.nmf.ctt.guis.ConsumerTestToolGUI"/>
+    <property name="id" value="consumer-test-tool"/>
+    <property name="binDir" value="tools/consumer-test-tool"/>
+    <ant antfile="antpkg/build_shell_script.xml"/>
+    <ant antfile="antpkg/build_batch_script.xml"/>
+  </target>
+
+
+</project>
