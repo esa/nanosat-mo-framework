@@ -94,24 +94,23 @@ sdk-package project represents a self-contained reference execution environment 
       <version>1.2.3-SNAPSHOT</version>
     </dependency>
 ```
-4. Add an application assembly goal to the `appassembler-maven-plugin-nested-bin-fix` plugin execution configuration:
+4. In the folder sdk/sdk-package/antpkg you find a file build.xml. Add a target with a name of your choice and add the name to the value of the 'depends' attribute of the build target:
 ```
-    <execution>
-      <id>emit-space-app-test-nmf</id>
-      <phase>package</phase>
-      <goals>
-        <goal>assemble</goal>
-      </goals>
-      <configuration>
-        <binFolder>space/apps/test-nmf-app</binFolder>
-        <programs>
-          <program>
-            <mainClass>com.example.test-nmf-app</mainClass>
-            <id>test-nmf-app</id>
-          </program>
-        </programs>
-      </configuration>
-    </execution>
+    <target name="emit-myapp">
+      <ant antfile="antpkg/build_shell_script.xml">
+        <property name="mainClass" value="esa.mo.nmf.apps.MyApp"/>
+        <property name="id" value="start_myapp"/>
+        <property name="binDir" value="apps/myapp"/>
+      </ant>
+      <ant antfile="antpkg/build_batch_script.xml">
+        <property name="mainClass" value="esa.mo.nmf.apps.MyApp"/>
+        <property name="id" value="start_myapp"/>
+        <property name="binDir" value="apps/myapp"/>
+      </ant>
+    </target>
+
+Note: The value of the id property has to have the prefix "start_" if you want to start your app from the supervisor.
+
 ```
 5. Add a resource assembly entry for your application to the `maven-antrun-plugin` plugin execution configuration:
 ```
