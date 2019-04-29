@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.ctt.utils;
 
+import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
 import esa.mo.nmf.ctt.services.com.EventConsumerPanel;
 import esa.mo.nmf.ctt.services.common.ConfigurationConsumerPanel;
@@ -31,15 +33,11 @@ import esa.mo.nmf.ctt.services.mc.ParameterConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
 import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.ctt.services.sm.CommandExecutorConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.PackageManagementConsumerPanel;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.awt.Color;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;

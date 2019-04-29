@@ -27,11 +27,12 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.platform.impl.util.PositionsCalculator;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -80,9 +81,6 @@ import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.PositionList;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
-import esa.mo.reconfigurable.service.ReconfigurableService;
-import esa.mo.reconfigurable.service.ConfigurationChangeListener;
-import java.util.concurrent.TimeUnit;
 
 /**
  * GPS service Provider.

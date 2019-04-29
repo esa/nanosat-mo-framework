@@ -27,12 +27,13 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.util.GroupRetrieval;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -75,13 +76,8 @@ import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.provider.AggregationInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.aggregation.provider.MonitorValuePublisher;
 import org.ccsds.moims.mo.mc.aggregation.structures.*;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueList;
-import org.ccsds.moims.mo.mc.aggregation.structures.GenerationMode;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
-import esa.mo.reconfigurable.service.ReconfigurableService;
-import esa.mo.reconfigurable.service.ConfigurationChangeListener;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Aggregation service Provider.
@@ -1078,8 +1074,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 return;  // Get out if the timer was not set
             }
             this.stopFilterTimeoutTimer(objId);
-            TaskScheduler timer2 = new TaskScheduler(1);
-            filterTimeoutTimerList.put(objId, timer2);
+            // Should be unnecessary since the TaskScheduler does not need to be re-initialized to start the timer again.
+            //TaskScheduler timer2 = new TaskScheduler(1);
+            //filterTimeoutTimerList.put(objId, timer2);
             this.startFilterTimeoutTimer(objId, manager.getAggregationDefinition(objId).getFilteredTimeout());
         }
 
