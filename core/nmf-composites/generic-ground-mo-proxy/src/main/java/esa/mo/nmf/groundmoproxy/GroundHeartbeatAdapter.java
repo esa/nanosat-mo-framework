@@ -23,8 +23,6 @@ package esa.mo.nmf.groundmoproxy;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;

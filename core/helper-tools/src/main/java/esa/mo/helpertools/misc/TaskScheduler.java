@@ -22,6 +22,8 @@ package esa.mo.helpertools.misc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -108,6 +110,21 @@ public class TaskScheduler
       scheduled.remove(id);
       ids.remove(id);
     }
+  }
+
+  /**
+   * All running threads of this scheduler are stopped and dequeued. The scheduler is reset to its
+   * initial state.
+   */
+  public void resetScheduler(){
+    Set<Entry<Integer, ScheduledFuture<?>>> entries = scheduled.entrySet();
+    for(Entry<Integer, ScheduledFuture<?>> e : entries){
+      e.getValue().cancel(true);
+    }
+    scheduled.clear();
+    ids.clear();
+    nextId = 0;
+    daemon = false;
   }
 
 }

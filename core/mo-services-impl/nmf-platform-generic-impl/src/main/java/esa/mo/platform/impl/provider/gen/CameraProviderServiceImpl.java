@@ -22,13 +22,11 @@ package esa.mo.platform.impl.provider.gen;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
@@ -285,7 +283,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
       publishTimer.stopLast();
       int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
 
-      publishTimer = new TaskScheduler(1);
+      //publishTimer = new TaskScheduler(1);
       publishTimer.scheduleTask(new Thread()
       {
         @Override

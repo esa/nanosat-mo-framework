@@ -32,8 +32,6 @@ import esa.mo.mc.impl.util.MCServicesConsumer;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,8 +77,8 @@ import org.ccsds.moims.mo.mc.check.structures.CheckTypedInstanceList;
 import org.ccsds.moims.mo.mc.check.structures.CompoundCheckDefinition;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
  * Check service Provider.
