@@ -105,6 +105,7 @@ exec "$JAVACMD" $JAVA_OPTS @EXTRA_JVM_ARGUMENTS@ \
   -Dapp.pid="$$" \
   -Dapp.repo="$REPO" \
   -Dapp.home="$BASEDIR" \
+  -Djava.util.logging.config.file="$NMF_HOME/logging.properties" \
   -Dbasedir="$BASEDIR" \
   @MAINCLASS@ \
   @APP_ARGUMENTS@"$@"@UNIX_BACKGROUND@

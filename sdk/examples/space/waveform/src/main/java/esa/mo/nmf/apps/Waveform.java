@@ -67,6 +67,7 @@ public class Waveform
   {
     connector.init(new MCAdapter());
     tasker = new TaskScheduler(1);
+    Logger.getLogger(Waveform.class.getName()).log(Level.INFO, System.getProperty("app.name"));
   }
 
   public void pushVal() throws NMFException
@@ -232,10 +233,14 @@ public class Waveform
         Long l, boolean bln, MALInteraction mali)
     {
       if (idntfr.getValue().equals("start")) {
+        Logger.getLogger(Waveform.class.getName()).log(Level.FINER,
+              "Started wave");
         startWave();
         return new UInteger(0);
       }
       if (idntfr.getValue().equals("stop")) {
+        Logger.getLogger(Waveform.class.getName()).log(Level.FINER,
+              "Stopped wave");
         stopWave();
         return new UInteger(0);
       }
