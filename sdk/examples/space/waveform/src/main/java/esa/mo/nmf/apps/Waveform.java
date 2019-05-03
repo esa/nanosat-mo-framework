@@ -26,8 +26,10 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import java.util.Enumeration;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
@@ -67,7 +69,7 @@ public class Waveform
   {
     connector.init(new MCAdapter());
     tasker = new TaskScheduler(1);
-    Logger.getLogger(Waveform.class.getName()).log(Level.INFO, System.getProperty("app.name"));
+    Logger.getLogger(Waveform.class.getName()).log(Level.FINE, System.getProperty("app.name")+" started.");
   }
 
   public void pushVal() throws NMFException
@@ -93,6 +95,8 @@ public class Waveform
     if(started)
       return;
     started = true;
+    Logger.getLogger(Waveform.class.getName()).log(Level.FINE,
+              "Starting wave");
     this.tasker.scheduleTask(new Thread()
     {
       @Override
@@ -236,6 +240,12 @@ public class Waveform
         Logger.getLogger(Waveform.class.getName()).log(Level.FINER,
               "Started wave");
         startWave();
+        Enumeration<String> loggers =  LogManager.getLogManager().getLoggerNames();
+        StringBuilder sb = new StringBuilder();
+        while(loggers.hasMoreElements())
+          sb.append("- "+loggers.nextElement()+"\n");
+        Logger.getLogger(Waveform.class.getName()).log(Level.INFO, sb.toString());
+        Logger.getLogger(Waveform.class.getName()).log(Level.INFO, Logger.getLogger(Waveform.class.getName()).getLevel().toString());
         return new UInteger(0);
       }
       if (idntfr.getValue().equals("stop")) {
