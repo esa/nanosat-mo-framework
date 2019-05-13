@@ -22,9 +22,11 @@ package esa.mo.helpertools.connections;
 
 import esa.mo.helpertools.helpers.HelperConnections;
 import esa.mo.helpertools.helpers.HelperMisc;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Set;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
@@ -76,21 +78,28 @@ public class ServicesConnectionDetails {
      */
     public ServicesConnectionDetails loadURIFromFiles(String filename) throws MalformedURLException, FileNotFoundException {
 
-        java.util.Properties uriProps = null;
-        final String configFile;
-
         if (filename == null) {
-            configFile = System.getProperty("providerURI.properties", HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
-        } else {
-            configFile = filename;
+            filename = System.getProperty("providerURI.properties", HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
         }
 
-        final java.io.File file = new java.io.File(configFile);
-        if (file.exists()) {
-            uriProps = HelperMisc.loadProperties(file.toURI().toURL(), "providerURI.properties");
-        } else {
-            throw new FileNotFoundException(configFile + " not found.");
+        File configFile = new File(filename);
+        if (!configFile.exists()) {
+            throw new FileNotFoundException(filename + " not found.");
         }
+
+        Properties uriProps = HelperMisc.loadProperties(configFile.toURI().toURL(), "providerURI.properties");
+        return loadURIFromProperties(uriProps);
+    }
+
+    /**
+     * Loads the URIs from a selected Java properties
+     *
+     * @param uriProps properties set containing the provider URIs
+     * @return The connection details object generated from the file
+     * @throws java.net.MalformedURLException when the MALconsumer is not
+     * initialized correctly
+     */
+    public ServicesConnectionDetails loadURIFromProperties(Properties uriProps) throws MalformedURLException {
 
         // Reading the values out of the properties file
         Set propKeys = uriProps.keySet();
