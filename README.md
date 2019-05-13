@@ -15,7 +15,7 @@ Prerequisites:
 - Java SDK 1.8 (Build will not work on JDK 9 and above as of now)
 - Apache Maven
 
-Clone this repository, set the environment variable MVN\_HOME with the path to this repository's root directory and run `mvn install` in the root directory.
+Clone this repository, set the environment variable NMF\_HOME with the path to this repository's root directory and run `mvn install` in the root directory.
 
 Note that the errors about missing module descriptors during Javadoc generation are to be expected and non breaking.
 
@@ -25,7 +25,7 @@ In order to produce independently runnable Java executables (JAR artifacts with 
 More documentation about code examples, SDK packaging and usage is available under [sdk](sdk) directory.
 
 ## Logging
-This project uses the default Java logger (java.util.Logger) to generate log messages. The verbosity of these log messages can be changed by configuring the logging.properties file inside the MVN\_HOME directory.
+This project uses the default Java logger (java.util.Logger) to generate log messages. The verbosity of these log messages can be changed by configuring the logging.properties file inside the NMF\_HOME directory.
 
 # Source Code
 The source code of the NanoSat MO Framework can be found on [GitHub].
