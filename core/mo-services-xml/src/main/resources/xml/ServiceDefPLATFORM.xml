@@ -704,22 +704,22 @@
           <mal:extends>
             <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
           </mal:extends>
-          <mal:field canBeNull="false" comment="The start latitude of the target to be tracked. [deg]" name="latitude_start">
+          <mal:field canBeNull="false" comment="The start latitude of the target to be tracked. [deg]" name="latitudeStart">
             <mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
-          <mal:field canBeNull="false" comment="The start longitude of the target to be tracked. [deg]" name="longitude_start">
+          <mal:field canBeNull="false" comment="The start longitude of the target to be tracked. [deg]" name="longitudeStart">
             <mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
-          <mal:field canBeNull="false" comment="The end latitude of the target to be tracked. [deg]" name="latitude_end">
+          <mal:field canBeNull="false" comment="The end latitude of the target to be tracked. [deg]" name="latitudeEnd">
             <mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
-          <mal:field canBeNull="false" comment="The end longitude of the target to be tracked. [deg]" name="longitude_end">
+          <mal:field canBeNull="false" comment="The end longitude of the target to be tracked. [deg]" name="longitudeEnd">
             <mal:type area="MAL" list="false" name="Float"/>
           </mal:field>
-          <mal:field canBeNull="false" comment="The beginning epoch time of the tracking. [msec]" name="start_epoch">
+          <mal:field canBeNull="false" comment="The beginning epoch time of the tracking. [msec]" name="startEpoch">
             <mal:type area="MAL" list="false" name="Long"/>
           </mal:field>
-          <mal:field canBeNull="false" comment="The ending epoch time of the tracking. [msec]" name="end_epoch">
+          <mal:field canBeNull="false" comment="The ending epoch time of the tracking. [msec]" name="endEpoch">
             <mal:type area="MAL" list="false" name="Long"/>
           </mal:field>
         </mal:composite>
