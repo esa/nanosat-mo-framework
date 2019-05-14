@@ -71,13 +71,6 @@
       <artifactId>consumer-test-tool</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <!--
-    <dependency>
-      <groupId>int.esa.nmf.sdk</groupId>
-      <artifactId>package-assembler</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    -->
     <dependency>
       <groupId>int.esa.nmf.sdk.examples.space</groupId>
       <artifactId>waveform</artifactId>
