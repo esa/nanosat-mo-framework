@@ -1,1 +1,0 @@
-java -classpath "target\NANOSAT_MO_SUPERVISOR_SOFTWARE_SIMULATOR-jar-with-dependencies.jar" esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl
