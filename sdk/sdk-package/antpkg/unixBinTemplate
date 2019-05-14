@@ -1,6 +1,17 @@
 #!/bin/sh
 @LICENSE_HEADER@
 
+myname=${0##*/}
+
+# check if NMF_HOME is set
+if [ -z "$NMF_HOME" ] ; then
+  if [ "$myname" = "${myname#start}" ] ; then
+    NMF_HOME=../..
+  else
+    NMF_HOME=../../..
+  fi
+fi
+
 # resolve links - $0 may be a softlink
 PRG="$0"
 

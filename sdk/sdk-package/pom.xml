@@ -309,6 +309,7 @@
             </goals>
             <configuration>
               <target>
+		<copy file="${basedir}/../../logging.properties" todir="${esa.nmf.sdk.assembly.outputdir}/bin/"/>
                 <ant antfile="antpkg/build.xml"/>
               </target>
             </configuration>
