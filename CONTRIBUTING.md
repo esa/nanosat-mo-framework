@@ -3,7 +3,7 @@ If you want to contribute to the NMF, follow these guidelines to get your code a
 
 ## Commit messages
 1. The title: Use present tense imperative to shortly (less than 50 characters) describe your changes. You may reference an issue to further clarify which problem(s) your commit addresses.
-Furthermore, do not end the title with a period, as titles do not iend with periods. A valid title would be: `Bug #42: Fix camera API snapshot method`.
+Furthermore, do not end the title with a period, as titles do not end with periods. A valid title would be: `Bug #42: Fix camera API snapshot method`.
 2. Leave a blank line after your title.
 3. The body: Try to keep a column limit of around 50 characters to avoid horizontal scrolling. Use the body to further elaborate your changes using present tense imperative. You may name further TODOs if
 you referenced an issue and did not solve the problem completely. A fully valid commit message could look like this:
@@ -36,12 +36,10 @@ tests and spot problems with your code. For the NMF we use Javadoc to document c
 1. Every method gets a Javadoc docstring. Make sure to use the first line for a brief summary (see [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html#s7-javadoc) for more 
 information).
 2. Describe precisely what your method accomplishes. 
-3. If its correctness depends on a certain state, state this behind an additional line `Precondition: STATE\_BEFORE\_EXECUTION` after the description. So testers can setup the test environment accordingly.
-4. If the method has side-effects, provide information about the new state of the program behind and additional line `Postcondition: STATE\_AFTER\_EXECUTION` which follows the precondition (if present).
-5. Explain your parameters. Not everyone has the same amount of experience, so explain how each parameter affects the computation. This will assist new users and also testers who want to find sensible test cases.
-6. Be precise about your return values. State clearly if null is an acceptable return value and the cases when this will occur.
-7. Explain precisely when exceptions are thrown. 
-8. Describe what your method accomplishes, not how it is accomplished.
+3. Explain your parameters. Not everyone has the same amount of experience, so explain how each parameter affects the computation. This will assist new users and also testers who want to find sensible test cases.
+4. Be precise about your return values. State clearly if null is an acceptable return value and the cases when this will occur.
+5. Explain precisely when exceptions are thrown. 
+6. Describe what your method accomplishes, not how it is accomplished.
 A rule of thumb is: Could another developer use your documentation to write tests for your method without looking at your code? If not, be more specific.
 
 ### Testing
