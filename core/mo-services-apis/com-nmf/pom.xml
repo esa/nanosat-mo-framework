@@ -122,7 +122,7 @@
                   <pluginExecutionFilter>
                     <groupId>int.esa.ccsds.mo</groupId>
                     <artifactId>StubGenerator</artifactId>
-                    <versionRange>1.0</versionRange>
+                    <versionRange>${esa.stubgen.version}</versionRange>
                     <goals>
                       <goal>generate</goal>
                     </goals>
