@@ -14,14 +14,11 @@
     <replace file="newShellScript" token="#ENV_SETUP#" value=""/>
     <replace file="newShellScript" token="#REPO#" value="${repoName}"/>
     <replace file="newShellScript" token="#JAVA_BINARY#" value="java"/>
-    <!-- TODO: Make the value of CLASSPATH variable according to appassembler plugin? -->
     <replace file="newShellScript" token="#CLASSPATH#" value='"%BASEDIR%"\etc:"%REPO%"/*'/>
     <replace file="newShellScript" token="#ENDORSED_DIR#" value=""/>
-    <!-- TODO: Make value of EXTRA_JVM_ARGUMENTS variable according to appassembler plugin?-->
     <replace file="newShellScript" token="#EXTRA_JVM_ARGUMENTS#" value=""/>
     <replace file="newShellScript" token="#APP_NAME#" value="${id}"/>
     <replace file="newShellScript" token="#MAINCLASS#" value="${mainClass}"/>
-    <!-- TODO: Construct the following two values dynamically?-->
     <replace file="newShellScript" token="#APP_ARGUMENTS#" value=""/>
     <replace file="newShellScript" token="#UNIX_BACKGROUND#" value=""/>
     <replace file="newShellScript" token="/" value="\"/>
