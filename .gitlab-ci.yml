@@ -12,7 +12,7 @@ variables:
 build:
   stage: build
   script:
-    - mvn compile
+    - mvn install -DskipTests
 
 test_helpertools:
   stage: test
