@@ -18,12 +18,12 @@ test_helpertools:
   stage: test
   script:
     - cd core/helper-tools/
+    - pwd
     - mvn test
   artifacts:
     reports:
       junit:
-        - target/surefire-reports/TEST-*.xml
-        - target/failsafe-reports/TEST-*.xml
+        - /builds/nanosat-mo-framework/nanosat-mo-framework/core/helper-tools/target/surefire-reports/TEST-*.xml
 
 cover_helpertools:
   stage: coverage
@@ -32,4 +32,4 @@ cover_helpertools:
     - mvn $MAVEN_OPTS test
   artifacts:
     paths:
-      - target/site/jacoco/
+      - /builds/nanosat-mo-framework/nanosat-mo-framework/core/helper-tools/target/site/jacoco/
