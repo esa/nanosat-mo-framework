@@ -1,10 +1,9 @@
 stages:
   - build
   - test
-  - coverage
   - deploy
 
-image: maven:3.6.1-jdk-8
+image: maven:3.3.9-jdk-8
 
 variables:
   MAVEN_OPTS: "-Dmaven.test.failure.ignore=true"
@@ -26,7 +25,7 @@ test_helpertools:
         - /builds/nanosat-mo-framework/nanosat-mo-framework/core/helper-tools/target/surefire-reports/TEST-*.xml
 
 cover_helpertools:
-  stage: coverage
+  stage: test
   script:
     - cd core/helper-tools/
     - mvn $MAVEN_OPTS test
