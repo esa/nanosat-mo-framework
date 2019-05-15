@@ -13,8 +13,6 @@ build:
   stage: build
   script:
     - mvn compile
-  tags:
-    - docker_sockend_binded
 
 test_helpertools:
   stage: test
@@ -26,8 +24,6 @@ test_helpertools:
       junit:
         - target/surefire-reports/TEST-*.xml
         - target/failsafe-reports/TEST-*.xml
-  tags:
-    - docker_sockend_binded
 
 cover_helpertools:
   stage: coverage
@@ -37,5 +33,3 @@ cover_helpertools:
   artifacts:
     paths:
       - target/site/jacoco/
-  tags:
-    - docker_sockend_binded
