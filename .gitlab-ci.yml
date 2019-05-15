@@ -1,0 +1,35 @@
+stages:
+  - build
+  - test
+  - coverage
+  - deploy
+
+image: maven:3.6.1-jdk-8
+
+variables:
+  MAVEN_OPTS: "-Dmaven.test.failure.ignore=true"
+
+build:
+  stage: build
+  script:
+    - mvn compile
+
+test_helpertools:
+  stage: test
+  script:
+    - cd core/helper-tools/
+    - mvn test
+  artifacts:
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+        - target/failsafe-reports/TEST-*.xml
+
+cover_helpertools:
+  stage: coverage
+  script:
+    - cd core/helper-tools/
+    - mvn $MAVEN_OPTS test
+  artifacts:
+    paths:
+      - target/site/jacoco/
