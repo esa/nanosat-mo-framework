@@ -78,11 +78,6 @@
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>hello-world-yannick</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
       <artifactId>all-mc-services</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -326,10 +321,6 @@
                     <exclude name="**/*.docx"/>
                     <exclude name="**/*.doc"/>
                   </fileset>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/hello-world-yannick">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/tools/consumer-test-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
