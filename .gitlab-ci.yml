@@ -5,9 +5,6 @@ stages:
 
 image: maven:3.3.9-jdk-8
 
-variables:
-  MAVEN_OPTS: "-Dmaven.test.failure.ignore=true"
-
 build:
   stage: build
   script:
@@ -17,7 +14,6 @@ test_helpertools:
   stage: test
   script:
     - cd core/helper-tools/
-    - pwd
     - mvn test
   artifacts:
     reports:
@@ -28,7 +24,7 @@ cover_helpertools:
   stage: test
   script:
     - cd core/helper-tools/
-    - mvn $MAVEN_OPTS test
+    - mvn -Dmaven.test.failure.ignore=true test
   artifacts:
     paths:
       - /builds/nanosat-mo-framework/nanosat-mo-framework/core/helper-tools/target/site/jacoco/
