@@ -19,6 +19,8 @@ test_helpertools:
     reports:
       junit:
         - /builds/nanosat-mo-framework/nanosat-mo-framework/core/helper-tools/target/surefire-reports/TEST-*.xml
+    paths:
+      - /builds/nanosat-mo-framework/nanosat-mo-framework/core/helper-tools/target/surefire-reports/TEST-*.xml
 
 cover_helpertools:
   stage: test
