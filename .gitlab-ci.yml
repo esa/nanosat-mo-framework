@@ -27,6 +27,7 @@ cover_helpertools:
   script:
     - cd core/helper-tools/
     - mvn -Dmaven.test.failure.ignore=true test
+    - cat target/site/jacoco/index.html
   artifacts:
     paths:
       - /builds/nanosat-mo-framework/nanosat-mo-framework/core/helper-tools/target/site/jacoco/
