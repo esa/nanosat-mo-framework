@@ -297,25 +297,14 @@
         <version>1.8</version>
         <executions>
           <execution>
-            <id>build</id>
-            <phase>package</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-		<copy file="${basedir}/../../logging.properties" todir="${esa.nmf.sdk.assembly.outputdir}/bin/"/>
-                <ant antfile="antpkg/build.xml"/>
-              </target>
-            </configuration>
-          </execution>
-          <execution>
             <phase>process-resources</phase>
             <goals>
               <goal>run</goal>
             </goals>
             <configuration>
               <target>
+                <copy file="${basedir}/../../logging.properties" todir="${esa.nmf.sdk.assembly.outputdir}/bin/"/>
+                <ant antfile="antpkg/build.xml"/>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/docs">
                   <fileset dir="${basedir}/src/main/resources/docs">
                     <exclude name="**/*.docx"/>
