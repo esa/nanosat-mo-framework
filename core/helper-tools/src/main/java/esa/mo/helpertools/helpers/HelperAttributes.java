@@ -70,12 +70,11 @@ public class HelperAttributes {
    * Converts any MAL Attribute data type to a Double java type
    *
    * @param in The MAL Attribute data type
-   * @return The convert Double value
+   * @return The convert Double value or null if in == null
    */
   public static Double attribute2double(Attribute in) {
 
     if (in instanceof Union) {
-
       if (((Union) in).getTypeShortForm().equals(Union.BOOLEAN_TYPE_SHORT_FORM)) { // 2
         double dou = ((Union) in).getBooleanValue() ? 1 : 0;
         return dou;
@@ -293,9 +292,13 @@ public class HelperAttributes {
    *
    * @param attributeName The Attribute name
    * @return The Attribute object
+   * @throws java.lang.IllegalArgumentException If attributeName == null
    */
-  public static Object attributeName2object(String attributeName) {
+  public static Object attributeName2object(String attributeName) throws IllegalArgumentException {
 
+    if (attributeName == null) {
+      throw new IllegalArgumentException("AttributeName must not be null.");
+    }
     if (attributeName.equals("Blob")) {
       return new Blob();
     }
@@ -364,64 +367,43 @@ public class HelperAttributes {
    *
    * @param in    The object to be set
    * @param value The string value to be used for the set
-   * @return The final object with the selected value
+   * @return The final object with the selected value or null if in == null
+   * @throws java.lang.IllegalArgumentException If value == null
    */
-  public static Object string2attribute(Object in, String value) throws NumberFormatException {
-
+  public static Object string2attribute(Object in, String value)
+      throws NumberFormatException, IllegalArgumentException {
+    if (value == null) {
+      throw new IllegalArgumentException("The value must not be null.");
+    }
+    if (value.isEmpty()) {
+      return null;
+    }
     if (in instanceof Union) {
       if (((Union) in).getTypeShortForm().equals(Union.DOUBLE_TYPE_SHORT_FORM)) {
-        if (value.isEmpty()) {
-          return null;
-        }
-
         return new Union(Double.parseDouble(value));
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.BOOLEAN_TYPE_SHORT_FORM)) {
-        if (value.isEmpty()) {
-          return null;
-        }
-
         return new Union(Boolean.parseBoolean(value));
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.FLOAT_TYPE_SHORT_FORM)) {
-        if (value.isEmpty()) {
-          return null;
-        }
-
         return new Union(Float.parseFloat(value));
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.INTEGER_TYPE_SHORT_FORM)) {
-        if (value.isEmpty()) {
-          return null;
-        }
-
         return new Union(Integer.parseInt(value));
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.LONG_TYPE_SHORT_FORM)) {
-        if (value.isEmpty()) {
-          return null;
-        }
-
         return new Union(Long.parseLong(value));
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.OCTET_TYPE_SHORT_FORM)) {
-        if (value.isEmpty()) {
-          return null;
-        }
-
         return new Union(Byte.parseByte(value));
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.SHORT_TYPE_SHORT_FORM)) {
-        if (value.isEmpty()) {
-          return null;
-        }
-
         return new Union(Short.parseShort(value));
       }
 
@@ -432,58 +414,30 @@ public class HelperAttributes {
     }
 
     if (in instanceof Duration) {
-      if (value.isEmpty()) {
-        return null;
-      }
-
       return new Duration(Double.parseDouble(value));
     }
 
     if (in instanceof UOctet) {
-      if (value.isEmpty()) {
-        return null;
-      }
-
       return new UOctet(Short.parseShort(value));
     }
 
     if (in instanceof UShort) {
-      if (value.isEmpty()) {
-        return null;
-      }
-
       return new UShort(Integer.parseInt(value));
     }
 
     if (in instanceof UInteger) {
-      if (value.isEmpty()) {
-        return null;
-      }
-
       return new UInteger(Long.parseLong(value));
     }
 
     if (in instanceof ULong) {
-      if (value.isEmpty()) {
-        return null;
-      }
-
       return new ULong(new BigInteger(value));
     }
 
     if (in instanceof Time) {
-      if (value.isEmpty()) {
-        return null;
-      }
-
       return new Time(Long.parseLong(value));
     }
 
     if (in instanceof FineTime) {
-      if (value.isEmpty()) {
-        return null;
-      }
-
       return new FineTime(Long.parseLong(value));
     }
 
@@ -500,10 +454,6 @@ public class HelperAttributes {
     }
 
     if (in instanceof Boolean) {
-      if (value.isEmpty()) {
-        return null;
-      }
-
       return Boolean.valueOf(value);
     }
 
@@ -717,9 +667,13 @@ public class HelperAttributes {
    *
    * @param attributeName The name of the MAL Attribute
    * @return The type short form number
+   * @throws java.lang.IllegalArgumentException If attributeName == null
    */
-  public static Integer attributeName2typeShortForm(String attributeName) {
-
+  public static Integer attributeName2typeShortForm(String attributeName)
+      throws IllegalArgumentException {
+    if (attributeName == null) {
+      throw new IllegalArgumentException("ArgumentName must not be null.");
+    }
     if (attributeName.equals("Blob")) {
       return 1;
     }
@@ -820,10 +774,16 @@ public class HelperAttributes {
    *
    * @param obj The object to be serialized
    * @return The deserialized object
-   * @throws java.io.IOException When the deserialization of the object fails
+   * @throws java.io.IOException                When the deserialization of the
+   *                                            object fails
+   * @throws java.lang.IllegalArgumentException If obj == null
    */
-  public static Serializable blobAttribute2serialObject(Blob obj) throws IOException {
+  public static Serializable blobAttribute2serialObject(Blob obj)
+      throws IOException, IllegalArgumentException {
 
+    if (obj == null) {
+      throw new IllegalArgumentException("The Blob must not be null.");
+    }
     ByteArrayInputStream bis = null;
     Object o = null;
 
