@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    Licensed under the European Space Agency Public License, Version 2.0
-    You may not use this file except in compliance with the License.
-
-    Except as expressly set forth in this License, the Software is provided to
-    You on an "as is" basis and without warranties of any kind, including without
-    limitation merchantability, fitness for a particular purpose, absence of
-    defects or errors, accuracy or non-infringement of intellectual property rights.
-
-    See the License for the specific language governing permissions and limitations under the License.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<!-- Licensed under the European Space Agency Public License, Version 2.0 
+  You may not use this file except in compliance with the License. Except as 
+  expressly set forth in this License, the Software is provided to You on an 
+  "as is" basis and without warranties of any kind, including without limitation 
+  merchantability, fitness for a particular purpose, absence of defects or 
+  errors, accuracy or non-infringement of intellectual property rights. See 
+  the License for the specific language governing permissions and limitations 
+  under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>int.esa.nmf</groupId>
@@ -75,13 +74,14 @@
       <groupId>int.esa.nmf.core.moservices.impl</groupId>
       <artifactId>ccsds-com</artifactId>
     </dependency>
-    <!--
-            <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>ENCODING_XML</artifactId>
-                <version>1.0.1</version>
-            </dependency>
-    -->
+    <!-- <dependency> <groupId>int.esa.ccsds.mo</groupId> <artifactId>ENCODING_XML</artifactId> 
+      <version>1.0.1</version> </dependency> -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <resources>
@@ -112,6 +112,26 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.4.201502262128</version>
+        <executions>
+          <execution>
+            <id>jacoco-initialize</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
