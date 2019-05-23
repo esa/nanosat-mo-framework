@@ -20,9 +20,12 @@
  */
 package org.ccsds.moims.mo.com;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import org.ccsds.moims.mo.mal.MALService;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UShort;
@@ -49,6 +52,9 @@ public class COMService extends MALService
   @Proposed
   public void addCOMObject(COMObject object) throws java.lang.IllegalArgumentException
   {
+    if(object == null) {
+      throw new IllegalArgumentException("object must not be null.");
+    }
     objectsByNumber.put(object.getObjectType().getNumber().getValue(), object);
     objectsByName.put(object.getObjectName().getValue(), object);
   }
@@ -58,9 +64,13 @@ public class COMService extends MALService
    *
    * @param opNumber The number of the object.
    * @return The found operation or null.
+   * @throws java.lang.IllegalArgumentException If opNumber == null.
    */
-  public COMObject getObjectByNumber(final UShort opNumber)
+  public COMObject getObjectByNumber(final UShort opNumber) throws IllegalArgumentException
   {
+    if(opNumber == null) {
+      throw new IllegalArgumentException("opNumber must not be null.");
+    }
     return objectsByNumber.get(opNumber.getValue());
   }
 
@@ -69,9 +79,13 @@ public class COMService extends MALService
    *
    * @param opName The name of the object.
    * @return The found operation or null.
+   * @throws java.lang.IllegalArgumentException If opName == null.
    */
-  public COMObject getObjectByName(final Identifier opName)
+  public COMObject getObjectByName(final Identifier opName) throws IllegalArgumentException
   {
+    if(opName == null) {
+      throw new IllegalArgumentException("opName must not be null.");
+    }
     return objectsByName.get(opName.getValue());
   }
 
@@ -82,6 +96,9 @@ public class COMService extends MALService
    */
   public COMObject[] getObjects()
   {
-    return (COMObject[]) Arrays.asList(objectsByName.values()).toArray();
+    List<COMObject> lst = new ArrayList<COMObject>(objectsByName.values());
+    COMObject[] result = new COMObject[lst.size()];
+    lst.toArray(result);
+    return result;
   }
 }
