@@ -223,12 +223,6 @@ public class TestHelperAttributes {
     assertEquals(42.0, (double) HelperAttributes.attribute2double(attribute), 0.0000001);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testAttribute2Double30() {
-    Union attribute = new Union((Integer) null);
-    HelperAttributes.attribute2double(attribute);
-  }
-
   @Test
   public void testAttribute2Double31() {
     Duration attribute = new Duration(0);
@@ -710,11 +704,6 @@ public class TestHelperAttributes {
   }
 
   /* Tests for string2attribute */
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testString2Attribute1() {
-    HelperAttributes.string2attribute(null, "String");
-  }
 
   @Test(expected = IllegalArgumentException.class)
   public void testString2Attribute2() {

@@ -96,7 +96,7 @@ public class TestHelperMisc {
     }
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testLoadPropertiesURL1() {
     Properties res = HelperMisc.loadProperties(null, null);
     assertNotNull(res);

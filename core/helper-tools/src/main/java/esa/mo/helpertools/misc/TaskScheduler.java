@@ -67,12 +67,16 @@ public class TaskScheduler
    * @param fixedRate Determines to use scheduleAtFixedRate when set to true, and
    * scheduleWithFixedDelay otherwise.
    * @return The ID of the scheduled task.
+   * @throws java.lang.IllegalArgumentException If command == null OR unit == null.
    * @see ScheduledThreadPoolExecutor#scheduleAtFixedRate(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit)
    * @see ScheduledThreadPoolExecutor#scheduleWithFixedDelay(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit) 
    */
   public int scheduleTask(Thread command, long startDelay, long taskDelay, TimeUnit
-      unit, boolean fixedRate)
+      unit, boolean fixedRate) throws IllegalArgumentException
   {
+    if(command == null || unit == null) {
+      throw new IllegalArgumentException("The provided thread must not be null.");
+    }
     command.setDaemon(daemon);
     ScheduledFuture<?> task;
     if(fixedRate){
