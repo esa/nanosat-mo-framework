@@ -23,10 +23,12 @@ package esa.mo.sm.impl.provider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import esa.mo.helpertools.misc.TaskScheduler;
 
 public class ProcessExecutionHandler
 {
@@ -59,7 +61,7 @@ public class ProcessExecutionHandler
     void processStopped(Long objId, int exitCode);
   };
 
-  private final Timer timer = new Timer();
+  private final TaskScheduler timer = new TaskScheduler(1);
   private static final int PERIOD_PUB = 2 * 1000; // Publish every 2 seconds
   private final Long objId;
   private Thread stdoutReader;
@@ -86,7 +88,7 @@ public class ProcessExecutionHandler
 
   public void close()
   {
-    timer.cancel();
+    timer.stopLast();
     process.destroy();
   }
 
@@ -96,7 +98,7 @@ public class ProcessExecutionHandler
     final StringBuffer stdoutBuf = new StringBuffer();
     final StringBuffer stderrBuf = new StringBuffer();
     // Every PERIOD_PUB seconds, publish the String data
-    timer.schedule(new TimerTaskImpl(stdoutBuf, stderrBuf), 0, PERIOD_PUB);
+    timer.scheduleTask(new TimerTaskImpl(stdoutBuf, stderrBuf), 0, PERIOD_PUB, TimeUnit.MILLISECONDS, false);
     stdoutReader = createReaderThread(stdoutBuf, new BufferedReader(new InputStreamReader(
         process.getInputStream())));
     stderrReader = createReaderThread(stderrBuf, new BufferedReader(new InputStreamReader(
@@ -143,7 +145,7 @@ public class ProcessExecutionHandler
     };
   }
 
-  private class TimerTaskImpl extends TimerTask
+  private class TimerTaskImpl extends Thread
   {
 
     private final StringBuffer stdoutBuf;
