@@ -14,7 +14,6 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0001");
         java.lang.String str0 = opssat.simulator.threading.SimulatorNode.getWorkingDir();
-// flaky:         org.junit.Assert.assertTrue("'" + str0 + "' != '" + "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str0.equals("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
     }
 
     @Test
@@ -26,30 +25,11 @@ public class RegressionTest0 {
     }
 
     @Test
-    public void test0003() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0003");
-        long long1 = opssat.simulator.util.SimulatorSchedulerPiece.getMillisFromDDDDDHHMMSSmmm("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        org.junit.Assert.assertTrue("'" + long1 + "' != '" + (-1L) + "'", long1 == (-1L));
-    }
-
-    @Test
     public void test0004() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0004");
         java.lang.String str1 = opssat.simulator.util.CommandDescriptor.makeConsoleDescriptionForObj((java.lang.Object) true);
         org.junit.Assert.assertTrue("'" + str1 + "' != '" + "UnknownGUIData" + "'", str1.equals("UnknownGUIData"));
-    }
-
-    @Test
-    public void test0005() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0005");
-        try {
-            opssat.simulator.orekit.GPSSatInView gPSSatInView2 = new opssat.simulator.orekit.GPSSatInView("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator", (double) (short) 100);
-            org.junit.Assert.fail("Expected exception of type java.lang.StringIndexOutOfBoundsException; message: String index out of range: -1");
-        } catch (java.lang.StringIndexOutOfBoundsException e) {
-        }
     }
 
     @Test
@@ -278,14 +258,6 @@ public class RegressionTest0 {
     }
 
     @Test
-    public void test0024() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0024");
-        boolean boolean1 = opssat.simulator.threading.SimulatorNode.isInteger("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + false + "'", boolean1 == false);
-    }
-
-    @Test
     public void test0025() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0025");
@@ -299,14 +271,6 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test0026");
         long long1 = opssat.simulator.util.SimulatorSchedulerPiece.getMillisFromDDDDDHHMMSSmmm("[0]");
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + (-1L) + "'", long1 == (-1L));
-    }
-
-    @Test
-    public void test0027() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0027");
-        java.lang.String str0 = opssat.simulator.threading.SimulatorNode.getDataPath();
-        org.junit.Assert.assertTrue("'" + str0 + "' != '" + "/home/yannick/.ops-sat-simulator/" + "'", str0.equals("/home/yannick/.ops-sat-simulator/"));
     }
 
     @Test
@@ -358,14 +322,6 @@ public class RegressionTest0 {
     }
 
     @Test
-    public void test0031() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0031");
-        java.lang.String str0 = opssat.simulator.threading.SimulatorNode.getResourcesPath();
-        org.junit.Assert.assertTrue("'" + str0 + "' != '" + "/home/yannick/.ops-sat-simulator/resources/" + "'", str0.equals("/home/yannick/.ops-sat-simulator/resources/"));
-    }
-
-    @Test
     public void test0032() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0032");
@@ -382,14 +338,6 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test0033");
         java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap1 = opssat.simulator.util.SimulatorData.computeTimeUnit((long) 7);
         org.junit.Assert.assertNotNull(timeUnitMap1);
-    }
-
-    @Test
-    public void test0034() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0034");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        argumentTemplate2.setDescription("/home/yannick/.ops-sat-simulator/resources/");
     }
 
     @Test
@@ -656,7 +604,6 @@ public class RegressionTest0 {
         boolean boolean7 = simulatorData1.isTimeRunning();
         simulatorData1.setMethodsExecuted(48);
         int int10 = simulatorData1.getCounter();
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "23" + "'", str6.equals("23"));
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
         org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-1) + "'", int10 == (-1));
     }
@@ -707,9 +654,7 @@ public class RegressionTest0 {
         boolean boolean7 = simulatorData1.isTimeRunning();
         simulatorData1.incrementMethods();
         java.lang.String str9 = simulatorData1.toString();
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "23" + "'", str6.equals("23"));
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-// flaky:         org.junit.Assert.assertTrue("'" + str9 + "' != '" + "{counter=-1, methodsExecuted=1, currentTime=Thu May 23 15:09:32 UTC 2019}" + "'", str9.equals("{counter=-1, methodsExecuted=1, currentTime=Thu May 23 15:09:32 UTC 2019}"));
     }
 
     @Test
@@ -785,11 +730,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 32 + "'", int50 == 32);
     }
 
     @Test
@@ -901,8 +844,6 @@ public class RegressionTest0 {
         int int3 = opssat.simulator.util.DateExtraction.getYearFromDate(date2);
         int int4 = opssat.simulator.util.DateExtraction.getDayFromDate(date2);
         org.junit.Assert.assertNotNull(date2);
-        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 2019 + "'", int3 == 2019);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
     }
 
     @Test
@@ -990,7 +931,7 @@ public class RegressionTest0 {
         boolean boolean53 = intList43.removeAll((java.util.Collection<java.lang.Integer>) intList49);
         java.util.Spliterator<java.lang.Integer> intSpliterator54 = intList43.spliterator();
         boolean boolean55 = doubleList5.retainAll((java.util.Collection<java.lang.Integer>) intList43);
-        org.ccsds.moims.mo.mal.structures.Identifier identifier57 = new org.ccsds.moims.mo.mal.structures.Identifier("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier57 = new org.ccsds.moims.mo.mal.structures.Identifier("ASDF42");
         org.ccsds.moims.mo.mal.structures.FineTime fineTime58 = new org.ccsds.moims.mo.mal.structures.FineTime();
         boolean boolean59 = identifier57.equals((java.lang.Object) fineTime58);
         org.ccsds.moims.mo.mal.structures.StringList stringList60 = new org.ccsds.moims.mo.mal.structures.StringList();
@@ -1049,28 +990,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + str77 + "' != '" + "00000:00:00:00:013|0000000000000000013|0|hi!" + "'", str77.equals("00000:00:00:00:013|0000000000000000013|0|hi!"));
         org.junit.Assert.assertTrue("'" + long78 + "' != '" + 13L + "'", long78 == 13L);
         org.junit.Assert.assertTrue("'" + boolean79 + "' != '" + false + "'", boolean79 == false);
-    }
-
-    @Test
-    public void test0075() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0075");
-        org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        java.lang.Integer int1 = octetList0.getTypeShortForm();
-        org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
-        java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-        opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor((java.lang.Object) octetList0, "hi!");
-        argumentDescriptor5.restoreArgument();
-        argumentDescriptor5.restoreArgument();
-        argumentDescriptor5.setName("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        try {
-            int int11 = argumentDescriptor5.getTypeAsIntByIndex(4);
-            org.junit.Assert.fail("Expected exception of type java.lang.ClassCastException; message: org.ccsds.moims.mo.mal.structures.OctetList cannot be cast to [I");
-        } catch (java.lang.ClassCastException e) {
-        }
-        org.junit.Assert.assertTrue("'" + int1 + "' != '" + (-7) + "'", int1.equals((-7)));
-        org.junit.Assert.assertNotNull(uShort2);
-        org.junit.Assert.assertNotNull(byteItor3);
     }
 
     @Test
@@ -1158,7 +1077,6 @@ public class RegressionTest0 {
         java.lang.String str17 = simulatorHeader12.getOrekitTLE1();
         java.lang.String str18 = simulatorHeader12.getOrekitTLE2();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -1177,19 +1095,6 @@ public class RegressionTest0 {
             org.junit.Assert.fail("Expected exception of type java.lang.StringIndexOutOfBoundsException; message: String index out of range: -1");
         } catch (java.lang.StringIndexOutOfBoundsException e) {
         }
-    }
-
-    @Test
-    public void test0082() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0082");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate5 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        int int6 = argumentTemplate2.compareTo(argumentTemplate5);
-        java.lang.String str7 = argumentTemplate2.toString();
-        argumentTemplate2.setDescription("*76");
-        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 0 + "'", int6 == 0);
-        org.junit.Assert.assertTrue("'" + str7 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str7.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
     }
 
     @Test
@@ -1402,14 +1307,6 @@ public class RegressionTest0 {
     }
 
     @Test
-    public void test0092() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0092");
-        java.lang.String str1 = opssat.simulator.threading.SimulatorNode.calcNMEAChecksum("/home/yannick/.ops-sat-simulator/resources/");
-        org.junit.Assert.assertTrue("'" + str1 + "' != '" + "*4D" + "'", str1.equals("*4D"));
-    }
-
-    @Test
     public void test0093() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0093");
@@ -1558,7 +1455,6 @@ public class RegressionTest0 {
         int int38 = opssat.simulator.util.DateExtraction.getHourFromDate(date34);
         java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap39 = opssat.simulator.util.SimulatorData.computeDiff(date3, date34);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -1567,12 +1463,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", boolean22 == false);
         org.junit.Assert.assertNotNull(obj23);
         org.junit.Assert.assertNotNull(date27);
-        org.junit.Assert.assertTrue("'" + int28 + "' != '" + 23 + "'", int28 == 23);
         org.junit.Assert.assertNotNull(date31);
         org.junit.Assert.assertNotNull(date34);
         org.junit.Assert.assertNotNull(timeUnitMap35);
         org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + false + "'", boolean37 == false);
-        org.junit.Assert.assertTrue("'" + int38 + "' != '" + 15 + "'", int38 == 15);
         org.junit.Assert.assertNotNull(timeUnitMap39);
     }
 
@@ -1595,13 +1489,11 @@ public class RegressionTest0 {
         java.lang.String str16 = simulatorHeader12.getOrekitTLE1();
         simulatorHeader12.setUseOrekit(true);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertNull(str16);
     }
 
@@ -1632,20 +1524,12 @@ public class RegressionTest0 {
         int int25 = simulatorHeader12.getHourStartDate();
         simulatorHeader12.setKeplerElements("2019:05:23 15:09:31 UTC");
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
-// flaky:         org.junit.Assert.assertTrue("'" + int14 + "' != '" + 9 + "'", int14 == 9);
         org.junit.Assert.assertTrue("'" + long17 + "' != '" + 0L + "'", long17 == 0L);
-        org.junit.Assert.assertTrue("'" + str18 + "' != '" + "23" + "'", str18.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str19 + "' != '" + "0309" + "'", str19.equals("0309"));
-        org.junit.Assert.assertTrue("'" + str20 + "' != '" + "23" + "'", str20.equals("23"));
         org.junit.Assert.assertNotNull(date21);
-// flaky:         org.junit.Assert.assertTrue("'" + int22 + "' != '" + 9 + "'", int22 == 9);
-// flaky:         org.junit.Assert.assertTrue("'" + str24 + "' != '" + "2019:05:23 15:09:36 UTC" + "'", str24.equals("2019:05:23 15:09:36 UTC"));
-        org.junit.Assert.assertTrue("'" + int25 + "' != '" + 15 + "'", int25 == 15);
     }
 
     @Test
@@ -1677,8 +1561,6 @@ public class RegressionTest0 {
         java.lang.String str4 = simulatorData1.getCurrentYear();
         boolean boolean5 = simulatorData1.isTimeRunning();
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
-        org.junit.Assert.assertTrue("'" + str4 + "' != '" + "2019" + "'", str4.equals("2019"));
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
     }
 
@@ -1711,7 +1593,6 @@ public class RegressionTest0 {
         long long2 = simulatorData1.getCurrentTimeMillis();
         java.lang.String str3 = simulatorData1.getUTCCurrentTime2();
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-// flaky:         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "0309" + "'", str3.equals("0309"));
     }
 
     @Test
@@ -1754,22 +1635,17 @@ public class RegressionTest0 {
         simulatorHeader12.setStartDate(date41);
         java.util.Date date46 = simulatorHeader12.getEndDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
-// flaky:         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "2019:05:23 15:09:37 UTC" + "'", str13.equals("2019:05:23 15:09:37 UTC"));
         org.junit.Assert.assertNotNull(date17);
-        org.junit.Assert.assertTrue("'" + int18 + "' != '" + 23 + "'", int18 == 23);
         org.junit.Assert.assertNotNull(date21);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(timeUnitMap25);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + false + "'", boolean28 == false);
-        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 23 + "'", int29 == 23);
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
         org.junit.Assert.assertNotNull(date34);
-        org.junit.Assert.assertTrue("'" + int35 + "' != '" + 23 + "'", int35 == 23);
         org.junit.Assert.assertNotNull(date38);
         org.junit.Assert.assertNotNull(date41);
         org.junit.Assert.assertNotNull(timeUnitMap42);
@@ -1805,7 +1681,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
@@ -1977,26 +1852,20 @@ public class RegressionTest0 {
         simulatorHeader12.setStartDate(date41);
         int int46 = simulatorHeader12.getMinuteStartDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
-// flaky:         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "2019:05:23 15:09:38 UTC" + "'", str13.equals("2019:05:23 15:09:38 UTC"));
         org.junit.Assert.assertNotNull(date17);
-        org.junit.Assert.assertTrue("'" + int18 + "' != '" + 23 + "'", int18 == 23);
         org.junit.Assert.assertNotNull(date21);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(timeUnitMap25);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + false + "'", boolean28 == false);
-        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 23 + "'", int29 == 23);
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
         org.junit.Assert.assertNotNull(date34);
-        org.junit.Assert.assertTrue("'" + int35 + "' != '" + 23 + "'", int35 == 23);
         org.junit.Assert.assertNotNull(date38);
         org.junit.Assert.assertNotNull(date41);
         org.junit.Assert.assertNotNull(timeUnitMap42);
-// flaky:         org.junit.Assert.assertTrue("'" + int46 + "' != '" + 9 + "'", int46 == 9);
     }
 
     @Test
@@ -2242,15 +2111,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-        org.junit.Assert.assertTrue("'" + int50 + "' != '" + 5 + "'", int50 == 5);
         org.junit.Assert.assertNull(str51);
         org.junit.Assert.assertNotNull(date55);
-        org.junit.Assert.assertTrue("'" + int56 + "' != '" + 23 + "'", int56 == 23);
-        org.junit.Assert.assertTrue("'" + int57 + "' != '" + 15 + "'", int57 == 15);
     }
 
     @Test
@@ -2275,16 +2140,13 @@ public class RegressionTest0 {
         boolean boolean21 = simulatorHeader12.isUpdateInternet();
         int int22 = simulatorHeader12.getDayStartDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertNull(str16);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
-        org.junit.Assert.assertTrue("'" + int22 + "' != '" + 23 + "'", int22 == 23);
     }
 
     @Test
@@ -2323,7 +2185,6 @@ public class RegressionTest0 {
         boolean boolean16 = simulatorHeader12.validateTimeFactor(5);
         java.lang.String str17 = opssat.simulator.util.CommandDescriptor.makeConsoleDescriptionForObj((java.lang.Object) 5);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -2409,12 +2270,10 @@ public class RegressionTest0 {
         simulatorData14.initFromHeader(simulatorHeader27);
         boolean boolean52 = simulatorData14.isSimulatorRunning();
         org.junit.Assert.assertNotNull(date4);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 23 + "'", int5 == 23);
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date11);
         org.junit.Assert.assertNotNull(timeUnitMap12);
         org.junit.Assert.assertNotNull(date18);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 23 + "'", int19 == 23);
         org.junit.Assert.assertNotNull(date22);
         org.junit.Assert.assertNotNull(date25);
         org.junit.Assert.assertNotNull(timeUnitMap26);
@@ -2422,7 +2281,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date33);
         org.junit.Assert.assertNotNull(date34);
         org.junit.Assert.assertNotNull(date39);
-        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 23 + "'", int40 == 23);
         org.junit.Assert.assertNotNull(date43);
         org.junit.Assert.assertNotNull(date46);
         org.junit.Assert.assertNotNull(timeUnitMap47);
@@ -2452,12 +2310,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21 == true);
-// flaky:         org.junit.Assert.assertTrue("'" + str22 + "' != '" + "SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:39 UTC 2019, endDate=Thu May 23 15:09:39 UTC 2019}" + "'", str22.equals("SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:39 UTC 2019, endDate=Thu May 23 15:09:39 UTC 2019}"));
     }
 
     @Test
@@ -2511,26 +2367,20 @@ public class RegressionTest0 {
         opssat.simulator.util.SimulatorHeader simulatorHeader52 = new opssat.simulator.util.SimulatorHeader(true, date8, date35);
         int int53 = opssat.simulator.util.DateExtraction.getDayFromDate(date8);
         org.junit.Assert.assertTrue("'" + long3 + "' != '" + 0L + "'", long3 == 0L);
-        org.junit.Assert.assertTrue("'" + str4 + "' != '" + "23" + "'", str4.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "0309" + "'", str5.equals("0309"));
-// flaky:         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "030939.263" + "'", str7.equals("030939.263"));
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date19);
-        org.junit.Assert.assertTrue("'" + int20 + "' != '" + 23 + "'", int20 == 23);
         org.junit.Assert.assertNotNull(date23);
         org.junit.Assert.assertNotNull(date26);
         org.junit.Assert.assertNotNull(timeUnitMap27);
         org.junit.Assert.assertNotNull(date34);
         org.junit.Assert.assertNotNull(date35);
         org.junit.Assert.assertNotNull(date40);
-        org.junit.Assert.assertTrue("'" + int41 + "' != '" + 23 + "'", int41 == 23);
         org.junit.Assert.assertNotNull(date44);
         org.junit.Assert.assertNotNull(date47);
         org.junit.Assert.assertNotNull(timeUnitMap48);
         org.junit.Assert.assertNotNull(timeUnitMap51);
-        org.junit.Assert.assertTrue("'" + int53 + "' != '" + 23 + "'", int53 == 23);
     }
 
     @Test
@@ -2582,11 +2432,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 39 + "'", int50 == 39);
     }
 
     @Test
@@ -2665,11 +2513,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 39 + "'", int50 == 39);
         org.junit.Assert.assertNull(str53);
         org.junit.Assert.assertTrue("'" + double58 + "' != '" + 340.0d + "'", double58 == 340.0d);
         org.junit.Assert.assertTrue("'" + double59 + "' != '" + (-1.0d) + "'", double59 == (-1.0d));
@@ -2722,7 +2568,7 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0136");
         org.ccsds.moims.mo.mal.structures.Time time1 = new org.ccsds.moims.mo.mal.structures.Time((long) '4');
-        org.ccsds.moims.mo.mal.structures.Identifier identifier3 = new org.ccsds.moims.mo.mal.structures.Identifier("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier3 = new org.ccsds.moims.mo.mal.structures.Identifier("ASDF1337");
         org.ccsds.moims.mo.mal.structures.FineTime fineTime4 = new org.ccsds.moims.mo.mal.structures.FineTime();
         boolean boolean5 = identifier3.equals((java.lang.Object) fineTime4);
         org.ccsds.moims.mo.mal.structures.StringList stringList6 = new org.ccsds.moims.mo.mal.structures.StringList();
@@ -2756,13 +2602,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
         org.junit.Assert.assertNotNull(uShort13);
         org.junit.Assert.assertNotNull(date17);
-        org.junit.Assert.assertTrue("'" + int18 + "' != '" + 23 + "'", int18 == 23);
         org.junit.Assert.assertNotNull(date21);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(timeUnitMap25);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + false + "'", boolean28 == false);
-        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 23 + "'", int29 == 23);
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
     }
@@ -2817,12 +2661,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
         org.junit.Assert.assertNull(str50);
-        org.junit.Assert.assertTrue("'" + int51 + "' != '" + 2019 + "'", int51 == 2019);
     }
 
     @Test
@@ -2912,103 +2754,6 @@ public class RegressionTest0 {
         opssat.simulator.util.SimulatorTimer simulatorTimer2 = new opssat.simulator.util.SimulatorTimer("3257812:10:11:27:876", (long) 18);
         simulatorTimer2.setDuration((long) 16);
         simulatorTimer2.setDuration((long) (-7));
-    }
-
-    @Test
-    public void test0141() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0141");
-        java.lang.Double[] doubleArray4 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
-        java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
-        org.ccsds.moims.mo.mal.structures.UShort uShort7 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort7 };
-        java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9, uShortArray8);
-        uShortList9.ensureCapacity(0);
-        int int14 = uShortList9.indexOf((java.lang.Object) (byte) 1);
-        uShortList9.clear();
-        java.lang.Long[] longArray18 = new java.lang.Long[] { 0L, 10L };
-        java.util.ArrayList<java.lang.Long> longList19 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList19, longArray18);
-        java.lang.Object obj21 = longList19.clone();
-        boolean boolean22 = uShortList9.contains((java.lang.Object) longList19);
-        boolean boolean23 = doubleList5.equals((java.lang.Object) boolean22);
-        java.lang.Integer[] intArray26 = new java.lang.Integer[] { 0, 1 };
-        java.util.ArrayList<java.lang.Integer> intList27 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList27, intArray26);
-        int int30 = intList27.lastIndexOf((java.lang.Object) (byte) 10);
-        boolean boolean31 = doubleList5.removeAll((java.util.Collection<java.lang.Integer>) intList27);
-        org.ccsds.moims.mo.mal.structures.OctetList octetList32 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        octetList32.ensureCapacity(13);
-        java.lang.Byte[] byteArray39 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10, (byte) 1 };
-        java.util.ArrayList<java.lang.Byte> byteList40 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList40, byteArray39);
-        java.lang.Integer[] intArray44 = new java.lang.Integer[] { 1, 11111 };
-        java.util.ArrayList<java.lang.Integer> intList45 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList45, intArray44);
-        boolean boolean47 = byteList40.retainAll((java.util.Collection<java.lang.Integer>) intList45);
-        boolean boolean48 = octetList32.containsAll((java.util.Collection<java.lang.Integer>) intList45);
-        boolean boolean49 = doubleList5.removeAll((java.util.Collection<java.lang.Integer>) intList45);
-        opssat.simulator.util.ArgumentTemplate argumentTemplate52 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate55 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        int int56 = argumentTemplate52.compareTo(argumentTemplate55);
-        java.lang.String str57 = argumentTemplate52.toString();
-        java.lang.String str58 = argumentTemplate52.getArgContent();
-        java.lang.String str59 = argumentTemplate52.getDescription();
-        boolean boolean60 = intList45.remove((java.lang.Object) argumentTemplate52);
-        try {
-            java.lang.Integer int62 = intList45.get(2);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 2, Size: 2");
-        } catch (java.lang.IndexOutOfBoundsException e) {
-        }
-        org.junit.Assert.assertNotNull(doubleArray4);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
-        org.junit.Assert.assertNotNull(uShort7);
-        org.junit.Assert.assertNotNull(uShortArray8);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
-        org.junit.Assert.assertTrue("'" + int14 + "' != '" + (-1) + "'", int14 == (-1));
-        org.junit.Assert.assertNotNull(longArray18);
-        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20 == true);
-        org.junit.Assert.assertNotNull(obj21);
-        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", boolean22 == false);
-        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + false + "'", boolean23 == false);
-        org.junit.Assert.assertNotNull(intArray26);
-        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
-        org.junit.Assert.assertTrue("'" + int30 + "' != '" + (-1) + "'", int30 == (-1));
-        org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
-        org.junit.Assert.assertNotNull(byteArray39);
-        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41 == true);
-        org.junit.Assert.assertNotNull(intArray44);
-        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46 == true);
-        org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47 == true);
-        org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + false + "'", boolean48 == false);
-        org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + false + "'", boolean49 == false);
-        org.junit.Assert.assertTrue("'" + int56 + "' != '" + 0 + "'", int56 == 0);
-        org.junit.Assert.assertTrue("'" + str57 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str57.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
-        org.junit.Assert.assertTrue("'" + str58 + "' != '" + "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str58.equals("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
-        org.junit.Assert.assertTrue("'" + str59 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'", str59.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
-        org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + false + "'", boolean60 == false);
-    }
-
-    @Test
-    public void test0142() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0142");
-        opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData((-18));
-        long long2 = simulatorData1.getCurrentTimeMillis();
-        java.lang.String str3 = simulatorData1.getCurrentDay();
-        java.lang.String str4 = simulatorData1.getUTCCurrentTime2();
-        java.lang.String str5 = simulatorData1.getCurrentDay();
-        simulatorData1.setMethodsExecuted(0);
-        java.lang.String str8 = simulatorData1.getUTCCurrentTime2();
-        java.lang.String str9 = simulatorData1.getCurrentMonth();
-        org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "0309" + "'", str4.equals("0309"));
-        org.junit.Assert.assertTrue("'" + str5 + "' != '" + "23" + "'", str5.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "0309" + "'", str8.equals("0309"));
-        org.junit.Assert.assertTrue("'" + str9 + "' != '" + "05" + "'", str9.equals("05"));
     }
 
     @Test
@@ -3104,7 +2849,6 @@ public class RegressionTest0 {
         java.lang.String str17 = simulatorHeader12.getOrekitTLE1();
         simulatorHeader12.setTimeFactor(10);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -3176,20 +2920,16 @@ public class RegressionTest0 {
         simulatorHeader12.setKeplerElements("-0100.0000000");
         int int33 = simulatorHeader12.getDayStartDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
-        org.junit.Assert.assertTrue("'" + int33 + "' != '" + 23 + "'", int33 == 23);
     }
 
     @Test
@@ -3242,16 +2982,13 @@ public class RegressionTest0 {
         simulatorHeader12.setUpdateInternet(true);
         java.util.Date date34 = simulatorHeader12.getEndDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
@@ -3330,32 +3067,6 @@ public class RegressionTest0 {
     }
 
     @Test
-    public void test0154() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0154");
-        org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        java.lang.Integer int1 = octetList0.getTypeShortForm();
-        org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
-        java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-        opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor((java.lang.Object) octetList0, "hi!");
-        argumentDescriptor5.restoreArgument();
-        argumentDescriptor5.restoreArgument();
-        argumentDescriptor5.restoreArgument();
-        java.lang.String str9 = argumentDescriptor5.toString();
-        argumentDescriptor5.setName("OPS-SAT SoftSim:");
-        argumentDescriptor5.setName("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        try {
-            argumentDescriptor5.setIntTypeByIndex(5909, 37);
-            org.junit.Assert.fail("Expected exception of type java.lang.ClassCastException; message: org.ccsds.moims.mo.mal.structures.OctetList cannot be cast to [I");
-        } catch (java.lang.ClassCastException e) {
-        }
-        org.junit.Assert.assertTrue("'" + int1 + "' != '" + (-7) + "'", int1.equals((-7)));
-        org.junit.Assert.assertNotNull(uShort2);
-        org.junit.Assert.assertNotNull(byteItor3);
-        org.junit.Assert.assertTrue("'" + str9 + "' != '" + "" + "'", str9.equals(""));
-    }
-
-    @Test
     public void test0155() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0155");
@@ -3367,7 +3078,6 @@ public class RegressionTest0 {
         boolean boolean8 = simulatorData1.isSimulatorRunning();
         simulatorData1.toggleTimeRunning();
         long long10 = simulatorData1.getCurrentTimeMillis();
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "23" + "'", str6.equals("23"));
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
         org.junit.Assert.assertTrue("'" + long10 + "' != '" + 21L + "'", long10 == 21L);
@@ -3437,11 +3147,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray36);
         org.junit.Assert.assertNotNull(floatArray38);
         org.junit.Assert.assertNotNull(date43);
-        org.junit.Assert.assertTrue("'" + int44 + "' != '" + 23 + "'", int44 == 23);
         org.junit.Assert.assertNotNull(date47);
         org.junit.Assert.assertNotNull(date50);
         org.junit.Assert.assertNotNull(timeUnitMap51);
-// flaky:         org.junit.Assert.assertTrue("'" + int55 + "' != '" + 42 + "'", int55 == 42);
         org.junit.Assert.assertNotNull(floatArray62);
         org.junit.Assert.assertTrue("'" + int65 + "' != '" + (-1) + "'", int65 == (-1));
         org.junit.Assert.assertTrue("'" + int68 + "' != '" + (-1) + "'", int68 == (-1));
@@ -3560,13 +3268,11 @@ public class RegressionTest0 {
         int int17 = simulatorHeader12.getSecondStartDate();
         int int18 = simulatorHeader12.getTimeFactor();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + str16 + "' != '" + "yyyy:MM:dd HH:mm:ss z" + "'", str16.equals("yyyy:MM:dd HH:mm:ss z"));
-// flaky:         org.junit.Assert.assertTrue("'" + int17 + "' != '" + 42 + "'", int17 == 42);
         org.junit.Assert.assertTrue("'" + int18 + "' != '" + 1 + "'", int18 == 1);
     }
 
@@ -3751,27 +3457,21 @@ public class RegressionTest0 {
         opssat.simulator.util.SimulatorHeader simulatorHeader65 = new opssat.simulator.util.SimulatorHeader(false, date56, date63);
         simulatorHeader52.setStartDate(date63);
         org.junit.Assert.assertTrue("'" + long3 + "' != '" + 0L + "'", long3 == 0L);
-        org.junit.Assert.assertTrue("'" + str4 + "' != '" + "23" + "'", str4.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "0309" + "'", str5.equals("0309"));
-// flaky:         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "030942.814" + "'", str7.equals("030942.814"));
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date19);
-        org.junit.Assert.assertTrue("'" + int20 + "' != '" + 23 + "'", int20 == 23);
         org.junit.Assert.assertNotNull(date23);
         org.junit.Assert.assertNotNull(date26);
         org.junit.Assert.assertNotNull(timeUnitMap27);
         org.junit.Assert.assertNotNull(date34);
         org.junit.Assert.assertNotNull(date35);
         org.junit.Assert.assertNotNull(date40);
-        org.junit.Assert.assertTrue("'" + int41 + "' != '" + 23 + "'", int41 == 23);
         org.junit.Assert.assertNotNull(date44);
         org.junit.Assert.assertNotNull(date47);
         org.junit.Assert.assertNotNull(timeUnitMap48);
         org.junit.Assert.assertNotNull(timeUnitMap51);
         org.junit.Assert.assertNotNull(date56);
-        org.junit.Assert.assertTrue("'" + int57 + "' != '" + 23 + "'", int57 == 23);
         org.junit.Assert.assertNotNull(date60);
         org.junit.Assert.assertNotNull(date63);
         org.junit.Assert.assertNotNull(timeUnitMap64);
@@ -3837,11 +3537,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray34);
         org.junit.Assert.assertNotNull(floatArray36);
         org.junit.Assert.assertNotNull(date41);
-        org.junit.Assert.assertTrue("'" + int42 + "' != '" + 23 + "'", int42 == 23);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(date48);
         org.junit.Assert.assertNotNull(timeUnitMap49);
-// flaky:         org.junit.Assert.assertTrue("'" + int53 + "' != '" + 42 + "'", int53 == 42);
         org.junit.Assert.assertNotNull(floatArray60);
         org.junit.Assert.assertTrue("'" + int63 + "' != '" + (-1) + "'", int63 == (-1));
     }
@@ -3852,18 +3550,6 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test0165");
         long long1 = opssat.simulator.util.SimulatorSchedulerPiece.getMillisFromDDDDDHHMMSSmmm("030932.764");
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + (-1L) + "'", long1 == (-1L));
-    }
-
-    @Test
-    public void test0166() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0166");
-        opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData((-18));
-        simulatorData1.setCounter((-1));
-        simulatorData1.incrementMethods();
-        java.lang.String str5 = simulatorData1.getCurrentYear();
-        simulatorData1.incrementMethods();
-        org.junit.Assert.assertTrue("'" + str5 + "' != '" + "2019" + "'", str5.equals("2019"));
     }
 
     @Test
@@ -3921,12 +3607,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 43 + "'", int50 == 43);
-        org.junit.Assert.assertTrue("'" + int51 + "' != '" + 23 + "'", int51 == 23);
     }
 
     @Test
@@ -4031,79 +3714,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + false + "'", boolean59 == false);
         org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + true + "'", boolean60 == true);
         org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + false + "'", boolean61 == false);
-    }
-
-    @Test
-    public void test0171() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0171");
-        java.lang.Double[] doubleArray4 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
-        java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
-        org.ccsds.moims.mo.mal.structures.UShort uShort7 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort7 };
-        java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9, uShortArray8);
-        uShortList9.ensureCapacity(0);
-        int int14 = uShortList9.indexOf((java.lang.Object) (byte) 1);
-        uShortList9.clear();
-        java.lang.Long[] longArray18 = new java.lang.Long[] { 0L, 10L };
-        java.util.ArrayList<java.lang.Long> longList19 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList19, longArray18);
-        java.lang.Object obj21 = longList19.clone();
-        boolean boolean22 = uShortList9.contains((java.lang.Object) longList19);
-        boolean boolean23 = doubleList5.equals((java.lang.Object) boolean22);
-        java.lang.Integer[] intArray26 = new java.lang.Integer[] { 0, 1 };
-        java.util.ArrayList<java.lang.Integer> intList27 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList27, intArray26);
-        int int30 = intList27.lastIndexOf((java.lang.Object) (byte) 10);
-        boolean boolean31 = doubleList5.removeAll((java.util.Collection<java.lang.Integer>) intList27);
-        org.ccsds.moims.mo.mal.structures.OctetList octetList32 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        octetList32.ensureCapacity(13);
-        java.lang.Byte[] byteArray39 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10, (byte) 1 };
-        java.util.ArrayList<java.lang.Byte> byteList40 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList40, byteArray39);
-        java.lang.Integer[] intArray44 = new java.lang.Integer[] { 1, 11111 };
-        java.util.ArrayList<java.lang.Integer> intList45 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList45, intArray44);
-        boolean boolean47 = byteList40.retainAll((java.util.Collection<java.lang.Integer>) intList45);
-        boolean boolean48 = octetList32.containsAll((java.util.Collection<java.lang.Integer>) intList45);
-        boolean boolean49 = doubleList5.removeAll((java.util.Collection<java.lang.Integer>) intList45);
-        opssat.simulator.util.ArgumentTemplate argumentTemplate52 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate55 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        int int56 = argumentTemplate52.compareTo(argumentTemplate55);
-        java.lang.String str57 = argumentTemplate52.toString();
-        java.lang.String str58 = argumentTemplate52.getArgContent();
-        java.lang.String str59 = argumentTemplate52.getDescription();
-        boolean boolean60 = intList45.remove((java.lang.Object) argumentTemplate52);
-        argumentTemplate52.setArgContent("030938.571");
-        org.junit.Assert.assertNotNull(doubleArray4);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
-        org.junit.Assert.assertNotNull(uShort7);
-        org.junit.Assert.assertNotNull(uShortArray8);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
-        org.junit.Assert.assertTrue("'" + int14 + "' != '" + (-1) + "'", int14 == (-1));
-        org.junit.Assert.assertNotNull(longArray18);
-        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20 == true);
-        org.junit.Assert.assertNotNull(obj21);
-        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", boolean22 == false);
-        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + false + "'", boolean23 == false);
-        org.junit.Assert.assertNotNull(intArray26);
-        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
-        org.junit.Assert.assertTrue("'" + int30 + "' != '" + (-1) + "'", int30 == (-1));
-        org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
-        org.junit.Assert.assertNotNull(byteArray39);
-        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41 == true);
-        org.junit.Assert.assertNotNull(intArray44);
-        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46 == true);
-        org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47 == true);
-        org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + false + "'", boolean48 == false);
-        org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + false + "'", boolean49 == false);
-        org.junit.Assert.assertTrue("'" + int56 + "' != '" + 0 + "'", int56 == 0);
-        org.junit.Assert.assertTrue("'" + str57 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str57.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
-        org.junit.Assert.assertTrue("'" + str58 + "' != '" + "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str58.equals("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
-        org.junit.Assert.assertTrue("'" + str59 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'", str59.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
-        org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + false + "'", boolean60 == false);
     }
 
     @Test
@@ -4219,13 +3829,11 @@ public class RegressionTest0 {
         celestiaData52.setDate(date76);
         simulatorHeader12.setEndDate(date76);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNull(date17);
-// flaky:         org.junit.Assert.assertTrue("'" + str18 + "' != '" + "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:43 UTC\nendDate=2019:05:23 15:09:43 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO" + "'", str18.equals("#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:43 UTC\nendDate=2019:05:23 15:09:43 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO"));
         org.junit.Assert.assertNotNull(date19);
         org.junit.Assert.assertNotNull(floatArray26);
         org.junit.Assert.assertTrue("'" + double32 + "' != '" + 340.0d + "'", double32 == 340.0d);
@@ -4240,12 +3848,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray51);
         org.junit.Assert.assertNotNull(floatArray53);
         org.junit.Assert.assertNotNull(date58);
-        org.junit.Assert.assertTrue("'" + int59 + "' != '" + 23 + "'", int59 == 23);
         org.junit.Assert.assertNotNull(date62);
         org.junit.Assert.assertNotNull(date65);
         org.junit.Assert.assertNotNull(timeUnitMap66);
-        org.junit.Assert.assertTrue("'" + int70 + "' != '" + 5 + "'", int70 == 5);
-// flaky:         org.junit.Assert.assertTrue("'" + int71 + "' != '" + 9 + "'", int71 == 9);
         org.junit.Assert.assertNotNull(date75);
         org.junit.Assert.assertNotNull(date76);
     }
@@ -4266,11 +3871,9 @@ public class RegressionTest0 {
         java.lang.String str13 = simulatorHeader12.getEndDateString();
         int int14 = simulatorHeader12.getTimeFactor();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
-// flaky:         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "2019:05:23 15:09:43 UTC" + "'", str13.equals("2019:05:23 15:09:43 UTC"));
         org.junit.Assert.assertTrue("'" + int14 + "' != '" + 1 + "'", int14 == 1);
     }
 
@@ -4292,7 +3895,6 @@ public class RegressionTest0 {
         java.lang.String str16 = simulatorHeader12.DATE_FORMAT;
         simulatorHeader12.setUseCelestia(true);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -4603,13 +4205,11 @@ public class RegressionTest0 {
         simulatorHeader12.setTimeFactor(31);
         boolean boolean19 = simulatorHeader12.isUseCelestia();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertNull(str16);
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", boolean19 == false);
     }
@@ -4676,19 +4276,12 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + int30 + "' != '" + (-1) + "'", int30 == (-1));
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
         org.junit.Assert.assertNotNull(date35);
-        org.junit.Assert.assertTrue("'" + int36 + "' != '" + 23 + "'", int36 == 23);
         org.junit.Assert.assertNotNull(date39);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(timeUnitMap43);
         org.junit.Assert.assertNotNull(date45);
-// flaky:         org.junit.Assert.assertTrue("'" + int46 + "' != '" + 9 + "'", int46 == 9);
         org.junit.Assert.assertTrue("'" + long49 + "' != '" + 0L + "'", long49 == 0L);
-        org.junit.Assert.assertTrue("'" + str50 + "' != '" + "23" + "'", str50.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str51 + "' != '" + "0309" + "'", str51.equals("0309"));
-        org.junit.Assert.assertTrue("'" + str52 + "' != '" + "23" + "'", str52.equals("23"));
         org.junit.Assert.assertNotNull(date53);
-// flaky:         org.junit.Assert.assertTrue("'" + int54 + "' != '" + 9 + "'", int54 == 9);
-        org.junit.Assert.assertTrue("'" + int56 + "' != '" + 15 + "'", int56 == 15);
         org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + false + "'", boolean57 == false);
     }
 
@@ -4735,7 +4328,6 @@ public class RegressionTest0 {
         simulatorHeader12.setEndDate(date19);
         int int36 = opssat.simulator.util.DateExtraction.getHourFromDate(date19);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -4743,11 +4335,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date18);
         org.junit.Assert.assertNotNull(date19);
         org.junit.Assert.assertNotNull(date24);
-        org.junit.Assert.assertTrue("'" + int25 + "' != '" + 23 + "'", int25 == 23);
         org.junit.Assert.assertNotNull(date28);
         org.junit.Assert.assertNotNull(date31);
         org.junit.Assert.assertNotNull(timeUnitMap32);
-        org.junit.Assert.assertTrue("'" + int36 + "' != '" + 15 + "'", int36 == 15);
     }
 
     @Test
@@ -4816,13 +4406,11 @@ public class RegressionTest0 {
         int int15 = simulatorHeader12.getMinuteStartDate();
         simulatorHeader12.setUpdateInternet(false);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNull(str14);
-// flaky:         org.junit.Assert.assertTrue("'" + int15 + "' != '" + 9 + "'", int15 == 9);
     }
 
     @Test
@@ -4925,7 +4513,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", boolean9 == false);
         org.junit.Assert.assertNotNull(obj10);
         org.junit.Assert.assertNotNull(date14);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertNotNull(date18);
         org.junit.Assert.assertNotNull(date21);
         org.junit.Assert.assertNotNull(timeUnitMap22);
@@ -5011,7 +4598,6 @@ public class RegressionTest0 {
         java.lang.String str14 = simulatorHeader12.getOrekitTLE2();
         simulatorHeader12.setOrekitTLE1("yyyy/MM/dd-HH:mm:ss");
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -5047,7 +4633,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
@@ -5083,8 +4668,6 @@ public class RegressionTest0 {
         opssat.simulator.util.SimulatorData simulatorData6 = new opssat.simulator.util.SimulatorData(48, date3);
         int int7 = simulatorData6.getTimeFactor();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 15 + "'", int5 == 15);
         org.junit.Assert.assertTrue("'" + int7 + "' != '" + 1 + "'", int7 == 1);
     }
 
@@ -5160,7 +4743,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date12);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNotNull(date18);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 23 + "'", int19 == 23);
         org.junit.Assert.assertNotNull(date22);
         org.junit.Assert.assertNotNull(date25);
         org.junit.Assert.assertNotNull(timeUnitMap26);
@@ -5230,7 +4812,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
@@ -5595,9 +5176,6 @@ public class RegressionTest0 {
         simulatorData1.setMethodsExecuted(36);
         simulatorData1.setMethodsExecuted(13);
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "0309" + "'", str4.equals("0309"));
-        org.junit.Assert.assertTrue("'" + str5 + "' != '" + "23" + "'", str5.equals("23"));
     }
 
     @Test
@@ -5653,21 +5231,17 @@ public class RegressionTest0 {
         simulatorHeader12.setUpdateInternet(true);
         java.lang.String str34 = simulatorHeader12.toString();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
-// flaky:         org.junit.Assert.assertTrue("'" + str34 + "' != '" + "SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:47 UTC 2019, endDate=Thu May 23 15:09:47 UTC 2019}" + "'", str34.equals("SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:47 UTC 2019, endDate=Thu May 23 15:09:47 UTC 2019}"));
     }
 
     @Test
@@ -5972,7 +5546,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray52);
         org.junit.Assert.assertNotNull(floatArray54);
         org.junit.Assert.assertNotNull(date59);
-        org.junit.Assert.assertTrue("'" + int60 + "' != '" + 23 + "'", int60 == 23);
         org.junit.Assert.assertNotNull(date63);
         org.junit.Assert.assertNotNull(date66);
         org.junit.Assert.assertNotNull(timeUnitMap67);
@@ -6010,7 +5583,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
@@ -6030,16 +5602,7 @@ public class RegressionTest0 {
         boolean boolean7 = simulatorData1.isTimeRunning();
         simulatorData1.incrementMethods();
         java.lang.String str9 = simulatorData1.getUTCCurrentTime2();
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "23" + "'", str6.equals("23"));
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-// flaky:         org.junit.Assert.assertTrue("'" + str9 + "' != '" + "0309" + "'", str9.equals("0309"));
-    }
-
-    @Test
-    public void test0225() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0225");
-        opssat.simulator.models.AbstractModel abstractModel1 = new opssat.simulator.models.AbstractModel("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
     }
 
     @Test
@@ -6085,12 +5648,10 @@ public class RegressionTest0 {
         java.lang.String str52 = simulatorHeader27.getOrekitPropagator();
         simulatorHeader27.setOrekitTLE1("#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:40 UTC\nendDate=2019:05:23 15:09:40 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO");
         org.junit.Assert.assertNotNull(date4);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 23 + "'", int5 == 23);
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date11);
         org.junit.Assert.assertNotNull(timeUnitMap12);
         org.junit.Assert.assertNotNull(date18);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 23 + "'", int19 == 23);
         org.junit.Assert.assertNotNull(date22);
         org.junit.Assert.assertNotNull(date25);
         org.junit.Assert.assertNotNull(timeUnitMap26);
@@ -6098,7 +5659,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date33);
         org.junit.Assert.assertNotNull(date34);
         org.junit.Assert.assertNotNull(date39);
-        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 23 + "'", int40 == 23);
         org.junit.Assert.assertNotNull(date43);
         org.junit.Assert.assertNotNull(date46);
         org.junit.Assert.assertNotNull(timeUnitMap47);
@@ -6159,15 +5719,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 48 + "'", int50 == 48);
         org.junit.Assert.assertNull(str53);
         org.junit.Assert.assertTrue("'" + str54 + "' != '" + "OPS-SAT SoftSim:" + "'", str54.equals("OPS-SAT SoftSim:"));
-// flaky:         org.junit.Assert.assertTrue("'" + int55 + "' != '" + 9 + "'", int55 == 9);
-// flaky:         org.junit.Assert.assertTrue("'" + str56 + "' != '" + "2019/05/23-15:09:48" + "'", str56.equals("2019/05/23-15:09:48"));
     }
 
     @Test
@@ -6265,11 +5821,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray55);
         org.junit.Assert.assertNotNull(floatArray57);
         org.junit.Assert.assertNotNull(date62);
-        org.junit.Assert.assertTrue("'" + int63 + "' != '" + 23 + "'", int63 == 23);
         org.junit.Assert.assertNotNull(date66);
         org.junit.Assert.assertNotNull(date69);
         org.junit.Assert.assertNotNull(timeUnitMap70);
-// flaky:         org.junit.Assert.assertTrue("'" + int74 + "' != '" + 49 + "'", int74 == 49);
         org.junit.Assert.assertNull(str77);
         org.junit.Assert.assertTrue("'" + double82 + "' != '" + 340.0d + "'", double82 == 340.0d);
         org.junit.Assert.assertTrue("'" + double83 + "' != '" + (-1.0d) + "'", double83 == (-1.0d));
@@ -6602,10 +6156,8 @@ public class RegressionTest0 {
         simulatorData1.setTimeFactor(4);
         java.lang.String str14 = simulatorData1.getCurrentYear();
         simulatorData1.toggleTimeRunning();
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "23" + "'", str6.equals("23"));
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
-        org.junit.Assert.assertTrue("'" + str14 + "' != '" + "2019" + "'", str14.equals("2019"));
     }
 
     @Test
@@ -6763,14 +6315,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray34);
         org.junit.Assert.assertNotNull(floatArray36);
         org.junit.Assert.assertNotNull(date41);
-        org.junit.Assert.assertTrue("'" + int42 + "' != '" + 23 + "'", int42 == 23);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(date48);
         org.junit.Assert.assertNotNull(timeUnitMap49);
-// flaky:         org.junit.Assert.assertTrue("'" + int53 + "' != '" + 49 + "'", int53 == 49);
         org.junit.Assert.assertNotNull(floatArray60);
         org.junit.Assert.assertTrue("'" + int63 + "' != '" + (-1) + "'", int63 == (-1));
-        org.junit.Assert.assertTrue("'" + int64 + "' != '" + 15 + "'", int64 == 15);
     }
 
     @Test
@@ -6894,11 +6443,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-        org.junit.Assert.assertTrue("'" + int50 + "' != '" + 5 + "'", int50 == 5);
         org.junit.Assert.assertNull(str51);
         org.junit.Assert.assertNull(str52);
     }
@@ -6968,13 +6515,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
         org.junit.Assert.assertNotNull(strSpliterator28);
         org.junit.Assert.assertNotNull(date32);
-        org.junit.Assert.assertTrue("'" + int33 + "' != '" + 23 + "'", int33 == 23);
         org.junit.Assert.assertNotNull(date36);
         org.junit.Assert.assertNotNull(date39);
         org.junit.Assert.assertNotNull(timeUnitMap40);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertTrue("'" + boolean43 + "' != '" + false + "'", boolean43 == false);
-        org.junit.Assert.assertTrue("'" + int44 + "' != '" + 23 + "'", int44 == 23);
         org.junit.Assert.assertNull(str45);
         org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + false + "'", boolean50 == false);
         org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + true + "'", boolean51 == true);
@@ -7010,29 +6555,18 @@ public class RegressionTest0 {
         simulatorHeader12.setStartDate(date27);
         int int31 = opssat.simulator.util.DateExtraction.getDayFromDate(date27);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
-        org.junit.Assert.assertTrue("'" + int31 + "' != '" + 23 + "'", int31 == 23);
     }
-
-    @Test
-    public void test0246() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0246");
-        opssat.simulator.util.LoggerFormatter1Line loggerFormatter1Line1 = new opssat.simulator.util.LoggerFormatter1Line("05");
-    }
-
+    
     @Test
     public void test0247() throws Throwable {
         if (debug)
@@ -7188,13 +6722,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 50 + "'", int50 == 50);
         org.junit.Assert.assertNull(str53);
-// flaky:         org.junit.Assert.assertTrue("'" + str54 + "' != '" + "2019/05/23-15:09:50" + "'", str54.equals("2019/05/23-15:09:50"));
     }
 
     @Test
@@ -7224,9 +6755,6 @@ public class RegressionTest0 {
         java.lang.String str5 = simulatorData1.toString();
         simulatorData1.toggleTimeRunning();
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
-        org.junit.Assert.assertTrue("'" + str4 + "' != '" + "2019" + "'", str4.equals("2019"));
-// flaky:         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "{counter=-18, methodsExecuted=0, currentTime=Thu May 23 15:09:50 UTC 2019}" + "'", str5.equals("{counter=-18, methodsExecuted=0, currentTime=Thu May 23 15:09:50 UTC 2019}"));
     }
 
     @Test
@@ -7251,16 +6779,12 @@ public class RegressionTest0 {
         int int20 = simulatorHeader12.getMonthStartDate();
         simulatorHeader12.setUseOrekit(false);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
-        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 23 + "'", int17 == 23);
-        org.junit.Assert.assertTrue("'" + int20 + "' != '" + 5 + "'", int20 == 5);
     }
 
     @Test
@@ -7426,11 +6950,9 @@ public class RegressionTest0 {
         opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(false, date3, date10);
         int int13 = opssat.simulator.util.DateExtraction.getMonthFromDate(date10);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
-        org.junit.Assert.assertTrue("'" + int13 + "' != '" + 5 + "'", int13 == 5);
     }
 
     @Test
@@ -7471,7 +6993,7 @@ public class RegressionTest0 {
         java.lang.String str50 = celestiaData32.getLos();
         int int51 = celestiaData32.getMonths();
         java.lang.String str52 = celestiaData32.getAnx();
-        celestiaData32.setAos("/home/yannick/.ops-sat-simulator/");
+        celestiaData32.setAos("foobar");
         org.junit.Assert.assertNotNull(floatArray6);
         org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'", str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
@@ -7485,12 +7007,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
         org.junit.Assert.assertNull(str50);
-        org.junit.Assert.assertTrue("'" + int51 + "' != '" + 5 + "'", int51 == 5);
         org.junit.Assert.assertNull(str52);
     }
 
@@ -7514,9 +7034,7 @@ public class RegressionTest0 {
         boolean boolean7 = simulatorData1.isTimeRunning();
         simulatorData1.setMethodsExecuted(48);
         java.lang.String str10 = simulatorData1.getCurrentYear();
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "23" + "'", str6.equals("23"));
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + str10 + "' != '" + "2019" + "'", str10.equals("2019"));
     }
 
     @Test
@@ -7531,7 +7049,6 @@ public class RegressionTest0 {
         simulatorData1.incrementMethods();
         simulatorData1.setTimeFactor(16);
         long long11 = simulatorData1.getCurrentTimeMillis();
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "23" + "'", str6.equals("23"));
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
         org.junit.Assert.assertTrue("'" + long11 + "' != '" + 21L + "'", long11 == 21L);
     }
@@ -7664,20 +7181,14 @@ public class RegressionTest0 {
         simulatorHeader17.setUpdateInternet(true);
         java.lang.String str39 = simulatorHeader17.DATE_FORMAT;
         simulatorData1.initFromHeader(simulatorHeader17);
-// flaky:         org.junit.Assert.assertTrue("'" + str2 + "' != '" + "{counter=8, methodsExecuted=0, currentTime=Thu May 23 15:09:52 UTC 2019}" + "'", str2.equals("{counter=8, methodsExecuted=0, currentTime=Thu May 23 15:09:52 UTC 2019}"));
-// flaky:         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "{counter=8, methodsExecuted=0, currentTime=Thu May 23 15:09:52 UTC 2019}" + "'", str3.equals("{counter=8, methodsExecuted=0, currentTime=Thu May 23 15:09:52 UTC 2019}"));
-// flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "030952.49" + "'", str4.equals("030952.49"));
         org.junit.Assert.assertNotNull(date8);
-        org.junit.Assert.assertTrue("'" + int9 + "' != '" + 23 + "'", int9 == 23);
         org.junit.Assert.assertNotNull(date12);
         org.junit.Assert.assertNotNull(date15);
         org.junit.Assert.assertNotNull(timeUnitMap16);
         org.junit.Assert.assertNotNull(date18);
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", boolean19 == false);
-        org.junit.Assert.assertTrue("'" + int20 + "' != '" + 23 + "'", int20 == 23);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
         org.junit.Assert.assertNotNull(date25);
-        org.junit.Assert.assertTrue("'" + int26 + "' != '" + 23 + "'", int26 == 23);
         org.junit.Assert.assertNotNull(date29);
         org.junit.Assert.assertNotNull(date32);
         org.junit.Assert.assertNotNull(timeUnitMap33);
@@ -7736,20 +7247,12 @@ public class RegressionTest0 {
         int int24 = opssat.simulator.util.DateExtraction.getHourFromDate(date21);
         int int25 = opssat.simulator.util.DateExtraction.getMinuteFromDate(date21);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
-// flaky:         org.junit.Assert.assertTrue("'" + int14 + "' != '" + 9 + "'", int14 == 9);
         org.junit.Assert.assertTrue("'" + long17 + "' != '" + 0L + "'", long17 == 0L);
-        org.junit.Assert.assertTrue("'" + str18 + "' != '" + "23" + "'", str18.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str19 + "' != '" + "0309" + "'", str19.equals("0309"));
-        org.junit.Assert.assertTrue("'" + str20 + "' != '" + "23" + "'", str20.equals("23"));
         org.junit.Assert.assertNotNull(date21);
-// flaky:         org.junit.Assert.assertTrue("'" + int22 + "' != '" + 9 + "'", int22 == 9);
-        org.junit.Assert.assertTrue("'" + int24 + "' != '" + 15 + "'", int24 == 15);
-// flaky:         org.junit.Assert.assertTrue("'" + int25 + "' != '" + 9 + "'", int25 == 9);
     }
 
     @Test
@@ -7797,20 +7300,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + str16 + "' != '" + "X:[+.00000] ; Y:[+.00000] ; Z: [+.00000] units [N/A]" + "'", str16.equals("X:[+.00000] ; Y:[+.00000] ; Z: [+.00000] units [N/A]"));
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18 == true);
-    }
-
-    @Test
-    public void test0272() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0272");
-        opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData((-18));
-        simulatorData1.setCounter((-1));
-        simulatorData1.feedTimeElapsed((long) 21);
-        java.lang.String str6 = simulatorData1.getCurrentDay();
-        java.lang.String str7 = simulatorData1.getCurrentYear();
-        simulatorData1.setMethodsExecuted((-18));
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "23" + "'", str6.equals("23"));
-        org.junit.Assert.assertTrue("'" + str7 + "' != '" + "2019" + "'", str7.equals("2019"));
     }
 
     @Test
@@ -8283,7 +7772,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
@@ -8597,20 +8085,16 @@ public class RegressionTest0 {
         int int31 = simulatorHeader12.getYearStartDate();
         java.lang.String str32 = simulatorHeader12.getOrekitPropagator();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
-        org.junit.Assert.assertTrue("'" + int31 + "' != '" + 2019 + "'", int31 == 2019);
         org.junit.Assert.assertNull(str32);
     }
 
@@ -8744,22 +8228,18 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date47);
         org.junit.Assert.assertNotNull(date48);
         org.junit.Assert.assertNotNull(date53);
-        org.junit.Assert.assertTrue("'" + int54 + "' != '" + 23 + "'", int54 == 23);
         org.junit.Assert.assertNotNull(date57);
         org.junit.Assert.assertNotNull(date60);
         org.junit.Assert.assertNotNull(timeUnitMap61);
         org.junit.Assert.assertNotNull(date68);
         org.junit.Assert.assertNotNull(date69);
         org.junit.Assert.assertNotNull(date74);
-        org.junit.Assert.assertTrue("'" + int75 + "' != '" + 23 + "'", int75 == 23);
         org.junit.Assert.assertNotNull(date78);
         org.junit.Assert.assertNotNull(date81);
         org.junit.Assert.assertNotNull(timeUnitMap82);
         org.junit.Assert.assertNotNull(timeUnitMap85);
         org.junit.Assert.assertTrue("'" + int86 + "' != '" + (-1) + "'", int86 == (-1));
         org.junit.Assert.assertNotNull(date90);
-        org.junit.Assert.assertTrue("'" + int91 + "' != '" + 23 + "'", int91 == 23);
-        org.junit.Assert.assertTrue("'" + int92 + "' != '" + 15 + "'", int92 == 15);
         org.junit.Assert.assertNotNull(date94);
     }
 
@@ -8773,8 +8253,6 @@ public class RegressionTest0 {
         java.lang.String str4 = simulatorData1.getUTCCurrentTime2();
         simulatorData1.setTimeFactor((int) (short) 100);
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "0309" + "'", str4.equals("0309"));
     }
 
     @Test
@@ -8792,9 +8270,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date2);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(timeUnitMap6);
-        org.junit.Assert.assertTrue("'" + int7 + "' != '" + 15 + "'", int7 == 15);
-        org.junit.Assert.assertTrue("'" + int8 + "' != '" + 15 + "'", int8 == 15);
-// flaky:         org.junit.Assert.assertTrue("'" + int9 + "' != '" + 9 + "'", int9 == 9);
     }
 
     @Test
@@ -8902,13 +8377,11 @@ public class RegressionTest0 {
         simulatorHeader12.setOrekitPropagator("00000:00:00:00:010");
         simulatorHeader12.setOrekitPropagator("*36");
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
     }
 
     @Test
@@ -8923,9 +8396,6 @@ public class RegressionTest0 {
         simulatorData1.setMethodsExecuted(0);
         simulatorData1.feedTimeElapsed((long) 40);
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "0309" + "'", str4.equals("0309"));
-        org.junit.Assert.assertTrue("'" + str5 + "' != '" + "23" + "'", str5.equals("23"));
     }
 
     @Test
@@ -8940,20 +8410,8 @@ public class RegressionTest0 {
         boolean boolean7 = simulatorData6.isTimeRunning();
         java.util.Date date8 = simulatorData6.getCurrentTime();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 15 + "'", int5 == 15);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
         org.junit.Assert.assertNotNull(date8);
-    }
-
-    @Test
-    public void test0294() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0294");
-        opssat.simulator.util.SimulatorTimer simulatorTimer2 = new opssat.simulator.util.SimulatorTimer("3257812:10:11:27:876", (long) 18);
-        simulatorTimer2.setDuration(0L);
-        simulatorTimer2.setDuration(281474993487872L);
-        simulatorTimer2.setDuration((long) 34);
     }
 
     @Test
@@ -8986,15 +8444,12 @@ public class RegressionTest0 {
         java.lang.String str20 = simulatorHeader12.getOrekitTLE1();
         simulatorHeader12.setOrekitTLE1("[10, 10, -1]");
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
-        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 23 + "'", int17 == 23);
         org.junit.Assert.assertNull(str20);
     }
 
@@ -9148,11 +8603,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray48);
         org.junit.Assert.assertNotNull(floatArray50);
         org.junit.Assert.assertNotNull(date55);
-        org.junit.Assert.assertTrue("'" + int56 + "' != '" + 23 + "'", int56 == 23);
         org.junit.Assert.assertNotNull(date59);
         org.junit.Assert.assertNotNull(date62);
         org.junit.Assert.assertNotNull(timeUnitMap63);
-// flaky:         org.junit.Assert.assertTrue("'" + int67 + "' != '" + 54 + "'", int67 == 54);
         org.junit.Assert.assertNotNull(floatArray74);
         org.junit.Assert.assertTrue("'" + boolean77 + "' != '" + false + "'", boolean77 == false);
         org.junit.Assert.assertTrue("'" + int78 + "' != '" + (-15) + "'", int78.equals((-15)));
@@ -9190,7 +8643,6 @@ public class RegressionTest0 {
         int int36 = simulatorHeader12.getCelestiaPort();
         boolean boolean37 = simulatorHeader12.isUseOrekit();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -9198,7 +8650,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date18);
         org.junit.Assert.assertNotNull(date19);
         org.junit.Assert.assertNotNull(date24);
-        org.junit.Assert.assertTrue("'" + int25 + "' != '" + 23 + "'", int25 == 23);
         org.junit.Assert.assertNotNull(date28);
         org.junit.Assert.assertNotNull(date31);
         org.junit.Assert.assertNotNull(timeUnitMap32);
@@ -9350,13 +8801,11 @@ public class RegressionTest0 {
         boolean boolean74 = duration21.equals((java.lang.Object) date62);
         simulatorHeader12.setStartDate(date62);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNull(date17);
-// flaky:         org.junit.Assert.assertTrue("'" + str18 + "' != '" + "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:54 UTC\nendDate=2019:05:23 15:09:54 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO" + "'", str18.equals("#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:54 UTC\nendDate=2019:05:23 15:09:54 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO"));
         org.junit.Assert.assertNotNull(date19);
         org.junit.Assert.assertNotNull(uOctet22);
         org.junit.Assert.assertNotNull(uShort23);
@@ -9373,7 +8822,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray55);
         org.junit.Assert.assertNotNull(floatArray57);
         org.junit.Assert.assertNotNull(date62);
-        org.junit.Assert.assertTrue("'" + int63 + "' != '" + 23 + "'", int63 == 23);
         org.junit.Assert.assertNotNull(date66);
         org.junit.Assert.assertNotNull(date69);
         org.junit.Assert.assertNotNull(timeUnitMap70);
@@ -9417,7 +8865,6 @@ public class RegressionTest0 {
         simulatorHeader12.setTimeFactor(64);
         java.util.Date date15 = simulatorHeader12.getEndDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -9514,22 +8961,17 @@ public class RegressionTest0 {
         simulatorHeader12.setAutoStartTime(false);
         simulatorHeader12.setOrekitTLE2("2.81475010265081E14");
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
-// flaky:         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "2019:05:23 15:09:55 UTC" + "'", str13.equals("2019:05:23 15:09:55 UTC"));
         org.junit.Assert.assertNotNull(date17);
-        org.junit.Assert.assertTrue("'" + int18 + "' != '" + 23 + "'", int18 == 23);
         org.junit.Assert.assertNotNull(date21);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(timeUnitMap25);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + false + "'", boolean28 == false);
-        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 23 + "'", int29 == 23);
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
         org.junit.Assert.assertNotNull(date34);
-        org.junit.Assert.assertTrue("'" + int35 + "' != '" + 23 + "'", int35 == 23);
         org.junit.Assert.assertNotNull(date38);
         org.junit.Assert.assertNotNull(date41);
         org.junit.Assert.assertNotNull(timeUnitMap42);
@@ -9587,11 +9029,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
-        org.junit.Assert.assertTrue("'" + int23 + "' != '" + 15 + "'", int23 == 15);
     }
 
     @Test
@@ -9614,16 +9054,13 @@ public class RegressionTest0 {
         boolean boolean17 = simulatorHeader12.isAutoStartTime();
         java.lang.String str18 = simulatorHeader12.getEndDateString();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNull(str14);
-// flaky:         org.junit.Assert.assertTrue("'" + int15 + "' != '" + 9 + "'", int15 == 9);
         org.junit.Assert.assertNotNull(date16);
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
-// flaky:         org.junit.Assert.assertTrue("'" + str18 + "' != '" + "2019:05:23 15:09:55 UTC" + "'", str18.equals("2019:05:23 15:09:55 UTC"));
     }
 
     @Test
@@ -9776,12 +9213,9 @@ public class RegressionTest0 {
         java.lang.String str13 = simulatorHeader12.getEndDateString();
         java.lang.String str14 = simulatorHeader12.toFileString();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
-// flaky:         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "2019:05:23 15:09:58 UTC" + "'", str13.equals("2019:05:23 15:09:58 UTC"));
-// flaky:         org.junit.Assert.assertTrue("'" + str14 + "' != '" + "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:58 UTC\nendDate=2019:05:23 15:09:58 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO" + "'", str14.equals("#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:58 UTC\nendDate=2019:05:23 15:09:58 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO"));
     }
 
     @Test
@@ -9885,16 +9319,9 @@ public class RegressionTest0 {
         java.lang.Long long3 = uInteger1.getShortForm();
         opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor((java.lang.Object) uInteger1, "Alive");
         argumentDescriptor5.restoreArgument();
-        argumentDescriptor5.setName("/home/yannick/.ops-sat-simulator/resources/");
+        argumentDescriptor5.setName("foo");
         org.junit.Assert.assertNotNull(element2);
         org.junit.Assert.assertTrue("'" + long3 + "' != '" + 281474993487884L + "'", long3.equals(281474993487884L));
-    }
-
-    @Test
-    public void test0324() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0324");
-        opssat.simulator.util.LoggerFormatter1Line loggerFormatter1Line1 = new opssat.simulator.util.LoggerFormatter1Line("SimulatorHeader{autoStartSystem=true, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:56 UTC 2019, endDate=Thu May 23 15:09:56 UTC 2019}");
     }
 
     @Test
@@ -9938,26 +9365,20 @@ public class RegressionTest0 {
         java.lang.String str46 = simulatorHeader12.toString();
         simulatorHeader12.setOrekitTLE1("2019:05:23 15:09:56 UTC");
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
-// flaky:         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "2019:05:23 15:09:58 UTC" + "'", str13.equals("2019:05:23 15:09:58 UTC"));
         org.junit.Assert.assertNotNull(date17);
-        org.junit.Assert.assertTrue("'" + int18 + "' != '" + 23 + "'", int18 == 23);
         org.junit.Assert.assertNotNull(date21);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(timeUnitMap25);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + false + "'", boolean28 == false);
-        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 23 + "'", int29 == 23);
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
         org.junit.Assert.assertNotNull(date34);
-        org.junit.Assert.assertTrue("'" + int35 + "' != '" + 23 + "'", int35 == 23);
         org.junit.Assert.assertNotNull(date38);
         org.junit.Assert.assertNotNull(date41);
         org.junit.Assert.assertNotNull(timeUnitMap42);
-// flaky:         org.junit.Assert.assertTrue("'" + str46 + "' != '" + "SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:58 UTC 2019, endDate=Thu May 23 15:09:58 UTC 2019}" + "'", str46.equals("SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:58 UTC 2019, endDate=Thu May 23 15:09:58 UTC 2019}"));
     }
 
     @Test
@@ -9973,9 +9394,6 @@ public class RegressionTest0 {
         java.util.Date date7 = simulatorData1.getCurrentTime();
         simulatorData1.setTimeFactor(56);
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "0309" + "'", str4.equals("0309"));
-// flaky:         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "030958.883" + "'", str6.equals("030958.883"));
         org.junit.Assert.assertNotNull(date7);
     }
 
@@ -10039,14 +9457,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray34);
         org.junit.Assert.assertNotNull(floatArray36);
         org.junit.Assert.assertNotNull(date41);
-        org.junit.Assert.assertTrue("'" + int42 + "' != '" + 23 + "'", int42 == 23);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(date48);
         org.junit.Assert.assertNotNull(timeUnitMap49);
-// flaky:         org.junit.Assert.assertTrue("'" + int53 + "' != '" + 58 + "'", int53 == 58);
         org.junit.Assert.assertNotNull(floatArray60);
         org.junit.Assert.assertTrue("'" + int63 + "' != '" + (-1) + "'", int63 == (-1));
-        org.junit.Assert.assertTrue("'" + int64 + "' != '" + 5 + "'", int64 == 5);
     }
 
     @Test
@@ -10100,13 +9515,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-        org.junit.Assert.assertTrue("'" + int50 + "' != '" + 5 + "'", int50 == 5);
-// flaky:         org.junit.Assert.assertTrue("'" + int51 + "' != '" + 9 + "'", int51 == 9);
-        org.junit.Assert.assertTrue("'" + int52 + "' != '" + 5 + "'", int52 == 5);
     }
 
     @Test
@@ -10152,26 +9563,20 @@ public class RegressionTest0 {
         opssat.simulator.util.SimulatorHeader simulatorHeader52 = new opssat.simulator.util.SimulatorHeader(true, date8, date35);
         int int53 = opssat.simulator.util.DateExtraction.getYearFromDate(date8);
         org.junit.Assert.assertTrue("'" + long3 + "' != '" + 0L + "'", long3 == 0L);
-        org.junit.Assert.assertTrue("'" + str4 + "' != '" + "23" + "'", str4.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "0309" + "'", str5.equals("0309"));
-// flaky:         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "030958.944" + "'", str7.equals("030958.944"));
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date19);
-        org.junit.Assert.assertTrue("'" + int20 + "' != '" + 23 + "'", int20 == 23);
         org.junit.Assert.assertNotNull(date23);
         org.junit.Assert.assertNotNull(date26);
         org.junit.Assert.assertNotNull(timeUnitMap27);
         org.junit.Assert.assertNotNull(date34);
         org.junit.Assert.assertNotNull(date35);
         org.junit.Assert.assertNotNull(date40);
-        org.junit.Assert.assertTrue("'" + int41 + "' != '" + 23 + "'", int41 == 23);
         org.junit.Assert.assertNotNull(date44);
         org.junit.Assert.assertNotNull(date47);
         org.junit.Assert.assertNotNull(timeUnitMap48);
         org.junit.Assert.assertNotNull(timeUnitMap51);
-        org.junit.Assert.assertTrue("'" + int53 + "' != '" + 2019 + "'", int53 == 2019);
     }
 
     @Test
@@ -10194,14 +9599,10 @@ public class RegressionTest0 {
         simulatorHeader12.setOrekitPropagator("SimulatorData");
         int int20 = simulatorHeader12.getMonthStartDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
-// flaky:         org.junit.Assert.assertTrue("'" + int14 + "' != '" + 9 + "'", int14 == 9);
-// flaky:         org.junit.Assert.assertTrue("'" + str17 + "' != '" + "SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=18, startDate=Thu May 23 15:09:59 UTC 2019, endDate=Thu May 23 15:09:59 UTC 2019}" + "'", str17.equals("SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=18, startDate=Thu May 23 15:09:59 UTC 2019, endDate=Thu May 23 15:09:59 UTC 2019}"));
-        org.junit.Assert.assertTrue("'" + int20 + "' != '" + 5 + "'", int20 == 5);
     }
 
     @Test
@@ -10236,16 +9637,13 @@ public class RegressionTest0 {
         java.util.Date date35 = simulatorHeader13.getStartDate();
         opssat.simulator.util.SimulatorData simulatorData36 = new opssat.simulator.util.SimulatorData((-18), date35);
         org.junit.Assert.assertNotNull(date4);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 23 + "'", int5 == 23);
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date11);
         org.junit.Assert.assertNotNull(timeUnitMap12);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
-        org.junit.Assert.assertTrue("'" + int16 + "' != '" + 23 + "'", int16 == 23);
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
         org.junit.Assert.assertNotNull(date21);
-        org.junit.Assert.assertTrue("'" + int22 + "' != '" + 23 + "'", int22 == 23);
         org.junit.Assert.assertNotNull(date25);
         org.junit.Assert.assertNotNull(date28);
         org.junit.Assert.assertNotNull(timeUnitMap29);
@@ -10278,11 +9676,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
-        org.junit.Assert.assertTrue("'" + int23 + "' != '" + 15 + "'", int23 == 15);
         org.junit.Assert.assertNull(str26);
     }
 
@@ -10325,13 +9721,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
-        org.junit.Assert.assertTrue("'" + int22 + "' != '" + 23 + "'", int22 == 23);
-        org.junit.Assert.assertTrue("'" + int23 + "' != '" + 5 + "'", int23 == 5);
     }
 
     @Test
@@ -10537,11 +9929,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 59 + "'", int50 == 59);
         org.junit.Assert.assertNull(str53);
         org.junit.Assert.assertTrue("'" + double58 + "' != '" + 340.0d + "'", double58 == 340.0d);
         org.junit.Assert.assertTrue("'" + double59 + "' != '" + (-1.0d) + "'", double59 == (-1.0d));
@@ -10569,16 +9959,13 @@ public class RegressionTest0 {
         boolean boolean17 = simulatorHeader12.isAutoStartTime();
         int int18 = simulatorHeader12.getSecondStartDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNull(str14);
-// flaky:         org.junit.Assert.assertTrue("'" + int15 + "' != '" + 9 + "'", int15 == 9);
         org.junit.Assert.assertNotNull(date16);
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
-// flaky:         org.junit.Assert.assertTrue("'" + int18 + "' != '" + 59 + "'", int18 == 59);
     }
 
     @Test
@@ -10610,15 +9997,10 @@ public class RegressionTest0 {
         java.util.Date date19 = simulatorHeader12.parseStringIntoDate("yyyy:MM:dd HH:mm:ss z");
         java.lang.String str20 = simulatorHeader12.getStartDateString();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
-// flaky:         org.junit.Assert.assertTrue("'" + int14 + "' != '" + 9 + "'", int14 == 9);
-// flaky:         org.junit.Assert.assertTrue("'" + str17 + "' != '" + "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=true\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:59 UTC\nendDate=2019:05:23 15:09:59 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO" + "'", str17.equals("#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=true\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:59 UTC\nendDate=2019:05:23 15:09:59 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO"));
-        org.junit.Assert.assertNull(date19);
-// flaky:         org.junit.Assert.assertTrue("'" + str20 + "' != '" + "2019:05:23 15:09:59 UTC" + "'", str20.equals("2019:05:23 15:09:59 UTC"));
     }
 
     @Test
@@ -10692,13 +10074,7 @@ public class RegressionTest0 {
         int int8 = opssat.simulator.util.DateExtraction.getYearFromDate(date6);
         int int9 = opssat.simulator.util.DateExtraction.getMonthFromDate(date6);
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "0310" + "'", str4.equals("0310"));
-        org.junit.Assert.assertTrue("'" + str5 + "' != '" + "23" + "'", str5.equals("23"));
         org.junit.Assert.assertNotNull(date6);
-        org.junit.Assert.assertTrue("'" + int7 + "' != '" + 5 + "'", int7 == 5);
-        org.junit.Assert.assertTrue("'" + int8 + "' != '" + 2019 + "'", int8 == 2019);
-        org.junit.Assert.assertTrue("'" + int9 + "' != '" + 5 + "'", int9 == 5);
     }
 
     @Test
@@ -10766,16 +10142,13 @@ public class RegressionTest0 {
         simulatorHeader12.setOrekitTLE1("2019");
         java.util.Date date35 = simulatorHeader12.getEndDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
@@ -10822,8 +10195,6 @@ public class RegressionTest0 {
         java.lang.String str6 = simulatorData1.getUTCCurrentTime();
         simulatorData1.setMethodsExecuted((-5));
         simulatorData1.setCounter((int) (short) 10);
-        org.junit.Assert.assertTrue("'" + str5 + "' != '" + "2019" + "'", str5.equals("2019"));
-// flaky:         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "031000.359" + "'", str6.equals("031000.359"));
     }
 
     @Test
@@ -10889,17 +10260,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + int51 + "' != '" + (-1) + "'", int51 == (-1));
         org.junit.Assert.assertNotNull(objArray52);
         org.junit.Assert.assertTrue("'" + boolean53 + "' != '" + false + "'", boolean53 == false);
-    }
-
-    @Test
-    public void test0353() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0353");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        java.lang.String str3 = argumentTemplate2.getArgContent();
-        java.lang.String str4 = argumentTemplate2.toString();
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str3.equals("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
-        org.junit.Assert.assertTrue("'" + str4 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str4.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
     }
 
     @Test
@@ -10989,13 +10349,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
         org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + false + "'", boolean24 == false);
-// flaky:         org.junit.Assert.assertTrue("'" + int25 + "' != '" + 10 + "'", int25 == 10);
         org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
     }
 
@@ -11301,11 +10659,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray34);
         org.junit.Assert.assertNotNull(floatArray36);
         org.junit.Assert.assertNotNull(date41);
-        org.junit.Assert.assertTrue("'" + int42 + "' != '" + 23 + "'", int42 == 23);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(date48);
         org.junit.Assert.assertNotNull(timeUnitMap49);
-// flaky:         org.junit.Assert.assertTrue("'" + int53 + "' != '" + 0 + "'", int53 == 0);
         org.junit.Assert.assertNotNull(floatArray60);
         org.junit.Assert.assertTrue("'" + int63 + "' != '" + (-1) + "'", int63 == (-1));
     }
@@ -11446,9 +10802,7 @@ public class RegressionTest0 {
         boolean boolean20 = simulatorHeader16.validateTimeFactor(5);
         simulatorData1.initFromHeader(simulatorHeader16);
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
         org.junit.Assert.assertNotNull(date7);
-        org.junit.Assert.assertTrue("'" + int8 + "' != '" + 23 + "'", int8 == 23);
         org.junit.Assert.assertNotNull(date11);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(timeUnitMap15);
@@ -11461,7 +10815,7 @@ public class RegressionTest0 {
     public void test0367() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0367");
-        org.ccsds.moims.mo.mal.structures.Identifier identifier1 = new org.ccsds.moims.mo.mal.structures.Identifier("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier1 = new org.ccsds.moims.mo.mal.structures.Identifier("opssat");
         org.ccsds.moims.mo.mal.structures.OctetList octetList2 = new org.ccsds.moims.mo.mal.structures.OctetList();
         java.lang.Integer int3 = octetList2.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = octetList2.getServiceNumber();
@@ -11540,17 +10894,13 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-        org.junit.Assert.assertTrue("'" + int50 + "' != '" + 5 + "'", int50 == 5);
-// flaky:         org.junit.Assert.assertTrue("'" + int51 + "' != '" + 10 + "'", int51 == 10);
         org.junit.Assert.assertNotNull(floatArray58);
         org.junit.Assert.assertTrue("'" + double64 + "' != '" + 340.0d + "'", double64 == 340.0d);
         org.junit.Assert.assertTrue("'" + str65 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'", str65.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
         org.junit.Assert.assertNotNull(floatArray66);
-// flaky:         org.junit.Assert.assertTrue("'" + int69 + "' != '" + 10 + "'", int69 == 10);
     }
 
     @Test
@@ -11592,7 +10942,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date9);
         org.junit.Assert.assertNotNull(date14);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertNotNull(date18);
         org.junit.Assert.assertNotNull(date21);
         org.junit.Assert.assertNotNull(timeUnitMap22);
@@ -11692,11 +11041,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray32);
         org.junit.Assert.assertNotNull(floatArray34);
         org.junit.Assert.assertNotNull(date39);
-        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 23 + "'", int40 == 23);
         org.junit.Assert.assertNotNull(date43);
         org.junit.Assert.assertNotNull(date46);
         org.junit.Assert.assertNotNull(timeUnitMap47);
-        org.junit.Assert.assertTrue("'" + int51 + "' != '" + 5 + "'", int51 == 5);
         org.junit.Assert.assertNotNull(floatArray52);
     }
 
@@ -12003,22 +11350,18 @@ public class RegressionTest0 {
         simulatorHeader12.setAutoStartTime(false);
         java.lang.String str37 = simulatorHeader12.toFileString();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
         org.junit.Assert.assertNotNull(date34);
-// flaky:         org.junit.Assert.assertTrue("'" + str37 + "' != '" + "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=true\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:10:03 UTC\nendDate=2019:05:23 15:10:03 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO" + "'", str37.equals("#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=true\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:10:03 UTC\nendDate=2019:05:23 15:10:03 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO"));
     }
 
     @Test
@@ -12053,14 +11396,12 @@ public class RegressionTest0 {
         boolean boolean17 = simulatorHeader12.isAutoStartTime();
         int int18 = simulatorHeader12.getMonthStartDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + str16 + "' != '" + "yyyy:MM:dd HH:mm:ss z" + "'", str16.equals("yyyy:MM:dd HH:mm:ss z"));
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
-        org.junit.Assert.assertTrue("'" + int18 + "' != '" + 5 + "'", int18 == 5);
     }
 
     @Test
@@ -12185,16 +11526,13 @@ public class RegressionTest0 {
         simulatorHeader12.setUpdateInternet(true);
         simulatorHeader12.setAutoStartTime(false);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
@@ -12250,16 +11588,13 @@ public class RegressionTest0 {
         java.util.Date date31 = simulatorHeader12.getEndDate();
         simulatorHeader12.setAutoStartTime(false);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
@@ -12308,13 +11643,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
         org.junit.Assert.assertTrue("'" + str28 + "' != '" + "opssat.simulator.util.wav.WavFileException: UnknownGUIData" + "'", str28.equals("opssat.simulator.util.wav.WavFileException: UnknownGUIData"));
-        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 15 + "'", int29 == 15);
         org.junit.Assert.assertTrue("'" + str32 + "' != '" + "yyyy:MM:dd HH:mm:ss z" + "'", str32.equals("yyyy:MM:dd HH:mm:ss z"));
     }
 
@@ -12342,13 +11675,11 @@ public class RegressionTest0 {
         java.lang.String str23 = simulatorHeader12.getOrekitTLE1();
         java.lang.String str24 = simulatorHeader12.DATE_FORMAT;
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertNull(str16);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
@@ -12504,7 +11835,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date50);
         org.junit.Assert.assertNotNull(date51);
         org.junit.Assert.assertNotNull(date56);
-        org.junit.Assert.assertTrue("'" + int57 + "' != '" + 23 + "'", int57 == 23);
         org.junit.Assert.assertNotNull(date60);
         org.junit.Assert.assertNotNull(date63);
         org.junit.Assert.assertNotNull(timeUnitMap64);
@@ -12559,12 +11889,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date29);
-        org.junit.Assert.assertTrue("'" + int30 + "' != '" + 23 + "'", int30 == 23);
         org.junit.Assert.assertNotNull(date33);
         org.junit.Assert.assertNotNull(date36);
         org.junit.Assert.assertNotNull(timeUnitMap37);
-        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 23 + "'", int40 == 23);
-        org.junit.Assert.assertTrue("'" + int41 + "' != '" + 23 + "'", int41 == 23);
         org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + false + "'", boolean42 == false);
     }
 
@@ -12579,8 +11906,6 @@ public class RegressionTest0 {
         java.lang.String str5 = simulatorData1.getUTCCurrentTime2();
         org.junit.Assert.assertNotNull(date2);
         org.junit.Assert.assertNotNull(date3);
-// flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "0310" + "'", str4.equals("0310"));
-// flaky:         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "0310" + "'", str5.equals("0310"));
     }
 
     @Test
@@ -12699,25 +12024,6 @@ public class RegressionTest0 {
     }
 
     @Test
-    public void test0398() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0398");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate5 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        int int6 = argumentTemplate2.compareTo(argumentTemplate5);
-        java.lang.String str7 = argumentTemplate2.toString();
-        java.lang.String str8 = argumentTemplate2.getArgContent();
-        java.lang.String str9 = argumentTemplate2.getDescription();
-        java.lang.String str10 = argumentTemplate2.getArgContent();
-        argumentTemplate2.setArgContent("");
-        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 0 + "'", int6 == 0);
-        org.junit.Assert.assertTrue("'" + str7 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str7.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
-        org.junit.Assert.assertTrue("'" + str8 + "' != '" + "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str8.equals("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
-        org.junit.Assert.assertTrue("'" + str9 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'", str9.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
-        org.junit.Assert.assertTrue("'" + str10 + "' != '" + "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str10.equals("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
-    }
-
-    @Test
     public void test0399() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0399");
@@ -12759,12 +12065,10 @@ public class RegressionTest0 {
         simulatorData14.initFromHeader(simulatorHeader27);
         java.lang.String str52 = simulatorHeader27.getOrekitTLE2();
         org.junit.Assert.assertNotNull(date4);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 23 + "'", int5 == 23);
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date11);
         org.junit.Assert.assertNotNull(timeUnitMap12);
         org.junit.Assert.assertNotNull(date18);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 23 + "'", int19 == 23);
         org.junit.Assert.assertNotNull(date22);
         org.junit.Assert.assertNotNull(date25);
         org.junit.Assert.assertNotNull(timeUnitMap26);
@@ -12772,7 +12076,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date33);
         org.junit.Assert.assertNotNull(date34);
         org.junit.Assert.assertNotNull(date39);
-        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 23 + "'", int40 == 23);
         org.junit.Assert.assertNotNull(date43);
         org.junit.Assert.assertNotNull(date46);
         org.junit.Assert.assertNotNull(timeUnitMap47);
@@ -12837,7 +12140,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
@@ -12901,12 +12203,10 @@ public class RegressionTest0 {
         simulatorHeader27.setOrekitPropagator("opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008");
         boolean boolean55 = simulatorHeader27.isUseOrekit();
         org.junit.Assert.assertNotNull(date4);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 23 + "'", int5 == 23);
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date11);
         org.junit.Assert.assertNotNull(timeUnitMap12);
         org.junit.Assert.assertNotNull(date18);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 23 + "'", int19 == 23);
         org.junit.Assert.assertNotNull(date22);
         org.junit.Assert.assertNotNull(date25);
         org.junit.Assert.assertNotNull(timeUnitMap26);
@@ -12914,7 +12214,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date33);
         org.junit.Assert.assertNotNull(date34);
         org.junit.Assert.assertNotNull(date39);
-        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 23 + "'", int40 == 23);
         org.junit.Assert.assertNotNull(date43);
         org.junit.Assert.assertNotNull(date46);
         org.junit.Assert.assertNotNull(timeUnitMap47);
@@ -12976,11 +12275,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 4 + "'", int50 == 4);
         org.junit.Assert.assertNotNull(floatArray57);
     }
 
@@ -13011,12 +12308,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
-// flaky:         org.junit.Assert.assertTrue("'" + int25 + "' != '" + 10 + "'", int25 == 10);
-// flaky:         org.junit.Assert.assertTrue("'" + int26 + "' != '" + 10 + "'", int26 == 10);
     }
 
     @Test
@@ -13075,11 +12369,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray32);
         org.junit.Assert.assertNotNull(floatArray34);
         org.junit.Assert.assertNotNull(date39);
-        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 23 + "'", int40 == 23);
         org.junit.Assert.assertNotNull(date43);
         org.junit.Assert.assertNotNull(date46);
         org.junit.Assert.assertNotNull(timeUnitMap47);
-        org.junit.Assert.assertTrue("'" + str57 + "' != '" + "23" + "'", str57.equals("23"));
         org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + false + "'", boolean58 == false);
         org.junit.Assert.assertNotNull(date59);
         org.junit.Assert.assertTrue("'" + int61 + "' != '" + 0 + "'", int61 == 0);
@@ -13150,15 +12442,11 @@ public class RegressionTest0 {
         java.lang.String str17 = simulatorHeader12.toString();
         simulatorHeader12.setOrekitTLE1("Alive");
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
-        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
-// flaky:         org.junit.Assert.assertTrue("'" + str17 + "' != '" + "SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:10:04 UTC 2019, endDate=Thu May 23 15:10:04 UTC 2019}" + "'", str17.equals("SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:10:04 UTC 2019, endDate=Thu May 23 15:10:04 UTC 2019}"));
     }
 
     @Test
@@ -13217,14 +12505,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray32);
         org.junit.Assert.assertNotNull(floatArray34);
         org.junit.Assert.assertNotNull(date39);
-        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 23 + "'", int40 == 23);
         org.junit.Assert.assertNotNull(date43);
         org.junit.Assert.assertNotNull(date46);
         org.junit.Assert.assertNotNull(timeUnitMap47);
-        org.junit.Assert.assertTrue("'" + str57 + "' != '" + "23" + "'", str57.equals("23"));
         org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + false + "'", boolean58 == false);
         org.junit.Assert.assertNotNull(date59);
-        org.junit.Assert.assertTrue("'" + int61 + "' != '" + 15 + "'", int61 == 15);
     }
 
     @Test
@@ -13259,22 +12544,18 @@ public class RegressionTest0 {
         java.lang.String str34 = simulatorHeader12.DATE_FORMAT;
         int int35 = simulatorHeader12.getHourStartDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
         org.junit.Assert.assertTrue("'" + str34 + "' != '" + "yyyy:MM:dd HH:mm:ss z" + "'", str34.equals("yyyy:MM:dd HH:mm:ss z"));
-        org.junit.Assert.assertTrue("'" + int35 + "' != '" + 15 + "'", int35 == 15);
     }
 
     @Test
@@ -13325,7 +12606,6 @@ public class RegressionTest0 {
         java.lang.String str16 = simulatorHeader12.DATE_FORMAT;
         simulatorHeader12.setAutoStartSystem(false);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -13456,7 +12736,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date50);
         org.junit.Assert.assertNotNull(date51);
         org.junit.Assert.assertNotNull(date56);
-        org.junit.Assert.assertTrue("'" + int57 + "' != '" + 23 + "'", int57 == 23);
         org.junit.Assert.assertNotNull(date60);
         org.junit.Assert.assertNotNull(date63);
         org.junit.Assert.assertNotNull(timeUnitMap64);
@@ -13464,7 +12743,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + false + "'", boolean70 == false);
         org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + false + "'", boolean71 == false);
         org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + true + "'", boolean72 == true);
-// flaky:         org.junit.Assert.assertTrue("'" + str73 + "' != '" + "2019:05:23 15:10:05 UTC" + "'", str73.equals("2019:05:23 15:10:05 UTC"));
     }
 
     @Test
@@ -13487,12 +12765,10 @@ public class RegressionTest0 {
         boolean boolean19 = simulatorHeader12.isAutoStartTime();
         java.lang.String str20 = simulatorHeader12.getOrekitPropagator();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
-// flaky:         org.junit.Assert.assertTrue("'" + int14 + "' != '" + 10 + "'", int14 == 10);
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", boolean19 == false);
         org.junit.Assert.assertNull(str20);
     }
@@ -13785,13 +13061,11 @@ public class RegressionTest0 {
         simulatorHeader12.setKeplerElements("0900.0000");
         simulatorHeader12.setUseOrekit(false);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
     }
 
@@ -13807,11 +13081,7 @@ public class RegressionTest0 {
         java.util.Date date6 = simulatorData1.getCurrentTime();
         java.lang.String str7 = simulatorData1.getCurrentYear();
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "23" + "'", str3.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "0310" + "'", str4.equals("0310"));
-        org.junit.Assert.assertTrue("'" + str5 + "' != '" + "23" + "'", str5.equals("23"));
         org.junit.Assert.assertNotNull(date6);
-        org.junit.Assert.assertTrue("'" + str7 + "' != '" + "2019" + "'", str7.equals("2019"));
     }
 
     @Test
@@ -13862,14 +13132,12 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
         org.junit.Assert.assertTrue("'" + str28 + "' != '" + "opssat.simulator.util.wav.WavFileException: UnknownGUIData" + "'", str28.equals("opssat.simulator.util.wav.WavFileException: UnknownGUIData"));
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
-// flaky:         org.junit.Assert.assertTrue("'" + int32 + "' != '" + 10 + "'", int32 == 10);
         org.junit.Assert.assertNull(str33);
     }
 
@@ -13924,14 +13192,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date9);
         org.junit.Assert.assertNotNull(date12);
         org.junit.Assert.assertNotNull(timeUnitMap13);
-        org.junit.Assert.assertTrue("'" + int14 + "' != '" + 15 + "'", int14 == 15);
         org.junit.Assert.assertNotNull(timeUnitMap15);
         org.junit.Assert.assertTrue("'" + long18 + "' != '" + 0L + "'", long18 == 0L);
-        org.junit.Assert.assertTrue("'" + str19 + "' != '" + "23" + "'", str19.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str20 + "' != '" + "0310" + "'", str20.equals("0310"));
-// flaky:         org.junit.Assert.assertTrue("'" + str22 + "' != '" + "031006.139" + "'", str22.equals("031006.139"));
         org.junit.Assert.assertNotNull(date23);
-        org.junit.Assert.assertTrue("'" + int24 + "' != '" + 2019 + "'", int24 == 2019);
         org.junit.Assert.assertNotNull(timeUnitMap25);
     }
 
@@ -14158,7 +13421,7 @@ public class RegressionTest0 {
     public void test0432() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0432");
-        org.ccsds.moims.mo.mal.structures.Identifier identifier1 = new org.ccsds.moims.mo.mal.structures.Identifier("/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier1 = new org.ccsds.moims.mo.mal.structures.Identifier("opssat");
         org.ccsds.moims.mo.mal.structures.OctetList octetList2 = new org.ccsds.moims.mo.mal.structures.OctetList();
         java.lang.Integer int3 = octetList2.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = octetList2.getServiceNumber();
@@ -14493,11 +13756,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date6);
         org.junit.Assert.assertNotNull(date11);
-        org.junit.Assert.assertTrue("'" + int12 + "' != '" + 23 + "'", int12 == 23);
         org.junit.Assert.assertNotNull(date15);
         org.junit.Assert.assertNotNull(date18);
         org.junit.Assert.assertNotNull(timeUnitMap19);
-// flaky:         org.junit.Assert.assertTrue("'" + str23 + "' != '" + "0310" + "'", str23.equals("0310"));
     }
 
     @Test
@@ -14653,16 +13914,13 @@ public class RegressionTest0 {
         simulatorHeader12.setUpdateInternet(false);
         simulatorHeader12.setUseCelestia(false);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
@@ -14735,13 +13993,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + long37 + "' != '" + 281474993487890L + "'", long37.equals(281474993487890L));
         org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38 == true);
         org.junit.Assert.assertNotNull(date42);
-        org.junit.Assert.assertTrue("'" + int43 + "' != '" + 23 + "'", int43 == 23);
         org.junit.Assert.assertNotNull(date46);
         org.junit.Assert.assertNotNull(date49);
         org.junit.Assert.assertNotNull(timeUnitMap50);
         org.junit.Assert.assertNotNull(date52);
         org.junit.Assert.assertTrue("'" + boolean53 + "' != '" + false + "'", boolean53 == false);
-        org.junit.Assert.assertTrue("'" + int54 + "' != '" + 23 + "'", int54 == 23);
         org.junit.Assert.assertNull(str55);
         org.junit.Assert.assertTrue("'" + int60 + "' != '" + (-1) + "'", int60 == (-1));
     }
@@ -15016,7 +14272,6 @@ public class RegressionTest0 {
         java.lang.String str14 = simulatorHeader12.getOrekitTLE2();
         simulatorHeader12.setTimeFactor(48);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -15043,13 +14298,10 @@ public class RegressionTest0 {
         simulatorHeader12.setUseCelestia(false);
         int int19 = simulatorHeader12.getDayStartDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
-// flaky:         org.junit.Assert.assertTrue("'" + int14 + "' != '" + 10 + "'", int14 == 10);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 23 + "'", int19 == 23);
     }
 
     @Test
@@ -15128,16 +14380,13 @@ public class RegressionTest0 {
         simulatorHeader12.setUpdateInternet(true);
         simulatorHeader12.setUseCelestia(false);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
         org.junit.Assert.assertNotNull(date20);
-        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 23 + "'", int21 == 23);
         org.junit.Assert.assertNotNull(date24);
         org.junit.Assert.assertNotNull(date27);
         org.junit.Assert.assertNotNull(timeUnitMap28);
@@ -15163,13 +14412,11 @@ public class RegressionTest0 {
         java.lang.String str16 = simulatorHeader12.getOrekitTLE1();
         boolean boolean17 = simulatorHeader12.isUseCelestia();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertNull(str16);
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
     }
@@ -15204,15 +14451,15 @@ public class RegressionTest0 {
     public void test0461() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0461");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate5 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator");
+        opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "opssat");
+        opssat.simulator.util.ArgumentTemplate argumentTemplate5 = new opssat.simulator.util.ArgumentTemplate("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "opssat");
         int int6 = argumentTemplate2.compareTo(argumentTemplate5);
         java.lang.String str7 = argumentTemplate2.toString();
         argumentTemplate2.setDescription("281474993487885");
         java.lang.String str10 = argumentTemplate2.toString();
         org.junit.Assert.assertTrue("'" + int6 + "' != '" + 0 + "'", int6 == 0);
-        org.junit.Assert.assertTrue("'" + str7 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str7.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
-        org.junit.Assert.assertTrue("'" + str10 + "' != '" + "281474993487885|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator" + "'", str10.equals("281474993487885|/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"));
+        org.junit.Assert.assertTrue("'" + str7 + "' != '" + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|opssat" + "'", str7.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]|opssat"));
+        org.junit.Assert.assertTrue("'" + str10 + "' != '" + "281474993487885|opssat" + "'", str10.equals("281474993487885|opssat"));
     }
 
     @Test
@@ -15285,11 +14532,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 7 + "'", int50 == 7);
         org.junit.Assert.assertNull(str53);
         org.junit.Assert.assertNull(str56);
     }
@@ -15368,13 +14613,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 7 + "'", int50 == 7);
         org.junit.Assert.assertNotNull(floatArray57);
-// flaky:         org.junit.Assert.assertTrue("'" + int62 + "' != '" + 10 + "'", int62 == 10);
         org.junit.Assert.assertNotNull(floatArray69);
         org.junit.Assert.assertNotNull(floatArray74);
         org.junit.Assert.assertNotNull(floatArray78);
@@ -15460,7 +14702,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date50);
         org.junit.Assert.assertNotNull(date51);
         org.junit.Assert.assertNotNull(date56);
-        org.junit.Assert.assertTrue("'" + int57 + "' != '" + 23 + "'", int57 == 23);
         org.junit.Assert.assertNotNull(date60);
         org.junit.Assert.assertNotNull(date63);
         org.junit.Assert.assertNotNull(timeUnitMap64);
@@ -15468,8 +14709,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + false + "'", boolean70 == false);
         org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + false + "'", boolean71 == false);
         org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + true + "'", boolean72 == true);
-// flaky:         org.junit.Assert.assertTrue("'" + str73 + "' != '" + "2019:05:23 15:10:07 UTC" + "'", str73.equals("2019:05:23 15:10:07 UTC"));
-// flaky:         org.junit.Assert.assertTrue("'" + int74 + "' != '" + 10 + "'", int74 == 10);
     }
 
     @Test
@@ -15507,7 +14746,6 @@ public class RegressionTest0 {
         simulatorHeader12.setAutoStartTime(true);
         simulatorHeader12.setAutoStartSystem(false);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
@@ -15515,11 +14753,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date18);
         org.junit.Assert.assertNotNull(date19);
         org.junit.Assert.assertNotNull(date24);
-        org.junit.Assert.assertTrue("'" + int25 + "' != '" + 23 + "'", int25 == 23);
         org.junit.Assert.assertNotNull(date28);
         org.junit.Assert.assertNotNull(date31);
         org.junit.Assert.assertNotNull(timeUnitMap32);
-        org.junit.Assert.assertTrue("'" + int36 + "' != '" + 15 + "'", int36 == 15);
         org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + false + "'", boolean39 == false);
     }
 
@@ -15561,7 +14797,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
@@ -15570,13 +14805,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
         org.junit.Assert.assertNotNull(obj31);
         org.junit.Assert.assertNotNull(date35);
-        org.junit.Assert.assertTrue("'" + int36 + "' != '" + 23 + "'", int36 == 23);
         org.junit.Assert.assertNotNull(date39);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(timeUnitMap43);
         org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", boolean45 == false);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-        org.junit.Assert.assertTrue("'" + int47 + "' != '" + 23 + "'", int47 == 23);
     }
 
     @Test
@@ -15605,12 +14838,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
-        org.junit.Assert.assertTrue("'" + int28 + "' != '" + 5 + "'", int28 == 5);
     }
 
     @Test
@@ -15694,11 +14925,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray34);
         org.junit.Assert.assertNotNull(floatArray36);
         org.junit.Assert.assertNotNull(date41);
-        org.junit.Assert.assertTrue("'" + int42 + "' != '" + 23 + "'", int42 == 23);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(date48);
         org.junit.Assert.assertNotNull(timeUnitMap49);
-// flaky:         org.junit.Assert.assertTrue("'" + int53 + "' != '" + 7 + "'", int53 == 7);
         org.junit.Assert.assertNotNull(floatArray60);
         org.junit.Assert.assertTrue("'" + int63 + "' != '" + (-1) + "'", int63 == (-1));
         org.junit.Assert.assertNotNull(uOctet66);
@@ -15753,7 +14982,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", boolean9 == false);
         org.junit.Assert.assertNotNull(obj10);
         org.junit.Assert.assertNotNull(date14);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertNotNull(date18);
         org.junit.Assert.assertNotNull(date21);
         org.junit.Assert.assertNotNull(timeUnitMap22);
@@ -15803,17 +15031,14 @@ public class RegressionTest0 {
         boolean boolean22 = simulatorHeader12.checkStartBeforeEnd();
         int int23 = simulatorHeader12.getYearStartDate();
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 23 + "'", int15 == 23);
         org.junit.Assert.assertNull(str16);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
-        org.junit.Assert.assertTrue("'" + int23 + "' != '" + 2019 + "'", int23 == 2019);
     }
 
     @Test
@@ -15888,14 +15113,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray42);
         org.junit.Assert.assertNotNull(floatArray44);
         org.junit.Assert.assertNotNull(date49);
-        org.junit.Assert.assertTrue("'" + int50 + "' != '" + 23 + "'", int50 == 23);
         org.junit.Assert.assertNotNull(date53);
         org.junit.Assert.assertNotNull(date56);
         org.junit.Assert.assertNotNull(timeUnitMap57);
-// flaky:         org.junit.Assert.assertTrue("'" + int61 + "' != '" + 8 + "'", int61 == 8);
         org.junit.Assert.assertNotNull(floatArray68);
         org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + false + "'", boolean71 == false);
-        org.junit.Assert.assertTrue("'" + int72 + "' != '" + 5 + "'", int72 == 5);
     }
 
     @Test
@@ -15932,13 +15154,10 @@ public class RegressionTest0 {
         java.lang.String str18 = simulatorData15.getCurrentDay();
         simulatorData15.toggleSimulatorRunning();
         org.junit.Assert.assertNotNull(date4);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 23 + "'", int5 == 23);
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date11);
         org.junit.Assert.assertNotNull(timeUnitMap12);
         org.junit.Assert.assertNotNull(date14);
-        org.junit.Assert.assertTrue("'" + str17 + "' != '" + "2019" + "'", str17.equals("2019"));
-        org.junit.Assert.assertTrue("'" + str18 + "' != '" + "23" + "'", str18.equals("23"));
     }
 
     @Test
@@ -15982,20 +15201,12 @@ public class RegressionTest0 {
         int int25 = simulatorHeader12.getYearStartDate();
         simulatorHeader12.setTimeFactor((int) (byte) 0);
         org.junit.Assert.assertNotNull(date3);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 23 + "'", int4 == 23);
         org.junit.Assert.assertNotNull(date7);
         org.junit.Assert.assertNotNull(date10);
         org.junit.Assert.assertNotNull(timeUnitMap11);
         org.junit.Assert.assertNotNull(date13);
-// flaky:         org.junit.Assert.assertTrue("'" + int14 + "' != '" + 10 + "'", int14 == 10);
         org.junit.Assert.assertTrue("'" + long17 + "' != '" + 0L + "'", long17 == 0L);
-        org.junit.Assert.assertTrue("'" + str18 + "' != '" + "23" + "'", str18.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str19 + "' != '" + "0310" + "'", str19.equals("0310"));
-        org.junit.Assert.assertTrue("'" + str20 + "' != '" + "23" + "'", str20.equals("23"));
         org.junit.Assert.assertNotNull(date21);
-// flaky:         org.junit.Assert.assertTrue("'" + int22 + "' != '" + 10 + "'", int22 == 10);
-// flaky:         org.junit.Assert.assertTrue("'" + str24 + "' != '" + "2019:05:23 15:10:08 UTC" + "'", str24.equals("2019:05:23 15:10:08 UTC"));
-        org.junit.Assert.assertTrue("'" + int25 + "' != '" + 2019 + "'", int25 == 2019);
     }
 
     @Test
@@ -16025,13 +15236,10 @@ public class RegressionTest0 {
         } catch (java.lang.ClassCastException e) {
         }
         org.junit.Assert.assertNotNull(date5);
-        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 23 + "'", int6 == 23);
         org.junit.Assert.assertNotNull(date9);
         org.junit.Assert.assertNotNull(date12);
         org.junit.Assert.assertNotNull(timeUnitMap13);
         org.junit.Assert.assertNotNull(date15);
-// flaky:         org.junit.Assert.assertTrue("'" + int16 + "' != '" + 10 + "'", int16 == 10);
-// flaky:         org.junit.Assert.assertTrue("'" + str19 + "' != '" + "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=true\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:10:08 UTC\nendDate=2019:05:23 15:10:08 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO" + "'", str19.equals("#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=true\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:10:08 UTC\nendDate=2019:05:23 15:10:08 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO"));
         org.junit.Assert.assertNull(date21);
     }
 
@@ -16081,7 +15289,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
@@ -16132,32 +15339,20 @@ public class RegressionTest0 {
         simulatorHeader52.setOrekitTLE1("2019:05:23 15:09:31 UTC");
         simulatorHeader52.setKeplerElements("030938.571");
         org.junit.Assert.assertTrue("'" + long3 + "' != '" + 0L + "'", long3 == 0L);
-        org.junit.Assert.assertTrue("'" + str4 + "' != '" + "23" + "'", str4.equals("23"));
-// flaky:         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "0310" + "'", str5.equals("0310"));
-// flaky:         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "031008.320" + "'", str7.equals("031008.320"));
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date13);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date19);
-        org.junit.Assert.assertTrue("'" + int20 + "' != '" + 23 + "'", int20 == 23);
         org.junit.Assert.assertNotNull(date23);
         org.junit.Assert.assertNotNull(date26);
         org.junit.Assert.assertNotNull(timeUnitMap27);
         org.junit.Assert.assertNotNull(date34);
         org.junit.Assert.assertNotNull(date35);
         org.junit.Assert.assertNotNull(date40);
-        org.junit.Assert.assertTrue("'" + int41 + "' != '" + 23 + "'", int41 == 23);
         org.junit.Assert.assertNotNull(date44);
         org.junit.Assert.assertNotNull(date47);
         org.junit.Assert.assertNotNull(timeUnitMap48);
         org.junit.Assert.assertNotNull(timeUnitMap51);
-    }
-
-    @Test
-    public void test0484() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0484");
-        opssat.simulator.util.ArgumentDescriptor argumentDescriptor2 = new opssat.simulator.util.ArgumentDescriptor("00000:00:00:00:008", "*36");
     }
 
     @Test
@@ -16227,11 +15422,9 @@ public class RegressionTest0 {
         opssat.simulator.util.SimulatorData simulatorData14 = new opssat.simulator.util.SimulatorData(19, date11);
         java.lang.String str15 = simulatorData14.toString();
         org.junit.Assert.assertNotNull(date4);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 23 + "'", int5 == 23);
         org.junit.Assert.assertNotNull(date8);
         org.junit.Assert.assertNotNull(date11);
         org.junit.Assert.assertNotNull(timeUnitMap12);
-// flaky:         org.junit.Assert.assertTrue("'" + str15 + "' != '" + "{counter=19, methodsExecuted=0, currentTime=Thu May 23 15:10:08 UTC 2019}" + "'", str15.equals("{counter=19, methodsExecuted=0, currentTime=Thu May 23 15:10:08 UTC 2019}"));
     }
 
     @Test
@@ -16271,19 +15464,16 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(date4);
         org.junit.Assert.assertNotNull(date5);
         org.junit.Assert.assertNotNull(date10);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 23 + "'", int11 == 23);
         org.junit.Assert.assertNotNull(date14);
         org.junit.Assert.assertNotNull(date17);
         org.junit.Assert.assertNotNull(timeUnitMap18);
         org.junit.Assert.assertNotNull(date25);
         org.junit.Assert.assertNotNull(date26);
         org.junit.Assert.assertNotNull(date31);
-        org.junit.Assert.assertTrue("'" + int32 + "' != '" + 23 + "'", int32 == 23);
         org.junit.Assert.assertNotNull(date35);
         org.junit.Assert.assertNotNull(date38);
         org.junit.Assert.assertNotNull(timeUnitMap39);
         org.junit.Assert.assertNotNull(timeUnitMap42);
-        org.junit.Assert.assertTrue("'" + int43 + "' != '" + 2019 + "'", int43 == 2019);
     }
 
     @Test
@@ -16336,7 +15526,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
@@ -16374,13 +15563,6 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(uShort18);
         org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-1) + "'", int19 == (-1));
         org.junit.Assert.assertNotNull(booleanStream20);
-    }
-
-    @Test
-    public void test0492() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0492");
-        opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate("*30", "[1, 11111]");
     }
 
     @Test
@@ -16483,11 +15665,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(floatArray31);
         org.junit.Assert.assertNotNull(floatArray33);
         org.junit.Assert.assertNotNull(date38);
-        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 23 + "'", int39 == 23);
         org.junit.Assert.assertNotNull(date42);
         org.junit.Assert.assertNotNull(date45);
         org.junit.Assert.assertNotNull(timeUnitMap46);
-// flaky:         org.junit.Assert.assertTrue("'" + int50 + "' != '" + 8 + "'", int50 == 8);
         org.junit.Assert.assertNull(str53);
         org.junit.Assert.assertTrue("'" + double58 + "' != '" + 340.0d + "'", double58 == 340.0d);
         org.junit.Assert.assertTrue("'" + double59 + "' != '" + (-1.0d) + "'", double59 == (-1.0d));
