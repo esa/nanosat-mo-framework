@@ -20283,7 +20283,6 @@ public class RegressionTest1 {
         shortList65.trimToSize();
         boolean boolean71 = uShortList60.remove((java.lang.Object) shortList65);
         boolean boolean72 = uRIList0.contains((java.lang.Object) uShortList60);
-        uRIList0.ensureCapacity(294967295);
         org.junit.Assert.assertNotNull(doubleArray4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
