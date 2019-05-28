@@ -64,6 +64,7 @@
     </developer>
   </developers>
   <properties>
+    <maven.test.skip>true</maven.test.skip>
     <!-- NMF general properties -->
     <esa.nmf.version>2.0.0-SNAPSHOT</esa.nmf.version>
     <esa.nmf.next-version>2.1.0</esa.nmf.next-version>

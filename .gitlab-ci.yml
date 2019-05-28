@@ -21,7 +21,7 @@ build:
     - git checkout fix_structures
     - mvn install
     - cd ..
-    - mvn install -DskipTests
+    - mvn install
   artifacts:
     paths:
       - $NMF_HOME/.m2/repository
@@ -31,7 +31,7 @@ test_ccsds-mc-impl:
   stage: regression-test
   script:
     - cd core/mo-services-impl/ccsds-mc-impl
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/mo-services-impl/ccsds-mc-impl/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -45,7 +45,7 @@ test_ccsds-com-impl:
   stage: regression-test
   script:
     - cd core/mo-services-impl/ccsds-com-impl
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/mo-services-impl/ccsds-com-impl/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -59,7 +59,7 @@ test_nmf-platform-generic-impl:
   stage: regression-test
   script:
     - cd core/mo-services-impl/nmf-platform-generic-impl
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/mo-services-impl/nmf-platform-generic-impl/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -73,7 +73,7 @@ test_ccsds-common-impl:
   stage: regression-test
   script:
     - cd core/mo-services-impl/ccsds-common-impl
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/mo-services-impl/ccsds-common-impl/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -87,7 +87,7 @@ test_nmf-software-management-impl:
   stage: regression-test
   script:
     - cd core/mo-services-impl/nmf-software-management-impl
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/mo-services-impl/nmf-software-management-impl/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -101,7 +101,7 @@ test_com-nmf:
   stage: regression-test
   script:
     - cd core/mo-services-apis/com-nmf
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/mo-services-apis/com-nmf/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -115,7 +115,7 @@ test_generic-composite-model:
   stage: regression-test
   script:
     - cd core/nmf-composites/generic-composite-model
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/nmf-composites/generic-composite-model/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -129,7 +129,7 @@ test_nanosat-mo-connector:
   stage: regression-test
   script:
     - cd core/nmf-composites/nanosat-mo-connector
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/nmf-composites/nanosat-mo-connector/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -143,7 +143,7 @@ test_generic-ground-mo-proxy:
   stage: regression-test
   script:
     - cd core/nmf-composites/generic-ground-mo-proxy
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/nmf-composites/generic-ground-mo-proxy/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -157,7 +157,7 @@ test_helper-tools:
   stage: regression-test
   script:
     - cd core/helper-tools
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/core/helper-tools/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -171,7 +171,7 @@ test_nanosat-mo-supervisor:
   stage: regression-test
   script:
     - cd mission/simulator/nanosat-mo-supervisor
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/mission/simulator/nanosat-mo-supervisor/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -185,7 +185,7 @@ test_opssat-gps-simulator:
   stage: regression-test
   script:
     - cd mission/simulator/opssat-gps-simulator
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/mission/simulator/opssat-gps-simulator/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -199,7 +199,7 @@ test_platform-services-impl:
   stage: regression-test
   script:
     - cd mission/simulator/platform-services-impl
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/mission/simulator/platform-services-impl/target/site/jacoco/index.html
   artifacts:
     reports:
@@ -213,7 +213,7 @@ test_opssat-spacecraft-simulator:
   stage: regression-test
   script:
     - cd mission/simulator/opssat-spacecraft-simulator
-    - "mvn test"
+    - "mvn test -Dmaven.test.skip=false"
     - cat /builds/nanosat-mo-framework/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator/target/site/jacoco/index.html
   artifacts:
     reports:

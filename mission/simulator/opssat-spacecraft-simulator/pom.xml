@@ -19,6 +19,7 @@
   <description>A simple software simulator of OPS-SAT</description>
   <url>http://www.esa.int</url>
   <properties>
+    <maven.test.skip>true</maven.test.skip>
     <orekit.apache-commons-math.version>3.6.1</orekit.apache-commons-math.version>
   </properties>
   <organization>
