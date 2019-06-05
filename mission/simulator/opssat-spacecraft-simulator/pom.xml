@@ -21,6 +21,8 @@
   <properties>
     <maven.test.skip>true</maven.test.skip>
     <orekit.apache-commons-math.version>3.6.1</orekit.apache-commons-math.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
   <organization>
     <name>ESA</name>
