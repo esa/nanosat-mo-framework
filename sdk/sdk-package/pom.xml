@@ -317,6 +317,7 @@
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/nanosat-mo-supervisor-sim">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
+                  <file file="${basedir}/../../mission/simulator/opssat-spacecraft-simulator/platformsim.properties"/>
                 </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/all-mc-services">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>

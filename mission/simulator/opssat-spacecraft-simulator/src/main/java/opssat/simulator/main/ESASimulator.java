@@ -44,7 +44,8 @@ import opssat.simulator.util.LoggerFormatter1Line;
  */
 public class ESASimulator extends GenericSimulator {
 
-    SimulatorNode simulatorNode;
+    private SimulatorNode simulatorNode;
+    private CentralNode centralNode;
 
     Level simulatorLoggingLevel = Level.INFO;
     Level centralLoggingLevel = Level.INFO;
@@ -137,10 +138,15 @@ public class ESASimulator extends GenericSimulator {
         ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<Object>();
 
         simulatorNode = new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 10, this.simulatorLoggingLevel, this.consoleLoggingLevel);
-        centralNode = new CentralNode(qSimToCentral, qCentralToSim, listenURL, "Cen", 10, this.centralLoggingLevel, this.consoleLoggingLevel);
+        centralNode = new CentralNode(qSimToCentral, qCentralToSim, listenURL, "Cen", 10, this.centralLoggingLevel, this.consoleLoggingLevel, this);
+        this.centralNode = centralNode;
         (new Thread(simulatorNode, "sim-" + simulatorNode.getClass().getSimpleName())).start();
         (new Thread(centralNode, "sim-" + centralNode.getClass().getSimpleName())).start();
         initDevices();
+    }
+    
+    public SimulatorNode getSimulatorNode() {
+      return simulatorNode;
     }
 
 }

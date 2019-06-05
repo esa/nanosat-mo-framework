@@ -21,11 +21,13 @@
  */
 package opssat.simulator.threading;
 
-import opssat.simulator.tcp.MultiThreadedSocketServer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
+
 import opssat.simulator.celestia.CelestiaData;
 import opssat.simulator.celestia.CelestiaIf;
+import opssat.simulator.main.ESASimulator;
+import opssat.simulator.tcp.MultiThreadedSocketServer;
 import opssat.simulator.util.SimulatorHeader;
 
 /**
@@ -34,92 +36,99 @@ import opssat.simulator.util.SimulatorHeader;
  */
 public class CentralNode extends TaskNode {
 
-    private ConcurrentLinkedQueue<Object> qFromGUI;
-    private ConcurrentLinkedQueue<Object> qToCelestia;
+  private ConcurrentLinkedQueue<Object> qFromGUI;
+  private ConcurrentLinkedQueue<Object> qToCelestia;
+  private ESASimulator parent;
 
-    public synchronized ConcurrentLinkedQueue<Object> getqFromGUI() {
-        return qFromGUI;
-    }
-    
-    private MultiThreadedSocketServer multiThreadedSocketServer;
-    CelestiaIf celestiaInterfaceServer;
-    boolean celestiaInitDone;
-    
-    public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut, String name, int delay, Level logLevel,Level consoleLogLevel) {
-        super(queueIn, queueOut, name, delay,logLevel,consoleLogLevel);
-        this.qFromGUI = new ConcurrentLinkedQueue<Object>();
-        this.qToCelestia = new ConcurrentLinkedQueue<Object>();
-    }
+  public synchronized ConcurrentLinkedQueue<Object> getqFromGUI() {
+    return qFromGUI;
+  }
 
-    public void callBackLogMessage(String data) {
-        super.getLogObject().log(Level.INFO,data);
-    }
+  private MultiThreadedSocketServer multiThreadedSocketServer;
+  CelestiaIf celestiaInterfaceServer;
+  boolean celestiaInitDone;
 
-    //Overloaded constructor, operation with TCP server   
-    public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut, String listenURL, String name, int delay, Level logLevel,Level consoleLogLevel) {
-        super(queueIn, queueOut, name, delay,logLevel,consoleLogLevel);
-        this.qFromGUI = new ConcurrentLinkedQueue<Object>();
-        this.qToCelestia = new ConcurrentLinkedQueue<Object>();
-        super.getLogObject().log(Level.FINE,"Creating listener on URL [" + listenURL + "]..");
-        this.multiThreadedSocketServer = new MultiThreadedSocketServer(listenURL, this,MultiThreadedSocketServer.DEFAULT_SOCKET_PORT,super.getLogObject());
-        multiThreadedSocketServer.start();
-    }
-    private void initCelestia(SimulatorHeader header)
-    {
-        super.getLogObject().log(Level.FINE,"Creating Celestia provider");
-        this.celestiaInterfaceServer= new CelestiaIf(this.qToCelestia,header.getCelestiaPort(),"OPS-SAT",super.getLogObject());
-        (new Thread(celestiaInterfaceServer,"sim-"+celestiaInterfaceServer.getClass().getSimpleName())).start();
-    }
-    @Override
-    void dataIn(Object obj) {
-        if (obj instanceof CelestiaData && this.celestiaInterfaceServer!=null) {
-            this.celestiaInterfaceServer.putDataInBuffer(obj);
+  public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut,
+      String name, int delay, Level logLevel, Level consoleLogLevel, ESASimulator sim) {
+    super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
+    this.qFromGUI = new ConcurrentLinkedQueue<Object>();
+    this.qToCelestia = new ConcurrentLinkedQueue<Object>();
+    this.parent = sim;
+  }
+
+  public ESASimulator getParentSimulator() {
+    return parent;
+  }
+  
+  public void callBackLogMessage(String data) {
+    super.getLogObject().log(Level.INFO, data);
+  }
+
+  // Overloaded constructor, operation with TCP server
+  public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut,
+      String listenURL, String name, int delay, Level logLevel, Level consoleLogLevel,
+      ESASimulator sim) {
+    super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
+    this.qFromGUI = new ConcurrentLinkedQueue<Object>();
+    this.qToCelestia = new ConcurrentLinkedQueue<Object>();
+    super.getLogObject().log(Level.FINE, "Creating listener on URL [" + listenURL + "]..");
+    this.multiThreadedSocketServer = new MultiThreadedSocketServer(listenURL, this,
+        MultiThreadedSocketServer.DEFAULT_SOCKET_PORT, super.getLogObject());
+    multiThreadedSocketServer.start();
+    this.parent = sim;
+  }
+
+  private void initCelestia(SimulatorHeader header) {
+    super.getLogObject().log(Level.FINE, "Creating Celestia provider");
+    this.celestiaInterfaceServer = new CelestiaIf(this.qToCelestia, header.getCelestiaPort(),
+        "OPS-SAT", super.getLogObject());
+    (new Thread(celestiaInterfaceServer,
+        "sim-" + celestiaInterfaceServer.getClass().getSimpleName())).start();
+  }
+
+  @Override
+  void dataIn(Object obj) {
+    if (obj instanceof CelestiaData && this.celestiaInterfaceServer != null) {
+      this.celestiaInterfaceServer.putDataInBuffer(obj);
+    } else if (this.multiThreadedSocketServer == null) {
+      ;
+    } else {
+      if (obj instanceof SimulatorHeader && !this.celestiaInitDone) {
+        SimulatorHeader centralHeader = (SimulatorHeader) obj;
+        if (centralHeader.isUseCelestia()) {
+          this.celestiaInitDone = true;
+          initCelestia(centralHeader);
         }
-        else if (this.multiThreadedSocketServer== null) 
-        {
-            ;
-        }
-        else {
-            if (obj instanceof SimulatorHeader && !this.celestiaInitDone)
-            {
-                SimulatorHeader centralHeader = (SimulatorHeader) obj;
-                if (centralHeader.isUseCelestia())
-                    {
-                        this.celestiaInitDone=true;
-                        initCelestia(centralHeader);
-                    }
-            }
-            this.multiThreadedSocketServer.putDataOnForAllClients(obj);
-        }
-        //super.logMessage(i.toString());
-
+      }
+      this.multiThreadedSocketServer.putDataOnForAllClients(obj);
     }
+    // super.logMessage(i.toString());
 
-    @Override
-    void coreRun() {
-        ;
-    }
+  }
 
-    @Override
-    Object dataOut() {
-        if (this.qFromGUI != null) {
-            Object data = this.qFromGUI.poll();
-            if (data!=null)
-            {
-                if (data instanceof Integer) {
-                    return null;
-                } else {
-                    super.getLogObject().log(Level.ALL,"Sending something ["+data.getClass().getName()+"] to server ");
-                    return data;
-                }
-            }
-            else
-            {
-                return null;
-            }
+  @Override
+  void coreRun() {
+    ;
+  }
+
+  @Override
+  Object dataOut() {
+    if (this.qFromGUI != null) {
+      Object data = this.qFromGUI.poll();
+      if (data != null) {
+        if (data instanceof Integer) {
+          return null;
         } else {
-            return null;
+          super.getLogObject().log(Level.ALL,
+              "Sending something [" + data.getClass().getName() + "] to server ");
+          return data;
         }
+      } else {
+        return null;
+      }
+    } else {
+      return null;
     }
+  }
 
 }

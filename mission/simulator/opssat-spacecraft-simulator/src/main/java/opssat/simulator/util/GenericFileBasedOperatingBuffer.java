@@ -34,96 +34,121 @@ import opssat.simulator.threading.SimulatorNode;
  */
 public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperateBuffer {
 
-    private Object dataBuffer;
-    private String dataFilePath;
-    private int operatingIndex;
-    private Logger logger;
+  private Object dataBuffer;
+  private String dataFilePath;
+  private int operatingIndex;
+  private Logger logger;
 
-    public GenericFileBasedOperatingBuffer(Logger logger) {
-        byte[] tempArray = new byte[0];
-        operatingIndex = 0;
-        this.dataBuffer = tempArray;
-        this.logger = logger;
-    }
+  public GenericFileBasedOperatingBuffer(Logger logger) {
+    byte[] tempArray = new byte[0];
+    operatingIndex = 0;
+    this.dataBuffer = tempArray;
+    this.logger = logger;
+  }
 
-    @Override
-    public boolean loadFromPath(String path) {
-        try {
-            String absolutePath = SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader());
+  @Override
+  public boolean loadFromPath(String path) {
+    try {
+      String absolutePath = SimulatorNode.handleResourcePath(path, logger,
+          getClass().getClassLoader());
 //            this.dataBuffer = Files.readAllBytes(Paths.get(absolutePath));
-            
-            RandomAccessFile f = new RandomAccessFile(absolutePath, "r");
-            if (f.length() > Integer.MAX_VALUE) {
-                throw new IOException("File is too large");
-            }
-            byte[] data = new byte[(int) f.length()];
-            f.readFully(data);
-            this.dataBuffer = data;
+      RandomAccessFile f = new RandomAccessFile(absolutePath, "r");
+      if (f.length() > Integer.MAX_VALUE) {
+        throw new IOException("File is too large");
+      }
+      byte[] data = new byte[(int) f.length()];
+      f.readFully(data);
+      this.dataBuffer = data;
 
-        } catch (IOException ex) {
-            return false;
+    } catch (IOException ex) {
+      return false;
+    }
+    return true;
+  }
+
+  public boolean loadImageFromAbsolutePath(String path) {
+    try {
+      String[] parts = path.split("\\.");
+      String ending = parts[parts.length - 1];
+      if (ending.equals("raw")) {
+        RandomAccessFile f = new RandomAccessFile(path, "r");
+        if (f.length() > Integer.MAX_VALUE) {
+          throw new IOException("File is too large");
         }
-        return true;
-    }
-
-    @Override
-    public boolean preparePath(String path) {
-        boolean fileExists = true;
-        
-        try {
-            RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
-            f.close();
-        } catch (FileNotFoundException ex) {
-            fileExists = false;
-        } catch (IOException ex) {
-            Logger.getLogger(GenericFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
+        if(f.length() != SimulatorNode.CAMERA_MAX_SIZE) {
+          throw new IllegalArgumentException("RAW file does not fit camera resolution.");
         }
+        byte[] data = new byte[(int) f.length()];
+        f.readFully(data);
+        this.dataBuffer = data;
+      } else {
+        byte[] image = ImageLoader.loadNonRawImage(path);
+        this.dataBuffer = image;
+      }
+    } catch (IOException ex) {
+      return false;
+    }
+    return true;
+  }
 
-        
-        if (fileExists) {
-            this.dataFilePath = path;
-            return true;
-        } else {
-            return false;
+  @Override
+  public boolean preparePath(String path) {
+    boolean fileExists = true;
+
+    try {
+      RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
+      f.close();
+    } catch (FileNotFoundException ex) {
+      fileExists = false;
+    } catch (IOException ex) {
+      Logger.getLogger(GenericFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    if (fileExists) {
+      this.dataFilePath = path;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Object getDataBuffer() {
+    return dataBuffer;
+  }
+
+  public String getDataBufferAsString() {
+    if (dataBuffer instanceof byte[]) {
+      byte[] tempCast = (byte[]) dataBuffer;
+      StringBuilder result = new StringBuilder("byte[] {");
+      int k = 0;
+      for (byte b : tempCast) {
+        result.append(String.format("0x%02X", b));
+        if (++k < tempCast.length) {
+          result.append(",");
         }
-    }
-
-    public Object getDataBuffer() {
-        return dataBuffer;
-    }
-
-    public String getDataBufferAsString() {
-        if (dataBuffer instanceof byte[]) {
-            byte[] tempCast = (byte[]) dataBuffer;
-            StringBuilder result = new StringBuilder("byte[] {");
-            int k = 0;
-            for (byte b : tempCast) {
-                result.append(String.format("0x%02X", b));
-                if (++k < tempCast.length) {
-                    result.append(",");
-                }
-                if (k > 10) {
-                    result.append(" and [" + (tempCast.length - k) + "] more , total [" + tempCast.length + "] bytes.");
-                    break;
-                }
-            }
-            result.append("}");
-            return result.toString();
+        if (k > 10) {
+          result.append(
+              " and [" + (tempCast.length - k) + "] more , total [" + tempCast.length + "] bytes.");
+          break;
         }
-        return "Unknown data type [" + dataBuffer.getClass().getName() + "]";
+      }
+      result.append("}");
+      return result.toString();
     }
+    return "Unknown data type [" + dataBuffer.getClass().getName() + "]";
+  }
 
-    public void setDataBuffer(Object dataBuffer) {
-        this.dataBuffer = dataBuffer;
-    }
+  public void setDataBuffer(Object dataBuffer) {
+    this.dataBuffer = dataBuffer;
+  }
 
-    @Override
-    public int getOperatingIndex() {
-        return operatingIndex;
-    }
+  @Override
+  public int getOperatingIndex() {
+    return operatingIndex;
+  }
 
-    public void setOperatingIndex(int operatingIndex) {
-        this.operatingIndex = operatingIndex;
-    }
+  public void setOperatingIndex(int operatingIndex) {
+    this.operatingIndex = operatingIndex;
+  }
 
 }
