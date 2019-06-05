@@ -42,7 +42,20 @@ public class GuiApp {
     private String targetURL;
     private int targetPort;
     Logger logger;
+    private String simulatorWorkingDir;
 
+    public String getSimulatorWorkingDir() {
+      return simulatorWorkingDir;
+    }
+    
+    public void setSimulatorWorkingDir(String dir) {
+      this.simulatorWorkingDir = dir;
+    }
+    
+    public SocketClient getSocketClient() {
+      return socketClient;
+    }
+    
     public void setTargetConnection(String targetURL, int targetPort) {
         this.targetURL = targetURL;
         this.targetPort = targetPort;
@@ -84,7 +97,6 @@ public class GuiApp {
         this.targetPort = targetPort;
         guiMainWindow = new GuiMainWindow(this, targetURL, targetPort);
         (new Thread(guiMainWindow)).start();
-
     }
 
     public void startSocket() {
