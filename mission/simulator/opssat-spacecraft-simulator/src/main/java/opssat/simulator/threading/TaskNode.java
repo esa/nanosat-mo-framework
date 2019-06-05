@@ -115,6 +115,7 @@ public abstract class TaskNode implements Runnable {
         logObject.addHandler(consoleHandler);
         logObject.log(Level.INFO,"File logging level is ["+logLevel+"], Console logging level is ["+consoleLogLevel+"]");
     }
+    
     public TaskNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut, String name, int delay, Level logLevel,Level consoleLogLevel) {
         this.name = name;
         initLogging(logLevel,consoleLogLevel);
