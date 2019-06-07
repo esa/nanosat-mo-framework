@@ -10,7 +10,7 @@ Welcome to Nanosat MO Framework's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   packages
 
 Indices and tables
 ==================
