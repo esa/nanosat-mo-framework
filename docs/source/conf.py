@@ -23,7 +23,6 @@ author = 'Dominik Marszk, Yannick Lavan'
 
 # The full version, including alpha/beta/rc tags
 release = '2.0.0-SNAPSHOT'
-master_doc = 'index'
 
 # -- General configuration ---------------------------------------------------
 
