@@ -53,4 +53,4 @@ html_theme = 'alabaster'
 html_static_path = ['_static']
 
 def setup(app):
-    os.system("javasphinx-apidoc -o source/ --title='NMF API' ../../")
+    os.system("javasphinx-apidoc -o docs/source/ --title='NMF API' .")
