@@ -603,7 +603,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   @Override
   public boolean isReadOnly(Identifier name)
   {
-    return true; // No parameter is directly writable
+    switch (name.getValue()) {
+      case PARAMETER_CAMERA_GAIN_R:
+      case PARAMETER_CAMERA_GAIN_G:
+      case PARAMETER_CAMERA_GAIN_B:
+      case PARAMETER_CAMERA_EXPOSURE_TIME:
+        return false;
+    }
+    return true;
   }
 
   /**
@@ -654,7 +661,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList,
         final Map qosp)
     {
-      LOGGER.log(Level.INFO, "Received monitorAttitude notify");
+      LOGGER.log(Level.FINE, "Received monitorAttitude notify");
       for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
         try {
           Vector3D sunVector = attitudeTm.getSunVector();
