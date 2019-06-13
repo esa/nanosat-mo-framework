@@ -20,6 +20,10 @@
  */
 package esa.mo.platform.impl.util;
 
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
+
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.CameraProviderServiceImpl;
@@ -34,9 +38,6 @@ import esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter;
 import opssat.simulator.main.ESASimulator;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
 /**
  *
@@ -44,49 +45,50 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefined
  */
 public class PlatformServicesProviderSoftSim implements PlatformServicesProviderInterface {
 
-    // Simulator
-    private final ESASimulator instrumentsSimulator = new ESASimulator("127.0.0.1");
+  // Simulator
+  private final ESASimulator instrumentsSimulator = new ESASimulator("127.0.0.1");
 
-    // Services
-    private final AutonomousADCSProviderServiceImpl autonomousADCSService = new AutonomousADCSProviderServiceImpl();
-    private final CameraProviderServiceImpl cameraService = new CameraProviderServiceImpl();
-    private final GPSProviderServiceImpl gpsService = new GPSProviderServiceImpl();
-    private final OpticalDataReceiverProviderServiceImpl opticalDataReceiverService = new OpticalDataReceiverProviderServiceImpl();
-    private final SoftwareDefinedRadioProviderServiceImpl sdrService = new SoftwareDefinedRadioProviderServiceImpl();
-    private final PowerControlProviderServiceImpl powerService = new PowerControlProviderServiceImpl();
+  // Services
+  private final AutonomousADCSProviderServiceImpl autonomousADCSService = new AutonomousADCSProviderServiceImpl();
+  private final CameraProviderServiceImpl cameraService = new CameraProviderServiceImpl();
+  private final GPSProviderServiceImpl gpsService = new GPSProviderServiceImpl();
+  private final OpticalDataReceiverProviderServiceImpl opticalDataReceiverService = new OpticalDataReceiverProviderServiceImpl();
+  private final SoftwareDefinedRadioProviderServiceImpl sdrService = new SoftwareDefinedRadioProviderServiceImpl();
+  private final PowerControlProviderServiceImpl powerService = new PowerControlProviderServiceImpl();
 
-    public void init(COMServicesProvider comServices) throws MALException {
-        autonomousADCSService.init(comServices, new AutonomousADCSSoftSimAdapter(instrumentsSimulator));
-        cameraService.init(comServices, new CameraSoftSimAdapter(instrumentsSimulator));
-        gpsService.init(comServices, new GPSSoftSimAdapter(instrumentsSimulator));
-        opticalDataReceiverService.init(new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator));
-        sdrService.init(new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator));
-        powerService.init(new PowerControlSoftSimAdapter(instrumentsSimulator));
-    }
+  public void init(COMServicesProvider comServices) throws MALException {
+    autonomousADCSService.init(comServices, new AutonomousADCSSoftSimAdapter(instrumentsSimulator));
+    cameraService.init(comServices, new CameraSoftSimAdapter(instrumentsSimulator));
+    gpsService.init(comServices, new GPSSoftSimAdapter(instrumentsSimulator));
+    opticalDataReceiverService.init(new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator));
+    sdrService.init(new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator));
+    powerService.init(new PowerControlSoftSimAdapter(instrumentsSimulator));
+  }
 
-    @Override
-    public AutonomousADCSProviderServiceImpl getAutonomousADCSService() {
-        return this.autonomousADCSService;
-    }
+  @Override
+  public AutonomousADCSProviderServiceImpl getAutonomousADCSService() {
+    return this.autonomousADCSService;
+  }
 
-    @Override
-    public CameraProviderServiceImpl getCameraService() {
-        return this.cameraService;
-    }
+  @Override
+  public CameraProviderServiceImpl getCameraService() {
+    return this.cameraService;
+  }
 
-    @Override
-    public GPSProviderServiceImpl getGPSService() {
-        return this.gpsService;
-    }
+  @Override
+  public GPSProviderServiceImpl getGPSService() {
+    System.out.println("platform");
+    return this.gpsService;
+  }
 
-    @Override
-    public OpticalDataReceiverInheritanceSkeleton getOpticalDataReceiverService() {
-        return this.opticalDataReceiverService;
-    }
+  @Override
+  public OpticalDataReceiverInheritanceSkeleton getOpticalDataReceiverService() {
+    return this.opticalDataReceiverService;
+  }
 
-    @Override
-    public SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService() {
-        return this.sdrService;
-    }
+  @Override
+  public SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService() {
+    return this.sdrService;
+  }
 
 }
