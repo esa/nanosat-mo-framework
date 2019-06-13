@@ -21,6 +21,7 @@
 package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
+
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
@@ -28,8 +29,7 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
  *
  * @author Cesar Coelho
  */
-public interface GPSAdapterInterface
-{
+public interface GPSAdapterInterface {
   /**
    * Checks if the device is present and accessible.
    *
@@ -59,5 +59,13 @@ public interface GPSAdapterInterface
    * @return The list of Satellites Information
    */
   SatelliteInfoList getSatelliteInfoList();
+
+  default String getBestXYZSentence() throws IOException {
+    return "";
+  }
+
+  default String getTIMEASentence() throws IOException {
+    return "";
+  }
 
 }

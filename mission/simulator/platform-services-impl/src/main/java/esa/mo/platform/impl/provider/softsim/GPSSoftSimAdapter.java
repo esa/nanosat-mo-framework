@@ -20,8 +20,9 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
-import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
 import java.io.IOException;
+
+import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
 import opssat.simulator.main.ESASimulator;
 
 /**
@@ -30,26 +31,48 @@ import opssat.simulator.main.ESASimulator;
  */
 public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter {
 
-    private final ESASimulator instrumentsSimulator;
+  private final ESASimulator instrumentsSimulator;
 
-    public GPSSoftSimAdapter(ESASimulator instrumentsSimulator) {
-        this.instrumentsSimulator = instrumentsSimulator;
+  public GPSSoftSimAdapter(ESASimulator instrumentsSimulator) {
+    this.instrumentsSimulator = instrumentsSimulator;
+  }
+
+  @Override
+  public synchronized String getNMEASentence(final String sentenceIdentifier) throws IOException {
+    final String nmeaSentence = instrumentsSimulator.getpGPS().getNMEASentence(sentenceIdentifier);
+
+    if (nmeaSentence == null) {
+      throw new IOException("The Simulator returned a null object!");
     }
 
-    @Override
-    public synchronized String getNMEASentence(final String sentenceIdentifier) throws IOException {
-        final String nmeaSentence = instrumentsSimulator.getpGPS().getNMEASentence(sentenceIdentifier);
+    return nmeaSentence;
+  }
 
-        if (nmeaSentence == null) {
-            throw new IOException("The Simulator returned a null object!");
-        }
+  @Override
+  public synchronized String getBestXYZSentence() throws IOException {
+    String sentence = instrumentsSimulator.getpGPS().getBestXYZSentence();
 
-        return nmeaSentence;
+    if (sentence == null) {
+      throw new IOException("The simulator returned a null object!");
     }
 
-    @Override
-    public boolean isUnitAvailable() {
-        return true;
+    return sentence;
+  }
+
+  @Override
+  public synchronized String getTIMEASentence() throws IOException {
+    String sentence = instrumentsSimulator.getpGPS().getTIMEASentence();
+
+    if (sentence == null) {
+      throw new IOException("The simulator returned a null object!");
     }
+
+    return sentence;
+  }
+
+  @Override
+  public boolean isUnitAvailable() {
+    return true;
+  }
 
 }

@@ -1,457 +1,733 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" comment="">
-  <mal:area comment="The Platform set of services contains services for monitoring and control of devices on-board of a spacecraft platform. The following services are contained in the Platform services set:&#10;The Camera service allows a consumer to take and stream pictures.&#10;The GNSS service allows a consumer to retrieve satellite navigation data.&#10;The Autonomous ADCS service allows a consumer to determine the attitude, and additionally to control the attitude by selecting the desired definition.&#10;The Software-defined Radio service allows a consumer to configure and receive a stream of data from a Software-defined Radio.&#10;The Optical Data Receiver service allows a consumer to stream data from the Optical Data Receiver.&#10;The Power Control service allows a consumer to control the power of the different subsystems.&#10;&#10;This section details the Platform services. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport." name="Platform" number="105" version="2">
-    <mal:service comment="The Camera service allows a consumer to acquire pictures and control a camera in the spacecraft platform. The service can perform format conversions in case the consumer selects a specific format other than raw. The service can also stream pictures periodically." name="Camera" number="1" xsi:type="com:ExtendedServiceType">
-      <mal:documentation name="High Level Requirements" order="1">The Camera service shall provide:
-&lt;ol&gt;
-&lt;li&gt;the capability for streaming pictures;&lt;/li&gt;
-&lt;li&gt;the capability for previewing pictures;&lt;/li&gt;
-&lt;li&gt;the capability for taking pictures;&lt;/li&gt;
-&lt;li&gt;the capability for requesting the service and camera properties.&lt;/li&gt;
-&lt;/ol&gt;
+<mal:specification
+  xmlns:mal="http://www.ccsds.org/schema/ServiceSchema"
+  xmlns:com="http://www.ccsds.org/schema/COMSchema"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" comment="">
+  <mal:area
+    comment="The Platform set of services contains services for monitoring and control of devices on-board of a spacecraft platform. The following services are contained in the Platform services set:&#10;The Camera service allows a consumer to take and stream pictures.&#10;The GNSS service allows a consumer to retrieve satellite navigation data.&#10;The Autonomous ADCS service allows a consumer to determine the attitude, and additionally to control the attitude by selecting the desired definition.&#10;The Software-defined Radio service allows a consumer to configure and receive a stream of data from a Software-defined Radio.&#10;The Optical Data Receiver service allows a consumer to stream data from the Optical Data Receiver.&#10;The Power Control service allows a consumer to control the power of the different subsystems.&#10;&#10;This section details the Platform services. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport."
+    name="Platform" number="105" version="2">
+    <mal:service
+      comment="The Camera service allows a consumer to acquire pictures and control a camera in the spacecraft platform. The service can perform format conversions in case the consumer selects a specific format other than raw. The service can also stream pictures periodically."
+      name="Camera" number="1" xsi:type="com:ExtendedServiceType">
+      <mal:documentation
+        name="High Level Requirements" order="1">The Camera service shall
+        provide:
+        &lt;ol&gt;
+        &lt;li&gt;the capability for streaming
+        pictures;&lt;/li&gt;
+        &lt;li&gt;the capability for previewing
+        pictures;&lt;/li&gt;
+        &lt;li&gt;the capability for taking
+        pictures;&lt;/li&gt;
+        &lt;li&gt;the capability for requesting the
+        service and camera
+        properties.&lt;/li&gt;
+        &lt;/ol&gt;
       </mal:documentation>
-      <mal:documentation name="Functional Requirements" order="2"/>
+      <mal:documentation
+        name="Functional Requirements" order="2" />
       <mal:capabilitySet comment="" number="1">
-        <mal:pubsubIP comment="The picturesStream operation allows a consumer to subscribe for pictures published after enableStream call." name="picturesStream" number="1" supportInReplay="false">
+        <mal:pubsubIP
+          comment="The picturesStream operation allows a consumer to subscribe for pictures published after enableStream call."
+          name="picturesStream" number="1" supportInReplay="false">
           <mal:messages>
             <mal:publishNotify comment="">
-              <mal:field canBeNull="true" comment="The picture in streaming mode.&#10;The MAL EntityKey.firstSubKey shall be the value provided by the consumer during the enableStream operation.&#10;The MAL EntityKey.secondSubKey shall hold a unique object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall hold the width value of the resolution object provided by the consumer during the enableStream operation.&#10;The MAL EntityKey.fourthSubKey shall hold the height value of the resolution object provided by the consumer during the enableStream operation.&#10;The timestamp of the update shall be the time of when the picture was taken." name="picture">
-                <mal:type area="Platform" list="false" name="Picture" service="Camera"/>
+              <mal:field canBeNull="true"
+                comment="The picture in streaming mode.&#10;The MAL EntityKey.firstSubKey shall be the value provided by the consumer during the enableStream operation.&#10;The MAL EntityKey.secondSubKey shall hold a unique object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall hold the width value of the resolution object provided by the consumer during the enableStream operation.&#10;The MAL EntityKey.fourthSubKey shall hold the height value of the resolution object provided by the consumer during the enableStream operation.&#10;The timestamp of the update shall be the time of when the picture was taken."
+                name="picture">
+                <mal:type area="Platform" list="false"
+                  name="Picture" service="Camera" />
               </mal:field>
             </mal:publishNotify>
           </mal:messages>
         </mal:pubsubIP>
-        <mal:submitIP comment="The enableStream operation allows a consumer to set the rate, dimension and format of the Pictures being streamed." name="enableStream" number="2" supportInReplay="false">
+        <mal:submitIP
+          comment="The enableStream operation allows a consumer to set the rate, dimension and format of the Pictures being streamed."
+          name="enableStream" number="2" supportInReplay="false">
           <mal:messages>
             <mal:submit comment="">
-              <mal:field canBeNull="true" comment="Flag status to enable/disable pictures stream from the camera. If set to false, all other fields are ignored and can be NULL." name="enable">
-                <mal:type area="MAL" list="false" name="Boolean"/>
+              <mal:field canBeNull="true"
+                comment="Flag status to enable/disable pictures stream from the camera. If set to false, all other fields are ignored and can be NULL."
+                name="enable">
+                <mal:type area="MAL" list="false"
+                  name="Boolean" />
               </mal:field>
-              <mal:field canBeNull="true" comment="The streaming period of the pictures." name="streamingPeriod">
-                <mal:type area="MAL" list="false" name="Duration"/>
+              <mal:field canBeNull="true"
+                comment="The streaming period of the pictures."
+                name="streamingPeriod">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:field>
-              <mal:field canBeNull="true" comment="The first entity key that will be sent in the UpdateHeader during the broadcast of the streamPictures operation. It can be used as a MAL subscription parameter to selectively subscribe to the stream of pictures. &#10; If enable flag is true, the firstEntityKey field must not empty, nor be NULL nor the wildcard '*'. An INVALID error shall be returned in this case." name="firstEntityKey">
-                <mal:type area="MAL" list="false" name="Identifier"/>
+              <mal:field canBeNull="true"
+                comment="The first entity key that will be sent in the UpdateHeader during the broadcast of the streamPictures operation. It can be used as a MAL subscription parameter to selectively subscribe to the stream of pictures. &#10; If enable flag is true, the firstEntityKey field must not empty, nor be NULL nor the wildcard '*'. An INVALID error shall be returned in this case."
+                name="firstEntityKey">
+                <mal:type area="MAL" list="false"
+                  name="Identifier" />
               </mal:field>
-              <mal:field canBeNull="true" comment="Image acquisition settings." name="settings">
-                <mal:type area="Platform" list="false" name="CameraSettings" service="Camera"/>
+              <mal:field canBeNull="true"
+                comment="Image acquisition settings." name="settings">
+                <mal:type area="Platform" list="false"
+                  name="CameraSettings" service="Camera" />
               </mal:field>
             </mal:submit>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The Camera is currently being used. Use the enableStream(false, ...) operation in order to manually stop the streaming and try again.">
-              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+            <mal:errorRef
+              comment="The Camera is currently being used. Use the enableStream(false, ...) operation in order to manually stop the streaming and try again.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_IN_USE" />
             </mal:errorRef>
-            <mal:errorRef comment="The Camera unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            <mal:errorRef
+              comment="The Camera unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
             </mal:errorRef>
-            <mal:errorRef comment="The requested streaming period is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information field shall hold the minimum duration that can be selected.">
-                <mal:type area="MAL" list="false" name="Duration"/>
+            <mal:errorRef
+              comment="The requested streaming period is not supported.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information field shall hold the minimum duration that can be selected.">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:extraInformation>
             </mal:errorRef>
-            <mal:errorRef comment="The requested resolution is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information fied shall hold the list of available resolutions.">
-                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
+            <mal:errorRef
+              comment="The requested resolution is not supported.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information fied shall hold the list of available resolutions.">
+                <mal:type area="Platform" list="true"
+                  name="PixelResolution" service="Camera" />
               </mal:extraInformation>
             </mal:errorRef>
-            <mal:errorRef comment="The requested format is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information fied shall hold the list of available formats.">
-                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
+            <mal:errorRef
+              comment="The requested format is not supported.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information fied shall hold the list of available formats.">
+                <mal:type area="Platform" list="true"
+                  name="PictureFormat" service="Camera" />
               </mal:extraInformation>
             </mal:errorRef>
-            <mal:errorRef comment="The firstEntityKey field cannot be a NULL nor a wildcard.">
-              <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:errorRef
+              comment="The firstEntityKey field cannot be a NULL nor a wildcard.">
+              <mal:type area="COM" list="false" name="INVALID" />
             </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="2">
-        <mal:requestIP comment="The previewPicture operation allows a consumer to quickly get a raw picture from the camera with a lower quality. This operation intendes to  provide a quick snap of what the camera is observing." name="previewPicture" number="4" supportInReplay="false">
+        <mal:requestIP
+          comment="The previewPicture operation allows a consumer to quickly get a raw picture from the camera with a lower quality. This operation intendes to  provide a quick snap of what the camera is observing."
+          name="previewPicture" number="4" supportInReplay="false">
           <mal:messages>
-            <mal:request comment=""/>
+            <mal:request comment="" />
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="The picture field shall hold the picture preview." name="picture">
-                <mal:type area="Platform" list="false" name="Picture" service="Camera"/>
+              <mal:field canBeNull="true"
+                comment="The picture field shall hold the picture preview."
+                name="picture">
+                <mal:type area="Platform" list="false"
+                  name="Picture" service="Camera" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The Camera unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            <mal:errorRef
+              comment="The Camera unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
             </mal:errorRef>
           </mal:errors>
         </mal:requestIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="3">
-        <mal:invokeIP comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected." name="takePicture" number="5" supportInReplay="false">
+        <mal:invokeIP
+          comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected."
+          name="takePicture" number="5" supportInReplay="false">
           <mal:messages>
             <mal:invoke comment="">
-              <mal:field canBeNull="true" comment="Picture acquisition settings." name="settings">
-                <mal:type area="Platform" list="false" name="CameraSettings" service="Camera"/>
+              <mal:field canBeNull="true"
+                comment="Picture acquisition settings." name="settings">
+                <mal:type area="Platform" list="false"
+                  name="CameraSettings" service="Camera" />
               </mal:field>
             </mal:invoke>
-            <mal:acknowledgement comment=""/>
+            <mal:acknowledgement comment="" />
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="The picture field shall hold the picture." name="picture">
-                <mal:type area="Platform" list="false" name="Picture" service="Camera"/>
+              <mal:field canBeNull="true"
+                comment="The picture field shall hold the picture."
+                name="picture">
+                <mal:type area="Platform" list="false"
+                  name="Picture" service="Camera" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The Camera is currently being used. Use the enableStream(false, ...)) operation in order stop the streaming and try again.">
-              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
+            <mal:errorRef
+              comment="The Camera is currently being used. Use the enableStream(false, ...)) operation in order stop the streaming and try again.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_IN_USE" />
             </mal:errorRef>
-            <mal:errorRef comment="The Camera unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            <mal:errorRef
+              comment="The Camera unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
             </mal:errorRef>
-            <mal:errorRef comment="The requested resolution is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information fied shall hold the list of available resolutions.">
-                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
+            <mal:errorRef
+              comment="The requested resolution is not supported.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information fied shall hold the list of available resolutions.">
+                <mal:type area="Platform" list="true"
+                  name="PixelResolution" service="Camera" />
               </mal:extraInformation>
             </mal:errorRef>
-            <mal:errorRef comment="The requested format is not supported.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information fied shall hold the list of available formats.">
-                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
+            <mal:errorRef
+              comment="The requested format is not supported.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information fied shall hold the list of available formats.">
+                <mal:type area="Platform" list="true"
+                  name="PictureFormat" service="Camera" />
               </mal:extraInformation>
             </mal:errorRef>
           </mal:errors>
         </mal:invokeIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="4">
-        <mal:requestIP comment="The getProperties operation allows a consumer to request the properties of the service and camera. The service shall provide information about the available resolutions, formats and some extra information." name="getProperties" number="6" supportInReplay="true">
+        <mal:requestIP
+          comment="The getProperties operation allows a consumer to request the properties of the service and camera. The service shall provide information about the available resolutions, formats and some extra information."
+          name="getProperties" number="6" supportInReplay="true">
           <mal:messages>
-            <mal:request comment=""/>
+            <mal:request comment="" />
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="The availableResolutions field shall hold the list of the available resolutions by the camera." name="availableResolutions">
-                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera"/>
+              <mal:field canBeNull="true"
+                comment="The availableResolutions field shall hold the list of the available resolutions by the camera."
+                name="availableResolutions">
+                <mal:type area="Platform" list="true"
+                  name="PixelResolution" service="Camera" />
               </mal:field>
-              <mal:field canBeNull="true" comment="The availableFormats field shall hold a list of available formats by the service." name="availableFormats">
-                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera"/>
+              <mal:field canBeNull="true"
+                comment="The availableFormats field shall hold a list of available formats by the service."
+                name="availableFormats">
+                <mal:type area="Platform" list="true"
+                  name="PictureFormat" service="Camera" />
               </mal:field>
-              <mal:field canBeNull="true" comment="The info field shall hold additional properties of the camera. The actual content is undefined." name="extraInfo">
-                <mal:type area="MAL" list="false" name="String"/>
+              <mal:field canBeNull="true"
+                comment="The info field shall hold additional properties of the camera. The actual content is undefined."
+                name="extraInfo">
+                <mal:type area="MAL" list="false" name="String" />
               </mal:field>
             </mal:response>
           </mal:messages>
         </mal:requestIP>
       </mal:capabilitySet>
       <mal:dataTypes>
-        <mal:composite comment="The Picture structure holds the details of the picture." name="Picture" shortFormPart="1">
+        <mal:composite
+          comment="The Picture structure holds the details of the picture."
+          name="Picture" shortFormPart="1">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="true" comment="The time of creation." name="timestamp">
-            <mal:type area="MAL" list="false" name="Time"/>
+          <mal:field canBeNull="true"
+            comment="The time of creation." name="timestamp">
+            <mal:type area="MAL" list="false" name="Time" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Acquisition settings used to take the picture." name="settings">
-            <mal:type area="Platform" list="false" name="CameraSettings" service="Camera"/>
+          <mal:field canBeNull="false"
+            comment="Acquisition settings used to take the picture."
+            name="settings">
+            <mal:type area="Platform" list="false"
+              name="CameraSettings" service="Camera" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The content of the picture." name="content">
-            <mal:type area="MAL" list="false" name="Blob"/>
+          <mal:field canBeNull="false"
+            comment="The content of the picture." name="content">
+            <mal:type area="MAL" list="false" name="Blob" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="The PixelResolution structure holds the pixel resolution of a picture." name="PixelResolution" shortFormPart="2">
+        <mal:composite
+          comment="The PixelResolution structure holds the pixel resolution of a picture."
+          name="PixelResolution" shortFormPart="2">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="The width of the picture." name="width">
-            <mal:type area="MAL" list="false" name="UInteger"/>
+          <mal:field canBeNull="false"
+            comment="The width of the picture." name="width">
+            <mal:type area="MAL" list="false" name="UInteger" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The height of the picture." name="height">
-            <mal:type area="MAL" list="false" name="UInteger"/>
+          <mal:field canBeNull="false"
+            comment="The height of the picture." name="height">
+            <mal:type area="MAL" list="false" name="UInteger" />
           </mal:field>
         </mal:composite>
-        <mal:enumeration comment="PictureFormat is an enumeration definition holding the format of the picture." name="PictureFormat" shortFormPart="3">
-          <mal:item comment="RAW bitmap with native sensor data" nvalue="1" value="RAW"/>
-          <mal:item comment="RGB24 raw stream" nvalue="2" value="RGB24"/>
-          <mal:item comment="BMP file" nvalue="3" value="BMP"/>
-          <mal:item comment="PNG file" nvalue="4" value="PNG"/>
-          <mal:item comment="JPG file" nvalue="5" value="JPG"/>
+        <mal:enumeration
+          comment="PictureFormat is an enumeration definition holding the format of the picture."
+          name="PictureFormat" shortFormPart="3">
+          <mal:item
+            comment="RAW bitmap with native sensor data" nvalue="1"
+            value="RAW" />
+          <mal:item comment="RGB24 raw stream" nvalue="2"
+            value="RGB24" />
+          <mal:item comment="BMP file" nvalue="3" value="BMP" />
+          <mal:item comment="PNG file" nvalue="4" value="PNG" />
+          <mal:item comment="JPG file" nvalue="5" value="JPG" />
         </mal:enumeration>
-        <mal:composite comment="Image acquisition settings." name="CameraSettings" shortFormPart="4">
+        <mal:composite
+          comment="Image acquisition settings." name="CameraSettings"
+          shortFormPart="4">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="The resolution field shall hold the desired picture resolution." name="resolution">
-            <mal:type area="Platform" list="false" name="PixelResolution" service="Camera"/>
+          <mal:field canBeNull="false"
+            comment="The resolution field shall hold the desired picture resolution."
+            name="resolution">
+            <mal:type area="Platform" list="false"
+              name="PixelResolution" service="Camera" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The format field shall hold the desired streaming picture format." name="format">
-            <mal:type area="Platform" list="false" name="PictureFormat" service="Camera"/>
+          <mal:field canBeNull="false"
+            comment="The format field shall hold the desired streaming picture format."
+            name="format">
+            <mal:type area="Platform" list="false"
+              name="PictureFormat" service="Camera" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The exposureTime field shall hold the exposure time of the camera." name="exposureTime">
-            <mal:type area="MAL" list="false" name="Duration"/>
+          <mal:field canBeNull="false"
+            comment="The exposureTime field shall hold the exposure time of the camera."
+            name="exposureTime">
+            <mal:type area="MAL" list="false" name="Duration" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Green channel gain." name="gainRed">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="Green channel gain." name="gainRed">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Blue channel gain." name="gainGreen">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="Blue channel gain." name="gainGreen">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Red channel gain." name="gainBlue">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="Red channel gain." name="gainBlue">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
         </mal:composite>
       </mal:dataTypes>
-      <com:features/>
+      <com:features />
     </mal:service>
-    <mal:service comment="The GPS service provides the ability to retrieve satellite navigation data from a Global Navigation Satellite System (GNSS) device receiver in the spacecraft platform. The GPS service provides the capability for streaming NMEA messages; the capability for enabling/disabling the streaming of NMEA messages; the capability for getting the last known position from the receiver; the capability for getting the satellites GNSS information; the capability for maintaining the list of nearby position events.&#10;The nearbyPosition operation allows a consumer to receive a message from the service when the spacecraft enters or exists a certain position. These can be set using the addNearbyPosition and removed using the removeNearbyPosition." name="GPS" number="2" xsi:type="com:ExtendedServiceType">
-      <mal:documentation name="High Level Requirements" order="1">The GPS service shall provide:
-&lt;ol&gt;
-&lt;li&gt;the capability for streaming GPS NMEA messages;&lt;/li&gt;
-&lt;li&gt;the capability for enabling/disabling the streaming of NMEA messages;&lt;/li&gt;
-&lt;li&gt;the capability for having getting the last known position from the GPS;&lt;/li&gt;
-&lt;li&gt;the capability for getting the satellites GPS information;&lt;/li&gt;
-&lt;li&gt;The capability for maintaining the list of nearby position events.&lt;/li&gt;
-&lt;/ol&gt;
-      </mal:documentation>
-      <mal:documentation name="Functional Requirements" order="2"/>
+    <mal:service
+      comment="The GPS service provides the ability to retrieve satellite navigation data from a Global Navigation Satellite System (GNSS) device receiver in the spacecraft platform. The GPS service provides the capability for streaming NMEA messages; the capability for enabling/disabling the streaming of NMEA messages; the capability for getting the last known position from the receiver; the capability for getting the satellites GNSS information; the capability for maintaining the list of nearby position events.&#10;The nearbyPosition operation allows a consumer to receive a message from the service when the spacecraft enters or exists a certain position. These can be set using the addNearbyPosition and removed using the removeNearbyPosition."
+      name="GPS" number="2" xsi:type="com:ExtendedServiceType">
+      <mal:documentation
+        name="High Level Requirements" order="1">The GPS service shall
+        provide:
+        &lt;ol&gt;
+        &lt;li&gt;the capability for streaming GPS
+        NMEA messages;&lt;/li&gt;
+        &lt;li&gt;the capability for
+        enabling/disabling the streaming of
+        NMEA messages;&lt;/li&gt;
+        &lt;li&gt;the capability for having getting the last known
+        position from the
+        GPS;&lt;/li&gt;
+        &lt;li&gt;the capability for
+        getting the satellites GPS information;&lt;/li&gt;
+        &lt;li&gt;The
+        capability for maintaining the list of nearby
+        position
+        events.&lt;/li&gt;
+        &lt;/ol&gt; </mal:documentation>
+      <mal:documentation
+        name="Functional Requirements" order="2" />
       <mal:capabilitySet comment="" number="1">
-        <mal:invokeIP comment="The getNMEASentence operation allows a consumer to request a NMEA sentence from a sentence identifier." name="getNMEASentence" number="1" supportInReplay="false">
+        <mal:invokeIP
+          comment="The getNMEASentence operation allows a consumer to request a NMEA sentence from a sentence identifier."
+          name="getNMEASentence" number="1" supportInReplay="false">
           <mal:messages>
             <mal:invoke comment="">
-              <mal:field canBeNull="true" comment="The sentenceIdentifier field shall hold the sentence identifier of the request." name="sentenceIdentifier">
-                <mal:type area="MAL" list="false" name="String"/>
+              <mal:field canBeNull="true"
+                comment="The sentenceIdentifier field shall hold the sentence identifier of the request."
+                name="sentenceIdentifier">
+                <mal:type area="MAL" list="false" name="String" />
               </mal:field>
             </mal:invoke>
-            <mal:acknowledgement comment=""/>
+            <mal:acknowledgement comment="" />
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="Hold the response NMEA sentence." name="sentence">
-                <mal:type area="MAL" list="false" name="String"/>
+              <mal:field canBeNull="true"
+                comment="Hold the response NMEA sentence."
+                name="sentence">
+                <mal:type area="MAL" list="false" name="String" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The requested sentence identifier is invalid.">
-              <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:errorRef
+              comment="The requested sentence identifier is invalid.">
+              <mal:type area="COM" list="false" name="INVALID" />
             </mal:errorRef>
-            <mal:errorRef comment="The GPS unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            <mal:errorRef
+              comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
             </mal:errorRef>
           </mal:errors>
         </mal:invokeIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="2">
-        <mal:requestIP comment="The getLastKnownPosition operation allows a consumer to retrieve the last known position that was provided by the GPS unit." name="getLastKnownPosition" number="2" supportInReplay="false">
+        <mal:requestIP
+          comment="The getLastKnownPosition operation allows a consumer to retrieve the last known position that was provided by the GPS unit."
+          name="getLastKnownPosition" number="2" supportInReplay="false">
           <mal:messages>
             <mal:request comment="">
             </mal:request>
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="The position field shall hold the last known position." name="position">
-                <mal:type area="Platform" list="false" name="Position" service="GPS"/>
+              <mal:field canBeNull="true"
+                comment="The position field shall hold the last known position."
+                name="position">
+                <mal:type area="Platform" list="false"
+                  name="Position" service="GPS" />
               </mal:field>
-              <mal:field canBeNull="true" comment="The elapsedTime field shall hold the elapsed time since the position's determination." name="elapsedTime">
-                <mal:type area="MAL" list="false" name="Duration"/>
+              <mal:field canBeNull="true"
+                comment="The elapsedTime field shall hold the elapsed time since the position's determination."
+                name="elapsedTime">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The position is unknown.">
-              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+            <mal:errorRef
+              comment="The position is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN" />
             </mal:errorRef>
           </mal:errors>
         </mal:requestIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="3">
-        <mal:invokeIP comment="The getPosition operation allows a consumer to obtain a position from the GPS unit." name="getPosition" number="3" supportInReplay="false">
+        <mal:invokeIP
+          comment="The getPosition operation allows a consumer to obtain a position from the GPS unit."
+          name="getPosition" number="3" supportInReplay="false">
           <mal:messages>
             <mal:invoke comment="">
             </mal:invoke>
-            <mal:acknowledgement comment=""/>
+            <mal:acknowledgement comment="" />
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="The position field shall hold the current position." name="position">
-                <mal:type area="Platform" list="false" name="Position" service="GPS"/>
+              <mal:field canBeNull="true"
+                comment="The position field shall hold the current position."
+                name="position">
+                <mal:type area="Platform" list="false"
+                  name="Position" service="GPS" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The GPS unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            <mal:errorRef
+              comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
             </mal:errorRef>
-            <mal:errorRef comment="The position is unknown.">
-              <mal:type area="MAL" list="false" name="UNKNOWN"/>
+            <mal:errorRef
+              comment="The position is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN" />
             </mal:errorRef>
           </mal:errors>
         </mal:invokeIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="4">
-        <mal:invokeIP comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS." name="getSatellitesInfo" number="4" supportInReplay="false">
+        <mal:invokeIP
+          comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS."
+          name="getSatellitesInfo" number="4" supportInReplay="false">
           <mal:messages>
-            <mal:invoke comment=""/>
-            <mal:acknowledgement comment=""/>
+            <mal:invoke comment="" />
+            <mal:acknowledgement comment="" />
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="The gpsSatellitesInfo field shall hold the information of the satellites." name="gpsSatellitesInfo">
-                <mal:type area="Platform" list="true" name="SatelliteInfo" service="GPS"/>
+              <mal:field canBeNull="true"
+                comment="The gpsSatellitesInfo field shall hold the information of the satellites."
+                name="gpsSatellitesInfo">
+                <mal:type area="Platform" list="true"
+                  name="SatelliteInfo" service="GPS" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The GPS unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            <mal:errorRef
+              comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
             </mal:errorRef>
           </mal:errors>
         </mal:invokeIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="5">
-        <mal:requestIP comment="The listNearbyPositionEvent operation allows a consumer to request the object instance identifiers of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive which holds the actual nearby position objects." name="listNearbyPosition" number="5" supportInReplay="false">
+        <mal:requestIP
+          comment="The listNearbyPositionEvent operation allows a consumer to request the object instance identifiers of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive which holds the actual nearby position objects."
+          name="listNearbyPosition" number="5" supportInReplay="false">
           <mal:messages>
             <mal:request comment="">
-              <mal:field canBeNull="true" comment="The names field shall hold a list of NearbyPositionEvent names." name="names">
-                <mal:type area="MAL" list="true" name="Identifier"/>
+              <mal:field canBeNull="true"
+                comment="The names field shall hold a list of NearbyPositionEvent names."
+                name="names">
+                <mal:type area="MAL" list="true"
+                  name="Identifier" />
               </mal:field>
             </mal:request>
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="The objInstIds field shall hold a list of the corresponding object instance identifiers for the selected names.&#10;The request may contain the wildcard value of '*' to return all supported nearby position events.&#10;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request." name="objInstIds">
-                <mal:type area="MAL" list="true" name="Long"/>
+              <mal:field canBeNull="true"
+                comment="The objInstIds field shall hold a list of the corresponding object instance identifiers for the selected names.&#10;The request may contain the wildcard value of '*' to return all supported nearby position events.&#10;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request."
+                name="objInstIds">
+                <mal:type area="MAL" list="true" name="Long" />
               </mal:field>
             </mal:response>
           </mal:messages>
         </mal:requestIP>
       </mal:capabilitySet>
-
-
       <mal:capabilitySet comment="" number="6">
-        <mal:requestIP comment="The addNearbyPositionEvent operation allows a consumer to define a list of nearby position events in the service.The new NearbyPosition objects are expected to be stored in the COM Archive by the provider of the GPS service." name="addNearbyPosition" number="6" supportInReplay="false">
+        <mal:requestIP
+          comment="The addNearbyPositionEvent operation allows a consumer to define a list of nearby position events in the service.The new NearbyPosition objects are expected to be stored in the COM Archive by the provider of the GPS service."
+          name="addNearbyPosition" number="6" supportInReplay="false">
           <mal:messages>
             <mal:request comment="">
-              <mal:field canBeNull="true" comment="The nearbyPosition field shall hold the definition of a position." name="nearbyPositionDefinitions">
-                <mal:type area="Platform" list="true" name="NearbyPositionDefinition" service="GPS"/>
+              <mal:field canBeNull="true"
+                comment="The nearbyPosition field shall hold the definition of a position."
+                name="nearbyPositionDefinitions">
+                <mal:type area="Platform" list="true"
+                  name="NearbyPositionDefinition" service="GPS" />
               </mal:field>
             </mal:request>
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="The objInstIds field shall hold a list of the corresponding object instance identifiers for the selected names." name="objInstIds">
-                <mal:type area="MAL" list="true" name="Long"/>
+              <mal:field canBeNull="true"
+                comment="The objInstIds field shall hold a list of the corresponding object instance identifiers for the selected names."
+                name="objInstIds">
+                <mal:type area="MAL" list="true" name="Long" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="One of the supplied attitudeModes objects contains an invalid name.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
+            <mal:errorRef
+              comment="One of the supplied attitudeModes objects contains an invalid name.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
+                <mal:type area="MAL" list="true"
+                  name="UInteger" />
               </mal:extraInformation>
             </mal:errorRef>
-            <mal:errorRef comment="One or more of the nearbyPosition objects being added has a name that is already in use in the domain.">
-              <mal:type area="COM" list="false" name="DUPLICATE"/>
-              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                <mal:type area="MAL" list="false" name="UInteger"/>
+            <mal:errorRef
+              comment="One or more of the nearbyPosition objects being added has a name that is already in use in the domain.">
+              <mal:type area="COM" list="false"
+                name="DUPLICATE" />
+              <mal:extraInformation
+                comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
+                <mal:type area="MAL" list="false"
+                  name="UInteger" />
               </mal:extraInformation>
             </mal:errorRef>
           </mal:errors>
         </mal:requestIP>
-        <mal:submitIP comment="The removeNearbyPositionEvent operation allows a consumer to remove a list of nearby position events set in the service." name="removeNearbyPosition" number="7" supportInReplay="false">
+        <mal:submitIP
+          comment="The removeNearbyPositionEvent operation allows a consumer to remove a list of nearby position events set in the service."
+          name="removeNearbyPosition" number="7" supportInReplay="false">
           <mal:messages>
             <mal:submit comment="">
-              <mal:field canBeNull="true" comment="The objInstIds field shall hold a list of the corresponding object instance identifiers of the NearbyPosition objects." name="objInstIds">
-                <mal:type area="MAL" list="true" name="Long"/>
+              <mal:field canBeNull="true"
+                comment="The objInstIds field shall hold a list of the corresponding object instance identifiers of the NearbyPosition objects."
+                name="objInstIds">
+                <mal:type area="MAL" list="true" name="Long" />
               </mal:field>
             </mal:submit>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="One of the supplied NearbyPosition object instance identifiers is unknown.">
-              <mal:type area="MAL" list="false" name="UNKNOWN"/>
-              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                <mal:type area="MAL" list="true" name="UInteger"/>
+            <mal:errorRef
+              comment="One of the supplied NearbyPosition object instance identifiers is unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN" />
+              <mal:extraInformation
+                comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type area="MAL" list="true"
+                  name="UInteger" />
               </mal:extraInformation>
             </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="7">
-        <mal:pubsubIP comment="The nearbyPosition allows a consumer to subscribe to nearby position notifications. The notifications shall be generated upon entering or exiting a nearby position." name="nearbyPosition" number="8" supportInReplay="false">
+        <mal:pubsubIP
+          comment="The nearbyPosition allows a consumer to subscribe to nearby position notifications. The notifications shall be generated upon entering or exiting a nearby position."
+          name="nearbyPosition" number="8" supportInReplay="false">
           <mal:messages>
             <mal:publishNotify comment="">
-              <mal:field canBeNull="true" comment="The isEntering field shall hold the entering state of the current position.&#10;If the GPS current position has entered the nearby position, then the field shall be set to TRUE otherwise FALSE.&#10;The MAL EntityKey.firstSubKey shall contain the NearbyPosition name.&#10;The MAL EntityKey.secondSubKey shall contain the NearbyPosition object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall contain the NearbyPositionAlert object instance identifier.&#10;The MAL EntityKey.fourthSubKey shall be NULL.&#10;The timestamp of the update shall be on-board clock at the time of the notification.&#10;The ObjectId shall be set to NULL." name="isEntering">
-                <mal:type area="MAL" list="false" name="Boolean"/>
+              <mal:field canBeNull="true"
+                comment="The isEntering field shall hold the entering state of the current position.&#10;If the GPS current position has entered the nearby position, then the field shall be set to TRUE otherwise FALSE.&#10;The MAL EntityKey.firstSubKey shall contain the NearbyPosition name.&#10;The MAL EntityKey.secondSubKey shall contain the NearbyPosition object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall contain the NearbyPositionAlert object instance identifier.&#10;The MAL EntityKey.fourthSubKey shall be NULL.&#10;The timestamp of the update shall be on-board clock at the time of the notification.&#10;The ObjectId shall be set to NULL."
+                name="isEntering">
+                <mal:type area="MAL" list="false"
+                  name="Boolean" />
               </mal:field>
             </mal:publishNotify>
           </mal:messages>
         </mal:pubsubIP>
       </mal:capabilitySet>
+      <mal:capabilitySet>
+        <mal:invokeIP
+          comment="The getBestXYZSentence operation allows a consumer to request a GNSS BestXYZ sentence returning cartesian x-, y- and z-coordinates of the satellite."
+          name="getBestXYZSentence" number="9" supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="" />
+            <mal:acknowledgement comment="" />
+            <mal:response comment="">
+              <mal:field canBeNull="true"
+                comment="Hold the response BestXYZ sentence."
+                name="sentence">
+                <mal:type area="MAL" list="false" name="String" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet>
+        <mal:invokeIP
+          comment="The getTIMEASentence operation allows a consumer to request a GNSS TIMEA sentence returning information on UTC time of the satellite."
+          name="getTIMEASentence" number="10" supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="" />
+            <mal:acknowledgement comment="" />
+            <mal:response comment="">
+              <mal:field canBeNull="true"
+                comment="Hold the response TIMEA sentence."
+                name="sentence">
+                <mal:type area="MAL" list="false" name="String" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
       <mal:dataTypes>
-        <mal:composite comment="The Position structure holds a WGS-84 position of the spacecraft reported by the GPS unit." name="Position" shortFormPart="1">
+        <mal:composite
+          comment="The Position structure holds a WGS-84 position of the spacecraft reported by the GPS unit."
+          name="Position" shortFormPart="1">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="The latitude of the position. The unit is in decimal degrees." name="latitude">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="The latitude of the position. The unit is in decimal degrees."
+            name="latitude">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The longitude of the position. The unit is in decimal degrees." name="longitude">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="The longitude of the position. The unit is in decimal degrees."
+            name="longitude">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Altitude in meters according to the WGS-84 ellipsoid" name="altitude">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="Altitude in meters according to the WGS-84 ellipsoid"
+            name="altitude">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="Extra details about the position." name="extraDetails">
-            <mal:type area="Platform" list="false" name="PositionExtraDetails" service="GPS"/>
+          <mal:field canBeNull="true"
+            comment="Extra details about the position."
+            name="extraDetails">
+            <mal:type area="Platform" list="false"
+              name="PositionExtraDetails" service="GPS" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="The SatelliteInfo structure holds the information about the satellites obtained from the GPS unit." name="SatelliteInfo" shortFormPart="2">
+        <mal:composite
+          comment="The SatelliteInfo structure holds the information about the satellites obtained from the GPS unit."
+          name="SatelliteInfo" shortFormPart="2">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="true" comment="The azimuth of the satellite." name="azimuth">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The azimuth of the satellite." name="azimuth">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The elevation of the satellite." name="elevation">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The elevation of the satellite." name="elevation">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The pseudorandom noise number." name="prn">
-            <mal:type area="MAL" list="false" name="Integer"/>
+          <mal:field canBeNull="true"
+            comment="The pseudorandom noise number." name="prn">
+            <mal:type area="MAL" list="false" name="Integer" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The almanac of the satellite." name="almanac">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The almanac of the satellite." name="almanac">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The ephemeris of the satellite." name="ephemeris">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The ephemeris of the satellite." name="ephemeris">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The time of the fix." name="recentFix">
-            <mal:type area="MAL" list="false" name="Time"/>
+          <mal:field canBeNull="true"
+            comment="The time of the fix." name="recentFix">
+            <mal:type area="MAL" list="false" name="Time" />
           </mal:field>
-          <mal:field canBeNull="true" comment="Space vehicle number." name="svn">
-            <mal:type area="MAL" list="false" name="UInteger"/>
+          <mal:field canBeNull="true"
+            comment="Space vehicle number." name="svn">
+            <mal:type area="MAL" list="false" name="UInteger" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="The PositionExtraDetails structure holds extra information that can be provided by a GPS unit." name="PositionExtraDetails" shortFormPart="4">
+        <mal:composite
+          comment="The PositionExtraDetails structure holds extra information that can be provided by a GPS unit."
+          name="PositionExtraDetails" shortFormPart="4">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="true" comment="UTC time status of position." name="utc">
-            <mal:type area="MAL" list="false" name="Time"/>
+          <mal:field canBeNull="true"
+            comment="UTC time status of position." name="utc">
+            <mal:type area="MAL" list="false" name="Time" />
           </mal:field>
-          <mal:field canBeNull="true" comment="Fix Quality:&#10;0 = Invalid; &#10;1 = GPS fix;&#10;2 = DGPS fix." name="fixQuality">
-            <mal:type area="MAL" list="false" name="Integer"/>
+          <mal:field canBeNull="true"
+            comment="Fix Quality:&#10;0 = Invalid; &#10;1 = GPS fix;&#10;2 = DGPS fix."
+            name="fixQuality">
+            <mal:type area="MAL" list="false" name="Integer" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The number of satellites in view for this position." name="numberOfSatellites">
-            <mal:type area="MAL" list="false" name="Integer"/>
+          <mal:field canBeNull="true"
+            comment="The number of satellites in view for this position."
+            name="numberOfSatellites">
+            <mal:type area="MAL" list="false" name="Integer" />
           </mal:field>
-          <mal:field canBeNull="true" comment="Horizontal Dilution of Precision. The relative accuracy of horizontal position." name="hdop">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="Horizontal Dilution of Precision. The relative accuracy of horizontal position."
+            name="hdop">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The relationship between the geoid and the WGS84 ellipsoid. The unit is meters." name="undulation">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The relationship between the geoid and the WGS84 ellipsoid. The unit is meters."
+            name="undulation">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="The NearbyPositionDefinition structure holds a definition of a certain Position." name="NearbyPositionDefinition" shortFormPart="26">
+        <mal:composite
+          comment="The NearbyPositionDefinition structure holds a definition of a certain Position."
+          name="NearbyPositionDefinition" shortFormPart="26">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="true" comment="The name of the definition." name="name">
-            <mal:type area="MAL" list="false" name="Identifier"/>
+          <mal:field canBeNull="true"
+            comment="The name of the definition." name="name">
+            <mal:type area="MAL" list="false" name="Identifier" />
           </mal:field>
-          <mal:field canBeNull="true" comment="A textual description of the definition." name="description">
-            <mal:type area="MAL" list="false" name="String"/>
+          <mal:field canBeNull="true"
+            comment="A textual description of the definition."
+            name="description">
+            <mal:type area="MAL" list="false" name="String" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The distance boundary of this definition. The distance boundary shall define a spherical zone around the position. The unit is meters." name="distanceBoundary">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The distance boundary of this definition. The distance boundary shall define a spherical zone around the position. The unit is meters."
+            name="distanceBoundary">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The position of the definition." name="position">
-            <mal:type area="Platform" list="false" name="Position" service="GPS"/>
+          <mal:field canBeNull="true"
+            comment="The position of the definition." name="position">
+            <mal:type area="Platform" list="false"
+              name="Position" service="GPS" />
           </mal:field>
         </mal:composite>
       </mal:dataTypes>
@@ -459,517 +735,834 @@
         <mal:diagram name="GPSObjects">
           <svg:svg height="100" version="1.1" width="700">
             <svg:defs>
-              <svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
-                <svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
-                <svg:stop offset="100%" style="stop-color:rgb(249,239,224);stop-opacity:1"/>
+              <svg:linearGradient id="box_gradient"
+                x1="0%" x2="100%" y1="0%" y2="0%">
+                <svg:stop offset="0%"
+                  style="stop-color:rgb(237,227,212);stop-opacity:1" />
+                <svg:stop offset="100%"
+                  style="stop-color:rgb(249,239,224);stop-opacity:1" />
               </svg:linearGradient>
-              <svg:marker id="sourceArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
-                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(255,0,0)"/>
+              <svg:marker id="sourceArrow" markerHeight="10"
+                markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z"
+                  fill="rgb(255,0,0)" />
               </svg:marker>
-              <svg:marker id="relatedArrow" markerHeight="10" markerWidth="15" orient="auto" refX="0" refY="5">
-                <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
+              <svg:marker id="relatedArrow" markerHeight="10"
+                markerWidth="15" orient="auto" refX="0" refY="5">
+                <svg:path d="M0,0 V10 L15,5 Z"
+                  fill="rgb(0,0,0)" />
               </svg:marker>
             </svg:defs>
-            <svg:path d="M130,50 L242,50 L355,50" end="NearbyPosition" fill="none" marker-mid="url(#relatedArrow)" start="NearbyPositionEntered" stroke="rgb(0,0,0)" stroke-width="1"/>
-            <svg:path d="M570,50 L463,50 L355,50" end="NearbyPosition" fill="none" marker-mid="url(#relatedArrow)" start="NearbyPositionExited" stroke="rgb(0,0,0)" stroke-width="1"/>
-            <svg:g id="NearbyPositionEntered" transform="translate(50,20)">
-              <svg:rect fill="rgb(190,190,190)" height="60" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="60" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">NearbyPositionEntered</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">2</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65"/>
+            <svg:path d="M130,50 L242,50 L355,50"
+              end="NearbyPosition" fill="none"
+              marker-mid="url(#relatedArrow)"
+              start="NearbyPositionEntered" stroke="rgb(0,0,0)"
+              stroke-width="1" />
+            <svg:path d="M570,50 L463,50 L355,50"
+              end="NearbyPosition" fill="none"
+              marker-mid="url(#relatedArrow)"
+              start="NearbyPositionExited" stroke="rgb(0,0,0)"
+              stroke-width="1" />
+            <svg:g id="NearbyPositionEntered"
+              transform="translate(50,20)">
+              <svg:rect fill="rgb(190,190,190)" height="60"
+                id="shadow" opacity="0.5" rx="15" width="160" x="4"
+                y="4" />
+              <svg:rect fill="url(#box_gradient)" height="60"
+                id="frame" rx="15" stroke="black" stroke-width="2"
+                width="160" />
+              <svg:text fill="navy" font-family="Verdana,Arial"
+                font-size="12" id="object_name" pointer-events="none"
+                text-anchor="middle" x="80" y="25">NearbyPositionEntered
+              </svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial"
+                font-size="12" id="object_number" pointer-events="none"
+                text-anchor="middle" x="80" y="45">2</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial"
+                font-size="12" id="object_type" pointer-events="none"
+                text-anchor="middle" x="80" y="65" />
             </svg:g>
-            <svg:g id="NearbyPosition" transform="translate(300,10)">
-              <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="110" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="110"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="55" y="25">NearbyPosition</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="55" y="45">1</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="55" y="65">MAL::Identifier</svg:text>
+            <svg:g id="NearbyPosition"
+              transform="translate(300,10)">
+              <svg:rect fill="rgb(190,190,190)" height="80"
+                id="shadow" opacity="0.5" rx="0" width="110" x="4" y="4" />
+              <svg:rect fill="url(#box_gradient)" height="80"
+                id="frame" rx="0" stroke="black" stroke-width="2"
+                width="110" />
+              <svg:text fill="navy" font-family="Verdana,Arial"
+                font-size="12" id="object_name" pointer-events="none"
+                text-anchor="middle" x="55" y="25">NearbyPosition</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial"
+                font-size="12" id="object_number" pointer-events="none"
+                text-anchor="middle" x="55" y="45">1</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial"
+                font-size="12" id="object_type" pointer-events="none"
+                text-anchor="middle" x="55" y="65">MAL::Identifier</svg:text>
             </svg:g>
-            <svg:g id="NearbyPositionExited" transform="translate(490,20)">
-              <svg:rect fill="rgb(190,190,190)" height="60" id="shadow" opacity="0.5" rx="15" width="160" x="4" y="4"/>
-              <svg:rect fill="url(#box_gradient)" height="60" id="frame" rx="15" stroke="black" stroke-width="2" width="160"/>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="80" y="25">NearbyPositionExited</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="80" y="45">3</svg:text>
-              <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="80" y="65"/>
+            <svg:g id="NearbyPositionExited"
+              transform="translate(490,20)">
+              <svg:rect fill="rgb(190,190,190)" height="60"
+                id="shadow" opacity="0.5" rx="15" width="160" x="4"
+                y="4" />
+              <svg:rect fill="url(#box_gradient)" height="60"
+                id="frame" rx="15" stroke="black" stroke-width="2"
+                width="160" />
+              <svg:text fill="navy" font-family="Verdana,Arial"
+                font-size="12" id="object_name" pointer-events="none"
+                text-anchor="middle" x="80" y="25">NearbyPositionExited
+              </svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial"
+                font-size="12" id="object_number" pointer-events="none"
+                text-anchor="middle" x="80" y="45">3</svg:text>
+              <svg:text fill="navy" font-family="Verdana,Arial"
+                font-size="12" id="object_type" pointer-events="none"
+                text-anchor="middle" x="80" y="65" />
             </svg:g>
           </svg:svg>
         </mal:diagram>
         <com:objects comment="">
-          <com:object comment="The positions markers for the events shall be represented as NearbyPosition COM objects. " name="NearbyPosition" number="1">
+          <com:object
+            comment="The positions markers for the events shall be represented as NearbyPosition COM objects. "
+            name="NearbyPosition" number="1">
             <com:objectType>
-              <mal:type area="Platform" list="false" name="NearbyPositionDefinition" service="GPS"/>
+              <mal:type area="Platform" list="false"
+                name="NearbyPositionDefinition" service="GPS" />
             </com:objectType>
-            <com:relatedObject comment=""/>
-            <com:sourceObject comment="The source link of the NearbyPosition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
+            <com:relatedObject comment="" />
+            <com:sourceObject
+              comment="The source link of the NearbyPosition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
             </com:sourceObject>
           </com:object>
-          <com:object comment="The body shall contain a boolean value " name="NearbyPositionAlert" number="2">
+          <com:object
+            comment="The body shall contain a boolean value "
+            name="NearbyPositionAlert" number="2">
             <com:objectType>
-              <mal:type area="MAL" list="false" name="Boolean"/>
+              <mal:type area="MAL" list="false" name="Boolean" />
             </com:objectType>
             <com:relatedObject comment="">
-              <com:objectType area="Platform" number="1" service="GPS"/>
+              <com:objectType area="Platform" number="1"
+                service="GPS" />
             </com:relatedObject>
-            <com:sourceObject comment=""/>
+            <com:sourceObject comment="" />
           </com:object>
         </com:objects>
-        <com:archiveUsage comment="NearbyPosition objects should be stored in the COM archive.&#10;When a nearby event is published, the NearbyPosition object should be stored in the COM archive by the publisher."/>
+        <com:archiveUsage
+          comment="NearbyPosition objects should be stored in the COM archive.&#10;When a nearby event is published, the NearbyPosition object should be stored in the COM archive by the publisher." />
       </com:features>
     </mal:service>
-    <mal:service comment="The AutonomousADCS service allows a consumer to monitor the attitude from an ADCS device in the spacecraft platform and to engage and disengage a desired attitude control mode." name="AutonomousADCS" number="3" xsi:type="com:ExtendedServiceType">
-      <mal:documentation name="High Level Requirements" order="1">The Autonomous ADCS service shall provide:
-&lt;ol&gt;
-&lt;li&gt;the capability for periodic monitoring of the spacecraft's attitude;&lt;/li&gt;
-&lt;li&gt;the capability for setting and unsetting the spacecraft's desired attitude;&lt;/li&gt;
-&lt;/ol&gt;
-      </mal:documentation>
+    <mal:service
+      comment="The AutonomousADCS service allows a consumer to monitor the attitude from an ADCS device in the spacecraft platform and to engage and disengage a desired attitude control mode."
+      name="AutonomousADCS" number="3"
+      xsi:type="com:ExtendedServiceType">
+      <mal:documentation
+        name="High Level Requirements" order="1">The Autonomous ADCS service
+        shall provide:
+        &lt;ol&gt;
+        &lt;li&gt;the capability for periodic
+        monitoring of the spacecraft's
+        attitude;&lt;/li&gt;
+        &lt;li&gt;the
+        capability for setting and unsetting the spacecraft's desired
+        attitude;&lt;/li&gt;
+        &lt;/ol&gt; </mal:documentation>
       <mal:capabilitySet comment="" number="1">
-        <mal:pubsubIP comment="The monitorAttitude operation allows a consumer to subscribe for the spacecraft attitude, ADCS actuators status, and ADCS attitude control mode status.&#10;All subKeys of the MAL EntityKey shall be NULL.&#10;The ObjectId shall be set to NULL." name="monitorAttitude" number="1" supportInReplay="false">
+        <mal:pubsubIP
+          comment="The monitorAttitude operation allows a consumer to subscribe for the spacecraft attitude, ADCS actuators status, and ADCS attitude control mode status.&#10;All subKeys of the MAL EntityKey shall be NULL.&#10;The ObjectId shall be set to NULL."
+          name="monitorAttitude" number="1" supportInReplay="false">
           <mal:messages>
             <mal:publishNotify comment="">
-              <mal:field canBeNull="true" comment="Determined spacecraft attitude." name="attitudeTelemetry">
-                <mal:type area="Platform" list="false" name="AttitudeTelemetry" service="AutonomousADCS"/>
+              <mal:field canBeNull="true"
+                comment="Determined spacecraft attitude."
+                name="attitudeTelemetry">
+                <mal:type area="Platform" list="false"
+                  name="AttitudeTelemetry" service="AutonomousADCS" />
               </mal:field>
-              <mal:field canBeNull="true" comment="Status of the ADCS actuators." name="actuatorsTelemetry">
-                <mal:type area="Platform" list="false" name="ActuatorsTelemetry" service="AutonomousADCS"/>
+              <mal:field canBeNull="true"
+                comment="Status of the ADCS actuators."
+                name="actuatorsTelemetry">
+                <mal:type area="Platform" list="false"
+                  name="ActuatorsTelemetry" service="AutonomousADCS" />
               </mal:field>
-              <mal:field canBeNull="true" comment="The remaining duration of the active attitude control mode. NULL if no time duration is set, or no attitude control is active." name="controlDuration">
-                <mal:type area="MAL" list="false" name="Duration"/>
+              <mal:field canBeNull="true"
+                comment="The remaining duration of the active attitude control mode. NULL if no time duration is set, or no attitude control is active."
+                name="controlDuration">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:field>
-              <mal:field canBeNull="true" comment="Active attitude mode. NULL if no attitude control is active. This is an abstract type." name="activeAttitudeMode">
-                <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
+              <mal:field canBeNull="true"
+                comment="Active attitude mode. NULL if no attitude control is active. This is an abstract type."
+                name="activeAttitudeMode">
+                <mal:type area="Platform" list="false"
+                  name="AttitudeMode" service="AutonomousADCS" />
               </mal:field>
             </mal:publishNotify>
           </mal:messages>
         </mal:pubsubIP>
-        <mal:submitIP comment="Allows enabling attitude, actuator and mode telemetry updates published through monitorAttitude operation." name="enableMonitoring" number="2" supportInReplay="false">
+        <mal:submitIP
+          comment="Allows enabling attitude, actuator and mode telemetry updates published through monitorAttitude operation."
+          name="enableMonitoring" number="2" supportInReplay="false">
           <mal:messages>
             <mal:submit comment="">
-              <mal:field canBeNull="true" comment="Flag enabling attitude status generation." name="enableGeneration">
-                <mal:type area="MAL" list="false" name="Boolean"/>
+              <mal:field canBeNull="true"
+                comment="Flag enabling attitude status generation."
+                name="enableGeneration">
+                <mal:type area="MAL" list="false"
+                  name="Boolean" />
               </mal:field>
-              <mal:field canBeNull="true" comment="Period of the monitoring messages." name="monitoringInterval">
-                <mal:type area="MAL" list="false" name="Duration"/>
+              <mal:field canBeNull="true"
+                comment="Period of the monitoring messages."
+                name="monitoringInterval">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:field>
             </mal:submit>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="Publishing period is too short or was not provided.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information field shall hold the minimum allowed publishing period value.">
-                <mal:type area="MAL" list="false" name="Duration"/>
+            <mal:errorRef
+              comment="Publishing period is too short or was not provided.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information field shall hold the minimum allowed publishing period value.">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:extraInformation>
             </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="2">
-        <mal:requestIP comment="Allows a consumer to request a single dataset of the current spacecraft attitude, ADCS actuators status, attitude control mode, and monitoring settings." name="getStatus" number="3" supportInReplay="false">
+        <mal:requestIP
+          comment="Allows a consumer to request a single dataset of the current spacecraft attitude, ADCS actuators status, attitude control mode, and monitoring settings."
+          name="getStatus" number="3" supportInReplay="false">
           <mal:messages>
             <mal:request comment="">
             </mal:request>
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="Determined spacecraft attitude." name="attitudeTelemetry">
-                <mal:type area="Platform" list="false" name="AttitudeTelemetry" service="AutonomousADCS"/>
+              <mal:field canBeNull="true"
+                comment="Determined spacecraft attitude."
+                name="attitudeTelemetry">
+                <mal:type area="Platform" list="false"
+                  name="AttitudeTelemetry" service="AutonomousADCS" />
               </mal:field>
-              <mal:field canBeNull="true" comment="Status of the ADCS actuators." name="actuatorsTelemetry">
-                <mal:type area="Platform" list="false" name="ActuatorsTelemetry" service="AutonomousADCS"/>
+              <mal:field canBeNull="true"
+                comment="Status of the ADCS actuators."
+                name="actuatorsTelemetry">
+                <mal:type area="Platform" list="false"
+                  name="ActuatorsTelemetry" service="AutonomousADCS" />
               </mal:field>
-              <mal:field canBeNull="true" comment="The remaining duration of the active attitude control mode. NULL if no time duration is set, or no attitude control is active." name="controlDuration">
-                <mal:type area="MAL" list="false" name="Duration"/>
+              <mal:field canBeNull="true"
+                comment="The remaining duration of the active attitude control mode. NULL if no time duration is set, or no attitude control is active."
+                name="controlDuration">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:field>
-              <mal:field canBeNull="true" comment="Indicates whether ADCS status is published periodically through monitorAttitude operation." name="generationEnabled">
-                <mal:type area="MAL" list="false" name="Boolean"/>
+              <mal:field canBeNull="true"
+                comment="Indicates whether ADCS status is published periodically through monitorAttitude operation."
+                name="generationEnabled">
+                <mal:type area="MAL" list="false"
+                  name="Boolean" />
               </mal:field>
-              <mal:field canBeNull="true" comment="Period of the monitoring messages." name="monitoringInterval">
-                <mal:type area="MAL" list="false" name="Duration"/>
+              <mal:field canBeNull="true"
+                comment="Period of the monitoring messages."
+                name="monitoringInterval">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:field>
-              <mal:field canBeNull="true" comment="Active attitude mode. NULL if no attitude control is active. This is an abstract type." name="activeAttitudeMode">
-                <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
+              <mal:field canBeNull="true"
+                comment="Active attitude mode. NULL if no attitude control is active. This is an abstract type."
+                name="activeAttitudeMode">
+                <mal:type area="Platform" list="false"
+                  name="AttitudeMode" service="AutonomousADCS" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The ADCS unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            <mal:errorRef
+              comment="The ADCS unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
             </mal:errorRef>
           </mal:errors>
         </mal:requestIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="3">
-        <mal:submitIP comment="The setDesiredAttitude operation allows a consumer to engage or disengage a certain attitude mode using an attitude mode." name="setDesiredAttitude" number="4" supportInReplay="false">
+        <mal:submitIP
+          comment="The setDesiredAttitude operation allows a consumer to engage or disengage a certain attitude mode using an attitude mode."
+          name="setDesiredAttitude" number="4" supportInReplay="false">
           <mal:messages>
             <mal:submit comment="">
-              <mal:field canBeNull="true" comment="The duration after which the attitude mode shall be automatically disengaged and ADCS attitude setting will switch into a free tumbling mode.&#10;If the field is NULL, then the attitude setting will not be automatically disengaged. The consumer should use the setDesiredAttitude operation again to disengage it." name="duration">
-                <mal:type area="MAL" list="false" name="Duration"/>
+              <mal:field canBeNull="true"
+                comment="The duration after which the attitude mode shall be automatically disengaged and ADCS attitude setting will switch into a free tumbling mode.&#10;If the field is NULL, then the attitude setting will not be automatically disengaged. The consumer should use the setDesiredAttitude operation again to disengage it."
+                name="duration">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:field>
-              <mal:field canBeNull="true" comment="Desired attitude mode. If set to NULL, ADCS will switch into a free tumbling mode. This is an abstract type." name="desiredAttitude">
-                <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
+              <mal:field canBeNull="true"
+                comment="Desired attitude mode. If set to NULL, ADCS will switch into a free tumbling mode. This is an abstract type."
+                name="desiredAttitude">
+                <mal:type area="Platform" list="false"
+                  name="AttitudeMode" service="AutonomousADCS" />
               </mal:field>
             </mal:submit>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The ADCS unit is not available.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            <mal:errorRef
+              comment="The ADCS unit is not available.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
             </mal:errorRef>
-            <mal:errorRef comment="The selected attitude mode contains an invalid argument.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="Contains the field name of the first field that did not pass the validation checks of the attitude mode.">
-                <mal:type area="MAL" list="false" name="String"/>
+            <mal:errorRef
+              comment="The selected attitude mode contains an invalid argument.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="Contains the field name of the first field that did not pass the validation checks of the attitude mode.">
+                <mal:type area="MAL" list="false" name="String" />
               </mal:extraInformation>
             </mal:errorRef>
-            <mal:errorRef comment="The ADCS is currently being used.">
-              <mal:type area="Platform" list="false" name="DEVICE_IN_USE"/>
-              <mal:extraInformation comment="The service will disengage the current selected attitude control mode in the duration provided in the extra information field. If the extra information field is set to NULL, then the attitude control mode will not be automatically unset. The consumer should use the setDesiredAttitude operation again to disengage it.">
-                <mal:type area="MAL" list="false" name="Duration"/>
+            <mal:errorRef
+              comment="The ADCS is currently being used.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_IN_USE" />
+              <mal:extraInformation
+                comment="The service will disengage the current selected attitude control mode in the duration provided in the extra information field. If the extra information field is set to NULL, then the attitude control mode will not be automatically unset. The consumer should use the setDesiredAttitude operation again to disengage it.">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:extraInformation>
             </mal:errorRef>
-            <mal:errorRef comment="The selected attitude mode is unsupported by the current implementation of the service.">
-              <mal:type area="MAL" list="false" name="UNSUPPORTED_OPERATION"/>
+            <mal:errorRef
+              comment="The selected attitude mode is unsupported by the current implementation of the service.">
+              <mal:type area="MAL" list="false"
+                name="UNSUPPORTED_OPERATION" />
             </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
       <mal:dataTypes>
-        <mal:composite comment="Holds quaternion components." name="Quaternion" shortFormPart="1">
+        <mal:composite
+          comment="Holds quaternion components." name="Quaternion"
+          shortFormPart="1">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="Quaternion scalar component a" name="a">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="Quaternion scalar component a" name="a">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Quaternion vector component b*i" name="b">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="Quaternion vector component b*i" name="b">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Quaternion vector component c*j" name="c">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="Quaternion vector component c*j" name="c">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Quaternion vector component d*k" name="d">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="Quaternion vector component d*k" name="d">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="Holds a 3D Vector. The unit shall be defined on the parent level." name="Vector3D" shortFormPart="2">
+        <mal:composite
+          comment="Holds a 3D Vector. The unit shall be defined on the parent level."
+          name="Vector3D" shortFormPart="2">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="true" comment="The x component." name="x">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The x component." name="x">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The y component." name="y">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The y component." name="y">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The z component." name="z">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The z component." name="z">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="Holds an abstract attitude setting defined by the consumer. This composite is specialized into particular attitude mode descriptors." name="AttitudeMode">
+        <mal:composite
+          comment="Holds an abstract attitude setting defined by the consumer. This composite is specialized into particular attitude mode descriptors."
+          name="AttitudeMode">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
         </mal:composite>
-        <mal:composite comment="B-dot detumbling attitude mode defined by the consumer." name="AttitudeModeBDot" shortFormPart="3">
+        <mal:composite
+          comment="B-dot detumbling attitude mode defined by the consumer."
+          name="AttitudeModeBDot" shortFormPart="3">
           <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
+            <mal:type area="Platform" list="false"
+              name="AttitudeMode" service="AutonomousADCS" />
           </mal:extends>
         </mal:composite>
-        <mal:composite comment="Single-axis spinning attitude mode defined by the consumer." name="AttitudeModeSingleSpinning" shortFormPart="4">
+        <mal:composite
+          comment="Single-axis spinning attitude mode defined by the consumer."
+          name="AttitudeModeSingleSpinning" shortFormPart="4">
           <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
+            <mal:type area="Platform" list="false"
+              name="AttitudeMode" service="AutonomousADCS" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="The spin axis vector, defined in the body reference frame." name="bodyAxis">
-            <mal:type area="Platform" list="false" name="Vector3D" service="AutonomousADCS"/>
+          <mal:field canBeNull="false"
+            comment="The spin axis vector, defined in the body reference frame."
+            name="bodyAxis">
+            <mal:type area="Platform" list="false"
+              name="Vector3D" service="AutonomousADCS" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The angular velocity of the spin. The right-hand rule shall be followed to indicate the positive direction of the angular velocity. [rad/s]" name="angularVelocity">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="The angular velocity of the spin. The right-hand rule shall be followed to indicate the positive direction of the angular velocity. [rad/s]"
+            name="angularVelocity">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="Sun Pointing attitude mode defined by the consumer." name="AttitudeModeSunPointing" shortFormPart="5">
+        <mal:composite
+          comment="Sun Pointing attitude mode defined by the consumer."
+          name="AttitudeModeSunPointing" shortFormPart="5">
           <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
+            <mal:type area="Platform" list="false"
+              name="AttitudeMode" service="AutonomousADCS" />
           </mal:extends>
         </mal:composite>
-        <mal:composite comment="Fixed Ground Target Tracking attitude mode defined by the consumer." name="AttitudeModeTargetTracking" shortFormPart="6">
+        <mal:composite
+          comment="Fixed Ground Target Tracking attitude mode defined by the consumer."
+          name="AttitudeModeTargetTracking" shortFormPart="6">
           <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
+            <mal:type area="Platform" list="false"
+              name="AttitudeMode" service="AutonomousADCS" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="The latitude of the target to be tracked. [deg]" name="latitude">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="The latitude of the target to be tracked. [deg]"
+            name="latitude">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The longitude of the target to be tracked. [deg]" name="longitude">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="The longitude of the target to be tracked. [deg]"
+            name="longitude">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="Constant velocity Ground Target Tracking attitude mode defined by the consumer." name="AttitudeModeTargetTrackingLinear" shortFormPart="12">
+        <mal:composite
+          comment="Constant velocity Ground Target Tracking attitude mode defined by the consumer."
+          name="AttitudeModeTargetTrackingLinear" shortFormPart="12">
           <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
+            <mal:type area="Platform" list="false"
+              name="AttitudeMode" service="AutonomousADCS" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="The start latitude of the target to be tracked. [deg]" name="latitudeStart">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="The start latitude of the target to be tracked. [deg]"
+            name="latitudeStart">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The start longitude of the target to be tracked. [deg]" name="longitudeStart">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="The start longitude of the target to be tracked. [deg]"
+            name="longitudeStart">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The end latitude of the target to be tracked. [deg]" name="latitudeEnd">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="The end latitude of the target to be tracked. [deg]"
+            name="latitudeEnd">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The end longitude of the target to be tracked. [deg]" name="longitudeEnd">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="The end longitude of the target to be tracked. [deg]"
+            name="longitudeEnd">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The beginning epoch time of the tracking. [msec]" name="startEpoch">
-            <mal:type area="MAL" list="false" name="Long"/>
+          <mal:field canBeNull="false"
+            comment="The beginning epoch time of the tracking. [msec]"
+            name="startEpoch">
+            <mal:type area="MAL" list="false" name="Long" />
           </mal:field>
-          <mal:field canBeNull="false" comment="The ending epoch time of the tracking. [msec]" name="endEpoch">
-            <mal:type area="MAL" list="false" name="Long"/>
+          <mal:field canBeNull="false"
+            comment="The ending epoch time of the tracking. [msec]"
+            name="endEpoch">
+            <mal:type area="MAL" list="false" name="Long" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="Nadir Pointing attitude mode defined by the consumer." name="AttitudeModeNadirPointing" shortFormPart="7">
+        <mal:composite
+          comment="Nadir Pointing attitude mode defined by the consumer."
+          name="AttitudeModeNadirPointing" shortFormPart="7">
           <mal:extends>
-            <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS"/>
+            <mal:type area="Platform" list="false"
+              name="AttitudeMode" service="AutonomousADCS" />
           </mal:extends>
         </mal:composite>
-        <mal:composite comment="Holds the speed of reaction wheels." name="WheelsSpeed" shortFormPart="8">
+        <mal:composite
+          comment="Holds the speed of reaction wheels."
+          name="WheelsSpeed" shortFormPart="8">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="Angular velocities of the wheels. The ordering of the array is implementation specific (typically X,Y,Z[,U,V,W]). [rad/sec]" name="rotationalSpeed">
-            <mal:type area="MAL" list="true" name="Float"/>
+          <mal:field canBeNull="false"
+            comment="Angular velocities of the wheels. The ordering of the array is implementation specific (typically X,Y,Z[,U,V,W]). [rad/sec]"
+            name="rotationalSpeed">
+            <mal:type area="MAL" list="true" name="Float" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="Holds the ADCS actuators telemetry." name="ActuatorsTelemetry" shortFormPart="9">
+        <mal:composite
+          comment="Holds the ADCS actuators telemetry."
+          name="ActuatorsTelemetry" shortFormPart="9">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="Target reaction wheels speed." name="targetWheelSpeed">
-            <mal:type area="Platform" list="false" name="WheelsSpeed" service="AutonomousADCS"/>
+          <mal:field canBeNull="false"
+            comment="Target reaction wheels speed."
+            name="targetWheelSpeed">
+            <mal:type area="Platform" list="false"
+              name="WheelsSpeed" service="AutonomousADCS" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Current reaction wheels speed." name="currentWheelSpeed">
-            <mal:type area="Platform" list="false" name="WheelsSpeed" service="AutonomousADCS"/>
+          <mal:field canBeNull="false"
+            comment="Current reaction wheels speed."
+            name="currentWheelSpeed">
+            <mal:type area="Platform" list="false"
+              name="WheelsSpeed" service="AutonomousADCS" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Target magnetorquers dipole moment relative to the spacecraft frame. [A*m^2]" name="mtqDipoleMoment">
-            <mal:type area="Platform" list="false" name="Vector3D" service="AutonomousADCS"/>
+          <mal:field canBeNull="false"
+            comment="Target magnetorquers dipole moment relative to the spacecraft frame. [A*m^2]"
+            name="mtqDipoleMoment">
+            <mal:type area="Platform" list="false"
+              name="Vector3D" service="AutonomousADCS" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Current state of the magnetorquers." name="mtqState">
-            <mal:type area="Platform" list="false" name="MagnetorquersState" service="AutonomousADCS"/>
+          <mal:field canBeNull="false"
+            comment="Current state of the magnetorquers."
+            name="mtqState">
+            <mal:type area="Platform" list="false"
+              name="MagnetorquersState" service="AutonomousADCS" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="Holds the derived ADCS telemetry." name="AttitudeTelemetry" shortFormPart="10">
+        <mal:composite
+          comment="Holds the derived ADCS telemetry."
+          name="AttitudeTelemetry" shortFormPart="10">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="Calculated attitude quaternion of the spacecraft frame relative to International Cosmic Reference Frame." name="attitude">
-            <mal:type area="Platform" list="false" name="Quaternion" service="AutonomousADCS"/>
+          <mal:field canBeNull="false"
+            comment="Calculated attitude quaternion of the spacecraft frame relative to International Cosmic Reference Frame."
+            name="attitude">
+            <mal:type area="Platform" list="false"
+              name="Quaternion" service="AutonomousADCS" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Calculated angular velocity vector (x,y,z) relative to the spacecraft frame. [rad/sec]" name="angularVelocity">
-            <mal:type area="Platform" list="false" name="Vector3D" service="AutonomousADCS"/>
+          <mal:field canBeNull="false"
+            comment="Calculated angular velocity vector (x,y,z) relative to the spacecraft frame. [rad/sec]"
+            name="angularVelocity">
+            <mal:type area="Platform" list="false"
+              name="Vector3D" service="AutonomousADCS" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Calculated dimensionless sun vector (x,y,z) relative to the spacecraft frame." name="sunVector">
-            <mal:type area="Platform" list="false" name="Vector3D" service="AutonomousADCS"/>
+          <mal:field canBeNull="false"
+            comment="Calculated dimensionless sun vector (x,y,z) relative to the spacecraft frame."
+            name="sunVector">
+            <mal:type area="Platform" list="false"
+              name="Vector3D" service="AutonomousADCS" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Calculated magnetic flux density relative to the spacecraft frame. [T]" name="magneticField">
-            <mal:type area="Platform" list="false" name="Vector3D" service="AutonomousADCS"/>
+          <mal:field canBeNull="false"
+            comment="Calculated magnetic flux density relative to the spacecraft frame. [T]"
+            name="magneticField">
+            <mal:type area="Platform" list="false"
+              name="Vector3D" service="AutonomousADCS" />
           </mal:field>
         </mal:composite>
-        <mal:enumeration comment="State of the magnetorquers." name="MagnetorquersState" shortFormPart="11">
-          <mal:item comment="Magnetorquers not operating." nvalue="1" value="INACTIVE"/>
-          <mal:item comment="Magnetorquers operating and powered." nvalue="2" value="ACTIVE"/>
-          <mal:item comment="Magnetorquers operating and automatically suspended." nvalue="3" value="SUSPEND"/>
+        <mal:enumeration
+          comment="State of the magnetorquers."
+          name="MagnetorquersState" shortFormPart="11">
+          <mal:item comment="Magnetorquers not operating."
+            nvalue="1" value="INACTIVE" />
+          <mal:item
+            comment="Magnetorquers operating and powered." nvalue="2"
+            value="ACTIVE" />
+          <mal:item
+            comment="Magnetorquers operating and automatically suspended."
+            nvalue="3" value="SUSPEND" />
         </mal:enumeration>
       </mal:dataTypes>
     </mal:service>
-    <mal:service comment="The Software-defined Radio provides a generic mechanism to set, configure and receive data from a Software-defined Radio device." name="SoftwareDefinedRadio" number="4" xsi:type="com:ExtendedServiceType">
-      <mal:documentation name="High Level Requirements" order="1"/>
-      <mal:documentation name="Functional Requirements" order="2"/>
+    <mal:service
+      comment="The Software-defined Radio provides a generic mechanism to set, configure and receive data from a Software-defined Radio device."
+      name="SoftwareDefinedRadio" number="4"
+      xsi:type="com:ExtendedServiceType">
+      <mal:documentation
+        name="High Level Requirements" order="1" />
+      <mal:documentation
+        name="Functional Requirements" order="2" />
       <mal:capabilitySet comment="" number="1">
-        <mal:pubsubIP comment="The streamRadio operation allows a consumer to subscribe for Software-defined Radio data updates." name="streamRadio" number="1" supportInReplay="false">
+        <mal:pubsubIP
+          comment="The streamRadio operation allows a consumer to subscribe for Software-defined Radio data updates."
+          name="streamRadio" number="1" supportInReplay="false">
           <mal:messages>
             <mal:publishNotify comment="">
-              <mal:field canBeNull="true" comment="The iqComponents field shall hold the in-phase and quadrature data from the Software-defined Radio unit." name="iqComponents">
-                <mal:type area="Platform" list="false" name="IQComponents" service="SoftwareDefinedRadio"/>
+              <mal:field canBeNull="true"
+                comment="The iqComponents field shall hold the in-phase and quadrature data from the Software-defined Radio unit."
+                name="iqComponents">
+                <mal:type area="Platform" list="false"
+                  name="IQComponents" service="SoftwareDefinedRadio" />
               </mal:field>
             </mal:publishNotify>
           </mal:messages>
         </mal:pubsubIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="2">
-        <mal:submitIP comment="The enableSDR operation allows a consumer to enable or disable the Software-defined Radio." name="enableSDR" number="2" supportInReplay="false">
+        <mal:submitIP
+          comment="The enableSDR operation allows a consumer to enable or disable the Software-defined Radio."
+          name="enableSDR" number="2" supportInReplay="false">
           <mal:messages>
             <mal:submit comment="">
-              <mal:field canBeNull="true" comment="The enable field shall hold the flag status to enable/disable the Software-defined Radio.&#10;If the enable field is true then the Software-defined Radio shall be enabled otherwise disabled." name="enable">
-                <mal:type area="MAL" list="false" name="Boolean"/>
+              <mal:field canBeNull="true"
+                comment="The enable field shall hold the flag status to enable/disable the Software-defined Radio.&#10;If the enable field is true then the Software-defined Radio shall be enabled otherwise disabled."
+                name="enable">
+                <mal:type area="MAL" list="false"
+                  name="Boolean" />
               </mal:field>
-              <mal:field canBeNull="true" comment="The  initialConfiguration field shall hold the configuration to be set right after the SDR is enabled." name="initialConfiguration">
-                <mal:type area="Platform" list="false" name="SDRConfiguration" service="SoftwareDefinedRadio"/>
+              <mal:field canBeNull="true"
+                comment="The  initialConfiguration field shall hold the configuration to be set right after the SDR is enabled."
+                name="initialConfiguration">
+                <mal:type area="Platform" list="false"
+                  name="SDRConfiguration" service="SoftwareDefinedRadio" />
               </mal:field>
-              <mal:field canBeNull="true" comment="" name="publishingPeriod">
-                <mal:type area="MAL" list="false" name="Duration"/>
+              <mal:field canBeNull="true" comment=""
+                name="publishingPeriod">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:field>
             </mal:submit>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The provided configuration is invalid.">
-              <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:errorRef
+              comment="The provided configuration is invalid.">
+              <mal:type area="COM" list="false" name="INVALID" />
             </mal:errorRef>
-            <mal:errorRef comment="The Software-defined Radio could not be enabled.">
-              <mal:type area="MAL" list="false" name="INTERNAL"/>
+            <mal:errorRef
+              comment="The Software-defined Radio could not be enabled.">
+              <mal:type area="MAL" list="false" name="INTERNAL" />
             </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="3">
-        <mal:submitIP comment="The setConfiguration operation allows a consumer to set a configuration to the Software-defined Radio." name="updateConfiguration" number="3" supportInReplay="false">
+        <mal:submitIP
+          comment="The setConfiguration operation allows a consumer to set a configuration to the Software-defined Radio."
+          name="updateConfiguration" number="3" supportInReplay="false">
           <mal:messages>
             <mal:submit comment="">
-              <mal:field canBeNull="true" comment="The configuration field holds the configuration of the SDR." name="configuration">
-                <mal:type area="Platform" list="false" name="SDRConfiguration" service="SoftwareDefinedRadio"/>
+              <mal:field canBeNull="true"
+                comment="The configuration field holds the configuration of the SDR."
+                name="configuration">
+                <mal:type area="Platform" list="false"
+                  name="SDRConfiguration" service="SoftwareDefinedRadio" />
               </mal:field>
             </mal:submit>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The provided configuration is invalid.">
-              <mal:type area="COM" list="false" name="INVALID"/>
+            <mal:errorRef
+              comment="The provided configuration is invalid.">
+              <mal:type area="COM" list="false" name="INVALID" />
             </mal:errorRef>
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
       <mal:dataTypes>
-        <mal:composite comment="Holds a configuration for the SDR. Allowed values range depends on the unit." name="SDRConfiguration" shortFormPart="1">
+        <mal:composite
+          comment="Holds a configuration for the SDR. Allowed values range depends on the unit."
+          name="SDRConfiguration" shortFormPart="1">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="true" comment="RX Carrier Frequency [MHz]." name="rxCarrierFrequency">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="RX Carrier Frequency [MHz]."
+            name="rxCarrierFrequency">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="RX chain gain [dB]." name="rxGain">
-            <mal:type area="MAL" list="false" name="Integer"/>
+          <mal:field canBeNull="true"
+            comment="RX chain gain [dB]." name="rxGain">
+            <mal:type area="MAL" list="false" name="Integer" />
           </mal:field>
-          <mal:field canBeNull="true" comment="RX Low Pass Filter bandwidth [MHz]." name="rxLowPassBW">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="RX Low Pass Filter bandwidth [MHz]."
+            name="rxLowPassBW">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="RX sampling frequency [MHz]." name="rxSamplingFrequency">
-            <mal:type area="MAL" list="false" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="RX sampling frequency [MHz]."
+            name="rxSamplingFrequency">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
         </mal:composite>
-        <mal:composite comment="It holds the In-phase and Quadrature components." name="IQComponents" shortFormPart="27">
+        <mal:composite
+          comment="It holds the In-phase and Quadrature components."
+          name="IQComponents" shortFormPart="27">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="true" comment="The in-phase component." name="inPhase">
-            <mal:type area="MAL" list="true" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The in-phase component." name="inPhase">
+            <mal:type area="MAL" list="true" name="Float" />
           </mal:field>
-          <mal:field canBeNull="true" comment="The quadrature component." name="quadrature">
-            <mal:type area="MAL" list="true" name="Float"/>
+          <mal:field canBeNull="true"
+            comment="The quadrature component." name="quadrature">
+            <mal:type area="MAL" list="true" name="Float" />
           </mal:field>
         </mal:composite>
       </mal:dataTypes>
-      <com:features/>
+      <com:features />
     </mal:service>
-    <mal:service comment="The Optical Data Receiver service provides a mechanism to receive messages from an Optical Data Receiver device." name="OpticalDataReceiver" number="5" xsi:type="com:ExtendedServiceType">
+    <mal:service
+      comment="The Optical Data Receiver service provides a mechanism to receive messages from an Optical Data Receiver device."
+      name="OpticalDataReceiver" number="5"
+      xsi:type="com:ExtendedServiceType">
       <mal:capabilitySet comment="" number="1">
-        <mal:invokeIP comment="The recordSamples operation allows a consumer to record a sample." name="recordSamples" number="1" supportInReplay="false">
+        <mal:invokeIP
+          comment="The recordSamples operation allows a consumer to record a sample."
+          name="recordSamples" number="1" supportInReplay="false">
           <mal:messages>
             <mal:invoke comment="">
-              <mal:field canBeNull="true" comment="The recordingDuration field shall hold the duration of samples acquisition." name="recordingDuration">
-                <mal:type area="MAL" list="false" name="Duration"/>
+              <mal:field canBeNull="true"
+                comment="The recordingDuration field shall hold the duration of samples acquisition."
+                name="recordingDuration">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:field>
             </mal:invoke>
-            <mal:acknowledgement comment=""/>
+            <mal:acknowledgement comment="" />
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="The data field holds a blob of data coming from the Optical Data Receiver. Sample buffer format is implementation specific." name="data">
-                <mal:type area="MAL" list="false" name="Blob"/>
+              <mal:field canBeNull="true"
+                comment="The data field holds a blob of data coming from the Optical Data Receiver. Sample buffer format is implementation specific."
+                name="data">
+                <mal:type area="MAL" list="false" name="Blob" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The provided recording duration is too long.">
-              <mal:type area="COM" list="false" name="INVALID"/>
-              <mal:extraInformation comment="The extra information field shall hold the maximum allowed recording duration.">
-                <mal:type area="MAL" list="false" name="Duration"/>
+            <mal:errorRef
+              comment="The provided recording duration is too long.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information field shall hold the maximum allowed recording duration.">
+                <mal:type area="MAL" list="false"
+                  name="Duration" />
               </mal:extraInformation>
             </mal:errorRef>
           </mal:errors>
         </mal:invokeIP>
       </mal:capabilitySet>
-      <com:features/>
+      <com:features />
     </mal:service>
-    <mal:service comment="The Power Control service provides a generic mechanism to list the available power units in a spacecraft platform and to enable/disable them." name="PowerControl" number="7" xsi:type="com:ExtendedServiceType">
+    <mal:service
+      comment="The Power Control service provides a generic mechanism to list the available power units in a spacecraft platform and to enable/disable them."
+      name="PowerControl" number="7" xsi:type="com:ExtendedServiceType">
       <mal:capabilitySet comment="" number="1">
-        <mal:requestIP comment="The listDevices operation allows a consumer to request the list of the units available and their respective status. The request may contain the wildcard value of '*' to return all available devices." name="listDevices" number="1" supportInReplay="false">
+        <mal:requestIP
+          comment="The listDevices operation allows a consumer to request the list of the units available and their respective status. The request may contain the wildcard value of '*' to return all available devices."
+          name="listDevices" number="1" supportInReplay="false">
           <mal:messages>
             <mal:request comment="">
-              <mal:field canBeNull="true" comment="The names field holds the name of the units." name="names">
-                <mal:type area="MAL" list="true" name="Identifier"/>
+              <mal:field canBeNull="true"
+                comment="The names field holds the name of the units."
+                name="names">
+                <mal:type area="MAL" list="true"
+                  name="Identifier" />
               </mal:field>
             </mal:request>
             <mal:response comment="">
-              <mal:field canBeNull="true" comment="List of returned devices" name="devices">
-                <mal:type area="Platform" list="true" name="Device" service="PowerControl"/>
+              <mal:field canBeNull="true"
+                comment="List of returned devices" name="devices">
+                <mal:type area="Platform" list="true"
+                  name="Device" service="PowerControl" />
               </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="One of the supplied identifiers is unknown.">
-              <mal:type name="UNKNOWN" area="MAL"/>
-              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                <mal:type list="true" name="UInteger" area="MAL"/>
+            <mal:errorRef
+              comment="One of the supplied identifiers is unknown.">
+              <mal:type name="UNKNOWN" area="MAL" />
+              <mal:extraInformation
+                comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type list="true" name="UInteger"
+                  area="MAL" />
               </mal:extraInformation>
             </mal:errorRef>
           </mal:errors>
         </mal:requestIP>
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="2">
-        <mal:requestIP comment="The enableDevices operation allows a consumer to enable and disable specific devices. Device can be identified by object instance identifier and/or unit Type. If object instance identifier is NULL, then the first device of given type is selected." name="enableDevices" number="2" supportInReplay="false">
+        <mal:requestIP
+          comment="The enableDevices operation allows a consumer to enable and disable specific devices. Device can be identified by object instance identifier and/or unit Type. If object instance identifier is NULL, then the first device of given type is selected."
+          name="enableDevices" number="2" supportInReplay="false">
           <mal:messages>
             <mal:request comment="">
-              <mal:field canBeNull="true" comment="List of devices to be controlled" name="devices">
-                <mal:type area="Platform" list="true" name="Device" service="PowerControl"/>
+              <mal:field canBeNull="true"
+                comment="List of devices to be controlled"
+                name="devices">
+                <mal:type area="Platform" list="true"
+                  name="Device" service="PowerControl" />
               </mal:field>
             </mal:request>
-            <mal:response comment=""/>
+            <mal:response comment="" />
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="At least one of the devices requested is not available for power control.">
-              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE"/>
+            <mal:errorRef
+              comment="At least one of the devices requested is not available for power control.">
+              <mal:type area="Platform" list="false"
+                name="DEVICE_NOT_AVAILABLE" />
             </mal:errorRef>
           </mal:errors>
         </mal:requestIP>
       </mal:capabilitySet>
       <mal:dataTypes>
-        <mal:composite comment="Represents a unit managed by Power Control service" name="Device" shortFormPart="17">
+        <mal:composite
+          comment="Represents a unit managed by Power Control service"
+          name="Device" shortFormPart="17">
           <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
+            <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
-          <mal:field canBeNull="false" comment="Holds the boolean flag indicating power state of the unit." name="enabled">
-            <mal:type area="MAL" list="false" name="Boolean"/>
+          <mal:field canBeNull="false"
+            comment="Holds the boolean flag indicating power state of the unit."
+            name="enabled">
+            <mal:type area="MAL" list="false" name="Boolean" />
           </mal:field>
-          <mal:field canBeNull="true" comment="Holds the unique object instance identifier representing the device." name="unitObjInstId">
-            <mal:type area="MAL" list="false" name="Long"/>
+          <mal:field canBeNull="true"
+            comment="Holds the unique object instance identifier representing the device."
+            name="unitObjInstId">
+            <mal:type area="MAL" list="false" name="Long" />
           </mal:field>
-          <mal:field canBeNull="true" comment="Device name." name="name">
-            <mal:type area="MAL" list="false" name="Identifier"/>
+          <mal:field canBeNull="true" comment="Device name."
+            name="name">
+            <mal:type area="MAL" list="false" name="Identifier" />
           </mal:field>
-          <mal:field canBeNull="false" comment="Device type." name="deviceType">
-            <mal:type area="Platform" list="false" name="DeviceType" service="PowerControl"/>
+          <mal:field canBeNull="false" comment="Device type."
+            name="deviceType">
+            <mal:type area="Platform" list="false"
+              name="DeviceType" service="PowerControl" />
           </mal:field>
         </mal:composite>
-        <mal:enumeration comment="Defines type of controlled Units." name="DeviceType" shortFormPart="3">
-          <mal:item comment="Attitude Determination and Control System" nvalue="1" value="ADCS"/>
-          <mal:item comment="On-Board computer" nvalue="2" value="OBC"/>
-          <mal:item comment="S-Band transceiver" nvalue="3" value="SBAND"/>
-          <mal:item comment="X-Band transceiver" nvalue="4" value="XBAND"/>
-          <mal:item comment="Software Defined Radio" nvalue="5" value="SDR"/>
-          <mal:item comment="Optical receiver" nvalue="6" value="OPTRX"/>
-          <mal:item comment="Imaging subsystem" nvalue="7" value="CAMERA"/>
-          <mal:item comment="Other device" nvalue="100" value="OTHER"/>
+        <mal:enumeration
+          comment="Defines type of controlled Units." name="DeviceType"
+          shortFormPart="3">
+          <mal:item
+            comment="Attitude Determination and Control System"
+            nvalue="1" value="ADCS" />
+          <mal:item comment="On-Board computer" nvalue="2"
+            value="OBC" />
+          <mal:item comment="S-Band transceiver" nvalue="3"
+            value="SBAND" />
+          <mal:item comment="X-Band transceiver" nvalue="4"
+            value="XBAND" />
+          <mal:item comment="Software Defined Radio" nvalue="5"
+            value="SDR" />
+          <mal:item comment="Optical receiver" nvalue="6"
+            value="OPTRX" />
+          <mal:item comment="Imaging subsystem" nvalue="7"
+            value="CAMERA" />
+          <mal:item comment="Other device" nvalue="100"
+            value="OTHER" />
         </mal:enumeration>
       </mal:dataTypes>
-      <com:features/>
+      <com:features />
     </mal:service>
     <mal:dataTypes>
     </mal:dataTypes>
     <mal:errors>
-      <mal:error comment="The device is currently in use." name="DEVICE_IN_USE" number="10509"/>
-      <mal:error comment="The device is currently not available." name="DEVICE_NOT_AVAILABLE" number="10510"/>
+      <mal:error comment="The device is currently in use."
+        name="DEVICE_IN_USE" number="10509" />
+      <mal:error
+        comment="The device is currently not available."
+        name="DEVICE_NOT_AVAILABLE" number="10510" />
     </mal:errors>
   </mal:area>
 </mal:specification>
