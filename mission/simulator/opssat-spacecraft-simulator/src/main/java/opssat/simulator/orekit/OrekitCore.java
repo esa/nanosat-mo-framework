@@ -179,6 +179,7 @@ public class OrekitCore {
   private final boolean debug1 = false;
   Orbit initialOrbit;
   AbstractPropagator runningPropagator;
+  private AttitudeStateProvider attitudeState;
   boolean isInitialized;
   private Logger logger;
 
@@ -317,7 +318,6 @@ public class OrekitCore {
     } catch (OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
-
   }
 
   private AbstractPropagator getNewPropagator() {
@@ -508,8 +508,9 @@ public class OrekitCore {
         FastMath.toRadians(DARMSTADT_LONGITUDE), 0);
     this.targetTracking = new TargetPointing(inertialFrame, targetGeo, earth);
     this.attitudesSequence = new AttitudesSequence();
-    attitudesSequence.addSwitchingCondition(sunPointing, new NadirDetector(), true, false,
-        nadirPointing);
+    NadirDetector nadirDetector = new NadirDetector();
+    attitudesSequence.addSwitchingCondition(sunPointing, nadirPointing, nadirDetector, true, true,
+        10.0, null, null);
     this.lofTracking = new LofOffset(initialOrbit.getFrame(), LOFType.LVLH);
     this.spinStabilized = new SpinStabilized(lofTracking, this.extrapDate, Vector3D.PLUS_I,
         FastMath.toRadians(0));
@@ -545,6 +546,9 @@ public class OrekitCore {
     } else {
       this.runningPropagator = this.kepler;
     }
+    this.attitudesSequence.registerSwitchEvents(runningPropagator);
+    this.attitudeState = new AttitudeStateProvider(attitudeMode.getDoubleValue());
+    this.runningPropagator.addAdditionalStateProvider(attitudeState);
     this.lof = new LocalOrbitalFrame(this.inertialFrame, LOFType.LVLH, this.runningPropagator,
         "LVLH");
     // this.geoMagneticField = GeoMagneticFieldFactory.getWMM(2016);
@@ -1009,9 +1013,8 @@ public class OrekitCore {
     extrapDate = extrapDate.shiftedBy(timeStep);
     try {
       synchronized (magneticFieldVectorLock) {
+        this.attitudeState.updateAttitude(attitudeMode.getDoubleValue());
         this.spacecraftState = this.runningPropagator.propagate(extrapDate);
-        spacecraftState.addAdditionalState("attitude",
-            new double[] { attitudeMode.getDoubleValue() });
       }
 
     } catch (PropagationException ex) {
