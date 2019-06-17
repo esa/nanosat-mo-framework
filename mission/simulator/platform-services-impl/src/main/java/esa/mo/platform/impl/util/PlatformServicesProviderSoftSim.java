@@ -20,12 +20,19 @@
  */
 package esa.mo.platform.impl.util;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSProviderServiceImpl;
+import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
 import esa.mo.platform.impl.provider.gen.CameraProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.GPSProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.OpticalDataReceiverProviderServiceImpl;
@@ -57,8 +64,33 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
   private final PowerControlProviderServiceImpl powerService = new PowerControlProviderServiceImpl();
 
   public void init(COMServicesProvider comServices) throws MALException {
+    // Check if hybrid setup is used
+    CameraAdapterInterface camAdapter;
+    Properties platformProperties = new Properties();
+    try {
+      platformProperties
+          .load(new FileInputStream(System.getProperty("user.dir") + "/platformsim.properties"));
+      if (platformProperties.getProperty("platform.mode").equals("hybrid")) {
+        String camAdapterName = platformProperties.getProperty("camera.adapter");
+        try {
+          camAdapter = (CameraAdapterInterface) Class.forName(camAdapterName).newInstance();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
+              "Failed to instantiate the selected adapters.", e);
+          camAdapter = new CameraSoftSimAdapter(instrumentsSimulator);
+        }
+      } else {
+        camAdapter = new CameraSoftSimAdapter(instrumentsSimulator);
+      }
+    } catch (IOException e) {
+      // Assume simulated environment by default
+      Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
+          "Platform config file not found. Using simulated environment.");
+      camAdapter = new CameraSoftSimAdapter(instrumentsSimulator);
+    }
+
     autonomousADCSService.init(comServices, new AutonomousADCSSoftSimAdapter(instrumentsSimulator));
-    cameraService.init(comServices, new CameraSoftSimAdapter(instrumentsSimulator));
+    cameraService.init(comServices, camAdapter);
     gpsService.init(comServices, new GPSSoftSimAdapter(instrumentsSimulator));
     opticalDataReceiverService.init(new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator));
     sdrService.init(new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator));
