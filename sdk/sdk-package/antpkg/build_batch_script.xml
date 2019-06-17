@@ -14,7 +14,7 @@
     <replace file="newShellScript" token="#ENV_SETUP#" value=""/>
     <replace file="newShellScript" token="#REPO#" value="${repoName}"/>
     <replace file="newShellScript" token="#JAVA_BINARY#" value="java"/>
-    <replace file="newShellScript" token="#CLASSPATH#" value='"%BASEDIR%"\etc:"%REPO%"/*'/>
+    <replace file="newShellScript" token="#CLASSPATH#" value='"%BASEDIR%"\etc;"%REPO%"/*'/>
     <replace file="newShellScript" token="#ENDORSED_DIR#" value=""/>
     <replace file="newShellScript" token="#EXTRA_JVM_ARGUMENTS#" value=""/>
     <replace file="newShellScript" token="#APP_NAME#" value="${id}"/>
