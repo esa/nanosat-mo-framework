@@ -3,7 +3,7 @@
     <echo>Building start batch script for [${id}]</echo>
     <loadfile property="license" srcFile="license-header.txt">
       <filterchain>
-        <prefixlines prefix="@REM"/>
+        <prefixlines prefix="@REM "/>
       </filterchain>
     </loadfile>
     <property name="fulloutput" value="${outputDir}/${binDir}"/>
