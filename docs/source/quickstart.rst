@@ -17,6 +17,4 @@ In order to produce independently runnable Java executables (JAR artifacts with 
 
 *Please note:* warnings are completely natural and the errors concerning missing module descriptors during Javadoc generation are to be expected and non breaking.
 
-**Congratulations!** You have completed the first step to develop cubesat software with the NMF. You should take a look at the SDK chapter next!
-
-:doc:`sdk`
+**Congratulations!** You have completed the first step to develop cubesat software with the NMF. You should take a look at the :doc:`sdk` chapter next!
