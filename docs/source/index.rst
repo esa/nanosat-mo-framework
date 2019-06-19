@@ -10,10 +10,10 @@ Welcome to Nanosat MO Framework's documentation!
    :maxdepth: 1
    :caption: Contents:
 
-   packages
    quickstart
    sdk
    simulator
+   packages
 
 Indices and tables
 ==================
