@@ -36,4 +36,4 @@ Setting up the CTT
 6. In the **Common** tab check the options **Run** and **Debug** in the **Display in favorites menu** panel.
 7. Apply your settings and **Run** the CTT. Its output should appear on the Eclipse console.
 
-You are now able to start the supervisor with simulator and the CTT from Eclipse by selecting the respective launch configuration from the drop-down menu next to the green **Run as...** button in the top toolbar of Eclipse.
+You are now able to start the supervisor with simulator and the CTT from Eclipse by selecting the respective launch configuration from the drop-down menu next to the green **Run as...** button in the top toolbar of Eclipse. You can now look at :doc:`apps/apps`.
