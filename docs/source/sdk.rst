@@ -24,7 +24,7 @@ Running the SDK
 To get started with your own app, follow the links in the following table of contents.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    netbeans
    eclipse
