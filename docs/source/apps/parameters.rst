@@ -6,6 +6,7 @@ In the case of our example app, the parameters will be the gains for the RGB col
 Internally, parameters are most likely just Java attributes of your app or provided by some other service. So to define our available parameters, we just need to define them in our class:
 
 .. code-block:: java
+   :linenos:
 
    private float gainR = 4.0f;
    private float gainG = 4.0f;
@@ -15,6 +16,7 @@ Internally, parameters are most likely just Java attributes of your app or provi
 It is also recommended that you define constant strings containing the names of your parameters, so they can be used later.
 
 .. code-block:: java
+   :linenos:
 
    private static final String GR = "GainRed";
    private static final String GG = "GainGreen";
@@ -39,26 +41,28 @@ However, the other values should be set. Otherwise, NullPointerExceptions will o
 To create the ParameterDefinitionDetails for a parameter, we just have to create instances of the **ParameterDefinitionDetails** class. So, let's do that!
 
 .. code-block:: java
+   :linenos:
 
    ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
-    IdentifierList paramNames = new IdentifierList();
+   IdentifierList paramNames = new IdentifierList();
 
-    ParameterDefinitionDetails details_gain_r = new ParameterDefinitionDetails(
-        "The red channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null, null,
-        null);
-    ParameterDefinitionDetails details_gain_g = new ParameterDefinitionDetails(
-        "The green channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null, null,
-        null);
-    ParameterDefinitionDetails details_gain_b = new ParameterDefinitionDetails(
-        "The blue channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null, null,
-        null);
-    ParameterDefinitionDetails details_exp_time = new ParameterDefinitionDetails(
-        "The camera's exposure time", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null,
-        null, null);
+   ParameterDefinitionDetails details_gain_r = new ParameterDefinitionDetails(
+       "The red channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null, null,
+       null);
+   ParameterDefinitionDetails details_gain_g = new ParameterDefinitionDetails(
+       "The green channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null, null,
+       null);
+   ParameterDefinitionDetails details_gain_b = new ParameterDefinitionDetails(
+       "The blue channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null, null,
+       null);
+   ParameterDefinitionDetails details_exp_time = new ParameterDefinitionDetails(
+       "The camera's exposure time", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null,
+       null, null);
 
 And add them to the **ParameterDefinitionDetailsList** and set the **Identifiers**:
 
 .. code-block:: java
+   :linenos:
 
    defs.addAll(Arrays.asList(new ParameterDefinitionDetails[] { details_gain_r, details_gain_g,
         details_gain_b, details_exp_time }));
@@ -75,6 +79,7 @@ Without ground access to your parameters, they are most likely useless. To make 
 In **onGetValue** we basicly need to check, if our app knows the provided identifier and return the corresponding value. So our code looks like this:
 
 .. code-block:: java
+   :linenos:
 
    if (connector == null) {
      return null;
@@ -102,6 +107,7 @@ This can be done by using a similar if/else if construction as in **onGetValue**
 In this example, we will use the first approach.
 
 .. code-block:: java
+   :linenos:
 
    boolean result = false;
    for (int i = 0; i < identifiers.size(); i++) {
