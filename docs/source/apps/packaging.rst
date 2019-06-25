@@ -11,6 +11,7 @@ SDK Package POM
 The first file we have to change is the **pom.xml** in the folder **sdk/sdk-package**. First, add your app to the dependencies.
 
 .. code-block:: xml
+   :linenos:
 
    <dependency>
      <groupId>int.esa.nmf.sdk.examples.space</groupId>
@@ -22,6 +23,7 @@ After that, we have to make sure that the different properties files needed by t
 This is done in an execution of the **Maven Antrun Plugin**. Add a copy task with the execution folder of your app as the *todir*.
 
 .. code-block:: xml
+   :linenos:
 
    <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/waveform">
      <fileset dir="${basedir}/src/main/resources/space-common"/>
@@ -39,6 +41,7 @@ Our task in this file is to create such a subtarget for our app and add this tar
 The subtarget should look like this:
 
 .. code-block:: xml
+   :linenos:
 
    <target name="emit-space-app-sobel">
      <ant antfile="antpkg/build_shell_script.xml">
@@ -60,6 +63,7 @@ The property **mainClass** contains the fully qualified name for the class in ou
 The last thing left to do is to add the subtarget to the dependencies:
 
 .. code-block:: xml
+   :linenos:
 
    <target name="build" depends="emit-ctt, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
      emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test, emit-space-app-waveform, emit-space-app-sobel">

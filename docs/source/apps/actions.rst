@@ -14,6 +14,7 @@ To register actions, we again need an **IdentifierList** and additionally an **A
 The **IdentifierList** again contains the names of the actions we want to provide. The **ActionDefinitionDetailsList** contains information for each action, like a description, its category, the number of progress stages and information on expected arguments. 
 
 .. code-block:: java
+   :linenos:
 
    ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
    IdentifierList actionNames = new IdentifierList();
@@ -37,8 +38,8 @@ The pattern of **actionArrived** is similar to the one in **onGetValue** and **o
 So the method contains the following code:
 
 .. code-block:: java
-   :emphasize-lines: 9
-
+   :emphasize-lines: 9-12
+   :linenos:
    if (connector == null) {
      return new UInteger(0);
    }
@@ -78,6 +79,7 @@ What we need to do is to get the content of the *picture*, get its bytes and con
 We won't cover this method (and other non-NMF related methods) in this tutorial. After that, we take the **BufferedImage** and grayscale it (method **grayscale**) and take the grayscaled image and apply the sobel operator on it (method **sobel**). In the end, we use ``ImageIO.write(sobel, "bmp", new File(filenamePrefix + "sobel.bmp"))`` to write the image to disk. The code for the method **takePictureResponseReceived** looks like this:
 
 .. code-block:: java
+   :linenos:
 
    final String folder = "snaps";
    File dir = new File(folder);
@@ -114,6 +116,7 @@ The last parameter is the object instance ID of the action which is used to map 
 Therefore, our finished code for **takePictureReceived** looks as follows:
 
 .. code-block:: java
+   :linenos:
 
    final String folder = "snaps";
    File dir = new File(folder);
