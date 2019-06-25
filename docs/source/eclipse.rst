@@ -14,6 +14,7 @@ When developing apps with Maven you may want to invoke some plugins inside your 
 
 .. literalinclude:: m2e.xml
     :language: xml
+    :linenos:
     :emphasize-lines: 12-14,16,25-27,29
 
 Setting up the supervisor with simulator
