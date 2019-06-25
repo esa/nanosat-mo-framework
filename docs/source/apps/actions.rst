@@ -25,6 +25,7 @@ The **IdentifierList** again contains the names of the actions we want to provid
 
 We can then register our action by calling ``registration.registerActions(actionNames, actionDefs)``.
 Note the following things:
+
 1. The category 0 is the default value. Other ActionCategory possibilities are ActionCategory.CRITICAL and ActionCategory.HIPRIORITY.
 2. The next supplied value is the number of stages that our action consists of. Our stages are: take picture, grayscaling, filtering, so TOTAL_STAGES is equal to 3.
 3. If your action does not need any arguments, provide an empty **ArgumentDefinitionDetailsList**. Providing null in its place will result in an exception later on.
