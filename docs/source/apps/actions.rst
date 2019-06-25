@@ -40,6 +40,7 @@ So the method contains the following code:
 .. code-block:: java
    :emphasize-lines: 9-12
    :linenos:
+
    if (connector == null) {
      return new UInteger(0);
    }
