@@ -57,8 +57,8 @@ The subtarget should look like this:
    </target>
 
 Note that the target name can be anything which is not already in use. We just use this name later to add the dependency.
-The **id** property's value has to have the prefix "start_", so it can be recognised by the supervisor.
-The property **mainClass** contains the fully qualified name for the class in our app containing the **main** methods.
+The ``id`` property's value has to have the prefix "start_", so it can be recognised by the supervisor.
+The property ``mainClass`` contains the fully qualified name for the class in our app containing the ``main`` methods.
 
 The last thing left to do is to add the subtarget to the dependencies:
 
