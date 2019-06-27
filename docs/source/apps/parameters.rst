@@ -25,8 +25,8 @@ It is also recommended that you define constant strings containing the names of 
 
 Registering Parameters
 ----------------------
-We then need to register those parameters, so they are known to the NMF's parameter service. This is done in the method ``initialRegistrations`` which is provided by **MonitorAndControlNMFAdapter**.
-The first thing you should do in ``initialRegistrations`` is setting the registration mode of the passed in **MCRegistration**.
+We then need to register those parameters, so they are known to the NMF's parameter service. This is done in the method ``initialRegistrations`` which is provided by :java:type:`~esa.mo.nmf.MonitorAndControlNMFAdapter`.
+The first thing you should do in ``initialRegistrations`` is setting the registration mode of the passed in :java:type:`~esa.mo.nmf.MCRegistration`.
 The default value is **DONT_UPDATE_IF_EXISTS**, but it could change in between, so it makes sense to set it explicitly to that value. The other option would be **UPDATE_IF_EXISTS**.
 So, all you need to do for now is ``registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);``
 
