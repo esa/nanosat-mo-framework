@@ -25,8 +25,8 @@ It is also recommended that you define constant strings containing the names of 
 
 Registering Parameters
 ----------------------
-We then need to register those parameters, so they are known to the NMF's parameter service. This is done in the method **initialRegistrations** which is provided by **MonitorAndControlNMFAdapter**.
-The first thing you should do in **initialRegistrations** is setting the registration mode of the passed in **MCRegistration**.
+We then need to register those parameters, so they are known to the NMF's parameter service. This is done in the method ``initialRegistrations`` which is provided by **MonitorAndControlNMFAdapter**.
+The first thing you should do in ``initialRegistrations`` is setting the registration mode of the passed in **MCRegistration**.
 The default value is **DONT_UPDATE_IF_EXISTS**, but it could change in between, so it makes sense to set it explicitly to that value. The other option would be **UPDATE_IF_EXISTS**.
 So, all you need to do for now is ``registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);``
 
@@ -34,7 +34,7 @@ Now, let's actually register our parameters. To define our parameters, we need t
 The **ParameterDefinitionDetailsList** contains all the details of our parameters, except for the name. 
 The parameter names are provided in the **IdentifierList** in the same order, as the corresponding **ParameterDefinitionDetails** are passed to the other list. 
 So, if we supplied the details in the order gain_r, gain_g, gain_b, exposure_time, then the **IdentifierList** would contain the **Identifiers** for "GainRed", "GainGreen", "GainBlue" and "ExposureTime" in that order.
-**ParameterDefinitionDetails** contain basic information about your parameter. This information is a short description (**String**) which can be displayed in the CTT, its raw type (**Byte**), if the parameter value is sent to the NMF on a regular basis (**Boolean**), the delay between parameter updates (**Duration**), an expression to check if the current parameter value is valid (**Parameter expression**) and finally a **ParameterConversion** if the parameter has a converted type.
+**ParameterDefinitionDetails** contain basic information about your parameter. This information is a short description (**String**) which can be displayed in the CTT, its raw type (**Byte**), if the parameter value is sent to the NMF on a regular basis (**Boolean**), the delay between parameter updates (**Duration**), an expression to check if the current parameter value is valid (**ParameterExpression**) and finally a **ParameterConversion** if the parameter has a converted type.
 The last two values can be null, if they are not needed.
 However, the other values should be set. Otherwise, NullPointerExceptions will occur.
 
@@ -75,8 +75,8 @@ All that is left to do for the parameter registration is to call ``registration.
 
 Getting the value of a parameter
 --------------------------------
-Without ground access to your parameters, they are most likely useless. To make your parameter values accessible from the ground you need to implement the method **onGetValue** which provides you with and **Identifier** and a rawType as a **Byte**.
-In **onGetValue** we basicly need to check, if our app knows the provided identifier and return the corresponding value. So our code looks like this:
+Without ground access to your parameters, they are most likely useless. To make your parameter values accessible from the ground you need to implement the method ``onGetValue`` which provides you with and **Identifier** and a rawType as a **Byte**.
+In ``onGetValue`` we basicly need to check, if our app knows the provided identifier and return the corresponding value. So our code looks like this:
 
 .. code-block:: java
    :linenos:
@@ -101,9 +101,9 @@ Note that **Union** is a MAL wrapper for Java primitive types and extends the **
 Setting the value of a parameter
 --------------------------------
 Right now, our parameters are read-only, as nothing will happen when we call setParameter from the ground.
-To change that, we need to implement the method **onSetValue**. The method is provided with an **IdentifierList** and a **ParameterRawValueList**.
+To change that, we need to implement the method ``onSetValue``. The method is provided with an **IdentifierList** and a **ParameterRawValueList**.
 The idea is to iterate over the **IdentifierList** and assign the corresponding value of the **ParameterRawValueList** to the correct parameter.
-This can be done by using a similar if/else if construction as in **onGetValue**, or by storing your parameters in a HashMap that you declare in your adapter.
+This can be done by using a similar if/else if construction as in ``onGetValue``, or by storing your parameters in a HashMap that you declare in your adapter.
 In this example, we will use the first approach.
 
 .. code-block:: java
@@ -133,9 +133,9 @@ Summary
 We are now able to use parameters in our app! Here is just a quick recap of what you need to do in order to use parameters:
 
 1. Declare some variables that hold your parameters values and provide a default value.
-2. Register your parameters in **initialRegistrations**.
-3. Implement **onGetValue**.
-4. Implement **onSetValue**.
+2. Register your parameters in ``initialRegistrations``.
+3. Implement ``onGetValue``.
+4. Implement ``onSetValue``.
 
 We only covered the basics of parameter handling. There is even more stuff that you can do with them (e.g. updating parameter values on a regular basis)!
 If you want to learn about this, check out the `Publish Clock Example <https://github.com/esa/nanosat-mo-framework/blob/dev/sdk/examples/space/publish-clock/src/main/java/esa/mo/nmf/apps/PushClock.java>`_ on GitHub.

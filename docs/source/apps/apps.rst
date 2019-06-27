@@ -8,7 +8,9 @@ The idea is to take an image and keep the user updated about the state of the so
 Creating the project
 --------------------
 The recommended way to create a new NMF app project is to copy one of the examples (preferably the one which resembles your planned application the most) and rename the folder to start with.
-So in our case, we will copy the camera example project folder and rename it to something more fitting, e.g. 'sobel'. To make our life easier when we import the project into our workspace, we should edit the app's POM to give it a unique name and artifact ID. So in the **pom.xml** inside the folder **sobel** change the field **artifactId** from the value 'camera' to 'sobel'. You should also change the values of the **name** and **description** tags to relate to our example and put your name into the **author** tags. 
+So in our case, we will copy the camera example project folder and rename it to something more fitting, e.g. 'sobel'.
+To make our life easier when we import the project into our workspace, we should edit the app's POM to give it a unique name and artifact ID.
+So in the **pom.xml** inside the folder **sobel** change the field ``artifactId`` from the value 'camera' to 'sobel'. You should also change the values of the ``name`` and ``description`` tags to relate to our example and put your name into the ``author`` tags. 
 Now we can import the project either into Netbeans or into Eclipse, by using the same methods as we used to import the NMF before. Just for good measure, we should rename the files and classes to have a better representation of our app. Let's change the name of the main class (currently **SnapNMF**) to **SobelApp**. Also change the name of the adapter class (**MCSnapNMFAdapter**) to **SobelMCAdapter**.
 
 Nice job, you have set up your environment and project to develop your first NMF app. Let's start to take this example app apart and rebuild it to fit our needs!
