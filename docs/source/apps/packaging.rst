@@ -8,7 +8,7 @@ The easiest way to achieve that, is to package your app with the SDK. For this w
 
 SDK Package POM
 ---------------
-The first file we have to change is the **pom.xml** in the folder **sdk/sdk-package**. First, add your app to the dependencies.
+The first file we have to change is the ``pom.xml`` in the folder ``sdk/sdk-package``. First, add your app to the dependencies.
 
 .. code-block:: xml
    :linenos:
@@ -20,7 +20,7 @@ The first file we have to change is the **pom.xml** in the folder **sdk/sdk-pack
    </dependency>
 
 After that, we have to make sure that the different properties files needed by the NMF are present in the app's execution directory.
-This is done in an execution of the **Maven Antrun Plugin**. Add a copy task with the execution folder of your app as the *todir*.
+This is done in an execution of the ``Maven Antrun Plugin``. Add a copy task with the execution folder of your app as the *todir*.
 
 .. code-block:: xml
    :linenos:
@@ -34,7 +34,7 @@ That is all you need to do here! Easy, right?
 
 Build.xml
 ---------
-The next step is to update the **sdk/sdk-package/antpkg/build.xml**. This is an Ant script which is called by the same plugin that copies the properties files.
+The next step is to update the ``sdk/sdk-package/antpkg/build.xml``. This is an Ant script which is called by the same plugin that copies the properties files.
 In principle, it works like a Makefile in C. We have a top level target which is execution through the Maven Antrun Plugin and this target depends on several subtargets.
 Our task in this file is to create such a subtarget for our app and add this target to the dependency list of *build*.
 
