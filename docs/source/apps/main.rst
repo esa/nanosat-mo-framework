@@ -5,7 +5,7 @@ In this chapter we will take a look at the behavior of the main class of our Sob
 
 Communication with the NMF
 --------------------------
-We need two components to handle communication with the NMF. The first component is the **NanoSatMOConnectorImpl** (referred to as **connector** in the code and this tutorial).
+We need two components to handle communication with the NMF. The first component is the :java:type:`esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl` (referred to as **connector** in the code and this tutorial).
 We can use the **connector** to request services from the NMF (e.g. camera and iADCS in our case) and push results to the NMF, so they are forwarded to the ground.
 Together with the **connector**, we need an **adapter** which handles the responses coming from the **connector** and pushing of requests and results to the **connector**.
 That's why we supply the **connector** to the **adapter** by calling ``adapter.setNMF(connector)`` and vice verca by calling ``connector.init(adapter)`` on startup.
