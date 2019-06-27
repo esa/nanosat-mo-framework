@@ -3,6 +3,11 @@ Parameters
 ==========
 Parameters can be used to capture or influence the current state of the spacecraft or your app.
 In the case of our example app, the parameters will be the gains for the RGB colour channels and the exposure time of the camera.
+
+.. contents:: Table of contents
+
+Defining parameters
+-------------------
 Internally, parameters are most likely just Java attributes of your app or provided by some other service. So to define our available parameters, we just need to define them in our class:
 
 .. code-block:: java
@@ -23,7 +28,7 @@ It is also recommended that you define constant strings containing the names of 
    private static final String GB = "GainBlue";
    private static final String ET = "ExposureTime";
 
-Registering Parameters
+Registering parameters
 ----------------------
 We then need to register those parameters, so they are known to the NMF's parameter service. This is done in the method ``initialRegistrations`` which is provided by :java:type:`~esa.mo.nmf.MonitorAndControlNMFAdapter`.
 The first thing you should do in ``initialRegistrations`` is setting the registration mode of the passed in :java:type:`~esa.mo.nmf.MCRegistration`.

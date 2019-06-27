@@ -2,6 +2,10 @@
 Importing the NMF into Eclipse IDE
 ===================================
 
+.. contents:: Table of contents
+
+Getting started
+---------------
 If you want to use another IDE than Netbeans, Eclipse is the way to go (for now). There are still some minor issues, so if you encounter any problems, feel free to post an issue on GitHub.
 Recommended Eclipse version is 2019-03 although other versions should work as well.
 

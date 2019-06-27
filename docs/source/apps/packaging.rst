@@ -6,6 +6,8 @@ Apart from unit tests over some methods, one way to test is to just run your app
 The recommended way of running an app is through the NMF supervisor. 
 The easiest way to achieve that, is to package your app with the SDK. For this we have to look at several files.
 
+.. contents:: Packaging requirements
+
 SDK Package POM
 ---------------
 The first file we have to change is the ``pom.xml`` in the folder ``sdk/sdk-package``. First, add your app to the dependencies.

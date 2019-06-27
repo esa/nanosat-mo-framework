@@ -2,6 +2,20 @@
 Developing your first NMF app
 =============================
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents
+
+   apps
+   main
+   adapter
+   parameters
+   actions
+   packaging
+   build
+
+Introduction
+------------
 Now that you are set and ready to go, it is time for you to develop your first web app. In this app, we will use the camera to take some pictures of the earth and apply a sobel filter to the taken image.
 The idea is to take an image and keep the user updated about the state of the sobel calculation. For this, we will first use the iADCS service to point the camera to the ground and then use the camera service to take the picture. After that, we use plain Java to calculate the filtered image. On OPS-SAT, this calculation could be outsourced to the FPGA and hardware-accelerated to have faster computations.
 
