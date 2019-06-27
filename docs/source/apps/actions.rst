@@ -5,6 +5,8 @@ Apart from parameters, actions are our main way to interact with an NMF app. An 
 In our case, the only action we need is called ``takeSobel`` and will take care of taking an image with the camera, grayscaling it and applying the sobel filter on top of the grayscaled image.
 We also want to keep the user informed about the current progress of the action, i.e. if we are currently taking a picture, grayscaling it or applying the filter.
 
+.. contents:: Table of contents
+
 Registering the action
 ----------------------
 Just like parameters, actions need to be registered to the NMF. So, when we connect to the app it can tell us which actions it provides.
