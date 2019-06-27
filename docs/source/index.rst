@@ -14,7 +14,7 @@ Welcome to Nanosat MO Framework's documentation!
    sdk
    apps/apps
    simulator
-   packages
+   javadoc/packages
 
 Indices and tables
 ==================

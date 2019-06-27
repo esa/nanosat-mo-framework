@@ -53,6 +53,6 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = []
 
 def setup(app):
-    os.system("javasphinx-apidoc -o . --title='NMF Javadoc' ../../")
+    os.system("javasphinx-apidoc -o ./javadoc --title='NMF Javadoc' ../../")
     os.system("pwd")
     os.system("ls")
