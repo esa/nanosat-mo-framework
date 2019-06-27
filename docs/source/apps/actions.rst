@@ -64,15 +64,15 @@ So the method contains the following code:
    return new UInteger(0);
 
 The variables *width* and *height* are additional attributes and correspond to the width and height of the BST IMS-100 camera which is used on OPS-SAT.
-In this method, we use the platform services for the first time, the camera service to be precise (see highlighted line). The camera service offers a method ``takePicture`` which uses a **PixelResolution**, a **PictureFormat**, a **Duration**, three **Float** and a **CameraAdapter**. The **DataReceivedAdapter** which extends the **CameraAdapter** class required for ``takePicture`` is explained further in the next section.
+In this method, we use the platform services for the first time, the camera service to be precise (see highlighted line). The camera service offers a method ``takePicture`` which uses a **PixelResolution**, a **PictureFormat**, a **Duration**, three **Float** and a **CameraAdapter**. The :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter` which extends the **CameraAdapter** class required for ``takePicture`` is explained further in the next section.
 On success, ``actionArrived`` has to return the value ``null`` and a **UInteger** containing the error code if something goes wrong.
-Now, when a user calls the action "takeSobel", our app requests the camera service to take a picture with the provided parameters and return the data over the **DataReceivedAdapter**.
-Now the only thing left is to implement the logic inside the **DataReceivedAdapter** and filter the returned image!
+Now, when a user calls the action "takeSobel", our app requests the camera service to take a picture with the provided parameters and return the data over the :java:type`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter`.
+Now the only thing left is to implement the logic inside the :java:type`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter` and filter the returned image!
 
 DataReceivedAdapter
 -------------------
-In order to apply the sobel filter, we need to do three things: Convert the raw byte data into a **BufferedImage**, grayscale that image and apply the sobel filter on that image. This is all done in the **DataReceivedAdapter**.
-The **DataReceivedAdapter** extends the abstract class **CameraAdapter** which provides methods for basic message handling between the camera service and your app.
+In order to apply the sobel filter, we need to do three things: Convert the raw byte data into a **BufferedImage**, grayscale that image and apply the sobel filter on that image. This is all done in the :java:type`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter`.
+The :java:type`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter` extends the abstract class **CameraAdapter** which provides methods for basic message handling between the camera service and your app.
 The **CameraAdapter** class offers several (empty) default implementations, so you can just override the ones in which you actually want to do something meaningful. 
 So, in our case, we only want to implement the method ``takePictureResponseReceived``. Therefore, we can get rid of every other overridden method.
 We also want to change the names of the constant integers at the beginning of the class from **STAGE_ACK** and **STAGE_RSP** to **STAGE_IMG** and **STAGE_GS**. Further, we want to add a third constant for the last execution stage: ``private final int STAGE_SOBEL = 3``.
