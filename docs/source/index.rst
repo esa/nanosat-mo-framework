@@ -12,6 +12,7 @@ Welcome to Nanosat MO Framework's documentation!
 
    quickstart
    sdk
+   apps/apps
    simulator
    packages
 
