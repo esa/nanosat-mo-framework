@@ -2,6 +2,8 @@ NMF Quickstart
 ================================================
 After finishing this page you will have all the libraries needed to build the NMF and apps.
 
+.. contents:: Table of contents
+
 Getting the NMF
 ---------------
 The recommended way to install the NMF is to get it directly from our `GitHub repository <https://github.com/esa/nanosat-mo-framework>`_.
