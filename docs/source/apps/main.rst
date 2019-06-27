@@ -3,6 +3,8 @@ Taking a look at the main class
 ===============================
 In this chapter we will take a look at the behavior of the main class of our Sobel app. As said before, the main purpose of the main class (:java:type:`~esa.mo.nmf.apps.SobelApp`.java) is to setup the communication with the NMF and its services and to make sure everything is running.
 
+.. contents:: Table of contents
+
 Communication with the NMF
 --------------------------
 We need two components to handle communication with the NMF. The first component is the :java:type:`~esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl` (referred to as ``connector`` in the code and this tutorial).

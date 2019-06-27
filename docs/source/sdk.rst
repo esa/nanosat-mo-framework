@@ -4,7 +4,7 @@ SDK
 The SDK provides basic functionality to develop and test your space apps our ground applications. The SDK is located is the **sdk/** folder of the repository. 
 To build the SDK you can just run ``mvn install`` in the **sdk/** directory. This will build all examples and package them into a release zip and folder which you can find under **sdk/sdk-package/target/**.
 
-.. contents:: Table of Contents:
+.. contents:: Table of Contents
 
 Space app examples
 ------------------
