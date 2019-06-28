@@ -43,6 +43,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Hashtable;
@@ -97,6 +98,7 @@ import opssat.simulator.util.ArgumentDescriptor;
 import opssat.simulator.util.ArgumentTemplate;
 import opssat.simulator.util.CommandDescriptor;
 import opssat.simulator.util.CommandResult;
+import opssat.simulator.util.PlatformMessage;
 import opssat.simulator.util.SimulatorData;
 import opssat.simulator.util.SimulatorDeviceData;
 import opssat.simulator.util.SimulatorHeader;
@@ -177,6 +179,7 @@ public class GuiMainWindow implements Runnable {
     this.targetURL = targetURL;
     this.targetPort = targetPort;
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         createAndShowGUI();
         parent.startSocket();
@@ -193,8 +196,7 @@ public class GuiMainWindow implements Runnable {
   private void refreshPlatformProperties() {
     platformProperties = new Properties();
     try {
-      platformProperties
-          .load(new FileInputStream(parent.getSimulatorWorkingDir() + "/platformsim.properties"));
+      platformProperties.load(new FileInputStream(pwd + "/platformsim.properties"));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -270,6 +272,7 @@ public class GuiMainWindow implements Runnable {
         final Boolean updateValues = true;
         final String targetDevice = simulatorDeviceData.getName();
         checkBox.addItemListener(new ItemListener() {
+          @Override
           public void itemStateChanged(ItemEvent e) {
             hashTableDataOutAgregate.get(targetDevice)
                 .setUpdateValues(e.getStateChange() == ItemEvent.SELECTED);
@@ -278,6 +281,7 @@ public class GuiMainWindow implements Runnable {
         });
 
         copyToClipBoard.addActionListener(new ActionListener() {
+          @Override
           public void actionPerformed(ActionEvent e) {
             Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
             StringSelection stringSelection = new StringSelection(
@@ -385,6 +389,7 @@ public class GuiMainWindow implements Runnable {
 
     txtTimeFactor.setPreferredSize(new Dimension(35, 20));
     txtTimeFactor.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         String newFactor = txtTimeFactor.getText();
         int newTimeFactor = Integer.parseInt(newFactor);
@@ -399,33 +404,39 @@ public class GuiMainWindow implements Runnable {
       }
     });
     chkBoxShowAll.addItemListener(new ItemListener() {
+      @Override
       public void itemStateChanged(ItemEvent e) {
         putManualCommandsInCombo(e.getStateChange() == ItemEvent.SELECTED);
       }
     });
     chkBoxPeriodicSending.addItemListener(new ItemListener() {
+      @Override
       public void itemStateChanged(ItemEvent e) {
         isEnduranceTest = (e.getStateChange() == ItemEvent.SELECTED);
       }
     });
     startStopButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         parent.addGUIInteraction("ToggleStartStop");
       }
     });
     editHeaderButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         editForm = new GuiSimulatorHeaderEdit(simulatorHeader, GuiMainWindow.this);
       }
     });
 
     pauseResumeButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         parent.addGUIInteraction("TogglePauseResume");
       }
     });
 
     sendManualButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         Object c = comboCommands.getSelectedItem();
         if (c instanceof CommandDescriptor) {
@@ -434,6 +445,7 @@ public class GuiMainWindow implements Runnable {
       }
     });
     resetInputArgsButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         Object c = comboCommands.getSelectedItem();
         if (c instanceof CommandDescriptor) {
@@ -444,6 +456,7 @@ public class GuiMainWindow implements Runnable {
     });
 
     btnNewTemplate.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         String test1 = JOptionPane.showInputDialog("Input description for new template: ");
         Object c = comboCommands.getSelectedItem();
@@ -464,6 +477,7 @@ public class GuiMainWindow implements Runnable {
 
     });
     btnSaveTemplate.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         // String test1= JOptionPane.showInputDialog("Input description for new
         // template: ");
@@ -475,12 +489,12 @@ public class GuiMainWindow implements Runnable {
             if (cTemplateDescription.equals(CommandDescriptor.KEYWORD_DEFAULT)) {
               JOptionPane.showMessageDialog(frame,
                   "Default template edit cannot be saved, create a new one or edit another one.");
-            } else if (((CommandDescriptor) c).updateTemplate((String) cTemplateDescription,
+            } else if (((CommandDescriptor) c).updateTemplate(cTemplateDescription,
                 txtInputArguments.getText())) {
               templateChanged = false;
             } else {
               JOptionPane.showMessageDialog(frame,
-                  "Could not find template [" + (String) cTemplateDescription + "] in command ["
+                  "Could not find template [" + cTemplateDescription + "] in command ["
                       + ((CommandDescriptor) c).getMethodBody() + "]!");
             }
           }
@@ -489,6 +503,7 @@ public class GuiMainWindow implements Runnable {
 
     });
     btnUpdateServer.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         int resultConfirm = JOptionPane.showConfirmDialog(frame,
             "Server will be updated with local copy of commands & templates. Do you want to continue?",
@@ -497,7 +512,7 @@ public class GuiMainWindow implements Runnable {
           showMessageConsole("User;Local;UpdateServer;");
           LinkedList<CommandDescriptor> newCommandsList = new LinkedList<CommandDescriptor>();
           for (int i = 0; i < commandsList.size(); i++) {
-            newCommandsList.add((CommandDescriptor) commandsList.get(i));
+            newCommandsList.add(commandsList.get(i));
           }
           parent.addGUIInteraction(newCommandsList);
         } else {
@@ -512,6 +527,7 @@ public class GuiMainWindow implements Runnable {
 
     txtLoaderPrompt.addActionListener(new ActionListener() {
 
+      @Override
       public void actionPerformed(ActionEvent e) {
         String targetConnection = txtLoaderPrompt.getText();
         List<String> items = Arrays.asList(targetConnection.split(":"));
@@ -548,6 +564,7 @@ public class GuiMainWindow implements Runnable {
     // chkCommands.setPrototypeDisplayValue(" ");
     comboCommands.addItem("Select");
     comboCommands.addItemListener(new ItemListener() {
+      @Override
       public void itemStateChanged(ItemEvent arg0) {
         if (arg0.getStateChange() == ItemEvent.SELECTED) {
           Object item = arg0.getItem();
@@ -558,6 +575,7 @@ public class GuiMainWindow implements Runnable {
       }
     });
     comboTemplates.addItemListener(new ItemListener() {
+      @Override
       public void itemStateChanged(ItemEvent arg0) {
         if (arg0.getStateChange() == ItemEvent.SELECTED) {
           Object item = arg0.getItem();
@@ -646,9 +664,9 @@ public class GuiMainWindow implements Runnable {
     JLabel lblMode = new JLabel("Image selection mode:");
 
     final JComboBox<String> selectMode = new JComboBox<String>();
-    selectMode.setModel(new DefaultComboBoxModel<String>(new String[] { "Fixed", "Random"
-    }));
+    selectMode.setModel(new DefaultComboBoxModel<String>(new String[] { "Fixed", "Random" }));
     selectMode.addItemListener(new ItemListener() {
+      @Override
       public void itemStateChanged(ItemEvent arg0) {
         textFieldPath.setText("");
       }
@@ -680,6 +698,7 @@ public class GuiMainWindow implements Runnable {
 
     JButton btnOpenTargetSelect = new JButton("Browse");
     btnOpenTargetSelect.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent arg0) {
         JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
         if (selectMode.getSelectedItem().equals("Fixed")) {
@@ -707,11 +726,15 @@ public class GuiMainWindow implements Runnable {
 
     JButton btnApplyCamSettings = new JButton("Apply");
     btnApplyCamSettings.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent arg0) {
-
         try {
-          InputStream input = new FileInputStream(
-              parent.getSimulatorWorkingDir() + "/platformsim.properties");
+          ArrayList<PlatformMessage> updates = new ArrayList<PlatformMessage>();
+          InputStream input = new FileInputStream(pwd + "/platformsim.properties"); // TODO: Change
+                                                                                    // to local
+                                                                                    // exec dir as
+                                                                                    // 'backup'
+                                                                                    // save
           Properties settings = new Properties();
           try {
             settings.load(input);
@@ -719,16 +742,30 @@ public class GuiMainWindow implements Runnable {
             String path = textFieldPath.getText();
             String mode = (String) selectMode.getSelectedItem();
             settings.put("camerasim.imagemode", mode);
+            updates.add(new PlatformMessage("camerasim.imagemode", mode));
             if (!path.equals("")) {
               if (mode.equals("Fixed")) {
                 settings.put("camerasim.imagefile", path);
+                updates.add(new PlatformMessage("camerasim.imagefile", path));
               } else if (mode.equals("Random")) {
                 settings.put("camerasim.imagedirectory", path);
+                updates.add(new PlatformMessage("camerasim.imagedirectory", path));
               }
             }
-            OutputStream output = new FileOutputStream(
-                parent.getSimulatorWorkingDir() + "/platformsim.properties");
+            OutputStream output = new FileOutputStream(pwd + "/platformsim.properties"); // TODO:
+                                                                                         // Change
+                                                                                         // to
+                                                                                         // local
+                                                                                         // exec dir
+                                                                                         // as
+                                                                                         // 'backup'
+                                                                                         // save
             settings.store(output, null);
+            // Send updates to server
+            for (PlatformMessage p : updates) {
+              parent.addGUIInteraction(p);
+            }
+
             parent.getToServerQueue().add("refreshConfig");
             updateCamSettingsTable();
           } catch (IOException e) {
@@ -787,18 +824,17 @@ public class GuiMainWindow implements Runnable {
       }
     };
     tableCurrentSettings
-        .setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Property", "Value"
-        }) {
-          Class[] columnTypes = new Class[] { String.class, String.class
-          };
+        .setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Property", "Value" }) {
+          Class[] columnTypes = new Class[] { String.class, String.class };
 
+          @Override
           public Class getColumnClass(int columnIndex) {
             return columnTypes[columnIndex];
           }
 
-          boolean[] columnEditables = new boolean[] { false, false
-          };
+          boolean[] columnEditables = new boolean[] { false, false };
 
+          @Override
           public boolean isCellEditable(int row, int column) {
             return columnEditables[column];
           }
@@ -840,8 +876,7 @@ public class GuiMainWindow implements Runnable {
       String key = (String) e.getKey();
       if (key.startsWith("camera")) {
         String val = (String) e.getValue();
-        dtm.addRow(new String[] { key, val
-        });
+        dtm.addRow(new String[] { key, val });
       }
     }
   }
@@ -856,6 +891,7 @@ public class GuiMainWindow implements Runnable {
       if (doRun) {
         parent.addGUIInteraction(c);
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
+          @Override
           public void run() {
             txtInputArguments.setBackground(colorCommandsSent);
             txtInputArguments.setForeground(Color.BLACK);
@@ -869,6 +905,7 @@ public class GuiMainWindow implements Runnable {
       return true;
     } else {
       javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        @Override
         public void run() {
           txtInputArguments.setBackground(Color.RED);
           txtInputArguments.setForeground(Color.WHITE);
@@ -884,6 +921,7 @@ public class GuiMainWindow implements Runnable {
 
   private void handleSchedulerList(final LinkedList<SimulatorSchedulerPiece> data) {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         txtScheduler.setText("");
         String schedulerDataStr = "";
@@ -900,6 +938,7 @@ public class GuiMainWindow implements Runnable {
 
   public void showMessageConsole(final String data) {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd;HH:mm:ss");
         Date date = new Date();
@@ -928,6 +967,7 @@ public class GuiMainWindow implements Runnable {
     this.logger.log(Level.ALL, "Received list of SimulatorDeviceData with ["
         + linkedSimulatorDeviceData.size() + "] items");
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         for (SimulatorDeviceData simulatorDeviceData : linkedSimulatorDeviceData) {
           if (hashTableDataOutAgregate.get(simulatorDeviceData.getName()).isUpdateValues()) {
@@ -946,6 +986,7 @@ public class GuiMainWindow implements Runnable {
   public void showCommandResult(final CommandResult data) {
 
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         lblCommandResult.setText(data.toExtString());
         Object obj = data.getOutput();
@@ -961,6 +1002,7 @@ public class GuiMainWindow implements Runnable {
 
   public void displayManualMethod(final CommandDescriptor data) {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         lblMethodDescriptor.setText(data.getComment());
         displayManualMethodTemplate(data);
@@ -988,6 +1030,7 @@ public class GuiMainWindow implements Runnable {
 
   private void clearManualCommands() {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         comboCommands.removeAllItems();
       }
@@ -997,6 +1040,7 @@ public class GuiMainWindow implements Runnable {
   private void addManualCommandsItem(final CommandDescriptor data) {
 
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
 
         comboCommands.addItem(data);
@@ -1018,6 +1062,7 @@ public class GuiMainWindow implements Runnable {
 
   public void processSimulatorData(final SimulatorData data) {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         lblSimulatorData.setText(data.toString());
         Map<TimeUnit, Long> computedDiff;
@@ -1056,6 +1101,7 @@ public class GuiMainWindow implements Runnable {
 
   public void makeEnduranceTest() {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         int newIndex = comboCommands.getSelectedIndex();
         newIndex++;
@@ -1075,6 +1121,7 @@ public class GuiMainWindow implements Runnable {
     this.isConnected = isConnected;
     this.showMessageConsole("showConnectedInfo [" + isConnected + "].");
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         frame.getContentPane().removeAll();
         frame.getContentPane().repaint();
@@ -1095,6 +1142,7 @@ public class GuiMainWindow implements Runnable {
 
   public void putManualCommandsInCombo(final boolean showAll) {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      @Override
       public void run() {
         chkBoxShowAll.setSelected(showAll);
 
