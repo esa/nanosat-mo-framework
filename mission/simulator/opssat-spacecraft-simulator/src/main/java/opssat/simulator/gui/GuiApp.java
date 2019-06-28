@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import opssat.simulator.tcp.SocketClient;
 import opssat.simulator.util.CommandDescriptor;
 import opssat.simulator.util.LoggerFormatter1Line;
@@ -35,79 +36,78 @@ import opssat.simulator.util.LoggerFormatter1Line;
  */
 public class GuiApp {
 
-    private final GuiMainWindow guiMainWindow;
-    private final ConcurrentLinkedQueue<Object> toServerQueue;
-    private final ConcurrentLinkedQueue<Object> fromServerQueue;
-    private SocketClient socketClient;
-    private String targetURL;
-    private int targetPort;
-    Logger logger;
-    private String simulatorWorkingDir;
+  private final GuiMainWindow guiMainWindow;
+  private final ConcurrentLinkedQueue<Object> toServerQueue;
+  private final ConcurrentLinkedQueue<Object> fromServerQueue;
+  private SocketClient socketClient;
+  private String targetURL;
+  private int targetPort;
+  Logger logger;
+  private String simulatorWorkingDir;
 
-    public String getSimulatorWorkingDir() {
-      return simulatorWorkingDir;
-    }
-    
-    public void setSimulatorWorkingDir(String dir) {
-      this.simulatorWorkingDir = dir;
-    }
-    
-    public SocketClient getSocketClient() {
-      return socketClient;
-    }
-    
-    public void setTargetConnection(String targetURL, int targetPort) {
-        this.targetURL = targetURL;
-        this.targetPort = targetPort;
-        this.socketClient.setTargetConnection(targetURL, targetPort);
-    }
+  public String getSimulatorWorkingDir() {
+    return simulatorWorkingDir;
+  }
 
-    public ConcurrentLinkedQueue<Object> getFromServerQueue() {
-        return fromServerQueue;
+  public void setSimulatorWorkingDir(String dir) {
+    this.simulatorWorkingDir = dir;
+  }
 
-    }
+  public SocketClient getSocketClient() {
+    return socketClient;
+  }
 
-    public ConcurrentLinkedQueue<Object> getToServerQueue() {
-        return toServerQueue;
-    }
+  public void setTargetConnection(String targetURL, int targetPort) {
+    this.targetURL = targetURL;
+    this.targetPort = targetPort;
+    this.socketClient.setTargetConnection(targetURL, targetPort);
+  }
 
-    public GuiMainWindow getGuiMainWindow() {
-        return guiMainWindow;
-    }
+  public ConcurrentLinkedQueue<Object> getFromServerQueue() {
+    return fromServerQueue;
 
-    public void restartSocket() {
-        socketClient = new SocketClient(targetURL, targetPort, this);
-        socketClient.start();
-    }
+  }
 
-    public Logger getLogger() {
-        return logger;
-    }
+  public ConcurrentLinkedQueue<Object> getToServerQueue() {
+    return toServerQueue;
+  }
 
-    public GuiApp(String targetURL, int targetPort) {
-        this.logger = Logger.getLogger(GuiMainWindow.class.getName());
-        logger.setUseParentHandlers(false);
-        logger.setLevel(Level.ALL);
-        ConsoleHandler consoleHandler = (new ConsoleHandler());
-        consoleHandler.setFormatter(new LoggerFormatter1Line(GuiMainWindow.class.getName()));
-        logger.addHandler(consoleHandler);
-        fromServerQueue = new ConcurrentLinkedQueue<Object>();
-        toServerQueue = new ConcurrentLinkedQueue<Object>();
-        this.targetURL = targetURL;
-        this.targetPort = targetPort;
-        guiMainWindow = new GuiMainWindow(this, targetURL, targetPort);
-        (new Thread(guiMainWindow)).start();
-    }
+  public GuiMainWindow getGuiMainWindow() {
+    return guiMainWindow;
+  }
 
-    public void startSocket() {
-        socketClient = new SocketClient(targetURL, targetPort, this);
-        socketClient.start();
-    }
+  public void restartSocket() {
+    socketClient = new SocketClient(targetURL, targetPort, this);
+    socketClient.start();
+  }
 
-    public void addGUIInteraction(Object data) {
+  public Logger getLogger() {
+    return logger;
+  }
 
-        toServerQueue.add(data);
-        fromServerQueue.add("Local;UserInput;" + CommandDescriptor.makeConsoleDescriptionForObj(data));
-    }
+  public GuiApp(String targetURL, int targetPort) {
+    this.logger = Logger.getLogger(GuiMainWindow.class.getName());
+    logger.setUseParentHandlers(false);
+    logger.setLevel(Level.ALL);
+    ConsoleHandler consoleHandler = (new ConsoleHandler());
+    consoleHandler.setFormatter(new LoggerFormatter1Line(GuiMainWindow.class.getName()));
+    logger.addHandler(consoleHandler);
+    fromServerQueue = new ConcurrentLinkedQueue<Object>();
+    toServerQueue = new ConcurrentLinkedQueue<Object>();
+    this.targetURL = targetURL;
+    this.targetPort = targetPort;
+    guiMainWindow = new GuiMainWindow(this, targetURL, targetPort);
+    (new Thread(guiMainWindow)).start();
+  }
+
+  public void startSocket() {
+    socketClient = new SocketClient(targetURL, targetPort, this);
+    socketClient.start();
+  }
+
+  public void addGUIInteraction(Object data) {
+    toServerQueue.add(data);
+    fromServerQueue.add("Local;UserInput;" + CommandDescriptor.makeConsoleDescriptionForObj(data));
+  }
 
 }

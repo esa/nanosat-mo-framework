@@ -97,6 +97,7 @@ import opssat.simulator.util.CommandDescriptor;
 import opssat.simulator.util.CommandResult;
 import opssat.simulator.util.EndlessSingleStreamOperatingBuffer;
 import opssat.simulator.util.EndlessWavStreamOperatingBuffer;
+import opssat.simulator.util.PlatformMessage;
 import opssat.simulator.util.SimulatorData;
 import opssat.simulator.util.SimulatorDeviceData;
 import opssat.simulator.util.SimulatorHeader;
@@ -536,8 +537,19 @@ public class SimulatorNode extends TaskNode {
    * Camera).
    */
   public void updatePlatformConfig() {
+    try {
+      this.writeProperties(new File("platformsim.properties"), this.platformProperties);
+    } catch (IOException e) {
+      Logger.getLogger(SimulatorNode.class.getName()).log(Level.WARNING,
+          "Could not save platform properties");
+    }
     this.platformProperties = this.readProperties("platformsim.properties");
     reloadImageBuffer();
+  }
+
+  public void writeProperties(File file, Properties props) throws IOException {
+    FileOutputStream fos = new FileOutputStream(file);
+    props.store(fos, null);
   }
 
   /**
@@ -1373,6 +1385,10 @@ public class SimulatorNode extends TaskNode {
 
   @Override
   void dataIn(Object obj) {
+    if (obj instanceof PlatformMessage) {
+      PlatformMessage msg = (PlatformMessage) obj;
+      this.platformProperties.put(msg.getKey(), msg.getValue());
+    }
     if (obj instanceof String) {
       String data = (String) obj;
       this.logger.log(Level.FINE, data);
