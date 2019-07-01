@@ -36,70 +36,76 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-public class ArchivePersistenceObject implements Serializable {
+public class ArchivePersistenceObject implements Serializable
+{
 
-    private final ObjectType objectType;
-    private final IdentifierList domainId;
-    private final Long objId;
+  private final ObjectType objectType;
+  private final IdentifierList domainId;
+  private final Long objId;
 
-    private final ObjectId sourceLink;
-    private final Long relatedLink;
-    private final String network;
+  private final ObjectId sourceLink;
+  private final Long relatedLink;
+  private final String network;
 
-    private final Long timestampArchiveDetails;
-    private final String providerURI;
+  private final Long timestampArchiveDetails;
+  private final String providerURI;
 //    private final Element obj;
-    
-    // The Element wrapping was removed!
-    private final Object object;
 
-    /*
-    protected ArchivePersistenceObject() {
-    }
-*/
+  // The Element wrapping was removed!
+  private final Object object;
 
-    public ArchivePersistenceObject(final ObjectType objectType, final IdentifierList domain,
-            final Long objId, final ArchiveDetails archiveDetails, final Object object) {
-        this.objectType = objectType;
-        this.domainId = domain;
-        this.objId = objId;
+  public ArchivePersistenceObject(final ObjectType objectType, final IdentifierList domain,
+      final Long objId, final ArchiveDetails archiveDetails, final Object object)
+  {
+    this.objectType = objectType;
+    this.domainId = domain;
+    this.objId = objId;
 
-        this.providerURI = archiveDetails.getProvider().getValue();
-        this.network = archiveDetails.getNetwork().getValue();
-        this.timestampArchiveDetails = archiveDetails.getTimestamp().getValue();
+    this.providerURI = (archiveDetails.getProvider() != null)
+        ? archiveDetails.getProvider().getValue() : null;
+    this.network = (archiveDetails.getNetwork() != null)
+        ? archiveDetails.getNetwork().getValue() : null;
+    this.timestampArchiveDetails = (archiveDetails.getTimestamp() != null)
+        ? archiveDetails.getTimestamp().getValue() : 0;
 
-        this.sourceLink = archiveDetails.getDetails().getSource();
-        this.relatedLink = archiveDetails.getDetails().getRelated();
+    this.sourceLink = archiveDetails.getDetails().getSource();
+    this.relatedLink = archiveDetails.getDetails().getRelated();
 //        this.obj = (Element) HelperAttributes.javaType2Attribute(object);
-        this.object = object;
-    }
+    this.object = object;
+  }
 
-    public ObjectType getObjectType() {
-        return this.objectType;
-    }
+  public ObjectType getObjectType()
+  {
+    return this.objectType;
+  }
 
-    public Long getObjectTypeId() {
-        return HelperCOM.generateSubKey(this.objectType);
-    }
+  public Long getObjectTypeId()
+  {
+    return HelperCOM.generateSubKey(this.objectType);
+  }
 
-    public IdentifierList getDomain() {
-        return this.domainId;
-    }
+  public IdentifierList getDomain()
+  {
+    return this.domainId;
+  }
 
-    public Long getObjectId() {
-        return this.objId;
-    }
+  public Long getObjectId()
+  {
+    return this.objId;
+  }
 
-    public ArchiveDetails getArchiveDetails() {
-        final Identifier net = (this.network == null) ? null : new Identifier(network);
-        final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
-        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink),
-                net, new FineTime(timestampArchiveDetails), uri);
-    }
+  public ArchiveDetails getArchiveDetails()
+  {
+    final Identifier net = (this.network == null) ? null : new Identifier(network);
+    final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
+    return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink),
+        net, new FineTime(timestampArchiveDetails), uri);
+  }
 
-    public Object getObject() {
+  public Object getObject()
+  {
 //        return HelperAttributes.attribute2JavaType(obj);
-        return this.object;
-    }
+    return this.object;
+  }
 
 }
