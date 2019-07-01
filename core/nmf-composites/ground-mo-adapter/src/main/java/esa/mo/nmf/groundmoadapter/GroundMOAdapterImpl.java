@@ -304,36 +304,41 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
       }
     }
 
-    // Subscribes to ALL Parameters and Aggregations
-    this.parameterSubscription = ConnectionConsumer.subscriptionWildcardRandom();
-    this.aggregationSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+    if (listener instanceof SimpleDataReceivedListener || listener instanceof CompleteDataReceivedListener) {
+      // Subscribes to ALL Parameters
+      this.parameterSubscription = ConnectionConsumer.subscriptionWildcardRandom();
 
-    try {
-      // Register for pub-sub of all parameters
-      super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(
-          this.parameterSubscription, new DataReceivedParameterAdapter());
-    } catch (MALInteractionException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    } catch (MALException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    } catch (NullPointerException ex) {
-      LOGGER.log(Level.SEVERE,
-          "Null pointer exception when trying to access the Parameter service. "
-          + "Check if the service consumer was initialized with a proper URI.",
-          ex);
+      try {
+        // Register for pub-sub of all parameters
+        super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(
+            this.parameterSubscription, new DataReceivedParameterAdapter());
+      } catch (MALInteractionException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      } catch (MALException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      } catch (NullPointerException ex) {
+        LOGGER.log(Level.SEVERE,
+            "Null pointer exception when trying to access the Parameter service. "
+            + "Check if the service consumer was initialized with a proper URI.",
+            ex);
+      }
     }
+    if (listener instanceof CompleteAggregationReceivedListener || listener instanceof CompleteAggregationReceivedListener) {
+      // Subscribes to ALL Aggregations
+      this.aggregationSubscription = ConnectionConsumer.subscriptionWildcardRandom();
 
-    try {
-      // Register for pub-sub of all aggregations
-      super.getMCServices().getAggregationService().getAggregationStub().monitorValueRegister(
-          this.aggregationSubscription, new DataReceivedAggregationAdapter());
-    } catch (MALInteractionException | MALException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    } catch (NullPointerException ex) {
-      LOGGER.log(Level.SEVERE,
-          "Null pointer exception when trying to access the Aggregation service. "
-          + "Check if the service consumer was initialized with a proper URI.",
-          ex);
+      try {
+        // Register for pub-sub of all aggregations
+        super.getMCServices().getAggregationService().getAggregationStub().monitorValueRegister(
+            this.aggregationSubscription, new DataReceivedAggregationAdapter());
+      } catch (MALInteractionException | MALException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      } catch (NullPointerException ex) {
+        LOGGER.log(Level.SEVERE,
+            "Null pointer exception when trying to access the Aggregation service. "
+            + "Check if the service consumer was initialized with a proper URI.",
+            ex);
+      }
     }
   }
 
