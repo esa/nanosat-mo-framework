@@ -1,6 +1,5 @@
 package opssat.simulator.orekit;
 
-import java.time.Duration;
 import java.time.Instant;
 
 import org.orekit.errors.OrekitException;
@@ -28,29 +27,7 @@ public class NadirDetector extends AbstractDetector<NadirDetector> {
 
   @Override
   public double g(SpacecraftState s) throws OrekitException {
-    try {
-      double att = s.getAdditionalState("attitude")[0];
-      Instant now = Instant.now();
-      double res = 0;
-      if (att == ATT_VALUE && !transitionStarted) {
-        startTime = now;
-        transitionStarted = true;
-        res = -1;
-      } else if (att == ATT_VALUE && transitionStarted) {
-        long ms = Duration.between(startTime, now).toMillis();
-        res = 2.0 * ms / transitionTime - 1.0;
-        if (ms >= transitionTime) {
-          res = 1;
-        }
-      } else {
-        transitionStarted = false;
-        res = -1;
-      }
-      // System.out.println("g = " + res);
-      return res;
-    } catch (OrekitException oe) {
-      return -1;
-    }
+    return s.getAdditionalState("attitude")[0];
   }
 
   @Override

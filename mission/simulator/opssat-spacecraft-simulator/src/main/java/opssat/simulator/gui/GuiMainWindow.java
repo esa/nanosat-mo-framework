@@ -35,12 +35,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,6 +88,12 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+
 import opssat.simulator.threading.SimulatorNode;
 import opssat.simulator.util.ArgumentDescriptor;
 import opssat.simulator.util.ArgumentTemplate;
@@ -118,6 +119,9 @@ public class GuiMainWindow implements Runnable {
   private final Color colorDescription = Color.WHITE;
   private final String pwd = System.getProperty("user.dir");
   private Properties platformProperties;
+  private JSch ftp;
+  private ChannelSftp sftpChannel;
+  private GuiMainWindow window;
 
   JLabel lblSimulatorData;
   JLabel lblSimulatorTimeRunning;
@@ -160,24 +164,17 @@ public class GuiMainWindow implements Runnable {
 
   LinkedList<CommandDescriptor> commandsList;
 
-  public void setParent(GuiApp parent) {
-    this.parent = parent;
-  }
-
   Logger logger;
   private JTextField textFieldPath;
   private JTable tableCurrentSettings;
 
-  public Logger getLogger() {
-    return logger;
-  }
-
   public GuiMainWindow(final GuiApp parent, String targetURL, int targetPort) {
-
     this.parent = parent;
     logger = parent.getLogger();
     this.targetURL = targetURL;
     this.targetPort = targetPort;
+    window = this;
+
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
@@ -188,20 +185,21 @@ public class GuiMainWindow implements Runnable {
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        updateCamSettingsTable();
       }
     });
   }
 
+  public void setParent(GuiApp parent) {
+    this.parent = parent;
+  }
+
+  public Logger getLogger() {
+    return logger;
+  }
+
   private void refreshPlatformProperties() {
     platformProperties = new Properties();
-    try {
-      platformProperties.load(new FileInputStream(pwd + "/platformsim.properties"));
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    parent.addGUIInteraction(platformProperties);
   }
 
   private CommandDescriptor getCommandDescriptorForID(int internalID) {
@@ -400,7 +398,6 @@ public class GuiMainWindow implements Runnable {
           newTimeFactor = 1000;
         }
         parent.addGUIInteraction("TimeFactor:" + String.valueOf(newTimeFactor));
-
       }
     });
     chkBoxShowAll.addItemListener(new ItemListener() {
@@ -474,7 +471,6 @@ public class GuiMainWindow implements Runnable {
           }
         }
       }
-
     });
     btnSaveTemplate.addActionListener(new ActionListener() {
       @Override
@@ -500,7 +496,6 @@ public class GuiMainWindow implements Runnable {
           }
         }
       }
-
     });
     btnUpdateServer.addActionListener(new ActionListener() {
       @Override
@@ -518,9 +513,7 @@ public class GuiMainWindow implements Runnable {
         } else {
           ;
         }
-
       }
-
     });
 
     txtLoaderPrompt.setBackground(Color.orange);
@@ -536,6 +529,11 @@ public class GuiMainWindow implements Runnable {
           targetURL = items.get(0);
           targetPort = Integer.parseInt(items.get(1));
           parent.setTargetConnection(targetURL, targetPort);
+          // SFTP
+          SFTPInformation ui = new SFTPInformation(GuiMainWindow.this);
+          ui.setBounds(100, 100, 496, 145);
+          ui.setVisible(true);
+          GuiMainWindow.this.frame.setEnabled(false);
         } else {
           txtLoaderPrompt.setText(targetURL + ":" + targetPort);
         }
@@ -700,19 +698,27 @@ public class GuiMainWindow implements Runnable {
     btnOpenTargetSelect.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
-        if (selectMode.getSelectedItem().equals("Fixed")) {
-          fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-          fc.removeChoosableFileFilter(fc.getChoosableFileFilters()[0]);
-          fc.setFileFilter(
-              new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "bmp", "raw"));
-        } else {
-          fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        }
-        int res = fc.showOpenDialog(panelCameraSettings);
-        if (res == JFileChooser.APPROVE_OPTION) {
-          String chosenName = fc.getSelectedFile().getAbsolutePath();
-          textFieldPath.setText(chosenName);
+        if (targetURL.equals("127.0.0.1")) { // browse locally
+          JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+          if (selectMode.getSelectedItem().equals("Fixed")) {
+            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fc.removeChoosableFileFilter(fc.getChoosableFileFilters()[0]);
+            fc.setFileFilter(
+                new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "bmp", "raw"));
+          } else {
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+          }
+          int res = fc.showOpenDialog(panelCameraSettings);
+          if (res == JFileChooser.APPROVE_OPTION) {
+            String chosenName = fc.getSelectedFile().getAbsolutePath();
+            textFieldPath.setText(chosenName);
+          }
+        } else { // use SFTP browser
+          SFTPBrowser browser = new SFTPBrowser(sftpChannel, (String) selectMode.getSelectedItem(),
+              window);
+          browser.setBounds(100, 100, 400, 300);
+          browser.setVisible(true);
+          frame.setEnabled(false);
         }
       }
     });
@@ -728,56 +734,24 @@ public class GuiMainWindow implements Runnable {
     btnApplyCamSettings.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        try {
-          ArrayList<PlatformMessage> updates = new ArrayList<PlatformMessage>();
-          InputStream input = new FileInputStream(pwd + "/platformsim.properties"); // TODO: Change
-                                                                                    // to local
-                                                                                    // exec dir as
-                                                                                    // 'backup'
-                                                                                    // save
-          Properties settings = new Properties();
-          try {
-            settings.load(input);
-            input.close();
-            String path = textFieldPath.getText();
-            String mode = (String) selectMode.getSelectedItem();
-            settings.put("camerasim.imagemode", mode);
-            updates.add(new PlatformMessage("camerasim.imagemode", mode));
-            if (!path.equals("")) {
-              if (mode.equals("Fixed")) {
-                settings.put("camerasim.imagefile", path);
-                updates.add(new PlatformMessage("camerasim.imagefile", path));
-              } else if (mode.equals("Random")) {
-                settings.put("camerasim.imagedirectory", path);
-                updates.add(new PlatformMessage("camerasim.imagedirectory", path));
-              }
-            }
-            OutputStream output = new FileOutputStream(pwd + "/platformsim.properties"); // TODO:
-                                                                                         // Change
-                                                                                         // to
-                                                                                         // local
-                                                                                         // exec dir
-                                                                                         // as
-                                                                                         // 'backup'
-                                                                                         // save
-            settings.store(output, null);
-            // Send updates to server
-            for (PlatformMessage p : updates) {
-              parent.addGUIInteraction(p);
-            }
-
-            parent.getToServerQueue().add("refreshConfig");
-            updateCamSettingsTable();
-          } catch (IOException e) {
-            e.printStackTrace();
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE,
-                "Failed to load platformsim.properties");
+        ArrayList<PlatformMessage> updates = new ArrayList<PlatformMessage>();
+        String path = textFieldPath.getText();
+        String mode = (String) selectMode.getSelectedItem();
+        updates.add(new PlatformMessage("camerasim.imagemode", mode));
+        if (!path.equals("")) {
+          if (mode.equals("Fixed")) {
+            updates.add(new PlatformMessage("camerasim.imagefile", path));
+          } else if (mode.equals("Random")) {
+            updates.add(new PlatformMessage("camerasim.imagedirectory", path));
           }
-        } catch (FileNotFoundException e) {
-          e.printStackTrace();
-          Logger.getLogger(getClass().getName()).log(Level.SEVERE,
-              "Could not find platformsim.properties file. Nothing will happen...");
         }
+        // Send updates to server
+        for (PlatformMessage p : updates) {
+          parent.addGUIInteraction(p);
+        }
+
+        parent.getToServerQueue().add("refreshConfig");
+        GuiMainWindow.this.refreshPlatformProperties();
       }
     });
     sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, btnApplyCamSettings, 5,
@@ -861,14 +835,57 @@ public class GuiMainWindow implements Runnable {
     if (!this.isConnected) {
       showConnectedInfo(false);
     }
+  }
 
+  /**
+   * Sets the textfield of the camera settings tab (invoked from SFTPBrowser).
+   * 
+   * @param path The path to put into the text field.
+   */
+  public void setPathFromSFTP(String path) {
+    textFieldPath.setText(path);
+    this.frame.setEnabled(true);
+  }
+
+  /**
+   * Connects the SFTP client to the server
+   * 
+   * @param ui SFTPInformation containing important connection information.
+   * @return true on success, false otherwise
+   */
+  public boolean connectStfp(SFTPInformation ui) {
+    ftp = new JSch();
+    try {
+      ftp.setKnownHosts(ui.getKnownHosts());
+      Session session = ftp.getSession(ui.getUsername(), targetURL, 22);
+      session.setUserInfo(ui);
+      session.connect();
+      Channel channel = session.openChannel("sftp");
+      channel.connect();
+      sftpChannel = (ChannelSftp) channel;
+      refreshPlatformProperties();
+      this.frame.setEnabled(true);
+      return true;
+    } catch (JSchException e1) {
+      e1.printStackTrace();
+      JOptionPane.showMessageDialog(this.frame,
+          "Failed to init connection. Check your username and password!");
+      SFTPInformation nui = new SFTPInformation(this);
+      nui.setBounds(100, 100, 500, 300);
+      nui.setVisible(true);
+      this.frame.setEnabled(false);
+      return false;
+      // this.frame.dispose();
+    }
   }
 
   /**
    * Reloads the camera properties in the table
    */
   public void updateCamSettingsTable() {
-    refreshPlatformProperties();
+    while (platformProperties.size() == 0) {
+      // NOP
+    }
     DefaultTableModel dtm = (DefaultTableModel) tableCurrentSettings.getModel();
     dtm.setRowCount(0); // clear table
     Set<Entry<Object, Object>> props = platformProperties.entrySet();
@@ -1132,6 +1149,7 @@ public class GuiMainWindow implements Runnable {
           frame.getContentPane().add(panelTop, BorderLayout.NORTH);
           ;
           frame.getContentPane().add(panelTabbed);
+          GuiMainWindow.this.refreshPlatformProperties();
         }
         frame.getContentPane().add(panelBottom, BorderLayout.PAGE_END);
         frame.getContentPane().validate();
@@ -1175,6 +1193,9 @@ public class GuiMainWindow implements Runnable {
             editForm.makeFormColor(Color.green);
             editForm.dispose();
           }
+        } else if (result instanceof Properties) {
+          this.platformProperties = (Properties) result;
+          this.updateCamSettingsTable();
         } else if (result instanceof SimulatorData) {
           processSimulatorData((SimulatorData) result);
         } else if (result instanceof String) {

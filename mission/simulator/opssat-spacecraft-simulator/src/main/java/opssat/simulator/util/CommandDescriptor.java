@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,6 +63,9 @@ public class CommandDescriptor implements Serializable {
     String dataResult = "UnknownGUIData";
     if (data instanceof PlatformMessage) {
       dataResult = data.toString();
+    }
+    if (data instanceof Properties) {
+      dataResult = ((Properties) data).toString();
     }
     if (data instanceof CommandDescriptor) {
       dataResult = data.toString();

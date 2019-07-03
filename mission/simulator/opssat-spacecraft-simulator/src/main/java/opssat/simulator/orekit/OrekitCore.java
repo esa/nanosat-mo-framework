@@ -79,6 +79,7 @@ import org.orekit.propagation.analytical.tle.TLEPropagator;
 import org.orekit.time.AbsoluteDate;
 import org.orekit.time.TimeScale;
 import org.orekit.time.TimeScalesFactory;
+import org.orekit.utils.AngularDerivativesFilter;
 import org.orekit.utils.Constants;
 import org.orekit.utils.IERSConventions;
 import org.orekit.utils.PVCoordinatesProvider;
@@ -196,6 +197,216 @@ public class OrekitCore {
   private int constellationPropagationCounter;
   private ExecutorService executor = Executors
       .newCachedThreadPool(new SimThreadFactory("SimProcessorOrekit"));
+
+  public OrekitCore(double a, double e, double i, double omega, double raan, double lM,
+      SimulatorHeader simulatorHeader, Logger logger, SimulatorNode simulatorNode)
+      throws OrekitException {
+    this.logger = logger;
+    SimulatorNode.handleResourcePath("orekit-data.zip", logger, getClass().getClassLoader());
+    SimulatorNode.handleResourcePath("IGRF.zip", logger, getClass().getClassLoader());
+    SimulatorNode.handleResourcePath("WMM2015COF.zip", logger, getClass().getClassLoader());
+
+    StringBuffer pathBuffer = new StringBuffer();
+    appendIfExists(pathBuffer, "orekit-data.zip");
+    appendIfExists(pathBuffer, "IGRF.zip");
+    appendIfExists(pathBuffer, "WMM2015COF.zip");
+    System.setProperty(DataProvidersManager.OREKIT_DATA_PATH, pathBuffer.toString());
+
+    // Initial date in UTC time scale
+    TimeScale utc = TimeScalesFactory.getUTC();
+
+    this.initialDate = new AbsoluteDate(simulatorHeader.getYearStartDate(),
+        simulatorHeader.getMonthStartDate(), simulatorHeader.getDayStartDate(),
+        simulatorHeader.getHourStartDate(), simulatorHeader.getMinuteStartDate(),
+        simulatorHeader.getSecondStartDate(), utc);
+
+    this.extrapDate = new AbsoluteDate(initialDate, 0);
+    this.a = a;
+    this.e = e;
+    this.i = FastMath.toRadians(i);
+    this.omega = FastMath.toRadians(omega);
+    this.raan = FastMath.toRadians(raan);
+    this.lM = FastMath.toRadians(lM);
+
+    // Frames
+    this.inertialFrame = FramesFactory.getEME2000();
+    this.celestialFrame = FramesFactory.getGCRF();
+    this.earthFrameITRF = FramesFactory.getITRF(IERSConventions.IERS_2010, true);
+
+    // Earth
+    this.earth = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
+        Constants.WGS84_EARTH_FLATTENING, earthFrameITRF);
+
+    // Orbit construction as Keplerian
+    this.initialOrbit = new KeplerianOrbit(this.a, this.e, this.i, this.omega, this.raan, this.lM,
+        PositionAngle.MEAN, inertialFrame, initialDate, mu);
+
+    // Attitude providers
+    this.sun = CelestialBodyFactory.getSun();
+    this.sunPointing = new CelestialBodyPointed(celestialFrame, sun, Vector3D.PLUS_I,
+        Vector3D.MINUS_J, Vector3D.PLUS_K);
+    this.nadirPointing = new NadirPointing(inertialFrame, earth);
+    this.dayObservationLaw = new LofOffset(initialOrbit.getFrame(), LOFType.VVLH, RotationOrder.XYZ,
+        FastMath.toRadians(20), FastMath.toRadians(40), 0);
+    this.targetGeo = new GeodeticPoint(FastMath.toRadians(DARMSTADT_LATITUDE),
+        FastMath.toRadians(DARMSTADT_LONGITUDE), 0);
+    this.targetTracking = new TargetPointing(inertialFrame, targetGeo, earth);
+    this.attitudesSequence = new AttitudesSequence();
+    NadirDetector nadirDetector = new NadirDetector();
+    attitudesSequence.addSwitchingCondition(sunPointing, nadirPointing, nadirDetector, true, true,
+        10000.0, AngularDerivativesFilter.USE_RRA, null);
+    this.lofTracking = new LofOffset(initialOrbit.getFrame(), LOFType.LVLH);
+    this.spinStabilized = new SpinStabilized(lofTracking, this.extrapDate, Vector3D.PLUS_I,
+        FastMath.toRadians(0));
+    this.bDotDetumble = new NadirPointing(inertialFrame, earth);
+
+    changeAttitude(ATTITUDE_MODE.SUN_POINTING);
+
+    // Propagators
+    boolean TLERequired = "tle".equals(simulatorHeader.getOrekitPropagator());
+    if (TLE.isFormatOK(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2())) {
+      this.initialTLE = new TLE(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2());
+      if (TLERequired) {
+        logger.log(Level.FINE, "TLE\n" + this.initialTLE.toString() + "\nformat ok.");
+      }
+    } else {
+      if (TLERequired) {
+        logger.log(Level.FINE,
+            "TLE\n" + simulatorHeader.getOrekitTLE1() + "\n" + simulatorHeader.getOrekitTLE2()
+                + "\nformat invalid. Reverting to keplerian provider.");
+      }
+      simulatorHeader.setOrekitPropagator("kepler");
+    }
+    // Simple extrapolation with Keplerian motion
+    this.kepler = new KeplerianPropagator(initialOrbit, attitudesSequence);
+
+    if ("kepler".equals(simulatorHeader.getOrekitPropagator())) {
+      this.runningPropagator = this.kepler;
+    } else if ("tle".equals(simulatorHeader.getOrekitPropagator())) {
+      TLEPropagator tlePropagator = TLEPropagator.selectExtrapolator(initialTLE, attitudesSequence,
+          6.0);
+      this.runningPropagator = tlePropagator;
+
+    } else {
+      this.runningPropagator = this.kepler;
+    }
+    this.attitudesSequence.registerSwitchEvents(runningPropagator);
+    this.attitudeState = new AttitudeStateProvider(attitudeMode.getDoubleValue());
+    this.runningPropagator.addAdditionalStateProvider(attitudeState);
+    this.lof = new LocalOrbitalFrame(this.inertialFrame, LOFType.LVLH, this.runningPropagator,
+        "LVLH");
+    // this.geoMagneticField = GeoMagneticFieldFactory.getWMM(2016);
+
+    double decimalYear = getDecimalYear(this.extrapDate);
+    extrapDate.toDate(utc);
+    logger.log(Level.FINE, "Decimal year is [" + decimalYear + "]");
+    this.geoMagneticField = GeoMagneticFieldFactory.getIGRF(decimalYear);
+    logger.log(Level.FINE, "Magnetic model loaded: [" + this.geoMagneticField.getModelName() + "]");
+    magneticFieldVector = new double[3];
+
+    logger.log(Level.INFO, "Orekit module created with start date [" + this.initialDate + "]");
+
+    hasAnx = false;
+    hasDnx = false;
+    lastInView = false;
+    hasAOS = false;
+    hasLOS = false;
+
+    // Station
+    this.stationESOC = new GeodeticPoint(FastMath.toRadians(DARMSTADT_LATITUDE),
+        FastMath.toRadians(DARMSTADT_LONGITUDE), DARMSTADT_ALTITUDE);
+    this.staESOCFrame = new TopocentricFrame(this.earth, stationESOC, "ESOC");
+    this.sunVector = new double[3];
+
+    BufferedReader in;
+    // GPS Constellation simulator
+    if (!simulatorHeader.isUpdateInternet()) {
+      // Handle gps file from resources
+      SimulatorNode.handleResourcePath(simulatorNode.getGPSOpsFile().getName(), logger,
+          getClass().getClassLoader());
+    } else {
+      // First check if folder exists
+      // Try to download latest NORAD TLEs
+      final String celestrakURL = "https://www.celestrak.com/NORAD/elements/gps-ops.txt";
+      logger.log(Level.INFO, "Connecting to [" + celestrakURL + "] to update TLEs");
+      URL noradGpsOps = null;
+      try {
+        noradGpsOps = new URL(celestrakURL);
+      } catch (MalformedURLException ex) {
+        logger.log(Level.INFO, ex.toString());
+      }
+      BufferedReader readerURL = null;
+      if (noradGpsOps != null) {
+        try {
+          readerURL = new BufferedReader(new InputStreamReader((noradGpsOps.openStream())));
+        } catch (IOException ex) {
+          logger.log(Level.WARNING, "Unable to update  norad satellites" + ex.toString());
+        }
+      }
+      if (readerURL != null) {
+        String line;
+        BufferedWriter out = null;
+        File gpsOps = simulatorNode.getGPSOpsFile();
+        if (!gpsOps.getParentFile().exists()) {
+          gpsOps.getParentFile().mkdir();
+        }
+        try {
+          out = new BufferedWriter(new FileWriter(gpsOps.getAbsolutePath()));
+          while ((line = readerURL.readLine()) != null) {
+            // System.out.println(line);
+            out.write(line + "\n");
+          }
+          out.close();
+        } catch (IOException ex) {
+          logger.log(Level.SEVERE, ex.toString());
+        }
+        try {
+          readerURL.close();
+        } catch (IOException ex) {
+          logger.log(Level.SEVERE, ex.toString());
+        }
+      }
+    }
+    gpsConstellation = new LinkedList<GPSSatellite>();
+    gpsSatsInView = new LinkedList<GPSSatInView>();
+    try {
+      in = new BufferedReader(new FileReader(simulatorNode.getGPSOpsFile()));
+      String line;
+      try {
+        String name = null, tle1 = null, tle2 = null;
+        while ((line = in.readLine()) != null) {
+          if (line.startsWith("1")) {
+            tle1 = line;
+          } else if (line.startsWith("2")) {
+            tle2 = line;
+          } else {
+            name = line;
+          }
+          if (name != null && tle1 != null && tle2 != null) {
+            if (TLE.isFormatOK(tle1, tle2)) {
+              TLE newTLE = new TLE(tle1, tle2);
+              TLEPropagator tempTLEPropagator = TLEPropagator.selectExtrapolator(newTLE);
+              tempTLEPropagator.setSlaveMode();
+              GPSSatellite newSat = new GPSSatellite(name, tempTLEPropagator);
+              this.gpsConstellation.add(newSat);
+            }
+            name = null;
+            tle1 = null;
+            tle2 = null;
+          }
+          // System.out.println(line);
+        }
+        in.close();
+      } catch (IOException ex) {
+        logger.log(Level.SEVERE, ex.toString());
+      }
+    } catch (FileNotFoundException ex) {
+      logger.log(Level.SEVERE, ex.toString());
+      // No internet connection available and no file saved
+    }
+    logger.log(Level.FINE,
+        "GPS Constellation has [" + this.gpsConstellation.size() + "] satellites!");
+  }
 
   public LinkedList<GPSSatellite> getGpsConstellation() {
     return gpsConstellation;
@@ -452,220 +663,6 @@ public class OrekitCore {
       path.append(System.getProperty("path.separator"));
     }
     path.append(SimulatorNode.getResourcesPath() + directory);
-  }
-
-  public OrekitCore(double a, double e, double i, double omega, double raan, double lM,
-      SimulatorHeader simulatorHeader, Logger logger, SimulatorNode simulatorNode)
-      throws OrekitException {
-    this.logger = logger;
-    SimulatorNode.handleResourcePath("orekit-data.zip", logger, getClass().getClassLoader());
-    SimulatorNode.handleResourcePath("IGRF.zip", logger, getClass().getClassLoader());
-    SimulatorNode.handleResourcePath("WMM2015COF.zip", logger, getClass().getClassLoader());
-
-    StringBuffer pathBuffer = new StringBuffer();
-    appendIfExists(pathBuffer, "orekit-data.zip");
-    appendIfExists(pathBuffer, "IGRF.zip");
-    appendIfExists(pathBuffer, "WMM2015COF.zip");
-    System.setProperty(DataProvidersManager.OREKIT_DATA_PATH, pathBuffer.toString());
-
-    // Initial date in UTC time scale
-    TimeScale utc = TimeScalesFactory.getUTC();
-
-    this.initialDate = new AbsoluteDate(simulatorHeader.getYearStartDate(),
-        simulatorHeader.getMonthStartDate(), simulatorHeader.getDayStartDate(),
-        simulatorHeader.getHourStartDate(), simulatorHeader.getMinuteStartDate(),
-        simulatorHeader.getSecondStartDate(), utc);
-
-    this.extrapDate = new AbsoluteDate(initialDate, 0);
-    this.a = a;
-    this.e = e;
-    this.i = FastMath.toRadians(i);
-    this.omega = FastMath.toRadians(omega);
-    this.raan = FastMath.toRadians(raan);
-    this.lM = FastMath.toRadians(lM);
-
-    // Frames
-    this.inertialFrame = FramesFactory.getEME2000();
-    this.celestialFrame = FramesFactory.getGCRF();
-    this.earthFrameITRF = FramesFactory.getITRF(IERSConventions.IERS_2010, true);
-
-    // Earth
-    this.earth = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
-        Constants.WGS84_EARTH_FLATTENING, earthFrameITRF);
-
-    // Orbit construction as Keplerian
-    this.initialOrbit = new KeplerianOrbit(this.a, this.e, this.i, this.omega, this.raan, this.lM,
-        PositionAngle.MEAN, inertialFrame, initialDate, mu);
-
-    // Attitude providers
-    this.sun = CelestialBodyFactory.getSun();
-    this.sunPointing = new CelestialBodyPointed(celestialFrame, sun, Vector3D.PLUS_I,
-        Vector3D.MINUS_J, Vector3D.PLUS_K);
-    this.nadirPointing = new NadirPointing(inertialFrame, earth);
-    this.dayObservationLaw = new LofOffset(initialOrbit.getFrame(), LOFType.VVLH, RotationOrder.XYZ,
-        FastMath.toRadians(20), FastMath.toRadians(40), 0);
-    this.targetGeo = new GeodeticPoint(FastMath.toRadians(DARMSTADT_LATITUDE),
-        FastMath.toRadians(DARMSTADT_LONGITUDE), 0);
-    this.targetTracking = new TargetPointing(inertialFrame, targetGeo, earth);
-    this.attitudesSequence = new AttitudesSequence();
-    NadirDetector nadirDetector = new NadirDetector();
-    attitudesSequence.addSwitchingCondition(sunPointing, nadirPointing, nadirDetector, true, true,
-        10.0, null, null);
-    this.lofTracking = new LofOffset(initialOrbit.getFrame(), LOFType.LVLH);
-    this.spinStabilized = new SpinStabilized(lofTracking, this.extrapDate, Vector3D.PLUS_I,
-        FastMath.toRadians(0));
-    this.bDotDetumble = new NadirPointing(inertialFrame, earth);
-
-    changeAttitude(ATTITUDE_MODE.SUN_POINTING);
-
-    // Propagators
-    boolean TLERequired = "tle".equals(simulatorHeader.getOrekitPropagator());
-    if (TLE.isFormatOK(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2())) {
-      this.initialTLE = new TLE(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2());
-      if (TLERequired) {
-        logger.log(Level.FINE, "TLE\n" + this.initialTLE.toString() + "\nformat ok.");
-      }
-    } else {
-      if (TLERequired) {
-        logger.log(Level.FINE,
-            "TLE\n" + simulatorHeader.getOrekitTLE1() + "\n" + simulatorHeader.getOrekitTLE2()
-                + "\nformat invalid. Reverting to keplerian provider.");
-      }
-      simulatorHeader.setOrekitPropagator("kepler");
-    }
-    // Simple extrapolation with Keplerian motion
-    this.kepler = new KeplerianPropagator(initialOrbit, attitudesSequence);
-
-    if ("kepler".equals(simulatorHeader.getOrekitPropagator())) {
-      this.runningPropagator = this.kepler;
-    } else if ("tle".equals(simulatorHeader.getOrekitPropagator())) {
-      TLEPropagator tlePropagator = TLEPropagator.selectExtrapolator(initialTLE, attitudesSequence,
-          6.0);
-      this.runningPropagator = tlePropagator;
-
-    } else {
-      this.runningPropagator = this.kepler;
-    }
-    this.attitudesSequence.registerSwitchEvents(runningPropagator);
-    this.attitudeState = new AttitudeStateProvider(attitudeMode.getDoubleValue());
-    this.runningPropagator.addAdditionalStateProvider(attitudeState);
-    this.lof = new LocalOrbitalFrame(this.inertialFrame, LOFType.LVLH, this.runningPropagator,
-        "LVLH");
-    // this.geoMagneticField = GeoMagneticFieldFactory.getWMM(2016);
-
-    double decimalYear = getDecimalYear(this.extrapDate);
-    extrapDate.toDate(utc);
-    logger.log(Level.FINE, "Decimal year is [" + decimalYear + "]");
-    this.geoMagneticField = GeoMagneticFieldFactory.getIGRF(decimalYear);
-    logger.log(Level.FINE, "Magnetic model loaded: [" + this.geoMagneticField.getModelName() + "]");
-    magneticFieldVector = new double[3];
-
-    logger.log(Level.INFO, "Orekit module created with start date [" + this.initialDate + "]");
-
-    hasAnx = false;
-    hasDnx = false;
-    lastInView = false;
-    hasAOS = false;
-    hasLOS = false;
-
-    // Station
-    this.stationESOC = new GeodeticPoint(FastMath.toRadians(DARMSTADT_LATITUDE),
-        FastMath.toRadians(DARMSTADT_LONGITUDE), DARMSTADT_ALTITUDE);
-    this.staESOCFrame = new TopocentricFrame(this.earth, stationESOC, "ESOC");
-    this.sunVector = new double[3];
-
-    BufferedReader in;
-    // GPS Constellation simulator
-    if (!simulatorHeader.isUpdateInternet()) {
-      // Handle gps file from resources
-      SimulatorNode.handleResourcePath(simulatorNode.getGPSOpsFile().getName(), logger,
-          getClass().getClassLoader());
-    } else {
-      // First check if folder exists
-      // Try to download latest NORAD TLEs
-      final String celestrakURL = "https://www.celestrak.com/NORAD/elements/gps-ops.txt";
-      logger.log(Level.INFO, "Connecting to [" + celestrakURL + "] to update TLEs");
-      URL noradGpsOps = null;
-      try {
-        noradGpsOps = new URL(celestrakURL);
-      } catch (MalformedURLException ex) {
-        logger.log(Level.INFO, ex.toString());
-      }
-      BufferedReader readerURL = null;
-      if (noradGpsOps != null) {
-        try {
-          readerURL = new BufferedReader(new InputStreamReader((noradGpsOps.openStream())));
-        } catch (IOException ex) {
-          logger.log(Level.WARNING, "Unable to update  norad satellites" + ex.toString());
-        }
-      }
-      if (readerURL != null) {
-        String line;
-        BufferedWriter out = null;
-        File gpsOps = simulatorNode.getGPSOpsFile();
-        if (!gpsOps.getParentFile().exists()) {
-          gpsOps.getParentFile().mkdir();
-        }
-        try {
-          out = new BufferedWriter(new FileWriter(gpsOps.getAbsolutePath()));
-          while ((line = readerURL.readLine()) != null) {
-            // System.out.println(line);
-            out.write(line + "\n");
-          }
-          out.close();
-        } catch (IOException ex) {
-          logger.log(Level.SEVERE, ex.toString());
-        }
-        try {
-          readerURL.close();
-        } catch (IOException ex) {
-          logger.log(Level.SEVERE, ex.toString());
-        }
-      }
-    }
-    gpsConstellation = new LinkedList<GPSSatellite>();
-    gpsSatsInView = new LinkedList<GPSSatInView>();
-    try {
-      in = new BufferedReader(new FileReader(simulatorNode.getGPSOpsFile()));
-      String line;
-      try {
-        String name = null, tle1 = null, tle2 = null;
-        while ((line = in.readLine()) != null) {
-          if (line.startsWith("1")) {
-            tle1 = line;
-          } else if (line.startsWith("2")) {
-            tle2 = line;
-          } else {
-            name = line;
-          }
-          if (name != null && tle1 != null && tle2 != null) {
-            if (TLE.isFormatOK(tle1, tle2)) {
-              TLE newTLE = new TLE(tle1, tle2);
-              TLEPropagator tempTLEPropagator = TLEPropagator.selectExtrapolator(newTLE);
-              tempTLEPropagator.setSlaveMode();
-              GPSSatellite newSat = new GPSSatellite(name, tempTLEPropagator);
-              this.gpsConstellation.add(newSat);
-            }
-            name = null;
-            tle1 = null;
-            tle2 = null;
-
-          }
-          // System.out.println(line);
-        }
-        in.close();
-      } catch (IOException ex) {
-        logger.log(Level.SEVERE, ex.toString());
-      }
-
-    } catch (FileNotFoundException ex) {
-      logger.log(Level.SEVERE, ex.toString());
-      // No internet connection available and no file saved
-
-    }
-    logger.log(Level.FINE,
-        "GPS Constellation has [" + this.gpsConstellation.size() + "] satellites!");
-
   }
 
   public double[] getMagneticField() {
@@ -1014,6 +1011,7 @@ public class OrekitCore {
     try {
       synchronized (magneticFieldVectorLock) {
         this.attitudeState.updateAttitude(attitudeMode.getDoubleValue());
+        this.attitudeState.setSwitched(attitudeMode.equals(ATTITUDE_MODE.NADIR_POINTING));
         this.spacecraftState = this.runningPropagator.propagate(extrapDate);
       }
 
