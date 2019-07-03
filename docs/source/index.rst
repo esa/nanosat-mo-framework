@@ -18,7 +18,7 @@ You can also just click through the different pages to see what we can offer.
    quickstart
    sdk
    apps/apps
-   simulator
+   simulator/simulator
    javadoc/packages
 
 Indices and tables
