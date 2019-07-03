@@ -1389,6 +1389,9 @@ public class SimulatorNode extends TaskNode {
       PlatformMessage msg = (PlatformMessage) obj;
       this.platformProperties.put(msg.getKey(), msg.getValue());
     }
+    if (obj instanceof Properties) { // send platform properties back to client
+      this.queueOut.add(platformProperties);
+    }
     if (obj instanceof String) {
       String data = (String) obj;
       this.logger.log(Level.FINE, data);
