@@ -66,8 +66,6 @@ import java.util.stream.Stream;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.util.FastMath;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.errors.OrekitException;
 
@@ -104,6 +102,8 @@ import opssat.simulator.util.SimulatorHeader;
 import opssat.simulator.util.SimulatorSchedulerPiece;
 import opssat.simulator.util.SimulatorSpacecraftState;
 import opssat.simulator.util.SimulatorTimer;
+import org.hipparchus.geometry.euclidean.threed.Vector3D;
+import static org.hipparchus.util.FastMath.toDegrees;
 
 /**
  *
@@ -1565,6 +1565,8 @@ public class SimulatorNode extends TaskNode {
       schedulerPollData();
       if (simulatorHeader.isUseOrekit()) {
         try {
+          double ts = (timeElapsed) / 1000.0 * simulatorData.getTimeFactor();
+          //System.out.println("Timestep: " + ts);
           orekitCore.processPropagateStep((timeElapsed) / 1000.0 * simulatorData.getTimeFactor());
         } catch (OrekitException ex) {
           Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
@@ -1703,7 +1705,7 @@ public class SimulatorNode extends TaskNode {
     if (this.simulatorHeader.isUseOrekit()) {
       GeodeticPoint result = this.orekitCore.getGeodeticPoint();
       SimulatorSpacecraftState data = new SimulatorSpacecraftState(
-          FastMath.toDegrees(result.getLatitude()), FastMath.toDegrees(result.getLongitude()),
+          toDegrees(result.getLatitude()), toDegrees(result.getLongitude()),
           result.getAltitude());
       data.setRv(this.orekitCore.getOrbit().getPVCoordinates().getPosition(),
           this.orekitCore.getOrbit().getPVCoordinates().getVelocity());

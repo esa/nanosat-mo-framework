@@ -23,7 +23,7 @@ package opssat.simulator.util;
 
 import java.text.DecimalFormat;
 import java.util.Locale;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.hipparchus.geometry.euclidean.threed.Vector3D;
 
 /**
  *

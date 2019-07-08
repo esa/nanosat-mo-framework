@@ -79,8 +79,9 @@
     <dependency>
       <groupId>org.orekit</groupId>
       <artifactId>orekit</artifactId>
-      <version>7.2</version>
+      <version>10.0</version>
     </dependency>
+    <!-- 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-math3</artifactId>
@@ -88,7 +89,7 @@
       <type>jar</type>
       <optional>false</optional>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
+    https://mvnrepository.com/artifact/com.jcraft/jsch -->
     <dependency>
       <groupId>com.jcraft</groupId>
       <artifactId>jsch</artifactId>
