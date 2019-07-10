@@ -12,6 +12,18 @@ if [ -z "$NMF_HOME" ] ; then
   fi
 fi
 
+if [ -z "$NMF_LIB" ] ; then
+    NMF_LIB="$NMF_HOME/lib/*"
+fi
+
+if [ -z "$JAVA_OPTS" ] ; then
+    JAVA_OPTS="-Xms32m -Xmx512m"
+fi
+
+export NMF_HOME
+export NMF_LIB
+export JAVA_OPTS
+
 # resolve links - $0 may be a softlink
 PRG="$0"
 
@@ -91,6 +103,7 @@ then
 fi
 
 CLASSPATH=@CLASSPATH@
+CLASSPATH=$CLASSPATH:$NMF_LIB
 
 ENDORSED_DIR=@ENDORSED_DIR@
 if [ -n "$ENDORSED_DIR" ] ; then
