@@ -7,19 +7,10 @@
       </filterchain>
     </loadfile>
     <property name="fulloutput" value="${outputDir}/${binDir}"/>
-    <property name="binbaserelpath" basedir="${fulloutput}" value="${outputDir}" relative="true"/>
     <copy file="antpkg/unixBinTemplate" tofile="newShellScript"/>
-    <replace file="newShellScript" token="@LICENSE_HEADER@" value="${license}"/>
-    <replace file="newShellScript" token="@BIN_BASE_RELATIVE_PATH@" value="${binbaserelpath}"/>
-    <replace file="newShellScript" token="@ENV_SETUP@" value=""/>
-    <replace file="newShellScript" token="@REPO@" value="${repoName}"/>
-    <replace file="newShellScript" token="@CLASSPATH@" value='"$BASEDIR"/etc:"$REPO"/*'/>
-    <replace file="newShellScript" token="@ENDORSED_DIR@" value=""/>
-    <replace file="newShellScript" token="@EXTRA_JVM_ARGUMENTS@" value=""/>
-    <replace file="newShellScript" token="@APP_NAME@" value="${id}"/>
-    <replace file="newShellScript" token="@MAINCLASS@" value="${mainClass}"/>
-    <replace file="newShellScript" token="@APP_ARGUMENTS@" value=""/>
-    <replace file="newShellScript" token="@UNIX_BACKGROUND@" value=""/>
+    <replace file="newShellScript" token="@MAINCLASS_CLASS_NAME@" value="${mainClass}"/>
+    <replace file="newShellScript" token="@NMF_HOME@" value="${nmf_home}"/>
+    <replace file="newShellScript" token="@NMF_LIB@" value="${nmf_lib}"/>
     <move file="newShellScript" toFile="${id}.sh"/>
     <chmod file="${id}.sh" perm="0777"/>
     <mkdir dir="${fulloutput}"/>
