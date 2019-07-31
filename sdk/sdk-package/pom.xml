@@ -149,7 +149,7 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/bin/lib</outputDirectory>
+              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/home/nmf/lib</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>false</overWriteSnapshots>
               <overWriteIfNewer>true</overWriteIfNewer>
@@ -303,7 +303,7 @@
             </goals>
             <configuration>
               <target>
-                <copy file="${basedir}/../../logging.properties" todir="${esa.nmf.sdk.assembly.outputdir}/bin/"/>
+                <copy file="${basedir}/../../logging.properties" todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf"/>
                 <ant antfile="antpkg/build.xml"/>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/docs">
                   <fileset dir="${basedir}/src/main/resources/docs">
@@ -311,35 +311,35 @@
                     <exclude name="**/*.doc"/>
                   </fileset>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/tools/consumer-test-tool">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/consumer-test-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/nanosat-mo-supervisor-sim">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/nanosat-mo-supervisor-sim">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
                   <file file="${basedir}/../../mission/simulator/opssat-spacecraft-simulator/platformsim.properties"/>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/all-mc-services">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/all-mc-services">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/publish-clock">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/publish-clock">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/camera">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/camera">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/benchmark">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/benchmark">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/payloads-test">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/payloads-test">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/bin/space/apps/waveform">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/waveform">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
