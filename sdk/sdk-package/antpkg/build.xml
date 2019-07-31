@@ -1,6 +1,6 @@
 <project name="SDK Package" default="build" basedir="../../">
   <property name="outputDir" value="${esa.nmf.sdk.assembly.outputdir}/home"/>
-  <property name="repoName" value="lib"/>
+  <property name="repoName" value="nmf/lib"/>
   <target name="build" depends="emit-ctt, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
   emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test, emit-space-app-waveform">
     <!--This empty target is used as the top level target. Add your app targets to the depends attribute! -->
