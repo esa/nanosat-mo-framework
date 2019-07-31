@@ -8,7 +8,7 @@
     </loadfile>
     <property name="fulloutput" value="${outputDir}/${binDir}"/>
     <copy file="antpkg/unixBinTemplate" tofile="newShellScript"/>
-    <replace file="newShellScript" token="@MAINCLASS_CLASS_NAME@" value="${mainClass}"/>
+    <replace file="newShellScript" token="@MAIN_CLASS_NAME@" value="${mainClass}"/>
     <replace file="newShellScript" token="@NMF_HOME@" value="${nmf_home}"/>
     <replace file="newShellScript" token="@NMF_LIB@" value="${nmf_lib}"/>
     <move file="newShellScript" toFile="${id}.sh"/>
