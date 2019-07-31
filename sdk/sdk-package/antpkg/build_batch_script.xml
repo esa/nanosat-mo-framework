@@ -11,6 +11,7 @@
     <copy file="antpkg/windowsBinTemplate" tofile="newShellScript"/>
     <replace file="newShellScript" token="#LICENSE_HEADER#" value="${license}"/>
     <replace file="newShellScript" token="#BIN_BASE_RELATIVE_PATH#" value="${binbaserelpath}"/>
+    <replace file="newShellScript" token="#NMF_HOME#" value="${nmf_home}"/>
     <replace file="newShellScript" token="#ENV_SETUP#" value=""/>
     <replace file="newShellScript" token="#REPO#" value="${repoName}"/>
     <replace file="newShellScript" token="#JAVA_BINARY#" value="java"/>
