@@ -16,7 +16,7 @@
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.ctt.guis.ConsumerTestToolGUI"/>
       <property name="id" value="consumer-test-tool"/>
-      <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
+      <property name="nmf_home" value="%cd%\.."/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/consumer-test-tool"/>
     </ant>
@@ -33,7 +33,7 @@
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="opssat.simulator.main.MainClient"/>
       <property name="id" value="spacecraft-simulator-gui"/>
-      <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
+      <property name="nmf_home" value="%cd%\.."/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/spacecraft-simulator-gui"/>
     </ant>
@@ -50,7 +50,7 @@
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl"/>
       <property name="id" value="nanosat-mo-supervisor-sim"/>
-      <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
+      <property name="nmf_home" value="%cd%\.."/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
     </ant>
@@ -67,7 +67,7 @@
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.AllInOne"/>
       <property name="id" value="start_all-mc-services"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="all-mc-services"/>
     </ant>
@@ -84,7 +84,7 @@
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PushClock"/>
       <property name="id" value="start_publish-clock"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="publish-clock"/>
     </ant>
@@ -101,7 +101,7 @@
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.SnapNMF"/>
       <property name="id" value="start_camera"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="camera"/>
     </ant>
@@ -118,7 +118,7 @@
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.BenchmarkApp"/>
       <property name="id" value="start_benchmark"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="benchmark"/>
     </ant>
@@ -135,7 +135,7 @@
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PayloadsTestApp"/>
       <property name="id" value="start_payloads-test"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="payloads-test"/>
     </ant>
@@ -152,7 +152,7 @@
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.Waveform"/>
       <property name="id" value="start_waveform"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="waveform"/>
     </ant>
