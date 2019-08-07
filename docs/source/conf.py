@@ -54,5 +54,4 @@ html_static_path = []
 
 def setup(app):
     os.system("javasphinx-apidoc -o ./javadoc --title='NMF Javadoc' ../../")
-    os.system("pwd")
-    os.system("ls")
+    os.system("find . -name '*Test*' -delete")
