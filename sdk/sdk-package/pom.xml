@@ -106,17 +106,6 @@
       <artifactId>benchmark</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk</groupId>
-      <artifactId>nmf-javadocs</artifactId>
-      <version>${project.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>API_COM</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
   </dependencies>
   <build>
     
@@ -153,27 +142,6 @@
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>false</overWriteSnapshots>
               <overWriteIfNewer>true</overWriteIfNewer>
-            </configuration>
-          </execution>
-          <execution>
-            <id>extract-nmf-javadocs</id>
-            <phase>package</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <skip>${esa.nmf.sdk.assembly.quickbuild}</skip>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>int.esa.nmf.sdk</groupId>
-                  <artifactId>nmf-javadocs</artifactId>
-                  <classifier>javadoc</classifier>
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/Javadoc</outputDirectory>
-              <excludeTransitive>true</excludeTransitive>
-              <stripVersion>true</stripVersion>
-              <stripClassifier>true</stripClassifier>
             </configuration>
           </execution>
         </executions>
