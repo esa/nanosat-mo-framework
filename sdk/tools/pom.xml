@@ -65,7 +65,6 @@
 
   <modules>
     <module>consumer-test-tool</module>
-    <module>package-assembler</module>
   </modules>
 
 </project>
