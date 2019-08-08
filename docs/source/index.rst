@@ -19,6 +19,7 @@ You can also just click through the different pages to see what we can offer.
    sdk
    apps/apps
    simulator/simulator
+   opssat/opssat
    javadoc/packages
 
 Indices and tables
