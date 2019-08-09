@@ -1,7 +1,7 @@
 ===============================================
 Testing your app in an OPS-SAT-like environment
 ===============================================
-Testing your app with the NMF SDK is a good first point to see if the basic features work.
+Testing your app with the NMF SDK is the fastest way to confirm if all functional features work .
 However, there might be some problems with respect to the behaviour on a real satellite with a space link between your ground software (CTT during development) and your app.
 To find these problems early on, it is recommended to test your app in a semi-authentic test setup.
 
@@ -31,7 +31,7 @@ Starting the NMF
 """"""""""""""""
 The first thing you should do is start the Ground MO Proxy.
 For this, open a shell in the folder ``opssat-package/target/nmf-opssat-VERSION/home/nmf/ground-mo-proxy`` and execute the ``ground-mo-proxy.sh`` script.
-The warning stating that we should check the link to the spacecraft is completely natural at this point, since we did not start the supervisor yet. Therefore, there is no one the Ground MO Proxy could connect to.
+The warning stating that we should check the link to the spacecraft is completely natural at this point, since we did not start the supervisor yet. Therefore, there is no one the Ground MO Proxy could synchronize with.
 The next thing to do is to start the supervisor. You should wait with this step until the Ground MO Proxy started its directory service. 
 This is important, as we will not be able to connect to the Ground MO Proxy through the CTT/EUD4MO as long as the directory service is not initialized properly.
 You can see that the directory service is ready when you can spot a URI of the form ``maltcp://some.ip.right.here:somePort/ground-mo-proxy-Directory``.
