@@ -11,7 +11,7 @@ This packaging process is almost completely automated for you. You only need to 
 1. Clone the `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_.
 2. Checkout the ``dev`` branch to get the latest version.
 3. Open the ``pom.xml`` file in the ``opssat-package`` folder.
-4. In the exp profile, edit your experimenter ID and the Maven information for your app. Make sure that ``expVersion`` matches the version defined in your app's POM.
+4.1. In the exp profile, edit your experimenter ID and the Maven information for your app. Make sure that ``expVersion`` matches the version defined in your app's POM.
 
 .. code-block:: xml
    :linenos:
@@ -30,6 +30,8 @@ This packaging process is almost completely automated for you. You only need to 
        <version>${expVersion}</version>
      </dependency>
    </dependencies>
+
+4.2. In the ``expLib`` execution of the mavan-dependency-plugin inside the ``exp`` profile you need to add the Maven information of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` folder for your SEPP package.
 
 .. note::
 
