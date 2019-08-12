@@ -11,7 +11,7 @@ This packaging process is almost completely automated for you. You only need to 
 1. Clone the `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_.
 2. Checkout the ``dev`` branch to get the latest version.
 3. Open the ``pom.xml`` file in the ``opssat-package`` folder.
-4.1. In the exp profile, edit your experimenter ID and the Maven information for your app. Make sure that ``expVersion`` matches the version defined in your app's POM.
+4. In the exp profile, edit your experimenter ID and the Maven information for your app. Make sure that ``expVersion`` matches the version defined in your app's POM.
 
 .. code-block:: xml
    :linenos:
@@ -31,13 +31,13 @@ This packaging process is almost completely automated for you. You only need to 
      </dependency>
    </dependencies>
 
-4.2. In the ``expLib`` execution of the mavan-dependency-plugin inside the ``exp`` profile you need to add the Maven information of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` folder for your SEPP package.
+5. In the ``expLib`` execution of the mavan-dependency-plugin inside the ``exp`` profile you need to add the Maven information of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` folder for your SEPP package.
 
 .. note::
 
    If your app requires additional dependencies, you can add them in the same manner as the app itself. Just add it as a ``<dependency>`` inside the ``exp`` profile.
 
-5. Open the file ``copy.xml`` in the ``opssat-package`` folder. In the target ``copyExp`` edit the filter for ``MAIN_CLASS_NAME``. You can also add additional copy tasks to package additional files that your app requires. These copy tasks will be executed by the ``Maven AntRun Plugin``.
+6. Open the file ``copy.xml`` in the ``opssat-package`` folder. In the target ``copyExp`` edit the filter for ``MAIN_CLASS_NAME``. You can also add additional copy tasks to package additional files that your app requires. These copy tasks will be executed by the ``Maven AntRun Plugin``.
 
 .. code-block:: xml
    :linenos:
@@ -66,4 +66,4 @@ This packaging process is almost completely automated for you. You only need to 
      <chmod dir="${esa.nmf.mission.opssat.assembly.outputdir}" perm="ugo+rx" includes="**/*.sh"/>
    </target>
 
-6. Invoke ``mvn clean install -Pexp``. In the folder ``target/nmf-opssat-VERSION/experimenter-package/`` you will find the directory structure that you need to package your app as an IPK for OPS-SAT. 
+7. Invoke ``mvn clean install -Pexp``. In the folder ``target/nmf-opssat-VERSION/experimenter-package/`` you will find the directory structure that you need to package your app as an IPK for OPS-SAT. 
