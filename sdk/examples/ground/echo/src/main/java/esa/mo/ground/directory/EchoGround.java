@@ -90,12 +90,12 @@ public class EchoGround
     GroundMOAdapterImpl gma = demo.getGMA();
     StringBuilder sb = new StringBuilder("A");
     for(int i = 0; i < 50; i++){
-      gma.setParameter("Data", sb.toString());
+      gma.setParameter("Data", new Blob(sb.toString().getBytes()));
       sb.append("A");
       Thread.sleep(5000);
     }
-    gma.setParameter("Data", "Hello");
-    gma.setParameter("Data", "OPS-SAT");
+    gma.setParameter("Data", new Blob("Hello".getBytes()));
+    gma.setParameter("Data", new Blob("OPS-SAT".getBytes()));
     return;
   }
 
