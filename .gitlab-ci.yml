@@ -18,7 +18,6 @@ build:
     - cd ..
     - git clone https://github.com/esa/CCSDS_MO_APIS.git
     - cd CCSDS_MO_APIS
-    - git checkout fix_structures
     - mvn install
     - cd ..
     - mvn install
