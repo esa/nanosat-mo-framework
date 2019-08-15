@@ -53,7 +53,7 @@ public class EchoSpace {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private final TaskScheduler timer = new TaskScheduler(1);
-    private String data;
+    private Blob data;
     private static final int REFRESH_RATE = 1; // 1 second
 
     private Calendar calendar;
@@ -85,7 +85,7 @@ public class EchoSpace {
             IdentifierList names = new IdentifierList();
 
             pddl.add(new ParameterDefinitionDetails(
-                "The sent data", (byte)15, null, true, new Duration(), null, null
+                "The sent data", (byte)1, null, true, new Duration(), null, null
             ));
             names.add(new Identifier("Data"));
             registrationObject.registerParameters(names, pddl);
@@ -105,7 +105,7 @@ public class EchoSpace {
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
             if(identifiers.get(0).getValue().equals("Data")){
-              data = (String)values.get(0).getRawValue();
+              data = (Blob)values.get(0).getRawValue();
               try {
                 pushBlob();
               } catch (NMFException ex) {
