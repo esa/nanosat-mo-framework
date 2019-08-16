@@ -390,8 +390,11 @@ public class AppsLauncherManager extends DefinitionsManager
       ret.add("/c");
       ret.add("start_" + trimmedAppName + ".bat");
     } else {
-      ret.add("/bin/sh");
-      ret.add("start_" + trimmedAppName + ".sh");
+      ret.add("su");
+      ret.add("-");
+      ret.add(trimmedAppName);
+      ret.add("-c");
+      ret.add("'./start_" + trimmedAppName + ".sh'");
     }
     return ret.toArray(new String[ret.size()]);
   }
