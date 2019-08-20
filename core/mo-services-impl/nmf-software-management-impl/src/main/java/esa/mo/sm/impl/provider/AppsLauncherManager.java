@@ -381,7 +381,7 @@ public class AppsLauncherManager extends DefinitionsManager
     return ret.toArray(new String[ret.size()]);
   }
 
-  protected String[] assembleAppLauncherCommand(final String appName)
+  protected String[] assembleAppLauncherCommand(final String appName, String runAs)
   {
     ArrayList<String> ret = new ArrayList<>();
     String trimmedAppName = appName.replaceAll("space-app-", "");
@@ -392,7 +392,7 @@ public class AppsLauncherManager extends DefinitionsManager
     } else {
       ret.add("su");
       ret.add("-");
-      ret.add(trimmedAppName);
+      ret.add(runAs);
       ret.add("-c");
       ret.add("'./start_" + trimmedAppName + ".sh'");
     }
@@ -421,7 +421,8 @@ public class AppsLauncherManager extends DefinitionsManager
     // Go to the folder where the app are installed
     final File appFolder
         = new File(appsFolderPath + File.separator + app.getName().getValue());
-    final String[] appLauncherCommand = assembleAppLauncherCommand(app.getName().getValue());
+    final String[] appLauncherCommand = assembleAppLauncherCommand(app.getName().getValue(),
+        app.getRunAs());
 
     final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
     Map<String, String> env = pb.environment();
@@ -462,11 +463,11 @@ public class AppsLauncherManager extends DefinitionsManager
     return true;
   }
 
-  protected boolean stopNativeApp(final Long appInstId, MALInteraction interaction) throws IOException
+  protected boolean stopNativeApp(final Long appInstId, MALInteraction interaction) throws
+      IOException
   {
     ProcessExecutionHandler handler = handlers.get(appInstId);
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
-
 
     // Go to the folder where the app are installed
     final File appFolder
@@ -483,7 +484,6 @@ public class AppsLauncherManager extends DefinitionsManager
         new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
           appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
     final Process proc = pb.start();
-
 
     if (handler == null) {
       app.setRunning(false);
@@ -703,11 +703,15 @@ public class AppsLauncherManager extends DefinitionsManager
           getProperty(HelperMisc.APP_COPYRIGHT) : "-";
       final String description = (props.getProperty(HelperMisc.APP_DESCRIPTION) != null) ? props.
           getProperty(HelperMisc.APP_DESCRIPTION) : "-";
+      final String user = (props.getProperty(HelperMisc.APP_USER) != null) ? props.getProperty(
+          HelperMisc.APP_USER)
+          : "`whoami`"; // Since the user change is only implemented on linux this dependency is fine
 
       app.setCategory(new Identifier(category));
       app.setVersion(version);
       app.setCopyright(copyright);
       app.setDescription(description);
+      app.setRunAs(user);
 
       app.setRunAtStartup(false); // This is not supported in this implementation
       app.setRunning(false); // Default values
