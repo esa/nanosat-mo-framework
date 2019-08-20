@@ -64,6 +64,7 @@ public class HelperMisc {
   public final static String APP_CATEGORY = "helpertools.configurations.provider.app.category";
   public final static String APP_COPYRIGHT = "helpertools.configurations.provider.app.copyright";
   public final static String APP_DESCRIPTION = "helpertools.configurations.provider.app.description";
+  public final static String APP_USER = "helpertools.configurations.provider.app.user";
 
   public static final String PROP_MO_APP_NAME = "helpertools.configurations.MOappName";
   public static final String PROP_DOMAIN = "helpertools.configurations.provider.Domain";
