@@ -20,7 +20,7 @@ This packaging process is almost completely automated for you. You only need to 
    <id>exp</id>
    <properties>
      <isExp>true</isExp>
-     <expId>exp1337</expId>
+     <expId>000</expId>
      <expVersion>2.0.0-SNAPSHOT</expVersion>
    </properties>
    <dependencies>
@@ -31,7 +31,7 @@ This packaging process is almost completely automated for you. You only need to 
      </dependency>
    </dependencies>
 
-5. In the ``expLib`` execution of the mavan-dependency-plugin inside the ``exp`` profile you need to add the Maven information of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` folder for your SEPP package.
+5. In the ``expLib`` execution of the maven-dependency-plugin inside the ``exp`` profile you need to add the Maven information of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` folder for your SEPP package.
 
 .. note::
 
