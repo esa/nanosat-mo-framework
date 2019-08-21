@@ -106,6 +106,12 @@
       <artifactId>benchmark</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- Needed as the transitive dependency is not resolved properly -->
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.impl</groupId>
+      <artifactId>ccsds-com</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
   <build> 
     <plugins>
