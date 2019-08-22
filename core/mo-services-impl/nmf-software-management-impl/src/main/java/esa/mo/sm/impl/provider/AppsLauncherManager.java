@@ -390,11 +390,19 @@ public class AppsLauncherManager extends DefinitionsManager
       ret.add("/c");
       ret.add("start_" + trimmedAppName + ".bat");
     } else {
-      ret.add("su");
-      ret.add("-");
-      ret.add(runAs);
-      ret.add("-c");
-      ret.add("'./start_" + trimmedAppName + ".sh'");
+      String quote = "";
+      if(runAs != null){
+        ret.add("su");
+        ret.add("-");
+        ret.add(runAs);
+        ret.add("-m");
+        ret.add("-c");
+        quote = "'";
+      } else {
+        ret.add("/bin/sh");
+      }
+      
+      ret.add(quote+"./start_" + trimmedAppName + ".sh"+quote); // Ugly workaround but works!
     }
     return ret.toArray(new String[ret.size()]);
   }
@@ -705,7 +713,7 @@ public class AppsLauncherManager extends DefinitionsManager
           getProperty(HelperMisc.APP_DESCRIPTION) : "-";
       final String user = (props.getProperty(HelperMisc.APP_USER) != null) ? props.getProperty(
           HelperMisc.APP_USER)
-          : "`whoami`"; // Since the user change is only implemented on linux this dependency is fine
+          : null; // Since the user change is only implemented on linux this dependency is fine
 
       app.setCategory(new Identifier(category));
       app.setVersion(version);
