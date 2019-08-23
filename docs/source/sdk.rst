@@ -45,14 +45,14 @@ How to do all of that is described further in the next section.
 
 Running the SDK
 ---------------
-1. To run the supervisor, go to **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/bin/space/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
+1. To run the supervisor, go to **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
 
-2. To run the CTT, go to **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/bin/tools/consumer-test-tool/** and run **consumer-test-tool.sh**.
+2. To run the CTT, go to **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/nmf/consumer-test-tool/** and run **consumer-test-tool.sh**.
 
 Connecting to the supervisor in the CTT
 ---------------------------------------
 The supervisor outputs a URI on the console. This URI follows the pattern 
-``maltcp://SOME_ADDRESS:1024/nanosat-mo-supervisor-Directory``
+``maltcp://SOME_ADDRESS:PORT/nanosat-mo-supervisor-Directory``
 Paste this URI into the field in the **Communication Settings** tab of the CTT and click the button **Fetch information**. In the *Providers List*, the supervisor should show up. The table on the right side should list some services. Now click the button **Connect to Selected Provider** which results in a new tab appearing next to the **Communication Settings**. You now have a working connection to the supervisor and are able to start apps and check messages.
 
 Running and connecting to an app
