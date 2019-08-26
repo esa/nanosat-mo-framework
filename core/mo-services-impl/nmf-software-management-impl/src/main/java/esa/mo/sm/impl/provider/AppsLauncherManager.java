@@ -391,7 +391,7 @@ public class AppsLauncherManager extends DefinitionsManager
       ret.add("start_" + trimmedAppName + ".bat");
     } else {
       String quote = "";
-      if(runAs != null){
+      if (runAs != null) {
         ret.add("su");
         ret.add("-");
         ret.add(runAs);
@@ -401,8 +401,8 @@ public class AppsLauncherManager extends DefinitionsManager
       } else {
         ret.add("/bin/sh");
       }
-      
-      ret.add(quote+"./start_" + trimmedAppName + ".sh"+quote); // Ugly workaround but works!
+
+      ret.add(quote + "./start_" + trimmedAppName + ".sh" + quote); // Ugly workaround but works!
     }
     return ret.toArray(new String[ret.size()]);
   }
@@ -510,7 +510,7 @@ public class AppsLauncherManager extends DefinitionsManager
     return true;
   }
 
-  protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryNames,
+  protected void stopNMFApp(final LongList appInstIds, final IdentifierList appDirectoryNames,
       final ArrayList<SingleConnectionDetails> appConnections,
       final StopAppInteraction interaction) throws MALException, MALInteractionException
   {
@@ -560,6 +560,57 @@ public class AppsLauncherManager extends DefinitionsManager
     } catch (IOException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
+  }
+
+  protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryNames,
+      final ArrayList<SingleConnectionDetails> appConnections,
+      final StopAppInteraction interaction) throws MALException, MALInteractionException
+  {
+    boolean[] isNmf = new boolean[appInstIds.size()];
+    for (int i = 0; i < isNmf.length; i++) {
+      isNmf[i] = this.get(appInstIds.get(i)).getCategory().getValue().equals("NMF_App");
+    }
+
+    for (int i = 0; i < appInstIds.size(); i++) {
+      AppDetails curr = this.get(appInstIds.get(i));
+      File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue());
+      boolean stopExists = stopScript.exists();
+      if (isNmf[i]) {
+        if (stopExists) {
+          final String[] appLauncherCommand = assembleAppStopCommand(curr.getName().getValue());
+          final File appFolder
+              = new File(appsFolderPath + File.separator + curr.getName().getValue());
+          final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
+          Map<String, String> env = pb.environment();
+          env.clear();
+          assembleAppLauncherEnvironment("", env);
+          pb.directory(appFolder);
+          LOGGER.log(Level.INFO,
+              "Stopping hybrid component of ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
+              new Object[]{curr.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
+                appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
+          try {
+            final Process proc = pb.start();
+          } catch (IOException ex) {
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
+                "Stopping hybrid component failed", ex);
+          }
+        }
+        this.stopNMFApp(appInstIds, appDirectoryNames, appConnections, interaction);
+      } else {
+        if (!stopExists) {
+          this.killAppProcess(appInstIds.get(i), interaction.getInteraction());
+        } else {
+          try {
+            this.stopNativeApp(appInstIds.get(i), interaction.getInteraction());
+          } catch (IOException ex) {
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
+                "Stopping native app failed", ex);
+          }
+        }
+      }
+    }
+
   }
 
   public void setRunning(Long appInstId, boolean running, MALInteraction interaction)
