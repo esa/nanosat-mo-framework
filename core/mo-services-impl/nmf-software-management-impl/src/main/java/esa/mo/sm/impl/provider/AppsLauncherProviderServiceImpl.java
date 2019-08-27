@@ -87,7 +87,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 {
 
   public final static String PROVIDER_PREFIX_NAME = "App: ";
-  private static final Logger LOGGER = Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(
+      AppsLauncherProviderServiceImpl.class.getName());
   private MALProvider appsLauncherServiceProvider;
   private MonitorExecutionPublisher publisher;
   private boolean initialiased = false;
@@ -260,8 +261,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
           directoryServiceURI
               = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         }
+        System.out.println("DIRURI: " + directoryServiceURI);
         manager.startAppProcess(new ProcessExecutionHandler(new CallbacksImpl(), appInstIds.get(i)),
             interaction, directoryServiceURI);
+        System.out.println("FOOBAR");
       } catch (IOException ex) {
         UIntegerList intIndexList = new UIntegerList();
         intIndexList.add(new UInteger(i));
@@ -380,27 +383,28 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
           eventCOM.getNumber(), eventCOM.getArea().getVersion());
       ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"),
           null, new Identifier("*"), serviceKey, new UIntegerList());
+      if (app.getCategory().getValue().equals("NMF_App")) {
+        // Do a lookup on the Central Drectory service for the app that we want
+        ProviderSummaryList providersList = this.directoryService.lookupProvider(sf,
+            interaction.getInteraction());
+        LOGGER.log(Level.FINER, "providersList object: {0}", providersList.toString());
 
-      // Do a lookup on the Central Drectory service for the app that we want
-      ProviderSummaryList providersList = this.directoryService.lookupProvider(sf,
-          interaction.getInteraction());
-      LOGGER.log(Level.FINER, "providersList object: {0}", providersList.toString());
+        try {
+          // Add here the filtering for the best IPC!!!
 
-      try {
-        // Add here the filtering for the best IPC!!!
+          final SingleConnectionDetails connectionDetails
+              = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
+          appConnections.add(connectionDetails);
 
-        final SingleConnectionDetails connectionDetails
-            = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
-        appConnections.add(connectionDetails);
-
-        // Add to the list of Directory service Obj Ids
-        if (!providersList.isEmpty()) {
-          appDirectoryNames.add(providersList.get(0).getProviderName());
-        } else {
-          appDirectoryNames.add(null);
+          // Add to the list of Directory service Obj Ids
+          if (!providersList.isEmpty()) {
+            appDirectoryNames.add(providersList.get(0).getProviderName());
+          } else {
+            appDirectoryNames.add(null);
+          }
+        } catch (IOException ex) {
+          intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
         }
-      } catch (IOException ex) {
-        intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
       }
     }
 
@@ -421,7 +425,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     interaction.sendAcknowledgement();
-
     manager.stopApps(appInstIds, appDirectoryNames, appConnections, interaction);
   }
 
