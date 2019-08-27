@@ -442,6 +442,7 @@ public class AppsLauncherManager extends DefinitionsManager
         new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
           appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
     final Process proc = pb.start();
+    System.out.println("PROCESS STARTED");
     handler.monitorProcess(proc);
     Runtime.getRuntime().addShutdownHook(new Thread(() -> proc.destroy()));
     handlers.put(handler.getObjId(), handler);
@@ -471,8 +472,8 @@ public class AppsLauncherManager extends DefinitionsManager
     return true;
   }
 
-  protected boolean stopNativeApp(final Long appInstId, MALInteraction interaction) throws
-      IOException
+  protected boolean stopNativeApp(final Long appInstId, StopAppInteraction interaction) throws
+      IOException, MALInteractionException, MALException
   {
     ProcessExecutionHandler handler = handlers.get(appInstId);
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
@@ -488,10 +489,11 @@ public class AppsLauncherManager extends DefinitionsManager
     assembleAppLauncherEnvironment("", env);
     pb.directory(appFolder);
     LOGGER.log(Level.INFO,
-        "Initializing ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
+        "Stopping ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
         new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
           appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
     final Process proc = pb.start();
+    interaction.sendUpdate(appInstId);
 
     if (handler == null) {
       app.setRunning(false);
@@ -504,9 +506,9 @@ public class AppsLauncherManager extends DefinitionsManager
     }
 
     handler.close();
-    this.setRunning(handler.getObjId(), false, interaction); // Update the Archive
+    this.setRunning(handler.getObjId(), false, interaction.getInteraction()); // Update the Archive
     handlers.remove(appInstId); // Get rid of it!
-
+    interaction.sendResponse();
     return true;
   }
 
@@ -586,14 +588,14 @@ public class AppsLauncherManager extends DefinitionsManager
           assembleAppLauncherEnvironment("", env);
           pb.directory(appFolder);
           LOGGER.log(Level.INFO,
-              "Stopping hybrid component of ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
+              "Stopping native component of ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
               new Object[]{curr.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
                 appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
           try {
             final Process proc = pb.start();
           } catch (IOException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
-                "Stopping hybrid component failed", ex);
+                "Stopping native component failed", ex);
           }
         }
         this.stopNMFApp(appInstIds, appDirectoryNames, appConnections, interaction);
@@ -602,7 +604,7 @@ public class AppsLauncherManager extends DefinitionsManager
           this.killAppProcess(appInstIds.get(i), interaction.getInteraction());
         } else {
           try {
-            this.stopNativeApp(appInstIds.get(i), interaction.getInteraction());
+            this.stopNativeApp(appInstIds.get(i), interaction);
           } catch (IOException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
                 "Stopping native app failed", ex);
@@ -610,7 +612,6 @@ public class AppsLauncherManager extends DefinitionsManager
         }
       }
     }
-
   }
 
   public void setRunning(Long appInstId, boolean running, MALInteraction interaction)
