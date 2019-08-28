@@ -356,7 +356,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
       }
     }
 
-    IdentifierList appDirectoryNames = new IdentifierList();
+    IdentifierList appDirectoryServiceNames = new IdentifierList();
 
     for (int i = 0; i < appInstIds.size(); i++) {
       // Get it from the list of available apps
@@ -398,9 +398,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
           // Add to the list of Directory service Obj Ids
           if (!providersList.isEmpty()) {
-            appDirectoryNames.add(providersList.get(0).getProviderName());
+            appDirectoryServiceNames.add(providersList.get(0).getProviderName());
           } else {
-            appDirectoryNames.add(null);
+            appDirectoryServiceNames.add(null);
           }
         } catch (IOException ex) {
           intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
@@ -425,7 +425,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     interaction.sendAcknowledgement();
-    manager.stopApps(appInstIds, appDirectoryNames, appConnections, interaction);
+    manager.stopApps(appInstIds, appDirectoryServiceNames, appConnections, interaction);
+    interaction.sendResponse();
   }
 
   @Override
