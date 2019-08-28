@@ -444,7 +444,6 @@ public class AppsLauncherManager extends DefinitionsManager
         new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
           appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
     final Process proc = pb.start();
-    System.out.println("PROCESS STARTED");
     handler.monitorProcess(proc);
     Runtime.getRuntime().addShutdownHook(new Thread(() -> proc.destroy()));
     handlers.put(handler.getObjId(), handler);
