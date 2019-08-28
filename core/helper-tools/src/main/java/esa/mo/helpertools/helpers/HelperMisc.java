@@ -343,7 +343,7 @@ public class HelperMisc {
   }
 
   /**
-   * Generates the corresponding MAL Element List from a certain MAL Element
+   * Generates a corresponding, empty MAL Element List from a certain MAL Element
    *
    * @param obj The MAL Element
    * @return The MAL Element List
@@ -378,7 +378,7 @@ public class HelperMisc {
   }
 
   /**
-   * Generates the corresponding MAL Element from a certain MAL Element List
+   * Generates the corresponding, empty MAL Element from a certain MAL Element List
    *
    * @param obj The MAL Element List
    * @return The MAL Element
