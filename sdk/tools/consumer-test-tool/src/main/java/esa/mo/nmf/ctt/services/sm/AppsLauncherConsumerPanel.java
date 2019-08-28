@@ -49,6 +49,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherA
 public class AppsLauncherConsumerPanel extends javax.swing.JPanel
 {
 
+  private static final Logger LOGGER = Logger.getLogger(AppsLauncherConsumerPanel.class.getName());
   private final AppsLauncherConsumerServiceImpl serviceSMAppsLauncher;
   private AppsLauncherTablePanel appsTable;
   private final HashMap<Long, StringBuffer> outputBuffers = new HashMap<>();
@@ -114,7 +115,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
       serviceSMAppsLauncher.getAppsLauncherStub().monitorExecutionRegister(subscription,
           new AppsLauncherConsumerAdapter());
     } catch (MALInteractionException | MALException ex) {
-      Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+      LOGGER.log(Level.SEVERE, null, ex);
     }
   }
 
@@ -245,7 +246,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
               }
             }
 
-            Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.INFO,
+            LOGGER.log(Level.INFO,
                 "listApp(\"*\") returned {0} object instance identifiers", appInstIds.size());
           }
 
@@ -255,13 +256,13 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
           {
             JOptionPane.showMessageDialog(null, "There was an error during the listApp operation.",
                 "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null,
+            LOGGER.log(Level.SEVERE, null,
                 error);
           }
         }
         );
       } catch (MALInteractionException | MALException ex) {
-        Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        LOGGER.log(Level.SEVERE, null, ex);
       }
 
     }//GEN-LAST:event_listAppAllButtonActionPerformed
@@ -285,7 +286,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
       } catch (MALInteractionException | MALException ex) {
         JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
             "Error!", JOptionPane.PLAIN_MESSAGE);
-        Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        LOGGER.log(Level.SEVERE, null, ex);
       }
     }//GEN-LAST:event_killAppButtonActionPerformed
 
@@ -299,16 +300,16 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
       ids.add(objId);
 
       try {
-        this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, new StopAdapter());
+        for (Long id : ids) {
+          appsTable.reportStatus("Sending stop request.", id.intValue());
+        }
+        this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, new StopAdapter(ids));
         appsTable.switchEnabledstatus(false);
 
-        for (Long id : ids) {
-          appsTable.reportStatus("Stop request sent", id.intValue());
-        }
       } catch (MALInteractionException | MALException ex) {
         JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
             "Error!", JOptionPane.PLAIN_MESSAGE);
-        Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        LOGGER.log(Level.SEVERE, null, ex);
       }
     }//GEN-LAST:event_stopAppButtonActionPerformed
 
@@ -330,7 +331,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
       } catch (MALInteractionException | MALException ex) {
         JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
             "Error!", JOptionPane.PLAIN_MESSAGE);
-        Logger.getLogger(AppsLauncherConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        LOGGER.log(Level.SEVERE, null, ex);
       }
     }//GEN-LAST:event_runAppButtonActionPerformed
 
@@ -359,12 +360,21 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
 
   public class StopAdapter extends AppsLauncherAdapter
   {
+    LongList apids;
+
+    public StopAdapter(LongList apids)
+    {
+      this.apids = apids;
+    }
 
     @Override
     public void stopAppAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
         java.util.Map qosProperties)
     {
-      appsTable.reportStatus("Stopping...", 1);
+      for(Long apid : apids)
+      {
+        appsTable.reportStatus("Stop ACK received...", apid.intValue());
+      }
     }
 
     @Override
@@ -378,14 +388,20 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
     public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
         org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties)
     {
-      appsTable.reportStatus("Unable to stop... :S", 1);
+      for(Long apid : apids)
+      {
+        appsTable.reportStatus("Stop App Error..." + error.toString(), apid.intValue());
+      }
     }
 
     @Override
     public void stopAppResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
         java.util.Map qosProperties)
     {
-      appsTable.reportStatus("(4) All apps have been closed!", 1);
+      for(Long apid : apids)
+      {
+        appsTable.reportStatus("Stop App Completed.", apid.intValue());
+      }
     }
 
   }
