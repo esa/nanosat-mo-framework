@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
  */
 public class AppsLauncherTablePanel extends SharedTablePanel {
 
+    private static final Logger LOGGER = Logger.getLogger(AppsLauncherTablePanel.class.getName());
     public AppsLauncherTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
@@ -42,7 +43,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, 
+            LOGGER.log(Level.SEVERE,
                     "The table cannot process a null COM Object.");
             return;
         }
@@ -50,7 +51,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
             
         AppDetails appDetails = (AppDetails) comObject.getObject();
@@ -73,7 +74,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         // 4 because it is where generationEnabled is!
@@ -87,7 +88,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         // 5 because it is where the flag is!
@@ -103,9 +104,9 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
-
+        LOGGER.log(Level.INFO, "Updating test for appId {0}: ''{1}''", new Object[]{appId, text});
         
         int index;
         try {
@@ -114,7 +115,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
             // 6 because it is where the status field is!
             tableData.setValueAt(text, index, 6);
         } catch (Exception ex) {
-            Logger.getLogger(AppsLauncherTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         
         semaphore.release();
