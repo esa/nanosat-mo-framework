@@ -261,10 +261,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
           directoryServiceURI
               = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         }
-        System.out.println("DIRURI: " + directoryServiceURI);
         manager.startAppProcess(new ProcessExecutionHandler(new CallbacksImpl(), appInstIds.get(i)),
             interaction, directoryServiceURI);
-        System.out.println("FOOBAR");
       } catch (IOException ex) {
         UIntegerList intIndexList = new UIntegerList();
         intIndexList.add(new UInteger(i));
