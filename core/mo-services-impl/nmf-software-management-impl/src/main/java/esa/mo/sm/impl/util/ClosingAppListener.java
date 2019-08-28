@@ -38,10 +38,12 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppIntera
  */
 public class ClosingAppListener extends EventReceivedListener {
 
+    private static final Logger LOGGER = Logger.getLogger(ClosingAppListener.class.getName());
     private final StopAppInteraction interaction;
     private final EventConsumerServiceImpl eventService;
     private final Long objId;
     private boolean appClosed;
+    private final Object semaphore;
 
     public ClosingAppListener(final StopAppInteraction interaction,
             final EventConsumerServiceImpl eventService, final Long objId) {
@@ -49,36 +51,47 @@ public class ClosingAppListener extends EventReceivedListener {
         this.eventService = eventService;
         this.objId = objId;
         this.appClosed = false;
+        this.semaphore = new Object();
     }
 
     @Override
     public void onDataReceived(EventCOMObject eventCOMObject) {
         if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPING_OBJECT_TYPE)) {
             // Is it the ack from the app?
-            Logger.getLogger(ClosingAppListener.class.getName()).log(Level.INFO,
-                    "The app with objId " + objId + " is stopping...");
+            LOGGER.log(Level.INFO, "The app with objId {0} is stopping...", objId);
         }
 
         if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPED_OBJECT_TYPE)) {
-            Logger.getLogger(ClosingAppListener.class.getName()).log(Level.INFO,
-                    "The app with objId " + objId + " is now stopped!");
+            LOGGER.log(Level.INFO, "The app with objId {0} is now stopped!", objId);
 
             try { // Send update to consumer stating that the app is stopped
                 interaction.sendUpdate(objId);
             } catch (MALInteractionException ex) {
-                Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             } catch (MALException ex) {
-                Logger.getLogger(ClosingAppListener.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
 
             // If so, then close the connection to the service
             eventService.closeConnection();
-            
-            this.appClosed = true;
+
+            synchronized (semaphore) {
+                this.appClosed = true;
+                semaphore.notifyAll();
+            }
         }
     }
 
     public boolean isAppClosed() {
         return this.appClosed;
+    }
+
+    public void waitForAppClosing(long timeout) throws InterruptedException
+    {
+        synchronized (semaphore)
+        {
+            if (!appClosed)
+              semaphore.wait(timeout);
+        }
     }
 }
