@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,6 +78,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsL
 public class AppsLauncherManager extends DefinitionsManager
 {
 
+  private static final int APP_STOP_TIMEOUT = 5000;
   private static final Logger LOGGER = Logger.getLogger(AppsLauncherManager.class.getName());
 
   private final OSValidator osValidator = new OSValidator();
@@ -449,7 +451,8 @@ public class AppsLauncherManager extends DefinitionsManager
     this.setRunning(handler.getObjId(), true, interaction); // Update the Archive
   }
 
-  protected boolean killAppProcess(final Long appInstId, MALInteraction interaction)
+  protected boolean killAppProcess(final Long appInstId, MALInteraction interaction) throws
+      MALException, MALInteractionException
   {
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
@@ -494,6 +497,18 @@ public class AppsLauncherManager extends DefinitionsManager
           appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
     final Process proc = pb.start();
     interaction.sendUpdate(appInstId);
+    boolean exitCleanly = false;
+    try {
+      exitCleanly = proc.waitFor(APP_STOP_TIMEOUT, TimeUnit.MILLISECONDS);
+    } catch (InterruptedException ex) {
+      LOGGER.log(Level.WARNING, null, ex);
+    }
+    if (!exitCleanly) {
+      LOGGER.log(Level.WARNING,
+          "App {0} stop script did not exit within the timeout ({1} ms). Killing the stop script and forcing the app exit.",
+          new Object[]{app.getName().getValue(), APP_STOP_TIMEOUT});
+      proc.destroy();
+    }
 
     if (handler == null) {
       app.setRunning(false);
@@ -508,63 +523,77 @@ public class AppsLauncherManager extends DefinitionsManager
     handler.close();
     this.setRunning(handler.getObjId(), false, interaction.getInteraction()); // Update the Archive
     handlers.remove(appInstId); // Get rid of it!
-    interaction.sendResponse();
     return true;
   }
 
-  protected void stopNMFApp(final LongList appInstIds, final IdentifierList appDirectoryNames,
-      final ArrayList<SingleConnectionDetails> appConnections,
+  protected void stopNMFApp(final Long appInstId, final Identifier appDirectoryServiceName,
+      final SingleConnectionDetails appConnection,
       final StopAppInteraction interaction) throws MALException, MALInteractionException
   {
+    ClosingAppListener listener = null;
     // Register on the Event service of the respective apps
-    for (int i = 0; i < appConnections.size(); i++) {
-      // Select all object numbers from the Apps Launcher service Events
-      Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent(
-          "ClosingAppEvents",
-          AppsLauncherHelper.APP_OBJECT_TYPE);
-      try { // Subscribe to events
-        EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnections.
-            get(i));
-        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE,
-            "Connected to: {0}", appConnections.get(i).toString());
-        eventServiceConsumer.addEventReceivedListener(eventSub,
-            new ClosingAppListener(interaction, eventServiceConsumer, appInstIds.get(i)));
-      } catch (MalformedURLException ex) {
-        Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE,
-            "Could not connect to the app!");
-      }
+    // Select all object numbers from the Apps Launcher service Events
+    Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent(
+        "ClosingAppEvents",
+        AppsLauncherHelper.APP_OBJECT_TYPE);
+    try { // Subscribe to events
+      EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnection);
+      Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE,
+          "Connected to: {0}", appConnection.toString());
+      listener = new ClosingAppListener(interaction, eventServiceConsumer,
+          appInstId);
+      eventServiceConsumer.addEventReceivedListener(eventSub, listener);
+    } catch (MalformedURLException ex) {
+      Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE,
+          "Could not connect to the app!");
     }
 
-    // Stop the apps...
+    // Stop the app...
     ObjectType objType = AppsLauncherHelper.STOPAPP_OBJECT_TYPE;
-    ObjectIdList sourceList = new ObjectIdList();
+    Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO,
+        "Sending event to app: {0} (Name: ''{1}'')", new Object[]{appInstId, appDirectoryServiceName});
+    this.setRunning(appInstId, false, interaction.getInteraction());
+    ObjectId eventSource
+        = super.getCOMServices().getActivityTrackingService().storeCOMOperationActivity(
+            interaction.getInteraction(), null);
 
-    for (int i = 0; i < appInstIds.size(); i++) {
-      Long appInstId = appInstIds.get(i);
-      Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO,
-          "Sending event to app: {0} (Name: ''{1}'')", new Object[]{appInstId, appDirectoryNames.
-                get(i)});
-      this.setRunning(appInstId, false, interaction.getInteraction());
-      sourceList.add(super.getCOMServices().getActivityTrackingService().storeCOMOperationActivity(
-          interaction.getInteraction(), null));
-    }
-
-    // Generate, store and publish the events to stop the Apps...
-    final LongList objIds = super.getCOMServices().getEventService().generateAndStoreEvents(objType,
-        ConfigurationProviderSingleton.getDomain(), appInstIds, sourceList, interaction.
+    // Generate, store and publish the events to stop the App...
+    final Long objId = super.getCOMServices().getEventService().generateAndStoreEvent(objType,
+        ConfigurationProviderSingleton.getDomain(), null, appInstId, eventSource, interaction.
         getInteraction());
 
     final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();
 
     try {
-      super.getCOMServices().getEventService().publishEvents(uri, objIds, objType, appInstIds,
-          sourceList, appDirectoryNames);
+      IdentifierList eventBodies = new IdentifierList(1);
+      eventBodies.add(appDirectoryServiceName);
+      super.getCOMServices().getEventService().publishEvent(uri, objId, objType, appInstId,
+          eventSource, eventBodies);
     } catch (IOException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
+
+    if (listener != null) {
+      try {
+        listener.waitForAppClosing(APP_STOP_TIMEOUT);
+      } catch (InterruptedException ex) {
+        LOGGER.log(Level.WARNING, null, ex);
+      }
+    }
   }
 
-  protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryNames,
+  /**
+   * Stops multiple apps.
+   * Blocks until all applications exit or waiting for them times out.
+   *
+   * @param appInstIds Applications IDs
+   * @param appDirectoryServiceNames Directory service app name
+   * @param appConnections Application connection handlers (for NMF apps only)
+   * @param interaction Source interaction
+   * @throws MALException
+   * @throws MALInteractionException
+   */
+  protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryServiceNames,
       final ArrayList<SingleConnectionDetails> appConnections,
       final StopAppInteraction interaction) throws MALException, MALInteractionException
   {
@@ -574,8 +603,10 @@ public class AppsLauncherManager extends DefinitionsManager
     }
 
     for (int i = 0; i < appInstIds.size(); i++) {
-      AppDetails curr = this.get(appInstIds.get(i));
-      File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue());
+      long appInstId = appInstIds.get(i);
+      AppDetails curr = this.get(appInstId);
+      File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue()
+          + File.separator + "stop_" + curr.getName().getValue());
       boolean stopExists = stopScript.exists();
       if (isNmf[i]) {
         if (stopExists) {
@@ -598,12 +629,15 @@ public class AppsLauncherManager extends DefinitionsManager
                 "Stopping native component failed", ex);
           }
         }
-        this.stopNMFApp(appInstIds, appDirectoryNames, appConnections, interaction);
+        this.stopNMFApp(appInstId, appDirectoryServiceNames.get(i), appConnections.get(i), interaction);
       } else {
         if (!stopExists) {
+          LOGGER.log(Level.INFO, "No stop script present for app {0}. Killing the process.",
+              curr.getName());
           this.killAppProcess(appInstIds.get(i), interaction.getInteraction());
         } else {
           try {
+            LOGGER.log(Level.INFO, "Stop script present for app {0}. Invoking it.", curr.getName());
             this.stopNativeApp(appInstIds.get(i), interaction);
           } catch (IOException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
