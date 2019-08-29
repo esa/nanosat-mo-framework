@@ -23,6 +23,7 @@ package esa.mo.helpertools.helpers;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 
@@ -62,7 +63,8 @@ public class HelperTime {
       throw new IllegalArgumentException("Timestamp must not be null.");
     }
     Date date = new Date(timestamp.getValue());
-    Format format = new SimpleDateFormat(DATE_PATTERN);
+    SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+    format.setTimeZone(TimeZone.getTimeZone("UTC"));
     return format.format(date);
   }
 
