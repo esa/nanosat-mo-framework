@@ -20,6 +20,7 @@
  */
 package esa.mo.sm.impl.provider;
 
+import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
@@ -38,6 +39,8 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.EventHelper;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
@@ -65,6 +68,8 @@ import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.structures.UpdateType;
@@ -78,6 +83,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.MonitorExecut
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 
 /**
  * Apps Launcher service Provider.
@@ -191,7 +197,27 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
       final UpdateHeaderList hdrlst = new UpdateHeaderList();
       hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(),
           UpdateType.UPDATE, ekey));
-
+      EventProviderServiceImpl eventService = this.comServices.getEventService();
+      // Store in COM archive
+      Element eventBody = new Union(outputText);
+      StringList eventBodyList = new StringList(1);
+      eventBodyList.add(outputText);
+      IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
+      URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
+      ObjectId source = new ObjectId(AppsLauncherHelper.APP_OBJECT_TYPE, new ObjectKey(domain,
+          appObjId));
+      final Long eventObjId = eventService.generateAndStoreEvent(
+          CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE,
+          domain, eventBody, appObjId, source, null);
+      if (eventObjId != null) {
+        try {
+          eventService.publishEvent(sourceURI, eventObjId,
+              CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE, null, source, eventBodyList);
+        } catch (IOException ex) {
+          LOGGER.log(Level.SEVERE, "Could not publish app STDOUT",
+              ex);
+        }
+      }
       outputList.add(outputText);
       publisher.publish(hdrlst, outputList);
     } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
