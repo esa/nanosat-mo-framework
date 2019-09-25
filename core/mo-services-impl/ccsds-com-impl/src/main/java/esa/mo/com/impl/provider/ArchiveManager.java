@@ -364,10 +364,8 @@ public class ArchiveManager {
 
         Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE,
                 objType, domain, objIds, interaction);
-
         this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
         this.fastObjId.delete(objTypeId, domainId);
-
         return objIds;
     }
 
