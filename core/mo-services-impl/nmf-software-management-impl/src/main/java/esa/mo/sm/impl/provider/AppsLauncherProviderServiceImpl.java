@@ -69,6 +69,7 @@ import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
@@ -115,8 +116,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
    * @throws MALException On initialization error.
    */
   public synchronized void init(final COMServicesProvider comServices,
-      final DirectoryProviderServiceImpl directoryService) throws MALException
-  {
+      final DirectoryProviderServiceImpl directoryService) throws MALException {
     if (!initialiased) {
       if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
         MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -164,13 +164,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         "Apps Launcher service: READY");
   }
 
-  public ConnectionProvider getConnectionProvider()
-  {
+  public ConnectionProvider getConnectionProvider() {
     return this.connection;
   }
 
-  private void publishExecutionMonitoring(final Long appObjId, final String outputText)
-  {
+  private void publishExecutionMonitoring(final Long appObjId, final String outputText) {
     try {
       synchronized (lock) {
         if (!isRegistered) {
@@ -198,27 +196,35 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
       hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(),
           UpdateType.UPDATE, ekey));
       EventProviderServiceImpl eventService = this.comServices.getEventService();
-      // Store in COM archive
-      Element eventBody = new Union(outputText);
-      StringList eventBodyList = new StringList(1);
-      eventBodyList.add(outputText);
-      IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
-      URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
-      ObjectId source = new ObjectId(AppsLauncherHelper.APP_OBJECT_TYPE, new ObjectKey(domain,
-          appObjId));
-      final Long eventObjId = eventService.generateAndStoreEvent(
-          CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE,
-          domain, eventBody, appObjId, source, null);
-      if (eventObjId != null) {
-        try {
-          eventService.publishEvent(sourceURI, eventObjId,
-              CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE, null, source, eventBodyList);
-        } catch (IOException ex) {
-          LOGGER.log(Level.SEVERE, "Could not publish app STDOUT",
-              ex);
+
+      int length = outputText.length();
+      for (int i = 0; i < length; i += UShort.MAX_VALUE) {
+        int end = Math.min(length, i + UShort.MAX_VALUE);
+        String segment = outputText.substring(i, end);
+        outputList.add(segment);
+
+        // Store in COM archive
+        Element eventBody = new Union(segment);
+        StringList eventBodyList = new StringList(1);
+        eventBodyList.add(segment);
+        IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
+        URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
+        ObjectId source = new ObjectId(AppsLauncherHelper.APP_OBJECT_TYPE, new ObjectKey(domain,
+            appObjId));
+        final Long eventObjId = eventService.generateAndStoreEvent(
+            CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE,
+            domain, eventBody, appObjId, source, null);
+        if (eventObjId != null) {
+          try {
+            eventService.publishEvent(sourceURI, eventObjId,
+                CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE, null, source, eventBodyList);
+          } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Could not publish app STDOUT",
+                ex);
+          }
         }
       }
-      outputList.add(outputText);
+
       publisher.publish(hdrlst, outputList);
     } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
       LOGGER.log(Level.WARNING,
@@ -228,8 +234,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
   @Override
   public void runApp(LongList appInstIds, MALInteraction interaction) throws MALInteractionException,
-      MALException
-  {
+      MALException {
     UIntegerList unkIndexList = new UIntegerList();
     UIntegerList invIndexList = new UIntegerList();
 
@@ -302,8 +307,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
   @Override
   public void killApp(LongList appInstIds, MALInteraction interaction) throws
-      MALInteractionException, MALException
-  {
+      MALInteractionException, MALException {
     UIntegerList unkIndexList = new UIntegerList();
     UIntegerList invIndexList = new UIntegerList();
 
@@ -358,8 +362,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
   @Override
   public void stopApp(final LongList appInstIds, final StopAppInteraction interaction) throws
-      MALInteractionException, MALException
-  {
+      MALInteractionException, MALException {
     UIntegerList unkIndexList = new UIntegerList();
     UIntegerList invIndexList = new UIntegerList();
     UIntegerList intIndexList = new UIntegerList();
@@ -455,8 +458,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
   @Override
   public ListAppResponse listApp(final IdentifierList appNames, final Identifier category,
-      final MALInteraction interaction) throws MALInteractionException, MALException
-  {
+      final MALInteraction interaction) throws MALInteractionException, MALException {
     UIntegerList unkIndexList = new UIntegerList();
     ListAppResponse outList = new ListAppResponse();
 
@@ -508,14 +510,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
   @Override
   public void setOnConfigurationChangeListener(
-      final ConfigurationChangeListener configurationAdapter)
-  {
+      final ConfigurationChangeListener configurationAdapter) {
     this.configurationAdapter = configurationAdapter;
   }
 
   @Override
-  public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails)
-  {
+  public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
     // Validate the configuration...
     if (configurationObjectDetails == null) {
       return false;
@@ -566,8 +566,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   }
 
   @Override
-  public ConfigurationObjectDetails getCurrentConfiguration()
-  {
+  public ConfigurationObjectDetails getCurrentConfiguration() {
     // Get all the current objIds in the serviceImpl
     // Create a Configuration Object with all the objs of the provider
     final HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
@@ -590,8 +589,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   }
 
   @Override
-  public COMService getCOMService()
-  {
+  public COMService getCOMService() {
     return AppsLauncherHelper.APPSLAUNCHER_SERVICE;
   }
 
@@ -600,8 +598,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-        throws MALException
-    {
+        throws MALException {
       LOGGER.fine(
           "PublishInteractionListener::publishDeregisterAckReceived");
     }
@@ -609,16 +606,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     @Override
     public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
         final Map qosProperties)
-        throws MALException
-    {
+        throws MALException {
       LOGGER.warning(
           "PublishInteractionListener::publishErrorReceived");
     }
 
     @Override
     public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-        throws MALException
-    {
+        throws MALException {
       LOGGER.fine(
           "PublishInteractionListener::publishRegisterAckReceived");
 //            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
@@ -626,8 +621,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-        final Map qosProperties) throws MALException
-    {
+        final Map qosProperties) throws MALException {
       LOGGER.warning(
           "PublishInteractionListener::publishRegisterErrorReceived");
     }
@@ -637,20 +631,17 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   {
 
     @Override
-    public void flushStdout(Long objId, String data)
-    {
+    public void flushStdout(Long objId, String data) {
       publishExecutionMonitoring(objId, data);
     }
 
     @Override
-    public void flushStderr(Long objId, String data)
-    {
+    public void flushStderr(Long objId, String data) {
       publishExecutionMonitoring(objId, data);
     }
 
     @Override
-    public void processStopped(Long objId, int exitCode)
-    {
+    public void processStopped(Long objId, int exitCode) {
 
     }
   }
