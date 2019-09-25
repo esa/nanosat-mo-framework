@@ -695,7 +695,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     toBeDeleted.addAll(manager.getAllObjIds(lObjectType, lIdentifierList)); // ... add all
                     break;
                 }
-
                 if (!manager.objIdExists(lObjectType, lIdentifierList, tempObjId)) {
                     unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.6
                     continue;

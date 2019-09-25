@@ -67,6 +67,10 @@ public class DatabaseBackend {
         return emAvailability;
     }
 
+    public Connection getConnection(){
+      return serverConnection;
+    }
+
     /**
      * Starts the database backend by creates the Entity Manager Factory.
      *
