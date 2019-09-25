@@ -161,15 +161,15 @@ public class PayloadsTestActionsHandler
     actionDefs.add(actionDefUnsetAttitude);
     actionDefs.add(new ActionDefinitionDetails(
         "Uses the NMF Camera service to take a picture.", new UOctet(
-            (short) 0), new UShort(TOTAL_STAGES), null));
+            (short) 0), new UShort(TOTAL_STAGES), new ArgumentDefinitionDetailsList()));
     actionNames.add(new Identifier(ACTION_TAKE_PICTURE_RAW));
     actionDefs.add(new ActionDefinitionDetails(
         "Uses the NMF Camera service to take a picture.", new UOctet(
-            (short) 0), new UShort(TOTAL_STAGES), null));
+            (short) 0), new UShort(TOTAL_STAGES), new ArgumentDefinitionDetailsList()));
     actionNames.add(new Identifier(ACTION_TAKE_PICTURE_JPG));
     actionDefs.add(new ActionDefinitionDetails(
         "Uses the NMF Camera service to take a picture.", new UOctet(
-            (short) 0), new UShort(TOTAL_STAGES), null));
+            (short) 0), new UShort(TOTAL_STAGES), new ArgumentDefinitionDetailsList()));
     actionNames.add(new Identifier(ACTION_TAKE_PICTURE_BMP));
     ArgumentDefinitionDetailsList argumentsPowerSwitch = new ArgumentDefinitionDetailsList();
     {
