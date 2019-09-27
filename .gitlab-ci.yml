@@ -24,6 +24,7 @@ build:
   artifacts:
     paths:
       - $NMF_HOME/.m2/repository
+      - $NMF_HOME/sdk/sdk-package/target
     expire_in: 1 day
 
 test_ccsds-mc-impl:
