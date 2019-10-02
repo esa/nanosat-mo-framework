@@ -24,15 +24,11 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
-import esa.mo.platform.impl.util.PlatformServicesConsumer;
-import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 import esa.mo.sm.impl.util.OSValidator;
 import esa.mo.sm.impl.util.ShellCommander;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
@@ -79,7 +75,6 @@ public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
   private static final String ACTION_CLOCK_SET_TIME = "Clock.setTimeUsingDeltaMilliseconds";
 
   private final ShellCommander shellCommander = new ShellCommander();
-  private PlatformServicesConsumer platformsim;
   private NanoSatMOSupervisor nmfconnector;
 
   public void setNmfConnector(NanoSatMOSupervisor conn) {
