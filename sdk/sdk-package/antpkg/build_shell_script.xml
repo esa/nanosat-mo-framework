@@ -11,6 +11,7 @@
     <replace file="newShellScript" token="@MAIN_CLASS_NAME@" value="${mainClass}"/>
     <replace file="newShellScript" token="@NMF_HOME@" value="${nmf_home}"/>
     <replace file="newShellScript" token="@NMF_LIB@" value="${nmf_lib}"/>
+    <replace file="newShellScript" token="@PLATFORM@" value="${platform}"/>
     <move file="newShellScript" toFile="${id}.sh"/>
     <chmod file="${id}.sh" perm="0777"/>
     <mkdir dir="${fulloutput}"/>

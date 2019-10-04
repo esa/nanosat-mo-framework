@@ -64,7 +64,7 @@ if NOT "%CLASSPATH_PREFIX%" == "" set CLASSPATH=%CLASSPATH_PREFIX%;%CLASSPATH%
 @REM Reaching here means variables are defined and arguments have been captured
 :endInit
 
-%JAVACMD% %JAVA_OPTS% #EXTRA_JVM_ARGUMENTS# -classpath %CLASSPATH% -Dapp.name="#APP_NAME#" -Dapp.repo="%REPO%" -Dapp.home="%BASEDIR%" -Dbasedir="%BASEDIR%" -Djava.util.logging.config.file="%NMF_HOME%\logging.properties" #MAINCLASS# #APP_ARGUMENTS#%CMD_LINE_ARGS%
+%JAVACMD% %JAVA_OPTS% #EXTRA_JVM_ARGUMENTS# -classpath %CLASSPATH% -Dapp.name="#APP_NAME#" -Dapp.repo="%REPO%" -Dapp.home="%BASEDIR%" -Dbasedir="%BASEDIR%" -Djava.util.logging.config.file="%NMF_HOME%\logging.properties" -Dnmf.platform.impl=#PLATFORM# #MAINCLASS# #APP_ARGUMENTS#%CMD_LINE_ARGS%
 if %ERRORLEVEL% NEQ 0 goto error
 goto end
 

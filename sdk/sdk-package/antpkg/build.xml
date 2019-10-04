@@ -46,6 +46,7 @@
       <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
+      <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl"/>
@@ -53,6 +54,7 @@
       <property name="nmf_home" value="%cd%\.."/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
+      <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
     </ant>
   </target>
 
