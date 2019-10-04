@@ -22,6 +22,7 @@
     <replace file="newShellScript" token="#MAINCLASS#" value="${mainClass}"/>
     <replace file="newShellScript" token="#APP_ARGUMENTS#" value=""/>
     <replace file="newShellScript" token="#UNIX_BACKGROUND#" value=""/>
+    <replace file="newShellScript" token="#PLATFORM#" value="${platform}"/>
     <replace file="newShellScript" token="/" value="\"/>
     <move file="newShellScript" toFile="${id}.bat"/>
     <mkdir dir="${fulloutput}"/>
