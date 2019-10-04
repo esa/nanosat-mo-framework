@@ -20,6 +20,8 @@
  */
 package esa.mo.platform.impl.util;
 
+import esa.mo.com.impl.util.COMServicesProvider;
+import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
@@ -31,14 +33,17 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefined
  */
 public interface PlatformServicesProviderInterface {
 
-    CameraInheritanceSkeleton getCameraService();
+  default void init(COMServicesProvider comServices) throws MALException{
+  }
 
-    GPSInheritanceSkeleton getGPSService();
+  CameraInheritanceSkeleton getCameraService();
 
-    AutonomousADCSInheritanceSkeleton getAutonomousADCSService();
+  GPSInheritanceSkeleton getGPSService();
 
-    OpticalDataReceiverInheritanceSkeleton getOpticalDataReceiverService();
+  AutonomousADCSInheritanceSkeleton getAutonomousADCSService();
 
-    SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService();
+  OpticalDataReceiverInheritanceSkeleton getOpticalDataReceiverService();
+
+  SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService();
 
 }
