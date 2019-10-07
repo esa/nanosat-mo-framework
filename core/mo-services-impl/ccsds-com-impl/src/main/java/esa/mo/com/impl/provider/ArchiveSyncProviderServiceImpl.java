@@ -77,8 +77,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 /**
  * Archive Sync service Provider.
  */
-public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkeleton
-{
+public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkeleton {
 
   private ArchiveManager manager;
   private MALProvider archiveSyncServiceProvider;
@@ -275,8 +274,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     dispatchers.remove(transactionTicket);
   }
 
-  private class Dispatcher
-  {
+  private class Dispatcher {
 
     private final static int CHUNK_SIZE = 512;
 
@@ -331,8 +329,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     }
 
     public Runnable getProcessingRunnable() {
-      return new Runnable()
-      {
+      return new Runnable() {
         @Override
         public void run() {
           int counter = 0;
@@ -381,8 +378,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     }
 
     public Runnable getFlushingRunnable() {
-      return new Runnable()
-      {
+      return new Runnable() {
         @Override
         public void run() {
           try {
@@ -438,26 +434,31 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
           Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(
               Level.INFO, "Stage 3: The objects were all successfully flushed! "
               + numberOfChunks + " chunks in total!");
-          ArchiveQueryList aql = new ArchiveQueryList();
-          aql.add(new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null, null));
-          for (ToDelete type : ToDelete.values()) {
-            try {
-              archive.getArchiveStub().query(false, type.getType(), aql, null,
-                  new ObjectsReceivedAdapter(archive, type.getType()));
-            } catch (MALInteractionException ex) {
-              Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                  null, ex);
-            } catch (MALException ex) {
-              Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                  null, ex);
+          boolean purge = Boolean.valueOf(System.getProperty(
+              "esa.mo.nanosatmoframework.purgearchive"));
+          if (purge) { // This block cleans up the archive after sync if the option is enabled
+            ArchiveQueryList aql = new ArchiveQueryList();
+            aql.add(new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null,
+                null));
+
+            for (ToDelete type : ToDelete.values()) {
+              try {
+                archive.getArchiveStub().query(false, type.getType(), aql, null,
+                    new ObjectsReceivedAdapter(archive, type.getType()));
+              } catch (MALInteractionException ex) {
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                    null, ex);
+              } catch (MALException ex) {
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                    null, ex);
+              }
             }
           }
         }
       };
     }
 
-    private class ObjectsReceivedAdapter extends ArchiveAdapter
-    {
+    private class ObjectsReceivedAdapter extends ArchiveAdapter {
 
       private ArchiveDetailsList queryResults = new ArchiveDetailsList();
       private ArchiveConsumerServiceImpl archive;
@@ -480,7 +481,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
           queryResults.addAll(objDetails);
           Logger.getLogger(this.getClass().getName()).log(Level.FINE, "Received response!");
         }
-        
+
         List<Long> ids = queryResults.stream().map(detail -> detail.getInstId()).collect(
             Collectors.toList());
         LongList objInstIds = new LongList();
