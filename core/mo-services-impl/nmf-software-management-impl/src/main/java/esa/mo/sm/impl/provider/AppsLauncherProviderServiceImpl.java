@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
@@ -90,8 +91,7 @@ import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelp
  * Apps Launcher service Provider.
  */
 public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements
-    ReconfigurableService
-{
+    ReconfigurableService {
 
   public final static String PROVIDER_PREFIX_NAME = "App: ";
   private static final Logger LOGGER = Logger.getLogger(
@@ -107,6 +107,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   private COMServicesProvider comServices;
   private DirectoryProviderServiceImpl directoryService;
   private ConfigurationChangeListener configurationAdapter;
+  private static final int SEGMENT_SIZE = UShort.MAX_VALUE - 256;
 
   /**
    * Initializes the Event service provider
@@ -168,7 +169,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     return this.connection;
   }
 
-  private void publishExecutionMonitoring(final Long appObjId, final String outputText) {
+  private void publishExecutionMonitoring(final Long appObjId, final String outputText,
+      ObjectType objType) {
     try {
       synchronized (lock) {
         if (!isRegistered) {
@@ -198,30 +200,19 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
       EventProviderServiceImpl eventService = this.comServices.getEventService();
 
       int length = outputText.length();
-      for (int i = 0; i < length; i += UShort.MAX_VALUE) {
-        int end = Math.min(length, i + UShort.MAX_VALUE);
+      for (int i = 0; i < length; i += SEGMENT_SIZE) {
+        int end = Math.min(length, i + SEGMENT_SIZE);
         String segment = outputText.substring(i, end);
         outputList.add(segment);
-
-        // Store in COM archive
-        Element eventBody = new Union(segment);
-        StringList eventBodyList = new StringList(1);
-        eventBodyList.add(segment);
-        IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
-        URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
-        ObjectId source = new ObjectId(AppsLauncherHelper.APP_OBJECT_TYPE, new ObjectKey(domain,
-            appObjId));
-        final Long eventObjId = eventService.generateAndStoreEvent(
-            CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE,
-            domain, eventBody, appObjId, source, null);
-        if (eventObjId != null) {
-          try {
-            eventService.publishEvent(sourceURI, eventObjId,
-                CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE, null, source, eventBodyList);
-          } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Could not publish app STDOUT",
-                ex);
-          }
+        if (Boolean.valueOf(System.getProperty("esa.mo.nanosatmoframework.storestd"))) {
+          // Store in COM archive if the option is enabled
+          Element eventBody = new Union(segment);
+          IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
+          ObjectId source = new ObjectId(AppsLauncherHelper.APP_OBJECT_TYPE, new ObjectKey(domain,
+              appObjId));
+          eventService.generateAndStoreEvent(
+              objType,
+              domain, eventBody, appObjId, source, null);
         }
       }
 
@@ -593,8 +584,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     return AppsLauncherHelper.APPSLAUNCHER_SERVICE;
   }
 
-  public static final class PublishInteractionListener implements MALPublishInteractionListener
-  {
+  public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
     @Override
     public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
@@ -627,17 +617,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
   }
 
-  private class CallbacksImpl implements ProcessExecutionHandler.Callbacks
-  {
+  private class CallbacksImpl implements ProcessExecutionHandler.Callbacks {
 
     @Override
     public void flushStdout(Long objId, String data) {
-      publishExecutionMonitoring(objId, data);
+      publishExecutionMonitoring(objId, data, CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE);
     }
 
     @Override
     public void flushStderr(Long objId, String data) {
-      publishExecutionMonitoring(objId, data);
+      publishExecutionMonitoring(objId, data, CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE);
     }
 
     @Override
