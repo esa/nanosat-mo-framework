@@ -25,6 +25,7 @@ import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.sync.Dictionary;
 import esa.mo.com.impl.sync.EncodeDecode;
 import esa.mo.com.impl.sync.ToDelete;
+import esa.mo.com.impl.util.Quota;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -44,7 +46,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
@@ -90,6 +91,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
   private final ExecutorService executor = Executors.newCachedThreadPool();
   private ArchiveConsumerServiceImpl archive;
   private FineTime latestSync;
+  private Quota quota;
 
   public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService) {
     try {
@@ -99,6 +101,16 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     } catch (MalformedURLException ex) {
       Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
     }
+  }
+
+  /**
+   * Set the quota. Should only be used when STD limits are used for the archive.
+   *
+   * @param quota The same Quota object that is passed to the AppsLauncherProviderServiceImpl using
+   *              its setStdPerApp method.
+   */
+  public void setQuota(Quota quota) {
+    this.quota = quota;
   }
 
   /**
@@ -477,9 +489,15 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         if (objType == null && domain == null && objDetails == null && objBodies == null) {
           return;
         }
+        HashSet<Long> clearedIds = new HashSet<Long>();
         if (objDetails != null) {
           queryResults.addAll(objDetails);
           Logger.getLogger(this.getClass().getName()).log(Level.FINE, "Received response!");
+          if (objType != null && (objType.equals(ToDelete.STDERR_VALUE.getType()) || objType.equals(
+              ToDelete.STDOUT_VALUE.getType()))) {
+            objDetails.stream().map(detail -> detail.getDetails().getSource().getKey().getInstId()).forEach(
+                x -> clearedIds.add(x));
+          }
         }
 
         List<Long> ids = queryResults.stream().map(detail -> detail.getInstId()).collect(
@@ -487,8 +505,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         LongList objInstIds = new LongList();
         objInstIds.addAll(ids);
         try {
-          Thread.sleep(10000);
+          Thread.sleep(1000);
           LongList deleted = archive.getArchiveStub().delete(type, domain, objInstIds);
+          if(quota != null){
+            quota.clean(clearedIds);
+          }
         } catch (MALInteractionException ex) {
           Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null,
               ex);

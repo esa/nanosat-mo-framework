@@ -23,6 +23,7 @@ package esa.mo.sm.impl.provider;
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.com.impl.util.Quota;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
@@ -33,6 +34,7 @@ import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -108,6 +110,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   private DirectoryProviderServiceImpl directoryService;
   private ConfigurationChangeListener configurationAdapter;
   private static final int SEGMENT_SIZE = UShort.MAX_VALUE - 256;
+  private int stdLimit; // Limit of stdout/stderr to allow in the archive.
+  private Quota stdPerApp = new Quota(); // Default quota, existent if no ArchiveSync is used.
 
   /**
    * Initializes the Event service provider
@@ -138,7 +142,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // nothing to be done..
       }
     }
-
+    int kbyte = Integer.valueOf(System.getProperty("esa.mo.nanosatmoframework.stdlimit"));
+    stdLimit = kbyte * 1024; // init limit with value of property
     publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
         ConfigurationProviderSingleton.getNetwork(),
         SessionType.LIVE,
@@ -167,6 +172,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
   public ConnectionProvider getConnectionProvider() {
     return this.connection;
+  }
+
+  /**
+   * Set the common quota object used by ArchiveSync service and AppsLauncherService. The quota gets
+   * freed by ArchiveSync after synchronizing STDOUT/STDERR entries.
+   *
+   * @param q The same Quota object passed to ArchiveSyncProviderServiceImpl.
+   */
+  public void setStdPerApp(Quota q) {
+    this.stdPerApp = q;
   }
 
   private void publishExecutionMonitoring(final Long appObjId, final String outputText,
@@ -205,14 +220,29 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         String segment = outputText.substring(i, end);
         outputList.add(segment);
         if (Boolean.valueOf(System.getProperty("esa.mo.nanosatmoframework.storestd"))) {
-          // Store in COM archive if the option is enabled
-          Element eventBody = new Union(segment);
-          IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
-          ObjectId source = new ObjectId(AppsLauncherHelper.APP_OBJECT_TYPE, new ObjectKey(domain,
-              appObjId));
-          eventService.generateAndStoreEvent(
-              objType,
-              domain, eventBody, appObjId, source, null);
+          // Store in COM archive if the option is enabled and below limit
+          int currentStd = stdPerApp.retrieve(appObjId);
+          if (currentStd + segment.length() <= stdLimit) {
+            Element eventBody = new Union(segment);
+            stdPerApp.increase(appObjId, segment.length());
+            IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
+            ObjectId source = new ObjectId(AppsLauncherHelper.APP_OBJECT_TYPE, new ObjectKey(domain,
+                appObjId));
+            eventService.generateAndStoreEvent(
+                objType,
+                domain, eventBody, appObjId, source, null);
+          } else {
+            String errorString
+                = "Your logging is too verbose and reached the limit.\nPlease reduce verbosity.";
+            Element eventBody = new Union(errorString);
+            outputList.add(errorString);
+            IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
+            ObjectId source = new ObjectId(AppsLauncherHelper.APP_OBJECT_TYPE, new ObjectKey(domain,
+                appObjId));
+            eventService.generateAndStoreEvent(
+                objType,
+                domain, eventBody, appObjId, source, null);
+          }
         }
       }
 

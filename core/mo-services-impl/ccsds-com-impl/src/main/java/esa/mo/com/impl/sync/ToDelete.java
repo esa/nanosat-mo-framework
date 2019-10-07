@@ -12,7 +12,9 @@ public enum ToDelete
 {
   //ACTIVITY_TRACKING(new UShort(2), new UShort(3), new UOctet((short)1), new UShort(6)),
   PARAMETER_VALUE_INSTANCE(new UShort(4), new UShort(2), new UOctet((short)1), new UShort(3)),
-  AGGREGATION_VALUE(new UShort(4), new UShort(6), new UOctet((short)1), new UShort(3));
+  AGGREGATION_VALUE(new UShort(4), new UShort(6), new UOctet((short)1), new UShort(3)),
+  STDOUT_VALUE(new UShort(7), new UShort(3), new UOctet((short)1), new UShort(2)),
+  STDERR_VALUE(new UShort(7), new UShort(3), new UOctet((short)1), new UShort(3));
   private ObjectType type;
 
   ToDelete(UShort area, UShort service, UOctet version, UShort number){
