@@ -83,6 +83,9 @@ public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
 
   @Override
   public void initialRegistrations(MCRegistration registrationObject) {
+    if(registrationObject == null){
+      return;
+    }
     registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
     /* PARAMETERS */
@@ -163,6 +166,9 @@ public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
 
   @Override
   public Attribute onGetValue(Identifier identifier, Byte rawType) {
+    if(identifier == null){
+      return null;
+    }
     OSValidator osv = new OSValidator();
     if (PARAMETER_CURRENT_PARTITION.equals(identifier.getValue())) {
       if (osv.isUnix()) {
