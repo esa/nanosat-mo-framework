@@ -5,6 +5,8 @@ It introduces the concept of apps in space that can be started and stopped from 
 
 A Software Development Kit (SDK) is available in order to facilitate the development with the NanoSat MO Framework.
 
+Detailed documentation is available here: https://nanosat-mo-framework.readthedocs.io/en/latest/
+
 # Release
 The latest NMF SDK release tag can be downloaded in [Releases]. However, the currently recommended distribution channel is directly from Git repository.
 
