@@ -7,6 +7,8 @@ A Software Development Kit (SDK) is available in order to facilitate the develop
 
 Detailed documentation is available here: https://nanosat-mo-framework.readthedocs.io/en/latest/
 
+The interfaces of the NanoSat MO Framework are defined in MO and can be easily consulted here: https://dmarszk.github.io/MOWebViewer4NMF/
+
 # Release
 The latest NMF SDK release tag can be downloaded in [Releases]. However, the currently recommended distribution channel is directly from Git repository.
 
