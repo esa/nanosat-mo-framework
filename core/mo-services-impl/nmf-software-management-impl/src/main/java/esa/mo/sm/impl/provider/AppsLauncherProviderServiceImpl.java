@@ -98,6 +98,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   public final static String PROVIDER_PREFIX_NAME = "App: ";
   private static final Logger LOGGER = Logger.getLogger(
       AppsLauncherProviderServiceImpl.class.getName());
+  // Maximum length of a stderr/stdout chunk to be persisted - allows downlinking it via SPP without issues
+  private static final int MAX_SEGMENT_SIZE = UShort.MAX_VALUE - 256;
   private MALProvider appsLauncherServiceProvider;
   private MonitorExecutionPublisher publisher;
   private boolean initialiased = false;
@@ -109,7 +111,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   private COMServicesProvider comServices;
   private DirectoryProviderServiceImpl directoryService;
   private ConfigurationChangeListener configurationAdapter;
-  private static final int SEGMENT_SIZE = UShort.MAX_VALUE - 256;
   private int stdLimit; // Limit of stdout/stderr to allow in the archive.
   private Quota stdPerApp = new Quota(); // Default quota, existent if no ArchiveSync is used.
 
@@ -215,8 +216,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
       EventProviderServiceImpl eventService = this.comServices.getEventService();
 
       int length = outputText.length();
-      for (int i = 0; i < length; i += SEGMENT_SIZE) {
-        int end = Math.min(length, i + SEGMENT_SIZE);
+      for (int i = 0; i < length; i += MAX_SEGMENT_SIZE) {
+        int end = Math.min(length, i + MAX_SEGMENT_SIZE);
         String segment = outputText.substring(i, end);
         outputList.add(segment);
         if (Boolean.valueOf(System.getProperty("esa.mo.nanosatmoframework.storestd"))) {
