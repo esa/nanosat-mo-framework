@@ -9,6 +9,8 @@ Detailed documentation is available here: https://nanosat-mo-framework.readthedo
 
 The interfaces of the NanoSat MO Framework are defined in MO and can be easily consulted here: https://dmarszk.github.io/MOWebViewer4NMF/
 
+If you are looking for a simple explanation of the NanoSat MO Framework, you can consult Wikipedia: https://en.wikipedia.org/wiki/NanoSat_MO_Framework
+
 # Release
 The latest NMF SDK release tag can be downloaded in [Releases]. However, the currently recommended distribution channel is directly from Git repository.
 
