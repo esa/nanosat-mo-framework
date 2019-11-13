@@ -1,15 +1,19 @@
+[![][ESAImage]][website]
+
+
 # NanoSat MO Framework
-The NanoSat MO Framework is a software framework for nanosatellites based on CCSDS Mission Operations services.
+The [NanoSat MO Framework] is a software framework for nanosatellites based on CCSDS Mission Operations services:
+[NanoSat MO Framework]
 
 It introduces the concept of apps in space that can be started and stopped from ground. Apps can retrieve data from the platform through a set of well-defined MO services. Many possibilities for extensions are available due to its modular and flexible design approach which is not limited to the space segment but extends down to ground by providing all the building blocks for a complete and free end-to-end solution. The research was carried by Graz University of Technology in partnership with the European Space Agency.
 
-A Software Development Kit (SDK) is available in order to facilitate the development with the NanoSat MO Framework.
+A Software Development Kit (SDK) is available in order to facilitate the development with the [NanoSat MO Framework].
 
-Detailed documentation is available here: https://nanosat-mo-framework.readthedocs.io/en/latest/
+Wikipedia page: https://en.wikipedia.org/wiki/NanoSat_MO_Framework
 
-The interfaces of the NanoSat MO Framework are defined in MO and can be easily consulted here: https://dmarszk.github.io/MOWebViewer4NMF/
+Documentation: https://nanosat-mo-framework.readthedocs.io/en/latest/
 
-If you are looking for a simple explanation of the NanoSat MO Framework, you can consult Wikipedia: https://en.wikipedia.org/wiki/NanoSat_MO_Framework
+Interfaces of the services: https://dmarszk.github.io/MOWebViewer4NMF/
 
 # Release
 The latest NMF SDK release tag can be downloaded in [Releases]. However, the currently recommended distribution channel is directly from Git repository.
@@ -45,8 +49,8 @@ Or directly in the respective source code repository.
 The NanoSat MO Framework is **licensed** under the **[European Space Agency Public License - v2.0]**.
 
 [![][ESAImage]][website]
-	
-	
+		
+[NanoSat MO Framework] https://nanosat-mo-framework.github.io/
 [ESAImage]: http://www.esa.int/esalogo/images/logotype/img_colorlogo_darkblue.gif
 [European Space Agency Public License - v2.0]: https://github.com/esa/CCSDS_MO_TRANS/blob/master/LICENCE.md
 [GitHub]: https://github.com/esa
