@@ -13,6 +13,8 @@ Documentation: https://nanosat-mo-framework.readthedocs.io/en/latest/
 
 Interfaces of the services: https://dmarszk.github.io/MOWebViewer4NMF/
 
+Research Work Dissertation: https://www.researchgate.net/publication/321825076
+
 # Release
 The latest NMF SDK release tag can be downloaded in [Releases]. However, the currently recommended distribution channel is directly from Git repository.
 
