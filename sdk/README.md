@@ -1,4 +1,6 @@
-# NanoSat MO Framework SDK
+[![][NMFImage]][NanoSat MO Framework]
+
+# NanoSat MO Framework - SDK
 The SDK contains a set of tools and example projects in order to facilitate quicker development of applications by the framework users.
 
 The SDK depends on the NMF Mission - Software Simulator.
@@ -224,9 +226,11 @@ The NanoSat MO Framework is **licensed** under the **[European Space Agency Publ
 [![][ESAImage]][website]
 	
 	
+[NMFImage]: http://nanosat-mo-framework.github.io/img/NMF_logo_1124_63.png
 [ESAImage]: http://www.esa.int/esalogo/images/logotype/img_colorlogo_darkblue.gif
 [here]: https://nanosat-mo-framework.github.io/
 [European Space Agency Public License - v2.0]: https://github.com/esa/CCSDS_MO_TRANS/blob/master/LICENCE.md
 [GitHub]: https://github.com/esa
 [Bug Reports]: https://github.com/esa/nanosat-mo-framework/issues
 [website]: http://www.esa.int/
+[NanoSat MO Framework]: https://nanosat-mo-framework.github.io/
