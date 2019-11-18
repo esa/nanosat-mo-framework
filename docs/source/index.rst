@@ -5,6 +5,8 @@
 
 .. image:: https://nanosat-mo-framework.github.io/img/NMF_logo_1124_63.png
 
+==================
+
 Welcome to Nanosat MO Framework's documentation!
 ================================================
 This is the documentation page for the `Nanosat MO Framework <https://github.com/esa/nanosat-mo-framework>`_.
