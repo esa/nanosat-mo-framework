@@ -232,4 +232,4 @@ deploy_sdk:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - cd sdk/sdk-package/target/nmf-sdk-*/home/nmf
-    - scp -r * $T2USER@$TARGET2:~/NMF-SDK/
+    - scp -r * $T2USER@$TARGET2:~/nmf-sdk/
