@@ -35,10 +35,13 @@ The warning stating that we should check the link to the spacecraft is completel
 The next thing to do is to start the supervisor. You should wait with this step until the Ground MO Proxy started its directory service. 
 This is important, as we will not be able to connect to the Ground MO Proxy through the CTT/EUD4MO as long as the directory service is not initialized properly.
 You can see that the directory service is ready when you can spot a URI of the form ``maltcp://some.ip.right.here:somePort/ground-mo-proxy-Directory``.
-We have two choices concerning the start of the supervisor.
-If you want to check if your app starts up and you can set some parameters, the OPS-SAT supervisor is fine and will save you a lot of time.
-If you want to test your app with the platform services, you probably want to start the supervisor with simulator.
-The supervisor with simulator takes significantly more time to startup since it has to initialize the Orekit library which is used for orbit and attitude propagation.
+
+We have two choices concerning the start of the supervisor:
+
+* If you want to check if your app starts up and you can set some parameters, the OPS-SAT supervisor is fine and will save you a lot of time. Although note that it will fail to initialise payload interfaces and thus platform services will not be functional. The OPS-SAT supervisor path is ``opssat-package/target/nmf-opssat-VERSION/home/nmf/supervisor/``
+* If you want to test your app with the platform services, you can start the OPS-SAT hybrid supervisor with simulator.
+  The supervisor with simulator takes significantly more time to startup since it has to initialize the Orekit library which is used for orbit and attitude propagation.
+  The OPS-SAT supervisor with simulator path is ``opssat-package/target/nmf-opssat-VERSION/home/nmf/supervisor-sim/``
 
 Starting and connecting to your app
 """""""""""""""""""""""""""""""""""
