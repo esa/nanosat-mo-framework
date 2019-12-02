@@ -49,7 +49,7 @@
       <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl"/>
+      <property name="mainClass" value="esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl"/>
       <property name="id" value="nanosat-mo-supervisor-sim"/>
       <property name="nmf_home" value="%cd%\.."/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
