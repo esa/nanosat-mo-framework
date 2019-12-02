@@ -52,7 +52,6 @@
   <modules>
     <module>platform-services-impl</module>
     <module>nanosat-monolithic</module>
-    <module>nanosat-mo-supervisor</module>
     <module>opssat-gps-simulator</module>
     <module>opssat-spacecraft-simulator</module>
   </modules>

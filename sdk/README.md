@@ -108,7 +108,7 @@ The parameters for the SupervisorSimulator should be:
 
 | Parameter Name  | Value                                                                                                |
 |-----------------|------------------------------------------------------------------------------------------------------|
-| exec.args       | -classpath %classpath esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl                             |
+| exec.args       | esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl                                          |
 | exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                            |
 | exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/bin/space/nanosat-mo-supervisor-sim |
 
