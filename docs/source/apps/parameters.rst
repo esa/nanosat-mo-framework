@@ -52,16 +52,16 @@ To create the ParameterDefinitionDetails for a parameter, we just have to create
    IdentifierList paramNames = new IdentifierList();
 
    ParameterDefinitionDetails details_gain_r = new ParameterDefinitionDetails(
-       "The red channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null, null,
+       "The red channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, new Duration(0), null,
        null);
    ParameterDefinitionDetails details_gain_g = new ParameterDefinitionDetails(
-       "The green channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null, null,
+       "The green channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, new Duration(0), null,
        null);
    ParameterDefinitionDetails details_gain_b = new ParameterDefinitionDetails(
-       "The blue channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null, null,
+       "The blue channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, new Duration(0), null,
        null);
    ParameterDefinitionDetails details_exp_time = new ParameterDefinitionDetails(
-       "The camera's exposure time", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, null,
+       "The camera's exposure time", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, new Duration(0),
        null, null);
 
 And add them to the **ParameterDefinitionDetailsList** and set the **Identifiers**:
