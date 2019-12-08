@@ -1236,7 +1236,7 @@
             <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
           <mal:field canBeNull="false"
-            comment="Calculated attitude quaternion of the spacecraft frame relative to International Cosmic Reference Frame."
+            comment="Calculated attitude quaternion of the spacecraft frame relative to International Celestial Reference Frame (ICRF)."
             name="attitude">
             <mal:type area="Platform" list="false"
               name="Quaternion" service="AutonomousADCS" />
