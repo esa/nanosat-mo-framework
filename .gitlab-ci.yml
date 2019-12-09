@@ -172,14 +172,14 @@ test_nanosat-mo-supervisor:
   script:
     - cd core/nmf-composites/generic-nanosat-mo-supervisor
     - mvn test -Dmaven.test.skip=false
-    - cat $NMF_HOME/mission/simulator/nanosat-mo-supervisor/target/site/jacoco/index.html
+    - cat $NMF_HOME/core/nmf-composites/generic-nanosat-mo-supervisor/target/site/jacoco/index.html
   artifacts:
     reports:
       junit:
-        - $NMF_HOME/mission/simulator/nanosat-mo-supervisor/target/surefire-reports/TEST-*.xml
+        - $NMF_HOME/core/nmf-composites/generic-nanosat-mo-supervisor/target/surefire-reports/TEST-*.xml
     paths:
-      - $NMF_HOME/mission/simulator/nanosat-mo-supervisor/target/surefire-reports/TEST-*.xml
-      - $NMF_HOME/mission/simulator/nanosat-mo-supervisor/target/site/jacoco/
+      - $NMF_HOME/core/nmf-composites/generic-nanosat-mo-supervisor/target/surefire-reports/TEST-*.xml
+      - $NMF_HOME/core/nmf-composites/generic-nanosat-mo-supervisor/target/site/jacoco/
 
 test_opssat-gps-simulator:
   stage: regression-test
