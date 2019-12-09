@@ -1,5 +1,3 @@
-[![][NMFImage]][NanoSat MO Framework]
-
 # NanoSat MO Framework
 The [NanoSat MO Framework] is a software framework for nanosatellites based on CCSDS Mission Operations services.
 
