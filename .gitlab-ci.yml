@@ -170,7 +170,7 @@ test_helper-tools:
 test_nanosat-mo-supervisor:
   stage: regression-test
   script:
-    - cd mission/simulator/nanosat-mo-supervisor
+    - cd core/nmf-composites/generic-nanosat-mo-supervisor
     - mvn test -Dmaven.test.skip=false
     - cat $NMF_HOME/mission/simulator/nanosat-mo-supervisor/target/site/jacoco/index.html
   artifacts:
