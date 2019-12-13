@@ -530,7 +530,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
     private final TaskScheduler timer;
     boolean active = false; // Flag that determines if publishes or not
-    private static final int PERIOD = 5000; // 5 Seconds
+    private static final int PERIOD = 1000;
 
     public PeriodicCurrentPosition() {
       timer = new TaskScheduler(1);
