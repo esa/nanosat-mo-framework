@@ -19,9 +19,9 @@
     <relativePath>../../../parent/pom.xml</relativePath>
   </parent>
   <groupId>int.esa.nmf.core</groupId>
-  <artifactId>generic-nanosat-mo-supervisor</artifactId>
+  <artifactId>nanosat-mo-supervisor</artifactId>
   <packaging>jar</packaging>
-  <name>ESA NMF Core Composite - Generic NanoSat MO Supervisor</name>
+  <name>ESA NMF Core Composite - NanoSat MO Supervisor</name>
   <description>NanoSat MO Supervisor</description>
   <url>http://www.esa.int</url>
   <organization>

@@ -68,7 +68,7 @@
     as maven-dependency-plugin:copy does not support it. -->
     <dependency>
       <groupId>int.esa.nmf.core</groupId>
-      <artifactId>generic-nanosat-mo-supervisor</artifactId>
+      <artifactId>nanosat-mo-supervisor</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
