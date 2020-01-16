@@ -16,7 +16,7 @@ Internally, parameters are most likely just Java attributes of your app or provi
    private float gainR = 4.0f;
    private float gainG = 4.0f;
    private float gainB = 4.0f;
-   private float exposure_time = 0.2f;
+   private float exposureTime = 0.2f;
 
 It is also recommended that you define constant strings containing the names of your parameters, so they can be used later.
 
@@ -38,7 +38,7 @@ So, all you need to do for now is ``registration.setMode(MCRegistration.Registra
 Now, let's actually register our parameters. To define our parameters, we need two things: a **ParameterDefinitionDetailsList** and an **IdentifierList**.
 The **ParameterDefinitionDetailsList** contains all the details of our parameters, except for the name. 
 The parameter names are provided in the **IdentifierList** in the same order, as the corresponding **ParameterDefinitionDetails** are passed to the other list. 
-So, if we supplied the details in the order gain_r, gain_g, gain_b, exposure_time, then the **IdentifierList** would contain the **Identifiers** for "GainRed", "GainGreen", "GainBlue" and "ExposureTime" in that order.
+So, if we supplied the details in the order gain_r, gain_g, gain_b, exposureTime, then the **IdentifierList** would contain the **Identifiers** for "GainRed", "GainGreen", "GainBlue" and "ExposureTime" in that order.
 **ParameterDefinitionDetails** contain basic information about your parameter. This information is a short description (**String**) which can be displayed in the CTT, its raw type (**Byte**), if the parameter value is sent to the NMF on a regular basis (**Boolean**), the delay between parameter updates (**Duration**), an expression to check if the current parameter value is valid (**ParameterExpression**) and finally a **ParameterConversion** if the parameter has a converted type.
 The last two values can be null, if they are not needed.
 However, the other values should be set. Otherwise, NullPointerExceptions will occur.
