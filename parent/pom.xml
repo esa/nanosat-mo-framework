@@ -240,7 +240,7 @@
       </dependency>
       <dependency>
         <groupId>int.esa.nmf.core</groupId>
-        <artifactId>generic-nanosat-mo-supervisor</artifactId>
+        <artifactId>nanosat-mo-supervisor</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
       </dependency>
       <dependency>
