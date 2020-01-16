@@ -63,7 +63,7 @@ Recommended IDE is Netbeans
 ### Supervisor
 Set the working directory of the project to the directory of the Supervisor inside the SDK package:
 
-> In Netbeans, Right Click on a project (e.g. 'ESA NMF Mission Simulator - NanoSat MO Supervisor')->Properties->Run, and set the Working Directory value to
+> In Netbeans, Right Click on a project (e.g. 'ESA NMF Core Composite - NanoSat MO Supervisor')->Properties->Run, and set the Working Directory value to
 > `nmf-sdk-2.0.0/bin/space/nanosat-mo-supervisor-sim/`
 
 ### CTT

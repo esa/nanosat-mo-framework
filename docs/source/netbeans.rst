@@ -13,8 +13,13 @@ workspace.
 
 Setting up the supervisor with simulator
 ----------------------------------------
-Right click the project **ESA NMF Mission Simulator - NanoSat MO Supervisor** and select the option **Properties**.
-In the options **Run** enter the path to the supervisor simulator environment (by default at **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim**) and save the configuration.
+Right click the project **ESA NMF Core Composite - NanoSat MO Supervisor** and select the option **Properties**.
+In the options **Run** enter the path to the supervisor simulator environment (by default at **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim**). Then add the following line under VM Options and save the configuration.
+
+```
+-Dnmf.platform.impl=esa.mo.platform.impl.util.PlatformServicesProviderSoftSim
+```
+
 
 Setting up the CTT
 ------------------
