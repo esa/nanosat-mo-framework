@@ -49,15 +49,15 @@ The subtarget should look like this:
      <ant antfile="antpkg/build_shell_script.xml">
        <property name="mainClass" value="esa.mo.nmf.apps.SobelApp"/>
        <property name="id" value="start_sobel"/>
-       <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
-       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
+       <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
        <property name="binDir" value="sobel"/>
      </ant>
      <ant antfile="antpkg/build_batch_script.xml">
        <property name="mainClass" value="esa.mo.nmf.apps.SobelApp"/>
        <property name="id" value="start_sobel"/>
-       <property name="nmf_home" value="%cd%\.."/>
-       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
+       <property name="nmf_home" value="%cd%\..\nmf"/>
+       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
        <property name="binDir" value="sobel"/>
      </ant>
    </target>
