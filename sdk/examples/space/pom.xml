@@ -78,7 +78,7 @@
     <module>payloads-test</module>
     <module>serialized-object</module>
     <module>waveform</module>
-    <module>int.esa.nmf.sdk.examples.space_location-camera_jar_2.0.0-SNAPSHOT</module>
+    <module>int.esa.nmf.sdk.examples.space_camera-acquisitor-system_jar_2.0.0-SNAPSHOT</module>
   </modules>
 
 </project>
