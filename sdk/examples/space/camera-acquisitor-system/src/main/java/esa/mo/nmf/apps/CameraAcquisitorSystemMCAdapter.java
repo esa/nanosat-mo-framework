@@ -21,13 +21,16 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFInterface;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
@@ -38,16 +41,25 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 {
 
-  private NMFInterface connector;
+  private static final Logger LOGGER = Logger.getLogger(
+      CameraAcquisitorSystemMCAdapter.class.getName());
 
-  public CameraAcquisitorSystemMCAdapter(NMFInterface connector)
+  private NMFInterface connector;
+  private CameraAcquisitorSystemCameraTargetHandler cameraHandler;
+
+  public CameraAcquisitorSystemMCAdapter(final NMFInterface connector)
   {
     this.connector = connector;
+    this.cameraHandler = new CameraAcquisitorSystemCameraTargetHandler(this);
   }
 
   @Override
-  public void initialRegistrations(MCRegistration registrationObject)
+  public void initialRegistrations(MCRegistration registration)
   {
+    // Prevent definition updates on consecutive application runs
+    registration.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
+    registerParameters(registration);
+    CameraAcquisitorSystemCameraTargetHandler.registerActions(registration);
   }
 
   @Override
@@ -66,7 +78,21 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
       Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
   {
+    this.cameraHandler.actionArrived(name, attributeValues, actionInstanceObjId, reportProgress,
+        interaction);
     return null;
+  }
+
+  private void registerParameters(MCRegistration registration)
+  {
+    ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+    IdentifierList paramNames = new IdentifierList();
+    // TODO add parameters
+    // exposure
+    // gain
+    // resolution
+    // ...
+    registration.registerParameters(paramNames, defs);
   }
 
 }
