@@ -19,10 +19,10 @@
     <relativePath>../../../../parent/pom.xml</relativePath>
   </parent>
   <groupId>int.esa.nmf.sdk.examples.space</groupId>
-  <artifactId>location-camera</artifactId>
+  <artifactId>camera-acquisitor-system</artifactId>
   <packaging>jar</packaging>
 
-  <name>ESA NMF SDK App Example - Location-based Camera Planning</name>
+  <name>ESA NMF SDK App Example - Camera acquisitor system</name>
   <description>An app for planning camera images based on the satelites position</description>
   <url>http://www.esa.int</url>
   <organization>
