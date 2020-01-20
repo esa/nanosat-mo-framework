@@ -20,9 +20,9 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -32,46 +32,44 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
- * Blank App
+ * Class for Interfacing with the Camera Acquisitor System. This class handles all Parameters and
+ * forwards commands to the corresponding Classes that handle them.
  */
-public class BlankApp {
+public class CameraAcquisitorSystemMCAdapter
+{
 
-    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+  private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
 
-    public BlankApp() {
-        connector.init(new MCAdapter());
+  public CameraAcquisitorSystemMCAdapter()
+  {
+    connector.init(new MCAdapter());
+  }
+
+  public class MCAdapter extends MonitorAndControlNMFAdapter
+  {
+
+    @Override
+    public void initialRegistrations(MCRegistration registrationObject)
+    {
     }
 
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
-     */
-    public static void main(final String args[]) throws Exception {
-        BlankApp demo = new BlankApp();
+    @Override
+    public Attribute onGetValue(Identifier identifier, Byte rawType)
+    {
+      return null;
     }
 
-    public class MCAdapter extends MonitorAndControlNMFAdapter {
-
-        @Override
-        public void initialRegistrations(MCRegistration registrationObject) {
-        }
-
-        @Override
-        public Attribute onGetValue(Identifier identifier, Byte rawType) {
-            return null;
-        }
-
-        @Override
-        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            return false;
-        }
-
-        @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-            return null;
-        }
+    @Override
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
+    {
+      return false;
     }
+
+    @Override
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
+        Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
+    {
+      return null;
+    }
+  }
 }
