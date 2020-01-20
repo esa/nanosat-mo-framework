@@ -22,6 +22,9 @@ package esa.mo.nmf.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
+import java.util.Date;
+import java.util.PriorityQueue;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -51,19 +54,18 @@ public class CameraAcquisitorSystemCameraTargetHandler
 
   private static final String ACTION_PHOTOGRAPH_LOCATION = "photographLocation";
 
-  private static enum TimeModesEnum
-  {
-    ANY, DAYTIME, NIGHTTIME
-  }
-
   private CameraAcquisitorSystemMCAdapter casMCAdapter;
 
   private static final Logger LOGGER = Logger.getLogger(
       CameraAcquisitorSystemCameraTargetHandler.class.getName());
 
+  //queue to save all target locations
+  PriorityQueue<Date> locationQueue = new PriorityQueue<Date>();
+
   public CameraAcquisitorSystemCameraTargetHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
   {
     this.casMCAdapter = casMCAdapter;
+
   }
 
   /**
@@ -128,11 +130,12 @@ public class CameraAcquisitorSystemCameraTargetHandler
           Double latitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
           Double maxAngle = HelperAttributes.attribute2double(attributeValues.get(2).getValue());
 
-          TimeModesEnum timeType = TimeModesEnum.ANY;
+          CameraAcquisitorSystemTargetLocation.TimeModeEnum timeType =
+              CameraAcquisitorSystemTargetLocation.TimeModeEnum.ANY;
 
           try {
             int value = (int) ((UInteger) attributeValues.get(3).getValue()).getValue();
-            timeType = TimeModesEnum.values()[value];
+            timeType = CameraAcquisitorSystemTargetLocation.TimeModeEnum.values()[value];
           } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Invalid timeOfPhotograph! \n {0}", e);
           }
