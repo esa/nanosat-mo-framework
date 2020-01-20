@@ -50,6 +50,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   public CameraAcquisitorSystemMCAdapter(final NMFInterface connector)
   {
     this.connector = connector;
+
     this.cameraHandler = new CameraAcquisitorSystemCameraTargetHandler(this);
   }
 

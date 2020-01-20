@@ -58,6 +58,12 @@
       <groupId>int.esa.nmf.core</groupId>
       <artifactId>nanosat-mo-connector</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.orekit</groupId>
+      <artifactId>orekit</artifactId>
+      <version>10.0</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
   <build>
     <resources>
