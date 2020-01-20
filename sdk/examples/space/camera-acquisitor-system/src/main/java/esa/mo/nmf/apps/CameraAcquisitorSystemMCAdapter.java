@@ -22,7 +22,7 @@ package esa.mo.nmf.apps;
 
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.NMFInterface;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -35,41 +35,38 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  * Class for Interfacing with the Camera Acquisitor System. This class handles all Parameters and
  * forwards commands to the corresponding Classes that handle them.
  */
-public class CameraAcquisitorSystemMCAdapter
+public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 {
 
-  private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+  private NMFInterface connector;
 
-  public CameraAcquisitorSystemMCAdapter()
+  public CameraAcquisitorSystemMCAdapter(NMFInterface connector)
   {
-    connector.init(new MCAdapter());
+    this.connector = connector;
   }
 
-  public class MCAdapter extends MonitorAndControlNMFAdapter
+  @Override
+  public void initialRegistrations(MCRegistration registrationObject)
   {
-
-    @Override
-    public void initialRegistrations(MCRegistration registrationObject)
-    {
-    }
-
-    @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType)
-    {
-      return null;
-    }
-
-    @Override
-    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
-    {
-      return false;
-    }
-
-    @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-        Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
-    {
-      return null;
-    }
   }
+
+  @Override
+  public Attribute onGetValue(Identifier identifier, Byte rawType)
+  {
+    return null;
+  }
+
+  @Override
+  public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
+  {
+    return false;
+  }
+
+  @Override
+  public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
+      Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
+  {
+    return null;
+  }
+
 }
