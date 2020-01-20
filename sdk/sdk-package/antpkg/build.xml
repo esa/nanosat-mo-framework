@@ -2,7 +2,7 @@
   <property name="outputDir" value="${esa.nmf.sdk.assembly.outputdir}/home"/>
   <property name="repoName" value="nmf/lib"/>
   <target name="build" depends="emit-ctt, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
-  emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test, emit-space-app-waveform">
+  emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test, emit-space-app-waveform, emit-space-app-camera-acquisitor-system">
     <!--This empty target is used as the top level target. Add your app targets to the depends attribute! -->
   </target>
   <target name="emit-ctt">  
@@ -157,6 +157,22 @@
       <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="waveform"/>
+    </ant>
+  </target>
+  <target name="emit-space-app-camera-acquisitor-system">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.CameraAcquisitorSystemApp"/>
+      <property name="id" value="start_camera-acquisitor-system"/>
+      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
+      <property name="binDir" value="camera-acquisitor-system"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.CameraAcquisitorSystemApp"/>
+      <property name="id" value="start_camera-acquisitor-system"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
+      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
+      <property name="binDir" value="camera-acquisitor-system"/>
     </ant>
   </target>
 </project>
