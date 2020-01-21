@@ -104,17 +104,11 @@ public class CameraAcquisitorSystemGPSHandler
     GeodeticPoint geoPosition = getCurrentPosition();
     Vector3D startPos = this.casMCAdapter.earth.transform(geoPosition);
 
-    Instant instant = Instant.now();
-    TimeScale utc = TimeScalesFactory.getUTC();
-    LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneId.of("UTC"));
-
-    AbsoluteDate now = new AbsoluteDate(time.getYear(), time.getMonthValue(), time.getDayOfMonth(),
-        time.getHour(), time.getMinute(), time.getSecond(), utc);
-
     //TODO calculate velocity
     //best way?
     PVCoordinates pvCoordinates = new PVCoordinates(startPos, startPos); //return new CartesianOrbit(pvCoordinates, frame, AbsoluteDate.GPS_EPOCH, altitude)
-    return new CartesianOrbit(pvCoordinates, this.casMCAdapter.earthFrame, now,
+    return new CartesianOrbit(pvCoordinates, this.casMCAdapter.earthFrame,
+        CameraAcquisitorSystemMCAdapter.getNow(),
         Constants.EIGEN5C_EARTH_MU);
   }
 
