@@ -40,6 +40,7 @@ import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
+import org.orekit.orbits.Orbit;
 
 /**
  * Class handling acquisition of targets and the corresponding actions
@@ -60,7 +61,8 @@ public class CameraAcquisitorSystemCameraTargetHandler
       CameraAcquisitorSystemCameraTargetHandler.class.getName());
 
   //queue to save all target locations
-  PriorityQueue<Date> locationQueue = new PriorityQueue<Date>();
+  PriorityQueue<CameraAcquisitorSystemTargetLocation> locationQueue =
+      new PriorityQueue<CameraAcquisitorSystemTargetLocation>();
 
   public CameraAcquisitorSystemCameraTargetHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
   {
@@ -125,6 +127,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
     if (name.getValue() != null) {
       switch (name.getValue()) {
         case (ACTION_PHOTOGRAPH_LOCATION):
+          //get parameters
           Double longitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
           Double latitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
           Double maxAngle = HelperAttributes.attribute2double(attributeValues.get(2).getValue());
@@ -133,6 +136,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
               CameraAcquisitorSystemTargetLocation.TimeModeEnum.ANY;
 
           try {
+            //parse TimeModeEnum
             int value = (int) ((UInteger) attributeValues.get(3).getValue()).getValue();
             timeType = CameraAcquisitorSystemTargetLocation.TimeModeEnum.values()[value];
           } catch (Exception e) {
@@ -143,6 +147,36 @@ public class CameraAcquisitorSystemCameraTargetHandler
           LOGGER.log(Level.INFO, "   Latitude: {0}", latitude);
           LOGGER.log(Level.INFO, "  max Angle: {0}", maxAngle);
           LOGGER.log(Level.INFO, "  time type: {0}", timeType.name());
+
+          // ------------------ add Location to queue ------------------
+          Orbit currentOrbit = this.casMCAdapter.getGpsHandler().getCurrentOrbit();
+
+          try {
+            CameraAcquisitorSystemTargetLocation location =
+                new CameraAcquisitorSystemTargetLocation(
+                    longitude, latitude, maxAngle, timeType, currentOrbit, this.casMCAdapter);
+            locationQueue.add(location);
+
+            double seconds = location.getOptimalTime().durationFrom(
+                CameraAcquisitorSystemMCAdapter.getNow());
+
+            new java.util.Timer().schedule(
+                new java.util.TimerTask()
+            {
+              @Override
+              public void run()
+              {
+                //TODO implement attitude corection and photograph
+                this.cancel();
+              }
+            },
+                (long) seconds * 1000 //conversion to milliseconds //TODO decide when to start
+            );
+
+          } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
+            return new UInteger(0); //TODO check posible error codes
+          }
 
           return new UInteger(1);
       }
