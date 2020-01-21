@@ -21,7 +21,26 @@
 package esa.mo.nmf.apps;
 
 import java.util.Date;
+import org.hipparchus.ode.events.Action;
+//import org.ccsds.moims.mo.com.event.provider.EventHandler;
+
+import org.hipparchus.util.FastMath;
+import org.orekit.bodies.CelestialBodyFactory;
+import org.orekit.bodies.GeodeticPoint;
+import org.orekit.frames.FactoryManagedFrame;
+import org.orekit.frames.TopocentricFrame;
+import org.orekit.models.earth.EarthITU453AtmosphereRefraction;
 import org.orekit.orbits.Orbit;
+import org.orekit.propagation.Propagator;
+import org.orekit.propagation.SpacecraftState;
+import org.orekit.propagation.analytical.KeplerianPropagator;
+import org.orekit.propagation.events.BooleanDetector;
+import org.orekit.propagation.events.ElevationDetector;
+import org.orekit.propagation.events.EventDetector;
+import org.orekit.propagation.events.GroundAtNightDetector;
+import org.orekit.propagation.events.handlers.EventHandler;
+import org.orekit.time.AbsoluteDate;
+import org.orekit.utils.PVCoordinatesProvider;
 
 /**
  * Class for handling orbit propagation for finding time frames for photographs
@@ -32,16 +51,20 @@ public class CameraAcquisitorSystemTargetLocation implements
     Comparable<CameraAcquisitorSystemTargetLocation>
 {
 
+  //how far to simulate into the future (in seconds)s
+  //current value = secondsPerMinute * minutesPerHour * hoursPerDay * 6 = 6 days
+  private double simulationRange = 60 * 60 * 24 * 6; //todo add parameter
+
   public static enum TimeModeEnum
   {
     ANY, DAYTIME, NIGHTTIME
   }
 
-  private Date optimalTime;
+  private AbsoluteDate optimalTime;
 
   //timeframe in wich photograph is possible:
-  private Date startTime;
-  private Date endTime;
+  private AbsoluteDate startTime;
+  private AbsoluteDate endTime;
 
   private double longitude;
   private double latitude;
@@ -64,35 +87,75 @@ public class CameraAcquisitorSystemTargetLocation implements
    * @param currentOrbit The current orbit of the spacecraft (used for orbit propagation)
    */
   public CameraAcquisitorSystemTargetLocation(double longitude, double latitude, double maxAngle,
-      TimeModeEnum timeMode, Orbit currentOrbit)
+      TimeModeEnum timeMode, Orbit currentOrbit, CameraAcquisitorSystemMCAdapter addapter) throws
+      Exception
   {
     this.longitude = longitude;
     this.latitude = latitude;
     this.maxAngle = maxAngle;
     this.timeMode = timeMode;
 
-    calculateTimeFrame(currentOrbit);
+    calculateTimeFrame(currentOrbit, addapter);
   }
 
   /**
    * calculates the next time frame in which this location can be photographed.
    */
-  private void calculateTimeFrame(Orbit currentOrbit)
+  private void calculateTimeFrame(Orbit currentOrbit, CameraAcquisitorSystemMCAdapter addapter)
+      throws Exception
   {
-    //TODO implement
+
+    GeodeticPoint targetLocation = new GeodeticPoint(this.latitude, this.longitude, 0);
+    TopocentricFrame groundFrame = new TopocentricFrame(addapter.earth, targetLocation,
+        "cameraTarget");
+
+    // ------------------ create Detectors ------------------
+    EventDetector overpassDetector = new ElevationDetector(groundFrame)
+        .withConstantElevation(FastMath.toRadians(180.0 - this.maxAngle));
+
+    if (timeMode != TimeModeEnum.ANY) {
+
+      PVCoordinatesProvider sun = CelestialBodyFactory.getSun(); //create detector for nighttime
+
+      EventDetector timeModeDetector = new GroundAtNightDetector(groundFrame, sun, latitude,
+          new EarthITU453AtmosphereRefraction(0));
+
+      //invert nightTime detector if photograph should be taken at daytime
+      if (this.timeMode == TimeModeEnum.DAYTIME) {
+        timeModeDetector = BooleanDetector.notCombine(timeModeDetector);
+      }
+      overpassDetector = BooleanDetector.andCombine(timeModeDetector, overpassDetector)
+          .withHandler(new timedPassHandler(this));
+    } else {
+      overpassDetector = BooleanDetector.andCombine(overpassDetector)
+          .withHandler(new timedPassHandler(this));
+    }
+
+    // ------------------ Setup Simulation------------------
+    //TODO better propagator?
+    Propagator kepler = new KeplerianPropagator(currentOrbit);
+    kepler.addEventDetector(overpassDetector);
+    AbsoluteDate startDate = currentOrbit.getDate();
+    AbsoluteDate endDate = startDate.shiftedBy(simulationRange);
+
+    // ------------------ Simulate Orbit ------------------
+    SpacecraftState finalState = kepler.propagate(endDate);
+    if (finalState.getDate() == endDate) {
+      throw new Exception("No possible Pass in set Timeframe");
+    }
   }
 
-  public Date getOptimalTime()
+  public AbsoluteDate getOptimalTime()
   {
     return optimalTime;
   }
 
-  public Date getStartTime()
+  public AbsoluteDate getStartTime()
   {
     return startTime;
   }
 
-  public Date getEndTime()
+  public AbsoluteDate getEndTime()
   {
     return endTime;
   }
@@ -121,5 +184,48 @@ public class CameraAcquisitorSystemTargetLocation implements
   public int compareTo(CameraAcquisitorSystemTargetLocation other)
   {
     return this.optimalTime.compareTo(other.getOptimalTime());
+  }
+
+  private static class timedPassHandler implements EventHandler<BooleanDetector>
+  {
+
+    private final CameraAcquisitorSystemTargetLocation parent;
+
+    public timedPassHandler(CameraAcquisitorSystemTargetLocation parent)
+    {
+      this.parent = parent;
+    }
+
+    @Override
+    public Action eventOccurred(SpacecraftState s, BooleanDetector detector, boolean increasing)
+    {
+      if (!increasing) {
+        parent.endTime = s.getDate();
+        double elepsedTime = parent.endTime.durationFrom(parent.startTime);
+        parent.optimalTime = parent.startTime.shiftedBy(elepsedTime / 2);
+        return Action.STOP;
+      }
+      return Action.CONTINUE;
+    }
+  }
+
+  private static class overpassBeginHandler implements EventHandler<ElevationDetector>
+  {
+
+    private final CameraAcquisitorSystemTargetLocation parent;
+
+    public overpassBeginHandler(CameraAcquisitorSystemTargetLocation parent)
+    {
+      this.parent = parent;
+    }
+
+    @Override
+    public Action eventOccurred(SpacecraftState s, ElevationDetector detector, boolean increasing)
+    {
+      if (increasing) {
+        parent.startTime = s.getDate();
+      }
+      return Action.CONTINUE;
+    }
   }
 }
