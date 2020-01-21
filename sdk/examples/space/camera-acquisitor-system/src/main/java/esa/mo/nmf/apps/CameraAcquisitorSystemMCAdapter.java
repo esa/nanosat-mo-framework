@@ -33,6 +33,11 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.orekit.bodies.OneAxisEllipsoid;
+import org.orekit.frames.FactoryManagedFrame;
+import org.orekit.frames.FramesFactory;
+import org.orekit.utils.Constants;
+import org.orekit.utils.IERSConventions;
 
 /**
  * Class for Interfacing with the Camera Acquisitor System. This class handles all Parameters and
@@ -45,13 +50,39 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
       CameraAcquisitorSystemMCAdapter.class.getName());
 
   private NMFInterface connector;
+
+  //create earth reference frame:
+  public final FactoryManagedFrame earthFrame = FramesFactory.getITRF(
+      IERSConventions.IERS_2010,
+      true);
+  public final OneAxisEllipsoid earth = new OneAxisEllipsoid(
+      Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
+      Constants.WGS84_EARTH_FLATTENING, this.earthFrame);
+  ;
+
   private CameraAcquisitorSystemCameraTargetHandler cameraHandler;
+  private CameraAcquisitorSystemGPSHandler gpsHandler;
+
+  public CameraAcquisitorSystemCameraTargetHandler getCameraHandler()
+  {
+    return cameraHandler;
+  }
+
+  public CameraAcquisitorSystemGPSHandler getGpsHandler()
+  {
+    return gpsHandler;
+  }
+
+  public NMFInterface getConnector()
+  {
+    return connector;
+  }
 
   public CameraAcquisitorSystemMCAdapter(final NMFInterface connector)
   {
     this.connector = connector;
-
     this.cameraHandler = new CameraAcquisitorSystemCameraTargetHandler(this);
+    this.gpsHandler = new CameraAcquisitorSystemGPSHandler(this);
   }
 
   @Override

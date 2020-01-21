@@ -65,7 +65,6 @@ public class CameraAcquisitorSystemCameraTargetHandler
   public CameraAcquisitorSystemCameraTargetHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
   {
     this.casMCAdapter = casMCAdapter;
-
   }
 
   /**
