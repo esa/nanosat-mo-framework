@@ -24,6 +24,9 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFInterface;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
@@ -36,6 +39,9 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.orekit.bodies.OneAxisEllipsoid;
 import org.orekit.frames.FactoryManagedFrame;
 import org.orekit.frames.FramesFactory;
+import org.orekit.time.AbsoluteDate;
+import org.orekit.time.TimeScale;
+import org.orekit.time.TimeScalesFactory;
 import org.orekit.utils.Constants;
 import org.orekit.utils.IERSConventions;
 
@@ -127,4 +133,18 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     registration.registerParameters(paramNames, defs);
   }
 
+  /**
+   * creates an AbsoluteDate object, which contains the current time in UTC
+   *
+   * @return AbsoluteDate with current time in UTC
+   */
+  public static AbsoluteDate getNow()
+  {
+    Instant instant = Instant.now();
+    TimeScale utc = TimeScalesFactory.getUTC();
+    LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneId.of("UTC"));
+
+    return new AbsoluteDate(time.getYear(), time.getMonthValue(), time.getDayOfMonth(),
+        time.getHour(), time.getMinute(), time.getSecond(), utc);
+  }
 }
