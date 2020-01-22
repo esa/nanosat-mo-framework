@@ -1,18 +1,24 @@
 package esa.nmf.test;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class RegressionTest2 {
+public class RegressionTest2
+{
 
   public static boolean debug = false;
 
   @Test
-  public void test1001() throws Throwable {
-    if (debug)
+  public void test1001() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1001");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -23,10 +29,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     simulatorHeader12.setOrekitTLE1("");
     java.util.Date date17 = simulatorHeader12.parseStringIntoDate("2019/05/23-15:09:35");
@@ -45,30 +53,40 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1002() throws Throwable {
-    if (debug)
+  public void test1002() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1002");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience13 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience13 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double14 = gPSSatInViewScience13.getMaxDistance();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience23 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience32 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience23 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience32 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double33 = gPSSatInViewScience32.getMaxDistance();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience42 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience51 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience42 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience51 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double52 = gPSSatInViewScience51.getStdDevElevation();
-    opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray53 = new opssat.simulator.orekit.GPSSatInViewScience[] {
-        gPSSatInViewScience13, gPSSatInViewScience23, gPSSatInViewScience32, gPSSatInViewScience42,
-        gPSSatInViewScience51 };
+    opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray53 =
+        new opssat.simulator.orekit.GPSSatInViewScience[]{
+          gPSSatInViewScience13, gPSSatInViewScience23, gPSSatInViewScience32, gPSSatInViewScience42,
+          gPSSatInViewScience51};
     opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray54 = shortList2
         .toArray(gPSSatInViewScienceArray53);
     shortList2.ensureCapacity(44);
@@ -104,19 +122,24 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1003() throws Throwable {
-    if (debug)
+  public void test1003() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1003");
-    org.ccsds.moims.mo.mal.structures.Identifier identifier1 = new org.ccsds.moims.mo.mal.structures.Identifier(
-        "[]");
+    }
+    org.ccsds.moims.mo.mal.structures.Identifier identifier1 =
+        new org.ccsds.moims.mo.mal.structures.Identifier(
+            "[]");
     java.lang.Long long2 = identifier1.getShortForm();
     java.lang.String str3 = identifier1.getValue();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList4 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList4 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int5 = octetList4.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort6 = octetList4.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor7 = octetList4.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor9 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList4, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor9 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList4, "hi!");
     argumentDescriptor9.restoreArgument();
     argumentDescriptor9.restoreArgument();
     argumentDescriptor9.restoreArgument();
@@ -133,9 +156,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1004() throws Throwable {
-    if (debug)
+  public void test1004() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1004");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -146,10 +171,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     java.lang.String str14 = simulatorHeader12.getOrekitTLE2();
     int int15 = simulatorHeader12.getMinuteStartDate();
@@ -164,10 +191,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData26 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date27 = simulatorData26.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 = opssat.simulator.util.SimulatorData
-        .computeDiff(date24, date27);
-    opssat.simulator.util.SimulatorHeader simulatorHeader29 = new opssat.simulator.util.SimulatorHeader(
-        false, date20, date27);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date24, date27);
+    opssat.simulator.util.SimulatorHeader simulatorHeader29 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date20, date27);
     simulatorHeader12.setEndDate(date20);
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
@@ -183,9 +212,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1005() throws Throwable {
-    if (debug)
+  public void test1005() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1005");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -196,10 +227,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     int int13 = opssat.simulator.util.DateExtraction.getMinuteFromDate(date3);
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
@@ -208,15 +241,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1006() throws Throwable {
-    if (debug)
+  public void test1006() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1006");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList0.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException5 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException5 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray6 = wavFileException5.getSuppressed();
     boolean boolean7 = octetList0.equals(wavFileException5);
     org.ccsds.moims.mo.mal.structures.UShort uShort8 = octetList0.getServiceNumber();
@@ -229,9 +266,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1007() throws Throwable {
-    if (debug)
+  public void test1007() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1007");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -242,10 +281,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -263,12 +304,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData30 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date31 = simulatorData30.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 = opssat.simulator.util.SimulatorData
-        .computeDiff(date28, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader33 = new opssat.simulator.util.SimulatorHeader(
-        false, date24, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader34 = new opssat.simulator.util.SimulatorHeader(
-        false, date19, date24);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date28, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader33 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date24, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader34 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     simulatorHeader12.setUseCelestia(true);
     java.lang.String str38 = simulatorHeader12.DATE_FORMAT;
@@ -296,9 +340,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1008() throws Throwable {
-    if (debug)
+  public void test1008() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1008");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -309,10 +355,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -327,10 +375,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData26 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date27 = simulatorData26.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 = opssat.simulator.util.SimulatorData
-        .computeDiff(date24, date27);
-    opssat.simulator.util.SimulatorHeader simulatorHeader29 = new opssat.simulator.util.SimulatorHeader(
-        false, date20, date27);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date24, date27);
+    opssat.simulator.util.SimulatorHeader simulatorHeader29 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date20, date27);
     simulatorHeader12.setStartDate(date27);
     simulatorHeader12.setKeplerElements("-0100.0000000");
     boolean boolean34 = simulatorHeader12.validateTimeFactor(23);
@@ -352,34 +402,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1010() throws Throwable {
-    if (debug)
+  public void test1010() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1010");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     java.lang.String str33 = celestiaData32.getInfo();
     java.lang.String str34 = celestiaData32.getAnx();
     java.lang.String str35 = celestiaData32.getDnx();
@@ -387,7 +444,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -397,7 +454,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -407,9 +464,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1011() throws Throwable {
-    if (debug)
+  public void test1011() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1011");
+    }
     opssat.simulator.util.SimulatorTimer simulatorTimer2 = new opssat.simulator.util.SimulatorTimer(
         "SimulatorData", 1L);
     boolean boolean3 = simulatorTimer2.isElapsed();
@@ -420,9 +479,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1013() throws Throwable {
-    if (debug)
+  public void test1013() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1013");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     long long3 = simulatorData2.getCurrentTimeMillis();
@@ -447,12 +508,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData25 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date26 = simulatorData25.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap27 = opssat.simulator.util.SimulatorData
-        .computeDiff(date23, date26);
-    opssat.simulator.util.SimulatorHeader simulatorHeader28 = new opssat.simulator.util.SimulatorHeader(
-        false, date19, date26);
-    opssat.simulator.util.SimulatorHeader simulatorHeader29 = new opssat.simulator.util.SimulatorHeader(
-        false, date14, date19);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap27 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date23, date26);
+    opssat.simulator.util.SimulatorHeader simulatorHeader28 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date19, date26);
+    opssat.simulator.util.SimulatorHeader simulatorHeader29 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date14, date19);
     opssat.simulator.util.SimulatorData simulatorData33 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date34 = simulatorData33.getCurrentTime();
@@ -469,16 +533,21 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData46 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date47 = simulatorData46.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap48 = opssat.simulator.util.SimulatorData
-        .computeDiff(date44, date47);
-    opssat.simulator.util.SimulatorHeader simulatorHeader49 = new opssat.simulator.util.SimulatorHeader(
-        false, date40, date47);
-    opssat.simulator.util.SimulatorHeader simulatorHeader50 = new opssat.simulator.util.SimulatorHeader(
-        false, date35, date40);
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap51 = opssat.simulator.util.SimulatorData
-        .computeDiff(date19, date35);
-    opssat.simulator.util.SimulatorHeader simulatorHeader52 = new opssat.simulator.util.SimulatorHeader(
-        true, date8, date35);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap48 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date44, date47);
+    opssat.simulator.util.SimulatorHeader simulatorHeader49 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date40, date47);
+    opssat.simulator.util.SimulatorHeader simulatorHeader50 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date35, date40);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap51 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date19, date35);
+    opssat.simulator.util.SimulatorHeader simulatorHeader52 =
+        new opssat.simulator.util.SimulatorHeader(
+            true, date8, date35);
     boolean boolean53 = simulatorHeader52.checkStartBeforeEnd();
     simulatorHeader52.setOrekitTLE2("3800.0000000");
     org.junit.Assert.assertTrue("'" + long3 + "' != '" + 0L + "'", long3 == 0L);
@@ -500,33 +569,39 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1015() throws Throwable {
-    if (debug)
+  public void test1015() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1015");
-    org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
-        0.0d);
-    java.lang.Double[] doubleArray6 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
+    }
+    org.ccsds.moims.mo.mal.structures.Duration duration1 =
+        new org.ccsds.moims.mo.mal.structures.Duration(
+            0.0d);
+    java.lang.Double[] doubleArray6 = new java.lang.Double[]{(-1.0d), 100.0d, 10.0d, 10.0d};
     java.util.ArrayList<java.lang.Double> doubleList7 = new java.util.ArrayList<java.lang.Double>();
     boolean boolean8 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Double>) doubleList7, doubleArray6);
-    org.ccsds.moims.mo.mal.structures.UShort uShort9 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray10 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort9 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList11 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort9 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray10 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort9};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList11 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean12 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList11,
         uShortArray10);
     uShortList11.ensureCapacity(0);
     int int16 = uShortList11.indexOf((byte) 1);
     uShortList11.clear();
-    java.lang.Long[] longArray20 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray20 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList21 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean22 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList21, longArray20);
     java.lang.Object obj23 = longList21.clone();
     boolean boolean24 = uShortList11.contains(longList21);
     boolean boolean25 = doubleList7.equals(boolean24);
-    java.lang.Integer[] intArray28 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray28 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList29 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean30 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList29, intArray28);
@@ -559,44 +634,53 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1016() throws Throwable {
-    if (debug)
+  public void test1016() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1016");
-    org.ccsds.moims.mo.mal.structures.UShort uShort0 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort0 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    }
+    org.ccsds.moims.mo.mal.structures.UShort uShort0 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort0};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean3 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2, uShortArray1);
     uShortList2.ensureCapacity(0);
     int int7 = uShortList2.indexOf((byte) 1);
     uShortList2.clear();
-    java.lang.Long[] longArray11 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray11 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean13 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList12, longArray11);
     java.lang.Object obj14 = longList12.clone();
     boolean boolean15 = uShortList2.contains(longList12);
     java.util.ListIterator<java.lang.Long> longItor16 = longList12.listIterator();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     java.lang.String str22 = simulatorSpacecraftState20.getMagField();
     java.lang.String str23 = simulatorSpacecraftState20.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState27 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState27 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double28 = simulatorSpacecraftState27.getLatitude();
     java.lang.String str29 = simulatorSpacecraftState27.getMagField();
     java.lang.String str30 = simulatorSpacecraftState27.toString();
     double[] doubleArray31 = simulatorSpacecraftState27.getSunVector();
     simulatorSpacecraftState20.setMagnetometer(doubleArray31);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double37 = simulatorSpacecraftState36.getLatitude();
     java.lang.String str38 = simulatorSpacecraftState36.getMagField();
     java.lang.String str39 = simulatorSpacecraftState36.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState43 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState43 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double44 = simulatorSpacecraftState43.getLatitude();
     java.lang.String str45 = simulatorSpacecraftState43.getMagField();
     java.lang.String str46 = simulatorSpacecraftState43.toString();
@@ -606,8 +690,9 @@ public class RegressionTest2 {
     float[] floatArray50 = null;
     simulatorSpacecraftState20.setRv(floatArray50);
     int int52 = longList12.lastIndexOf(simulatorSpacecraftState20);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState56 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState56 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState56.setLongitude(4);
     int int59 = simulatorSpacecraftState56.getSatsInView();
     float[] floatArray60 = simulatorSpacecraftState56.getRv();
@@ -626,39 +711,39 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double21 + "' != '" + 340.0d + "'", double21 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str22 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str22.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str23 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str23.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double28 + "' != '" + 340.0d + "'", double28 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str29 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str29.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str30 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str30.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray31);
     org.junit.Assert.assertTrue("'" + double37 + "' != '" + 340.0d + "'", double37 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str38 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str38.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str39 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str39.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double44 + "' != '" + 340.0d + "'", double44 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str45 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str45.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str46 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str46.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray47);
     org.junit.Assert.assertTrue("'" + int52 + "' != '" + (-1) + "'", int52 == (-1));
@@ -670,15 +755,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1017() throws Throwable {
-    if (debug)
+  public void test1017() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1017");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.restoreArgument();
@@ -696,11 +785,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1018() throws Throwable {
-    if (debug)
+  public void test1018() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1018");
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    }
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double9 = gPSSatInViewScience8.getMaxDistance();
     double double10 = gPSSatInViewScience8.getStdDevDistance();
     double double11 = gPSSatInViewScience8.getMaxElevation();
@@ -710,21 +802,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1019() throws Throwable {
-    if (debug)
+  public void test1019() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1019");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
     float[] floatArray8 = simulatorSpacecraftState3.getQ();
     double double9 = simulatorSpacecraftState3.getLongitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState13 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray16 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState13 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray16 = new float[]{28, 8};
     simulatorSpacecraftState13.setQ(floatArray16);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double22 = simulatorSpacecraftState21.getLatitude();
     java.lang.String str23 = simulatorSpacecraftState21.getMagField();
     float[] floatArray24 = simulatorSpacecraftState21.getR();
@@ -734,21 +831,25 @@ public class RegressionTest2 {
     simulatorSpacecraftState3.setRv(floatArray24);
     java.lang.String str28 = simulatorSpacecraftState3.getSunVectorAsString();
     float[] floatArray29 = simulatorSpacecraftState3.getRv();
-    org.ccsds.moims.mo.mal.structures.Identifier identifier30 = new org.ccsds.moims.mo.mal.structures.Identifier();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList31 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.Identifier identifier30 =
+        new org.ccsds.moims.mo.mal.structures.Identifier();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList31 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int32 = octetList31.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort33 = octetList31.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor34 = octetList31.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor36 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList31, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor36 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList31, "hi!");
     argumentDescriptor36.restoreArgument();
     argumentDescriptor36.restoreArgument();
     argumentDescriptor36.restoreArgument();
     java.lang.String str40 = argumentDescriptor36.toString();
     boolean boolean41 = identifier30.equals(str40);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState45 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray48 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState45 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray48 = new float[]{28, 8};
     simulatorSpacecraftState45.setQ(floatArray48);
     float[] floatArray50 = simulatorSpacecraftState45.getQ();
     double double51 = simulatorSpacecraftState45.getLongitude();
@@ -756,27 +857,32 @@ public class RegressionTest2 {
     float[] floatArray53 = simulatorSpacecraftState45.getQ();
     double double54 = simulatorSpacecraftState45.getLongitude();
     double double55 = simulatorSpacecraftState45.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState59 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState63 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState59 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState63 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double64 = simulatorSpacecraftState63.getLatitude();
     java.lang.String str65 = simulatorSpacecraftState63.getMagField();
     java.lang.String str66 = simulatorSpacecraftState63.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState70 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState70 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double71 = simulatorSpacecraftState70.getLatitude();
     java.lang.String str72 = simulatorSpacecraftState70.getMagField();
     java.lang.String str73 = simulatorSpacecraftState70.toString();
     double[] doubleArray74 = simulatorSpacecraftState70.getSunVector();
     simulatorSpacecraftState63.setMagnetometer(doubleArray74);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState79 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState79 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double80 = simulatorSpacecraftState79.getLatitude();
     java.lang.String str81 = simulatorSpacecraftState79.getMagField();
     java.lang.String str82 = simulatorSpacecraftState79.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState86 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState86 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double87 = simulatorSpacecraftState86.getLatitude();
     java.lang.String str88 = simulatorSpacecraftState86.getMagField();
     java.lang.String str89 = simulatorSpacecraftState86.toString();
@@ -793,7 +899,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double22 + "' != '" + 340.0d + "'", double22 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str23 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str23.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray24);
     org.junit.Assert.assertTrue("'" + str26 + "' != '" + "UnknownGUIData" + "'",
@@ -817,47 +923,49 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double64 + "' != '" + 340.0d + "'", double64 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str65 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str65.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str66 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str66.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double71 + "' != '" + 340.0d + "'", double71 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str72 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str72.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str73 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str73.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray74);
     org.junit.Assert.assertTrue("'" + double80 + "' != '" + 340.0d + "'", double80 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str81 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str81.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str82 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str82.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double87 + "' != '" + 340.0d + "'", double87 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str88 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str88.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str89 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str89.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray90);
   }
 
   @Test
-  public void test1020() throws Throwable {
-    if (debug)
+  public void test1020() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1020");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -868,10 +976,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -892,16 +1002,21 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1021() throws Throwable {
-    if (debug)
+  public void test1021() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1021");
-    opssat.simulator.util.wav.WavFileException wavFileException0 = new opssat.simulator.util.wav.WavFileException();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    opssat.simulator.util.wav.WavFileException wavFileException0 =
+        new opssat.simulator.util.wav.WavFileException();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList1 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int2 = octetList1.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort3 = octetList1.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = octetList1.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException6 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException6 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray7 = wavFileException6.getSuppressed();
     boolean boolean8 = octetList1.equals(wavFileException6);
     wavFileException0.addSuppressed(wavFileException6);
@@ -917,11 +1032,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1022() throws Throwable {
-    if (debug)
+  public void test1022() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1022");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     simulatorSpacecraftState3.setLongitude(13);
     simulatorSpacecraftState3.setAltitude(66);
@@ -934,11 +1052,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1023() throws Throwable {
-    if (debug)
+  public void test1023() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1023");
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 = new opssat.simulator.orekit.GPSSatInViewScience(
-        (-30), 64, 7, 281475010265070L, (-1.0f), 281474993487879L, (byte) 1, (short) 100);
+    }
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            (-30), 64, 7, 281475010265070L, (-1.0f), 281474993487879L, (byte) 1, (short) 100);
     double double9 = gPSSatInViewScience8.getAvgDistance();
     double double10 = gPSSatInViewScience8.getStdDevDistance();
     double double11 = gPSSatInViewScience8.getMaxDistance();
@@ -956,9 +1077,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1025() throws Throwable {
-    if (debug)
+  public void test1025() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1025");
+    }
     org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
     java.lang.Integer int2 = uRI1.getTypeShortForm();
@@ -967,12 +1090,14 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uRI4.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.URI uRI7 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
-    org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[] {
-        uRI1, uRI4, uRI7 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
+    org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[]{
+      uRI1, uRI4, uRI7};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
     boolean boolean10 = java.util.Collections
         .addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9, uRIArray8);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime11 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime11 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     int int12 = uRIList9.indexOf(fineTime11);
     uRIList9.ensureCapacity(40);
     java.lang.Object obj15 = uRIList9.clone();
@@ -996,10 +1121,13 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1026() throws Throwable {
-    if (debug)
+  public void test1026() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1026");
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime0 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    }
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime0 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet1 = fineTime0.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime0.getAreaVersion();
     long long3 = fineTime0.getValue();
@@ -1015,50 +1143,54 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1027() throws Throwable {
-    if (debug)
+  public void test1027() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1027");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList0.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException5 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException5 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray6 = wavFileException5.getSuppressed();
     boolean boolean7 = octetList0.equals(wavFileException5);
-    java.lang.Integer[] intArray10 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray10 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList11 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean12 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList11, intArray10);
     int int14 = intList11.lastIndexOf((byte) 10);
-    java.lang.Integer[] intArray22 = new java.lang.Integer[] { 13, 10, 100, 100, 11111, 13, 11111 };
+    java.lang.Integer[] intArray22 = new java.lang.Integer[]{13, 10, 100, 100, 11111, 13, 11111};
     java.util.ArrayList<java.lang.Integer> intList23 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean24 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList23, intArray22);
-    java.lang.Byte[] byteArray29 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray29 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList30 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean31 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList30, byteArray29);
-    java.lang.Integer[] intArray34 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray34 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList35 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean36 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList35, intArray34);
     boolean boolean37 = byteList30.retainAll(intList35);
-    java.lang.Integer[] intArray40 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray40 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList41 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean42 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList41, intArray40);
     int int44 = intList41.lastIndexOf((byte) 10);
     boolean boolean45 = intList35.removeAll(intList41);
     boolean boolean46 = intList23.retainAll(intList41);
-    java.lang.Float[] floatArray50 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray50 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList51 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean52 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList51, floatArray50);
     boolean boolean54 = floatList51.add((-1.0f));
     floatList51.trimToSize();
-    java.lang.Integer[] intArray60 = new java.lang.Integer[] { 100, 1, (-1), 10 };
+    java.lang.Integer[] intArray60 = new java.lang.Integer[]{100, 1, (-1), 10};
     java.util.ArrayList<java.lang.Integer> intList61 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean62 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList61, intArray60);
@@ -1066,12 +1198,12 @@ public class RegressionTest2 {
     boolean boolean65 = floatList51.containsAll(intList61);
     boolean boolean66 = intList23.addAll(intList61);
     boolean boolean67 = intList11.removeAll(intList23);
-    java.lang.Byte[] byteArray73 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray73 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList74 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean75 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList74, byteArray73);
-    java.lang.Integer[] intArray78 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray78 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList79 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean80 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList79, intArray78);
@@ -1086,12 +1218,15 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UOctet uOctet89 = uRI88.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.URI uRI91 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
-    org.ccsds.moims.mo.mal.structures.URI[] uRIArray92 = new org.ccsds.moims.mo.mal.structures.URI[] {
-        uRI85, uRI88, uRI91 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList93 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
+    org.ccsds.moims.mo.mal.structures.URI[] uRIArray92 =
+        new org.ccsds.moims.mo.mal.structures.URI[]{
+          uRI85, uRI88, uRI91};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList93 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
     boolean boolean94 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList93, uRIArray92);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime95 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime95 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     int int96 = uRIList93.indexOf(fineTime95);
     uRIList93.ensureCapacity(40);
     boolean boolean99 = octetList0.contains(uRIList93);
@@ -1140,9 +1275,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1028() throws Throwable {
-    if (debug)
+  public void test1028() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1028");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -1159,12 +1296,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     simulatorHeader20.setCelestiaPort((short) 0);
@@ -1182,24 +1322,30 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1029() throws Throwable {
-    if (debug)
+  public void test1029() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1029");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.util.stream.BaseStream[] baseStreamArray6 = new java.util.stream.BaseStream[0];
     @SuppressWarnings("unchecked")
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 = baseStreamArray6;
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 = stringList0
-        .toArray(
-            (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 =
+        baseStreamArray6;
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 =
+        stringList0
+            .toArray(
+                (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
     java.util.stream.Stream<java.lang.String> strStream9 = stringList0.stream();
     int int10 = stringList0.size();
     org.ccsds.moims.mo.mal.structures.UShort uShort11 = stringList0.getServiceNumber();
-    java.lang.Long[] longArray15 = new java.lang.Long[] { 13L, 281475010265070L, 1L };
+    java.lang.Long[] longArray15 = new java.lang.Long[]{13L, 281475010265070L, 1L};
     java.util.ArrayList<java.lang.Long> longList16 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean17 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList16, longArray15);
@@ -1213,13 +1359,15 @@ public class RegressionTest2 {
     int int26 = longList16.lastIndexOf(int25);
     boolean boolean27 = longList16.isEmpty();
     int int28 = stringList0.lastIndexOf(boolean27);
-    java.lang.Boolean[] booleanArray31 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList32 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray31 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList32 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean33 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList32, booleanArray31);
     int int35 = booleanList32.indexOf(10);
     booleanList32.clear();
-    opssat.simulator.util.DateExtraction dateExtraction37 = new opssat.simulator.util.DateExtraction();
+    opssat.simulator.util.DateExtraction dateExtraction37 =
+        new opssat.simulator.util.DateExtraction();
     boolean boolean38 = booleanList32.equals(dateExtraction37);
     boolean boolean39 = booleanList32.isEmpty();
     java.util.stream.Stream<java.lang.Boolean> booleanStream40 = booleanList32.parallelStream();
@@ -1230,17 +1378,17 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UShort uShort47 = blob45.getServiceNumber();
     int int48 = booleanList32.indexOf(uShort47);
     java.util.stream.Stream<java.lang.Boolean> booleanStream49 = booleanList32.parallelStream();
-    java.lang.Byte[] byteArray54 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray54 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList55 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean56 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList55, byteArray54);
-    java.lang.Integer[] intArray59 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray59 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList60 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean61 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList60, intArray59);
     boolean boolean62 = byteList55.retainAll(intList60);
-    java.lang.Integer[] intArray65 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray65 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList66 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean67 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList66, intArray65);
@@ -1292,19 +1440,24 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1030() throws Throwable {
-    if (debug)
+  public void test1030() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1030");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList0.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException5 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException5 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray6 = wavFileException5.getSuppressed();
     boolean boolean7 = octetList0.equals(wavFileException5);
-    org.ccsds.moims.mo.mal.structures.FloatList floatList9 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList9 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int10 = floatList9.getTypeShortForm();
     java.lang.Integer int11 = floatList9.getTypeShortForm();
     floatList9.clear();
@@ -1323,11 +1476,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1031() throws Throwable {
-    if (debug)
+  public void test1031() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1031");
-    org.ccsds.moims.mo.mal.structures.UInteger uInteger1 = new org.ccsds.moims.mo.mal.structures.UInteger(
-        13);
+    }
+    org.ccsds.moims.mo.mal.structures.UInteger uInteger1 =
+        new org.ccsds.moims.mo.mal.structures.UInteger(
+            13);
     org.ccsds.moims.mo.mal.structures.Element element2 = uInteger1.createElement();
     java.lang.Long long3 = uInteger1.getShortForm();
     long long4 = uInteger1.getValue();
@@ -1345,24 +1501,30 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1032() throws Throwable {
-    if (debug)
+  public void test1032() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1032");
-    org.ccsds.moims.mo.mal.structures.UShortList uShortList0 = new org.ccsds.moims.mo.mal.structures.UShortList();
+    }
+    org.ccsds.moims.mo.mal.structures.UShortList uShortList0 =
+        new org.ccsds.moims.mo.mal.structures.UShortList();
     uShortList0.ensureCapacity(8);
     org.ccsds.moims.mo.mal.structures.UShort uShort3 = uShortList0.getServiceNumber();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState7 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray10 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState7 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray10 = new float[]{28, 8};
     simulatorSpacecraftState7.setQ(floatArray10);
     float[] floatArray12 = simulatorSpacecraftState7.getQ();
     double double13 = simulatorSpacecraftState7.getLongitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray20 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray20 = new float[]{28, 8};
     simulatorSpacecraftState17.setQ(floatArray20);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState25 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState25 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double26 = simulatorSpacecraftState25.getLatitude();
     java.lang.String str27 = simulatorSpacecraftState25.getMagField();
     float[] floatArray28 = simulatorSpacecraftState25.getR();
@@ -1382,7 +1544,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double26 + "' != '" + 340.0d + "'", double26 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str27 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str27.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray28);
     org.junit.Assert.assertTrue("'" + str30 + "' != '" + "UnknownGUIData" + "'",
@@ -1390,16 +1552,18 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double32 + "' != '" + 340.0d + "'", double32 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str33 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str33.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", boolean34 == false);
     org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35 == true);
   }
 
   @Test
-  public void test1033() throws Throwable {
-    if (debug)
+  public void test1033() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1033");
+    }
     org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
     java.lang.Integer int2 = uRI1.getTypeShortForm();
@@ -1408,12 +1572,14 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uRI4.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.URI uRI7 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
-    org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[] {
-        uRI1, uRI4, uRI7 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
+    org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[]{
+      uRI1, uRI4, uRI7};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
     boolean boolean10 = java.util.Collections
         .addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9, uRIArray8);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime11 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime11 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     int int12 = uRIList9.indexOf(fineTime11);
     uRIList9.trimToSize();
     boolean boolean14 = uRIList9.isEmpty();
@@ -1434,12 +1600,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData32 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date33 = simulatorData32.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap34 = opssat.simulator.util.SimulatorData
-        .computeDiff(date30, date33);
-    opssat.simulator.util.SimulatorHeader simulatorHeader35 = new opssat.simulator.util.SimulatorHeader(
-        false, date26, date33);
-    opssat.simulator.util.SimulatorHeader simulatorHeader36 = new opssat.simulator.util.SimulatorHeader(
-        false, date21, date26);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap34 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date30, date33);
+    opssat.simulator.util.SimulatorHeader simulatorHeader35 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date26, date33);
+    opssat.simulator.util.SimulatorHeader simulatorHeader36 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date21, date26);
     opssat.simulator.util.SimulatorData simulatorData40 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date41 = simulatorData40.getCurrentTime();
@@ -1456,14 +1625,18 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData53 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date54 = simulatorData53.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap55 = opssat.simulator.util.SimulatorData
-        .computeDiff(date51, date54);
-    opssat.simulator.util.SimulatorHeader simulatorHeader56 = new opssat.simulator.util.SimulatorHeader(
-        false, date47, date54);
-    opssat.simulator.util.SimulatorHeader simulatorHeader57 = new opssat.simulator.util.SimulatorHeader(
-        false, date42, date47);
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap58 = opssat.simulator.util.SimulatorData
-        .computeDiff(date26, date42);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap55 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date51, date54);
+    opssat.simulator.util.SimulatorHeader simulatorHeader56 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date47, date54);
+    opssat.simulator.util.SimulatorHeader simulatorHeader57 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date42, date47);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap58 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date26, date42);
     int int59 = opssat.simulator.util.DateExtraction.getSecondsFromDate(date26);
     boolean boolean60 = uRIList9.equals(int59);
     org.junit.Assert.assertTrue("'" + int2 + "' != '" + 18 + "'", int2.equals(18));
@@ -1490,12 +1663,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1034() throws Throwable {
-    if (debug)
+  public void test1034() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1034");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.float2ByteArray(64);
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray3);
     boolean boolean6 = endlessSingleStreamOperatingBuffer1.preparePath("5600.0000");
@@ -1504,9 +1680,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1035() throws Throwable {
-    if (debug)
+  public void test1035() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1035");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -1517,10 +1695,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -1539,29 +1719,36 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1036() throws Throwable {
-    if (debug)
+  public void test1036() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1036");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState8 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray11 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState8 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray11 = new float[]{28, 8};
     simulatorSpacecraftState8.setQ(floatArray11);
     simulatorSpacecraftState3.setRv(floatArray11);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray20 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray20 = new float[]{28, 8};
     simulatorSpacecraftState17.setQ(floatArray20);
     float[] floatArray22 = simulatorSpacecraftState17.getR();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState26.setLongitude(4);
-    double[] doubleArray30 = new double[] { (-1.0f) };
+    double[] doubleArray30 = new double[]{(-1.0f)};
     simulatorSpacecraftState26.setMagField(doubleArray30);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState35 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState35 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double36 = simulatorSpacecraftState35.getLatitude();
     java.lang.String str37 = simulatorSpacecraftState35.getMagField();
     java.lang.String str38 = simulatorSpacecraftState35.toString();
@@ -1569,30 +1756,36 @@ public class RegressionTest2 {
     simulatorSpacecraftState26.setMagnetometer(doubleArray39);
     simulatorSpacecraftState17.setSunVector(doubleArray39);
     float[] floatArray42 = simulatorSpacecraftState17.getQ();
-    org.ccsds.moims.mo.mal.structures.Identifier identifier43 = new org.ccsds.moims.mo.mal.structures.Identifier();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList44 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.Identifier identifier43 =
+        new org.ccsds.moims.mo.mal.structures.Identifier();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList44 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int45 = octetList44.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort46 = octetList44.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor47 = octetList44.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor49 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList44, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor49 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList44, "hi!");
     argumentDescriptor49.restoreArgument();
     argumentDescriptor49.restoreArgument();
     argumentDescriptor49.restoreArgument();
     java.lang.String str53 = argumentDescriptor49.toString();
     boolean boolean54 = identifier43.equals(str53);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState58 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray61 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState58 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray61 = new float[]{28, 8};
     simulatorSpacecraftState58.setQ(floatArray61);
     float[] floatArray63 = simulatorSpacecraftState58.getQ();
     double double64 = simulatorSpacecraftState58.getLongitude();
     boolean boolean65 = identifier43.equals(simulatorSpacecraftState58);
     float[] floatArray66 = simulatorSpacecraftState58.getQ();
-    opssat.simulator.celestia.CelestiaData celestiaData67 = new opssat.simulator.celestia.CelestiaData(
-        floatArray42, floatArray66);
-    opssat.simulator.celestia.CelestiaData celestiaData68 = new opssat.simulator.celestia.CelestiaData(
-        floatArray11, floatArray66);
+    opssat.simulator.celestia.CelestiaData celestiaData67 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray42, floatArray66);
+    opssat.simulator.celestia.CelestiaData celestiaData68 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray11, floatArray66);
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertNotNull(floatArray11);
     org.junit.Assert.assertNotNull(floatArray20);
@@ -1601,11 +1794,11 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double36 + "' != '" + 340.0d + "'", double36 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str37 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str37.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str38 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str38.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray39);
     org.junit.Assert.assertNotNull(floatArray42);
@@ -1622,34 +1815,43 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1037() throws Throwable {
-    if (debug)
+  public void test1037() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1037");
-    opssat.simulator.util.wav.WavFileException wavFileException3 = new opssat.simulator.util.wav.WavFileException(
-        "opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008");
-    opssat.simulator.util.wav.WavFileException wavFileException4 = new opssat.simulator.util.wav.WavFileException(
-        "2019:05:23 15:09:34 UTC", wavFileException3);
-    opssat.simulator.util.wav.WavFileException wavFileException6 = new opssat.simulator.util.wav.WavFileException(
-        "[0, 1]");
+    }
+    opssat.simulator.util.wav.WavFileException wavFileException3 =
+        new opssat.simulator.util.wav.WavFileException(
+            "opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008");
+    opssat.simulator.util.wav.WavFileException wavFileException4 =
+        new opssat.simulator.util.wav.WavFileException(
+            "2019:05:23 15:09:34 UTC", wavFileException3);
+    opssat.simulator.util.wav.WavFileException wavFileException6 =
+        new opssat.simulator.util.wav.WavFileException(
+            "[0, 1]");
     java.lang.Throwable[] throwableArray7 = wavFileException6.getSuppressed();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList8 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList8 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int9 = octetList8.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort10 = octetList8.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet11 = octetList8.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException13 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException13 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray14 = wavFileException13.getSuppressed();
     boolean boolean15 = octetList8.equals(wavFileException13);
-    opssat.simulator.util.wav.WavFileException wavFileException17 = new opssat.simulator.util.wav.WavFileException(
-        "00000:00:00:00:008");
+    opssat.simulator.util.wav.WavFileException wavFileException17 =
+        new opssat.simulator.util.wav.WavFileException(
+            "00000:00:00:00:008");
     wavFileException13.addSuppressed(wavFileException17);
     java.lang.String str19 = wavFileException17.toString();
     wavFileException6.addSuppressed(wavFileException17);
     java.lang.String str21 = wavFileException17.toString();
     wavFileException3.addSuppressed(wavFileException17);
-    opssat.simulator.util.wav.WavFileException wavFileException23 = new opssat.simulator.util.wav.WavFileException(
-        "SimulatorHeader{autoStartSystem=true, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:48 UTC 2019, endDate=Thu May 23 15:09:48 UTC 2019}",
-        wavFileException17);
+    opssat.simulator.util.wav.WavFileException wavFileException23 =
+        new opssat.simulator.util.wav.WavFileException(
+            "SimulatorHeader{autoStartSystem=true, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:48 UTC 2019, endDate=Thu May 23 15:09:48 UTC 2019}",
+            wavFileException17);
     org.junit.Assert.assertNotNull(throwableArray7);
     org.junit.Assert.assertTrue("'" + int9 + "' != '" + (-7) + "'", int9.equals((-7)));
     org.junit.Assert.assertNotNull(uShort10);
@@ -1659,38 +1861,44 @@ public class RegressionTest2 {
     org.junit.Assert
         .assertTrue(
             "'" + str19 + "' != '"
-                + "opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008" + "'",
+            + "opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008" + "'",
             str19.equals("opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008"));
     org.junit.Assert
         .assertTrue(
             "'" + str21 + "' != '"
-                + "opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008" + "'",
+            + "opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008" + "'",
             str21.equals("opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008"));
   }
 
   @Test
-  public void test1038() throws Throwable {
-    if (debug)
+  public void test1038() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1038");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     double double5 = simulatorSpacecraftState3.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState9.setLongitude(4);
-    double[] doubleArray13 = new double[] { (-1.0f) };
+    double[] doubleArray13 = new double[]{(-1.0f)};
     simulatorSpacecraftState9.setMagField(doubleArray13);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState18 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState18 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double19 = simulatorSpacecraftState18.getLatitude();
     java.lang.String str20 = simulatorSpacecraftState18.getMagField();
     java.lang.String str21 = simulatorSpacecraftState18.toString();
     double[] doubleArray22 = simulatorSpacecraftState18.getSunVector();
     simulatorSpacecraftState9.setMagnetometer(doubleArray22);
     simulatorSpacecraftState9.setModeOperation("3100.0000000");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double30 = simulatorSpacecraftState29.getLatitude();
     double[] doubleArray31 = simulatorSpacecraftState29.getSunVector();
     simulatorSpacecraftState9.setMagField(doubleArray31);
@@ -1701,11 +1909,11 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double19 + "' != '" + 340.0d + "'", double19 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str20 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str20.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str21 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str21.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray22);
     org.junit.Assert.assertTrue("'" + double30 + "' != '" + 340.0d + "'", double30 == 340.0d);
@@ -1713,30 +1921,36 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1039() throws Throwable {
-    if (debug)
+  public void test1039() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1039");
-    org.ccsds.moims.mo.mal.structures.UShortList uShortList0 = new org.ccsds.moims.mo.mal.structures.UShortList();
+    }
+    org.ccsds.moims.mo.mal.structures.UShortList uShortList0 =
+        new org.ccsds.moims.mo.mal.structures.UShortList();
     org.ccsds.moims.mo.mal.structures.UShort uShort1 = uShortList0.getServiceNumber();
     boolean boolean2 = uShortList0.isEmpty();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = uShortList0.getAreaVersion();
-    java.lang.Float[] floatArray7 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray7 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList8 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean9 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList8, floatArray7);
     boolean boolean11 = floatList8.add((-1.0f));
     floatList8.clear();
     java.util.stream.Stream<java.lang.Float> floatStream13 = floatList8.stream();
-    org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList();
-    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind15 = opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels;
+    org.ccsds.moims.mo.mal.structures.StringList stringList14 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind15 =
+        opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels;
     boolean boolean16 = stringList14.equals(devDatPBind15);
     org.ccsds.moims.mo.mal.structures.Element element17 = stringList14.createElement();
     java.util.Iterator<java.lang.String> strItor18 = stringList14.iterator();
     boolean boolean19 = floatList8.contains(stringList14);
     java.util.stream.Stream<java.lang.String> strStream20 = stringList14.stream();
     int int21 = uShortList0.lastIndexOf(strStream20);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState25 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState25 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double26 = simulatorSpacecraftState25.getLatitude();
     java.lang.String str27 = simulatorSpacecraftState25.getMagField();
     java.lang.String str28 = simulatorSpacecraftState25.getSunVectorAsString();
@@ -1750,7 +1964,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertNotNull(floatStream13);
     org.junit.Assert.assertTrue(
         "'" + devDatPBind15 + "' != '"
-            + opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels + "'",
+        + opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels + "'",
         devDatPBind15
             .equals(opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels));
     org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
@@ -1762,7 +1976,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double26 + "' != '" + 340.0d + "'", double26 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str27 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str27.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '" + "X:[+.00000] ; Y:[+.00000] ; Z: [+.00000] units [N/A]" + "'",
@@ -1771,22 +1985,27 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1040() throws Throwable {
-    if (debug)
+  public void test1040() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1040");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState3.setLongitude(4);
     double double6 = simulatorSpacecraftState3.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState10.setLongitude(4);
-    double[] doubleArray14 = new double[] { (-1.0f) };
+    double[] doubleArray14 = new double[]{(-1.0f)};
     simulatorSpacecraftState10.setMagField(doubleArray14);
     double[] doubleArray16 = simulatorSpacecraftState10.getSunVector();
     simulatorSpacecraftState3.setSunVector(doubleArray16);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double22 = simulatorSpacecraftState21.getLatitude();
     double double23 = simulatorSpacecraftState21.getLongitude();
     java.lang.String str24 = simulatorSpacecraftState21.getRotationAsString();
@@ -1806,19 +2025,25 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1041() throws Throwable {
-    if (debug)
+  public void test1041() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1041");
-    opssat.simulator.util.wav.WavFileException wavFileException2 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    }
+    opssat.simulator.util.wav.WavFileException wavFileException2 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray3 = wavFileException2.getSuppressed();
     java.lang.String str4 = wavFileException2.toString();
-    opssat.simulator.util.wav.WavFileException wavFileException5 = new opssat.simulator.util.wav.WavFileException(
-        "[true]", wavFileException2);
-    opssat.simulator.util.wav.WavFileException wavFileException6 = new opssat.simulator.util.wav.WavFileException(
-        wavFileException2);
-    opssat.simulator.util.wav.WavFileException wavFileException7 = new opssat.simulator.util.wav.WavFileException(
-        wavFileException2);
+    opssat.simulator.util.wav.WavFileException wavFileException5 =
+        new opssat.simulator.util.wav.WavFileException(
+            "[true]", wavFileException2);
+    opssat.simulator.util.wav.WavFileException wavFileException6 =
+        new opssat.simulator.util.wav.WavFileException(
+            wavFileException2);
+    opssat.simulator.util.wav.WavFileException wavFileException7 =
+        new opssat.simulator.util.wav.WavFileException(
+            wavFileException2);
     org.junit.Assert.assertNotNull(throwableArray3);
     org.junit.Assert.assertTrue(
         "'" + str4 + "' != '" + "opssat.simulator.util.wav.WavFileException: UnknownGUIData" + "'",
@@ -1826,15 +2051,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1042() throws Throwable {
-    if (debug)
+  public void test1042() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1042");
-    org.ccsds.moims.mo.mal.structures.LongList longList0 = new org.ccsds.moims.mo.mal.structures.LongList();
+    }
+    org.ccsds.moims.mo.mal.structures.LongList longList0 =
+        new org.ccsds.moims.mo.mal.structures.LongList();
     java.lang.Long long1 = longList0.getShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = longList0.getServiceNumber();
     java.lang.String str3 = longList0.toString();
     org.ccsds.moims.mo.mal.structures.UShort uShort4 = longList0.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_VERSION;
+    org.ccsds.moims.mo.mal.structures.UOctet uOctet5 =
+        org.ccsds.moims.mo.mal.structures.DoubleList.AREA_VERSION;
     java.lang.String str6 = uOctet5.toString();
     org.ccsds.moims.mo.mal.structures.Element element7 = uOctet5.createElement();
     int int8 = longList0.lastIndexOf(uOctet5);
@@ -1848,16 +2077,19 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData18 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date19 = simulatorData18.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap20 = opssat.simulator.util.SimulatorData
-        .computeDiff(date16, date19);
-    opssat.simulator.util.SimulatorHeader simulatorHeader21 = new opssat.simulator.util.SimulatorHeader(
-        false, date12, date19);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap20 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date16, date19);
+    opssat.simulator.util.SimulatorHeader simulatorHeader21 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date12, date19);
     java.util.Date date22 = simulatorHeader21.getEndDate();
     simulatorHeader21.setOrekitTLE1("");
     java.lang.String str25 = simulatorHeader21.DATE_FORMAT;
     boolean boolean26 = longList0.remove(str25);
-    org.ccsds.moims.mo.mal.structures.IntegerList integerList28 = new org.ccsds.moims.mo.mal.structures.IntegerList(
-        48);
+    org.ccsds.moims.mo.mal.structures.IntegerList integerList28 =
+        new org.ccsds.moims.mo.mal.structures.IntegerList(
+            48);
     integerList28.ensureCapacity(17);
     boolean boolean31 = longList0.removeAll(integerList28);
     org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281475010265075L + "'",
@@ -1881,29 +2113,32 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1043() throws Throwable {
-    if (debug)
+  public void test1043() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1043");
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor2 = new opssat.simulator.util.ArgumentDescriptor(
-        "00000:00:00:00:-02", "2019:05:23 15:09:36 UTC");
-    java.lang.Float[] floatArray6 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    }
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor2 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            "00000:00:00:00:-02", "2019:05:23 15:09:36 UTC");
+    java.lang.Float[] floatArray6 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList7 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean8 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList7, floatArray6);
     boolean boolean10 = floatList7.add((-1.0f));
     floatList7.clear();
     java.util.stream.Stream<java.lang.Float> floatStream12 = floatList7.stream();
-    java.lang.Byte[] byteArray17 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray17 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList18 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean19 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList18, byteArray17);
-    java.lang.Integer[] intArray22 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray22 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList23 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean24 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList23, intArray22);
     boolean boolean25 = byteList18.retainAll(intList23);
-    java.lang.Integer[] intArray28 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray28 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList29 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean30 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList29, intArray28);
@@ -1931,15 +2166,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1044() throws Throwable {
-    if (debug)
+  public void test1044() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1044");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.restoreArgument();
@@ -1956,12 +2195,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1045() throws Throwable {
-    if (debug)
+  public void test1045() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1045");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     opssat.simulator.util.SimulatorData simulatorData4 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date5 = simulatorData4.getCurrentTime();
@@ -1972,10 +2214,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData11 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date12 = simulatorData11.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 = opssat.simulator.util.SimulatorData
-        .computeDiff(date9, date12);
-    opssat.simulator.util.SimulatorHeader simulatorHeader14 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date12);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date9, date12);
+    opssat.simulator.util.SimulatorHeader simulatorHeader14 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
     simulatorHeader14.setUseOrekit(true);
@@ -1999,12 +2243,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1046() throws Throwable {
-    if (debug)
+  public void test1046() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1046");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     int int4 = endlessSingleStreamOperatingBuffer1.getOperatingIndex();
     try {
@@ -2018,34 +2265,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1047() throws Throwable {
-    if (debug)
+  public void test1047() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1047");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     java.lang.String str33 = celestiaData32.getInfo();
     celestiaData32.setAnx("2019:05:23 15:10:01 UTC");
     celestiaData32.setDate("Unknown data type [java.lang.Integer]");
@@ -2053,7 +2307,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -2063,7 +2317,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -2071,10 +2325,13 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1048() throws Throwable {
-    if (debug)
+  public void test1048() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1048");
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime0 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    }
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime0 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet1 = fineTime0.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime0.getAreaVersion();
     long long3 = fineTime0.getValue();
@@ -2092,10 +2349,13 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1049() throws Throwable {
-    if (debug)
+  public void test1049() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1049");
-    org.ccsds.moims.mo.mal.structures.LongList longList0 = new org.ccsds.moims.mo.mal.structures.LongList();
+    }
+    org.ccsds.moims.mo.mal.structures.LongList longList0 =
+        new org.ccsds.moims.mo.mal.structures.LongList();
     java.util.ListIterator<java.lang.Long> longItor1 = longList0.listIterator();
     java.util.Spliterator<java.lang.Long> longSpliterator2 = longList0.spliterator();
     java.util.stream.Stream<java.lang.Long> longStream3 = longList0.stream();
@@ -2105,21 +2365,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1051() throws Throwable {
-    if (debug)
+  public void test1051() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1051");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind1 = opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels;
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind1 =
+        opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels;
     boolean boolean2 = stringList0.equals(devDatPBind1);
     org.ccsds.moims.mo.mal.structures.Element element3 = stringList0.createElement();
     stringList0.ensureCapacity(28);
     java.util.Spliterator<java.lang.String> strSpliterator6 = stringList0.spliterator();
     stringList0.clear();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor9 = new opssat.simulator.util.ArgumentDescriptor(
-        stringList0, "3800.0000000");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor9 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            stringList0, "3800.0000000");
     org.junit.Assert.assertTrue(
         "'" + devDatPBind1 + "' != '"
-            + opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels + "'",
+        + opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels + "'",
         devDatPBind1
             .equals(opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels));
     org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
@@ -2128,34 +2393,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1052() throws Throwable {
-    if (debug)
+  public void test1052() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1052");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     float[] floatArray33 = celestiaData32.getQ();
     opssat.simulator.util.SimulatorData simulatorData37 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -2167,10 +2439,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData44 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date45 = simulatorData44.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 = opssat.simulator.util.SimulatorData
-        .computeDiff(date42, date45);
-    opssat.simulator.util.SimulatorHeader simulatorHeader47 = new opssat.simulator.util.SimulatorHeader(
-        false, date38, date45);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date42, date45);
+    opssat.simulator.util.SimulatorHeader simulatorHeader47 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date38, date45);
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (short) 0, date38);
     celestiaData32.setDate(date38);
@@ -2184,7 +2458,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -2194,7 +2468,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -2208,15 +2482,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1053() throws Throwable {
-    if (debug)
+  public void test1053() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1053");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.restoreArgument();
@@ -2241,9 +2519,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1054() throws Throwable {
-    if (debug)
+  public void test1054() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1054");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -2254,10 +2534,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -2272,10 +2554,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData26 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date27 = simulatorData26.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 = opssat.simulator.util.SimulatorData
-        .computeDiff(date24, date27);
-    opssat.simulator.util.SimulatorHeader simulatorHeader29 = new opssat.simulator.util.SimulatorHeader(
-        false, date20, date27);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date24, date27);
+    opssat.simulator.util.SimulatorHeader simulatorHeader29 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date20, date27);
     simulatorHeader12.setStartDate(date27);
     simulatorHeader12.setKeplerElements("-0100.0000000");
     boolean boolean33 = simulatorHeader12.isUseOrekit();
@@ -2297,19 +2581,24 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1055() throws Throwable {
-    if (debug)
+  public void test1055() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1055");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList0.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException5 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException5 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray6 = wavFileException5.getSuppressed();
     boolean boolean7 = octetList0.equals(wavFileException5);
-    org.ccsds.moims.mo.mal.structures.FloatList floatList9 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList9 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int10 = floatList9.getTypeShortForm();
     java.lang.Integer int11 = floatList9.getTypeShortForm();
     floatList9.clear();
@@ -2331,39 +2620,51 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1056() throws Throwable {
-    if (debug)
+  public void test1056() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1056");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience13 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience13 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double14 = gPSSatInViewScience13.getMaxDistance();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience23 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience32 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience23 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience32 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double33 = gPSSatInViewScience32.getMaxDistance();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience42 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience51 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience42 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience51 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double52 = gPSSatInViewScience51.getStdDevElevation();
-    opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray53 = new opssat.simulator.orekit.GPSSatInViewScience[] {
-        gPSSatInViewScience13, gPSSatInViewScience23, gPSSatInViewScience32, gPSSatInViewScience42,
-        gPSSatInViewScience51 };
+    opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray53 =
+        new opssat.simulator.orekit.GPSSatInViewScience[]{
+          gPSSatInViewScience13, gPSSatInViewScience23, gPSSatInViewScience32, gPSSatInViewScience42,
+          gPSSatInViewScience51};
     opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray54 = shortList2
         .toArray(gPSSatInViewScienceArray53);
     shortList2.ensureCapacity(44);
-    org.ccsds.moims.mo.mal.structures.IntegerList integerList58 = new org.ccsds.moims.mo.mal.structures.IntegerList(
-        48);
+    org.ccsds.moims.mo.mal.structures.IntegerList integerList58 =
+        new org.ccsds.moims.mo.mal.structures.IntegerList(
+            48);
     java.lang.Long long59 = integerList58.getShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort60 = integerList58.getAreaNumber();
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece64 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        'a', 11, "");
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece64 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            'a', 11, "");
     boolean boolean65 = integerList58.contains(11);
     java.lang.Long long66 = integerList58.getShortForm();
     boolean boolean67 = shortList2.containsAll(integerList58);
@@ -2384,12 +2685,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1057() throws Throwable {
-    if (debug)
+  public void test1057() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1057");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     byte[] byteArray5 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int16_2ByteArray(15);
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray5);
@@ -2408,68 +2712,88 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1058() throws Throwable {
-    if (debug)
+  public void test1058() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1058");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList0.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException5 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException5 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray6 = wavFileException5.getSuppressed();
     boolean boolean7 = octetList0.equals(wavFileException5);
-    org.ccsds.moims.mo.mal.structures.FloatList floatList9 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList9 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int10 = floatList9.getTypeShortForm();
     java.lang.Integer int11 = floatList9.getTypeShortForm();
     floatList9.clear();
     boolean boolean13 = octetList0.remove(floatList9);
     org.ccsds.moims.mo.mal.structures.UShort uShort14 = floatList9.getServiceNumber();
-    org.ccsds.moims.mo.mal.structures.UShort uShort15 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.OctetList octetList16 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.UShort uShort15 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.OctetList octetList16 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int17 = octetList16.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort18 = octetList16.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.UShort uShort19 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort20 = org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort21 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort22 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort23 = org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort24 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort25 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray26 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort25 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList27 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort19 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort20 =
+        org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort21 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort22 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort23 =
+        org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort24 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort25 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray26 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort25};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList27 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean28 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList27,
         uShortArray26);
     uShortList27.ensureCapacity(0);
     int int32 = uShortList27.indexOf((byte) 1);
     uShortList27.clear();
-    java.lang.Long[] longArray36 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray36 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList37 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean38 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList37, longArray36);
     java.lang.Object obj39 = longList37.clone();
     boolean boolean40 = uShortList27.contains(longList37);
-    org.ccsds.moims.mo.mal.structures.UShort uShort41 = org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort41 =
+        org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
     boolean boolean42 = uShortList27.add(uShort41);
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray43 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort15, uShort18, uShort19, uShort20, uShort21, uShort22, uShort23, uShort24, uShort41 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList44 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray43 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort15, uShort18, uShort19, uShort20, uShort21, uShort22, uShort23, uShort24, uShort41};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList44 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean45 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList44,
         uShortArray43);
     uShortList44.ensureCapacity(100);
     int int48 = uShortList44.size();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList49 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList49 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     octetList49.ensureCapacity(13);
-    java.lang.Byte[] byteArray56 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray56 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList57 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean58 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList57, byteArray56);
-    java.lang.Integer[] intArray61 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray61 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList62 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean63 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList62, intArray61);
@@ -2477,14 +2801,16 @@ public class RegressionTest2 {
     boolean boolean65 = octetList49.containsAll(intList62);
     java.util.Iterator<java.lang.Integer> intItor66 = intList62.iterator();
     boolean boolean67 = uShortList44.remove(intList62);
-    org.ccsds.moims.mo.mal.structures.UShortList uShortList68 = new org.ccsds.moims.mo.mal.structures.UShortList();
-    java.lang.Boolean[] booleanArray71 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList72 = new java.util.ArrayList<java.lang.Boolean>();
+    org.ccsds.moims.mo.mal.structures.UShortList uShortList68 =
+        new org.ccsds.moims.mo.mal.structures.UShortList();
+    java.lang.Boolean[] booleanArray71 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList72 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean73 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList72, booleanArray71);
     int int75 = booleanList72.indexOf(10);
     int int76 = booleanList72.size();
-    java.lang.Byte[] byteArray80 = new java.lang.Byte[] { (byte) 10, (byte) 10, (byte) -1 };
+    java.lang.Byte[] byteArray80 = new java.lang.Byte[]{(byte) 10, (byte) 10, (byte) -1};
     java.util.ArrayList<java.lang.Byte> byteList81 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean82 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList81, byteArray80);
@@ -2556,37 +2882,45 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1059() throws Throwable {
-    if (debug)
+  public void test1059() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1059");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
     java.util.Iterator<java.lang.String> strItor1 = stringList0.iterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = stringList0.getAreaVersion();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray9 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray9 = new float[]{28, 8};
     simulatorSpacecraftState6.setQ(floatArray9);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double15 = simulatorSpacecraftState14.getLatitude();
     java.lang.String str16 = simulatorSpacecraftState14.getMagField();
     float[] floatArray17 = simulatorSpacecraftState14.getR();
     simulatorSpacecraftState6.setQ(floatArray17);
     java.lang.String str19 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double24 = simulatorSpacecraftState23.getLatitude();
     double double25 = simulatorSpacecraftState23.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double30 = simulatorSpacecraftState29.getLatitude();
     java.lang.String str31 = simulatorSpacecraftState29.getMagField();
     float[] floatArray32 = simulatorSpacecraftState29.getR();
     simulatorSpacecraftState23.setQ(floatArray32);
     float[] floatArray34 = simulatorSpacecraftState23.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData35 = new opssat.simulator.celestia.CelestiaData(
-        floatArray17, floatArray34);
+    opssat.simulator.celestia.CelestiaData celestiaData35 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray17, floatArray34);
     float[] floatArray36 = celestiaData35.getQ();
     opssat.simulator.util.SimulatorData simulatorData40 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -2598,17 +2932,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData47 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date48 = simulatorData47.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 = opssat.simulator.util.SimulatorData
-        .computeDiff(date45, date48);
-    opssat.simulator.util.SimulatorHeader simulatorHeader50 = new opssat.simulator.util.SimulatorHeader(
-        false, date41, date48);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date45, date48);
+    opssat.simulator.util.SimulatorHeader simulatorHeader50 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date41, date48);
     opssat.simulator.util.SimulatorData simulatorData51 = new opssat.simulator.util.SimulatorData(
         (short) 0, date41);
     celestiaData35.setDate(date41);
     int int53 = celestiaData35.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray60 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray60 = new float[]{28, 8};
     simulatorSpacecraftState57.setQ(floatArray60);
     celestiaData35.setQ(floatArray60);
     int int63 = stringList0.lastIndexOf(celestiaData35);
@@ -2619,7 +2956,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double15 + "' != '" + 340.0d + "'", double15 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str16 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str16.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray17);
     org.junit.Assert.assertTrue("'" + str19 + "' != '" + "UnknownGUIData" + "'",
@@ -2629,7 +2966,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double30 + "' != '" + 340.0d + "'", double30 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str31 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str31.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray32);
     org.junit.Assert.assertNotNull(floatArray34);
@@ -2644,9 +2981,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1061() throws Throwable {
-    if (debug)
+  public void test1061() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1061");
+    }
     org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
     java.lang.Integer int2 = uRI1.getTypeShortForm();
@@ -2655,19 +2994,22 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uRI4.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.URI uRI7 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
-    org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[] {
-        uRI1, uRI4, uRI7 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
+    org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[]{
+      uRI1, uRI4, uRI7};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
     boolean boolean10 = java.util.Collections
         .addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9, uRIArray8);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime11 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime11 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     int int12 = uRIList9.indexOf(fineTime11);
     uRIList9.ensureCapacity(40);
     boolean boolean15 = uRIList9.isEmpty();
     java.lang.String str16 = uRIList9.toString();
     java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream17 = uRIList9
         .parallelStream();
-    org.ccsds.moims.mo.mal.structures.LongList longList18 = new org.ccsds.moims.mo.mal.structures.LongList();
+    org.ccsds.moims.mo.mal.structures.LongList longList18 =
+        new org.ccsds.moims.mo.mal.structures.LongList();
     java.util.ListIterator<java.lang.Long> longItor19 = longList18.listIterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet20 = longList18.getAreaVersion();
     boolean boolean21 = uRIList9.contains(uOctet20);
@@ -2679,12 +3021,15 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UOctet uOctet27 = uRI26.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.URI uRI29 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
-    org.ccsds.moims.mo.mal.structures.URI[] uRIArray30 = new org.ccsds.moims.mo.mal.structures.URI[] {
-        uRI23, uRI26, uRI29 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList31 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
+    org.ccsds.moims.mo.mal.structures.URI[] uRIArray30 =
+        new org.ccsds.moims.mo.mal.structures.URI[]{
+          uRI23, uRI26, uRI29};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList31 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
     boolean boolean32 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList31, uRIArray30);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime33 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime33 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     int int34 = uRIList31.indexOf(fineTime33);
     uRIList31.ensureCapacity(40);
     java.lang.Object obj37 = uRIList31.clone();
@@ -2696,12 +3041,15 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UOctet uOctet43 = uRI42.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.URI uRI45 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
-    org.ccsds.moims.mo.mal.structures.URI[] uRIArray46 = new org.ccsds.moims.mo.mal.structures.URI[] {
-        uRI39, uRI42, uRI45 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList47 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
+    org.ccsds.moims.mo.mal.structures.URI[] uRIArray46 =
+        new org.ccsds.moims.mo.mal.structures.URI[]{
+          uRI39, uRI42, uRI45};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList47 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
     boolean boolean48 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList47, uRIArray46);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime49 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime49 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     int int50 = uRIList47.indexOf(fineTime49);
     uRIList47.ensureCapacity(40);
     java.lang.Object obj53 = uRIList47.clone();
@@ -2757,9 +3105,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1062() throws Throwable {
-    if (debug)
+  public void test1062() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1062");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -2776,12 +3126,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     simulatorHeader20.setOrekitTLE1("[]");
@@ -2806,20 +3159,24 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1063() throws Throwable {
-    if (debug)
+  public void test1063() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1063");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.setName("01700.0000000");
     java.lang.Object obj9 = argumentDescriptor5.getType();
     java.lang.String str10 = argumentDescriptor5.getName();
-    java.lang.Short[] shortArray13 = new java.lang.Short[] { (short) -1, (short) 10 };
+    java.lang.Short[] shortArray13 = new java.lang.Short[]{(short) -1, (short) 10};
     java.util.ArrayList<java.lang.Short> shortList14 = new java.util.ArrayList<java.lang.Short>();
     boolean boolean15 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Short>) shortList14, shortArray13);
@@ -2828,11 +3185,12 @@ public class RegressionTest2 {
     boolean boolean18 = shortList14.contains(obj17);
     shortList14.trimToSize();
     argumentDescriptor5.setType(shortList14);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList22 = new org.ccsds.moims.mo.mal.structures.OctetList(
-        34);
+    org.ccsds.moims.mo.mal.structures.OctetList octetList22 =
+        new org.ccsds.moims.mo.mal.structures.OctetList(
+            34);
     argumentDescriptor5.setType(octetList22);
-    java.lang.Long[] longArray30 = new java.lang.Long[] { 281475010265070L, 100L, 0L,
-        281475010265070L, 281475010265070L, 1L };
+    java.lang.Long[] longArray30 = new java.lang.Long[]{281475010265070L, 100L, 0L,
+      281475010265070L, 281475010265070L, 1L};
     java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean32 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList31, longArray30);
@@ -2840,15 +3198,17 @@ public class RegressionTest2 {
     java.util.Spliterator<java.lang.Long> longSpliterator34 = longList31.spliterator();
     java.lang.Object obj35 = longList31.clone();
     java.util.stream.Stream<java.lang.Long> longStream36 = longList31.parallelStream();
-    org.ccsds.moims.mo.mal.structures.Identifier identifier37 = new org.ccsds.moims.mo.mal.structures.Identifier();
+    org.ccsds.moims.mo.mal.structures.Identifier identifier37 =
+        new org.ccsds.moims.mo.mal.structures.Identifier();
     org.ccsds.moims.mo.mal.structures.UShort uShort38 = identifier37.getServiceNumber();
     org.ccsds.moims.mo.mal.structures.ULong uLong39 = new org.ccsds.moims.mo.mal.structures.ULong();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet40 = uLong39.getAreaVersion();
     boolean boolean41 = identifier37.equals(uOctet40);
     org.ccsds.moims.mo.mal.structures.Element element42 = identifier37.createElement();
     boolean boolean43 = longList31.equals(identifier37);
-    org.ccsds.moims.mo.mal.structures.FloatList floatList45 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList45 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int46 = floatList45.getTypeShortForm();
     java.lang.Integer int47 = floatList45.getTypeShortForm();
     java.lang.String str48 = floatList45.toString();
@@ -2886,11 +3246,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1064() throws Throwable {
-    if (debug)
+  public void test1064() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1064");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     java.lang.String str6 = simulatorSpacecraftState3.toString();
@@ -2903,63 +3266,69 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str6 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str6.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray7);
     org.junit.Assert.assertTrue(
         "'" + str10 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str10.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
   }
 
   @Test
-  public void test1065() throws Throwable {
-    if (debug)
+  public void test1065() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1065");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     byte[] byteArray5 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int16_2ByteArray(15);
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray5);
     int int7 = endlessSingleStreamOperatingBuffer1.getOperatingIndex();
     byte[] byteArray9 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int2ByteArray(' ');
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray9);
-    org.ccsds.moims.mo.mal.structures.UShort uShort11 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort11 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort11 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort11};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean14 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
         uShortArray12);
     uShortList13.ensureCapacity(0);
     int int18 = uShortList13.indexOf((byte) 1);
     uShortList13.clear();
-    java.lang.Long[] longArray22 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray22 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList23 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean24 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList23, longArray22);
     java.lang.Object obj25 = longList23.clone();
     int int26 = uShortList13.lastIndexOf(obj25);
-    java.lang.Byte[] byteArray31 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray31 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList32 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean33 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList32, byteArray31);
-    java.lang.Integer[] intArray36 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray36 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList37 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean38 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList37, intArray36);
     boolean boolean39 = byteList32.retainAll(intList37);
-    java.lang.Integer[] intArray42 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray42 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList43 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean44 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList43, intArray42);
@@ -2968,8 +3337,9 @@ public class RegressionTest2 {
     java.lang.Object obj48 = intList37.clone();
     boolean boolean49 = uShortList13.removeAll(intList37);
     java.lang.Object[] objArray50 = uShortList13.toArray();
-    java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator51 = uShortList13
-        .spliterator();
+    java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator51 =
+        uShortList13
+            .spliterator();
     java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream52 = uShortList13
         .parallelStream();
     endlessSingleStreamOperatingBuffer1.setDataBuffer(uShortStream52);
@@ -3006,27 +3376,37 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1066() throws Throwable {
-    if (debug)
+  public void test1066() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1066");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.util.stream.BaseStream[] baseStreamArray6 = new java.util.stream.BaseStream[0];
     @SuppressWarnings("unchecked")
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 = baseStreamArray6;
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 = stringList0
-        .toArray(
-            (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 =
+        baseStreamArray6;
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 =
+        stringList0
+            .toArray(
+                (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
     java.util.stream.Stream<java.lang.String> strStream9 = stringList0.stream();
     java.lang.Object obj10 = stringList0.clone();
-    opssat.simulator.util.LoggerFormatter loggerFormatter11 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter12 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter13 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 = new opssat.simulator.util.LoggerFormatter[] {
-        loggerFormatter11, loggerFormatter12, loggerFormatter13 };
+    opssat.simulator.util.LoggerFormatter loggerFormatter11 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter12 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter13 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 =
+        new opssat.simulator.util.LoggerFormatter[]{
+          loggerFormatter11, loggerFormatter12, loggerFormatter13};
     opssat.simulator.util.LoggerFormatter[] loggerFormatterArray15 = stringList0
         .toArray(loggerFormatterArray14);
     java.util.stream.Stream<java.lang.String> strStream16 = stringList0.parallelStream();
@@ -3052,21 +3432,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1067() throws Throwable {
-    if (debug)
+  public void test1067() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1067");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     double double5 = simulatorSpacecraftState3.getLongitude();
     java.lang.String str6 = simulatorSpacecraftState3.getModeOperation();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState10.setLongitude(4);
-    double[] doubleArray14 = new double[] { (-1.0f) };
+    double[] doubleArray14 = new double[]{(-1.0f)};
     simulatorSpacecraftState10.setMagField(doubleArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double20 = simulatorSpacecraftState19.getLatitude();
     java.lang.String str21 = simulatorSpacecraftState19.getMagField();
     java.lang.String str22 = simulatorSpacecraftState19.toString();
@@ -3082,38 +3467,45 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double20 + "' != '" + 340.0d + "'", double20 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str21 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str21.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str22 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str22.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray23);
   }
 
   @Test
-  public void test1068() throws Throwable {
-    if (debug)
+  public void test1068() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1068");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        281475010265075L, (-1), "");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            281475010265075L, (-1), "");
   }
 
   @Test
-  public void test1069() throws Throwable {
-    if (debug)
+  public void test1069() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1069");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.setName("01700.0000000");
     java.lang.Object obj9 = argumentDescriptor5.getType();
     java.lang.String str10 = argumentDescriptor5.getName();
-    java.lang.Short[] shortArray13 = new java.lang.Short[] { (short) -1, (short) 10 };
+    java.lang.Short[] shortArray13 = new java.lang.Short[]{(short) -1, (short) 10};
     java.util.ArrayList<java.lang.Short> shortList14 = new java.util.ArrayList<java.lang.Short>();
     boolean boolean15 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Short>) shortList14, shortArray13);
@@ -3137,9 +3529,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1070() throws Throwable {
-    if (debug)
+  public void test1070() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1070");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -3150,10 +3544,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
@@ -3179,61 +3575,76 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1071() throws Throwable {
-    if (debug)
+  public void test1071() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1071");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList3 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList3 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int4 = octetList3.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort5 = octetList3.getAreaNumber();
     java.lang.Object[] objArray6 = octetList3.toArray();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList7 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int8 = octetList7.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort9 = octetList7.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor10 = octetList7.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList7, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList7, "hi!");
     org.ccsds.moims.mo.mal.structures.UShort uShort13 = octetList7.getAreaNumber();
-    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList17 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean18 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList17, booleanArray16);
     int int20 = booleanList17.indexOf(10);
     java.util.Iterator<java.lang.Boolean> booleanItor21 = booleanList17.iterator();
     java.util.Spliterator<java.lang.Boolean> booleanSpliterator22 = booleanList17.spliterator();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList23 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList23 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int24 = octetList23.getTypeShortForm();
     java.lang.Object obj25 = octetList23.clone();
     octetList23.trimToSize();
     boolean boolean27 = booleanList17.contains(octetList23);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList28 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList28 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int29 = octetList28.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort30 = octetList28.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList31 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList31 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int32 = octetList31.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort33 = octetList31.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = octetList31.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList35 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList35 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int36 = octetList35.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort37 = octetList35.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray38 = new org.ccsds.moims.mo.mal.structures.OctetList[] {
-        octetList3, octetList7, octetList23, octetList28, octetList31, octetList35 };
+    org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray38 =
+        new org.ccsds.moims.mo.mal.structures.OctetList[]{
+          octetList3, octetList7, octetList23, octetList28, octetList31, octetList35};
     org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray39 = octetList0
         .toArray(octetListArray38);
     boolean boolean40 = octetList0.isEmpty();
     java.lang.Long long41 = octetList0.getShortForm();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList42 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList42 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int43 = octetList42.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort44 = octetList42.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet45 = octetList42.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException47 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException47 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray48 = wavFileException47.getSuppressed();
     boolean boolean49 = octetList42.equals(wavFileException47);
-    org.ccsds.moims.mo.mal.structures.FloatList floatList51 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList51 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int52 = floatList51.getTypeShortForm();
     java.lang.Integer int53 = floatList51.getTypeShortForm();
     floatList51.clear();
@@ -3241,26 +3652,30 @@ public class RegressionTest2 {
     boolean boolean57 = floatList51.add((-1.0f));
     floatList51.trimToSize();
     floatList51.ensureCapacity((-1));
-    org.ccsds.moims.mo.mal.structures.FloatList floatList62 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList62 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     floatList62.trimToSize();
     floatList62.clear();
-    org.ccsds.moims.mo.mal.structures.FloatList floatList66 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList66 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int67 = floatList66.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet68 = floatList66.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.FloatList floatList70 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList70 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int71 = floatList70.getTypeShortForm();
     floatList70.trimToSize();
-    org.ccsds.moims.mo.mal.structures.StringList stringList74 = new org.ccsds.moims.mo.mal.structures.StringList(
-        36);
-    java.lang.Byte[] byteArray79 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    org.ccsds.moims.mo.mal.structures.StringList stringList74 =
+        new org.ccsds.moims.mo.mal.structures.StringList(
+            36);
+    java.lang.Byte[] byteArray79 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList80 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean81 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList80, byteArray79);
-    java.lang.Integer[] intArray84 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray84 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList85 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean86 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList85, intArray84);
@@ -3270,8 +3685,9 @@ public class RegressionTest2 {
     boolean boolean91 = floatList70.retainAll(intList85);
     java.lang.Object obj92 = null;
     boolean boolean93 = floatList70.contains(obj92);
-    org.ccsds.moims.mo.mal.structures.FloatList[] floatListArray94 = new org.ccsds.moims.mo.mal.structures.FloatList[] {
-        floatList51, floatList62, floatList66, floatList70 };
+    org.ccsds.moims.mo.mal.structures.FloatList[] floatListArray94 =
+        new org.ccsds.moims.mo.mal.structures.FloatList[]{
+          floatList51, floatList62, floatList66, floatList70};
     org.ccsds.moims.mo.mal.structures.FloatList[] floatListArray95 = octetList0
         .toArray(floatListArray94);
     org.ccsds.moims.mo.mal.structures.UOctet uOctet96 = octetList0.getAreaVersion();
@@ -3331,30 +3747,33 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1072() throws Throwable {
-    if (debug)
+  public void test1072() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1072");
-    org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
-        11);
+    }
+    org.ccsds.moims.mo.mal.structures.URIList uRIList1 =
+        new org.ccsds.moims.mo.mal.structures.URIList(
+            11);
     org.ccsds.moims.mo.mal.structures.Element element2 = uRIList1.createElement();
-    java.lang.Float[] floatArray6 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray6 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList7 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean8 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList7, floatArray6);
     boolean boolean10 = floatList7.add((-1.0f));
     floatList7.clear();
     java.util.stream.Stream<java.lang.Float> floatStream12 = floatList7.stream();
-    java.lang.Byte[] byteArray17 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray17 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList18 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean19 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList18, byteArray17);
-    java.lang.Integer[] intArray22 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray22 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList23 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean24 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList23, intArray22);
     boolean boolean25 = byteList18.retainAll(intList23);
-    java.lang.Integer[] intArray28 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray28 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList29 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean30 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList29, intArray28);
@@ -3363,7 +3782,8 @@ public class RegressionTest2 {
     boolean boolean34 = floatList7.containsAll(intList29);
     java.util.Spliterator<java.lang.Integer> intSpliterator35 = intList29.spliterator();
     java.util.stream.Stream<java.lang.Integer> intStream36 = intList29.parallelStream();
-    org.ccsds.moims.mo.mal.structures.LongList longList37 = new org.ccsds.moims.mo.mal.structures.LongList();
+    org.ccsds.moims.mo.mal.structures.LongList longList37 =
+        new org.ccsds.moims.mo.mal.structures.LongList();
     java.lang.Integer int38 = longList37.getTypeShortForm();
     boolean boolean39 = intList29.equals(int38);
     boolean boolean40 = uRIList1.removeAll(intList29);
@@ -3394,9 +3814,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1073() throws Throwable {
-    if (debug)
+  public void test1073() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1073");
+    }
     opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData(
         (-18));
     simulatorData1.setCounter((-1));
@@ -3411,14 +3833,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1075() throws Throwable {
-    if (debug)
+  public void test1075() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1075");
-    org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
-        36);
-    org.ccsds.moims.mo.mal.structures.StringList stringList2 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList4 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList1 =
+        new org.ccsds.moims.mo.mal.structures.StringList(
+            36);
+    org.ccsds.moims.mo.mal.structures.StringList stringList2 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList4 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor5 = shortList4.listIterator();
     boolean boolean6 = stringList2.equals(shortList4);
     org.ccsds.moims.mo.mal.structures.UShort uShort7 = shortList4.getAreaNumber();
@@ -3446,37 +3873,43 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1077() throws Throwable {
-    if (debug)
+  public void test1077() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1077");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     byte[] byteArray5 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int16_2ByteArray(15);
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray5);
     java.lang.String str7 = endlessSingleStreamOperatingBuffer1.getDataBufferAsString();
-    java.lang.Boolean[] booleanArray10 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList11 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray10 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList11 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean12 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList11, booleanArray10);
     int int14 = booleanList11.indexOf(10);
     int int15 = booleanList11.size();
-    java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) 10, (byte) 10, (byte) -1 };
+    java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) 10, (byte) 10, (byte) -1};
     java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean21 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
     java.lang.Object[] objArray22 = byteList20.toArray();
     java.util.Iterator<java.lang.Byte> byteItor23 = byteList20.iterator();
     boolean boolean24 = booleanList11.contains(byteList20);
-    org.ccsds.moims.mo.mal.structures.UShortList uShortList25 = new org.ccsds.moims.mo.mal.structures.UShortList();
-    java.lang.Boolean[] booleanArray28 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList29 = new java.util.ArrayList<java.lang.Boolean>();
+    org.ccsds.moims.mo.mal.structures.UShortList uShortList25 =
+        new org.ccsds.moims.mo.mal.structures.UShortList();
+    java.lang.Boolean[] booleanArray28 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList29 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean30 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList29, booleanArray28);
     int int32 = booleanList29.indexOf(10);
     int int33 = booleanList29.size();
-    java.lang.Byte[] byteArray37 = new java.lang.Byte[] { (byte) 10, (byte) 10, (byte) -1 };
+    java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) 10, (byte) 10, (byte) -1};
     java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean39 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList38, byteArray37);
@@ -3486,20 +3919,21 @@ public class RegressionTest2 {
     java.util.stream.Stream<java.lang.Boolean> booleanStream43 = booleanList29.stream();
     int int44 = uShortList25.lastIndexOf(booleanList29);
     int int45 = byteList20.lastIndexOf(booleanList29);
-    java.lang.Float[] floatArray49 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray49 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList50 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean51 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList50, floatArray49);
     boolean boolean53 = floatList50.add((-1.0f));
     floatList50.trimToSize();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList55 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList55 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     octetList55.ensureCapacity(13);
-    java.lang.Byte[] byteArray62 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray62 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList63 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean64 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList63, byteArray62);
-    java.lang.Integer[] intArray67 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray67 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList68 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean69 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList68, intArray67);
@@ -3554,55 +3988,66 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1078() throws Throwable {
-    if (debug)
+  public void test1078() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1078");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     java.lang.String str6 = simulatorSpacecraftState3.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double11 = simulatorSpacecraftState10.getLatitude();
     java.lang.String str12 = simulatorSpacecraftState10.getMagField();
     java.lang.String str13 = simulatorSpacecraftState10.toString();
     double[] doubleArray14 = simulatorSpacecraftState10.getSunVector();
     simulatorSpacecraftState3.setMagnetometer(doubleArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double20 = simulatorSpacecraftState19.getLatitude();
     java.lang.String str21 = simulatorSpacecraftState19.getMagField();
     java.lang.String str22 = simulatorSpacecraftState19.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     java.lang.String str29 = simulatorSpacecraftState26.toString();
     double[] doubleArray30 = simulatorSpacecraftState26.getSunVector();
     simulatorSpacecraftState19.setMagnetometer(doubleArray30);
     simulatorSpacecraftState3.setMagnetometer(doubleArray30);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState40 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState40 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double41 = simulatorSpacecraftState40.getLatitude();
     java.lang.String str42 = simulatorSpacecraftState40.getMagField();
     java.lang.String str43 = simulatorSpacecraftState40.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState47 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState47 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double48 = simulatorSpacecraftState47.getLatitude();
     java.lang.String str49 = simulatorSpacecraftState47.getMagField();
     java.lang.String str50 = simulatorSpacecraftState47.toString();
     double[] doubleArray51 = simulatorSpacecraftState47.getSunVector();
     simulatorSpacecraftState40.setMagnetometer(doubleArray51);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState56 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState56 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double57 = simulatorSpacecraftState56.getLatitude();
     java.lang.String str58 = simulatorSpacecraftState56.getMagField();
     java.lang.String str59 = simulatorSpacecraftState56.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState63 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState63 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double64 = simulatorSpacecraftState63.getLatitude();
     java.lang.String str65 = simulatorSpacecraftState63.getMagField();
     java.lang.String str66 = simulatorSpacecraftState63.toString();
@@ -3614,85 +4059,87 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str6 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str6.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double11 + "' != '" + 340.0d + "'", double11 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str12 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str12.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str13.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray14);
     org.junit.Assert.assertTrue("'" + double20 + "' != '" + 340.0d + "'", double20 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str21 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str21.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str22 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str22.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str29 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str29.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray30);
     org.junit.Assert.assertTrue("'" + double41 + "' != '" + 340.0d + "'", double41 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str42 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str42.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str43 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str43.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double48 + "' != '" + 340.0d + "'", double48 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str49 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str49.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str50 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str50.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray51);
     org.junit.Assert.assertTrue("'" + double57 + "' != '" + 340.0d + "'", double57 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str58 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str58.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str59 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str59.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double64 + "' != '" + 340.0d + "'", double64 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str65 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str65.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str66 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str66.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray67);
   }
 
   @Test
-  public void test1079() throws Throwable {
-    if (debug)
+  public void test1079() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1079");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -3703,10 +4150,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     java.util.Date date14 = simulatorHeader13.getEndDate();
     int int15 = simulatorHeader13.getMinuteStartDate();
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
@@ -3734,15 +4183,19 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData41 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date42 = simulatorData41.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap43 = opssat.simulator.util.SimulatorData
-        .computeDiff(date39, date42);
-    opssat.simulator.util.SimulatorHeader simulatorHeader44 = new opssat.simulator.util.SimulatorHeader(
-        false, date35, date42);
-    opssat.simulator.util.SimulatorHeader simulatorHeader45 = new opssat.simulator.util.SimulatorHeader(
-        false, date30, date35);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap43 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date39, date42);
+    opssat.simulator.util.SimulatorHeader simulatorHeader44 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date35, date42);
+    opssat.simulator.util.SimulatorHeader simulatorHeader45 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date30, date35);
     int int46 = opssat.simulator.util.DateExtraction.getYearFromDate(date30);
-    opssat.simulator.util.SimulatorHeader simulatorHeader47 = new opssat.simulator.util.SimulatorHeader(
-        true, date22, date30);
+    opssat.simulator.util.SimulatorHeader simulatorHeader47 =
+        new opssat.simulator.util.SimulatorHeader(
+            true, date22, date30);
     org.junit.Assert.assertNotNull(date4);
     org.junit.Assert.assertNotNull(date8);
     org.junit.Assert.assertNotNull(date11);
@@ -3759,11 +4212,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1080() throws Throwable {
-    if (debug)
+  public void test1080() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1080");
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    }
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double9 = gPSSatInViewScience8.getMaxDistance();
     double double10 = gPSSatInViewScience8.getMaxElevation();
     double double11 = gPSSatInViewScience8.getStdDevDistance();
@@ -3775,27 +4231,37 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1082() throws Throwable {
-    if (debug)
+  public void test1082() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1082");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.util.stream.BaseStream[] baseStreamArray6 = new java.util.stream.BaseStream[0];
     @SuppressWarnings("unchecked")
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 = baseStreamArray6;
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 = stringList0
-        .toArray(
-            (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 =
+        baseStreamArray6;
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 =
+        stringList0
+            .toArray(
+                (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
     java.util.stream.Stream<java.lang.String> strStream9 = stringList0.stream();
     java.lang.Object obj10 = stringList0.clone();
-    opssat.simulator.util.LoggerFormatter loggerFormatter11 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter12 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter13 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 = new opssat.simulator.util.LoggerFormatter[] {
-        loggerFormatter11, loggerFormatter12, loggerFormatter13 };
+    opssat.simulator.util.LoggerFormatter loggerFormatter11 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter12 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter13 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 =
+        new opssat.simulator.util.LoggerFormatter[]{
+          loggerFormatter11, loggerFormatter12, loggerFormatter13};
     opssat.simulator.util.LoggerFormatter[] loggerFormatterArray15 = stringList0
         .toArray(loggerFormatterArray14);
     java.util.stream.Stream<java.lang.String> strStream16 = stringList0.parallelStream();
@@ -3821,9 +4287,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1083() throws Throwable {
-    if (debug)
+  public void test1083() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1083");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -3834,10 +4302,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     simulatorHeader12.setOrekitTLE1("");
     java.util.Date date17 = simulatorHeader12.parseStringIntoDate("2019/05/23-15:09:35");
@@ -3856,9 +4326,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1084() throws Throwable {
-    if (debug)
+  public void test1084() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1084");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -3869,10 +4341,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -3890,12 +4364,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData30 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date31 = simulatorData30.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 = opssat.simulator.util.SimulatorData
-        .computeDiff(date28, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader33 = new opssat.simulator.util.SimulatorHeader(
-        false, date24, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader34 = new opssat.simulator.util.SimulatorHeader(
-        false, date19, date24);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date28, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader33 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date24, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader34 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     int int36 = simulatorHeader12.getHourStartDate();
     simulatorHeader12.setUseOrekit(false);
@@ -3916,9 +4393,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1085() throws Throwable {
-    if (debug)
+  public void test1085() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1085");
+    }
     try {
       opssat.simulator.orekit.GPSSatInView gPSSatInView2 = new opssat.simulator.orekit.GPSSatInView(
           "yyyy:MM:dd HH:mm:ss z", 281474993487884L);
@@ -3929,11 +4408,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1086() throws Throwable {
-    if (debug)
+  public void test1086() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1086");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        13L, 0, "hi!");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            13L, 0, "hi!");
     long long4 = simulatorSchedulerPiece3.getTime();
     int int5 = simulatorSchedulerPiece3.getInternalID();
     simulatorSchedulerPiece3.setExecuted(false);
@@ -3951,19 +4433,25 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1087() throws Throwable {
-    if (debug)
+  public void test1087() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1087");
-    opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate(
-        "*36", "2019:05:23 15:10:18 UTC");
+    }
+    opssat.simulator.util.ArgumentTemplate argumentTemplate2 =
+        new opssat.simulator.util.ArgumentTemplate(
+            "*36", "2019:05:23 15:10:18 UTC");
   }
 
   @Test
-  public void test1088() throws Throwable {
-    if (debug)
+  public void test1088() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1088");
-    org.ccsds.moims.mo.mal.structures.UInteger uInteger1 = new org.ccsds.moims.mo.mal.structures.UInteger(
-        13);
+    }
+    org.ccsds.moims.mo.mal.structures.UInteger uInteger1 =
+        new org.ccsds.moims.mo.mal.structures.UInteger(
+            13);
     org.ccsds.moims.mo.mal.structures.Element element2 = uInteger1.createElement();
     long long3 = uInteger1.getValue();
     org.ccsds.moims.mo.mal.structures.UShort uShort4 = uInteger1.getAreaNumber();
@@ -3979,11 +4467,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1089() throws Throwable {
-    if (debug)
+  public void test1089() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1089");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        'a', 11, "");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            'a', 11, "");
     int int4 = simulatorSchedulerPiece3.getInternalID();
     long long5 = simulatorSchedulerPiece3.getTime();
     org.junit.Assert.assertTrue("'" + int4 + "' != '" + 11 + "'", int4 == 11);
@@ -3991,37 +4482,49 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1090() throws Throwable {
-    if (debug)
+  public void test1090() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1090");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.lang.Integer int5 = stringList0.getTypeShortForm();
     int int6 = stringList0.size();
-    org.ccsds.moims.mo.mal.structures.StringList stringList7 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList9 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    org.ccsds.moims.mo.mal.structures.StringList stringList7 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList9 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor10 = shortList9.listIterator();
     boolean boolean11 = stringList7.equals(shortList9);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience20 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience20 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double21 = gPSSatInViewScience20.getMaxDistance();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience30 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience39 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience30 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience39 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double40 = gPSSatInViewScience39.getMaxDistance();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience49 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience58 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience49 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience58 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double59 = gPSSatInViewScience58.getStdDevElevation();
-    opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray60 = new opssat.simulator.orekit.GPSSatInViewScience[] {
-        gPSSatInViewScience20, gPSSatInViewScience30, gPSSatInViewScience39, gPSSatInViewScience49,
-        gPSSatInViewScience58 };
+    opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray60 =
+        new opssat.simulator.orekit.GPSSatInViewScience[]{
+          gPSSatInViewScience20, gPSSatInViewScience30, gPSSatInViewScience39, gPSSatInViewScience49,
+          gPSSatInViewScience58};
     opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray61 = shortList9
         .toArray(gPSSatInViewScienceArray60);
     int int62 = stringList0.indexOf(gPSSatInViewScienceArray60);
@@ -4042,37 +4545,45 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1091() throws Throwable {
-    if (debug)
+  public void test1091() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1091");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
     java.util.Iterator<java.lang.String> strItor1 = stringList0.iterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = stringList0.getAreaVersion();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray9 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray9 = new float[]{28, 8};
     simulatorSpacecraftState6.setQ(floatArray9);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double15 = simulatorSpacecraftState14.getLatitude();
     java.lang.String str16 = simulatorSpacecraftState14.getMagField();
     float[] floatArray17 = simulatorSpacecraftState14.getR();
     simulatorSpacecraftState6.setQ(floatArray17);
     java.lang.String str19 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double24 = simulatorSpacecraftState23.getLatitude();
     double double25 = simulatorSpacecraftState23.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double30 = simulatorSpacecraftState29.getLatitude();
     java.lang.String str31 = simulatorSpacecraftState29.getMagField();
     float[] floatArray32 = simulatorSpacecraftState29.getR();
     simulatorSpacecraftState23.setQ(floatArray32);
     float[] floatArray34 = simulatorSpacecraftState23.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData35 = new opssat.simulator.celestia.CelestiaData(
-        floatArray17, floatArray34);
+    opssat.simulator.celestia.CelestiaData celestiaData35 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray17, floatArray34);
     float[] floatArray36 = celestiaData35.getQ();
     opssat.simulator.util.SimulatorData simulatorData40 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -4084,17 +4595,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData47 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date48 = simulatorData47.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 = opssat.simulator.util.SimulatorData
-        .computeDiff(date45, date48);
-    opssat.simulator.util.SimulatorHeader simulatorHeader50 = new opssat.simulator.util.SimulatorHeader(
-        false, date41, date48);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date45, date48);
+    opssat.simulator.util.SimulatorHeader simulatorHeader50 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date41, date48);
     opssat.simulator.util.SimulatorData simulatorData51 = new opssat.simulator.util.SimulatorData(
         (short) 0, date41);
     celestiaData35.setDate(date41);
     int int53 = celestiaData35.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray60 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray60 = new float[]{28, 8};
     simulatorSpacecraftState57.setQ(floatArray60);
     celestiaData35.setQ(floatArray60);
     int int63 = stringList0.lastIndexOf(celestiaData35);
@@ -4107,7 +4621,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double15 + "' != '" + 340.0d + "'", double15 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str16 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str16.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray17);
     org.junit.Assert.assertTrue("'" + str19 + "' != '" + "UnknownGUIData" + "'",
@@ -4117,7 +4631,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double30 + "' != '" + 340.0d + "'", double30 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str31 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str31.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray32);
     org.junit.Assert.assertNotNull(floatArray34);
@@ -4132,15 +4646,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1092() throws Throwable {
-    if (debug)
+  public void test1092() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1092");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
@@ -4150,15 +4668,17 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
   }
 
   @Test
-  public void test1093() throws Throwable {
-    if (debug)
+  public void test1093() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1093");
+    }
     try {
       opssat.simulator.orekit.GPSSatInView gPSSatInView2 = new opssat.simulator.orekit.GPSSatInView(
           "{counter=8, methodsExecuted=0, currentTime=Thu May 23 15:09:49 UTC 2019}", 1.0f);
@@ -4169,37 +4689,45 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1095() throws Throwable {
-    if (debug)
+  public void test1095() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1095");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
     java.util.Iterator<java.lang.String> strItor1 = stringList0.iterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = stringList0.getAreaVersion();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray9 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray9 = new float[]{28, 8};
     simulatorSpacecraftState6.setQ(floatArray9);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double15 = simulatorSpacecraftState14.getLatitude();
     java.lang.String str16 = simulatorSpacecraftState14.getMagField();
     float[] floatArray17 = simulatorSpacecraftState14.getR();
     simulatorSpacecraftState6.setQ(floatArray17);
     java.lang.String str19 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double24 = simulatorSpacecraftState23.getLatitude();
     double double25 = simulatorSpacecraftState23.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double30 = simulatorSpacecraftState29.getLatitude();
     java.lang.String str31 = simulatorSpacecraftState29.getMagField();
     float[] floatArray32 = simulatorSpacecraftState29.getR();
     simulatorSpacecraftState23.setQ(floatArray32);
     float[] floatArray34 = simulatorSpacecraftState23.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData35 = new opssat.simulator.celestia.CelestiaData(
-        floatArray17, floatArray34);
+    opssat.simulator.celestia.CelestiaData celestiaData35 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray17, floatArray34);
     float[] floatArray36 = celestiaData35.getQ();
     opssat.simulator.util.SimulatorData simulatorData40 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -4211,17 +4739,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData47 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date48 = simulatorData47.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 = opssat.simulator.util.SimulatorData
-        .computeDiff(date45, date48);
-    opssat.simulator.util.SimulatorHeader simulatorHeader50 = new opssat.simulator.util.SimulatorHeader(
-        false, date41, date48);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date45, date48);
+    opssat.simulator.util.SimulatorHeader simulatorHeader50 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date41, date48);
     opssat.simulator.util.SimulatorData simulatorData51 = new opssat.simulator.util.SimulatorData(
         (short) 0, date41);
     celestiaData35.setDate(date41);
     int int53 = celestiaData35.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray60 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray60 = new float[]{28, 8};
     simulatorSpacecraftState57.setQ(floatArray60);
     celestiaData35.setQ(floatArray60);
     int int63 = stringList0.lastIndexOf(celestiaData35);
@@ -4234,7 +4765,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double15 + "' != '" + 340.0d + "'", double15 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str16 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str16.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray17);
     org.junit.Assert.assertTrue("'" + str19 + "' != '" + "UnknownGUIData" + "'",
@@ -4244,7 +4775,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double30 + "' != '" + 340.0d + "'", double30 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str31 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str31.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray32);
     org.junit.Assert.assertNotNull(floatArray34);
@@ -4261,11 +4792,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1096() throws Throwable {
-    if (debug)
+  public void test1096() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1096");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     java.lang.String str6 = simulatorSpacecraftState3.toString();
@@ -4277,28 +4811,31 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str6 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str6.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray7);
     org.junit.Assert.assertTrue(
         "'" + str10 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str10.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double11 + "' != '" + 14.0d + "'", double11 == 14.0d);
     org.junit.Assert.assertNotNull(floatArray12);
   }
 
   @Test
-  public void test1097() throws Throwable {
-    if (debug)
+  public void test1097() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1097");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.float2ByteArray(64);
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray3);
     int int5 = endlessSingleStreamOperatingBuffer1.getOperatingIndex();
@@ -4311,15 +4848,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1098() throws Throwable {
-    if (debug)
+  public void test1098() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1098");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     double double5 = simulatorSpacecraftState3.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double10 = simulatorSpacecraftState9.getLatitude();
     java.lang.String str11 = simulatorSpacecraftState9.getMagField();
     float[] floatArray12 = simulatorSpacecraftState9.getR();
@@ -4332,7 +4873,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double10 + "' != '" + 340.0d + "'", double10 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str11 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str11.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray12);
     org.junit.Assert.assertNotNull(floatArray14);
@@ -4340,15 +4881,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1099() throws Throwable {
-    if (debug)
+  public void test1099() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1099");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.setName("01700.0000000");
     argumentDescriptor5.restoreArgument();
@@ -4362,43 +4907,49 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1100() throws Throwable {
-    if (debug)
+  public void test1100() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1100");
-    java.lang.Double[] doubleArray4 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
+    }
+    java.lang.Double[] doubleArray4 = new java.lang.Double[]{(-1.0d), 100.0d, 10.0d, 10.0d};
     java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
     boolean boolean6 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
-    org.ccsds.moims.mo.mal.structures.UShort uShort7 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort7 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort7 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort7};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean10 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9, uShortArray8);
     uShortList9.ensureCapacity(0);
     int int14 = uShortList9.indexOf((byte) 1);
     uShortList9.clear();
-    java.lang.Long[] longArray18 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray18 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList19 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean20 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList19, longArray18);
     java.lang.Object obj21 = longList19.clone();
     boolean boolean22 = uShortList9.contains(longList19);
     boolean boolean23 = doubleList5.equals(boolean22);
-    java.lang.Integer[] intArray26 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray26 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList27 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean28 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList27, intArray26);
     int int30 = intList27.lastIndexOf((byte) 10);
     boolean boolean31 = doubleList5.removeAll(intList27);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList32 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList32 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     octetList32.ensureCapacity(13);
-    java.lang.Byte[] byteArray39 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray39 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList40 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean41 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList40, byteArray39);
-    java.lang.Integer[] intArray44 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray44 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList45 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean46 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList45, intArray44);
@@ -4432,12 +4983,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData80 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date81 = simulatorData80.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap82 = opssat.simulator.util.SimulatorData
-        .computeDiff(date78, date81);
-    opssat.simulator.util.SimulatorHeader simulatorHeader83 = new opssat.simulator.util.SimulatorHeader(
-        false, date74, date81);
-    opssat.simulator.util.SimulatorHeader simulatorHeader84 = new opssat.simulator.util.SimulatorHeader(
-        false, date69, date74);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap82 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date78, date81);
+    opssat.simulator.util.SimulatorHeader simulatorHeader83 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date74, date81);
+    opssat.simulator.util.SimulatorHeader simulatorHeader84 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date69, date74);
     boolean boolean85 = simulatorHeader84.isAutoStartTime();
     simulatorHeader84.setUseCelestia(false);
     simulatorHeader84.setOrekitTLE1("[]");
@@ -4488,83 +5042,104 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1101() throws Throwable {
-    if (debug)
+  public void test1101() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1101");
-    java.lang.Double[] doubleArray4 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
+    }
+    java.lang.Double[] doubleArray4 = new java.lang.Double[]{(-1.0d), 100.0d, 10.0d, 10.0d};
     java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
     boolean boolean6 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
-    org.ccsds.moims.mo.mal.structures.UShort uShort7 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort7 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort7 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort7};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean10 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9, uShortArray8);
     uShortList9.ensureCapacity(0);
     int int14 = uShortList9.indexOf((byte) 1);
     uShortList9.clear();
-    java.lang.Long[] longArray18 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray18 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList19 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean20 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList19, longArray18);
     java.lang.Object obj21 = longList19.clone();
     boolean boolean22 = uShortList9.contains(longList19);
     boolean boolean23 = doubleList5.equals(boolean22);
-    java.lang.Integer[] intArray26 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray26 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList27 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean28 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList27, intArray26);
     int int30 = intList27.lastIndexOf((byte) 10);
     boolean boolean31 = doubleList5.removeAll(intList27);
-    java.lang.Short[] shortArray34 = new java.lang.Short[] { (short) -1, (short) 10 };
+    java.lang.Short[] shortArray34 = new java.lang.Short[]{(short) -1, (short) 10};
     java.util.ArrayList<java.lang.Short> shortList35 = new java.util.ArrayList<java.lang.Short>();
     boolean boolean36 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Short>) shortList35, shortArray34);
     boolean boolean37 = shortList35.isEmpty();
     int int39 = shortList35.lastIndexOf(281475010265070L);
-    org.ccsds.moims.mo.mal.structures.UShort uShort40 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.OctetList octetList41 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.UShort uShort40 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.OctetList octetList41 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int42 = octetList41.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort43 = octetList41.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.UShort uShort44 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort45 = org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort46 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort47 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort48 = org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort49 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort50 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray51 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort50 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList52 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort44 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort45 =
+        org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort46 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort47 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort48 =
+        org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort49 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort50 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray51 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort50};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList52 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean53 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList52,
         uShortArray51);
     uShortList52.ensureCapacity(0);
     int int57 = uShortList52.indexOf((byte) 1);
     uShortList52.clear();
-    java.lang.Long[] longArray61 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray61 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList62 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean63 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList62, longArray61);
     java.lang.Object obj64 = longList62.clone();
     boolean boolean65 = uShortList52.contains(longList62);
-    org.ccsds.moims.mo.mal.structures.UShort uShort66 = org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort66 =
+        org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
     boolean boolean67 = uShortList52.add(uShort66);
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray68 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort40, uShort43, uShort44, uShort45, uShort46, uShort47, uShort48, uShort49, uShort66 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList69 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray68 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort40, uShort43, uShort44, uShort45, uShort46, uShort47, uShort48, uShort49, uShort66};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList69 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean70 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList69,
         uShortArray68);
     uShortList69.ensureCapacity(100);
     boolean boolean74 = uShortList69.equals(9);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList75 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList75 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int76 = octetList75.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort77 = octetList75.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor78 = octetList75.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor80 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList75, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor80 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList75, "hi!");
     java.lang.Object obj81 = argumentDescriptor80.getType();
     int int82 = uShortList69.indexOf(obj81);
     int int83 = shortList35.lastIndexOf(obj81);
@@ -4625,9 +5200,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1103() throws Throwable {
-    if (debug)
+  public void test1103() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1103");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -4638,10 +5215,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     java.util.Date date14 = simulatorHeader13.getEndDate();
     int int15 = simulatorHeader13.getMinuteStartDate();
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
@@ -4656,8 +5235,8 @@ public class RegressionTest2 {
     int int25 = opssat.simulator.util.DateExtraction.getHourFromDate(date22);
     int int26 = opssat.simulator.util.DateExtraction.getMonthFromDate(date22);
     java.util.Date date28 = null;
-    java.lang.Long[] longArray35 = new java.lang.Long[] { 281475010265070L, 100L, 0L,
-        281475010265070L, 281475010265070L, 1L };
+    java.lang.Long[] longArray35 = new java.lang.Long[]{281475010265070L, 100L, 0L,
+      281475010265070L, 281475010265070L, 1L};
     java.util.ArrayList<java.lang.Long> longList36 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean37 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList36, longArray35);
@@ -4673,17 +5252,21 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData49 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date50 = simulatorData49.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap51 = opssat.simulator.util.SimulatorData
-        .computeDiff(date47, date50);
-    opssat.simulator.util.SimulatorHeader simulatorHeader52 = new opssat.simulator.util.SimulatorHeader(
-        false, date43, date50);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap51 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date47, date50);
+    opssat.simulator.util.SimulatorHeader simulatorHeader52 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date43, date50);
     boolean boolean53 = longList36.remove(date50);
     int int54 = opssat.simulator.util.DateExtraction.getHourFromDate(date50);
-    opssat.simulator.util.SimulatorHeader simulatorHeader55 = new opssat.simulator.util.SimulatorHeader(
-        true, date28, date50);
+    opssat.simulator.util.SimulatorHeader simulatorHeader55 =
+        new opssat.simulator.util.SimulatorHeader(
+            true, date28, date50);
     int int56 = opssat.simulator.util.DateExtraction.getMonthFromDate(date50);
-    opssat.simulator.util.SimulatorHeader simulatorHeader57 = new opssat.simulator.util.SimulatorHeader(
-        false, date22, date50);
+    opssat.simulator.util.SimulatorHeader simulatorHeader57 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date22, date50);
     org.junit.Assert.assertNotNull(date4);
     org.junit.Assert.assertNotNull(date8);
     org.junit.Assert.assertNotNull(date11);
@@ -4703,9 +5286,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1104() throws Throwable {
-    if (debug)
+  public void test1104() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1104");
+    }
     opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData(
         (-18));
     long long2 = simulatorData1.getCurrentTimeMillis();
@@ -4720,17 +5305,20 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1105() throws Throwable {
-    if (debug)
+  public void test1105() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1105");
+    }
     opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date2 = simulatorData1.getCurrentTime();
     opssat.simulator.util.SimulatorData simulatorData4 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date5 = simulatorData4.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap6 = opssat.simulator.util.SimulatorData
-        .computeDiff(date2, date5);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap6 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date2, date5);
     int int7 = opssat.simulator.util.DateExtraction.getMinuteFromDate(date5);
     org.junit.Assert.assertNotNull(date2);
     org.junit.Assert.assertNotNull(date5);
@@ -4738,12 +5326,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1106() throws Throwable {
-    if (debug)
+  public void test1106() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1106");
-    opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate(
-        "05400.0000",
-        "SimulatorHeader{autoStartSystem=true, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:44 UTC 2019, endDate=Thu May 23 15:09:44 UTC 2019}");
+    }
+    opssat.simulator.util.ArgumentTemplate argumentTemplate2 =
+        new opssat.simulator.util.ArgumentTemplate(
+            "05400.0000",
+            "SimulatorHeader{autoStartSystem=true, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:44 UTC 2019, endDate=Thu May 23 15:09:44 UTC 2019}");
     java.lang.String str3 = argumentTemplate2.getDescription();
     argumentTemplate2.setDescription("OPS-SAT SoftSim:");
     org.junit.Assert.assertTrue("'" + str3 + "' != '" + "05400.0000" + "'",
@@ -4751,54 +5342,60 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1107() throws Throwable {
-    if (debug)
+  public void test1107() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1107");
-    org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList(
-        36);
+    }
+    org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 =
+        new org.ccsds.moims.mo.mal.structures.BooleanList(
+            36);
     java.lang.Integer int2 = booleanList1.getTypeShortForm();
-    java.lang.Double[] doubleArray7 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
+    java.lang.Double[] doubleArray7 = new java.lang.Double[]{(-1.0d), 100.0d, 10.0d, 10.0d};
     java.util.ArrayList<java.lang.Double> doubleList8 = new java.util.ArrayList<java.lang.Double>();
     boolean boolean9 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Double>) doubleList8, doubleArray7);
-    org.ccsds.moims.mo.mal.structures.UShort uShort10 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray11 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort10 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList12 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort10 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray11 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort10};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList12 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean13 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList12,
         uShortArray11);
     uShortList12.ensureCapacity(0);
     int int17 = uShortList12.indexOf((byte) 1);
     uShortList12.clear();
-    java.lang.Long[] longArray21 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray21 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList22 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean23 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList22, longArray21);
     java.lang.Object obj24 = longList22.clone();
     boolean boolean25 = uShortList12.contains(longList22);
     boolean boolean26 = doubleList8.equals(boolean25);
-    java.lang.Integer[] intArray29 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray29 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList30 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean31 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList30, intArray29);
     int int33 = intList30.lastIndexOf((byte) 10);
     boolean boolean34 = doubleList8.removeAll(intList30);
-    java.lang.Integer[] intArray42 = new java.lang.Integer[] { 13, 10, 100, 100, 11111, 13, 11111 };
+    java.lang.Integer[] intArray42 = new java.lang.Integer[]{13, 10, 100, 100, 11111, 13, 11111};
     java.util.ArrayList<java.lang.Integer> intList43 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean44 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList43, intArray42);
-    java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean51 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
-    java.lang.Integer[] intArray54 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray54 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList55 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean56 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList55, intArray54);
     boolean boolean57 = byteList50.retainAll(intList55);
-    java.lang.Integer[] intArray60 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray60 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList61 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean62 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList61, intArray60);
@@ -4806,7 +5403,7 @@ public class RegressionTest2 {
     boolean boolean65 = intList55.removeAll(intList61);
     boolean boolean66 = intList43.retainAll(intList61);
     boolean boolean67 = doubleList8.removeAll(intList61);
-    java.lang.Float[] floatArray71 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray71 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList72 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean73 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList72, floatArray71);
@@ -4866,18 +5463,22 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1108() throws Throwable {
-    if (debug)
+  public void test1108() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1108");
+    }
     long long1 = opssat.simulator.util.SimulatorSchedulerPiece
         .getMillisFromDDDDDHHMMSSmmm("Unknown data type [java.util.stream.ReferencePipeline$Head]");
     org.junit.Assert.assertTrue("'" + long1 + "' != '" + (-1L) + "'", long1 == (-1L));
   }
 
   @Test
-  public void test1109() throws Throwable {
-    if (debug)
+  public void test1109() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1109");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -4894,12 +5495,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     simulatorHeader20.setOrekitTLE1("[]");
@@ -4926,11 +5530,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1110() throws Throwable {
-    if (debug)
+  public void test1110() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1110");
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    }
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double9 = gPSSatInViewScience8.getMinElevation();
     double double10 = gPSSatInViewScience8.getMaxElevation();
     double double11 = gPSSatInViewScience8.getAvgDistance();
@@ -4950,14 +5557,18 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1111() throws Throwable {
-    if (debug)
+  public void test1111() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1111");
-    org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 =
+        new org.ccsds.moims.mo.mal.structures.DoubleList(
+            ' ');
     org.ccsds.moims.mo.mal.structures.Element element2 = doubleList1.createElement();
-    org.ccsds.moims.mo.mal.structures.DoubleList doubleList4 = new org.ccsds.moims.mo.mal.structures.DoubleList(
-        (short) 10);
+    org.ccsds.moims.mo.mal.structures.DoubleList doubleList4 =
+        new org.ccsds.moims.mo.mal.structures.DoubleList(
+            (short) 10);
     org.ccsds.moims.mo.mal.structures.UShort uShort5 = doubleList4.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UShort uShort6 = doubleList4.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UShort uShort7 = doubleList4.getServiceNumber();
@@ -4966,43 +5577,51 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.Element element10 = doubleList4.createElement();
     org.ccsds.moims.mo.mal.structures.UShort uShort11 = doubleList4.getAreaNumber();
     java.lang.Long long12 = doubleList4.getShortForm();
-    org.ccsds.moims.mo.mal.structures.StringList stringList13 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList15 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    org.ccsds.moims.mo.mal.structures.StringList stringList13 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList15 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor16 = shortList15.listIterator();
     boolean boolean17 = stringList13.equals(shortList15);
-    org.ccsds.moims.mo.mal.structures.IntegerList integerList19 = new org.ccsds.moims.mo.mal.structures.IntegerList(
-        48);
+    org.ccsds.moims.mo.mal.structures.IntegerList integerList19 =
+        new org.ccsds.moims.mo.mal.structures.IntegerList(
+            48);
     java.lang.Long long20 = integerList19.getShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort21 = integerList19.getAreaNumber();
     int int22 = stringList13.indexOf(integerList19);
     boolean boolean23 = doubleList4.containsAll(integerList19);
     boolean boolean24 = doubleList1.containsAll(integerList19);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray31 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray31 = new float[]{28, 8};
     simulatorSpacecraftState28.setQ(floatArray31);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double37 = simulatorSpacecraftState36.getLatitude();
     java.lang.String str38 = simulatorSpacecraftState36.getMagField();
     float[] floatArray39 = simulatorSpacecraftState36.getR();
     simulatorSpacecraftState28.setQ(floatArray39);
     java.lang.String str41 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray39);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState45 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState45 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double46 = simulatorSpacecraftState45.getLatitude();
     double double47 = simulatorSpacecraftState45.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState51 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState51 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double52 = simulatorSpacecraftState51.getLatitude();
     java.lang.String str53 = simulatorSpacecraftState51.getMagField();
     float[] floatArray54 = simulatorSpacecraftState51.getR();
     simulatorSpacecraftState45.setQ(floatArray54);
     float[] floatArray56 = simulatorSpacecraftState45.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData57 = new opssat.simulator.celestia.CelestiaData(
-        floatArray39, floatArray56);
+    opssat.simulator.celestia.CelestiaData celestiaData57 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray39, floatArray56);
     float[] floatArray58 = celestiaData57.getQ();
     opssat.simulator.util.SimulatorData simulatorData62 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -5014,17 +5633,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData69 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date70 = simulatorData69.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap71 = opssat.simulator.util.SimulatorData
-        .computeDiff(date67, date70);
-    opssat.simulator.util.SimulatorHeader simulatorHeader72 = new opssat.simulator.util.SimulatorHeader(
-        false, date63, date70);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap71 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date67, date70);
+    opssat.simulator.util.SimulatorHeader simulatorHeader72 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date63, date70);
     opssat.simulator.util.SimulatorData simulatorData73 = new opssat.simulator.util.SimulatorData(
         (short) 0, date63);
     celestiaData57.setDate(date63);
     int int75 = celestiaData57.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState79 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray82 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState79 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray82 = new float[]{28, 8};
     simulatorSpacecraftState79.setQ(floatArray82);
     celestiaData57.setQ(floatArray82);
     boolean boolean85 = doubleList1.remove(celestiaData57);
@@ -5051,7 +5673,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double37 + "' != '" + 340.0d + "'", double37 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str38 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str38.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray39);
     org.junit.Assert.assertTrue("'" + str41 + "' != '" + "UnknownGUIData" + "'",
@@ -5061,7 +5683,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double52 + "' != '" + 340.0d + "'", double52 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str53 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str53.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray54);
     org.junit.Assert.assertNotNull(floatArray56);
@@ -5075,52 +5697,58 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1112() throws Throwable {
-    if (debug)
+  public void test1112() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1112");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     java.lang.Object[] objArray3 = octetList0.toArray();
     java.lang.Integer int4 = octetList0.getTypeShortForm();
-    java.lang.Byte[] byteArray9 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray9 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList10 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean11 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList10, byteArray9);
-    java.lang.Integer[] intArray14 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray14 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList15 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean16 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList15, intArray14);
     boolean boolean17 = byteList10.retainAll(intList15);
-    java.lang.Integer[] intArray20 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray20 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList21 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean22 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList21, intArray20);
     int int24 = intList21.lastIndexOf((byte) 10);
     boolean boolean25 = intList15.retainAll(intList21);
-    java.lang.Double[] doubleArray30 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
+    java.lang.Double[] doubleArray30 = new java.lang.Double[]{(-1.0d), 100.0d, 10.0d, 10.0d};
     java.util.ArrayList<java.lang.Double> doubleList31 = new java.util.ArrayList<java.lang.Double>();
     boolean boolean32 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Double>) doubleList31, doubleArray30);
-    org.ccsds.moims.mo.mal.structures.UShort uShort33 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort33 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort33 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort33};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean36 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35,
         uShortArray34);
     uShortList35.ensureCapacity(0);
     int int40 = uShortList35.indexOf((byte) 1);
     uShortList35.clear();
-    java.lang.Long[] longArray44 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray44 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList45 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean46 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList45, longArray44);
     java.lang.Object obj47 = longList45.clone();
     boolean boolean48 = uShortList35.contains(longList45);
     boolean boolean49 = doubleList31.equals(boolean48);
-    java.lang.Integer[] intArray52 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray52 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList53 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean54 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList53, intArray52);
@@ -5140,10 +5768,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData71 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date72 = simulatorData71.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap73 = opssat.simulator.util.SimulatorData
-        .computeDiff(date69, date72);
-    opssat.simulator.util.SimulatorHeader simulatorHeader74 = new opssat.simulator.util.SimulatorHeader(
-        false, date65, date72);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap73 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date69, date72);
+    opssat.simulator.util.SimulatorHeader simulatorHeader74 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date65, date72);
     java.util.Date date75 = simulatorHeader74.getEndDate();
     boolean boolean76 = simulatorHeader74.isAutoStartSystem();
     int int77 = simulatorHeader74.getDayStartDate();
@@ -5158,10 +5788,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData88 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date89 = simulatorData88.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap90 = opssat.simulator.util.SimulatorData
-        .computeDiff(date86, date89);
-    opssat.simulator.util.SimulatorHeader simulatorHeader91 = new opssat.simulator.util.SimulatorHeader(
-        false, date82, date89);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap90 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date86, date89);
+    opssat.simulator.util.SimulatorHeader simulatorHeader91 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date82, date89);
     simulatorHeader74.setStartDate(date89);
     simulatorHeader74.setKeplerElements("-0100.0000000");
     boolean boolean95 = simulatorHeader74.isUseOrekit();
@@ -5214,10 +5846,12 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1113() throws Throwable {
-    if (debug)
+  public void test1113() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1113");
-    java.lang.Short[] shortArray2 = new java.lang.Short[] { (short) 1, (short) 1 };
+    }
+    java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 1, (short) 1};
     java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
     boolean boolean4 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Short>) shortList3, shortArray2);
@@ -5225,8 +5859,9 @@ public class RegressionTest2 {
     boolean boolean6 = shortList3.isEmpty();
     boolean boolean8 = shortList3.equals(5);
     java.lang.String str9 = shortList3.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState13 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState13 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double14 = simulatorSpacecraftState13.getLatitude();
     java.lang.String str15 = simulatorSpacecraftState13.getMagField();
     java.lang.String str16 = simulatorSpacecraftState13.getSunVectorAsString();
@@ -5240,7 +5875,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double14 + "' != '" + 340.0d + "'", double14 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str15 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str15.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str16 + "' != '" + "X:[+.00000] ; Y:[+.00000] ; Z: [+.00000] units [N/A]" + "'",
@@ -5250,11 +5885,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1114() throws Throwable {
-    if (debug)
+  public void test1114() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1114");
-    opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate(
-        "030936.762", "-100.0000");
+    }
+    opssat.simulator.util.ArgumentTemplate argumentTemplate2 =
+        new opssat.simulator.util.ArgumentTemplate(
+            "030936.762", "-100.0000");
     java.lang.String str3 = argumentTemplate2.toString();
     java.lang.String str4 = argumentTemplate2.toString();
     org.junit.Assert.assertTrue("'" + str3 + "' != '" + "030936.762|-100.0000" + "'",
@@ -5264,22 +5902,28 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1115() throws Throwable {
-    if (debug)
+  public void test1115() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1115");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
-    org.ccsds.moims.mo.mal.structures.IntegerList integerList6 = new org.ccsds.moims.mo.mal.structures.IntegerList(
-        48);
+    org.ccsds.moims.mo.mal.structures.IntegerList integerList6 =
+        new org.ccsds.moims.mo.mal.structures.IntegerList(
+            48);
     java.lang.Long long7 = integerList6.getShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort8 = integerList6.getAreaNumber();
     int int9 = stringList0.indexOf(integerList6);
     java.lang.Integer int10 = integerList6.getTypeShortForm();
     java.lang.Long long11 = integerList6.getShortForm();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList12 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList12 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int13 = octetList12.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort14 = octetList12.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet15 = octetList12.getAreaVersion();
@@ -5300,34 +5944,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1116() throws Throwable {
-    if (debug)
+  public void test1116() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1116");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     float[] floatArray33 = celestiaData32.getQ();
     opssat.simulator.util.SimulatorData simulatorData37 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -5339,18 +5990,21 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData44 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date45 = simulatorData44.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 = opssat.simulator.util.SimulatorData
-        .computeDiff(date42, date45);
-    opssat.simulator.util.SimulatorHeader simulatorHeader47 = new opssat.simulator.util.SimulatorHeader(
-        false, date38, date45);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date42, date45);
+    opssat.simulator.util.SimulatorHeader simulatorHeader47 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date38, date45);
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (short) 0, date38);
     celestiaData32.setDate(date38);
     int int50 = celestiaData32.getSeconds();
     celestiaData32.setDnx("OPS-SAT SoftSim:");
     java.lang.String str53 = celestiaData32.getAos();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double58 = simulatorSpacecraftState57.getLatitude();
     double double59 = simulatorSpacecraftState57.getLongitude();
     float[] floatArray60 = simulatorSpacecraftState57.getQ();
@@ -5361,7 +6015,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -5371,7 +6025,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -5389,9 +6043,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1117() throws Throwable {
-    if (debug)
+  public void test1117() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1117");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -5402,10 +6058,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -5420,10 +6078,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData26 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date27 = simulatorData26.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 = opssat.simulator.util.SimulatorData
-        .computeDiff(date24, date27);
-    opssat.simulator.util.SimulatorHeader simulatorHeader29 = new opssat.simulator.util.SimulatorHeader(
-        false, date20, date27);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date24, date27);
+    opssat.simulator.util.SimulatorHeader simulatorHeader29 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date20, date27);
     simulatorHeader12.setStartDate(date27);
     boolean boolean31 = simulatorHeader12.isAutoStartTime();
     simulatorHeader12.setUpdateInternet(false);
@@ -5446,12 +6106,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1118() throws Throwable {
-    if (debug)
+  public void test1118() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1118");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     java.lang.Object obj2 = endlessWavStreamOperatingBuffer1.getDataBuffer();
     boolean boolean4 = endlessWavStreamOperatingBuffer1.preparePath("03600.0000000");
     double[] doubleArray6 = endlessWavStreamOperatingBuffer1.getDataAsDoubleArray((short) 10);
@@ -5461,16 +6124,20 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1119() throws Throwable {
-    if (debug)
+  public void test1119() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1119");
-    java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
+    }
+    java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList3 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean4 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList3, booleanArray2);
     int int6 = booleanList3.indexOf(10);
     booleanList3.clear();
-    opssat.simulator.util.DateExtraction dateExtraction8 = new opssat.simulator.util.DateExtraction();
+    opssat.simulator.util.DateExtraction dateExtraction8 =
+        new opssat.simulator.util.DateExtraction();
     boolean boolean9 = booleanList3.equals(dateExtraction8);
     boolean boolean10 = booleanList3.isEmpty();
     java.util.stream.Stream<java.lang.Boolean> booleanStream11 = booleanList3.parallelStream();
@@ -5489,9 +6156,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1120() throws Throwable {
-    if (debug)
+  public void test1120() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1120");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -5508,12 +6177,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     boolean boolean24 = simulatorHeader20.isAutoStartSystem();
@@ -5531,20 +6203,27 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1121() throws Throwable {
-    if (debug)
+  public void test1121() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1121");
-    opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate(
-        "0100.0000", "2019:05:23 15:10:18 UTC");
+    }
+    opssat.simulator.util.ArgumentTemplate argumentTemplate2 =
+        new opssat.simulator.util.ArgumentTemplate(
+            "0100.0000", "2019:05:23 15:10:18 UTC");
   }
 
   @Test
-  public void test1122() throws Throwable {
-    if (debug)
+  public void test1122() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1122");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     org.ccsds.moims.mo.mal.structures.UShort uShort5 = stringList0.getAreaNumber();
@@ -5556,27 +6235,31 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UOctet uOctet11 = uRI10.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.URI uRI13 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
-    org.ccsds.moims.mo.mal.structures.URI[] uRIArray14 = new org.ccsds.moims.mo.mal.structures.URI[] {
-        uRI7, uRI10, uRI13 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList15 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
+    org.ccsds.moims.mo.mal.structures.URI[] uRIArray14 =
+        new org.ccsds.moims.mo.mal.structures.URI[]{
+          uRI7, uRI10, uRI13};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList15 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
     boolean boolean16 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList15, uRIArray14);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime17 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime17 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     int int18 = uRIList15.indexOf(fineTime17);
     uRIList15.ensureCapacity(40);
-    org.ccsds.moims.mo.mal.structures.UShort uShort21 = org.ccsds.moims.mo.mal.structures.URIList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort21 =
+        org.ccsds.moims.mo.mal.structures.URIList.AREA_SHORT_FORM;
     boolean boolean22 = uRIList15.remove(uShort21);
-    java.lang.Byte[] byteArray27 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray27 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList28 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean29 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList28, byteArray27);
-    java.lang.Integer[] intArray32 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray32 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList33 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean34 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList33, intArray32);
     boolean boolean35 = byteList28.retainAll(intList33);
-    java.lang.Integer[] intArray38 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray38 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList39 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean40 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList39, intArray38);
@@ -5585,7 +6268,7 @@ public class RegressionTest2 {
     boolean boolean44 = uRIList15.removeAll(intList33);
     boolean boolean45 = stringList0.removeAll(intList33);
     java.util.stream.Stream<java.lang.String> strStream46 = stringList0.parallelStream();
-    java.lang.Integer[] intArray54 = new java.lang.Integer[] { (-7), 100, 18, 24, 36, 11111, 15 };
+    java.lang.Integer[] intArray54 = new java.lang.Integer[]{(-7), 100, 18, 24, 36, 11111, 15};
     java.util.ArrayList<java.lang.Integer> intList55 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean56 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList55, intArray54);
@@ -5619,9 +6302,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1123() throws Throwable {
-    if (debug)
+  public void test1123() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1123");
+    }
     opssat.simulator.util.SimulatorTimer simulatorTimer2 = new opssat.simulator.util.SimulatorTimer(
         "SimulatorData", 1L);
     boolean boolean3 = simulatorTimer2.isElapsed();
@@ -5631,9 +6316,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1124() throws Throwable {
-    if (debug)
+  public void test1124() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1124");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -5644,10 +6331,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     opssat.simulator.util.SimulatorData simulatorData14 = new opssat.simulator.util.SimulatorData(
         (short) 0, date4);
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
@@ -5660,10 +6349,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData24 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date25 = simulatorData24.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 = opssat.simulator.util.SimulatorData
-        .computeDiff(date22, date25);
-    opssat.simulator.util.SimulatorHeader simulatorHeader27 = new opssat.simulator.util.SimulatorHeader(
-        false, date18, date25);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date22, date25);
+    opssat.simulator.util.SimulatorHeader simulatorHeader27 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date18, date25);
     java.util.Date date28 = simulatorHeader27.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData32 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -5681,12 +6372,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData45 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date46 = simulatorData45.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 = opssat.simulator.util.SimulatorData
-        .computeDiff(date43, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader48 = new opssat.simulator.util.SimulatorHeader(
-        false, date39, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader49 = new opssat.simulator.util.SimulatorHeader(
-        false, date34, date39);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date43, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader48 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date39, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader49 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date34, date39);
     simulatorHeader27.setEndDate(date34);
     simulatorData14.initFromHeader(simulatorHeader27);
     simulatorData14.toggleSimulatorRunning();
@@ -5709,11 +6403,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1125() throws Throwable {
-    if (debug)
+  public void test1125() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1125");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        13L, 0, "hi!");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            13L, 0, "hi!");
     long long4 = simulatorSchedulerPiece3.getTime();
     int int5 = simulatorSchedulerPiece3.getInternalID();
     simulatorSchedulerPiece3.setExecuted(false);
@@ -5731,46 +6428,56 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1126() throws Throwable {
-    if (debug)
+  public void test1126() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1126");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState3.setLongitude(4);
     int int6 = simulatorSpacecraftState3.getSatsInView();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double11 = simulatorSpacecraftState10.getLatitude();
     double[] doubleArray12 = simulatorSpacecraftState10.getSunVector();
     simulatorSpacecraftState3.setMagnetometer(doubleArray12);
-    org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.StringList stringList14 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
     java.util.Iterator<java.lang.String> strItor15 = stringList14.iterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet16 = stringList14.getAreaVersion();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray23 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray23 = new float[]{28, 8};
     simulatorSpacecraftState20.setQ(floatArray23);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double29 = simulatorSpacecraftState28.getLatitude();
     java.lang.String str30 = simulatorSpacecraftState28.getMagField();
     float[] floatArray31 = simulatorSpacecraftState28.getR();
     simulatorSpacecraftState20.setQ(floatArray31);
     java.lang.String str33 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray31);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double38 = simulatorSpacecraftState37.getLatitude();
     double double39 = simulatorSpacecraftState37.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState43 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState43 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double44 = simulatorSpacecraftState43.getLatitude();
     java.lang.String str45 = simulatorSpacecraftState43.getMagField();
     float[] floatArray46 = simulatorSpacecraftState43.getR();
     simulatorSpacecraftState37.setQ(floatArray46);
     float[] floatArray48 = simulatorSpacecraftState37.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData49 = new opssat.simulator.celestia.CelestiaData(
-        floatArray31, floatArray48);
+    opssat.simulator.celestia.CelestiaData celestiaData49 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray31, floatArray48);
     float[] floatArray50 = celestiaData49.getQ();
     opssat.simulator.util.SimulatorData simulatorData54 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -5782,17 +6489,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData61 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date62 = simulatorData61.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap63 = opssat.simulator.util.SimulatorData
-        .computeDiff(date59, date62);
-    opssat.simulator.util.SimulatorHeader simulatorHeader64 = new opssat.simulator.util.SimulatorHeader(
-        false, date55, date62);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap63 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date59, date62);
+    opssat.simulator.util.SimulatorHeader simulatorHeader64 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date55, date62);
     opssat.simulator.util.SimulatorData simulatorData65 = new opssat.simulator.util.SimulatorData(
         (short) 0, date55);
     celestiaData49.setDate(date55);
     int int67 = celestiaData49.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState71 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray74 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState71 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray74 = new float[]{28, 8};
     simulatorSpacecraftState71.setQ(floatArray74);
     celestiaData49.setQ(floatArray74);
     int int77 = stringList14.lastIndexOf(celestiaData49);
@@ -5809,7 +6519,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double29 + "' != '" + 340.0d + "'", double29 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str30 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str30.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray31);
     org.junit.Assert.assertTrue("'" + str33 + "' != '" + "UnknownGUIData" + "'",
@@ -5819,7 +6529,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double44 + "' != '" + 340.0d + "'", double44 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str45 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str45.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray46);
     org.junit.Assert.assertNotNull(floatArray48);
@@ -5835,19 +6545,23 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1127() throws Throwable {
-    if (debug)
+  public void test1127() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1127");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     byte[] byteArray5 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int16_2ByteArray(15);
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray5);
     java.lang.String str7 = endlessSingleStreamOperatingBuffer1.getDataBufferAsString();
     java.lang.String str8 = endlessSingleStreamOperatingBuffer1.getDataBufferAsString();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor11 = new opssat.simulator.util.ArgumentDescriptor(
-        "281474993487885", "[-1.0, 100.0, 10.0, 10.0]");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor11 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            "281474993487885", "[-1.0, 100.0, 10.0, 10.0]");
     java.lang.String str12 = argumentDescriptor11.getName();
     endlessSingleStreamOperatingBuffer1.setDataBuffer(str12);
     int int14 = endlessSingleStreamOperatingBuffer1.getOperatingIndex();
@@ -5868,34 +6582,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1128() throws Throwable {
-    if (debug)
+  public void test1128() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1128");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     float[] floatArray33 = celestiaData32.getQ();
     opssat.simulator.util.SimulatorData simulatorData37 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -5907,10 +6628,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData44 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date45 = simulatorData44.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 = opssat.simulator.util.SimulatorData
-        .computeDiff(date42, date45);
-    opssat.simulator.util.SimulatorHeader simulatorHeader47 = new opssat.simulator.util.SimulatorHeader(
-        false, date38, date45);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date42, date45);
+    opssat.simulator.util.SimulatorHeader simulatorHeader47 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date38, date45);
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (short) 0, date38);
     celestiaData32.setDate(date38);
@@ -5922,7 +6645,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -5932,7 +6655,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -5944,12 +6667,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1129() throws Throwable {
-    if (debug)
+  public void test1129() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1129");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     opssat.simulator.util.SimulatorData simulatorData4 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date5 = simulatorData4.getCurrentTime();
@@ -5960,10 +6686,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData11 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date12 = simulatorData11.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 = opssat.simulator.util.SimulatorData
-        .computeDiff(date9, date12);
-    opssat.simulator.util.SimulatorHeader simulatorHeader14 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date12);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date9, date12);
+    opssat.simulator.util.SimulatorHeader simulatorHeader14 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
     simulatorHeader14.setUseOrekit(true);
@@ -5984,22 +6712,28 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1131() throws Throwable {
-    if (debug)
+  public void test1131() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1131");
-    org.ccsds.moims.mo.mal.structures.UShortList uShortList0 = new org.ccsds.moims.mo.mal.structures.UShortList();
+    }
+    org.ccsds.moims.mo.mal.structures.UShortList uShortList0 =
+        new org.ccsds.moims.mo.mal.structures.UShortList();
     java.lang.Integer int1 = uShortList0.getTypeShortForm();
     java.lang.Integer int2 = uShortList0.getTypeShortForm();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList4 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList4 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int5 = octetList4.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort6 = octetList4.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet7 = octetList4.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException9 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException9 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray10 = wavFileException9.getSuppressed();
     boolean boolean11 = octetList4.equals(wavFileException9);
-    org.ccsds.moims.mo.mal.structures.FloatList floatList13 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList13 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int14 = floatList13.getTypeShortForm();
     java.lang.Integer int15 = floatList13.getTypeShortForm();
     floatList13.clear();
@@ -6025,31 +6759,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1132() throws Throwable {
-    if (debug)
+  public void test1132() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1132");
-    opssat.simulator.util.wav.WavFileException wavFileException1 = new opssat.simulator.util.wav.WavFileException(
-        "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}");
-    opssat.simulator.util.wav.WavFileException wavFileException2 = new opssat.simulator.util.wav.WavFileException();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList3 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    opssat.simulator.util.wav.WavFileException wavFileException1 =
+        new opssat.simulator.util.wav.WavFileException(
+            "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}");
+    opssat.simulator.util.wav.WavFileException wavFileException2 =
+        new opssat.simulator.util.wav.WavFileException();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList3 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int4 = octetList3.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort5 = octetList3.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = octetList3.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException8 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException8 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray9 = wavFileException8.getSuppressed();
     boolean boolean10 = octetList3.equals(wavFileException8);
     wavFileException2.addSuppressed(wavFileException8);
     wavFileException1.addSuppressed(wavFileException8);
-    opssat.simulator.util.wav.WavFileException wavFileException13 = new opssat.simulator.util.wav.WavFileException(
-        wavFileException8);
-    opssat.simulator.util.wav.WavFileException wavFileException15 = new opssat.simulator.util.wav.WavFileException(
-        "00000:00:00:00:008");
+    opssat.simulator.util.wav.WavFileException wavFileException13 =
+        new opssat.simulator.util.wav.WavFileException(
+            wavFileException8);
+    opssat.simulator.util.wav.WavFileException wavFileException15 =
+        new opssat.simulator.util.wav.WavFileException(
+            "00000:00:00:00:008");
     wavFileException8.addSuppressed(wavFileException15);
-    opssat.simulator.util.wav.WavFileException wavFileException18 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
-    opssat.simulator.util.wav.WavFileException wavFileException19 = new opssat.simulator.util.wav.WavFileException(
-        wavFileException18);
+    opssat.simulator.util.wav.WavFileException wavFileException18 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException19 =
+        new opssat.simulator.util.wav.WavFileException(
+            wavFileException18);
     wavFileException8.addSuppressed(wavFileException18);
     java.lang.String str21 = wavFileException8.toString();
     java.lang.String str22 = wavFileException8.toString();
@@ -6067,11 +6811,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1133() throws Throwable {
-    if (debug)
+  public void test1133() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1133");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     double[] doubleArray5 = simulatorSpacecraftState3.getSunVector();
     org.ccsds.moims.mo.mal.structures.URI uRI7 = new org.ccsds.moims.mo.mal.structures.URI(
@@ -6080,36 +6827,42 @@ public class RegressionTest2 {
     java.lang.String str9 = uRI7.toString();
     java.lang.String str10 = uRI7.getValue();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet11 = uRI7.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList13 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    org.ccsds.moims.mo.mal.structures.ShortList shortList13 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.lang.Long long14 = shortList13.getShortForm();
     java.util.stream.Stream<java.lang.Short> shortStream15 = shortList13.stream();
     boolean boolean16 = uOctet11.equals(shortList13);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray23 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray23 = new float[]{28, 8};
     simulatorSpacecraftState20.setQ(floatArray23);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double29 = simulatorSpacecraftState28.getLatitude();
     java.lang.String str30 = simulatorSpacecraftState28.getMagField();
     float[] floatArray31 = simulatorSpacecraftState28.getR();
     simulatorSpacecraftState20.setQ(floatArray31);
     java.lang.String str33 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray31);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double38 = simulatorSpacecraftState37.getLatitude();
     double double39 = simulatorSpacecraftState37.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState43 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState43 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double44 = simulatorSpacecraftState43.getLatitude();
     java.lang.String str45 = simulatorSpacecraftState43.getMagField();
     float[] floatArray46 = simulatorSpacecraftState43.getR();
     simulatorSpacecraftState37.setQ(floatArray46);
     float[] floatArray48 = simulatorSpacecraftState37.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData49 = new opssat.simulator.celestia.CelestiaData(
-        floatArray31, floatArray48);
+    opssat.simulator.celestia.CelestiaData celestiaData49 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray31, floatArray48);
     float[] floatArray50 = celestiaData49.getQ();
     opssat.simulator.util.SimulatorData simulatorData54 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -6121,17 +6874,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData61 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date62 = simulatorData61.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap63 = opssat.simulator.util.SimulatorData
-        .computeDiff(date59, date62);
-    opssat.simulator.util.SimulatorHeader simulatorHeader64 = new opssat.simulator.util.SimulatorHeader(
-        false, date55, date62);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap63 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date59, date62);
+    opssat.simulator.util.SimulatorHeader simulatorHeader64 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date55, date62);
     opssat.simulator.util.SimulatorData simulatorData65 = new opssat.simulator.util.SimulatorData(
         (short) 0, date55);
     celestiaData49.setDate(date55);
     int int67 = celestiaData49.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState71 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray74 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState71 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray74 = new float[]{28, 8};
     simulatorSpacecraftState71.setQ(floatArray74);
     celestiaData49.setQ(floatArray74);
     boolean boolean77 = shortList13.contains(celestiaData49);
@@ -6154,7 +6910,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double29 + "' != '" + 340.0d + "'", double29 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str30 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str30.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray31);
     org.junit.Assert.assertTrue("'" + str33 + "' != '" + "UnknownGUIData" + "'",
@@ -6164,7 +6920,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double44 + "' != '" + 340.0d + "'", double44 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str45 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str45.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray46);
     org.junit.Assert.assertNotNull(floatArray48);
@@ -6175,17 +6931,23 @@ public class RegressionTest2 {
     org.junit.Assert.assertNotNull(timeUnitMap63);
     org.junit.Assert.assertNotNull(floatArray74);
     org.junit.Assert.assertTrue("'" + boolean77 + "' != '" + false + "'", boolean77 == false);
-    org.junit.Assert.assertTrue("'" + int78 + "' != '" + 2019 + "'", int78 == 2019);
+
+    int thisYear = LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()).getYear();
+
+    org.junit.Assert.assertTrue("'" + int78 + "' != '" + thisYear + "'", int78 == thisYear);
     org.junit.Assert.assertNotNull(floatArray79);
   }
 
   @Test
-  public void test1134() throws Throwable {
-    if (debug)
+  public void test1134() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1134");
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor2 = new opssat.simulator.util.ArgumentDescriptor(
-        "",
-        "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:43 UTC\nendDate=2019:05:23 15:09:43 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO");
+    }
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor2 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            "",
+            "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:43 UTC\nendDate=2019:05:23 15:09:43 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO");
     java.lang.String str3 = argumentDescriptor2.getName();
     java.lang.Object obj4 = argumentDescriptor2.getType();
     org.junit.Assert.assertTrue("'" + str3 + "' != '" + "UnknownDeviceDataTypeString{}" + "'",
@@ -6194,12 +6956,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1135() throws Throwable {
-    if (debug)
+  public void test1135() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1135");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.float2ByteArray(64);
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray3);
     int int5 = endlessSingleStreamOperatingBuffer1.getOperatingIndex();
@@ -6212,10 +6977,12 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1136() throws Throwable {
-    if (debug)
+  public void test1136() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1136");
-    java.lang.Short[] shortArray2 = new java.lang.Short[] { (short) -1, (short) 10 };
+    }
+    java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) -1, (short) 10};
     java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
     boolean boolean4 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Short>) shortList3, shortArray2);
@@ -6223,44 +6990,60 @@ public class RegressionTest2 {
     java.lang.Object obj6 = null;
     boolean boolean7 = shortList3.contains(obj6);
     shortList3.trimToSize();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList10 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    org.ccsds.moims.mo.mal.structures.ShortList shortList10 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     int int11 = shortList10.size();
     org.ccsds.moims.mo.mal.structures.Element element12 = shortList10.createElement();
-    org.ccsds.moims.mo.mal.structures.UOctet uOctet13 = org.ccsds.moims.mo.mal.structures.FloatList.AREA_VERSION;
+    org.ccsds.moims.mo.mal.structures.UOctet uOctet13 =
+        org.ccsds.moims.mo.mal.structures.FloatList.AREA_VERSION;
     java.lang.Integer int14 = uOctet13.getTypeShortForm();
     boolean boolean15 = shortList10.contains(int14);
-    org.ccsds.moims.mo.mal.structures.UShort uShort16 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.OctetList octetList17 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.UShort uShort16 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.OctetList octetList17 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int18 = octetList17.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort19 = octetList17.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.UShort uShort20 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort21 = org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort22 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort23 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort24 = org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort25 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort26 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort26 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList28 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort20 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort21 =
+        org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort22 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort23 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort24 =
+        org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort25 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort26 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort26};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList28 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean29 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28,
         uShortArray27);
     uShortList28.ensureCapacity(0);
     int int33 = uShortList28.indexOf((byte) 1);
     uShortList28.clear();
-    java.lang.Long[] longArray37 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray37 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList38 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean39 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList38, longArray37);
     java.lang.Object obj40 = longList38.clone();
     boolean boolean41 = uShortList28.contains(longList38);
-    org.ccsds.moims.mo.mal.structures.UShort uShort42 = org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort42 =
+        org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
     boolean boolean43 = uShortList28.add(uShort42);
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray44 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort16, uShort19, uShort20, uShort21, uShort22, uShort23, uShort24, uShort25, uShort42 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList45 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray44 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort16, uShort19, uShort20, uShort21, uShort22, uShort23, uShort24, uShort25, uShort42};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList45 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean46 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList45,
         uShortArray44);
@@ -6312,15 +7095,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1137() throws Throwable {
-    if (debug)
+  public void test1137() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1137");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     double double5 = simulatorSpacecraftState3.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double10 = simulatorSpacecraftState9.getLatitude();
     java.lang.String str11 = simulatorSpacecraftState9.getMagField();
     float[] floatArray12 = simulatorSpacecraftState9.getR();
@@ -6333,7 +7120,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double10 + "' != '" + 340.0d + "'", double10 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str11 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str11.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray12);
     org.junit.Assert.assertNotNull(floatArray14);
@@ -6341,20 +7128,25 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1138() throws Throwable {
-    if (debug)
+  public void test1138() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1138");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList1 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int2 = octetList1.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort3 = octetList1.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = octetList1.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException6 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException6 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray7 = wavFileException6.getSuppressed();
     boolean boolean8 = octetList1.equals(wavFileException6);
-    opssat.simulator.util.wav.WavFileException wavFileException9 = new opssat.simulator.util.wav.WavFileException(
-        "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:10:10 UTC\nendDate=2019:05:23 15:10:10 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO",
-        wavFileException6);
+    opssat.simulator.util.wav.WavFileException wavFileException9 =
+        new opssat.simulator.util.wav.WavFileException(
+            "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:10:10 UTC\nendDate=2019:05:23 15:10:10 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO",
+            wavFileException6);
     java.lang.Throwable[] throwableArray10 = wavFileException6.getSuppressed();
     org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-7) + "'", int2.equals((-7)));
     org.junit.Assert.assertNotNull(uShort3);
@@ -6365,21 +7157,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1139() throws Throwable {
-    if (debug)
+  public void test1139() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1139");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     java.lang.Object obj2 = endlessWavStreamOperatingBuffer1.getDataBuffer();
     endlessWavStreamOperatingBuffer1.setOperatingIndex(39);
     org.junit.Assert.assertNotNull(obj2);
   }
 
   @Test
-  public void test1140() throws Throwable {
-    if (debug)
+  public void test1140() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1140");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -6396,12 +7193,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     simulatorHeader20.setCelestiaPort((short) 0);
@@ -6417,10 +7217,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData38 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date39 = simulatorData38.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap40 = opssat.simulator.util.SimulatorData
-        .computeDiff(date36, date39);
-    opssat.simulator.util.SimulatorHeader simulatorHeader41 = new opssat.simulator.util.SimulatorHeader(
-        false, date32, date39);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap40 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date36, date39);
+    opssat.simulator.util.SimulatorHeader simulatorHeader41 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date32, date39);
     java.util.Date date42 = simulatorHeader41.getEndDate();
     simulatorHeader41.setOrekitTLE1("");
     java.util.Date date46 = simulatorHeader41.parseStringIntoDate("2019/05/23-15:09:35");
@@ -6446,27 +7248,37 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1141() throws Throwable {
-    if (debug)
+  public void test1141() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1141");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.util.stream.BaseStream[] baseStreamArray6 = new java.util.stream.BaseStream[0];
     @SuppressWarnings("unchecked")
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 = baseStreamArray6;
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 = stringList0
-        .toArray(
-            (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 =
+        baseStreamArray6;
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 =
+        stringList0
+            .toArray(
+                (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
     java.util.stream.Stream<java.lang.String> strStream9 = stringList0.stream();
     java.lang.Object obj10 = stringList0.clone();
-    opssat.simulator.util.LoggerFormatter loggerFormatter11 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter12 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter13 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 = new opssat.simulator.util.LoggerFormatter[] {
-        loggerFormatter11, loggerFormatter12, loggerFormatter13 };
+    opssat.simulator.util.LoggerFormatter loggerFormatter11 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter12 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter13 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 =
+        new opssat.simulator.util.LoggerFormatter[]{
+          loggerFormatter11, loggerFormatter12, loggerFormatter13};
     opssat.simulator.util.LoggerFormatter[] loggerFormatterArray15 = stringList0
         .toArray(loggerFormatterArray14);
     java.util.stream.Stream<java.lang.String> strStream16 = stringList0.parallelStream();
@@ -6487,13 +7299,17 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1142() throws Throwable {
-    if (debug)
+  public void test1142() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1142");
-    opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate(
-        "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "opssat");
-    opssat.simulator.util.ArgumentTemplate argumentTemplate5 = new opssat.simulator.util.ArgumentTemplate(
-        "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "opssat");
+    }
+    opssat.simulator.util.ArgumentTemplate argumentTemplate2 =
+        new opssat.simulator.util.ArgumentTemplate(
+            "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "opssat");
+    opssat.simulator.util.ArgumentTemplate argumentTemplate5 =
+        new opssat.simulator.util.ArgumentTemplate(
+            "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]", "opssat");
     int int6 = argumentTemplate2.compareTo(argumentTemplate5);
     java.lang.String str7 = argumentTemplate2.toString();
     argumentTemplate2.setArgContent("");
@@ -6507,72 +7323,92 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1143() throws Throwable {
-    if (debug)
+  public void test1143() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1143");
-    java.lang.Float[] floatArray3 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    }
+    java.lang.Float[] floatArray3 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean5 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
     boolean boolean7 = floatList4.add((-1.0f));
     floatList4.clear();
     java.util.stream.Stream<java.lang.Float> floatStream9 = floatList4.stream();
-    org.ccsds.moims.mo.mal.structures.StringList stringList10 = new org.ccsds.moims.mo.mal.structures.StringList();
-    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind11 = opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels;
+    org.ccsds.moims.mo.mal.structures.StringList stringList10 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind11 =
+        opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels;
     boolean boolean12 = stringList10.equals(devDatPBind11);
     org.ccsds.moims.mo.mal.structures.Element element13 = stringList10.createElement();
     java.util.Iterator<java.lang.String> strItor14 = stringList10.iterator();
     boolean boolean15 = floatList4.contains(stringList10);
-    org.ccsds.moims.mo.mal.structures.FloatList floatList17 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList17 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int18 = floatList17.getTypeShortForm();
     floatList17.trimToSize();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet20 = floatList17.getAreaVersion();
     java.lang.Integer int21 = floatList17.getTypeShortForm();
-    org.ccsds.moims.mo.mal.structures.UShort uShort22 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.OctetList octetList23 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.UShort uShort22 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.OctetList octetList23 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int24 = octetList23.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort25 = octetList23.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.UShort uShort26 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort27 = org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort28 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort29 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort30 = org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort31 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort32 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort32 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList34 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort26 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort27 =
+        org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort28 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort29 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort30 =
+        org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort31 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort32 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort32};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList34 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean35 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34,
         uShortArray33);
     uShortList34.ensureCapacity(0);
     int int39 = uShortList34.indexOf((byte) 1);
     uShortList34.clear();
-    java.lang.Long[] longArray43 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray43 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList44 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean45 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList44, longArray43);
     java.lang.Object obj46 = longList44.clone();
     boolean boolean47 = uShortList34.contains(longList44);
-    org.ccsds.moims.mo.mal.structures.UShort uShort48 = org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort48 =
+        org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
     boolean boolean49 = uShortList34.add(uShort48);
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray50 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort22, uShort25, uShort26, uShort27, uShort28, uShort29, uShort30, uShort31, uShort48 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList51 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray50 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort22, uShort25, uShort26, uShort27, uShort28, uShort29, uShort30, uShort31, uShort48};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList51 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean52 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList51,
         uShortArray50);
     uShortList51.ensureCapacity(100);
     int int55 = uShortList51.size();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList56 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList56 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     octetList56.ensureCapacity(13);
-    java.lang.Byte[] byteArray63 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray63 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList64 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean65 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList64, byteArray63);
-    java.lang.Integer[] intArray68 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray68 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList69 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean70 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList69, intArray68);
@@ -6594,7 +7430,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertNotNull(floatStream9);
     org.junit.Assert.assertTrue(
         "'" + devDatPBind11 + "' != '"
-            + opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels + "'",
+        + opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels + "'",
         devDatPBind11
             .equals(opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels));
     org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
@@ -6639,21 +7475,27 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1144() throws Throwable {
-    if (debug)
+  public void test1144() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1144");
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap1 = opssat.simulator.util.SimulatorData
-        .computeTimeUnit(281475010265086L);
+    }
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap1 =
+        opssat.simulator.util.SimulatorData
+            .computeTimeUnit(281475010265086L);
     org.junit.Assert.assertNotNull(timeUnitMap1);
   }
 
   @Test
-  public void test1145() throws Throwable {
-    if (debug)
+  public void test1145() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1145");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     java.lang.Object obj4 = null;
     endlessSingleStreamOperatingBuffer1.setDataBuffer(obj4);
@@ -6663,44 +7505,53 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1146() throws Throwable {
-    if (debug)
+  public void test1146() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1146");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     simulatorSpacecraftState3.setLongitude(13);
     simulatorSpacecraftState3.setAltitude(66);
     simulatorSpacecraftState3.setAltitude(31);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray17 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray17 = new float[]{28, 8};
     simulatorSpacecraftState14.setQ(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double23 = simulatorSpacecraftState22.getLatitude();
     java.lang.String str24 = simulatorSpacecraftState22.getMagField();
     float[] floatArray25 = simulatorSpacecraftState22.getR();
     simulatorSpacecraftState14.setQ(floatArray25);
     java.lang.String str27 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray25);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState31 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState31 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double32 = simulatorSpacecraftState31.getLatitude();
     double double33 = simulatorSpacecraftState31.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double38 = simulatorSpacecraftState37.getLatitude();
     java.lang.String str39 = simulatorSpacecraftState37.getMagField();
     float[] floatArray40 = simulatorSpacecraftState37.getR();
     simulatorSpacecraftState31.setQ(floatArray40);
     float[] floatArray42 = simulatorSpacecraftState31.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData43 = new opssat.simulator.celestia.CelestiaData(
-        floatArray25, floatArray42);
+    opssat.simulator.celestia.CelestiaData celestiaData43 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray25, floatArray42);
     celestiaData43.setDate(":");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState49 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray52 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState49 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray52 = new float[]{28, 8};
     simulatorSpacecraftState49.setQ(floatArray52);
     float[] floatArray54 = simulatorSpacecraftState49.getR();
     celestiaData43.setQ(floatArray54);
@@ -6712,7 +7563,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double23 + "' != '" + 340.0d + "'", double23 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str24 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str24.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray25);
     org.junit.Assert.assertTrue("'" + str27 + "' != '" + "UnknownGUIData" + "'",
@@ -6722,7 +7573,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double38 + "' != '" + 340.0d + "'", double38 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str39 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str39.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray40);
     org.junit.Assert.assertNotNull(floatArray42);
@@ -6730,49 +7581,58 @@ public class RegressionTest2 {
     org.junit.Assert.assertNotNull(floatArray54);
     org.junit.Assert.assertTrue(
         "'" + str59 + "' != '"
-            + "SimulatorSpacecraftState{latitude=14.0, longitude=13.0, altitude=31.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=14.0, longitude=13.0, altitude=31.0}" + "'",
         str59.equals("SimulatorSpacecraftState{latitude=14.0, longitude=13.0, altitude=31.0}"));
   }
 
   @Test
-  public void test1147() throws Throwable {
-    if (debug)
+  public void test1147() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1147");
-    org.ccsds.moims.mo.mal.structures.UShort uShort0 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort0 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    }
+    org.ccsds.moims.mo.mal.structures.UShort uShort0 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort0};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean3 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2, uShortArray1);
     uShortList2.ensureCapacity(0);
     int int7 = uShortList2.indexOf((byte) 1);
     uShortList2.clear();
-    java.lang.Long[] longArray11 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray11 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean13 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList12, longArray11);
     java.lang.Object obj14 = longList12.clone();
     boolean boolean15 = uShortList2.contains(longList12);
     java.util.ListIterator<java.lang.Long> longItor16 = longList12.listIterator();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     java.lang.String str22 = simulatorSpacecraftState20.getMagField();
     java.lang.String str23 = simulatorSpacecraftState20.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState27 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState27 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double28 = simulatorSpacecraftState27.getLatitude();
     java.lang.String str29 = simulatorSpacecraftState27.getMagField();
     java.lang.String str30 = simulatorSpacecraftState27.toString();
     double[] doubleArray31 = simulatorSpacecraftState27.getSunVector();
     simulatorSpacecraftState20.setMagnetometer(doubleArray31);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double37 = simulatorSpacecraftState36.getLatitude();
     java.lang.String str38 = simulatorSpacecraftState36.getMagField();
     java.lang.String str39 = simulatorSpacecraftState36.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState43 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState43 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double44 = simulatorSpacecraftState43.getLatitude();
     java.lang.String str45 = simulatorSpacecraftState43.getMagField();
     java.lang.String str46 = simulatorSpacecraftState43.toString();
@@ -6782,8 +7642,9 @@ public class RegressionTest2 {
     float[] floatArray50 = null;
     simulatorSpacecraftState20.setRv(floatArray50);
     int int52 = longList12.lastIndexOf(simulatorSpacecraftState20);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState56 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState56 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState56.setLongitude(4);
     int int59 = simulatorSpacecraftState56.getSatsInView();
     float[] floatArray60 = simulatorSpacecraftState56.getRv();
@@ -6802,39 +7663,39 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double21 + "' != '" + 340.0d + "'", double21 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str22 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str22.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str23 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str23.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double28 + "' != '" + 340.0d + "'", double28 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str29 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str29.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str30 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str30.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray31);
     org.junit.Assert.assertTrue("'" + double37 + "' != '" + 340.0d + "'", double37 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str38 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str38.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str39 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str39.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double44 + "' != '" + 340.0d + "'", double44 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str45 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str45.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str46 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str46.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray47);
     org.junit.Assert.assertTrue("'" + int52 + "' != '" + (-1) + "'", int52 == (-1));
@@ -6846,45 +7707,51 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1148() throws Throwable {
-    if (debug)
+  public void test1148() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1148");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     byte[] byteArray5 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int16_2ByteArray(15);
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray5);
     int int7 = endlessSingleStreamOperatingBuffer1.getOperatingIndex();
     byte[] byteArray9 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int2ByteArray(' ');
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray9);
-    org.ccsds.moims.mo.mal.structures.UShort uShort11 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort11 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort11 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort11};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean14 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
         uShortArray12);
     uShortList13.ensureCapacity(0);
     int int18 = uShortList13.indexOf((byte) 1);
     uShortList13.clear();
-    java.lang.Long[] longArray22 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray22 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList23 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean24 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList23, longArray22);
     java.lang.Object obj25 = longList23.clone();
     int int26 = uShortList13.lastIndexOf(obj25);
-    java.lang.Byte[] byteArray31 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray31 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList32 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean33 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList32, byteArray31);
-    java.lang.Integer[] intArray36 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray36 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList37 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean38 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList37, intArray36);
     boolean boolean39 = byteList32.retainAll(intList37);
-    java.lang.Integer[] intArray42 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray42 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList43 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean44 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList43, intArray42);
@@ -6893,8 +7760,9 @@ public class RegressionTest2 {
     java.lang.Object obj48 = intList37.clone();
     boolean boolean49 = uShortList13.removeAll(intList37);
     java.lang.Object[] objArray50 = uShortList13.toArray();
-    java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator51 = uShortList13
-        .spliterator();
+    java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator51 =
+        uShortList13
+            .spliterator();
     java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream52 = uShortList13
         .parallelStream();
     endlessSingleStreamOperatingBuffer1.setDataBuffer(uShortStream52);
@@ -6931,35 +7799,45 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1149() throws Throwable {
-    if (debug)
+  public void test1149() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1149");
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 = new opssat.simulator.orekit.GPSSatInViewScience(
-        281475010265078L, 281474993487886L, 7, 281474993487889L, 10.0f, 0L, 56, (-36));
+    }
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            281475010265078L, 281474993487886L, 7, 281474993487889L, 10.0f, 0L, 56, (-36));
   }
 
   @Test
-  public void test1150() throws Throwable {
-    if (debug)
+  public void test1150() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1150");
+    }
     java.lang.String str1 = opssat.simulator.threading.SimulatorNode.calcNMEAChecksum("*63");
     org.junit.Assert.assertTrue("'" + str1 + "' != '" + "*05" + "'", str1.equals("*05"));
   }
 
   @Test
-  public void test1151() throws Throwable {
-    if (debug)
+  public void test1151() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1151");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList0.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException5 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException5 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray6 = wavFileException5.getSuppressed();
     boolean boolean7 = octetList0.equals(wavFileException5);
-    org.ccsds.moims.mo.mal.structures.FloatList floatList9 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList9 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int10 = floatList9.getTypeShortForm();
     java.lang.Integer int11 = floatList9.getTypeShortForm();
     floatList9.clear();
@@ -6967,8 +7845,9 @@ public class RegressionTest2 {
     boolean boolean15 = floatList9.add((-1.0f));
     java.util.Iterator<java.lang.Float> floatItor16 = floatList9.iterator();
     java.util.Spliterator<java.lang.Float> floatSpliterator17 = floatList9.spliterator();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double22 = simulatorSpacecraftState21.getLatitude();
     double double23 = simulatorSpacecraftState21.getLongitude();
     java.lang.String str24 = simulatorSpacecraftState21.getRotationAsString();
@@ -6995,9 +7874,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1152() throws Throwable {
-    if (debug)
+  public void test1152() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1152");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -7008,10 +7889,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     java.util.Date date14 = simulatorHeader13.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData15 = new opssat.simulator.util.SimulatorData(
         13, date14);
@@ -7029,10 +7912,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData30 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date31 = simulatorData30.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 = opssat.simulator.util.SimulatorData
-        .computeDiff(date28, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader33 = new opssat.simulator.util.SimulatorHeader(
-        false, date24, date31);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date28, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader33 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date24, date31);
     java.util.Date date34 = simulatorHeader33.getEndDate();
     int int35 = simulatorHeader33.getMinuteStartDate();
     simulatorHeader33.setUseOrekit(true);
@@ -7055,11 +7940,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1153() throws Throwable {
-    if (debug)
+  public void test1153() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1153");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        13L, 0, "hi!");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            13L, 0, "hi!");
     long long4 = simulatorSchedulerPiece3.getTime();
     long long5 = simulatorSchedulerPiece3.getTime();
     simulatorSchedulerPiece3.setExecuted(true);
@@ -7068,26 +7956,32 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1154() throws Throwable {
-    if (debug)
+  public void test1154() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1154");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     java.lang.String str6 = simulatorSpacecraftState3.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double11 = simulatorSpacecraftState10.getLatitude();
     double double12 = simulatorSpacecraftState10.getLongitude();
     java.lang.String str13 = simulatorSpacecraftState10.getModeOperation();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState17.setLongitude(4);
-    double[] doubleArray21 = new double[] { (-1.0f) };
+    double[] doubleArray21 = new double[]{(-1.0f)};
     simulatorSpacecraftState17.setMagField(doubleArray21);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     java.lang.String str29 = simulatorSpacecraftState26.toString();
@@ -7096,34 +7990,37 @@ public class RegressionTest2 {
     simulatorSpacecraftState10.setMagField(doubleArray30);
     simulatorSpacecraftState3.setMagField(doubleArray30);
     simulatorSpacecraftState3.setSatsInView(44);
-    org.ccsds.moims.mo.mal.structures.UInteger uInteger37 = new org.ccsds.moims.mo.mal.structures.UInteger(
-        13);
+    org.ccsds.moims.mo.mal.structures.UInteger uInteger37 =
+        new org.ccsds.moims.mo.mal.structures.UInteger(
+            13);
     org.ccsds.moims.mo.mal.structures.Element element38 = uInteger37.createElement();
     long long39 = uInteger37.getValue();
     long long40 = uInteger37.getValue();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet41 = uInteger37.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.UShort uShort42 = uInteger37.getAreaNumber();
     java.lang.String str43 = uInteger37.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState47 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState47 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double48 = simulatorSpacecraftState47.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState52 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray55 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState52 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray55 = new float[]{28, 8};
     simulatorSpacecraftState52.setQ(floatArray55);
     simulatorSpacecraftState47.setRv(floatArray55);
-    double[][] doubleArray58 = new double[][] {};
+    double[][] doubleArray58 = new double[][]{};
     simulatorSpacecraftState47.setRotation(doubleArray58);
     boolean boolean60 = uInteger37.equals(doubleArray58);
     simulatorSpacecraftState3.setRotation(doubleArray58);
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str6 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str6.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double11 + "' != '" + 340.0d + "'", double11 == 340.0d);
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + (-1.0d) + "'", double12 == (-1.0d));
@@ -7132,11 +8029,11 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str29 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str29.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray30);
     org.junit.Assert.assertNotNull(element38);
@@ -7152,12 +8049,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1155() throws Throwable {
-    if (debug)
+  public void test1155() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1155");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     java.lang.Object obj4 = null;
     endlessSingleStreamOperatingBuffer1.setDataBuffer(obj4);
@@ -7167,42 +8067,51 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1156() throws Throwable {
-    if (debug)
+  public void test1156() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1156");
-    org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
-        11);
+    }
+    org.ccsds.moims.mo.mal.structures.URIList uRIList1 =
+        new org.ccsds.moims.mo.mal.structures.URIList(
+            11);
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getServiceNumber();
     java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream3 = uRIList1.stream();
-    org.ccsds.moims.mo.mal.structures.Duration duration5 = new org.ccsds.moims.mo.mal.structures.Duration(
-        0.0d);
+    org.ccsds.moims.mo.mal.structures.Duration duration5 =
+        new org.ccsds.moims.mo.mal.structures.Duration(
+            0.0d);
     org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = duration5.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.UShort uShort7 = duration5.getAreaNumber();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray14 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray14 = new float[]{28, 8};
     simulatorSpacecraftState11.setQ(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double20 = simulatorSpacecraftState19.getLatitude();
     java.lang.String str21 = simulatorSpacecraftState19.getMagField();
     float[] floatArray22 = simulatorSpacecraftState19.getR();
     simulatorSpacecraftState11.setQ(floatArray22);
     java.lang.String str24 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray22);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double29 = simulatorSpacecraftState28.getLatitude();
     double double30 = simulatorSpacecraftState28.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState34 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState34 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double35 = simulatorSpacecraftState34.getLatitude();
     java.lang.String str36 = simulatorSpacecraftState34.getMagField();
     float[] floatArray37 = simulatorSpacecraftState34.getR();
     simulatorSpacecraftState28.setQ(floatArray37);
     float[] floatArray39 = simulatorSpacecraftState28.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData40 = new opssat.simulator.celestia.CelestiaData(
-        floatArray22, floatArray39);
+    opssat.simulator.celestia.CelestiaData celestiaData40 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray22, floatArray39);
     float[] floatArray41 = celestiaData40.getQ();
     opssat.simulator.util.SimulatorData simulatorData45 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -7214,10 +8123,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData52 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date53 = simulatorData52.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap54 = opssat.simulator.util.SimulatorData
-        .computeDiff(date50, date53);
-    opssat.simulator.util.SimulatorHeader simulatorHeader55 = new opssat.simulator.util.SimulatorHeader(
-        false, date46, date53);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap54 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date50, date53);
+    opssat.simulator.util.SimulatorHeader simulatorHeader55 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date46, date53);
     opssat.simulator.util.SimulatorData simulatorData56 = new opssat.simulator.util.SimulatorData(
         (short) 0, date46);
     celestiaData40.setDate(date46);
@@ -7236,7 +8147,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double20 + "' != '" + 340.0d + "'", double20 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str21 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str21.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray22);
     org.junit.Assert.assertTrue("'" + str24 + "' != '" + "UnknownGUIData" + "'",
@@ -7246,7 +8157,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double35 + "' != '" + 340.0d + "'", double35 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str36 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str36.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray37);
     org.junit.Assert.assertNotNull(floatArray39);
@@ -7264,11 +8175,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1157() throws Throwable {
-    if (debug)
+  public void test1157() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1157");
-    opssat.simulator.util.wav.WavFileException wavFileException1 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    }
+    opssat.simulator.util.wav.WavFileException wavFileException1 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray2 = wavFileException1.getSuppressed();
     java.lang.String str3 = wavFileException1.toString();
     java.lang.String str4 = wavFileException1.toString();
@@ -7284,10 +8198,13 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1161() throws Throwable {
-    if (debug)
+  public void test1161() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1161");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList0.getAreaVersion();
@@ -7295,34 +8212,40 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UShort uShort5 = octetList0.getAreaNumber();
     java.util.stream.Stream<java.lang.Byte> byteStream6 = octetList0.parallelStream();
     octetList0.ensureCapacity(39);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray15 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray15 = new float[]{28, 8};
     simulatorSpacecraftState12.setQ(floatArray15);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     java.lang.String str22 = simulatorSpacecraftState20.getMagField();
     float[] floatArray23 = simulatorSpacecraftState20.getR();
     simulatorSpacecraftState12.setQ(floatArray23);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState28.setLongitude(4);
-    double[] doubleArray32 = new double[] { (-1.0f) };
+    double[] doubleArray32 = new double[]{(-1.0f)};
     simulatorSpacecraftState28.setMagField(doubleArray32);
     simulatorSpacecraftState28.setLatitude(0.0d);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray42 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray42 = new float[]{28, 8};
     simulatorSpacecraftState39.setQ(floatArray42);
     float[] floatArray44 = simulatorSpacecraftState39.getR();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState48 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState48 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState48.setLongitude(4);
-    double[] doubleArray52 = new double[] { (-1.0f) };
+    double[] doubleArray52 = new double[]{(-1.0f)};
     simulatorSpacecraftState48.setMagField(doubleArray52);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double58 = simulatorSpacecraftState57.getLatitude();
     java.lang.String str59 = simulatorSpacecraftState57.getMagField();
     java.lang.String str60 = simulatorSpacecraftState57.toString();
@@ -7330,10 +8253,11 @@ public class RegressionTest2 {
     simulatorSpacecraftState48.setMagnetometer(doubleArray61);
     simulatorSpacecraftState39.setSunVector(doubleArray61);
     simulatorSpacecraftState28.setSunVector(doubleArray61);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState68 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState68 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState68.setLongitude(4);
-    double[] doubleArray72 = new double[] { (-1.0f) };
+    double[] doubleArray72 = new double[]{(-1.0f)};
     simulatorSpacecraftState68.setMagField(doubleArray72);
     simulatorSpacecraftState28.setMagField(doubleArray72);
     simulatorSpacecraftState12.setSunVector(doubleArray72);
@@ -7348,7 +8272,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double21 + "' != '" + 340.0d + "'", double21 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str22 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str22.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray23);
     org.junit.Assert.assertNotNull(doubleArray32);
@@ -7358,11 +8282,11 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double58 + "' != '" + 340.0d + "'", double58 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str59 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str59.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str60 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str60.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray61);
     org.junit.Assert.assertNotNull(doubleArray72);
@@ -7370,37 +8294,45 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1162() throws Throwable {
-    if (debug)
+  public void test1162() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1162");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
     java.util.Iterator<java.lang.String> strItor1 = stringList0.iterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = stringList0.getAreaVersion();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray9 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray9 = new float[]{28, 8};
     simulatorSpacecraftState6.setQ(floatArray9);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double15 = simulatorSpacecraftState14.getLatitude();
     java.lang.String str16 = simulatorSpacecraftState14.getMagField();
     float[] floatArray17 = simulatorSpacecraftState14.getR();
     simulatorSpacecraftState6.setQ(floatArray17);
     java.lang.String str19 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double24 = simulatorSpacecraftState23.getLatitude();
     double double25 = simulatorSpacecraftState23.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double30 = simulatorSpacecraftState29.getLatitude();
     java.lang.String str31 = simulatorSpacecraftState29.getMagField();
     float[] floatArray32 = simulatorSpacecraftState29.getR();
     simulatorSpacecraftState23.setQ(floatArray32);
     float[] floatArray34 = simulatorSpacecraftState23.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData35 = new opssat.simulator.celestia.CelestiaData(
-        floatArray17, floatArray34);
+    opssat.simulator.celestia.CelestiaData celestiaData35 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray17, floatArray34);
     float[] floatArray36 = celestiaData35.getQ();
     opssat.simulator.util.SimulatorData simulatorData40 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -7412,17 +8344,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData47 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date48 = simulatorData47.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 = opssat.simulator.util.SimulatorData
-        .computeDiff(date45, date48);
-    opssat.simulator.util.SimulatorHeader simulatorHeader50 = new opssat.simulator.util.SimulatorHeader(
-        false, date41, date48);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date45, date48);
+    opssat.simulator.util.SimulatorHeader simulatorHeader50 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date41, date48);
     opssat.simulator.util.SimulatorData simulatorData51 = new opssat.simulator.util.SimulatorData(
         (short) 0, date41);
     celestiaData35.setDate(date41);
     int int53 = celestiaData35.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray60 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray60 = new float[]{28, 8};
     simulatorSpacecraftState57.setQ(floatArray60);
     celestiaData35.setQ(floatArray60);
     int int63 = stringList0.lastIndexOf(celestiaData35);
@@ -7435,7 +8370,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double15 + "' != '" + 340.0d + "'", double15 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str16 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str16.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray17);
     org.junit.Assert.assertTrue("'" + str19 + "' != '" + "UnknownGUIData" + "'",
@@ -7445,7 +8380,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double30 + "' != '" + 340.0d + "'", double30 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str31 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str31.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray32);
     org.junit.Assert.assertNotNull(floatArray34);
@@ -7459,34 +8394,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1163() throws Throwable {
-    if (debug)
+  public void test1163() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1163");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     java.lang.String str33 = celestiaData32.getInfo();
     java.lang.String str34 = celestiaData32.getAnx();
     java.lang.String str35 = celestiaData32.getAos();
@@ -7494,7 +8436,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -7504,7 +8446,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -7514,27 +8456,37 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1164() throws Throwable {
-    if (debug)
+  public void test1164() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1164");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.util.stream.BaseStream[] baseStreamArray6 = new java.util.stream.BaseStream[0];
     @SuppressWarnings("unchecked")
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 = baseStreamArray6;
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 = stringList0
-        .toArray(
-            (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 =
+        baseStreamArray6;
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 =
+        stringList0
+            .toArray(
+                (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
     java.util.stream.Stream<java.lang.String> strStream9 = stringList0.stream();
     java.lang.Object obj10 = stringList0.clone();
-    opssat.simulator.util.LoggerFormatter loggerFormatter11 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter12 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter13 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 = new opssat.simulator.util.LoggerFormatter[] {
-        loggerFormatter11, loggerFormatter12, loggerFormatter13 };
+    opssat.simulator.util.LoggerFormatter loggerFormatter11 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter12 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter13 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 =
+        new opssat.simulator.util.LoggerFormatter[]{
+          loggerFormatter11, loggerFormatter12, loggerFormatter13};
     opssat.simulator.util.LoggerFormatter[] loggerFormatterArray15 = stringList0
         .toArray(loggerFormatterArray14);
     java.util.stream.Stream<java.lang.String> strStream16 = stringList0.parallelStream();
@@ -7557,9 +8509,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1165() throws Throwable {
-    if (debug)
+  public void test1165() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1165");
+    }
     opssat.simulator.util.SimulatorData simulatorData4 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date5 = simulatorData4.getCurrentTime();
@@ -7576,12 +8530,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date18 = simulatorData17.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap19 = opssat.simulator.util.SimulatorData
-        .computeDiff(date15, date18);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date11, date18);
-    opssat.simulator.util.SimulatorHeader simulatorHeader21 = new opssat.simulator.util.SimulatorHeader(
-        false, date6, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap19 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date15, date18);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date11, date18);
+    opssat.simulator.util.SimulatorHeader simulatorHeader21 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date6, date11);
     opssat.simulator.util.SimulatorData simulatorData22 = new opssat.simulator.util.SimulatorData(
         (-18), date11);
     org.junit.Assert.assertNotNull(date5);
@@ -7593,20 +8550,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1166() throws Throwable {
-    if (debug)
+  public void test1166() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1166");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        281474993487890L, (byte) 0, 11111);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            281474993487890L, (byte) 0, 11111);
   }
 
   @Test
-  public void test1167() throws Throwable {
-    if (debug)
+  public void test1167() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1167");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     java.lang.Object obj2 = endlessWavStreamOperatingBuffer1.getDataBuffer();
     boolean boolean4 = endlessWavStreamOperatingBuffer1.preparePath("03600.0000000");
     int int5 = endlessWavStreamOperatingBuffer1.getOperatingIndex();
@@ -7627,9 +8590,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1168() throws Throwable {
-    if (debug)
+  public void test1168() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1168");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -7640,10 +8605,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
     simulatorHeader12.setUseOrekit(true);
@@ -7659,31 +8626,34 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1169() throws Throwable {
-    if (debug)
+  public void test1169() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1169");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     java.lang.Integer int2 = octetList0.getTypeShortForm();
     boolean boolean3 = octetList0.isEmpty();
-    java.lang.Float[] floatArray7 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray7 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList8 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean9 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList8, floatArray7);
     boolean boolean11 = floatList8.add((-1.0f));
     floatList8.clear();
     java.util.stream.Stream<java.lang.Float> floatStream13 = floatList8.stream();
-    java.lang.Byte[] byteArray18 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray18 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList19 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean20 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList19, byteArray18);
-    java.lang.Integer[] intArray23 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray23 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList24 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean25 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList24, intArray23);
     boolean boolean26 = byteList19.retainAll(intList24);
-    java.lang.Integer[] intArray29 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray29 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList30 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean31 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList30, intArray29);
@@ -7722,11 +8692,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1170() throws Throwable {
-    if (debug)
+  public void test1170() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1170");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        13L, 0, "hi!");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            13L, 0, "hi!");
     long long4 = simulatorSchedulerPiece3.getTime();
     int int5 = simulatorSchedulerPiece3.getInternalID();
     simulatorSchedulerPiece3.setExecuted(false);
@@ -7747,12 +8720,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1171() throws Throwable {
-    if (debug)
+  public void test1171() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1171");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     opssat.simulator.util.SimulatorData simulatorData4 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date5 = simulatorData4.getCurrentTime();
@@ -7763,10 +8739,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData11 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date12 = simulatorData11.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 = opssat.simulator.util.SimulatorData
-        .computeDiff(date9, date12);
-    opssat.simulator.util.SimulatorHeader simulatorHeader14 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date12);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date9, date12);
+    opssat.simulator.util.SimulatorHeader simulatorHeader14 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
     simulatorHeader14.setUseOrekit(true);
@@ -7774,17 +8752,17 @@ public class RegressionTest2 {
     java.util.Date date21 = simulatorHeader14.parseStringIntoDate("yyyy:MM:dd HH:mm:ss z");
     endlessWavStreamOperatingBuffer1.setDataBuffer("yyyy:MM:dd HH:mm:ss z");
     boolean boolean24 = endlessWavStreamOperatingBuffer1.preparePath("");
-    java.lang.Byte[] byteArray29 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray29 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList30 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean31 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList30, byteArray29);
-    java.lang.Integer[] intArray34 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray34 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList35 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean36 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList35, intArray34);
     boolean boolean37 = byteList30.retainAll(intList35);
-    java.lang.Integer[] intArray40 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray40 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList41 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean42 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList41, intArray40);
@@ -7792,35 +8770,38 @@ public class RegressionTest2 {
     boolean boolean45 = intList35.removeAll(intList41);
     java.util.Spliterator<java.lang.Integer> intSpliterator46 = intList35.spliterator();
     intList35.trimToSize();
-    org.ccsds.moims.mo.mal.structures.IntegerList integerList48 = new org.ccsds.moims.mo.mal.structures.IntegerList();
+    org.ccsds.moims.mo.mal.structures.IntegerList integerList48 =
+        new org.ccsds.moims.mo.mal.structures.IntegerList();
     java.lang.Integer int49 = integerList48.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort50 = integerList48.getAreaNumber();
     java.lang.Integer int51 = integerList48.getTypeShortForm();
     boolean boolean52 = intList35.removeAll(integerList48);
     java.lang.Integer int53 = integerList48.getTypeShortForm();
-    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind54 = opssat.simulator.threading.SimulatorNode.DevDatPBind.OpticalReceiver_OperatingBuffer;
+    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind54 =
+        opssat.simulator.threading.SimulatorNode.DevDatPBind.OpticalReceiver_OperatingBuffer;
     int int55 = integerList48.lastIndexOf(devDatPBind54);
     int int56 = integerList48.size();
     java.util.stream.Stream<java.lang.Integer> intStream57 = integerList48.parallelStream();
     integerList48.ensureCapacity(54);
-    org.ccsds.moims.mo.mal.structures.DoubleList doubleList61 = new org.ccsds.moims.mo.mal.structures.DoubleList(
-        (short) 10);
+    org.ccsds.moims.mo.mal.structures.DoubleList doubleList61 =
+        new org.ccsds.moims.mo.mal.structures.DoubleList(
+            (short) 10);
     boolean boolean63 = doubleList61.add(100.0d);
     org.ccsds.moims.mo.mal.structures.UOctet uOctet64 = doubleList61.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = doubleList61.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.Element element66 = doubleList61.createElement();
     org.ccsds.moims.mo.mal.structures.UShort uShort67 = doubleList61.getServiceNumber();
-    java.lang.Byte[] byteArray72 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray72 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList73 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean74 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList73, byteArray72);
-    java.lang.Integer[] intArray77 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray77 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList78 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean79 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList78, intArray77);
     boolean boolean80 = byteList73.retainAll(intList78);
-    java.lang.Integer[] intArray83 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray83 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList84 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean85 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList84, intArray83);
@@ -7854,8 +8835,8 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + int53 + "' != '" + (-11) + "'", int53.equals((-11)));
     org.junit.Assert.assertTrue(
         "'" + devDatPBind54 + "' != '"
-            + opssat.simulator.threading.SimulatorNode.DevDatPBind.OpticalReceiver_OperatingBuffer
-            + "'",
+        + opssat.simulator.threading.SimulatorNode.DevDatPBind.OpticalReceiver_OperatingBuffer
+        + "'",
         devDatPBind54.equals(
             opssat.simulator.threading.SimulatorNode.DevDatPBind.OpticalReceiver_OperatingBuffer));
     org.junit.Assert.assertTrue("'" + int55 + "' != '" + (-1) + "'", int55 == (-1));
@@ -7881,9 +8862,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1173() throws Throwable {
-    if (debug)
+  public void test1173() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1173");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -7900,12 +8883,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     simulatorHeader20.setAutoStartTime(false);
@@ -7917,12 +8903,15 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UOctet uOctet31 = uRI30.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.URI uRI33 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
-    org.ccsds.moims.mo.mal.structures.URI[] uRIArray34 = new org.ccsds.moims.mo.mal.structures.URI[] {
-        uRI27, uRI30, uRI33 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
+    org.ccsds.moims.mo.mal.structures.URI[] uRIArray34 =
+        new org.ccsds.moims.mo.mal.structures.URI[]{
+          uRI27, uRI30, uRI33};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList35 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
     boolean boolean36 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList35, uRIArray34);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime37 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime37 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     int int38 = uRIList35.indexOf(fineTime37);
     uRIList35.ensureCapacity(40);
     java.lang.Object obj41 = uRIList35.clone();
@@ -7961,15 +8950,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1174() throws Throwable {
-    if (debug)
+  public void test1174() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1174");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     org.ccsds.moims.mo.mal.structures.UShort uShort6 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UShort uShort7 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UShort uShort8 = octetList0.getAreaNumber();
@@ -7984,12 +8977,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1175() throws Throwable {
-    if (debug)
+  public void test1175() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1175");
+    }
     java.util.logging.Logger logger2 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer3 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger2);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer3 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger2);
     byte[] byteArray5 = endlessSingleStreamOperatingBuffer3.getDataAsByteArray('4');
     byte[] byteArray7 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int16_2ByteArray(15);
     endlessSingleStreamOperatingBuffer3.setDataFromByteArray(byteArray7);
@@ -8011,12 +9007,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1176() throws Throwable {
-    if (debug)
+  public void test1176() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1176");
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor2 = new opssat.simulator.util.ArgumentDescriptor(
-        "",
-        "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:43 UTC\nendDate=2019:05:23 15:09:43 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO");
+    }
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor2 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            "",
+            "#Run the processing of internal models\nstartModels=false\n#Increment the simulated time (depends on startModels)\nstartTime=false\n#Speed up of time factor\ntimeFactor=1\n#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\nkeplerElements=7021.0;0.0;98.05;340.0;0.0;0.0\n#Enable the Orekit library\norekit=false\n#Enable updates from Internet (used for gps constellation TLEs)\nupdateFromInternet=false\n#Configuration of the Celestia server\ncelestia=false\ncelestiaPort=0\n#Start and end dates of simulation\nstartDate=2019:05:23 15:09:43 UTC\nendDate=2019:05:23 15:09:43 UTC\n#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\ncentralLogLevel=INFO\nsimulatorLogLevel=INFO\nconsoleLogLevel=INFO");
     java.lang.String str3 = argumentDescriptor2.getName();
     java.lang.String str4 = argumentDescriptor2.getName();
     org.junit.Assert.assertTrue("'" + str3 + "' != '" + "UnknownDeviceDataTypeString{}" + "'",
@@ -8026,36 +9025,45 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1177() throws Throwable {
-    if (debug)
+  public void test1177() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1177");
-    org.ccsds.moims.mo.mal.structures.ShortList shortList1 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        28);
+    }
+    org.ccsds.moims.mo.mal.structures.ShortList shortList1 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            28);
     java.util.Iterator<java.lang.Short> shortItor2 = shortList1.iterator();
     opssat.simulator.threading.SimulatorNode simulatorNode3 = null;
-    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver5 = new opssat.simulator.peripherals.POpticalReceiver(
-        simulatorNode3, "031008.320");
+    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver5 =
+        new opssat.simulator.peripherals.POpticalReceiver(
+            simulatorNode3, "031008.320");
     java.lang.String str6 = pOpticalReceiver5.getName();
     java.lang.String str7 = pOpticalReceiver5.getName();
     opssat.simulator.threading.SimulatorNode simulatorNode8 = null;
-    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver10 = new opssat.simulator.peripherals.POpticalReceiver(
-        simulatorNode8, "031008.320");
+    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver10 =
+        new opssat.simulator.peripherals.POpticalReceiver(
+            simulatorNode8, "031008.320");
     opssat.simulator.threading.SimulatorNode simulatorNode11 = null;
-    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver13 = new opssat.simulator.peripherals.POpticalReceiver(
-        simulatorNode11, "031008.320");
+    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver13 =
+        new opssat.simulator.peripherals.POpticalReceiver(
+            simulatorNode11, "031008.320");
     java.lang.String str14 = pOpticalReceiver13.getName();
     java.lang.String str15 = pOpticalReceiver13.getName();
     opssat.simulator.threading.SimulatorNode simulatorNode16 = null;
-    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver18 = new opssat.simulator.peripherals.POpticalReceiver(
-        simulatorNode16, "031008.320");
+    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver18 =
+        new opssat.simulator.peripherals.POpticalReceiver(
+            simulatorNode16, "031008.320");
     java.lang.String str19 = pOpticalReceiver18.getName();
     java.lang.String str20 = pOpticalReceiver18.getName();
     opssat.simulator.threading.SimulatorNode simulatorNode21 = null;
-    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver23 = new opssat.simulator.peripherals.POpticalReceiver(
-        simulatorNode21, "031008.320");
-    opssat.simulator.interfaces.IOpticalReceiver[] iOpticalReceiverArray24 = new opssat.simulator.interfaces.IOpticalReceiver[] {
-        pOpticalReceiver5, pOpticalReceiver10, pOpticalReceiver13, pOpticalReceiver18,
-        pOpticalReceiver23 };
+    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver23 =
+        new opssat.simulator.peripherals.POpticalReceiver(
+            simulatorNode21, "031008.320");
+    opssat.simulator.interfaces.IOpticalReceiver[] iOpticalReceiverArray24 =
+        new opssat.simulator.interfaces.IOpticalReceiver[]{
+          pOpticalReceiver5, pOpticalReceiver10, pOpticalReceiver13, pOpticalReceiver18,
+          pOpticalReceiver23};
     opssat.simulator.interfaces.IOpticalReceiver[] iOpticalReceiverArray25 = shortList1
         .toArray(iOpticalReceiverArray24);
     org.junit.Assert.assertNotNull(shortItor2);
@@ -8076,46 +9084,55 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1178() throws Throwable {
-    if (debug)
+  public void test1178() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1178");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     simulatorSpacecraftState3.setLatitude((-4));
     java.lang.String str8 = simulatorSpacecraftState3.getMagField();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState12.setLongitude(4);
-    double[] doubleArray16 = new double[] { (-1.0f) };
+    double[] doubleArray16 = new double[]{(-1.0f)};
     simulatorSpacecraftState12.setMagField(doubleArray16);
     double double18 = simulatorSpacecraftState12.getLongitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray25 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray25 = new float[]{28, 8};
     simulatorSpacecraftState22.setQ(floatArray25);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState30 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState30 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double31 = simulatorSpacecraftState30.getLatitude();
     java.lang.String str32 = simulatorSpacecraftState30.getMagField();
     float[] floatArray33 = simulatorSpacecraftState30.getR();
     simulatorSpacecraftState22.setQ(floatArray33);
     java.lang.String str35 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray33);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double40 = simulatorSpacecraftState39.getLatitude();
     double double41 = simulatorSpacecraftState39.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState45 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState45 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double46 = simulatorSpacecraftState45.getLatitude();
     java.lang.String str47 = simulatorSpacecraftState45.getMagField();
     float[] floatArray48 = simulatorSpacecraftState45.getR();
     simulatorSpacecraftState39.setQ(floatArray48);
     float[] floatArray50 = simulatorSpacecraftState39.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData51 = new opssat.simulator.celestia.CelestiaData(
-        floatArray33, floatArray50);
+    opssat.simulator.celestia.CelestiaData celestiaData51 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray33, floatArray50);
     float[] floatArray52 = celestiaData51.getQ();
     opssat.simulator.util.SimulatorData simulatorData56 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -8127,18 +9144,21 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData63 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date64 = simulatorData63.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap65 = opssat.simulator.util.SimulatorData
-        .computeDiff(date61, date64);
-    opssat.simulator.util.SimulatorHeader simulatorHeader66 = new opssat.simulator.util.SimulatorHeader(
-        false, date57, date64);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap65 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date61, date64);
+    opssat.simulator.util.SimulatorHeader simulatorHeader66 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date57, date64);
     opssat.simulator.util.SimulatorData simulatorData67 = new opssat.simulator.util.SimulatorData(
         (short) 0, date57);
     celestiaData51.setDate(date57);
     int int69 = celestiaData51.getSeconds();
     celestiaData51.setDnx("OPS-SAT SoftSim:");
     java.lang.String str72 = celestiaData51.getAos();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState76 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState76 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double77 = simulatorSpacecraftState76.getLatitude();
     double double78 = simulatorSpacecraftState76.getLongitude();
     float[] floatArray79 = simulatorSpacecraftState76.getQ();
@@ -8150,11 +9170,11 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str8 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str8.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(doubleArray16);
     org.junit.Assert.assertTrue("'" + double18 + "' != '" + 4.0d + "'", double18 == 4.0d);
@@ -8162,7 +9182,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double31 + "' != '" + 340.0d + "'", double31 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str32 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str32.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray33);
     org.junit.Assert.assertTrue("'" + str35 + "' != '" + "UnknownGUIData" + "'",
@@ -8172,7 +9192,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double46 + "' != '" + 340.0d + "'", double46 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str47 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str47.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray48);
     org.junit.Assert.assertNotNull(floatArray50);
@@ -8189,54 +9209,57 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1179() throws Throwable {
-    if (debug)
+  public void test1179() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1179");
-    org.ccsds.moims.mo.mal.structures.FloatList floatList0 = new org.ccsds.moims.mo.mal.structures.FloatList();
-    java.lang.Short[] shortArray3 = new java.lang.Short[] { (short) 1, (short) 1 };
+    }
+    org.ccsds.moims.mo.mal.structures.FloatList floatList0 =
+        new org.ccsds.moims.mo.mal.structures.FloatList();
+    java.lang.Short[] shortArray3 = new java.lang.Short[]{(short) 1, (short) 1};
     java.util.ArrayList<java.lang.Short> shortList4 = new java.util.ArrayList<java.lang.Short>();
     boolean boolean5 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Short>) shortList4, shortArray3);
     shortList4.clear();
     boolean boolean7 = shortList4.isEmpty();
-    java.lang.Byte[] byteArray12 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean14 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList13, byteArray12);
-    java.lang.Integer[] intArray17 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray17 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList18 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean19 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList18, intArray17);
     boolean boolean20 = byteList13.retainAll(intList18);
-    java.lang.Integer[] intArray28 = new java.lang.Integer[] { 13, 10, 100, 100, 11111, 13, 11111 };
+    java.lang.Integer[] intArray28 = new java.lang.Integer[]{13, 10, 100, 100, 11111, 13, 11111};
     java.util.ArrayList<java.lang.Integer> intList29 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean30 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList29, intArray28);
-    java.lang.Byte[] byteArray35 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray35 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList36 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean37 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList36, byteArray35);
-    java.lang.Integer[] intArray40 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray40 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList41 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean42 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList41, intArray40);
     boolean boolean43 = byteList36.retainAll(intList41);
-    java.lang.Integer[] intArray46 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray46 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList47 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean48 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList47, intArray46);
     int int50 = intList47.lastIndexOf((byte) 10);
     boolean boolean51 = intList41.removeAll(intList47);
     boolean boolean52 = intList29.retainAll(intList47);
-    java.lang.Float[] floatArray56 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray56 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList57 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean58 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList57, floatArray56);
     boolean boolean60 = floatList57.add((-1.0f));
     floatList57.trimToSize();
-    java.lang.Integer[] intArray66 = new java.lang.Integer[] { 100, 1, (-1), 10 };
+    java.lang.Integer[] intArray66 = new java.lang.Integer[]{100, 1, (-1), 10};
     java.util.ArrayList<java.lang.Integer> intList67 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean68 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList67, intArray66);
@@ -8246,12 +9269,14 @@ public class RegressionTest2 {
     boolean boolean73 = intList18.retainAll(intList29);
     boolean boolean74 = shortList4.containsAll(intList18);
     boolean boolean75 = floatList0.containsAll(intList18);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList76 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList76 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int77 = octetList76.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort78 = octetList76.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor79 = octetList76.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor81 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList76, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor81 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList76, "hi!");
     argumentDescriptor81.restoreArgument();
     argumentDescriptor81.restoreArgument();
     argumentDescriptor81.restoreArgument();
@@ -8299,9 +9324,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1180() throws Throwable {
-    if (debug)
+  public void test1180() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1180");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -8312,10 +9339,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     opssat.simulator.util.SimulatorData simulatorData14 = new opssat.simulator.util.SimulatorData(
         (short) 0, date4);
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
@@ -8328,10 +9357,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData24 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date25 = simulatorData24.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 = opssat.simulator.util.SimulatorData
-        .computeDiff(date22, date25);
-    opssat.simulator.util.SimulatorHeader simulatorHeader27 = new opssat.simulator.util.SimulatorHeader(
-        false, date18, date25);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date22, date25);
+    opssat.simulator.util.SimulatorHeader simulatorHeader27 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date18, date25);
     java.util.Date date28 = simulatorHeader27.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData32 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -8349,12 +9380,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData45 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date46 = simulatorData45.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 = opssat.simulator.util.SimulatorData
-        .computeDiff(date43, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader48 = new opssat.simulator.util.SimulatorHeader(
-        false, date39, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader49 = new opssat.simulator.util.SimulatorHeader(
-        false, date34, date39);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date43, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader48 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date39, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader49 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date34, date39);
     simulatorHeader27.setEndDate(date34);
     simulatorData14.initFromHeader(simulatorHeader27);
     boolean boolean52 = simulatorHeader27.checkStartBeforeEnd();
@@ -8379,17 +9413,21 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1181() throws Throwable {
-    if (debug)
+  public void test1181() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1181");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     org.ccsds.moims.mo.mal.structures.UShort uShort6 = octetList0.getAreaNumber();
-    java.lang.Short[] shortArray9 = new java.lang.Short[] { (short) -1, (short) 10 };
+    java.lang.Short[] shortArray9 = new java.lang.Short[]{(short) -1, (short) 10};
     java.util.ArrayList<java.lang.Short> shortList10 = new java.util.ArrayList<java.lang.Short>();
     boolean boolean11 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Short>) shortList10, shortArray9);
@@ -8415,11 +9453,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1182() throws Throwable {
-    if (debug)
+  public void test1182() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1182");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     double double5 = simulatorSpacecraftState3.getLongitude();
     float[] floatArray6 = simulatorSpacecraftState3.getQ();
@@ -8431,9 +9472,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1183() throws Throwable {
-    if (debug)
+  public void test1183() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1183");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -8450,12 +9493,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     simulatorHeader20.setAutoStartTime(true);
@@ -8471,67 +9517,79 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1184() throws Throwable {
-    if (debug)
+  public void test1184() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1184");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     celestiaData32.setDnx("1");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState38 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray41 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState38 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray41 = new float[]{28, 8};
     simulatorSpacecraftState38.setQ(floatArray41);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState46 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState46 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double47 = simulatorSpacecraftState46.getLatitude();
     java.lang.String str48 = simulatorSpacecraftState46.getMagField();
     float[] floatArray49 = simulatorSpacecraftState46.getR();
     simulatorSpacecraftState38.setQ(floatArray49);
     java.lang.String str51 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray49);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState55 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState55 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double56 = simulatorSpacecraftState55.getLatitude();
     double double57 = simulatorSpacecraftState55.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState61 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState61 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double62 = simulatorSpacecraftState61.getLatitude();
     java.lang.String str63 = simulatorSpacecraftState61.getMagField();
     float[] floatArray64 = simulatorSpacecraftState61.getR();
     simulatorSpacecraftState55.setQ(floatArray64);
     float[] floatArray66 = simulatorSpacecraftState55.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData67 = new opssat.simulator.celestia.CelestiaData(
-        floatArray49, floatArray66);
+    opssat.simulator.celestia.CelestiaData celestiaData67 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray49, floatArray66);
     celestiaData32.setRv(floatArray66);
     java.lang.String str69 = celestiaData32.getAnx();
     org.junit.Assert.assertNotNull(floatArray6);
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -8541,7 +9599,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -8549,7 +9607,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double47 + "' != '" + 340.0d + "'", double47 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str48 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str48.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray49);
     org.junit.Assert.assertTrue("'" + str51 + "' != '" + "UnknownGUIData" + "'",
@@ -8559,7 +9617,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double62 + "' != '" + 340.0d + "'", double62 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str63 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str63.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray64);
     org.junit.Assert.assertNotNull(floatArray66);
@@ -8567,12 +9625,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1185() throws Throwable {
-    if (debug)
+  public void test1185() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1185");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     org.ccsds.moims.mo.mal.structures.Union union5 = new org.ccsds.moims.mo.mal.structures.Union(
         "$DEFAULT");
@@ -8590,34 +9651,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1186() throws Throwable {
-    if (debug)
+  public void test1186() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1186");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     float[] floatArray33 = celestiaData32.getQ();
     opssat.simulator.util.SimulatorData simulatorData37 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -8629,10 +9697,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData44 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date45 = simulatorData44.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 = opssat.simulator.util.SimulatorData
-        .computeDiff(date42, date45);
-    opssat.simulator.util.SimulatorHeader simulatorHeader47 = new opssat.simulator.util.SimulatorHeader(
-        false, date38, date45);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date42, date45);
+    opssat.simulator.util.SimulatorHeader simulatorHeader47 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date38, date45);
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (short) 0, date38);
     celestiaData32.setDate(date38);
@@ -8642,7 +9712,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -8652,7 +9722,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -8664,9 +9734,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1187() throws Throwable {
-    if (debug)
+  public void test1187() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1187");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -8684,10 +9756,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
     java.util.Date date20 = simulatorHeader19.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData24 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -8705,12 +9779,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData37 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date38 = simulatorData37.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap39 = opssat.simulator.util.SimulatorData
-        .computeDiff(date35, date38);
-    opssat.simulator.util.SimulatorHeader simulatorHeader40 = new opssat.simulator.util.SimulatorHeader(
-        false, date31, date38);
-    opssat.simulator.util.SimulatorHeader simulatorHeader41 = new opssat.simulator.util.SimulatorHeader(
-        false, date26, date31);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap39 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date35, date38);
+    opssat.simulator.util.SimulatorHeader simulatorHeader40 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date31, date38);
+    opssat.simulator.util.SimulatorHeader simulatorHeader41 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date26, date31);
     simulatorHeader19.setEndDate(date26);
     int int43 = simulatorHeader19.getCelestiaPort();
     simulatorData6.initFromHeader(simulatorHeader19);
@@ -8731,12 +9808,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1188() throws Throwable {
-    if (debug)
+  public void test1188() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1188");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     java.lang.Object obj2 = endlessWavStreamOperatingBuffer1.getDataBuffer();
     java.lang.Object obj3 = endlessWavStreamOperatingBuffer1.getDataBuffer();
     java.lang.Object obj4 = endlessWavStreamOperatingBuffer1.getDataBuffer();
@@ -8746,9 +9826,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1189() throws Throwable {
-    if (debug)
+  public void test1189() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1189");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -8759,10 +9841,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -8785,24 +9869,28 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1190() throws Throwable {
-    if (debug)
+  public void test1190() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1190");
+    }
     org.ccsds.moims.mo.mal.structures.ULong uLong0 = new org.ccsds.moims.mo.mal.structures.ULong();
     java.lang.Long long1 = uLong0.getShortForm();
-    java.lang.Boolean[] booleanArray3 = new java.lang.Boolean[] { true };
-    java.util.ArrayList<java.lang.Boolean> booleanList4 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray3 = new java.lang.Boolean[]{true};
+    java.util.ArrayList<java.lang.Boolean> booleanList4 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean5 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList4, booleanArray3);
     java.util.Spliterator<java.lang.Boolean> booleanSpliterator6 = booleanList4.spliterator();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList7 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     octetList7.ensureCapacity(13);
-    java.lang.Byte[] byteArray14 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray14 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList15 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean16 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList15, byteArray14);
-    java.lang.Integer[] intArray19 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray19 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList20 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean21 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList20, intArray19);
@@ -8813,8 +9901,9 @@ public class RegressionTest2 {
     java.lang.String str26 = booleanList4.toString();
     java.lang.String str27 = booleanList4.toString();
     boolean boolean28 = uLong0.equals(booleanList4);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience37 = new opssat.simulator.orekit.GPSSatInViewScience(
-        4.0d, (short) 100, 281475010265075L, (-4), 0.0d, (-7), 281474993487888L, (short) 255);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience37 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            4.0d, (short) 100, 281475010265075L, (-4), 0.0d, (-7), 281474993487888L, (short) 255);
     double double38 = gPSSatInViewScience37.getMaxDistance();
     boolean boolean39 = uLong0.equals(gPSSatInViewScience37);
     double double40 = gPSSatInViewScience37.getMaxDistance();
@@ -8846,27 +9935,37 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1191() throws Throwable {
-    if (debug)
+  public void test1191() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1191");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.util.stream.BaseStream[] baseStreamArray6 = new java.util.stream.BaseStream[0];
     @SuppressWarnings("unchecked")
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 = baseStreamArray6;
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 = stringList0
-        .toArray(
-            (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 =
+        baseStreamArray6;
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 =
+        stringList0
+            .toArray(
+                (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
     java.util.stream.Stream<java.lang.String> strStream9 = stringList0.stream();
     java.lang.Object obj10 = stringList0.clone();
-    opssat.simulator.util.LoggerFormatter loggerFormatter11 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter12 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter13 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 = new opssat.simulator.util.LoggerFormatter[] {
-        loggerFormatter11, loggerFormatter12, loggerFormatter13 };
+    opssat.simulator.util.LoggerFormatter loggerFormatter11 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter12 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter13 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 =
+        new opssat.simulator.util.LoggerFormatter[]{
+          loggerFormatter11, loggerFormatter12, loggerFormatter13};
     opssat.simulator.util.LoggerFormatter[] loggerFormatterArray15 = stringList0
         .toArray(loggerFormatterArray14);
     java.util.stream.Stream<java.lang.String> strStream16 = stringList0.parallelStream();
@@ -8889,34 +9988,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1192() throws Throwable {
-    if (debug)
+  public void test1192() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1192");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     float[] floatArray33 = celestiaData32.getQ();
     opssat.simulator.util.SimulatorData simulatorData37 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -8928,10 +10034,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData44 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date45 = simulatorData44.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 = opssat.simulator.util.SimulatorData
-        .computeDiff(date42, date45);
-    opssat.simulator.util.SimulatorHeader simulatorHeader47 = new opssat.simulator.util.SimulatorHeader(
-        false, date38, date45);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date42, date45);
+    opssat.simulator.util.SimulatorHeader simulatorHeader47 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date38, date45);
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (short) 0, date38);
     celestiaData32.setDate(date38);
@@ -8944,7 +10052,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -8954,7 +10062,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -8966,9 +10074,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1193() throws Throwable {
-    if (debug)
+  public void test1193() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1193");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -8979,10 +10089,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     simulatorHeader12.setOrekitTLE1("");
     java.lang.String str16 = simulatorHeader12.DATE_FORMAT;
@@ -9001,68 +10113,82 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1194() throws Throwable {
-    if (debug)
+  public void test1194() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1194");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     float[] floatArray33 = celestiaData32.getQ();
     java.lang.String str34 = celestiaData32.getAos();
     celestiaData32.setLos("2019:05:23 15:09:36 UTC");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState40 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray43 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState40 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray43 = new float[]{28, 8};
     simulatorSpacecraftState40.setQ(floatArray43);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState48 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState48 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double49 = simulatorSpacecraftState48.getLatitude();
     java.lang.String str50 = simulatorSpacecraftState48.getMagField();
     float[] floatArray51 = simulatorSpacecraftState48.getR();
     simulatorSpacecraftState40.setQ(floatArray51);
     java.lang.String str53 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray51);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double58 = simulatorSpacecraftState57.getLatitude();
     double double59 = simulatorSpacecraftState57.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState63 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState63 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double64 = simulatorSpacecraftState63.getLatitude();
     java.lang.String str65 = simulatorSpacecraftState63.getMagField();
     float[] floatArray66 = simulatorSpacecraftState63.getR();
     simulatorSpacecraftState57.setQ(floatArray66);
     float[] floatArray68 = simulatorSpacecraftState57.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData69 = new opssat.simulator.celestia.CelestiaData(
-        floatArray51, floatArray68);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState73 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.celestia.CelestiaData celestiaData69 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray51, floatArray68);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState73 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double74 = simulatorSpacecraftState73.getLatitude();
     double double75 = simulatorSpacecraftState73.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState79 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState79 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double80 = simulatorSpacecraftState79.getLatitude();
     java.lang.String str81 = simulatorSpacecraftState79.getMagField();
     float[] floatArray82 = simulatorSpacecraftState79.getR();
@@ -9073,7 +10199,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -9083,7 +10209,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -9093,7 +10219,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double49 + "' != '" + 340.0d + "'", double49 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str50 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str50.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray51);
     org.junit.Assert.assertTrue("'" + str53 + "' != '" + "UnknownGUIData" + "'",
@@ -9103,7 +10229,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double64 + "' != '" + 340.0d + "'", double64 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str65 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str65.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray66);
     org.junit.Assert.assertNotNull(floatArray68);
@@ -9112,37 +10238,42 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double80 + "' != '" + 340.0d + "'", double80 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str81 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str81.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray82);
   }
 
   @Test
-  public void test1195() throws Throwable {
-    if (debug)
+  public void test1195() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1195");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
     int int8 = simulatorSpacecraftState3.getSatsInView();
     simulatorSpacecraftState3.setAltitude((-5));
-    double[] doubleArray15 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray20 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray25 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray30 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray35 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray40 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[][] doubleArray41 = new double[][] { doubleArray15, doubleArray20, doubleArray25,
-        doubleArray30, doubleArray35, doubleArray40 };
+    double[] doubleArray15 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray20 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray25 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray30 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray35 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray40 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[][] doubleArray41 = new double[][]{doubleArray15, doubleArray20, doubleArray25,
+      doubleArray30, doubleArray35, doubleArray40};
     simulatorSpacecraftState3.setRotation(doubleArray41);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState46 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState46 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double47 = simulatorSpacecraftState46.getLatitude();
     double double48 = simulatorSpacecraftState46.getLongitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState52 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray55 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState52 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray55 = new float[]{28, 8};
     simulatorSpacecraftState52.setQ(floatArray55);
     int int57 = simulatorSpacecraftState52.getSatsInView();
     simulatorSpacecraftState52.setAltitude((-5));
@@ -9166,43 +10297,49 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1196() throws Throwable {
-    if (debug)
+  public void test1196() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1196");
-    java.lang.Double[] doubleArray4 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
+    }
+    java.lang.Double[] doubleArray4 = new java.lang.Double[]{(-1.0d), 100.0d, 10.0d, 10.0d};
     java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
     boolean boolean6 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
-    org.ccsds.moims.mo.mal.structures.UShort uShort7 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort7 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort7 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort7};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean10 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9, uShortArray8);
     uShortList9.ensureCapacity(0);
     int int14 = uShortList9.indexOf((byte) 1);
     uShortList9.clear();
-    java.lang.Long[] longArray18 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray18 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList19 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean20 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList19, longArray18);
     java.lang.Object obj21 = longList19.clone();
     boolean boolean22 = uShortList9.contains(longList19);
     boolean boolean23 = doubleList5.equals(boolean22);
-    java.lang.Integer[] intArray26 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray26 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList27 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean28 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList27, intArray26);
     int int30 = intList27.lastIndexOf((byte) 10);
     boolean boolean31 = doubleList5.removeAll(intList27);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList32 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList32 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     octetList32.ensureCapacity(13);
-    java.lang.Byte[] byteArray39 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray39 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList40 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean41 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList40, byteArray39);
-    java.lang.Integer[] intArray44 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray44 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList45 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean46 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList45, intArray44);
@@ -9211,8 +10348,9 @@ public class RegressionTest2 {
     boolean boolean49 = doubleList5.removeAll(intList45);
     java.util.Spliterator<java.lang.Double> doubleSpliterator50 = doubleList5.spliterator();
     doubleList5.trimToSize();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience60 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience60 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double61 = gPSSatInViewScience60.getMaxDistance();
     double double62 = gPSSatInViewScience60.getMaxDistance();
     double double63 = gPSSatInViewScience60.getMinElevation();
@@ -9250,9 +10388,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1197() throws Throwable {
-    if (debug)
+  public void test1197() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1197");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -9263,10 +10403,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
     simulatorHeader12.setOrekitPropagator("*0B");
@@ -9280,9 +10422,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1198() throws Throwable {
-    if (debug)
+  public void test1198() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1198");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -9293,10 +10437,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -9316,57 +10462,75 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1199() throws Throwable {
-    if (debug)
+  public void test1199() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1199");
-    java.lang.Short[] shortArray2 = new java.lang.Short[] { (short) -1, (short) 10 };
+    }
+    java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) -1, (short) 10};
     java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
     boolean boolean4 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Short>) shortList3, shortArray2);
     boolean boolean5 = shortList3.isEmpty();
     int int7 = shortList3.lastIndexOf(281475010265070L);
-    org.ccsds.moims.mo.mal.structures.UShort uShort8 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.OctetList octetList9 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.UShort uShort8 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.OctetList octetList9 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int10 = octetList9.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort11 = octetList9.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.UShort uShort12 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort13 = org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort14 = org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort15 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort16 = org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort17 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort uShort18 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort18 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList20 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort12 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort13 =
+        org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort14 =
+        org.ccsds.moims.mo.mal.structures.StringList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort15 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort16 =
+        org.ccsds.moims.mo.mal.structures.BooleanList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort17 =
+        org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort18 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort18};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList20 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean21 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20,
         uShortArray19);
     uShortList20.ensureCapacity(0);
     int int25 = uShortList20.indexOf((byte) 1);
     uShortList20.clear();
-    java.lang.Long[] longArray29 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray29 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList30 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean31 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList30, longArray29);
     java.lang.Object obj32 = longList30.clone();
     boolean boolean33 = uShortList20.contains(longList30);
-    org.ccsds.moims.mo.mal.structures.UShort uShort34 = org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort34 =
+        org.ccsds.moims.mo.mal.structures.UShortList.SERVICE_SHORT_FORM;
     boolean boolean35 = uShortList20.add(uShort34);
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray36 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort8, uShort11, uShort12, uShort13, uShort14, uShort15, uShort16, uShort17, uShort34 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList37 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray36 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort8, uShort11, uShort12, uShort13, uShort14, uShort15, uShort16, uShort17, uShort34};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList37 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean38 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37,
         uShortArray36);
     uShortList37.ensureCapacity(100);
     boolean boolean42 = uShortList37.equals(9);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList43 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList43 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int44 = octetList43.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort45 = octetList43.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor46 = octetList43.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor48 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList43, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor48 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList43, "hi!");
     java.lang.Object obj49 = argumentDescriptor48.getType();
     int int50 = uShortList37.indexOf(obj49);
     int int51 = shortList3.lastIndexOf(obj49);
@@ -9414,15 +10578,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1200() throws Throwable {
-    if (debug)
+  public void test1200() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1200");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.setName("01700.0000000");
     java.lang.Object obj9 = argumentDescriptor5.getType();
@@ -9438,47 +10606,59 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1201() throws Throwable {
-    if (debug)
+  public void test1201() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1201");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList3 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList3 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int4 = octetList3.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort5 = octetList3.getAreaNumber();
     java.lang.Object[] objArray6 = octetList3.toArray();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList7 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int8 = octetList7.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort9 = octetList7.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor10 = octetList7.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList7, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList7, "hi!");
     org.ccsds.moims.mo.mal.structures.UShort uShort13 = octetList7.getAreaNumber();
-    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList17 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean18 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList17, booleanArray16);
     int int20 = booleanList17.indexOf(10);
     java.util.Iterator<java.lang.Boolean> booleanItor21 = booleanList17.iterator();
     java.util.Spliterator<java.lang.Boolean> booleanSpliterator22 = booleanList17.spliterator();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList23 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList23 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int24 = octetList23.getTypeShortForm();
     java.lang.Object obj25 = octetList23.clone();
     octetList23.trimToSize();
     boolean boolean27 = booleanList17.contains(octetList23);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList28 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList28 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int29 = octetList28.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort30 = octetList28.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList31 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList31 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int32 = octetList31.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort33 = octetList31.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = octetList31.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList35 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList35 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int36 = octetList35.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort37 = octetList35.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray38 = new org.ccsds.moims.mo.mal.structures.OctetList[] {
-        octetList3, octetList7, octetList23, octetList28, octetList31, octetList35 };
+    org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray38 =
+        new org.ccsds.moims.mo.mal.structures.OctetList[]{
+          octetList3, octetList7, octetList23, octetList28, octetList31, octetList35};
     org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray39 = octetList0
         .toArray(octetListArray38);
     boolean boolean40 = octetList0.isEmpty();
@@ -9516,16 +10696,20 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1202() throws Throwable {
-    if (debug)
+  public void test1202() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1202");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     double double5 = simulatorSpacecraftState3.getLongitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray12 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray12 = new float[]{28, 8};
     simulatorSpacecraftState9.setQ(floatArray12);
     int int14 = simulatorSpacecraftState9.getSatsInView();
     simulatorSpacecraftState9.setAltitude((-5));
@@ -9542,9 +10726,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1203() throws Throwable {
-    if (debug)
+  public void test1203() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1203");
+    }
     opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData(
         (-18));
     simulatorData1.setCounter((-1));
@@ -9558,9 +10744,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1204() throws Throwable {
-    if (debug)
+  public void test1204() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1204");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -9571,10 +10759,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
     boolean boolean15 = simulatorHeader12.isUpdateInternet();
@@ -9592,9 +10782,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1205() throws Throwable {
-    if (debug)
+  public void test1205() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1205");
+    }
     opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date2 = simulatorData1.getCurrentTime();
@@ -9608,9 +10800,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1206() throws Throwable {
-    if (debug)
+  public void test1206() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1206");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -9621,10 +10815,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -9646,16 +10842,21 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1207() throws Throwable {
-    if (debug)
+  public void test1207() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1207");
-    org.ccsds.moims.mo.mal.structures.Identifier identifier0 = new org.ccsds.moims.mo.mal.structures.Identifier();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.Identifier identifier0 =
+        new org.ccsds.moims.mo.mal.structures.Identifier();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList1 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int2 = octetList1.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort3 = octetList1.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor4 = octetList1.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor6 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList1, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor6 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList1, "hi!");
     argumentDescriptor6.restoreArgument();
     argumentDescriptor6.restoreArgument();
     argumentDescriptor6.restoreArgument();
@@ -9676,17 +10877,21 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1208() throws Throwable {
-    if (debug)
+  public void test1208() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1208");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     java.lang.String str6 = simulatorSpacecraftState3.getSunVectorAsString();
     simulatorSpacecraftState3.setSatsInView(13);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double13 = simulatorSpacecraftState12.getLatitude();
     java.lang.String str14 = simulatorSpacecraftState12.getMagField();
     float[] floatArray15 = simulatorSpacecraftState12.getR();
@@ -9700,7 +10905,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str6 + "' != '" + "X:[+.00000] ; Y:[+.00000] ; Z: [+.00000] units [N/A]" + "'",
@@ -9708,15 +10913,17 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double13 + "' != '" + 340.0d + "'", double13 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str14 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str14.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray15);
   }
 
   @Test
-  public void test1209() throws Throwable {
-    if (debug)
+  public void test1209() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1209");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -9727,10 +10934,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -9745,10 +10954,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData26 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date27 = simulatorData26.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 = opssat.simulator.util.SimulatorData
-        .computeDiff(date24, date27);
-    opssat.simulator.util.SimulatorHeader simulatorHeader29 = new opssat.simulator.util.SimulatorHeader(
-        false, date20, date27);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date24, date27);
+    opssat.simulator.util.SimulatorHeader simulatorHeader29 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date20, date27);
     simulatorHeader12.setStartDate(date27);
     boolean boolean31 = simulatorHeader12.isAutoStartTime();
     simulatorHeader12.setUpdateInternet(true);
@@ -9769,11 +10980,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1210() throws Throwable {
-    if (debug)
+  public void test1210() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1210");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        100L, 281474993487886L, (byte) 0);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            100L, 281474993487886L, (byte) 0);
     java.lang.String str4 = simulatorSpacecraftState3.getMagnetometerAsString();
     org.junit.Assert.assertTrue(
         "'" + str4 + "' != '" + "X:[+00000.00] ; Y:[+00000.00] ; Z: [+00000.00] units [nT]" + "'",
@@ -9781,9 +10995,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1211() throws Throwable {
-    if (debug)
+  public void test1211() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1211");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -9794,10 +11010,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     opssat.simulator.util.SimulatorData simulatorData14 = new opssat.simulator.util.SimulatorData(
         (short) 0, date4);
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
@@ -9810,10 +11028,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData24 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date25 = simulatorData24.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 = opssat.simulator.util.SimulatorData
-        .computeDiff(date22, date25);
-    opssat.simulator.util.SimulatorHeader simulatorHeader27 = new opssat.simulator.util.SimulatorHeader(
-        false, date18, date25);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date22, date25);
+    opssat.simulator.util.SimulatorHeader simulatorHeader27 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date18, date25);
     java.util.Date date28 = simulatorHeader27.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData32 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -9831,12 +11051,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData45 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date46 = simulatorData45.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 = opssat.simulator.util.SimulatorData
-        .computeDiff(date43, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader48 = new opssat.simulator.util.SimulatorHeader(
-        false, date39, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader49 = new opssat.simulator.util.SimulatorHeader(
-        false, date34, date39);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date43, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader48 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date39, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader49 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date34, date39);
     simulatorHeader27.setEndDate(date34);
     simulatorData14.initFromHeader(simulatorHeader27);
     java.lang.String str52 = simulatorData14.getCurrentDay();
@@ -9858,35 +11081,42 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1212() throws Throwable {
-    if (debug)
+  public void test1212() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1212");
+    }
     float[] floatArray0 = null;
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState4 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray7 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState4 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray7 = new float[]{28, 8};
     simulatorSpacecraftState4.setQ(floatArray7);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double13 = simulatorSpacecraftState12.getLatitude();
     java.lang.String str14 = simulatorSpacecraftState12.getMagField();
     float[] floatArray15 = simulatorSpacecraftState12.getR();
     simulatorSpacecraftState4.setQ(floatArray15);
     java.lang.String str17 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray15);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double22 = simulatorSpacecraftState21.getLatitude();
     double double23 = simulatorSpacecraftState21.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState27 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState27 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double28 = simulatorSpacecraftState27.getLatitude();
     java.lang.String str29 = simulatorSpacecraftState27.getMagField();
     float[] floatArray30 = simulatorSpacecraftState27.getR();
     simulatorSpacecraftState21.setQ(floatArray30);
     float[] floatArray32 = simulatorSpacecraftState21.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData33 = new opssat.simulator.celestia.CelestiaData(
-        floatArray15, floatArray32);
+    opssat.simulator.celestia.CelestiaData celestiaData33 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray15, floatArray32);
     float[] floatArray34 = celestiaData33.getQ();
     opssat.simulator.util.SimulatorData simulatorData38 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -9898,17 +11128,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData45 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date46 = simulatorData45.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 = opssat.simulator.util.SimulatorData
-        .computeDiff(date43, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader48 = new opssat.simulator.util.SimulatorHeader(
-        false, date39, date46);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date43, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader48 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date39, date46);
     opssat.simulator.util.SimulatorData simulatorData49 = new opssat.simulator.util.SimulatorData(
         (short) 0, date39);
     celestiaData33.setDate(date39);
     int int51 = celestiaData33.getMonths();
     float[] floatArray52 = celestiaData33.getRv();
-    opssat.simulator.celestia.CelestiaData celestiaData53 = new opssat.simulator.celestia.CelestiaData(
-        floatArray0, floatArray52);
+    opssat.simulator.celestia.CelestiaData celestiaData53 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray0, floatArray52);
     java.lang.String str54 = celestiaData53.getLos();
     celestiaData53.setAnx("0309");
     celestiaData53.setDnx("2019/05/23-15:09:37");
@@ -9922,7 +11155,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double13 + "' != '" + 340.0d + "'", double13 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str14 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str14.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray15);
     org.junit.Assert.assertTrue("'" + str17 + "' != '" + "UnknownGUIData" + "'",
@@ -9932,7 +11165,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double28 + "' != '" + 340.0d + "'", double28 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str29 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str29.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray30);
     org.junit.Assert.assertNotNull(floatArray32);
@@ -9946,12 +11179,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1214() throws Throwable {
-    if (debug)
+  public void test1214() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1214");
+    }
     opssat.simulator.threading.SimulatorNode simulatorNode0 = null;
-    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver2 = new opssat.simulator.peripherals.POpticalReceiver(
-        simulatorNode0, "031008.320");
+    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver2 =
+        new opssat.simulator.peripherals.POpticalReceiver(
+            simulatorNode0, "031008.320");
     java.lang.String str3 = pOpticalReceiver2.getName();
     try {
       pOpticalReceiver2.simPreloadFile("2019:05:23 15:09:34 UTC");
@@ -9964,35 +11200,43 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1215() throws Throwable {
-    if (debug)
+  public void test1215() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1215");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState3.setLongitude(4);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState9 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState9.setLongitude(4);
     int int12 = simulatorSpacecraftState9.getSatsInView();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState16 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState16 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double17 = simulatorSpacecraftState16.getLatitude();
     java.lang.String str18 = simulatorSpacecraftState16.getMagField();
     java.lang.String str19 = simulatorSpacecraftState16.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double24 = simulatorSpacecraftState23.getLatitude();
     java.lang.String str25 = simulatorSpacecraftState23.getMagField();
     java.lang.String str26 = simulatorSpacecraftState23.toString();
     double[] doubleArray27 = simulatorSpacecraftState23.getSunVector();
     simulatorSpacecraftState16.setMagnetometer(doubleArray27);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState32 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState32 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double33 = simulatorSpacecraftState32.getLatitude();
     java.lang.String str34 = simulatorSpacecraftState32.getMagField();
     java.lang.String str35 = simulatorSpacecraftState32.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double40 = simulatorSpacecraftState39.getLatitude();
     java.lang.String str41 = simulatorSpacecraftState39.getMagField();
     java.lang.String str42 = simulatorSpacecraftState39.toString();
@@ -10000,31 +11244,36 @@ public class RegressionTest2 {
     simulatorSpacecraftState32.setMagnetometer(doubleArray43);
     simulatorSpacecraftState16.setMagnetometer(doubleArray43);
     simulatorSpacecraftState9.setSunVector(doubleArray43);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState50 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray53 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState50 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray53 = new float[]{28, 8};
     simulatorSpacecraftState50.setQ(floatArray53);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState58 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState58 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double59 = simulatorSpacecraftState58.getLatitude();
     java.lang.String str60 = simulatorSpacecraftState58.getMagField();
     float[] floatArray61 = simulatorSpacecraftState58.getR();
     simulatorSpacecraftState50.setQ(floatArray61);
     java.lang.String str63 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray61);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState67 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState67 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double68 = simulatorSpacecraftState67.getLatitude();
     double double69 = simulatorSpacecraftState67.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState73 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState73 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double74 = simulatorSpacecraftState73.getLatitude();
     java.lang.String str75 = simulatorSpacecraftState73.getMagField();
     float[] floatArray76 = simulatorSpacecraftState73.getR();
     simulatorSpacecraftState67.setQ(floatArray76);
     float[] floatArray78 = simulatorSpacecraftState67.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData79 = new opssat.simulator.celestia.CelestiaData(
-        floatArray61, floatArray78);
+    opssat.simulator.celestia.CelestiaData celestiaData79 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray61, floatArray78);
     simulatorSpacecraftState9.setQ(floatArray78);
     simulatorSpacecraftState3.setQ(floatArray78);
     java.lang.String str82 = simulatorSpacecraftState3.getRotationAsString();
@@ -10032,46 +11281,46 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double17 + "' != '" + 340.0d + "'", double17 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str18 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str18.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str19 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str19.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double24 + "' != '" + 340.0d + "'", double24 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str25 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str25.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str26 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str26.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray27);
     org.junit.Assert.assertTrue("'" + double33 + "' != '" + 340.0d + "'", double33 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str34 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str34.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str35 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str35.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double40 + "' != '" + 340.0d + "'", double40 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str41 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str41.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str42 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str42.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray43);
     org.junit.Assert.assertNotNull(floatArray53);
     org.junit.Assert.assertTrue("'" + double59 + "' != '" + 340.0d + "'", double59 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str60 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str60.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray61);
     org.junit.Assert.assertTrue("'" + str63 + "' != '" + "UnknownGUIData" + "'",
@@ -10081,7 +11330,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double74 + "' != '" + 340.0d + "'", double74 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str75 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str75.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray76);
     org.junit.Assert.assertNotNull(floatArray78);
@@ -10093,12 +11342,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1216() throws Throwable {
-    if (debug)
+  public void test1216() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1216");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     java.lang.Object obj2 = endlessWavStreamOperatingBuffer1.getDataBuffer();
     int int3 = endlessWavStreamOperatingBuffer1.getOperatingIndex();
     org.junit.Assert.assertNotNull(obj2);
@@ -10106,12 +11358,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1217() throws Throwable {
-    if (debug)
+  public void test1217() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1217");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
     int int8 = simulatorSpacecraftState3.getSatsInView();
     simulatorSpacecraftState3.setAltitude((-5));
@@ -10128,18 +11383,22 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1220() throws Throwable {
-    if (debug)
+  public void test1220() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1220");
+    }
     boolean boolean1 = opssat.simulator.threading.SimulatorNode
         .isInteger("UnknownDeviceDataTypeString{281474993487885}");
     org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + false + "'", boolean1 == false);
   }
 
   @Test
-  public void test1221() throws Throwable {
-    if (debug)
+  public void test1221() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1221");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -10156,12 +11415,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     simulatorHeader20.setOrekitTLE1("[]");
@@ -10183,14 +11445,17 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1222() throws Throwable {
-    if (debug)
+  public void test1222() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1222");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    float[] floatArray11 = new float[] { 281474993487887L, 281475010265070L, 281474993487881L };
+    float[] floatArray11 = new float[]{281474993487887L, 281475010265070L, 281474993487881L};
     simulatorSpacecraftState3.setRv(floatArray11);
     double[][] doubleArray13 = null;
     simulatorSpacecraftState3.setRotation(doubleArray13);
@@ -10205,15 +11470,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1223() throws Throwable {
-    if (debug)
+  public void test1223() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1223");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     java.lang.Object obj6 = argumentDescriptor5.getType();
     java.lang.String str7 = argumentDescriptor5.toString();
     java.lang.Object obj8 = argumentDescriptor5.getType();
@@ -10226,11 +11495,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1224() throws Throwable {
-    if (debug)
+  public void test1224() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1224");
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    }
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double9 = gPSSatInViewScience8.getMaxDistance();
     double double10 = gPSSatInViewScience8.getMaxElevation();
     double double11 = gPSSatInViewScience8.getAvgDistance();
@@ -10247,11 +11519,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1225() throws Throwable {
-    if (debug)
+  public void test1225() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1225");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     simulatorSpacecraftState3.setLatitude((-4));
@@ -10261,11 +11536,11 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str8 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str8.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray9);
     org.junit.Assert.assertTrue("'" + str10 + "' != '"
@@ -10276,9 +11551,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1226() throws Throwable {
-    if (debug)
+  public void test1226() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1226");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -10289,10 +11566,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     java.util.Date date14 = simulatorHeader13.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData15 = new opssat.simulator.util.SimulatorData(
         13, date14);
@@ -10310,10 +11589,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData30 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date31 = simulatorData30.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 = opssat.simulator.util.SimulatorData
-        .computeDiff(date28, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader33 = new opssat.simulator.util.SimulatorHeader(
-        false, date24, date31);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date28, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader33 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date24, date31);
     java.util.Date date34 = simulatorHeader33.getEndDate();
     int int35 = simulatorHeader33.getMinuteStartDate();
     simulatorHeader33.setUseOrekit(true);
@@ -10336,19 +11617,23 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1227() throws Throwable {
-    if (debug)
+  public void test1227() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1227");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     int int2 = endlessWavStreamOperatingBuffer1.getOperatingIndex();
     byte[] byteArray4 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS
         .long2ByteArray(281475010265075L);
     endlessWavStreamOperatingBuffer1.setDataFromByteArray(byteArray4);
     java.util.logging.Logger logger6 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer7 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger6);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer7 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger6);
     java.lang.Object obj8 = endlessWavStreamOperatingBuffer7.getDataBuffer();
     boolean boolean10 = endlessWavStreamOperatingBuffer7.preparePath("03600.0000000");
     int int11 = endlessWavStreamOperatingBuffer7.getOperatingIndex();
@@ -10356,7 +11641,7 @@ public class RegressionTest2 {
         .long2ByteArray((short) -1);
     endlessWavStreamOperatingBuffer7.setDataFromByteArray(byteArray13);
     endlessWavStreamOperatingBuffer1.setDataFromByteArray(byteArray13);
-    java.lang.Float[] floatArray19 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray19 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList20 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean21 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList20, floatArray19);
@@ -10370,27 +11655,31 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.UOctet uOctet30 = uRI29.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.URI uRI32 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
-    org.ccsds.moims.mo.mal.structures.URI[] uRIArray33 = new org.ccsds.moims.mo.mal.structures.URI[] {
-        uRI26, uRI29, uRI32 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList34 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
+    org.ccsds.moims.mo.mal.structures.URI[] uRIArray33 =
+        new org.ccsds.moims.mo.mal.structures.URI[]{
+          uRI26, uRI29, uRI32};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList34 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
     boolean boolean35 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList34, uRIArray33);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime36 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime36 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     int int37 = uRIList34.indexOf(fineTime36);
     uRIList34.ensureCapacity(40);
-    org.ccsds.moims.mo.mal.structures.UShort uShort40 = org.ccsds.moims.mo.mal.structures.URIList.AREA_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort uShort40 =
+        org.ccsds.moims.mo.mal.structures.URIList.AREA_SHORT_FORM;
     boolean boolean41 = uRIList34.remove(uShort40);
-    java.lang.Byte[] byteArray46 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray46 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList47 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean48 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList47, byteArray46);
-    java.lang.Integer[] intArray51 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray51 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList52 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean53 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList52, intArray51);
     boolean boolean54 = byteList47.retainAll(intList52);
-    java.lang.Integer[] intArray57 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray57 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList58 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean59 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList58, intArray57);
@@ -10401,8 +11690,9 @@ public class RegressionTest2 {
     java.util.stream.Stream<java.lang.Float> floatStream65 = floatList20.stream();
     int int67 = floatList20.lastIndexOf(4);
     java.util.stream.Stream<java.lang.Float> floatStream68 = floatList20.parallelStream();
-    org.ccsds.moims.mo.mal.structures.FloatList floatList70 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList70 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int71 = floatList70.getTypeShortForm();
     java.lang.Integer int72 = floatList70.getTypeShortForm();
     boolean boolean73 = floatList20.equals(floatList70);
@@ -10445,17 +11735,20 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1229() throws Throwable {
-    if (debug)
+  public void test1229() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1229");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     octetList0.ensureCapacity(13);
-    java.lang.Byte[] byteArray7 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray7 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList8 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean9 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList8, byteArray7);
-    java.lang.Integer[] intArray12 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray12 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList13 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean14 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList13, intArray12);
@@ -10463,12 +11756,14 @@ public class RegressionTest2 {
     boolean boolean16 = octetList0.containsAll(intList13);
     boolean boolean17 = octetList0.isEmpty();
     java.util.stream.Stream<java.lang.Byte> byteStream18 = octetList0.stream();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList19 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList19 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int20 = octetList19.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort21 = octetList19.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor22 = octetList19.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor24 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList19, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor24 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList19, "hi!");
     org.ccsds.moims.mo.mal.structures.UShort uShort25 = octetList19.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UShort uShort26 = octetList19.getAreaNumber();
     boolean boolean27 = octetList19.isEmpty();
@@ -10491,14 +11786,18 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1230() throws Throwable {
-    if (debug)
+  public void test1230() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1230");
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor2 = new opssat.simulator.util.ArgumentDescriptor(
-        "SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:44 UTC 2019, endDate=Thu May 23 15:09:44 UTC 2019}",
-        ":");
-    org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
-        11);
+    }
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor2 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            "SimulatorHeader{autoStartSystem=false, autoStartTime=false, timeFactor=1, startDate=Thu May 23 15:09:44 UTC 2019, endDate=Thu May 23 15:09:44 UTC 2019}",
+            ":");
+    org.ccsds.moims.mo.mal.structures.URIList uRIList4 =
+        new org.ccsds.moims.mo.mal.structures.URIList(
+            11);
     org.ccsds.moims.mo.mal.structures.Element element5 = uRIList4.createElement();
     org.ccsds.moims.mo.mal.structures.URI uRI7 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
@@ -10527,12 +11826,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1231() throws Throwable {
-    if (debug)
+  public void test1231() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1231");
+    }
     opssat.simulator.threading.SimulatorNode simulatorNode0 = null;
-    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver2 = new opssat.simulator.peripherals.POpticalReceiver(
-        simulatorNode0, "031008.320");
+    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver2 =
+        new opssat.simulator.peripherals.POpticalReceiver(
+            simulatorNode0, "031008.320");
     java.lang.String str3 = pOpticalReceiver2.getName();
     java.lang.String str4 = pOpticalReceiver2.getName();
     opssat.simulator.threading.SimulatorNode simulatorNode5 = pOpticalReceiver2.getSimulatorNode();
@@ -10544,27 +11846,29 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1232() throws Throwable {
-    if (debug)
+  public void test1232() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1232");
-    java.lang.Float[] floatArray3 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    }
+    java.lang.Float[] floatArray3 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean5 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
     boolean boolean7 = floatList4.add((-1.0f));
     floatList4.clear();
     java.util.stream.Stream<java.lang.Float> floatStream9 = floatList4.stream();
-    java.lang.Byte[] byteArray14 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray14 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList15 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean16 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList15, byteArray14);
-    java.lang.Integer[] intArray19 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray19 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList20 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean21 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList20, intArray19);
     boolean boolean22 = byteList15.retainAll(intList20);
-    java.lang.Integer[] intArray25 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray25 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList26 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean27 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList26, intArray25);
@@ -10575,35 +11879,36 @@ public class RegressionTest2 {
     java.util.stream.Stream<java.lang.Integer> intStream33 = intList26.parallelStream();
     java.lang.String str34 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(intList26);
-    java.lang.Float[] floatArray38 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray38 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList39 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean40 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList39, floatArray38);
     boolean boolean42 = floatList39.add((-1.0f));
     floatList39.clear();
     java.util.stream.Stream<java.lang.Float> floatStream44 = floatList39.stream();
-    java.lang.Boolean[] booleanArray47 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList48 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray47 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList48 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean49 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList48, booleanArray47);
     int int51 = booleanList48.indexOf(10);
     java.util.Spliterator<java.lang.Boolean> booleanSpliterator52 = booleanList48.spliterator();
-    java.lang.Byte[] byteArray55 = new java.lang.Byte[] { (byte) 100, (byte) 1 };
+    java.lang.Byte[] byteArray55 = new java.lang.Byte[]{(byte) 100, (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList56 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean57 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList56, byteArray55);
     java.util.Iterator<java.lang.Byte> byteItor58 = byteList56.iterator();
-    java.lang.Byte[] byteArray63 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray63 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList64 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean65 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList64, byteArray63);
-    java.lang.Integer[] intArray68 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray68 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList69 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean70 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList69, intArray68);
     boolean boolean71 = byteList64.retainAll(intList69);
-    java.lang.Integer[] intArray74 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray74 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList75 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean76 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList75, intArray74);
@@ -10665,9 +11970,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1233() throws Throwable {
-    if (debug)
+  public void test1233() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1233");
+    }
     opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData(
         (-18));
     simulatorData1.setCounter((-1));
@@ -10677,17 +11984,22 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1234() throws Throwable {
-    if (debug)
+  public void test1234() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1234");
-    org.ccsds.moims.mo.mal.structures.Identifier identifier1 = new org.ccsds.moims.mo.mal.structures.Identifier(
-        "opssat");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList2 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.Identifier identifier1 =
+        new org.ccsds.moims.mo.mal.structures.Identifier(
+            "opssat");
+    org.ccsds.moims.mo.mal.structures.OctetList octetList2 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int3 = octetList2.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort4 = octetList2.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor5 = octetList2.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor7 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList2, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor7 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList2, "hi!");
     argumentDescriptor7.restoreArgument();
     argumentDescriptor7.restoreArgument();
     argumentDescriptor7.restoreArgument();
@@ -10701,45 +12013,53 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1235() throws Throwable {
-    if (debug)
+  public void test1235() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1235");
+    }
     org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
     java.lang.Integer int2 = uRI1.getTypeShortForm();
     java.lang.String str3 = uRI1.toString();
     java.lang.String str4 = uRI1.getValue();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uRI1.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList7 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    org.ccsds.moims.mo.mal.structures.ShortList shortList7 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.lang.Long long8 = shortList7.getShortForm();
     java.util.stream.Stream<java.lang.Short> shortStream9 = shortList7.stream();
     boolean boolean10 = uOctet5.equals(shortList7);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray17 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray17 = new float[]{28, 8};
     simulatorSpacecraftState14.setQ(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double23 = simulatorSpacecraftState22.getLatitude();
     java.lang.String str24 = simulatorSpacecraftState22.getMagField();
     float[] floatArray25 = simulatorSpacecraftState22.getR();
     simulatorSpacecraftState14.setQ(floatArray25);
     java.lang.String str27 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray25);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState31 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState31 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double32 = simulatorSpacecraftState31.getLatitude();
     double double33 = simulatorSpacecraftState31.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double38 = simulatorSpacecraftState37.getLatitude();
     java.lang.String str39 = simulatorSpacecraftState37.getMagField();
     float[] floatArray40 = simulatorSpacecraftState37.getR();
     simulatorSpacecraftState31.setQ(floatArray40);
     float[] floatArray42 = simulatorSpacecraftState31.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData43 = new opssat.simulator.celestia.CelestiaData(
-        floatArray25, floatArray42);
+    opssat.simulator.celestia.CelestiaData celestiaData43 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray25, floatArray42);
     float[] floatArray44 = celestiaData43.getQ();
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -10751,17 +12071,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData55 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date56 = simulatorData55.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap57 = opssat.simulator.util.SimulatorData
-        .computeDiff(date53, date56);
-    opssat.simulator.util.SimulatorHeader simulatorHeader58 = new opssat.simulator.util.SimulatorHeader(
-        false, date49, date56);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap57 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date53, date56);
+    opssat.simulator.util.SimulatorHeader simulatorHeader58 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date49, date56);
     opssat.simulator.util.SimulatorData simulatorData59 = new opssat.simulator.util.SimulatorData(
         (short) 0, date49);
     celestiaData43.setDate(date49);
     int int61 = celestiaData43.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState65 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray68 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState65 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray68 = new float[]{28, 8};
     simulatorSpacecraftState65.setQ(floatArray68);
     celestiaData43.setQ(floatArray68);
     boolean boolean71 = shortList7.contains(celestiaData43);
@@ -10787,7 +12110,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double23 + "' != '" + 340.0d + "'", double23 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str24 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str24.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray25);
     org.junit.Assert.assertTrue("'" + str27 + "' != '" + "UnknownGUIData" + "'",
@@ -10797,7 +12120,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double38 + "' != '" + 340.0d + "'", double38 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str39 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str39.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray40);
     org.junit.Assert.assertNotNull(floatArray42);
@@ -10812,9 +12135,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1236() throws Throwable {
-    if (debug)
+  public void test1236() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1236");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -10825,10 +12150,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     java.util.Date date14 = simulatorHeader13.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData15 = new opssat.simulator.util.SimulatorData(
         13, date14);
@@ -10843,30 +12170,40 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1237() throws Throwable {
-    if (debug)
+  public void test1237() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1237");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience13 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience13 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double14 = gPSSatInViewScience13.getMaxDistance();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience23 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience32 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience23 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience32 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double33 = gPSSatInViewScience32.getMaxDistance();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience42 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience51 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience42 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience51 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double52 = gPSSatInViewScience51.getStdDevElevation();
-    opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray53 = new opssat.simulator.orekit.GPSSatInViewScience[] {
-        gPSSatInViewScience13, gPSSatInViewScience23, gPSSatInViewScience32, gPSSatInViewScience42,
-        gPSSatInViewScience51 };
+    opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray53 =
+        new opssat.simulator.orekit.GPSSatInViewScience[]{
+          gPSSatInViewScience13, gPSSatInViewScience23, gPSSatInViewScience32, gPSSatInViewScience42,
+          gPSSatInViewScience51};
     opssat.simulator.orekit.GPSSatInViewScience[] gPSSatInViewScienceArray54 = shortList2
         .toArray(gPSSatInViewScienceArray53);
     shortList2.ensureCapacity(44);
@@ -10887,12 +12224,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1238() throws Throwable {
-    if (debug)
+  public void test1238() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1238");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     opssat.simulator.util.SimulatorData simulatorData4 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date5 = simulatorData4.getCurrentTime();
@@ -10903,10 +12243,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData11 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date12 = simulatorData11.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 = opssat.simulator.util.SimulatorData
-        .computeDiff(date9, date12);
-    opssat.simulator.util.SimulatorHeader simulatorHeader14 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date12);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date9, date12);
+    opssat.simulator.util.SimulatorHeader simulatorHeader14 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
     simulatorHeader14.setUseOrekit(true);
@@ -10915,19 +12257,21 @@ public class RegressionTest2 {
     endlessWavStreamOperatingBuffer1.setDataBuffer("yyyy:MM:dd HH:mm:ss z");
     org.ccsds.moims.mo.mal.structures.ULong uLong23 = new org.ccsds.moims.mo.mal.structures.ULong();
     java.lang.Long long24 = uLong23.getShortForm();
-    java.lang.Boolean[] booleanArray26 = new java.lang.Boolean[] { true };
-    java.util.ArrayList<java.lang.Boolean> booleanList27 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray26 = new java.lang.Boolean[]{true};
+    java.util.ArrayList<java.lang.Boolean> booleanList27 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean28 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList27, booleanArray26);
     java.util.Spliterator<java.lang.Boolean> booleanSpliterator29 = booleanList27.spliterator();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList30 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList30 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     octetList30.ensureCapacity(13);
-    java.lang.Byte[] byteArray37 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean39 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList38, byteArray37);
-    java.lang.Integer[] intArray42 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray42 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList43 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean44 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList43, intArray42);
@@ -10938,8 +12282,9 @@ public class RegressionTest2 {
     java.lang.String str49 = booleanList27.toString();
     java.lang.String str50 = booleanList27.toString();
     boolean boolean51 = uLong23.equals(booleanList27);
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience60 = new opssat.simulator.orekit.GPSSatInViewScience(
-        4.0d, (short) 100, 281475010265075L, (-4), 0.0d, (-7), 281474993487888L, (short) 255);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience60 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            4.0d, (short) 100, 281475010265075L, (-4), 0.0d, (-7), 281474993487888L, (short) 255);
     double double61 = gPSSatInViewScience60.getMaxDistance();
     boolean boolean62 = uLong23.equals(gPSSatInViewScience60);
     endlessWavStreamOperatingBuffer1.setDataBuffer(gPSSatInViewScience60);
@@ -10973,16 +12318,18 @@ public class RegressionTest2 {
     org.junit.Assert
         .assertTrue(
             "'" + str64 + "' != '"
-                + "Unknown data type [opssat.simulator.orekit.GPSSatInViewScience]" + "'",
+            + "Unknown data type [opssat.simulator.orekit.GPSSatInViewScience]" + "'",
             str64.equals("Unknown data type [opssat.simulator.orekit.GPSSatInViewScience]"));
     org.junit.Assert.assertTrue("'" + int65 + "' != '" + 0 + "'", int65 == 0);
     org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + false + "'", boolean67 == false);
   }
 
   @Test
-  public void test1239() throws Throwable {
-    if (debug)
+  public void test1239() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1239");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -10993,10 +12340,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
     simulatorHeader12.setUseOrekit(true);
@@ -11013,21 +12362,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1240() throws Throwable {
-    if (debug)
+  public void test1240() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1240");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
     float[] floatArray8 = simulatorSpacecraftState3.getQ();
     double double9 = simulatorSpacecraftState3.getLongitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState13 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray16 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState13 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray16 = new float[]{28, 8};
     simulatorSpacecraftState13.setQ(floatArray16);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double22 = simulatorSpacecraftState21.getLatitude();
     java.lang.String str23 = simulatorSpacecraftState21.getMagField();
     float[] floatArray24 = simulatorSpacecraftState21.getR();
@@ -11045,7 +12399,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double22 + "' != '" + 340.0d + "'", double22 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str23 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str23.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray24);
     org.junit.Assert.assertTrue("'" + str26 + "' != '" + "UnknownGUIData" + "'",
@@ -11060,34 +12414,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1241() throws Throwable {
-    if (debug)
+  public void test1241() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1241");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     float[] floatArray33 = celestiaData32.getQ();
     opssat.simulator.util.SimulatorData simulatorData37 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -11099,10 +12460,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData44 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date45 = simulatorData44.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 = opssat.simulator.util.SimulatorData
-        .computeDiff(date42, date45);
-    opssat.simulator.util.SimulatorHeader simulatorHeader47 = new opssat.simulator.util.SimulatorHeader(
-        false, date38, date45);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date42, date45);
+    opssat.simulator.util.SimulatorHeader simulatorHeader47 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date38, date45);
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (short) 0, date38);
     celestiaData32.setDate(date38);
@@ -11115,7 +12478,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -11125,7 +12488,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -11138,9 +12501,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1242() throws Throwable {
-    if (debug)
+  public void test1242() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1242");
+    }
     try {
       opssat.simulator.orekit.GPSSatInView gPSSatInView2 = new opssat.simulator.orekit.GPSSatInView(
           "0309", 0);
@@ -11151,11 +12516,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1243() throws Throwable {
-    if (debug)
+  public void test1243() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1243");
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    }
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double9 = gPSSatInViewScience8.getMinElevation();
     double double10 = gPSSatInViewScience8.getMaxElevation();
     double double11 = gPSSatInViewScience8.getAvgDistance();
@@ -11167,56 +12535,67 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1244() throws Throwable {
-    if (debug)
+  public void test1244() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1244");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        60, 14, "01700.0000000");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            60, 14, "01700.0000000");
     long long4 = simulatorSchedulerPiece3.getTime();
     simulatorSchedulerPiece3.setExecuted(false);
     org.junit.Assert.assertTrue("'" + long4 + "' != '" + 60L + "'", long4 == 60L);
   }
 
   @Test
-  public void test1245() throws Throwable {
-    if (debug)
+  public void test1245() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1245");
+    }
     org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
     java.lang.Integer int2 = uRI1.getTypeShortForm();
     java.lang.String str3 = uRI1.toString();
     java.lang.String str4 = uRI1.getValue();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uRI1.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList7 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    org.ccsds.moims.mo.mal.structures.ShortList shortList7 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.lang.Long long8 = shortList7.getShortForm();
     java.util.stream.Stream<java.lang.Short> shortStream9 = shortList7.stream();
     boolean boolean10 = uOctet5.equals(shortList7);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray17 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray17 = new float[]{28, 8};
     simulatorSpacecraftState14.setQ(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double23 = simulatorSpacecraftState22.getLatitude();
     java.lang.String str24 = simulatorSpacecraftState22.getMagField();
     float[] floatArray25 = simulatorSpacecraftState22.getR();
     simulatorSpacecraftState14.setQ(floatArray25);
     java.lang.String str27 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray25);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState31 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState31 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double32 = simulatorSpacecraftState31.getLatitude();
     double double33 = simulatorSpacecraftState31.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double38 = simulatorSpacecraftState37.getLatitude();
     java.lang.String str39 = simulatorSpacecraftState37.getMagField();
     float[] floatArray40 = simulatorSpacecraftState37.getR();
     simulatorSpacecraftState31.setQ(floatArray40);
     float[] floatArray42 = simulatorSpacecraftState31.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData43 = new opssat.simulator.celestia.CelestiaData(
-        floatArray25, floatArray42);
+    opssat.simulator.celestia.CelestiaData celestiaData43 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray25, floatArray42);
     float[] floatArray44 = celestiaData43.getQ();
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -11228,17 +12607,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData55 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date56 = simulatorData55.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap57 = opssat.simulator.util.SimulatorData
-        .computeDiff(date53, date56);
-    opssat.simulator.util.SimulatorHeader simulatorHeader58 = new opssat.simulator.util.SimulatorHeader(
-        false, date49, date56);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap57 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date53, date56);
+    opssat.simulator.util.SimulatorHeader simulatorHeader58 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date49, date56);
     opssat.simulator.util.SimulatorData simulatorData59 = new opssat.simulator.util.SimulatorData(
         (short) 0, date49);
     celestiaData43.setDate(date49);
     int int61 = celestiaData43.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState65 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray68 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState65 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray68 = new float[]{28, 8};
     simulatorSpacecraftState65.setQ(floatArray68);
     celestiaData43.setQ(floatArray68);
     boolean boolean71 = shortList7.contains(celestiaData43);
@@ -11262,7 +12644,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double23 + "' != '" + 340.0d + "'", double23 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str24 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str24.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray25);
     org.junit.Assert.assertTrue("'" + str27 + "' != '" + "UnknownGUIData" + "'",
@@ -11272,7 +12654,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double38 + "' != '" + 340.0d + "'", double38 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str39 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str39.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray40);
     org.junit.Assert.assertNotNull(floatArray42);
@@ -11287,12 +12669,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1246() throws Throwable {
-    if (debug)
+  public void test1246() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1246");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     byte[] byteArray5 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int16_2ByteArray(15);
     endlessSingleStreamOperatingBuffer1.setDataFromByteArray(byteArray5);
@@ -11316,20 +12701,25 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1247() throws Throwable {
-    if (debug)
+  public void test1247() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1247");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        (-7), 64, "0.0");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            (-7), 64, "0.0");
     simulatorSchedulerPiece3.setExecuted(false);
     java.lang.String str6 = simulatorSchedulerPiece3.getArgumentTemplateDescription();
     org.junit.Assert.assertTrue("'" + str6 + "' != '" + "0.0" + "'", str6.equals("0.0"));
   }
 
   @Test
-  public void test1248() throws Throwable {
-    if (debug)
+  public void test1248() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1248");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -11340,10 +12730,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     opssat.simulator.util.SimulatorData simulatorData14 = new opssat.simulator.util.SimulatorData(
         (short) 0, date4);
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
@@ -11356,10 +12748,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData24 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date25 = simulatorData24.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 = opssat.simulator.util.SimulatorData
-        .computeDiff(date22, date25);
-    opssat.simulator.util.SimulatorHeader simulatorHeader27 = new opssat.simulator.util.SimulatorHeader(
-        false, date18, date25);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date22, date25);
+    opssat.simulator.util.SimulatorHeader simulatorHeader27 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date18, date25);
     java.util.Date date28 = simulatorHeader27.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData32 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -11377,12 +12771,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData45 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date46 = simulatorData45.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 = opssat.simulator.util.SimulatorData
-        .computeDiff(date43, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader48 = new opssat.simulator.util.SimulatorHeader(
-        false, date39, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader49 = new opssat.simulator.util.SimulatorHeader(
-        false, date34, date39);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date43, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader48 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date39, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader49 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date34, date39);
     simulatorHeader27.setEndDate(date34);
     simulatorData14.initFromHeader(simulatorHeader27);
     boolean boolean52 = simulatorHeader27.checkStartBeforeEnd();
@@ -11409,11 +12806,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1249() throws Throwable {
-    if (debug)
+  public void test1249() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1249");
-    org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList(
-        (short) 10);
+    }
+    org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 =
+        new org.ccsds.moims.mo.mal.structures.DoubleList(
+            (short) 10);
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
     boolean boolean4 = doubleList1.contains((-1));
     int int5 = doubleList1.size();
@@ -11427,11 +12827,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1250() throws Throwable {
-    if (debug)
+  public void test1250() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1250");
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    }
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double9 = gPSSatInViewScience8.getStdDevElevation();
     double double10 = gPSSatInViewScience8.getMinElevation();
     double double11 = gPSSatInViewScience8.getAvgElevation();
@@ -11442,9 +12845,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1251() throws Throwable {
-    if (debug)
+  public void test1251() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1251");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -11455,10 +12860,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -11476,12 +12883,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData30 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date31 = simulatorData30.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 = opssat.simulator.util.SimulatorData
-        .computeDiff(date28, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader33 = new opssat.simulator.util.SimulatorHeader(
-        false, date24, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader34 = new opssat.simulator.util.SimulatorHeader(
-        false, date19, date24);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date28, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader33 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date24, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader34 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     simulatorHeader12.setUseCelestia(true);
     java.lang.String str38 = simulatorHeader12.DATE_FORMAT;
@@ -11502,9 +12912,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1252() throws Throwable {
-    if (debug)
+  public void test1252() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1252");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -11515,10 +12927,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -11533,10 +12947,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData26 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date27 = simulatorData26.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 = opssat.simulator.util.SimulatorData
-        .computeDiff(date24, date27);
-    opssat.simulator.util.SimulatorHeader simulatorHeader29 = new opssat.simulator.util.SimulatorHeader(
-        false, date20, date27);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date24, date27);
+    opssat.simulator.util.SimulatorHeader simulatorHeader29 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date20, date27);
     simulatorHeader12.setStartDate(date27);
     simulatorHeader12.setKeplerElements("-0100.0000000");
     boolean boolean34 = simulatorHeader12.validateTimeFactor(23);
@@ -11557,9 +12973,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1253() throws Throwable {
-    if (debug)
+  public void test1253() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1253");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -11576,12 +12994,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     simulatorHeader20.setCelestiaPort((short) 0);
@@ -11597,10 +13018,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData38 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date39 = simulatorData38.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap40 = opssat.simulator.util.SimulatorData
-        .computeDiff(date36, date39);
-    opssat.simulator.util.SimulatorHeader simulatorHeader41 = new opssat.simulator.util.SimulatorHeader(
-        false, date32, date39);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap40 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date36, date39);
+    opssat.simulator.util.SimulatorHeader simulatorHeader41 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date32, date39);
     java.util.Date date42 = simulatorHeader41.getEndDate();
     simulatorHeader41.setOrekitTLE1("");
     java.util.Date date46 = simulatorHeader41.parseStringIntoDate("2019/05/23-15:09:35");
@@ -11627,10 +13050,13 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1254() throws Throwable {
-    if (debug)
+  public void test1254() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1254");
-    org.ccsds.moims.mo.mal.structures.LongList longList0 = new org.ccsds.moims.mo.mal.structures.LongList();
+    }
+    org.ccsds.moims.mo.mal.structures.LongList longList0 =
+        new org.ccsds.moims.mo.mal.structures.LongList();
     java.util.ListIterator<java.lang.Long> longItor1 = longList0.listIterator();
     java.util.Spliterator<java.lang.Long> longSpliterator2 = longList0.spliterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = longList0.getAreaVersion();
@@ -11650,12 +13076,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData20 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date21 = simulatorData20.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap22 = opssat.simulator.util.SimulatorData
-        .computeDiff(date18, date21);
-    opssat.simulator.util.SimulatorHeader simulatorHeader23 = new opssat.simulator.util.SimulatorHeader(
-        false, date14, date21);
-    opssat.simulator.util.SimulatorHeader simulatorHeader24 = new opssat.simulator.util.SimulatorHeader(
-        false, date9, date14);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap22 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date18, date21);
+    opssat.simulator.util.SimulatorHeader simulatorHeader23 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date14, date21);
+    opssat.simulator.util.SimulatorHeader simulatorHeader24 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date9, date14);
     boolean boolean25 = simulatorHeader24.checkStartBeforeEnd();
     boolean boolean26 = uOctet3.equals(simulatorHeader24);
     int int27 = simulatorHeader24.getTimeFactor();
@@ -11675,9 +13104,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1255() throws Throwable {
-    if (debug)
+  public void test1255() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1255");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -11688,10 +13119,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -11706,10 +13139,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData26 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date27 = simulatorData26.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 = opssat.simulator.util.SimulatorData
-        .computeDiff(date24, date27);
-    opssat.simulator.util.SimulatorHeader simulatorHeader29 = new opssat.simulator.util.SimulatorHeader(
-        false, date20, date27);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date24, date27);
+    opssat.simulator.util.SimulatorHeader simulatorHeader29 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date20, date27);
     simulatorHeader12.setStartDate(date27);
     simulatorHeader12.setKeplerElements("-0100.0000000");
     java.lang.String str33 = simulatorHeader12.toString();
@@ -11728,30 +13163,39 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1256() throws Throwable {
-    if (debug)
+  public void test1256() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1256");
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 = new opssat.simulator.orekit.GPSSatInViewScience(
-        3, 0.0f, 281474993487878L, (-2), 38, 36, 0.0d, (-1));
+    }
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience8 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            3, 0.0f, 281474993487878L, (-2), 38, 36, 0.0d, (-1));
     double double9 = gPSSatInViewScience8.getMaxDistance();
     org.junit.Assert.assertTrue("'" + double9 + "' != '" + 0.0d + "'", double9 == 0.0d);
   }
 
   @Test
-  public void test1257() throws Throwable {
-    if (debug)
+  public void test1257() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1257");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.util.stream.BaseStream[] baseStreamArray6 = new java.util.stream.BaseStream[0];
     @SuppressWarnings("unchecked")
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 = baseStreamArray6;
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 = stringList0
-        .toArray(
-            (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 =
+        baseStreamArray6;
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 =
+        stringList0
+            .toArray(
+                (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
     java.util.stream.Stream<java.lang.String> strStream9 = stringList0.stream();
     java.lang.Object obj10 = stringList0.clone();
     opssat.simulator.gui.GuiApp guiApp13 = null;
@@ -11779,8 +13223,9 @@ public class RegressionTest2 {
     opssat.simulator.tcp.SocketClient socketClient57 = new opssat.simulator.tcp.SocketClient(
         "{counter=8, methodsExecuted=0, currentTime=Thu May 23 15:09:32 UTC 2019}", 0, guiApp56);
     socketClient57.setTargetConnection("030936.762", 4);
-    opssat.simulator.tcp.SocketClient[] socketClientArray61 = new opssat.simulator.tcp.SocketClient[] {
-        socketClient14, socketClient27, socketClient40, socketClient44, socketClient57 };
+    opssat.simulator.tcp.SocketClient[] socketClientArray61 =
+        new opssat.simulator.tcp.SocketClient[]{
+          socketClient14, socketClient27, socketClient40, socketClient44, socketClient57};
     opssat.simulator.tcp.SocketClient[] socketClientArray62 = stringList0
         .toArray(socketClientArray61);
     org.junit.Assert.assertNotNull(shortItor3);
@@ -11795,21 +13240,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1258() throws Throwable {
-    if (debug)
+  public void test1258() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1258");
+    }
     boolean boolean1 = opssat.simulator.threading.SimulatorNode
         .isInteger("2019:05:23 15:09:43 UTC");
     org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + false + "'", boolean1 == false);
   }
 
   @Test
-  public void test1259() throws Throwable {
-    if (debug)
+  public void test1259() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1259");
+    }
     java.util.logging.Logger logger2 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer3 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger2);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer3 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger2);
     byte[] byteArray5 = endlessSingleStreamOperatingBuffer3.getDataAsByteArray('4');
     org.ccsds.moims.mo.mal.structures.Union union7 = new org.ccsds.moims.mo.mal.structures.Union(
         "$DEFAULT");
@@ -11828,23 +13278,29 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1260() throws Throwable {
-    if (debug)
+  public void test1260() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1260");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        100L, 281474993487886L, (byte) 0);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState7 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            100L, 281474993487886L, (byte) 0);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState7 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double8 = simulatorSpacecraftState7.getLatitude();
     double double9 = simulatorSpacecraftState7.getLongitude();
     java.lang.String str10 = simulatorSpacecraftState7.getModeOperation();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState14.setLongitude(4);
-    double[] doubleArray18 = new double[] { (-1.0f) };
+    double[] doubleArray18 = new double[]{(-1.0f)};
     simulatorSpacecraftState14.setMagField(doubleArray18);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double24 = simulatorSpacecraftState23.getLatitude();
     java.lang.String str25 = simulatorSpacecraftState23.getMagField();
     java.lang.String str26 = simulatorSpacecraftState23.toString();
@@ -11854,8 +13310,9 @@ public class RegressionTest2 {
     simulatorSpacecraftState7.setModeOperation("0");
     simulatorSpacecraftState7.setModeOperation("030936.762");
     simulatorSpacecraftState7.setAltitude(60);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double40 = simulatorSpacecraftState39.getLatitude();
     java.lang.String str41 = simulatorSpacecraftState39.getMagField();
     float[] floatArray42 = simulatorSpacecraftState39.getR();
@@ -11869,64 +13326,76 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double24 + "' != '" + 340.0d + "'", double24 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str25 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str25.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str26 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str26.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray27);
     org.junit.Assert.assertTrue("'" + double40 + "' != '" + 340.0d + "'", double40 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str41 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str41.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray42);
     org.junit.Assert.assertNotNull(floatArray45);
   }
 
   @Test
-  public void test1261() throws Throwable {
-    if (debug)
+  public void test1261() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1261");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList3 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList3 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int4 = octetList3.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort5 = octetList3.getAreaNumber();
     java.lang.Object[] objArray6 = octetList3.toArray();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList7 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int8 = octetList7.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort9 = octetList7.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor10 = octetList7.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList7, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList7, "hi!");
     org.ccsds.moims.mo.mal.structures.UShort uShort13 = octetList7.getAreaNumber();
-    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList17 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean18 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList17, booleanArray16);
     int int20 = booleanList17.indexOf(10);
     java.util.Iterator<java.lang.Boolean> booleanItor21 = booleanList17.iterator();
     java.util.Spliterator<java.lang.Boolean> booleanSpliterator22 = booleanList17.spliterator();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList23 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList23 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int24 = octetList23.getTypeShortForm();
     java.lang.Object obj25 = octetList23.clone();
     octetList23.trimToSize();
     boolean boolean27 = booleanList17.contains(octetList23);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList28 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList28 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int29 = octetList28.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort30 = octetList28.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList31 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList31 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int32 = octetList31.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort33 = octetList31.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = octetList31.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList35 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList35 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int36 = octetList35.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort37 = octetList35.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray38 = new org.ccsds.moims.mo.mal.structures.OctetList[] {
-        octetList3, octetList7, octetList23, octetList28, octetList31, octetList35 };
+    org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray38 =
+        new org.ccsds.moims.mo.mal.structures.OctetList[]{
+          octetList3, octetList7, octetList23, octetList28, octetList31, octetList35};
     org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray39 = octetList0
         .toArray(octetListArray38);
     java.lang.Long long40 = octetList0.getShortForm();
@@ -11965,30 +13434,39 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1262() throws Throwable {
-    if (debug)
+  public void test1262() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1262");
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap1 = opssat.simulator.util.SimulatorData
-        .computeTimeUnit(0);
+    }
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap1 =
+        opssat.simulator.util.SimulatorData
+            .computeTimeUnit(0);
     org.junit.Assert.assertNotNull(timeUnitMap1);
   }
 
   @Test
-  public void test1263() throws Throwable {
-    if (debug)
+  public void test1263() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1263");
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap1 = opssat.simulator.util.SimulatorData
-        .computeTimeUnit((short) 255);
+    }
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap1 =
+        opssat.simulator.util.SimulatorData
+            .computeTimeUnit((short) 255);
     org.junit.Assert.assertNotNull(timeUnitMap1);
   }
 
   @Test
-  public void test1264() throws Throwable {
-    if (debug)
+  public void test1264() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1264");
+    }
     opssat.simulator.threading.SimulatorNode simulatorNode0 = null;
-    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver2 = new opssat.simulator.peripherals.POpticalReceiver(
-        simulatorNode0, "031008.320");
+    opssat.simulator.peripherals.POpticalReceiver pOpticalReceiver2 =
+        new opssat.simulator.peripherals.POpticalReceiver(
+            simulatorNode0, "031008.320");
     try {
       pOpticalReceiver2.simSetSuccessRate(32);
       org.junit.Assert
@@ -11998,15 +13476,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1265() throws Throwable {
-    if (debug)
+  public void test1265() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1265");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     java.lang.Object obj6 = argumentDescriptor5.getType();
     java.lang.String str7 = argumentDescriptor5.toString();
     argumentDescriptor5.restoreArgument();
@@ -12018,16 +13500,20 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1266() throws Throwable {
-    if (debug)
+  public void test1266() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1266");
-    java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
+    }
+    java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList3 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean4 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList3, booleanArray2);
     int int6 = booleanList3.indexOf(10);
     booleanList3.clear();
-    opssat.simulator.util.DateExtraction dateExtraction8 = new opssat.simulator.util.DateExtraction();
+    opssat.simulator.util.DateExtraction dateExtraction8 =
+        new opssat.simulator.util.DateExtraction();
     boolean boolean9 = booleanList3.equals(dateExtraction8);
     boolean boolean10 = booleanList3.isEmpty();
     java.util.stream.Stream<java.lang.Boolean> booleanStream11 = booleanList3.parallelStream();
@@ -12041,66 +13527,72 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1267() throws Throwable {
-    if (debug)
+  public void test1267() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1267");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.util.Iterator<java.lang.Short> shortItor5 = shortList2.iterator();
     java.lang.Long long6 = shortList2.getShortForm();
     java.lang.Long long7 = shortList2.getShortForm();
-    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience16 = new opssat.simulator.orekit.GPSSatInViewScience(
-        9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
+    opssat.simulator.orekit.GPSSatInViewScience gPSSatInViewScience16 =
+        new opssat.simulator.orekit.GPSSatInViewScience(
+            9, 0.0f, 48, 56, (short) 1, 281474993487878L, 58, 11111);
     double double17 = gPSSatInViewScience16.getStdDevElevation();
     double double18 = gPSSatInViewScience16.getMaxDistance();
     double double19 = gPSSatInViewScience16.getAvgElevation();
     boolean boolean20 = shortList2.contains(double19);
-    java.lang.Boolean[] booleanArray22 = new java.lang.Boolean[] { true };
-    java.util.ArrayList<java.lang.Boolean> booleanList23 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray22 = new java.lang.Boolean[]{true};
+    java.util.ArrayList<java.lang.Boolean> booleanList23 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean24 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList23, booleanArray22);
     java.util.Spliterator<java.lang.Boolean> booleanSpliterator25 = booleanList23.spliterator();
-    java.lang.Byte[] byteArray30 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray30 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList31 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean32 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList31, byteArray30);
-    java.lang.Integer[] intArray35 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray35 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList36 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean37 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList36, intArray35);
     boolean boolean38 = byteList31.retainAll(intList36);
-    java.lang.Integer[] intArray46 = new java.lang.Integer[] { 13, 10, 100, 100, 11111, 13, 11111 };
+    java.lang.Integer[] intArray46 = new java.lang.Integer[]{13, 10, 100, 100, 11111, 13, 11111};
     java.util.ArrayList<java.lang.Integer> intList47 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean48 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList47, intArray46);
-    java.lang.Byte[] byteArray53 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray53 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList54 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean55 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList54, byteArray53);
-    java.lang.Integer[] intArray58 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray58 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList59 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean60 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList59, intArray58);
     boolean boolean61 = byteList54.retainAll(intList59);
-    java.lang.Integer[] intArray64 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray64 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList65 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean66 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList65, intArray64);
     int int68 = intList65.lastIndexOf((byte) 10);
     boolean boolean69 = intList59.removeAll(intList65);
     boolean boolean70 = intList47.retainAll(intList65);
-    java.lang.Float[] floatArray74 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray74 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList75 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean76 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList75, floatArray74);
     boolean boolean78 = floatList75.add((-1.0f));
     floatList75.trimToSize();
-    java.lang.Integer[] intArray84 = new java.lang.Integer[] { 100, 1, (-1), 10 };
+    java.lang.Integer[] intArray84 = new java.lang.Integer[]{100, 1, (-1), 10};
     java.util.ArrayList<java.lang.Integer> intList85 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean86 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList85, intArray84);
@@ -12157,9 +13649,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1268() throws Throwable {
-    if (debug)
+  public void test1268() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1268");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -12170,10 +13664,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData10 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date11 = simulatorData10.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 = opssat.simulator.util.SimulatorData
-        .computeDiff(date8, date11);
-    opssat.simulator.util.SimulatorHeader simulatorHeader13 = new opssat.simulator.util.SimulatorHeader(
-        false, date4, date11);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap12 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date8, date11);
+    opssat.simulator.util.SimulatorHeader simulatorHeader13 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date4, date11);
     opssat.simulator.util.SimulatorData simulatorData14 = new opssat.simulator.util.SimulatorData(
         (short) 0, date4);
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
@@ -12186,10 +13682,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData24 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date25 = simulatorData24.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 = opssat.simulator.util.SimulatorData
-        .computeDiff(date22, date25);
-    opssat.simulator.util.SimulatorHeader simulatorHeader27 = new opssat.simulator.util.SimulatorHeader(
-        false, date18, date25);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap26 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date22, date25);
+    opssat.simulator.util.SimulatorHeader simulatorHeader27 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date18, date25);
     java.util.Date date28 = simulatorHeader27.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData32 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -12207,12 +13705,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData45 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date46 = simulatorData45.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 = opssat.simulator.util.SimulatorData
-        .computeDiff(date43, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader48 = new opssat.simulator.util.SimulatorHeader(
-        false, date39, date46);
-    opssat.simulator.util.SimulatorHeader simulatorHeader49 = new opssat.simulator.util.SimulatorHeader(
-        false, date34, date39);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap47 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date43, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader48 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date39, date46);
+    opssat.simulator.util.SimulatorHeader simulatorHeader49 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date34, date39);
     simulatorHeader27.setEndDate(date34);
     simulatorData14.initFromHeader(simulatorHeader27);
     java.lang.String str52 = simulatorHeader27.getOrekitPropagator();
@@ -12238,28 +13739,34 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1269() throws Throwable {
-    if (debug)
+  public void test1269() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1269");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    float[] floatArray11 = new float[] { 281474993487887L, 281475010265070L, 281474993487881L };
+    float[] floatArray11 = new float[]{281474993487887L, 281475010265070L, 281474993487881L};
     simulatorSpacecraftState3.setRv(floatArray11);
     java.lang.String str13 = simulatorSpacecraftState3.getModeOperation();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray20 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray20 = new float[]{28, 8};
     simulatorSpacecraftState17.setQ(floatArray20);
     float[] floatArray22 = simulatorSpacecraftState17.getQ();
     double double23 = simulatorSpacecraftState17.getLongitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState27 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray30 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState27 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray30 = new float[]{28, 8};
     simulatorSpacecraftState27.setQ(floatArray30);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState35 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState35 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double36 = simulatorSpacecraftState35.getLatitude();
     java.lang.String str37 = simulatorSpacecraftState35.getMagField();
     float[] floatArray38 = simulatorSpacecraftState35.getR();
@@ -12280,7 +13787,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double36 + "' != '" + 340.0d + "'", double36 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str37 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str37.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray38);
     org.junit.Assert.assertTrue("'" + str40 + "' != '" + "UnknownGUIData" + "'",
@@ -12290,23 +13797,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1270() throws Throwable {
-    if (debug)
+  public void test1270() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1270");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
     int int8 = simulatorSpacecraftState3.getSatsInView();
     simulatorSpacecraftState3.setAltitude((-5));
-    double[] doubleArray15 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray20 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray25 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray30 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray35 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[] doubleArray40 = new double[] { 281474993487879L, 66, 97, (short) 255 };
-    double[][] doubleArray41 = new double[][] { doubleArray15, doubleArray20, doubleArray25,
-        doubleArray30, doubleArray35, doubleArray40 };
+    double[] doubleArray15 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray20 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray25 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray30 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray35 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[] doubleArray40 = new double[]{281474993487879L, 66, 97, (short) 255};
+    double[][] doubleArray41 = new double[][]{doubleArray15, doubleArray20, doubleArray25,
+      doubleArray30, doubleArray35, doubleArray40};
     simulatorSpacecraftState3.setRotation(doubleArray41);
     float[] floatArray43 = simulatorSpacecraftState3.getRv();
     org.junit.Assert.assertNotNull(floatArray6);
@@ -12322,11 +13832,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1271() throws Throwable {
-    if (debug)
+  public void test1271() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1271");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState3.setLongitude(4);
     int int6 = simulatorSpacecraftState3.getSatsInView();
     float[] floatArray7 = simulatorSpacecraftState3.getRv();
@@ -12339,9 +13852,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1272() throws Throwable {
-    if (debug)
+  public void test1272() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1272");
+    }
     opssat.simulator.util.MyFormatter myFormatter0 = new opssat.simulator.util.MyFormatter();
     java.util.logging.Handler handler1 = null;
     java.lang.String str2 = myFormatter0.getHead(handler1);
@@ -12349,37 +13864,45 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1273() throws Throwable {
-    if (debug)
+  public void test1273() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1273");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
     java.util.Iterator<java.lang.String> strItor1 = stringList0.iterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = stringList0.getAreaVersion();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray9 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray9 = new float[]{28, 8};
     simulatorSpacecraftState6.setQ(floatArray9);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double15 = simulatorSpacecraftState14.getLatitude();
     java.lang.String str16 = simulatorSpacecraftState14.getMagField();
     float[] floatArray17 = simulatorSpacecraftState14.getR();
     simulatorSpacecraftState6.setQ(floatArray17);
     java.lang.String str19 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double24 = simulatorSpacecraftState23.getLatitude();
     double double25 = simulatorSpacecraftState23.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double30 = simulatorSpacecraftState29.getLatitude();
     java.lang.String str31 = simulatorSpacecraftState29.getMagField();
     float[] floatArray32 = simulatorSpacecraftState29.getR();
     simulatorSpacecraftState23.setQ(floatArray32);
     float[] floatArray34 = simulatorSpacecraftState23.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData35 = new opssat.simulator.celestia.CelestiaData(
-        floatArray17, floatArray34);
+    opssat.simulator.celestia.CelestiaData celestiaData35 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray17, floatArray34);
     float[] floatArray36 = celestiaData35.getQ();
     opssat.simulator.util.SimulatorData simulatorData40 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -12391,17 +13914,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData47 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date48 = simulatorData47.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 = opssat.simulator.util.SimulatorData
-        .computeDiff(date45, date48);
-    opssat.simulator.util.SimulatorHeader simulatorHeader50 = new opssat.simulator.util.SimulatorHeader(
-        false, date41, date48);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date45, date48);
+    opssat.simulator.util.SimulatorHeader simulatorHeader50 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date41, date48);
     opssat.simulator.util.SimulatorData simulatorData51 = new opssat.simulator.util.SimulatorData(
         (short) 0, date41);
     celestiaData35.setDate(date41);
     int int53 = celestiaData35.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray60 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray60 = new float[]{28, 8};
     simulatorSpacecraftState57.setQ(floatArray60);
     celestiaData35.setQ(floatArray60);
     int int63 = stringList0.lastIndexOf(celestiaData35);
@@ -12414,7 +13940,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double15 + "' != '" + 340.0d + "'", double15 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str16 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str16.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray17);
     org.junit.Assert.assertTrue("'" + str19 + "' != '" + "UnknownGUIData" + "'",
@@ -12424,7 +13950,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double30 + "' != '" + 340.0d + "'", double30 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str31 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str31.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray32);
     org.junit.Assert.assertNotNull(floatArray34);
@@ -12439,11 +13965,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1274() throws Throwable {
-    if (debug)
+  public void test1274() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1274");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        13L, 0, "hi!");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            13L, 0, "hi!");
     long long4 = simulatorSchedulerPiece3.getTime();
     int int5 = simulatorSchedulerPiece3.getInternalID();
     java.lang.String str6 = simulatorSchedulerPiece3.getFileString();
@@ -12463,9 +13992,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1275() throws Throwable {
-    if (debug)
+  public void test1275() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1275");
+    }
     opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData(
         (-18));
     simulatorData1.setCounter((-1));
@@ -12480,12 +14011,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1276() throws Throwable {
-    if (debug)
+  public void test1276() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1276");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     opssat.simulator.util.SimulatorData simulatorData4 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date5 = simulatorData4.getCurrentTime();
@@ -12496,10 +14030,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData11 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date12 = simulatorData11.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 = opssat.simulator.util.SimulatorData
-        .computeDiff(date9, date12);
-    opssat.simulator.util.SimulatorHeader simulatorHeader14 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date12);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap13 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date9, date12);
+    opssat.simulator.util.SimulatorHeader simulatorHeader14 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
     simulatorHeader14.setUseOrekit(true);
@@ -12523,25 +14059,31 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1277() throws Throwable {
-    if (debug)
+  public void test1277() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1277");
-    org.ccsds.moims.mo.mal.structures.UInteger uInteger1 = new org.ccsds.moims.mo.mal.structures.UInteger(
-        13);
+    }
+    org.ccsds.moims.mo.mal.structures.UInteger uInteger1 =
+        new org.ccsds.moims.mo.mal.structures.UInteger(
+            13);
     org.ccsds.moims.mo.mal.structures.Element element2 = uInteger1.createElement();
     long long3 = uInteger1.getValue();
     long long4 = uInteger1.getValue();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uInteger1.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.UShort uShort6 = uInteger1.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList7 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int8 = octetList7.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort9 = octetList7.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor10 = octetList7.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList7, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList7, "hi!");
     java.lang.Integer int13 = octetList7.getTypeShortForm();
-    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList17 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean18 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList17, booleanArray16);
     int int20 = booleanList17.indexOf(10);
@@ -12551,8 +14093,9 @@ public class RegressionTest2 {
     octetList7.trimToSize();
     org.ccsds.moims.mo.mal.structures.Element element26 = octetList7.createElement();
     boolean boolean27 = uInteger1.equals(octetList7);
-    org.ccsds.moims.mo.mal.structures.DoubleList doubleList29 = new org.ccsds.moims.mo.mal.structures.DoubleList(
-        (short) 10);
+    org.ccsds.moims.mo.mal.structures.DoubleList doubleList29 =
+        new org.ccsds.moims.mo.mal.structures.DoubleList(
+            (short) 10);
     org.ccsds.moims.mo.mal.structures.UShort uShort30 = doubleList29.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UShort uShort31 = doubleList29.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UShort uShort32 = doubleList29.getServiceNumber();
@@ -12561,13 +14104,16 @@ public class RegressionTest2 {
     org.ccsds.moims.mo.mal.structures.Element element35 = doubleList29.createElement();
     org.ccsds.moims.mo.mal.structures.UShort uShort36 = doubleList29.getAreaNumber();
     java.lang.Long long37 = doubleList29.getShortForm();
-    org.ccsds.moims.mo.mal.structures.StringList stringList38 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList40 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    org.ccsds.moims.mo.mal.structures.StringList stringList38 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList40 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor41 = shortList40.listIterator();
     boolean boolean42 = stringList38.equals(shortList40);
-    org.ccsds.moims.mo.mal.structures.IntegerList integerList44 = new org.ccsds.moims.mo.mal.structures.IntegerList(
-        48);
+    org.ccsds.moims.mo.mal.structures.IntegerList integerList44 =
+        new org.ccsds.moims.mo.mal.structures.IntegerList(
+            48);
     java.lang.Long long45 = integerList44.getShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort46 = integerList44.getAreaNumber();
     int int47 = stringList38.indexOf(integerList44);
@@ -12612,45 +14158,59 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1278() throws Throwable {
-    if (debug)
+  public void test1278() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1278");
-    opssat.simulator.util.wav.WavFileException wavFileException2 = new opssat.simulator.util.wav.WavFileException(
-        "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}");
-    opssat.simulator.util.wav.WavFileException wavFileException3 = new opssat.simulator.util.wav.WavFileException();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList4 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    opssat.simulator.util.wav.WavFileException wavFileException2 =
+        new opssat.simulator.util.wav.WavFileException(
+            "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}");
+    opssat.simulator.util.wav.WavFileException wavFileException3 =
+        new opssat.simulator.util.wav.WavFileException();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList4 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int5 = octetList4.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort6 = octetList4.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet7 = octetList4.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException9 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException9 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray10 = wavFileException9.getSuppressed();
     boolean boolean11 = octetList4.equals(wavFileException9);
     wavFileException3.addSuppressed(wavFileException9);
     wavFileException2.addSuppressed(wavFileException9);
-    opssat.simulator.util.wav.WavFileException wavFileException14 = new opssat.simulator.util.wav.WavFileException(
-        wavFileException9);
-    opssat.simulator.util.wav.WavFileException wavFileException16 = new opssat.simulator.util.wav.WavFileException(
-        "00000:00:00:00:008");
+    opssat.simulator.util.wav.WavFileException wavFileException14 =
+        new opssat.simulator.util.wav.WavFileException(
+            wavFileException9);
+    opssat.simulator.util.wav.WavFileException wavFileException16 =
+        new opssat.simulator.util.wav.WavFileException(
+            "00000:00:00:00:008");
     wavFileException9.addSuppressed(wavFileException16);
-    opssat.simulator.util.wav.WavFileException wavFileException19 = new opssat.simulator.util.wav.WavFileException();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList20 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    opssat.simulator.util.wav.WavFileException wavFileException19 =
+        new opssat.simulator.util.wav.WavFileException();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList20 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int21 = octetList20.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort22 = octetList20.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet23 = octetList20.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException25 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException25 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray26 = wavFileException25.getSuppressed();
     boolean boolean27 = octetList20.equals(wavFileException25);
     wavFileException19.addSuppressed(wavFileException25);
-    opssat.simulator.util.wav.WavFileException wavFileException29 = new opssat.simulator.util.wav.WavFileException(
-        wavFileException19);
+    opssat.simulator.util.wav.WavFileException wavFileException29 =
+        new opssat.simulator.util.wav.WavFileException(
+            wavFileException19);
     java.lang.Throwable[] throwableArray30 = wavFileException19.getSuppressed();
-    opssat.simulator.util.wav.WavFileException wavFileException31 = new opssat.simulator.util.wav.WavFileException(
-        "3257812:10:11:27:876", wavFileException19);
+    opssat.simulator.util.wav.WavFileException wavFileException31 =
+        new opssat.simulator.util.wav.WavFileException(
+            "3257812:10:11:27:876", wavFileException19);
     wavFileException16.addSuppressed(wavFileException19);
-    opssat.simulator.util.wav.WavFileException wavFileException33 = new opssat.simulator.util.wav.WavFileException(
-        "030939.263", wavFileException19);
+    opssat.simulator.util.wav.WavFileException wavFileException33 =
+        new opssat.simulator.util.wav.WavFileException(
+            "030939.263", wavFileException19);
     org.junit.Assert.assertTrue("'" + int5 + "' != '" + (-7) + "'", int5.equals((-7)));
     org.junit.Assert.assertNotNull(uShort6);
     org.junit.Assert.assertNotNull(uOctet7);
@@ -12665,9 +14225,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1279() throws Throwable {
-    if (debug)
+  public void test1279() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1279");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -12678,10 +14240,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -12702,15 +14266,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1280() throws Throwable {
-    if (debug)
+  public void test1280() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1280");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
@@ -12721,7 +14289,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertNotNull(floatArray16);
@@ -12729,34 +14297,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1281() throws Throwable {
-    if (debug)
+  public void test1281() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1281");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     float[] floatArray33 = celestiaData32.getQ();
     opssat.simulator.util.SimulatorData simulatorData37 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -12768,10 +14343,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData44 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date45 = simulatorData44.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 = opssat.simulator.util.SimulatorData
-        .computeDiff(date42, date45);
-    opssat.simulator.util.SimulatorHeader simulatorHeader47 = new opssat.simulator.util.SimulatorHeader(
-        false, date38, date45);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date42, date45);
+    opssat.simulator.util.SimulatorHeader simulatorHeader47 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date38, date45);
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (short) 0, date38);
     celestiaData32.setDate(date38);
@@ -12782,7 +14359,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -12792,7 +14369,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -12804,9 +14381,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1282() throws Throwable {
-    if (debug)
+  public void test1282() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1282");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -12823,12 +14402,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     boolean boolean21 = simulatorHeader20.isAutoStartTime();
     simulatorHeader20.setUseCelestia(false);
     simulatorHeader20.setOrekitTLE1("[]");
@@ -12858,12 +14440,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData54 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date55 = simulatorData54.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap56 = opssat.simulator.util.SimulatorData
-        .computeDiff(date52, date55);
-    opssat.simulator.util.SimulatorHeader simulatorHeader57 = new opssat.simulator.util.SimulatorHeader(
-        false, date48, date55);
-    opssat.simulator.util.SimulatorHeader simulatorHeader58 = new opssat.simulator.util.SimulatorHeader(
-        false, date43, date48);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap56 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date52, date55);
+    opssat.simulator.util.SimulatorHeader simulatorHeader57 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date48, date55);
+    opssat.simulator.util.SimulatorHeader simulatorHeader58 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date43, date48);
     int int59 = opssat.simulator.util.DateExtraction.getDayFromDate(date48);
     int int60 = opssat.simulator.util.DateExtraction.getDayFromDate(date48);
     simulatorHeader20.setStartDate(date48);
@@ -12891,17 +14476,21 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1283() throws Throwable {
-    if (debug)
+  public void test1283() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1283");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     org.ccsds.moims.mo.mal.structures.UShort uShort6 = octetList0.getAreaNumber();
-    java.lang.Short[] shortArray9 = new java.lang.Short[] { (short) -1, (short) 10 };
+    java.lang.Short[] shortArray9 = new java.lang.Short[]{(short) -1, (short) 10};
     java.util.ArrayList<java.lang.Short> shortList10 = new java.util.ArrayList<java.lang.Short>();
     boolean boolean11 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Short>) shortList10, shortArray9);
@@ -12929,51 +14518,57 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1284() throws Throwable {
-    if (debug)
+  public void test1284() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1284");
-    org.ccsds.moims.mo.mal.structures.UShortList uShortList0 = new org.ccsds.moims.mo.mal.structures.UShortList();
+    }
+    org.ccsds.moims.mo.mal.structures.UShortList uShortList0 =
+        new org.ccsds.moims.mo.mal.structures.UShortList();
     org.ccsds.moims.mo.mal.structures.UShort uShort1 = uShortList0.getServiceNumber();
     boolean boolean2 = uShortList0.isEmpty();
     org.ccsds.moims.mo.mal.structures.UShort uShort3 = uShortList0.getAreaNumber();
-    java.lang.Byte[] byteArray8 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray8 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList9 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean10 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList9, byteArray8);
-    java.lang.Integer[] intArray13 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray13 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList14 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean15 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList14, intArray13);
     boolean boolean16 = byteList9.retainAll(intList14);
-    java.lang.Integer[] intArray19 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray19 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList20 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean21 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList20, intArray19);
     int int23 = intList20.lastIndexOf((byte) 10);
     boolean boolean24 = intList14.retainAll(intList20);
-    java.lang.Double[] doubleArray29 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
+    java.lang.Double[] doubleArray29 = new java.lang.Double[]{(-1.0d), 100.0d, 10.0d, 10.0d};
     java.util.ArrayList<java.lang.Double> doubleList30 = new java.util.ArrayList<java.lang.Double>();
     boolean boolean31 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Double>) doubleList30, doubleArray29);
-    org.ccsds.moims.mo.mal.structures.UShort uShort32 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort32 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList34 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort32 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort32};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList34 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean35 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34,
         uShortArray33);
     uShortList34.ensureCapacity(0);
     int int39 = uShortList34.indexOf((byte) 1);
     uShortList34.clear();
-    java.lang.Long[] longArray43 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray43 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList44 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean45 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList44, longArray43);
     java.lang.Object obj46 = longList44.clone();
     boolean boolean47 = uShortList34.contains(longList44);
     boolean boolean48 = doubleList30.equals(boolean47);
-    java.lang.Integer[] intArray51 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray51 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList52 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean53 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList52, intArray51);
@@ -12996,12 +14591,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData74 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date75 = simulatorData74.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap76 = opssat.simulator.util.SimulatorData
-        .computeDiff(date72, date75);
-    opssat.simulator.util.SimulatorHeader simulatorHeader77 = new opssat.simulator.util.SimulatorHeader(
-        false, date68, date75);
-    opssat.simulator.util.SimulatorHeader simulatorHeader78 = new opssat.simulator.util.SimulatorHeader(
-        false, date63, date68);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap76 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date72, date75);
+    opssat.simulator.util.SimulatorHeader simulatorHeader77 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date68, date75);
+    opssat.simulator.util.SimulatorHeader simulatorHeader78 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date63, date68);
     simulatorHeader78.setUpdateInternet(true);
     java.util.Date date81 = null;
     simulatorHeader78.setEndDate(date81);
@@ -13057,15 +14655,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1285() throws Throwable {
-    if (debug)
+  public void test1285() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1285");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList0.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException5 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException5 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray6 = wavFileException5.getSuppressed();
     boolean boolean7 = octetList0.equals(wavFileException5);
     org.ccsds.moims.mo.mal.structures.Time time9 = new org.ccsds.moims.mo.mal.structures.Time('4');
@@ -13091,21 +14693,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1287() throws Throwable {
-    if (debug)
+  public void test1287() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1287");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     double double5 = simulatorSpacecraftState3.getLongitude();
     java.lang.String str6 = simulatorSpacecraftState3.getModeOperation();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState10.setLongitude(4);
-    double[] doubleArray14 = new double[] { (-1.0f) };
+    double[] doubleArray14 = new double[]{(-1.0f)};
     simulatorSpacecraftState10.setMagField(doubleArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double20 = simulatorSpacecraftState19.getLatitude();
     java.lang.String str21 = simulatorSpacecraftState19.getMagField();
     java.lang.String str22 = simulatorSpacecraftState19.toString();
@@ -13123,44 +14730,51 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double20 + "' != '" + 340.0d + "'", double20 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str21 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str21.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str22 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str22.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray23);
   }
 
   @Test
-  public void test1288() throws Throwable {
-    if (debug)
+  public void test1288() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1288");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     float[] floatArray33 = celestiaData32.getQ();
     opssat.simulator.util.SimulatorData simulatorData37 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -13172,18 +14786,21 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData44 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date45 = simulatorData44.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 = opssat.simulator.util.SimulatorData
-        .computeDiff(date42, date45);
-    opssat.simulator.util.SimulatorHeader simulatorHeader47 = new opssat.simulator.util.SimulatorHeader(
-        false, date38, date45);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap46 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date42, date45);
+    opssat.simulator.util.SimulatorHeader simulatorHeader47 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date38, date45);
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (short) 0, date38);
     celestiaData32.setDate(date38);
     int int50 = celestiaData32.getSeconds();
     celestiaData32.setDnx("OPS-SAT SoftSim:");
     java.lang.String str53 = celestiaData32.getAos();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double58 = simulatorSpacecraftState57.getLatitude();
     double double59 = simulatorSpacecraftState57.getLongitude();
     float[] floatArray60 = simulatorSpacecraftState57.getQ();
@@ -13199,7 +14816,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -13209,7 +14826,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -13226,18 +14843,22 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1289() throws Throwable {
-    if (debug)
+  public void test1289() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1289");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState3.setLongitude(4);
-    double[] doubleArray7 = new double[] { (-1.0f) };
+    double[] doubleArray7 = new double[]{(-1.0f)};
     simulatorSpacecraftState3.setMagField(doubleArray7);
     simulatorSpacecraftState3.setLatitude(0.0d);
     java.util.logging.Logger logger11 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer12 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger11);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer12 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger11);
     java.lang.Object obj13 = endlessWavStreamOperatingBuffer12.getDataBuffer();
     java.lang.Object obj14 = endlessWavStreamOperatingBuffer12.getDataBuffer();
     double[] doubleArray16 = endlessWavStreamOperatingBuffer12.getDataAsDoubleArray(45);
@@ -13254,32 +14875,39 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1290() throws Throwable {
-    if (debug)
+  public void test1290() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1290");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState3.setLongitude(4);
     int int6 = simulatorSpacecraftState3.getSatsInView();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double11 = simulatorSpacecraftState10.getLatitude();
     java.lang.String str12 = simulatorSpacecraftState10.getMagField();
     java.lang.String str13 = simulatorSpacecraftState10.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double18 = simulatorSpacecraftState17.getLatitude();
     java.lang.String str19 = simulatorSpacecraftState17.getMagField();
     java.lang.String str20 = simulatorSpacecraftState17.toString();
     double[] doubleArray21 = simulatorSpacecraftState17.getSunVector();
     simulatorSpacecraftState10.setMagnetometer(doubleArray21);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     java.lang.String str29 = simulatorSpacecraftState26.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState33 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState33 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double34 = simulatorSpacecraftState33.getLatitude();
     java.lang.String str35 = simulatorSpacecraftState33.getMagField();
     java.lang.String str36 = simulatorSpacecraftState33.toString();
@@ -13287,31 +14915,36 @@ public class RegressionTest2 {
     simulatorSpacecraftState26.setMagnetometer(doubleArray37);
     simulatorSpacecraftState10.setMagnetometer(doubleArray37);
     simulatorSpacecraftState3.setSunVector(doubleArray37);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState44 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray47 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState44 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray47 = new float[]{28, 8};
     simulatorSpacecraftState44.setQ(floatArray47);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState52 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState52 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double53 = simulatorSpacecraftState52.getLatitude();
     java.lang.String str54 = simulatorSpacecraftState52.getMagField();
     float[] floatArray55 = simulatorSpacecraftState52.getR();
     simulatorSpacecraftState44.setQ(floatArray55);
     java.lang.String str57 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray55);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState61 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState61 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double62 = simulatorSpacecraftState61.getLatitude();
     double double63 = simulatorSpacecraftState61.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState67 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState67 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double68 = simulatorSpacecraftState67.getLatitude();
     java.lang.String str69 = simulatorSpacecraftState67.getMagField();
     float[] floatArray70 = simulatorSpacecraftState67.getR();
     simulatorSpacecraftState61.setQ(floatArray70);
     float[] floatArray72 = simulatorSpacecraftState61.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData73 = new opssat.simulator.celestia.CelestiaData(
-        floatArray55, floatArray72);
+    opssat.simulator.celestia.CelestiaData celestiaData73 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray55, floatArray72);
     simulatorSpacecraftState3.setQ(floatArray72);
     java.lang.String str75 = simulatorSpacecraftState3.getSunVectorAsString();
     double[] doubleArray76 = simulatorSpacecraftState3.getSunVector();
@@ -13319,46 +14952,46 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double11 + "' != '" + 340.0d + "'", double11 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str12 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str12.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str13.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double18 + "' != '" + 340.0d + "'", double18 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str19 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str19.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str20 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str20.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray21);
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str29 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str29.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double34 + "' != '" + 340.0d + "'", double34 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str35 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str35.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str36 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str36.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray37);
     org.junit.Assert.assertNotNull(floatArray47);
     org.junit.Assert.assertTrue("'" + double53 + "' != '" + 340.0d + "'", double53 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str54 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str54.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray55);
     org.junit.Assert.assertTrue("'" + str57 + "' != '" + "UnknownGUIData" + "'",
@@ -13368,7 +15001,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double68 + "' != '" + 340.0d + "'", double68 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str69 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str69.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray70);
     org.junit.Assert.assertNotNull(floatArray72);
@@ -13379,12 +15012,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1291() throws Throwable {
-    if (debug)
+  public void test1291() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1291");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     boolean boolean5 = endlessSingleStreamOperatingBuffer1
         .preparePath("00000:00:00:00:013|0000000000000000013|0|hi!");
@@ -13395,11 +15031,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1292() throws Throwable {
-    if (debug)
+  public void test1292() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1292");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     java.lang.String str6 = simulatorSpacecraftState3.getSunVectorAsString();
@@ -13414,7 +15053,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str6 + "' != '" + "X:[+.00000] ; Y:[+.00000] ; Z: [+.00000] units [N/A]" + "'",
@@ -13422,9 +15061,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1293() throws Throwable {
-    if (debug)
+  public void test1293() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1293");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -13435,10 +15076,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -13456,12 +15099,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData30 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date31 = simulatorData30.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 = opssat.simulator.util.SimulatorData
-        .computeDiff(date28, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader33 = new opssat.simulator.util.SimulatorHeader(
-        false, date24, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader34 = new opssat.simulator.util.SimulatorHeader(
-        false, date19, date24);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date28, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader33 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date24, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader34 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     int int36 = simulatorHeader12.getHourStartDate();
     java.util.Date date37 = simulatorHeader12.getStartDate();
@@ -13481,26 +15127,32 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1294() throws Throwable {
-    if (debug)
+  public void test1294() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1294");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     java.lang.String str6 = simulatorSpacecraftState3.toString();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState10 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double11 = simulatorSpacecraftState10.getLatitude();
     double double12 = simulatorSpacecraftState10.getLongitude();
     java.lang.String str13 = simulatorSpacecraftState10.getModeOperation();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState17 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState17.setLongitude(4);
-    double[] doubleArray21 = new double[] { (-1.0f) };
+    double[] doubleArray21 = new double[]{(-1.0f)};
     simulatorSpacecraftState17.setMagField(doubleArray21);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     java.lang.String str29 = simulatorSpacecraftState26.toString();
@@ -13513,11 +15165,11 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str6 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str6.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertTrue("'" + double11 + "' != '" + 340.0d + "'", double11 == 340.0d);
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + (-1.0d) + "'", double12 == (-1.0d));
@@ -13526,20 +15178,22 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str29 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str29.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray30);
     org.junit.Assert.assertNotNull(floatArray34);
   }
 
   @Test
-  public void test1295() throws Throwable {
-    if (debug)
+  public void test1295() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1295");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -13550,10 +15204,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -13573,17 +15229,22 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1296() throws Throwable {
-    if (debug)
+  public void test1296() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1296");
-    opssat.simulator.util.LoggerFormatter1Line loggerFormatter1Line1 = new opssat.simulator.util.LoggerFormatter1Line(
-        "031041.629");
+    }
+    opssat.simulator.util.LoggerFormatter1Line loggerFormatter1Line1 =
+        new opssat.simulator.util.LoggerFormatter1Line(
+            "031041.629");
   }
 
   @Test
-  public void test1297() throws Throwable {
-    if (debug)
+  public void test1297() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1297");
+    }
     opssat.simulator.gui.GuiApp guiApp2 = null;
     opssat.simulator.tcp.SocketClient socketClient3 = new opssat.simulator.tcp.SocketClient(
         "{counter=8, methodsExecuted=0, currentTime=Thu May 23 15:09:32 UTC 2019}", 0, guiApp2);
@@ -13599,13 +15260,16 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1299() throws Throwable {
-    if (debug)
+  public void test1299() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1299");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState3.setLongitude(4);
-    double[] doubleArray7 = new double[] { (-1.0f) };
+    double[] doubleArray7 = new double[]{(-1.0f)};
     simulatorSpacecraftState3.setMagField(doubleArray7);
     double double9 = simulatorSpacecraftState3.getLongitude();
     float[] floatArray10 = simulatorSpacecraftState3.getMagnetometer();
@@ -13620,15 +15284,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1300() throws Throwable {
-    if (debug)
+  public void test1300() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1300");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor3 = octetList0.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList0, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor5 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList0, "hi!");
     argumentDescriptor5.restoreArgument();
     argumentDescriptor5.restoreArgument();
     java.lang.String str8 = argumentDescriptor5.getName();
@@ -13639,11 +15307,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1301() throws Throwable {
-    if (debug)
+  public void test1301() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1301");
-    org.ccsds.moims.mo.mal.structures.UInteger uInteger1 = new org.ccsds.moims.mo.mal.structures.UInteger(
-        13);
+    }
+    org.ccsds.moims.mo.mal.structures.UInteger uInteger1 =
+        new org.ccsds.moims.mo.mal.structures.UInteger(
+            13);
     org.ccsds.moims.mo.mal.structures.Element element2 = uInteger1.createElement();
     java.lang.Long long3 = uInteger1.getShortForm();
     long long4 = uInteger1.getValue();
@@ -13658,47 +15329,59 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1304() throws Throwable {
-    if (debug)
+  public void test1304() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1304");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getServiceNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList3 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList3 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int4 = octetList3.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort5 = octetList3.getAreaNumber();
     java.lang.Object[] objArray6 = octetList3.toArray();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList7 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int8 = octetList7.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort9 = octetList7.getServiceNumber();
     java.util.Iterator<java.lang.Byte> byteItor10 = octetList7.iterator();
-    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 = new opssat.simulator.util.ArgumentDescriptor(
-        octetList7, "hi!");
+    opssat.simulator.util.ArgumentDescriptor argumentDescriptor12 =
+        new opssat.simulator.util.ArgumentDescriptor(
+            octetList7, "hi!");
     org.ccsds.moims.mo.mal.structures.UShort uShort13 = octetList7.getAreaNumber();
-    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[] { true, true };
-    java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
+    java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{true, true};
+    java.util.ArrayList<java.lang.Boolean> booleanList17 =
+        new java.util.ArrayList<java.lang.Boolean>();
     boolean boolean18 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Boolean>) booleanList17, booleanArray16);
     int int20 = booleanList17.indexOf(10);
     java.util.Iterator<java.lang.Boolean> booleanItor21 = booleanList17.iterator();
     java.util.Spliterator<java.lang.Boolean> booleanSpliterator22 = booleanList17.spliterator();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList23 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList23 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int24 = octetList23.getTypeShortForm();
     java.lang.Object obj25 = octetList23.clone();
     octetList23.trimToSize();
     boolean boolean27 = booleanList17.contains(octetList23);
-    org.ccsds.moims.mo.mal.structures.OctetList octetList28 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList28 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int29 = octetList28.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort30 = octetList28.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList31 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList31 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int32 = octetList31.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort33 = octetList31.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = octetList31.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList35 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList35 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int36 = octetList35.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort37 = octetList35.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray38 = new org.ccsds.moims.mo.mal.structures.OctetList[] {
-        octetList3, octetList7, octetList23, octetList28, octetList31, octetList35 };
+    org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray38 =
+        new org.ccsds.moims.mo.mal.structures.OctetList[]{
+          octetList3, octetList7, octetList23, octetList28, octetList31, octetList35};
     org.ccsds.moims.mo.mal.structures.OctetList[] octetListArray39 = octetList0
         .toArray(octetListArray38);
     java.lang.Long long40 = octetList0.getShortForm();
@@ -13735,9 +15418,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1305() throws Throwable {
-    if (debug)
+  public void test1305() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1305");
+    }
     opssat.simulator.threading.SimulatorNode simulatorNode0 = null;
     opssat.simulator.peripherals.PCamera pCamera2 = new opssat.simulator.peripherals.PCamera(
         simulatorNode0, "031035.100");
@@ -13750,11 +15435,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1306() throws Throwable {
-    if (debug)
+  public void test1306() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1306");
-    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 = new opssat.simulator.util.SimulatorSchedulerPiece(
-        (-30), 0, "opssat.simulator.util.wav.WavFileException: [0, 1]");
+    }
+    opssat.simulator.util.SimulatorSchedulerPiece simulatorSchedulerPiece3 =
+        new opssat.simulator.util.SimulatorSchedulerPiece(
+            (-30), 0, "opssat.simulator.util.wav.WavFileException: [0, 1]");
     java.lang.String str4 = simulatorSchedulerPiece3.getFileString();
     org.junit.Assert.assertTrue("'" + str4 + "' != '"
         + "00000:00:00:00:-30|-000000000000000030|0|opssat.simulator.util.wav.WavFileException: [0, 1]"
@@ -13764,19 +15452,23 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1307() throws Throwable {
-    if (debug)
+  public void test1307() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1307");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger0);
     int int2 = endlessWavStreamOperatingBuffer1.getOperatingIndex();
     byte[] byteArray4 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS
         .long2ByteArray(281475010265075L);
     endlessWavStreamOperatingBuffer1.setDataFromByteArray(byteArray4);
     java.util.logging.Logger logger6 = null;
-    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer7 = new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
-        logger6);
+    opssat.simulator.util.EndlessWavStreamOperatingBuffer endlessWavStreamOperatingBuffer7 =
+        new opssat.simulator.util.EndlessWavStreamOperatingBuffer(
+            logger6);
     java.lang.Object obj8 = endlessWavStreamOperatingBuffer7.getDataBuffer();
     boolean boolean10 = endlessWavStreamOperatingBuffer7.preparePath("03600.0000000");
     int int11 = endlessWavStreamOperatingBuffer7.getOperatingIndex();
@@ -13797,9 +15489,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1308() throws Throwable {
-    if (debug)
+  public void test1308() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1308");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -13810,21 +15504,25 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     opssat.simulator.util.SimulatorData simulatorData14 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date15 = simulatorData14.getCurrentTime();
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date18 = simulatorData17.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap19 = opssat.simulator.util.SimulatorData
-        .computeDiff(date15, date18);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap19 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date15, date18);
     int int20 = opssat.simulator.util.DateExtraction.getHourFromDate(date15);
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap21 = opssat.simulator.util.SimulatorData
-        .computeDiff(date10, date15);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap21 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date10, date15);
     int int22 = opssat.simulator.util.DateExtraction.getDayFromDate(date15);
     opssat.simulator.util.SimulatorData simulatorData26 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -13842,14 +15540,17 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData39 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date40 = simulatorData39.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap41 = opssat.simulator.util.SimulatorData
-        .computeDiff(date37, date40);
-    opssat.simulator.util.SimulatorHeader simulatorHeader42 = new opssat.simulator.util.SimulatorHeader(
-        false, date33, date40);
-    opssat.simulator.util.SimulatorHeader simulatorHeader43 = new opssat.simulator.util.SimulatorHeader(
-        false, date28, date33);
-    java.lang.Long[] longArray50 = new java.lang.Long[] { 281475010265070L, 100L, 0L,
-        281475010265070L, 281475010265070L, 1L };
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap41 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date37, date40);
+    opssat.simulator.util.SimulatorHeader simulatorHeader42 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date33, date40);
+    opssat.simulator.util.SimulatorHeader simulatorHeader43 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date28, date33);
+    java.lang.Long[] longArray50 = new java.lang.Long[]{281475010265070L, 100L, 0L,
+      281475010265070L, 281475010265070L, 1L};
     java.util.ArrayList<java.lang.Long> longList51 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean52 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList51, longArray50);
@@ -13865,15 +15566,19 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData64 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date65 = simulatorData64.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap66 = opssat.simulator.util.SimulatorData
-        .computeDiff(date62, date65);
-    opssat.simulator.util.SimulatorHeader simulatorHeader67 = new opssat.simulator.util.SimulatorHeader(
-        false, date58, date65);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap66 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date62, date65);
+    opssat.simulator.util.SimulatorHeader simulatorHeader67 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date58, date65);
     boolean boolean68 = longList51.remove(date65);
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap69 = opssat.simulator.util.SimulatorData
-        .computeDiff(date33, date65);
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap70 = opssat.simulator.util.SimulatorData
-        .computeDiff(date15, date65);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap69 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date33, date65);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap70 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date15, date65);
     int int71 = opssat.simulator.util.DateExtraction.getHourFromDate(date15);
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
@@ -13903,14 +15608,18 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1309() throws Throwable {
-    if (debug)
+  public void test1309() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1309");
-    org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
-        8);
+    }
+    org.ccsds.moims.mo.mal.structures.URIList uRIList1 =
+        new org.ccsds.moims.mo.mal.structures.URIList(
+            8);
     java.lang.Integer int2 = uRIList1.getTypeShortForm();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState6.setLongitude(4);
     int int9 = simulatorSpacecraftState6.getSatsInView();
     float[] floatArray10 = simulatorSpacecraftState6.getRv();
@@ -13924,33 +15633,39 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1310() throws Throwable {
-    if (debug)
+  public void test1310() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1310");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray22 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray22 = new float[]{28, 8};
     simulatorSpacecraftState19.setQ(floatArray22);
     float[] floatArray24 = simulatorSpacecraftState19.getQ();
-    opssat.simulator.celestia.CelestiaData celestiaData25 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray24);
+    opssat.simulator.celestia.CelestiaData celestiaData25 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray24);
     celestiaData25.setInfo("03500.0000");
     celestiaData25.setInfo("yyyy/MM/dd-HH:mm:ss");
     org.junit.Assert.assertNotNull(floatArray6);
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertNotNull(floatArray22);
@@ -13958,24 +15673,29 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1311() throws Throwable {
-    if (debug)
+  public void test1311() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1311");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
     int int8 = simulatorSpacecraftState3.getSatsInView();
     simulatorSpacecraftState3.setAltitude((-5));
     float[] floatArray11 = simulatorSpacecraftState3.getV();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState15 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState15 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double16 = simulatorSpacecraftState15.getLatitude();
     java.lang.String str17 = simulatorSpacecraftState15.getMagField();
     java.lang.String str18 = simulatorSpacecraftState15.getSunVectorAsString();
     simulatorSpacecraftState15.setSatsInView(13);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState24 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState24 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double25 = simulatorSpacecraftState24.getLatitude();
     java.lang.String str26 = simulatorSpacecraftState24.getMagField();
     float[] floatArray27 = simulatorSpacecraftState24.getR();
@@ -13989,7 +15709,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double16 + "' != '" + 340.0d + "'", double16 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str17 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str17.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str18 + "' != '" + "X:[+.00000] ; Y:[+.00000] ; Z: [+.00000] units [N/A]" + "'",
@@ -13997,45 +15717,47 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double25 + "' != '" + 340.0d + "'", double25 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str26 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str26.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray27);
     org.junit.Assert.assertTrue(
         "'" + str30 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str30.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue("'" + double31 + "' != '" + 340.0d + "'", double31 == 340.0d);
   }
 
   @Test
-  public void test1312() throws Throwable {
-    if (debug)
+  public void test1312() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1312");
-    java.lang.Float[] floatArray3 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    }
+    java.lang.Float[] floatArray3 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean5 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
     boolean boolean7 = floatList4.add((-1.0f));
     floatList4.clear();
     java.util.stream.Stream<java.lang.Float> floatStream9 = floatList4.stream();
-    java.lang.Byte[] byteArray14 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray14 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList15 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean16 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList15, byteArray14);
-    java.lang.Integer[] intArray19 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray19 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList20 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean21 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList20, intArray19);
     boolean boolean22 = byteList15.retainAll(intList20);
-    java.lang.Integer[] intArray25 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray25 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList26 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean27 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList26, intArray25);
     int int29 = intList26.lastIndexOf((byte) 10);
     boolean boolean30 = intList20.retainAll(intList26);
     boolean boolean31 = floatList4.containsAll(intList26);
-    java.lang.Long[] longArray35 = new java.lang.Long[] { 13L, 281475010265070L, 1L };
+    java.lang.Long[] longArray35 = new java.lang.Long[]{13L, 281475010265070L, 1L};
     java.util.ArrayList<java.lang.Long> longList36 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean37 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList36, longArray35);
@@ -14078,11 +15800,14 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1313() throws Throwable {
-    if (debug)
+  public void test1313() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1313");
-    opssat.simulator.util.ArgumentTemplate argumentTemplate2 = new opssat.simulator.util.ArgumentTemplate(
-        "*76", "13");
+    }
+    opssat.simulator.util.ArgumentTemplate argumentTemplate2 =
+        new opssat.simulator.util.ArgumentTemplate(
+            "*76", "13");
     java.lang.String str3 = argumentTemplate2.toString();
     java.lang.String str4 = argumentTemplate2.getArgContent();
     java.lang.String str5 = argumentTemplate2.getDescription();
@@ -14094,16 +15819,19 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1314() throws Throwable {
-    if (debug)
+  public void test1314() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1314");
+    }
     org.ccsds.moims.mo.mal.structures.Time time1 = new org.ccsds.moims.mo.mal.structures.Time('4');
     long long2 = time1.getValue();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = time1.getAreaVersion();
     long long4 = time1.getValue();
     org.ccsds.moims.mo.mal.structures.UShort uShort5 = time1.getServiceNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = time1.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    org.ccsds.moims.mo.mal.structures.OctetList octetList7 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int8 = octetList7.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort9 = octetList7.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = octetList7.getAreaVersion();
@@ -14126,9 +15854,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1315() throws Throwable {
-    if (debug)
+  public void test1315() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1315");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -14139,10 +15869,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -14159,9 +15891,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1316() throws Throwable {
-    if (debug)
+  public void test1316() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1316");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -14172,10 +15906,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -14193,12 +15929,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData30 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date31 = simulatorData30.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 = opssat.simulator.util.SimulatorData
-        .computeDiff(date28, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader33 = new opssat.simulator.util.SimulatorHeader(
-        false, date24, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader34 = new opssat.simulator.util.SimulatorHeader(
-        false, date19, date24);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date28, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader33 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date24, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader34 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     int int36 = simulatorHeader12.getHourStartDate();
     simulatorHeader12.setUseOrekit(false);
@@ -14221,9 +15960,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1317() throws Throwable {
-    if (debug)
+  public void test1317() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1317");
+    }
     opssat.simulator.util.SimulatorData simulatorData1 = new opssat.simulator.util.SimulatorData(
         38);
     boolean boolean2 = simulatorData1.isTimeRunning();
@@ -14234,9 +15975,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1318() throws Throwable {
-    if (debug)
+  public void test1318() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1318");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -14247,10 +15990,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -14274,24 +16019,29 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1319() throws Throwable {
-    if (debug)
+  public void test1319() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1319");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
     int int8 = simulatorSpacecraftState3.getSatsInView();
     simulatorSpacecraftState3.setAltitude((-5));
     float[] floatArray11 = simulatorSpacecraftState3.getV();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState15 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState15 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double16 = simulatorSpacecraftState15.getLatitude();
     java.lang.String str17 = simulatorSpacecraftState15.getMagField();
     java.lang.String str18 = simulatorSpacecraftState15.getSunVectorAsString();
     simulatorSpacecraftState15.setSatsInView(13);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState24 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState24 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double25 = simulatorSpacecraftState24.getLatitude();
     java.lang.String str26 = simulatorSpacecraftState24.getMagField();
     float[] floatArray27 = simulatorSpacecraftState24.getR();
@@ -14304,7 +16054,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double16 + "' != '" + 340.0d + "'", double16 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str17 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str17.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str18 + "' != '" + "X:[+.00000] ; Y:[+.00000] ; Z: [+.00000] units [N/A]" + "'",
@@ -14312,34 +16062,44 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double25 + "' != '" + 340.0d + "'", double25 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str26 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str26.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray27);
     org.junit.Assert.assertNotNull(floatArray30);
   }
 
   @Test
-  public void test1320() throws Throwable {
-    if (debug)
+  public void test1320() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1320");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList2 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    org.ccsds.moims.mo.mal.structures.ShortList shortList2 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.util.ListIterator<java.lang.Short> shortItor3 = shortList2.listIterator();
     boolean boolean4 = stringList0.equals(shortList2);
     java.util.stream.BaseStream[] baseStreamArray6 = new java.util.stream.BaseStream[0];
     @SuppressWarnings("unchecked")
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 = baseStreamArray6;
-    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 = stringList0
-        .toArray(
-            (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray7 =
+        baseStreamArray6;
+    java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray8 =
+        stringList0
+            .toArray(
+                (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray6);
     java.util.stream.Stream<java.lang.String> strStream9 = stringList0.stream();
     java.lang.Object obj10 = stringList0.clone();
-    opssat.simulator.util.LoggerFormatter loggerFormatter11 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter12 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter loggerFormatter13 = new opssat.simulator.util.LoggerFormatter();
-    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 = new opssat.simulator.util.LoggerFormatter[] {
-        loggerFormatter11, loggerFormatter12, loggerFormatter13 };
+    opssat.simulator.util.LoggerFormatter loggerFormatter11 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter12 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter loggerFormatter13 =
+        new opssat.simulator.util.LoggerFormatter();
+    opssat.simulator.util.LoggerFormatter[] loggerFormatterArray14 =
+        new opssat.simulator.util.LoggerFormatter[]{
+          loggerFormatter11, loggerFormatter12, loggerFormatter13};
     opssat.simulator.util.LoggerFormatter[] loggerFormatterArray15 = stringList0
         .toArray(loggerFormatterArray14);
     java.util.stream.Stream<java.lang.String> strStream16 = stringList0.parallelStream();
@@ -14363,34 +16123,41 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1321() throws Throwable {
-    if (debug)
+  public void test1321() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1321");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
     celestiaData32.setDate(":");
     java.lang.String str35 = celestiaData32.getAnx();
     celestiaData32.setInfo("01000.0000");
@@ -14398,7 +16165,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -14408,7 +16175,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -14416,9 +16183,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1322() throws Throwable {
-    if (debug)
+  public void test1322() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1322");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -14429,10 +16198,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
@@ -14447,10 +16218,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData26 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date27 = simulatorData26.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 = opssat.simulator.util.SimulatorData
-        .computeDiff(date24, date27);
-    opssat.simulator.util.SimulatorHeader simulatorHeader29 = new opssat.simulator.util.SimulatorHeader(
-        false, date20, date27);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap28 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date24, date27);
+    opssat.simulator.util.SimulatorHeader simulatorHeader29 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date20, date27);
     simulatorHeader12.setStartDate(date27);
     simulatorHeader12.setKeplerElements("-0100.0000000");
     java.lang.String str33 = simulatorHeader12.toString();
@@ -14469,46 +16242,55 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1323() throws Throwable {
-    if (debug)
+  public void test1323() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1323");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double4 = simulatorSpacecraftState3.getLatitude();
     java.lang.String str5 = simulatorSpacecraftState3.getMagField();
     simulatorSpacecraftState3.setLatitude((-4));
     java.lang.String str8 = simulatorSpacecraftState3.getMagField();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState12.setLongitude(4);
-    double[] doubleArray16 = new double[] { (-1.0f) };
+    double[] doubleArray16 = new double[]{(-1.0f)};
     simulatorSpacecraftState12.setMagField(doubleArray16);
     double double18 = simulatorSpacecraftState12.getLongitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray25 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray25 = new float[]{28, 8};
     simulatorSpacecraftState22.setQ(floatArray25);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState30 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState30 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double31 = simulatorSpacecraftState30.getLatitude();
     java.lang.String str32 = simulatorSpacecraftState30.getMagField();
     float[] floatArray33 = simulatorSpacecraftState30.getR();
     simulatorSpacecraftState22.setQ(floatArray33);
     java.lang.String str35 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray33);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState39 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double40 = simulatorSpacecraftState39.getLatitude();
     double double41 = simulatorSpacecraftState39.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState45 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState45 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double46 = simulatorSpacecraftState45.getLatitude();
     java.lang.String str47 = simulatorSpacecraftState45.getMagField();
     float[] floatArray48 = simulatorSpacecraftState45.getR();
     simulatorSpacecraftState39.setQ(floatArray48);
     float[] floatArray50 = simulatorSpacecraftState39.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData51 = new opssat.simulator.celestia.CelestiaData(
-        floatArray33, floatArray50);
+    opssat.simulator.celestia.CelestiaData celestiaData51 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray33, floatArray50);
     float[] floatArray52 = celestiaData51.getQ();
     opssat.simulator.util.SimulatorData simulatorData56 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -14520,18 +16302,21 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData63 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date64 = simulatorData63.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap65 = opssat.simulator.util.SimulatorData
-        .computeDiff(date61, date64);
-    opssat.simulator.util.SimulatorHeader simulatorHeader66 = new opssat.simulator.util.SimulatorHeader(
-        false, date57, date64);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap65 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date61, date64);
+    opssat.simulator.util.SimulatorHeader simulatorHeader66 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date57, date64);
     opssat.simulator.util.SimulatorData simulatorData67 = new opssat.simulator.util.SimulatorData(
         (short) 0, date57);
     celestiaData51.setDate(date57);
     int int69 = celestiaData51.getSeconds();
     celestiaData51.setDnx("OPS-SAT SoftSim:");
     java.lang.String str72 = celestiaData51.getAos();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState76 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState76 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double77 = simulatorSpacecraftState76.getLatitude();
     double double78 = simulatorSpacecraftState76.getLongitude();
     float[] floatArray79 = simulatorSpacecraftState76.getQ();
@@ -14545,11 +16330,11 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str5 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str5.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str8 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str8.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(doubleArray16);
     org.junit.Assert.assertTrue("'" + double18 + "' != '" + 4.0d + "'", double18 == 4.0d);
@@ -14557,7 +16342,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double31 + "' != '" + 340.0d + "'", double31 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str32 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str32.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray33);
     org.junit.Assert.assertTrue("'" + str35 + "' != '" + "UnknownGUIData" + "'",
@@ -14567,7 +16352,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double46 + "' != '" + 340.0d + "'", double46 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str47 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str47.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray48);
     org.junit.Assert.assertNotNull(floatArray50);
@@ -14586,9 +16371,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1324() throws Throwable {
-    if (debug)
+  public void test1324() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1324");
+    }
     opssat.simulator.threading.SimulatorNode simulatorNode0 = null;
     opssat.simulator.peripherals.PCamera pCamera2 = new opssat.simulator.peripherals.PCamera(
         simulatorNode0, "031035.100");
@@ -14601,42 +16388,51 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1326() throws Throwable {
-    if (debug)
+  public void test1326() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1326");
-    org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
-        11);
+    }
+    org.ccsds.moims.mo.mal.structures.URIList uRIList1 =
+        new org.ccsds.moims.mo.mal.structures.URIList(
+            11);
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getServiceNumber();
     java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream3 = uRIList1.stream();
-    org.ccsds.moims.mo.mal.structures.Duration duration5 = new org.ccsds.moims.mo.mal.structures.Duration(
-        0.0d);
+    org.ccsds.moims.mo.mal.structures.Duration duration5 =
+        new org.ccsds.moims.mo.mal.structures.Duration(
+            0.0d);
     org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = duration5.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.UShort uShort7 = duration5.getAreaNumber();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray14 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray14 = new float[]{28, 8};
     simulatorSpacecraftState11.setQ(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double20 = simulatorSpacecraftState19.getLatitude();
     java.lang.String str21 = simulatorSpacecraftState19.getMagField();
     float[] floatArray22 = simulatorSpacecraftState19.getR();
     simulatorSpacecraftState11.setQ(floatArray22);
     java.lang.String str24 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray22);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double29 = simulatorSpacecraftState28.getLatitude();
     double double30 = simulatorSpacecraftState28.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState34 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState34 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double35 = simulatorSpacecraftState34.getLatitude();
     java.lang.String str36 = simulatorSpacecraftState34.getMagField();
     float[] floatArray37 = simulatorSpacecraftState34.getR();
     simulatorSpacecraftState28.setQ(floatArray37);
     float[] floatArray39 = simulatorSpacecraftState28.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData40 = new opssat.simulator.celestia.CelestiaData(
-        floatArray22, floatArray39);
+    opssat.simulator.celestia.CelestiaData celestiaData40 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray22, floatArray39);
     float[] floatArray41 = celestiaData40.getQ();
     opssat.simulator.util.SimulatorData simulatorData45 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -14648,10 +16444,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData52 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date53 = simulatorData52.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap54 = opssat.simulator.util.SimulatorData
-        .computeDiff(date50, date53);
-    opssat.simulator.util.SimulatorHeader simulatorHeader55 = new opssat.simulator.util.SimulatorHeader(
-        false, date46, date53);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap54 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date50, date53);
+    opssat.simulator.util.SimulatorHeader simulatorHeader55 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date46, date53);
     opssat.simulator.util.SimulatorData simulatorData56 = new opssat.simulator.util.SimulatorData(
         (short) 0, date46);
     celestiaData40.setDate(date46);
@@ -14669,7 +16467,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double20 + "' != '" + 340.0d + "'", double20 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str21 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str21.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray22);
     org.junit.Assert.assertTrue("'" + str24 + "' != '" + "UnknownGUIData" + "'",
@@ -14679,7 +16477,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double35 + "' != '" + 340.0d + "'", double35 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str36 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str36.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray37);
     org.junit.Assert.assertNotNull(floatArray39);
@@ -14696,34 +16494,39 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1328() throws Throwable {
-    if (debug)
+  public void test1328() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1328");
-    java.lang.Long[] longArray6 = new java.lang.Long[] { 281475010265070L, 100L, 0L,
-        281475010265070L, 281475010265070L, 1L };
+    }
+    java.lang.Long[] longArray6 = new java.lang.Long[]{281475010265070L, 100L, 0L,
+      281475010265070L, 281475010265070L, 1L};
     java.util.ArrayList<java.lang.Long> longList7 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean8 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList7, longArray6);
     boolean boolean9 = longList7.isEmpty();
-    java.lang.Long[] longArray12 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray12 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean14 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
     java.lang.Object obj15 = longList13.clone();
     java.util.ListIterator<java.lang.Long> longItor17 = longList13.listIterator((byte) 1);
     boolean boolean18 = longList7.remove((java.lang.Object) (byte) 1);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double23 = simulatorSpacecraftState22.getLatitude();
     double double24 = simulatorSpacecraftState22.getLongitude();
     java.lang.String str25 = simulatorSpacecraftState22.getModeOperation();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState29.setLongitude(4);
-    double[] doubleArray33 = new double[] { (-1.0f) };
+    double[] doubleArray33 = new double[]{(-1.0f)};
     simulatorSpacecraftState29.setMagField(doubleArray33);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState38 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState38 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double39 = simulatorSpacecraftState38.getLatitude();
     java.lang.String str40 = simulatorSpacecraftState38.getMagField();
     java.lang.String str41 = simulatorSpacecraftState38.toString();
@@ -14750,25 +16553,27 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double39 + "' != '" + 340.0d + "'", double39 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str40 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str40.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str41 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str41.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray42);
     org.junit.Assert.assertTrue("'" + int51 + "' != '" + (-1) + "'", int51 == (-1));
     org.junit.Assert
         .assertTrue(
             "'" + str52 + "' != '"
-                + "[281475010265070, 100, 0, 281475010265070, 281475010265070, 1]" + "'",
+            + "[281475010265070, 100, 0, 281475010265070, 281475010265070, 1]" + "'",
             str52.equals("[281475010265070, 100, 0, 281475010265070, 281475010265070, 1]"));
   }
 
   @Test
-  public void test1329() throws Throwable {
-    if (debug)
+  public void test1329() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1329");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -14779,10 +16584,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     opssat.simulator.util.SimulatorData simulatorData17 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -14800,12 +16607,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData30 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date31 = simulatorData30.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 = opssat.simulator.util.SimulatorData
-        .computeDiff(date28, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader33 = new opssat.simulator.util.SimulatorHeader(
-        false, date24, date31);
-    opssat.simulator.util.SimulatorHeader simulatorHeader34 = new opssat.simulator.util.SimulatorHeader(
-        false, date19, date24);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap32 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date28, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader33 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date24, date31);
+    opssat.simulator.util.SimulatorHeader simulatorHeader34 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     int int36 = simulatorHeader12.getHourStartDate();
     java.lang.String str37 = simulatorHeader12.getOrekitTLE2();
@@ -14825,42 +16635,51 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1331() throws Throwable {
-    if (debug)
+  public void test1331() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1331");
-    org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
-        11);
+    }
+    org.ccsds.moims.mo.mal.structures.URIList uRIList1 =
+        new org.ccsds.moims.mo.mal.structures.URIList(
+            11);
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getServiceNumber();
     java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream3 = uRIList1.stream();
-    org.ccsds.moims.mo.mal.structures.Duration duration5 = new org.ccsds.moims.mo.mal.structures.Duration(
-        0.0d);
+    org.ccsds.moims.mo.mal.structures.Duration duration5 =
+        new org.ccsds.moims.mo.mal.structures.Duration(
+            0.0d);
     org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = duration5.getAreaVersion();
     org.ccsds.moims.mo.mal.structures.UShort uShort7 = duration5.getAreaNumber();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray14 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray14 = new float[]{28, 8};
     simulatorSpacecraftState11.setQ(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState19 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double20 = simulatorSpacecraftState19.getLatitude();
     java.lang.String str21 = simulatorSpacecraftState19.getMagField();
     float[] floatArray22 = simulatorSpacecraftState19.getR();
     simulatorSpacecraftState11.setQ(floatArray22);
     java.lang.String str24 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray22);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState28 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double29 = simulatorSpacecraftState28.getLatitude();
     double double30 = simulatorSpacecraftState28.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState34 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState34 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double35 = simulatorSpacecraftState34.getLatitude();
     java.lang.String str36 = simulatorSpacecraftState34.getMagField();
     float[] floatArray37 = simulatorSpacecraftState34.getR();
     simulatorSpacecraftState28.setQ(floatArray37);
     float[] floatArray39 = simulatorSpacecraftState28.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData40 = new opssat.simulator.celestia.CelestiaData(
-        floatArray22, floatArray39);
+    opssat.simulator.celestia.CelestiaData celestiaData40 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray22, floatArray39);
     float[] floatArray41 = celestiaData40.getQ();
     opssat.simulator.util.SimulatorData simulatorData45 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -14872,10 +16691,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData52 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date53 = simulatorData52.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap54 = opssat.simulator.util.SimulatorData
-        .computeDiff(date50, date53);
-    opssat.simulator.util.SimulatorHeader simulatorHeader55 = new opssat.simulator.util.SimulatorHeader(
-        false, date46, date53);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap54 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date50, date53);
+    opssat.simulator.util.SimulatorHeader simulatorHeader55 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date46, date53);
     opssat.simulator.util.SimulatorData simulatorData56 = new opssat.simulator.util.SimulatorData(
         (short) 0, date46);
     celestiaData40.setDate(date46);
@@ -14884,21 +16705,24 @@ public class RegressionTest2 {
     java.lang.Integer int60 = uRIList1.getTypeShortForm();
     java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream61 = uRIList1
         .parallelStream();
-    java.lang.Float[] floatArray65 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray65 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList66 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean67 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList66, floatArray65);
     boolean boolean69 = floatList66.add((-1.0f));
     floatList66.clear();
     java.util.stream.Stream<java.lang.Float> floatStream71 = floatList66.stream();
-    org.ccsds.moims.mo.mal.structures.StringList stringList72 = new org.ccsds.moims.mo.mal.structures.StringList();
-    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind73 = opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels;
+    org.ccsds.moims.mo.mal.structures.StringList stringList72 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
+    opssat.simulator.threading.SimulatorNode.DevDatPBind devDatPBind73 =
+        opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels;
     boolean boolean74 = stringList72.equals(devDatPBind73);
     org.ccsds.moims.mo.mal.structures.Element element75 = stringList72.createElement();
     java.util.Iterator<java.lang.String> strItor76 = stringList72.iterator();
     boolean boolean77 = floatList66.contains(stringList72);
     java.util.stream.Stream<java.lang.String> strStream78 = stringList72.stream();
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime79 = new org.ccsds.moims.mo.mal.structures.FineTime();
+    org.ccsds.moims.mo.mal.structures.FineTime fineTime79 =
+        new org.ccsds.moims.mo.mal.structures.FineTime();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet80 = fineTime79.getAreaVersion();
     int int81 = stringList72.lastIndexOf(fineTime79);
     java.lang.Long long82 = fineTime79.getShortForm();
@@ -14912,7 +16736,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double20 + "' != '" + 340.0d + "'", double20 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str21 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str21.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray22);
     org.junit.Assert.assertTrue("'" + str24 + "' != '" + "UnknownGUIData" + "'",
@@ -14922,7 +16746,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double35 + "' != '" + 340.0d + "'", double35 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str36 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str36.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray37);
     org.junit.Assert.assertNotNull(floatArray39);
@@ -14941,7 +16765,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertNotNull(floatStream71);
     org.junit.Assert.assertTrue(
         "'" + devDatPBind73 + "' != '"
-            + opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels + "'",
+        + opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels + "'",
         devDatPBind73
             .equals(opssat.simulator.threading.SimulatorNode.DevDatPBind.FineADCS_ReactionWheels));
     org.junit.Assert.assertTrue("'" + boolean74 + "' != '" + false + "'", boolean74 == false);
@@ -14958,40 +16782,49 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1332() throws Throwable {
-    if (debug)
+  public void test1332() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1332");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState11 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double12 = simulatorSpacecraftState11.getLatitude();
     java.lang.String str13 = simulatorSpacecraftState11.getMagField();
     float[] floatArray14 = simulatorSpacecraftState11.getR();
     simulatorSpacecraftState3.setQ(floatArray14);
     java.lang.String str16 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray14);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState20 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double21 = simulatorSpacecraftState20.getLatitude();
     double double22 = simulatorSpacecraftState20.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState26 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double27 = simulatorSpacecraftState26.getLatitude();
     java.lang.String str28 = simulatorSpacecraftState26.getMagField();
     float[] floatArray29 = simulatorSpacecraftState26.getR();
     simulatorSpacecraftState20.setQ(floatArray29);
     float[] floatArray31 = simulatorSpacecraftState20.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData32 = new opssat.simulator.celestia.CelestiaData(
-        floatArray14, floatArray31);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.celestia.CelestiaData celestiaData32 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray14, floatArray31);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState36 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double37 = simulatorSpacecraftState36.getLatitude();
     double double38 = simulatorSpacecraftState36.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState42 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState42 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double43 = simulatorSpacecraftState42.getLatitude();
     java.lang.String str44 = simulatorSpacecraftState42.getMagField();
     float[] floatArray45 = simulatorSpacecraftState42.getR();
@@ -15007,10 +16840,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData57 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date58 = simulatorData57.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap59 = opssat.simulator.util.SimulatorData
-        .computeDiff(date55, date58);
-    opssat.simulator.util.SimulatorHeader simulatorHeader60 = new opssat.simulator.util.SimulatorHeader(
-        false, date51, date58);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap59 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date55, date58);
+    opssat.simulator.util.SimulatorHeader simulatorHeader60 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date51, date58);
     java.util.Date date61 = simulatorHeader60.getEndDate();
     simulatorHeader60.setOrekitTLE1("");
     java.util.Date date65 = simulatorHeader60.parseStringIntoDate("2019/05/23-15:09:35");
@@ -15022,7 +16857,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str13 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str13.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray14);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "UnknownGUIData" + "'",
@@ -15032,7 +16867,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double27 + "' != '" + 340.0d + "'", double27 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str28 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str28.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray29);
     org.junit.Assert.assertNotNull(floatArray31);
@@ -15041,7 +16876,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double43 + "' != '" + 340.0d + "'", double43 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str44 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str44.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray45);
     org.junit.Assert.assertNotNull(date51);
@@ -15055,14 +16890,17 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1333() throws Throwable {
-    if (debug)
+  public void test1333() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1333");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
-    float[] floatArray11 = new float[] { 281474993487887L, 281475010265070L, 281474993487881L };
+    float[] floatArray11 = new float[]{281474993487887L, 281475010265070L, 281474993487881L};
     simulatorSpacecraftState3.setRv(floatArray11);
     float[] floatArray13 = simulatorSpacecraftState3.getMagnetometer();
     int int14 = simulatorSpacecraftState3.getSatsInView();
@@ -15073,9 +16911,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1334() throws Throwable {
-    if (debug)
+  public void test1334() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1334");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -15086,10 +16926,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.lang.String str13 = simulatorHeader12.getEndDateString();
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -15101,10 +16943,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData23 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date24 = simulatorData23.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap25 = opssat.simulator.util.SimulatorData
-        .computeDiff(date21, date24);
-    opssat.simulator.util.SimulatorHeader simulatorHeader26 = new opssat.simulator.util.SimulatorHeader(
-        false, date17, date24);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap25 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date21, date24);
+    opssat.simulator.util.SimulatorHeader simulatorHeader26 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date17, date24);
     java.util.Date date27 = simulatorHeader26.getEndDate();
     boolean boolean28 = simulatorHeader26.isAutoStartSystem();
     int int29 = simulatorHeader26.getDayStartDate();
@@ -15119,10 +16963,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData40 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date41 = simulatorData40.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap42 = opssat.simulator.util.SimulatorData
-        .computeDiff(date38, date41);
-    opssat.simulator.util.SimulatorHeader simulatorHeader43 = new opssat.simulator.util.SimulatorHeader(
-        false, date34, date41);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap42 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date38, date41);
+    opssat.simulator.util.SimulatorHeader simulatorHeader43 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date34, date41);
     simulatorHeader26.setStartDate(date41);
     simulatorHeader12.setStartDate(date41);
     simulatorHeader12.setAutoStartTime(false);
@@ -15147,12 +16993,15 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1335() throws Throwable {
-    if (debug)
+  public void test1335() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1335");
+    }
     java.util.logging.Logger logger0 = null;
-    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 = new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
-        logger0);
+    opssat.simulator.util.EndlessSingleStreamOperatingBuffer endlessSingleStreamOperatingBuffer1 =
+        new opssat.simulator.util.EndlessSingleStreamOperatingBuffer(
+            logger0);
     byte[] byteArray3 = endlessSingleStreamOperatingBuffer1.getDataAsByteArray('4');
     byte[] byteArray5 = opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.int16_2ByteArray(15);
     org.ccsds.moims.mo.mal.structures.Blob blob6 = new org.ccsds.moims.mo.mal.structures.Blob(
@@ -15169,50 +17018,55 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1336() throws Throwable {
-    if (debug)
+  public void test1336() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1336");
-    java.lang.Double[] doubleArray4 = new java.lang.Double[] { (-1.0d), 100.0d, 10.0d, 10.0d };
+    }
+    java.lang.Double[] doubleArray4 = new java.lang.Double[]{(-1.0d), 100.0d, 10.0d, 10.0d};
     java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
     boolean boolean6 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
-    org.ccsds.moims.mo.mal.structures.UShort uShort7 = org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
-    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 = new org.ccsds.moims.mo.mal.structures.UShort[] {
-        uShort7 };
-    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
+    org.ccsds.moims.mo.mal.structures.UShort uShort7 =
+        org.ccsds.moims.mo.mal.structures.URIList.SERVICE_SHORT_FORM;
+    org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 =
+        new org.ccsds.moims.mo.mal.structures.UShort[]{
+          uShort7};
+    java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 =
+        new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
     boolean boolean10 = java.util.Collections.addAll(
         (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9, uShortArray8);
     uShortList9.ensureCapacity(0);
     int int14 = uShortList9.indexOf((byte) 1);
     uShortList9.clear();
-    java.lang.Long[] longArray18 = new java.lang.Long[] { 0L, 10L };
+    java.lang.Long[] longArray18 = new java.lang.Long[]{0L, 10L};
     java.util.ArrayList<java.lang.Long> longList19 = new java.util.ArrayList<java.lang.Long>();
     boolean boolean20 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Long>) longList19, longArray18);
     java.lang.Object obj21 = longList19.clone();
     boolean boolean22 = uShortList9.contains(longList19);
     boolean boolean23 = doubleList5.equals(boolean22);
-    java.lang.Integer[] intArray26 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray26 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList27 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean28 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList27, intArray26);
     int int30 = intList27.lastIndexOf((byte) 10);
     boolean boolean31 = doubleList5.removeAll(intList27);
-    java.lang.Integer[] intArray39 = new java.lang.Integer[] { 13, 10, 100, 100, 11111, 13, 11111 };
+    java.lang.Integer[] intArray39 = new java.lang.Integer[]{13, 10, 100, 100, 11111, 13, 11111};
     java.util.ArrayList<java.lang.Integer> intList40 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean41 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList40, intArray39);
-    java.lang.Byte[] byteArray46 = new java.lang.Byte[] { (byte) 100, (byte) 0, (byte) 10,
-        (byte) 1 };
+    java.lang.Byte[] byteArray46 = new java.lang.Byte[]{(byte) 100, (byte) 0, (byte) 10,
+      (byte) 1};
     java.util.ArrayList<java.lang.Byte> byteList47 = new java.util.ArrayList<java.lang.Byte>();
     boolean boolean48 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Byte>) byteList47, byteArray46);
-    java.lang.Integer[] intArray51 = new java.lang.Integer[] { 1, 11111 };
+    java.lang.Integer[] intArray51 = new java.lang.Integer[]{1, 11111};
     java.util.ArrayList<java.lang.Integer> intList52 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean53 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList52, intArray51);
     boolean boolean54 = byteList47.retainAll(intList52);
-    java.lang.Integer[] intArray57 = new java.lang.Integer[] { 0, 1 };
+    java.lang.Integer[] intArray57 = new java.lang.Integer[]{0, 1};
     java.util.ArrayList<java.lang.Integer> intList58 = new java.util.ArrayList<java.lang.Integer>();
     boolean boolean59 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Integer>) intList58, intArray57);
@@ -15220,7 +17074,7 @@ public class RegressionTest2 {
     boolean boolean62 = intList52.removeAll(intList58);
     boolean boolean63 = intList40.retainAll(intList58);
     boolean boolean64 = doubleList5.removeAll(intList58);
-    java.lang.Float[] floatArray68 = new java.lang.Float[] { 1.0f, 1.0f, (-1.0f) };
+    java.lang.Float[] floatArray68 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f)};
     java.util.ArrayList<java.lang.Float> floatList69 = new java.util.ArrayList<java.lang.Float>();
     boolean boolean70 = java.util.Collections
         .addAll((java.util.Collection<java.lang.Float>) floatList69, floatArray68);
@@ -15274,21 +17128,26 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1337() throws Throwable {
-    if (debug)
+  public void test1337() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1337");
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray6 = new float[] { 28, 8 };
+    }
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState3 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray6 = new float[]{28, 8};
     simulatorSpacecraftState3.setQ(floatArray6);
     float[] floatArray8 = simulatorSpacecraftState3.getR();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState12 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     simulatorSpacecraftState12.setLongitude(4);
-    double[] doubleArray16 = new double[] { (-1.0f) };
+    double[] doubleArray16 = new double[]{(-1.0f)};
     simulatorSpacecraftState12.setMagField(doubleArray16);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState21 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double22 = simulatorSpacecraftState21.getLatitude();
     java.lang.String str23 = simulatorSpacecraftState21.getMagField();
     java.lang.String str24 = simulatorSpacecraftState21.toString();
@@ -15304,11 +17163,11 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double22 + "' != '" + 340.0d + "'", double22 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str23 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str23.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertTrue(
         "'" + str24 + "' != '"
-            + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
+        + "SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}" + "'",
         str24.equals("SimulatorSpacecraftState{latitude=340.0, longitude=-1.0, altitude=14.0}"));
     org.junit.Assert.assertNotNull(doubleArray25);
     org.junit.Assert.assertTrue("'" + str28 + "' != '"
@@ -15319,45 +17178,53 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1338() throws Throwable {
-    if (debug)
+  public void test1338() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1338");
+    }
     org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI(
         "0100.0000");
     java.lang.Integer int2 = uRI1.getTypeShortForm();
     java.lang.String str3 = uRI1.toString();
     java.lang.String str4 = uRI1.getValue();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uRI1.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.ShortList shortList7 = new org.ccsds.moims.mo.mal.structures.ShortList(
-        ' ');
+    org.ccsds.moims.mo.mal.structures.ShortList shortList7 =
+        new org.ccsds.moims.mo.mal.structures.ShortList(
+            ' ');
     java.lang.Long long8 = shortList7.getShortForm();
     java.util.stream.Stream<java.lang.Short> shortStream9 = shortList7.stream();
     boolean boolean10 = uOctet5.equals(shortList7);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray17 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray17 = new float[]{28, 8};
     simulatorSpacecraftState14.setQ(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState22 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double23 = simulatorSpacecraftState22.getLatitude();
     java.lang.String str24 = simulatorSpacecraftState22.getMagField();
     float[] floatArray25 = simulatorSpacecraftState22.getR();
     simulatorSpacecraftState14.setQ(floatArray25);
     java.lang.String str27 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray25);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState31 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState31 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double32 = simulatorSpacecraftState31.getLatitude();
     double double33 = simulatorSpacecraftState31.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState37 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double38 = simulatorSpacecraftState37.getLatitude();
     java.lang.String str39 = simulatorSpacecraftState37.getMagField();
     float[] floatArray40 = simulatorSpacecraftState37.getR();
     simulatorSpacecraftState31.setQ(floatArray40);
     float[] floatArray42 = simulatorSpacecraftState31.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData43 = new opssat.simulator.celestia.CelestiaData(
-        floatArray25, floatArray42);
+    opssat.simulator.celestia.CelestiaData celestiaData43 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray25, floatArray42);
     float[] floatArray44 = celestiaData43.getQ();
     opssat.simulator.util.SimulatorData simulatorData48 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -15369,17 +17236,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData55 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date56 = simulatorData55.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap57 = opssat.simulator.util.SimulatorData
-        .computeDiff(date53, date56);
-    opssat.simulator.util.SimulatorHeader simulatorHeader58 = new opssat.simulator.util.SimulatorHeader(
-        false, date49, date56);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap57 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date53, date56);
+    opssat.simulator.util.SimulatorHeader simulatorHeader58 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date49, date56);
     opssat.simulator.util.SimulatorData simulatorData59 = new opssat.simulator.util.SimulatorData(
         (short) 0, date49);
     celestiaData43.setDate(date49);
     int int61 = celestiaData43.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState65 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray68 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState65 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray68 = new float[]{28, 8};
     simulatorSpacecraftState65.setQ(floatArray68);
     celestiaData43.setQ(floatArray68);
     boolean boolean71 = shortList7.contains(celestiaData43);
@@ -15399,7 +17269,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double23 + "' != '" + 340.0d + "'", double23 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str24 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str24.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray25);
     org.junit.Assert.assertTrue("'" + str27 + "' != '" + "UnknownGUIData" + "'",
@@ -15409,7 +17279,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double38 + "' != '" + 340.0d + "'", double38 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str39 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str39.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray40);
     org.junit.Assert.assertNotNull(floatArray42);
@@ -15425,37 +17295,45 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1339() throws Throwable {
-    if (debug)
+  public void test1339() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1339");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
     java.util.Iterator<java.lang.String> strItor1 = stringList0.iterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = stringList0.getAreaVersion();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray9 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray9 = new float[]{28, 8};
     simulatorSpacecraftState6.setQ(floatArray9);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double15 = simulatorSpacecraftState14.getLatitude();
     java.lang.String str16 = simulatorSpacecraftState14.getMagField();
     float[] floatArray17 = simulatorSpacecraftState14.getR();
     simulatorSpacecraftState6.setQ(floatArray17);
     java.lang.String str19 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double24 = simulatorSpacecraftState23.getLatitude();
     double double25 = simulatorSpacecraftState23.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double30 = simulatorSpacecraftState29.getLatitude();
     java.lang.String str31 = simulatorSpacecraftState29.getMagField();
     float[] floatArray32 = simulatorSpacecraftState29.getR();
     simulatorSpacecraftState23.setQ(floatArray32);
     float[] floatArray34 = simulatorSpacecraftState23.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData35 = new opssat.simulator.celestia.CelestiaData(
-        floatArray17, floatArray34);
+    opssat.simulator.celestia.CelestiaData celestiaData35 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray17, floatArray34);
     float[] floatArray36 = celestiaData35.getQ();
     opssat.simulator.util.SimulatorData simulatorData40 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -15467,17 +17345,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData47 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date48 = simulatorData47.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 = opssat.simulator.util.SimulatorData
-        .computeDiff(date45, date48);
-    opssat.simulator.util.SimulatorHeader simulatorHeader50 = new opssat.simulator.util.SimulatorHeader(
-        false, date41, date48);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date45, date48);
+    opssat.simulator.util.SimulatorHeader simulatorHeader50 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date41, date48);
     opssat.simulator.util.SimulatorData simulatorData51 = new opssat.simulator.util.SimulatorData(
         (short) 0, date41);
     celestiaData35.setDate(date41);
     int int53 = celestiaData35.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray60 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray60 = new float[]{28, 8};
     simulatorSpacecraftState57.setQ(floatArray60);
     celestiaData35.setQ(floatArray60);
     int int63 = stringList0.lastIndexOf(celestiaData35);
@@ -15492,7 +17373,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double15 + "' != '" + 340.0d + "'", double15 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str16 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str16.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray17);
     org.junit.Assert.assertTrue("'" + str19 + "' != '" + "UnknownGUIData" + "'",
@@ -15502,7 +17383,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double30 + "' != '" + 340.0d + "'", double30 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str31 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str31.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray32);
     org.junit.Assert.assertNotNull(floatArray34);
@@ -15516,9 +17397,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1340() throws Throwable {
-    if (debug)
+  public void test1340() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1340");
+    }
     opssat.simulator.util.SimulatorData simulatorData2 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date3 = simulatorData2.getCurrentTime();
@@ -15529,10 +17412,12 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData9 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date10 = simulatorData9.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 = opssat.simulator.util.SimulatorData
-        .computeDiff(date7, date10);
-    opssat.simulator.util.SimulatorHeader simulatorHeader12 = new opssat.simulator.util.SimulatorHeader(
-        false, date3, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap11 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date7, date10);
+    opssat.simulator.util.SimulatorHeader simulatorHeader12 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     simulatorHeader12.setOrekitTLE1("");
     java.lang.String str16 = simulatorHeader12.DATE_FORMAT;
@@ -15553,37 +17438,45 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1341() throws Throwable {
-    if (debug)
+  public void test1341() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1341");
-    org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
+    }
+    org.ccsds.moims.mo.mal.structures.StringList stringList0 =
+        new org.ccsds.moims.mo.mal.structures.StringList();
     java.util.Iterator<java.lang.String> strItor1 = stringList0.iterator();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = stringList0.getAreaVersion();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray9 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState6 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray9 = new float[]{28, 8};
     simulatorSpacecraftState6.setQ(floatArray9);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState14 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double15 = simulatorSpacecraftState14.getLatitude();
     java.lang.String str16 = simulatorSpacecraftState14.getMagField();
     float[] floatArray17 = simulatorSpacecraftState14.getR();
     simulatorSpacecraftState6.setQ(floatArray17);
     java.lang.String str19 = opssat.simulator.util.CommandDescriptor
         .makeConsoleDescriptionForObj(floatArray17);
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState23 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double24 = simulatorSpacecraftState23.getLatitude();
     double double25 = simulatorSpacecraftState23.getLatitude();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState29 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
     double double30 = simulatorSpacecraftState29.getLatitude();
     java.lang.String str31 = simulatorSpacecraftState29.getMagField();
     float[] floatArray32 = simulatorSpacecraftState29.getR();
     simulatorSpacecraftState23.setQ(floatArray32);
     float[] floatArray34 = simulatorSpacecraftState23.getV();
-    opssat.simulator.celestia.CelestiaData celestiaData35 = new opssat.simulator.celestia.CelestiaData(
-        floatArray17, floatArray34);
+    opssat.simulator.celestia.CelestiaData celestiaData35 =
+        new opssat.simulator.celestia.CelestiaData(
+            floatArray17, floatArray34);
     float[] floatArray36 = celestiaData35.getQ();
     opssat.simulator.util.SimulatorData simulatorData40 = new opssat.simulator.util.SimulatorData(
         (-18));
@@ -15595,17 +17488,20 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData47 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date48 = simulatorData47.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 = opssat.simulator.util.SimulatorData
-        .computeDiff(date45, date48);
-    opssat.simulator.util.SimulatorHeader simulatorHeader50 = new opssat.simulator.util.SimulatorHeader(
-        false, date41, date48);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap49 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date45, date48);
+    opssat.simulator.util.SimulatorHeader simulatorHeader50 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date41, date48);
     opssat.simulator.util.SimulatorData simulatorData51 = new opssat.simulator.util.SimulatorData(
         (short) 0, date41);
     celestiaData35.setDate(date41);
     int int53 = celestiaData35.getSeconds();
-    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 = new opssat.simulator.util.SimulatorSpacecraftState(
-        340.0d, (-1.0f), 14);
-    float[] floatArray60 = new float[] { 28, 8 };
+    opssat.simulator.util.SimulatorSpacecraftState simulatorSpacecraftState57 =
+        new opssat.simulator.util.SimulatorSpacecraftState(
+            340.0d, (-1.0f), 14);
+    float[] floatArray60 = new float[]{28, 8};
     simulatorSpacecraftState57.setQ(floatArray60);
     celestiaData35.setQ(floatArray60);
     int int63 = stringList0.lastIndexOf(celestiaData35);
@@ -15619,7 +17515,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double15 + "' != '" + 340.0d + "'", double15 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str16 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str16.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray17);
     org.junit.Assert.assertTrue("'" + str19 + "' != '" + "UnknownGUIData" + "'",
@@ -15629,7 +17525,7 @@ public class RegressionTest2 {
     org.junit.Assert.assertTrue("'" + double30 + "' != '" + 340.0d + "'", double30 == 340.0d);
     org.junit.Assert.assertTrue(
         "'" + str31 + "' != '"
-            + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
+        + "North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]" + "'",
         str31.equals("North:[+00000.00] ; East:[+00000.00] ; Vertical: [+00000.00] units [nT]"));
     org.junit.Assert.assertNotNull(floatArray32);
     org.junit.Assert.assertNotNull(floatArray34);
@@ -15643,9 +17539,11 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1342() throws Throwable {
-    if (debug)
+  public void test1342() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1342");
+    }
     opssat.simulator.util.SimulatorData simulatorData3 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date4 = simulatorData3.getCurrentTime();
@@ -15662,12 +17560,15 @@ public class RegressionTest2 {
     opssat.simulator.util.SimulatorData simulatorData16 = new opssat.simulator.util.SimulatorData(
         (-18));
     java.util.Date date17 = simulatorData16.getCurrentTime();
-    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 = opssat.simulator.util.SimulatorData
-        .computeDiff(date14, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader19 = new opssat.simulator.util.SimulatorHeader(
-        false, date10, date17);
-    opssat.simulator.util.SimulatorHeader simulatorHeader20 = new opssat.simulator.util.SimulatorHeader(
-        false, date5, date10);
+    java.util.Map<java.util.concurrent.TimeUnit, java.lang.Long> timeUnitMap18 =
+        opssat.simulator.util.SimulatorData
+            .computeDiff(date14, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader19 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date10, date17);
+    opssat.simulator.util.SimulatorHeader simulatorHeader20 =
+        new opssat.simulator.util.SimulatorHeader(
+            false, date5, date10);
     simulatorHeader20.setUpdateInternet(true);
     int int23 = simulatorHeader20.getHourStartDate();
     simulatorHeader20.setAutoStartSystem(false);
@@ -15683,19 +17584,24 @@ public class RegressionTest2 {
   }
 
   @Test
-  public void test1343() throws Throwable {
-    if (debug)
+  public void test1343() throws Throwable
+  {
+    if (debug) {
       System.out.format("%n%s%n", "RegressionTest2.test1343");
-    org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
+    }
+    org.ccsds.moims.mo.mal.structures.OctetList octetList0 =
+        new org.ccsds.moims.mo.mal.structures.OctetList();
     java.lang.Integer int1 = octetList0.getTypeShortForm();
     org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList0.getAreaNumber();
     org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList0.getAreaVersion();
-    opssat.simulator.util.wav.WavFileException wavFileException5 = new opssat.simulator.util.wav.WavFileException(
-        "UnknownGUIData");
+    opssat.simulator.util.wav.WavFileException wavFileException5 =
+        new opssat.simulator.util.wav.WavFileException(
+            "UnknownGUIData");
     java.lang.Throwable[] throwableArray6 = wavFileException5.getSuppressed();
     boolean boolean7 = octetList0.equals(wavFileException5);
-    org.ccsds.moims.mo.mal.structures.FloatList floatList9 = new org.ccsds.moims.mo.mal.structures.FloatList(
-        (byte) 0);
+    org.ccsds.moims.mo.mal.structures.FloatList floatList9 =
+        new org.ccsds.moims.mo.mal.structures.FloatList(
+            (byte) 0);
     java.lang.Integer int10 = floatList9.getTypeShortForm();
     java.lang.Integer int11 = floatList9.getTypeShortForm();
     floatList9.clear();
