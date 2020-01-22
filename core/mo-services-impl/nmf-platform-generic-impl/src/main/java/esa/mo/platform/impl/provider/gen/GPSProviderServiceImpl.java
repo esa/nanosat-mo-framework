@@ -85,12 +85,15 @@ import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.platform.impl.util.PositionsCalculator;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
+import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionAndVelocityResponse;
+import org.ccsds.moims.mo.platform.gps.provider.GetPositionAndVelocityInteraction;
 
 /**
  * GPS service Provider.
  */
 public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
-    implements ReconfigurableService {
+    implements ReconfigurableService
+{
 
   private MALProvider gpsServiceProvider;
   private boolean initialiased = false;
@@ -109,15 +112,15 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   private long timeOfCurrentPosition;
 
   /**
-   * creates the MAL objects, the publisher used to create updates and starts the
-   * publishing thread
+   * creates the MAL objects, the publisher used to create updates and starts the publishing thread
    *
    * @param comServices
    * @param adapter
    * @throws MALException On initialisation error.
    */
   public synchronized void init(final COMServicesProvider comServices,
-      final GPSAdapterInterface adapter) throws MALException {
+      final GPSAdapterInterface adapter) throws MALException
+  {
     if (!initialiased) {
 
       if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME,
@@ -167,7 +170,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   /**
    * Closes all running threads and releases the MAL resources.
    */
-  public void close() {
+  public void close()
+  {
     try {
       if (null != gpsServiceProvider) {
         gpsServiceProvider.close();
@@ -181,7 +185,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     }
   }
 
-  private void publishNearbyPositionUpdate(final Long objId, final Boolean isInside) {
+  private void publishNearbyPositionUpdate(final Long objId, final Boolean isInside)
+  {
     try {
       synchronized (lock) {
         if (!isRegistered) {
@@ -194,7 +199,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
       Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.FINER,
           "Generating GPS Nearby Position update for: {0} (Identifier: {1})",
-          new Object[] { objId, new Identifier(manager.get(objId).getName().toString()) });
+          new Object[]{objId, new Identifier(manager.get(objId).getName().toString())});
 
       final URI uri = connection.getConnectionDetails().getProviderURI();
       final Long pValObjId = manager.storeAndGenerateNearbyPositionAlertId(isInside, objId, uri);
@@ -225,7 +230,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   @Override
   public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction)
-      throws MALInteractionException, MALException {
+      throws MALInteractionException, MALException
+  {
     if (!adapter.isUnitAvailable()) { // Is the unit available?
       throw new MALInteractionException(
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
@@ -243,7 +249,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   @Override
   public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction)
-      throws MALInteractionException, MALException {
+      throws MALInteractionException, MALException
+  {
     GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
     final Position pos;
     final long startTime;
@@ -259,14 +266,15 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
     response.setBodyElement0(pos);
     double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to
-                                                                          // sec
+    // sec
     response.setBodyElement1(new Duration(elapsedTime));
     return response;
   }
 
   @Override
   public void getPosition(GetPositionInteraction interaction)
-      throws MALInteractionException, MALException {
+      throws MALInteractionException, MALException
+  {
     if (!adapter.isUnitAvailable()) { // Is the unit available?
       throw new MALInteractionException(
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
@@ -286,7 +294,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   @Override
   public void getSatellitesInfo(GetSatellitesInfoInteraction interaction)
-      throws MALInteractionException, MALException {
+      throws MALInteractionException, MALException
+  {
     if (!adapter.isUnitAvailable()) { // Is the unit available?
       throw new MALInteractionException(
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
@@ -300,7 +309,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   @Override
   public LongList listNearbyPosition(IdentifierList names, MALInteraction interaction)
-      throws MALInteractionException, MALException {
+      throws MALInteractionException, MALException
+  {
     LongList outLongLst = new LongList();
 
     if (null == names) { // Is the input null?
@@ -311,7 +321,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       // Check for the wildcard
       if (attitudeName.toString().equals("*")) {
         outLongLst.clear(); // if the wildcard is in the middle of the input list, we clear the
-                            // output list and...
+        // output list and...
         outLongLst.addAll(manager.listAll()); // ... add all in a row
         break;
       }
@@ -326,7 +336,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   @Override
   public LongList addNearbyPosition(final NearbyPositionDefinitionList nearbyPositionDefinitions,
-      final MALInteraction interaction) throws MALInteractionException, MALException {
+      final MALInteraction interaction) throws MALInteractionException, MALException
+  {
     LongList outLongLst = new LongList();
     UIntegerList invIndexList = new UIntegerList();
     UIntegerList dupIndexList = new UIntegerList();
@@ -374,7 +385,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   @Override
   public void removeNearbyPosition(LongList objInstIds, MALInteraction interaction)
-      throws MALInteractionException, MALException {
+      throws MALInteractionException, MALException
+  {
     UIntegerList unkIndexList = new UIntegerList();
     Long tempLong;
     LongList tempLongLst = new LongList();
@@ -388,7 +400,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
       if (tempLong == 0) { // Is it the wildcard '0'?
         tempLongLst.clear(); // if the wildcard is in the middle of the input list, we clear the
-                             // output list and...
+        // output list and...
         tempLongLst.addAll(manager.listAll()); // ... add all in a row
         break;
       }
@@ -415,44 +427,65 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     }
   }
 
-  public static final class PublishInteractionListener implements MALPublishInteractionListener {
+  @Override
+  public GetLastKnownPositionAndVelocityResponse getLastKnownPositionAndVelocity(
+      MALInteraction interaction) throws MALInteractionException, MALException
+  {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void getPositionAndVelocity(GetPositionAndVelocityInteraction interaction) throws
+      MALInteractionException, MALException
+  {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  public static final class PublishInteractionListener implements MALPublishInteractionListener
+  {
 
     @Override
     public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-        throws MALException {
+        throws MALException
+    {
       Logger.getLogger(GPSProviderServiceImpl.class.getName())
           .fine("PublishInteractionListener::publishDeregisterAckReceived");
     }
 
     @Override
     public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-        final Map qosProperties) throws MALException {
+        final Map qosProperties) throws MALException
+    {
       Logger.getLogger(GPSProviderServiceImpl.class.getName())
           .warning("PublishInteractionListener::publishErrorReceived");
     }
 
     @Override
     public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-        throws MALException {
+        throws MALException
+    {
       Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.INFO,
           "Registration Ack: {0}", header.toString());
     }
 
     @Override
     public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-        final Map qosProperties) throws MALException {
+        final Map qosProperties) throws MALException
+    {
       Logger.getLogger(GPSProviderServiceImpl.class.getName())
           .warning("PublishInteractionListener::publishRegisterErrorReceived");
     }
   }
 
   @Override
-  public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
+  public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter)
+  {
     this.configurationAdapter = configurationAdapter;
   }
 
   @Override
-  public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+  public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails)
+  {
     // Validate the returned configuration...
     if (configurationObjectDetails == null) {
       return false;
@@ -483,7 +516,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     // If the list is empty, reconfigure the service with nothing...
     if (confSet.getObjInstIds().isEmpty()) {
       manager.reconfigureDefinitions(new LongList(), new PositionList()); // Reconfigures the
-                                                                          // Manager
+      // Manager
       return true;
     }
 
@@ -499,7 +532,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   }
 
   @Override
-  public ConfigurationObjectDetails getCurrentConfiguration() {
+  public ConfigurationObjectDetails getCurrentConfiguration()
+  {
     // Get all the current objIds in the serviceImpl
     // Create a Configuration Object with all the objs of the provider
     HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
@@ -522,32 +556,40 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   }
 
   @Override
-  public COMService getCOMService() {
+  public COMService getCOMService()
+  {
     return GPSHelper.GPS_SERVICE;
   }
 
-  private class PeriodicCurrentPosition {
+  private class PeriodicCurrentPosition
+  {
 
     private final TaskScheduler timer;
     boolean active = false; // Flag that determines if publishes or not
     private static final int PERIOD = 1000;
 
-    public PeriodicCurrentPosition() {
+    public PeriodicCurrentPosition()
+    {
       timer = new TaskScheduler(1);
     }
 
-    public void start() {
+    public void start()
+    {
       active = true;
     }
 
-    public void pause() {
+    public void pause()
+    {
       active = false;
     }
 
-    public void init() {
-      timer.scheduleTask(new Thread() {
+    public void init()
+    {
+      timer.scheduleTask(new Thread()
+      {
         @Override
-        public void run() {
+        public void run()
+        {
           if (active) {
             if (!adapter.isUnitAvailable()) { // Is the unit available?
               return;
@@ -597,7 +639,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   @Override
   public void getBestXYZSentence(GetBestXYZSentenceInteraction interaction)
-      throws MALInteractionException, MALException {
+      throws MALInteractionException, MALException
+  {
     if (!adapter.isUnitAvailable()) { // Is the unit available?
       throw new MALInteractionException(
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
@@ -616,7 +659,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   @Override
   public void getTIMEASentence(GetTIMEASentenceInteraction interaction)
-      throws MALInteractionException, MALException {
+      throws MALInteractionException, MALException
+  {
     if (!adapter.isUnitAvailable()) { // Is the unit available?
       throw new MALInteractionException(
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));

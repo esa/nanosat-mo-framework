@@ -73,6 +73,7 @@ import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import org.ccsds.moims.mo.platform.structures.Vector3D;
 
 /**
  * The adapter for the NMF App
@@ -131,8 +132,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   public PayloadsTestMCAdapter(final NMFInterface nmfProvider)
   {
-    this.defaultCameraResolution
-        = new PixelResolution(new UInteger(defaultPictureWidth), new UInteger(
+    this.defaultCameraResolution =
+         new PixelResolution(new UInteger(defaultPictureWidth), new UInteger(
             defaultPictureHeight));
     actionsHandler = new PayloadsTestActionsHandler(this);
     this.nmf = nmfProvider;
@@ -513,8 +514,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
           case PARAMETER_MAG_Y:
           case PARAMETER_MAG_Z:
             try {
-              GetStatusResponse adcsStatus
-                  = nmf.getPlatformServices().getAutonomousADCSService().getStatus();
+              GetStatusResponse adcsStatus =
+                  nmf.getPlatformServices().getAutonomousADCSService().getStatus();
               Vector3D magField = adcsStatus.getBodyElement0().getMagneticField();
 
               if (PARAMETER_MAG_X.equals(identifier.getValue())) {
