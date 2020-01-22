@@ -85,7 +85,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPoin
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.Vector3D;
+import org.ccsds.moims.mo.platform.structures.Vector3D;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
@@ -520,8 +520,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
           case PARAMETER_MAG_Y:
           case PARAMETER_MAG_Z:
             try {
-              GetStatusResponse adcsStatus
-                  = nmf.getPlatformServices().getAutonomousADCSService().getStatus();
+              GetStatusResponse adcsStatus =
+                  nmf.getPlatformServices().getAutonomousADCSService().getStatus();
               Vector3D magField = adcsStatus.getBodyElement0().getMagneticField();
 
               if (PARAMETER_MAG_X.equals(identifier.getValue())) {
@@ -615,8 +615,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
 
   private UInteger executeAdcsModeAction(Duration duration, AttitudeMode attitudeMode)
   {
-    if (duration != null)
-    {
+    if (duration != null) {
       // Negative Durations are not allowed!
       if (duration.getValue() < 0) {
         return new UInteger(1);

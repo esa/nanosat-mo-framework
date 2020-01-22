@@ -33,7 +33,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPoin
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.MagnetorquersState;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.Vector3D;
+import org.ccsds.moims.mo.platform.structures.Vector3D;
 
 /**
  *
@@ -68,9 +68,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 
     if (att instanceof AttitudeModeBDot) {
       instrumentsSimulator.getpFineADCS().opModeDetumble((byte) 1, BEGIN_END_TIMES);
-    }
-
-    else if (att instanceof AttitudeModeSingleSpinning) {
+    } else if (att instanceof AttitudeModeSingleSpinning) {
       AttitudeModeSingleSpinning singleSpinAtt = (AttitudeModeSingleSpinning) att;
       Vector3D body = singleSpinAtt.getBodyAxis();
       final float[] targetVector = new float[7];
@@ -83,9 +81,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 
       instrumentsSimulator.getpFineADCS().opModeSetModeSpin(MODE_START, BEGIN_END_TIMES,
           targetVector);
-    }
-
-    else if (att instanceof AttitudeModeSunPointing) {
+    } else if (att instanceof AttitudeModeSunPointing) {
       final byte actuatorMode = 0; // Zero because it is dummy and only RW is available
       // [0]: Mode Zero means stop; One means start
       // [1]: Actuator mode
@@ -97,9 +93,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
       targetVector[2] = 0;
 
       instrumentsSimulator.getpFineADCS().opModeSunPointing(mode, BEGIN_END_TIMES, targetVector);
-    }
-
-    else if (att instanceof AttitudeModeTargetTracking) {
+    } else if (att instanceof AttitudeModeTargetTracking) {
       AttitudeModeTargetTracking targetTrackingAtt = (AttitudeModeTargetTracking) att;
 
       float[] latitudeLongitude = new float[2];
@@ -108,9 +102,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 
       instrumentsSimulator.getpFineADCS().opModeSetFixWGS84TargetTracking(MODE_START,
           BEGIN_END_TIMES, latitudeLongitude);
-    }
-
-    else if (att instanceof AttitudeModeNadirPointing) {
+    } else if (att instanceof AttitudeModeNadirPointing) {
       instrumentsSimulator.getpFineADCS().opModeSetNadirTargetTracking(MODE_START, BEGIN_END_TIMES);
     }
 
@@ -132,7 +124,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
     ret.setAngularVelocity(HelperIADCS100.getAngularVelocityFromSensorTM(tmBuffer));
     ret.setAttitude(HelperIADCS100.getAttitudeFromSensorTM(tmBuffer));
     ret.setMagneticField(HelperIADCS100.getMagneticFieldFromSensorTM(tmBuffer));
-    ret.setSunVector(new Vector3D((float)1, (float)0, (float)0)); // TODO provide real data
+    ret.setSunVector(new Vector3D((float) 1, (float) 0, (float) 0)); // TODO provide real data
     return ret;
   }
 
