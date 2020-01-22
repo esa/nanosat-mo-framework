@@ -609,6 +609,108 @@
           </mal:errors>
         </mal:invokeIP>
       </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="11">
+        <mal:requestIP
+          comment="The getLastKnownPositionAndVelocity operation allows a consumer to retrieve the last known Position and Velocity in Cartesian Koordinates, and the coresponding standard deviations that were provided by the GPS unit."
+          name="getLastKnownPositionAndVelocity" number="11" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="">
+            </mal:request>
+            <mal:response comment="">
+              <mal:field canBeNull="true"
+                         comment="The position field shall hold the last known position."
+                         name="position">
+                <mal:type area="Platform" list="false"
+                          name="Vector3D"/>
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="The positionDeviation field shall hold the last known standard deviations of the position."
+                         name="positionDeviation">
+                <mal:type area="Platform" list="false"
+                          name="Vector3D"/>
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="The velocity field shall hold the last known velocity."
+                         name="velocity">
+                <mal:type area="Platform" list="false"
+                          name="Vector3D"/>
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="The velocityDeviation field shall hold the last known standard deviations of the velocity."
+                         name="velocityDeviation">
+                <mal:type area="Platform" list="false"
+                          name="Vector3D"/>
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="The elapsedTime field shall hold the elapsed time since the position's determination."
+                         name="elapsedTime">
+                <mal:type area="MAL" list="false"
+                          name="Duration" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The position and velocity are unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="12">
+        <mal:invokeIP
+          comment="The getPositionAndVelocity operation allows a consumer to obtain a position and velocity from the GPS unit."
+          name="getPositionAndVelocity" number="12" supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="">
+            </mal:invoke>
+            <mal:acknowledgement comment="" />
+            <mal:response comment="">
+              <mal:field canBeNull="true"
+                         comment="The position field shall hold the last known position."
+                         name="position">
+                <mal:type area="Platform" list="false"
+                          name="Vector3D"/>
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="The positionDeviation field shall hold the last known standard deviations of the position."
+                         name="positionDeviation">
+                <mal:type area="Platform" list="false"
+                          name="Vector3D"/>
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="The velocity field shall hold the last known velocity."
+                         name="velocity">
+                <mal:type area="Platform" list="false"
+                          name="Vector3D"/>
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="The velocityDeviation field shall hold the last known standard deviations of the velocity."
+                         name="velocityDeviation">
+                <mal:type area="Platform" list="false"
+                          name="Vector3D"/>
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="The elapsedTime field shall hold the elapsed time since the position's determination."
+                         name="elapsedTime">
+                <mal:type area="MAL" list="false"
+                          name="Duration" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false"
+                        name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+            <mal:errorRef
+              comment="The position and velocity are unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite
           comment="The Position structure holds a WGS-84 position of the spacecraft reported by the GPS unit."
