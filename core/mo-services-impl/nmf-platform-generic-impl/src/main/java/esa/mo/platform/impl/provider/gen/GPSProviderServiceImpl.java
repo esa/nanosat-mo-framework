@@ -117,6 +117,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   private VectorD3D currentCartesianVelocity = null;
   private VectorF3D currentCartesianVelocityDeviation = null;
   private long timeOfCurrentPosition;
+  private long timeOfCurrentPositionAndVelocity;
 
   /**
    * creates the MAL objects, the publisher used to create updates and starts the publishing thread
@@ -437,7 +438,28 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   public GetLastKnownPositionAndVelocityResponse getLastKnownPositionAndVelocity(
       MALInteraction interaction) throws MALInteractionException, MALException
   {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    final VectorD3D position;
+    final VectorF3D positionDeviation;
+    final VectorD3D velocity;
+    final VectorF3D velocityDeviation;
+    final long startTime;
+
+    synchronized (MUTEX) {
+      position = currentCartesianPosition;
+      positionDeviation = currentCartesianPositionDeviation;
+      velocity = currentCartesianVelocity;
+      velocityDeviation = currentCartesianVelocityDeviation;
+      startTime = timeOfCurrentPositionAndVelocity;
+    }
+
+    if (position == null && positionDeviation == null && velocity == null && velocityDeviation == null) { // We never got the data! So we don't know the data!
+      throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+    }
+
+    double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to sec
+
+    return new GetLastKnownPositionAndVelocityResponse(position, positionDeviation, velocity,
+        velocityDeviation, new Duration(elapsedTime));
   }
 
   @Override
@@ -455,25 +477,25 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
       String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
 
-      VectorD3D position = new VectorD3D(
+      final VectorD3D position = new VectorD3D(
           Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]),
           Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PY]),
           Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ])
       );
 
-      VectorF3D positionDeviation = new VectorF3D(
+      final VectorF3D positionDeviation = new VectorF3D(
           Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]),
           Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]),
           Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION])
       );
 
-      VectorD3D velocity = new VectorD3D(
+      final VectorD3D velocity = new VectorD3D(
           Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]),
           Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VY]),
           Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ])
       );
 
-      VectorF3D velocityDeviation = new VectorF3D(
+      final VectorF3D velocityDeviation = new VectorF3D(
           Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]),
           Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]),
           Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION])
@@ -484,7 +506,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
         currentCartesianPositionDeviation = positionDeviation;
         currentCartesianVelocity = velocity;
         currentCartesianVelocityDeviation = velocityDeviation;
-        timeOfCurrentPosition = System.currentTimeMillis();
+        timeOfCurrentPositionAndVelocity = System.currentTimeMillis();
       }
 
       interaction.sendResponse(position, positionDeviation, velocity, velocityDeviation);
