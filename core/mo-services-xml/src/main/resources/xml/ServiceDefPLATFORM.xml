@@ -705,6 +705,36 @@
           </mal:errors>
         </mal:invokeIP>
       </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="13">
+        <mal:invokeIP
+          comment="The getTLE operation allows a consumer to obtain the current TLE."
+          name="getTLE" number="13" supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="">
+            </mal:invoke>
+            <mal:acknowledgement comment="" />
+            <mal:response comment="">
+              <mal:field canBeNull="true"
+                         comment="The tle field shall hold the curent TLE."
+                         name="tle">
+                <mal:type area="Platform" list="false"
+                          name="TwoLineElementSet" service="GPS" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The GPS unit is not available.">
+              <mal:type area="Platform" list="false"
+                        name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+            <mal:errorRef
+              comment="The position and velocity are unknown.">
+              <mal:type area="MAL" list="false" name="UNKNOWN" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite
           comment="The Position structure holds a WGS-84 position of the spacecraft reported by the GPS unit."
@@ -824,6 +854,103 @@
                      comment="The position of the definition." name="position">
             <mal:type area="Platform" list="false"
                       name="Position" service="GPS" />
+          </mal:field>
+        </mal:composite>
+        <mal:composite
+          comment="The TwoLineElementSet structure holds the two line element set reported by the GPS unit."
+          name="TwoLineElementSet" shortFormPart="5">
+          <mal:extends>
+            <mal:type area="MAL" list="false" name="Composite" />
+          </mal:extends>
+          <mal:field canBeNull="true"
+                     comment="The Satellite catalog number."
+                     name="catalogNo">
+            <mal:type area="MAL" list="false" name="Integer" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="The Classification. Possible Values: U=Unclassified, C=Classified, S=Secret."
+                     name="classification">
+            <mal:type area="MAL" list="false" name="String" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="First part of International Designator, containing the last two digits of the launch year"
+                     name="idYear">
+            <mal:type area="MAL" list="false" name="Integer" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Second part of International Designator, containing launch number of the year"
+                     name="idLaunchNo">
+            <mal:type area="MAL" list="false" name="Integer" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Third part of International Designator, containing the piece of launch"
+                     name="idPiece">
+            <mal:type area="MAL" list="false" name="Integer" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Epoch year (last two digits of year)"
+                     name="epochYear">
+            <mal:type area="MAL" list="false" name="Integer" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Epoch day (day of year and fractal portion of day)"
+                     name="epochDay">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="First Derivative of Mean Motion"
+                     name="meanMotionD1">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Second Derivative of Mean Motion"
+                     name="meanMotionD2">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Drag Term (Radiation Pressure Coefficient)"
+                     name="dragTerm">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Element set number (ID of this set)"
+                     name="id">
+            <mal:type area="MAL" list="false" name="Integer" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="The Inclination. The unit is in decimal degrees."
+                     name="inclination">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="The right ascension of the ascending node. The unit is in decimal degrees."
+                     name="raan">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="The eccentricity. The unit is in decimal degrees."
+                     name="eccentricity">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="The argument of perigee. The unit is in decimal degrees."
+                     name="argumentOfPerigee">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="The mean anomaly. The unit is in decimal degrees."
+                     name="meanAnomaly">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="The mean motion. The unit is revolutions per daz."
+                     name="meanMotion">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="The number of completed revolutions at epoch."
+                     name="numRevolutions">
+            <mal:type area="MAL" list="false" name="Integer" />
           </mal:field>
         </mal:composite>
       </mal:dataTypes>

@@ -88,6 +88,7 @@ import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionAndVelocityResponse;
 import org.ccsds.moims.mo.platform.gps.provider.GetPositionAndVelocityInteraction;
+import org.ccsds.moims.mo.platform.gps.provider.GetTLEInteraction;
 import org.ccsds.moims.mo.platform.structures.VectorD3D;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
@@ -517,6 +518,12 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       e.printStackTrace();
     }
 
+  }
+
+  @Override
+  public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException
+  {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
   public static final class PublishInteractionListener implements MALPublishInteractionListener
