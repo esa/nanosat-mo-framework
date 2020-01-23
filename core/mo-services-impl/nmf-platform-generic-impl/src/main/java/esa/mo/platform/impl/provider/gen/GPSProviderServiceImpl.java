@@ -455,10 +455,29 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
       String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
 
-      VectorD3D position = null;
-      VectorF3D positionDeviation = null;
-      VectorD3D velocity = null;
-      VectorF3D velocityDeviation = null;
+      VectorD3D position = new VectorD3D(
+          Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]),
+          Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PY]),
+          Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ])
+      );
+
+      VectorF3D positionDeviation = new VectorF3D(
+          Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]),
+          Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]),
+          Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION])
+      );
+
+      VectorD3D velocity = new VectorD3D(
+          Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]),
+          Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VY]),
+          Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ])
+      );
+
+      VectorF3D velocityDeviation = new VectorF3D(
+          Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]),
+          Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]),
+          Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION])
+      );
 
       synchronized (MUTEX) { // Store the latest Position
         currentCartesianPosition = position;
@@ -467,9 +486,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
         currentCartesianVelocityDeviation = velocityDeviation;
         timeOfCurrentPosition = System.currentTimeMillis();
       }
-      Duration time = new Duration(0.0);
 
-      interaction.sendResponse(position, positionDeviation, velocity, velocityDeviation, time);
+      interaction.sendResponse(position, positionDeviation, velocity, velocityDeviation);
 
     } catch (IOException e) {
       interaction
