@@ -621,25 +621,25 @@
                          comment="The position field shall hold the last known position."
                          name="position">
                 <mal:type area="Platform" list="false"
-                          name="Vector3D"/>
+                          name="VectorD3D"/>
               </mal:field>
               <mal:field canBeNull="true"
                          comment="The positionDeviation field shall hold the last known standard deviations of the position."
                          name="positionDeviation">
                 <mal:type area="Platform" list="false"
-                          name="Vector3D"/>
+                          name="VectorF3D"/>
               </mal:field>
               <mal:field canBeNull="true"
                          comment="The velocity field shall hold the last known velocity."
                          name="velocity">
                 <mal:type area="Platform" list="false"
-                          name="Vector3D"/>
+                          name="VectorD3D"/>
               </mal:field>
               <mal:field canBeNull="true"
                          comment="The velocityDeviation field shall hold the last known standard deviations of the velocity."
                          name="velocityDeviation">
                 <mal:type area="Platform" list="false"
-                          name="Vector3D"/>
+                          name="VectorF3D"/>
               </mal:field>
               <mal:field canBeNull="true"
                          comment="The elapsedTime field shall hold the elapsed time since the position's determination."
@@ -670,25 +670,25 @@
                          comment="The position field shall hold the last known position."
                          name="position">
                 <mal:type area="Platform" list="false"
-                          name="Vector3D"/>
+                          name="VectorD3D"/>
               </mal:field>
               <mal:field canBeNull="true"
                          comment="The positionDeviation field shall hold the last known standard deviations of the position."
                          name="positionDeviation">
                 <mal:type area="Platform" list="false"
-                          name="Vector3D"/>
+                          name="VectorF3D"/>
               </mal:field>
               <mal:field canBeNull="true"
                          comment="The velocity field shall hold the last known velocity."
                          name="velocity">
                 <mal:type area="Platform" list="false"
-                          name="Vector3D"/>
+                          name="VectorD3D"/>
               </mal:field>
               <mal:field canBeNull="true"
                          comment="The velocityDeviation field shall hold the last known standard deviations of the velocity."
                          name="velocityDeviation">
                 <mal:type area="Platform" list="false"
-                          name="Vector3D"/>
+                          name="VectorF3D"/>
               </mal:field>
               <mal:field canBeNull="true"
                          comment="The elapsedTime field shall hold the elapsed time since the position's determination."
@@ -1189,7 +1189,7 @@
                      comment="The spin axis vector, defined in the body reference frame."
                      name="bodyAxis">
             <mal:type area="Platform" list="false"
-                      name="Vector3D"/>
+                      name="VectorF3D"/>
           </mal:field>
           <mal:field canBeNull="false"
                      comment="The angular velocity of the spin. The right-hand rule shall be followed to indicate the positive direction of the angular velocity. [rad/s]"
@@ -1303,7 +1303,7 @@
                      comment="Target magnetorquers dipole moment relative to the spacecraft frame. [A*m^2]"
                      name="mtqDipoleMoment">
             <mal:type area="Platform" list="false"
-                      name="Vector3D"/>
+                      name="VectorF3D"/>
           </mal:field>
           <mal:field canBeNull="false"
                      comment="Current state of the magnetorquers."
@@ -1328,19 +1328,19 @@
                      comment="Calculated angular velocity vector (x,y,z) relative to the spacecraft frame. [rad/sec]"
                      name="angularVelocity">
             <mal:type area="Platform" list="false"
-                      name="Vector3D"/>
+                      name="VectorF3D"/>
           </mal:field>
           <mal:field canBeNull="false"
                      comment="Calculated dimensionless sun vector (x,y,z) relative to the spacecraft frame."
                      name="sunVector">
             <mal:type area="Platform" list="false"
-                      name="Vector3D"/>
+                      name="VectorF3D"/>
           </mal:field>
           <mal:field canBeNull="false"
                      comment="Calculated magnetic flux density relative to the spacecraft frame. [T]"
                      name="magneticField">
             <mal:type area="Platform" list="false"
-                      name="Vector3D"/>
+                      name="VectorF3D"/>
           </mal:field>
         </mal:composite>
         <mal:enumeration
@@ -1640,8 +1640,8 @@
     </mal:service>
     <mal:dataTypes>
       <mal:composite
-        comment="Holds a 3D Vector. The unit shall be defined on the parent level."
-        name="Vector3D" shortFormPart="1">
+        comment="Holds a 3D float Vector."
+        name="VectorF3D" shortFormPart="1">
         <mal:extends>
           <mal:type area="MAL" list="false" name="Composite" />
         </mal:extends>
@@ -1656,6 +1656,25 @@
         <mal:field canBeNull="true"
                    comment="The z component." name="z">
           <mal:type area="MAL" list="false" name="Float" />
+        </mal:field>
+      </mal:composite>
+      <mal:composite
+        comment="Holds a 3D double Vector."
+        name="VectorD3D" shortFormPart="1">
+        <mal:extends>
+          <mal:type area="MAL" list="false" name="Composite" />
+        </mal:extends>
+        <mal:field canBeNull="true"
+                   comment="The x component." name="x">
+          <mal:type area="MAL" list="false" name="Double" />
+        </mal:field>
+        <mal:field canBeNull="true"
+                   comment="The y component." name="y">
+          <mal:type area="MAL" list="false" name="Double" />
+        </mal:field>
+        <mal:field canBeNull="true"
+                   comment="The z component." name="z">
+          <mal:type area="MAL" list="false" name="Double" />
         </mal:field>
       </mal:composite>
     </mal:dataTypes>

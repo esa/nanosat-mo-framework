@@ -26,7 +26,7 @@ import org.ccsds.moims.mo.mal.structures.DoubleList;
 import org.ccsds.moims.mo.mal.structures.FloatList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed;
-import org.ccsds.moims.mo.platform.structures.Vector3D;
+import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
 /**
  *
@@ -249,9 +249,9 @@ public class HelperIADCS100
 
   }
 
-  public static Vector3D getAngularVelocityFromSensorTM(byte[] sensorTM)
+  public static VectorF3D getAngularVelocityFromSensorTM(byte[] sensorTM)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.GYRO1_X),
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.GYRO1_Y),
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.GYRO1_Z));
@@ -266,17 +266,17 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.QUATERNION4));
   }
 
-  public static Vector3D getMagneticFieldFromSensorTM(byte[] sensorTM)
+  public static VectorF3D getMagneticFieldFromSensorTM(byte[] sensorTM)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_X),
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_Y),
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_Z));
   }
 
-  public static Vector3D getMTQFromActuatorTM(byte[] actuatorTM)
+  public static VectorF3D getMTQFromActuatorTM(byte[] actuatorTM)
   {
-    return new Vector3D(
+    return new VectorF3D(
         (float) FWRefFineADCS.getInt16FromByteArray(actuatorTM,
             FWRefFineADCS.ACTUATORTM_IDX.MTQ_TARGET_X),
         (float) FWRefFineADCS.getInt16FromByteArray(actuatorTM,
@@ -309,17 +309,17 @@ public class HelperIADCS100
     return new WheelsSpeed(velocity);
   }
 
-  public static Vector3D getSunVectorFromSpinModeStatus(byte[] status)
+  public static VectorF3D getSunVectorFromSpinModeStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_X),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_Y),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_Z));
   }
 
-  public static Vector3D getMagneticFieldFromSpinModeStatus(byte[] status)
+  public static VectorF3D getMagneticFieldFromSpinModeStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_X),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_Y),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_Z));
@@ -334,33 +334,33 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.Q4));
   }
 
-  public static Vector3D getAngularMomentumFromSpinModeStatus(byte[] status)
+  public static VectorF3D getAngularMomentumFromSpinModeStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.ANG_MOM_X),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.ANG_MOM_Y),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.ANG_MOM_Z));
   }
 
-  public static Vector3D getMTQFromSpinModeStatus(byte[] status)
+  public static VectorF3D getMTQFromSpinModeStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MTQ_DIP_MOMENT_X),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MTQ_DIP_MOMENT_Y),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MTQ_DIP_MOMENT_Z));
   }
 
-  public static Vector3D getSunVectorFromSunPointingStatus(byte[] status)
+  public static VectorF3D getSunVectorFromSunPointingStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_X),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_Y),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_Z));
   }
 
-  public static Vector3D getMTQFromSunPointingStatus(byte[] status)
+  public static VectorF3D getMTQFromSunPointingStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_X),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_Y),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_Z));
@@ -378,9 +378,9 @@ public class HelperIADCS100
     return new WheelsSpeed(velocity);
   }
 
-  public static Vector3D getPositionFromFixWGS84TargetTrackingStatus(byte[] status)
+  public static VectorF3D getPositionFromFixWGS84TargetTrackingStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status,
             FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.POSITION_VECTOR_X),
         FWRefFineADCS.getFloatFromByteArray(status,
@@ -389,9 +389,9 @@ public class HelperIADCS100
             FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.POSITION_VECTOR_Z));
   }
 
-  public static Vector3D getAngularVelocityFromFixWGS84TargetTrackingStatus(byte[] status)
+  public static VectorF3D getAngularVelocityFromFixWGS84TargetTrackingStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status,
             FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.ANG_VEL_X),
         FWRefFineADCS.getFloatFromByteArray(status,
@@ -430,9 +430,9 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q4));
   }
 
-  public static Vector3D getPositionFromNadirTargetTrackingStatus(byte[] status)
+  public static VectorF3D getPositionFromNadirTargetTrackingStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status,
             FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.POSITION_VECTOR_X),
         FWRefFineADCS.getFloatFromByteArray(status,
@@ -441,9 +441,9 @@ public class HelperIADCS100
             FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.POSITION_VECTOR_Z));
   }
 
-  public static Vector3D getAngularVelocityFromNadirTargetTrackingStatus(byte[] status)
+  public static VectorF3D getAngularVelocityFromNadirTargetTrackingStatus(byte[] status)
   {
-    return new Vector3D(
+    return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.ANG_VEL_X),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.ANG_VEL_Y),
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.ANG_VEL_Z));
