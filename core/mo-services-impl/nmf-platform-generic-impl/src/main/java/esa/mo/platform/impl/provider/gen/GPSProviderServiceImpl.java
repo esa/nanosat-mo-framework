@@ -88,7 +88,8 @@ import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionAndVelocityResponse;
 import org.ccsds.moims.mo.platform.gps.provider.GetPositionAndVelocityInteraction;
-import org.ccsds.moims.mo.platform.structures.Vector3D;
+import org.ccsds.moims.mo.platform.structures.VectorD3D;
+import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
 /**
  * GPS service Provider.
@@ -111,10 +112,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   private final Object MUTEX = new Object();
   private Position currentPosition = null;
-  private Vector3D currentCartesianPosition = null;
-  private Vector3D currentCartesianPositionDeviation = null;
-  private Vector3D currentCartesianVelocity = null;
-  private Vector3D currentCartesianVelocityDeviation = null;
+  private VectorD3D currentCartesianPosition = null;
+  private VectorF3D currentCartesianPositionDeviation = null;
+  private VectorD3D currentCartesianVelocity = null;
+  private VectorF3D currentCartesianVelocityDeviation = null;
   private long timeOfCurrentPosition;
 
   /**
@@ -454,10 +455,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
       String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
 
-      Vector3D position = null;
-      Vector3D positionDeviation = null;
-      Vector3D velocity = null;
-      Vector3D velocityDeviation = null;
+      VectorD3D position = null;
+      VectorF3D positionDeviation = null;
+      VectorD3D velocity = null;
+      VectorF3D velocityDeviation = null;
 
       synchronized (MUTEX) { // Store the latest Position
         currentCartesianPosition = position;

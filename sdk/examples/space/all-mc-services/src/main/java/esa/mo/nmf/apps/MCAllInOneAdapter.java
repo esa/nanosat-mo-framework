@@ -85,7 +85,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPoin
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
-import org.ccsds.moims.mo.platform.structures.Vector3D;
+import org.ccsds.moims.mo.platform.structures.VectorF3D;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
@@ -522,7 +522,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
             try {
               GetStatusResponse adcsStatus =
                   nmf.getPlatformServices().getAutonomousADCSService().getStatus();
-              Vector3D magField = adcsStatus.getBodyElement0().getMagneticField();
+              VectorF3D magField = adcsStatus.getBodyElement0().getMagneticField();
 
               if (PARAMETER_MAG_X.equals(identifier.getValue())) {
                 return (Attribute) HelperAttributes.javaType2Attribute(magField.getX());
@@ -697,9 +697,9 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
     {
       for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
         try {
-          Vector3D sunVector = attitudeTm.getSunVector();
-          Vector3D magneticField = attitudeTm.getMagneticField();
-          Vector3D angularVelocity = attitudeTm.getAngularVelocity();
+          VectorF3D sunVector = attitudeTm.getSunVector();
+          VectorF3D magneticField = attitudeTm.getMagneticField();
+          VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
           Quaternion attitude = attitudeTm.getAttitude();
           //attMode = AttitudeMode.NADIRPOINTING;
           nmf.pushParameterValue(PARAMETER_SUN_VECTOR_X, sunVector.getX());
@@ -724,8 +724,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
       }
       for (ActuatorsTelemetry actuatorsTm : actuatorsTelemetryList) {
         try {
-          Vector3D mtqDipoleMoment = actuatorsTm.getMtqDipoleMoment();
-          //Vector3D angularVelocity = attitudeTm.getAngularVelocity();
+          VectorF3D mtqDipoleMoment = actuatorsTm.getMtqDipoleMoment();
+          //VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
           //Quaternion attitude = attitudeTm.getAttitude();
           nmf.pushParameterValue(PARAMETER_MTQ_X, mtqDipoleMoment.getX());
           nmf.pushParameterValue(PARAMETER_MTQ_Y, mtqDipoleMoment.getY());
