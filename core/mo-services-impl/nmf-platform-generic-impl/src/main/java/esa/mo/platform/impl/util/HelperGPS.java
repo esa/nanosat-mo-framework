@@ -81,6 +81,39 @@ public class HelperGPS
     public final static int CHECKSUM = 20;
   }
 
+  public static class BESTXYZ_FIELD
+  {
+
+    public final static int PSOL_STATUS = 0;
+    public final static int POS_TYPE = 1;
+    public final static int PX = 2;
+    public final static int PY = 3;
+    public final static int PZ = 4;
+    public final static int PX_DEVIATION = 5;
+    public final static int PY_DEVIATION = 6;
+    public final static int PZ_DEVIATION = 7;
+    public final static int VSOL_STATUS = 8;
+    public final static int VEL_TYPE = 9;
+    public final static int VX = 10;
+    public final static int VY = 11;
+    public final static int VZ = 12;
+    public final static int VX_DEVIATION = 13;
+    public final static int VY_DEVIATION = 14;
+    public final static int VZ_DEVIATION = 15;
+    public final static int STN_ID = 16;
+    public final static int V_LATENCY = 17;
+    public final static int DIFF_AGE = 18;
+    public final static int SOL_AGE = 19;
+    public final static int NUM_SV = 20;
+    public final static int NUM_SOLN_SV = 21;
+    public final static int NUM_GGL1 = 22;
+    public final static int NUM_SOLN_MULTI_SV = 23;
+    // number 24 is reserved
+    public final static int EXT_SOL_STAT = 25;
+    public final static int GALILEO_AND_BEIDOU_SIG_MASK = 26;
+    public final static int GPS_AND_GLONASS_SIG_MASK = 27;
+  }
+
   /**
    * Converts a GPGGA NMEA sentence into a Position object.
    *
@@ -200,6 +233,31 @@ public class HelperGPS
     } else {
       throw new IOException();
     }
+  }
+
+  /**
+   *
+   * Extracts the fields of an BestXYZ message
+   *
+   * @param bestXYZ BestXYZ message String
+   * @return a String Array containing the fields of the given BestXYZ Message
+   */
+  public static String[] getDataFieldsFromBestXYZ(String bestXYZ)
+  {
+    String tmp = bestXYZ.split(";")[1]; //cut of header wich is seperated by a ';'
+    tmp = tmp.split("\\*")[0]; //cut of footer wich is seperated by a '*'
+    return tmp.split(",");
+  }
+
+  /**
+   * Extracts the Header of an BestXYZ message
+   *
+   * @param bestXYZ BestXYZ message String
+   * @return String containing the Header of the BestXYZ message
+   */
+  public static String getHeaderFromBestXYZ(String bestXYZ)
+  {
+    return bestXYZ.split(";")[0];
   }
 
 }
