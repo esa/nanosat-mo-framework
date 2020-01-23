@@ -690,12 +690,6 @@
                 <mal:type area="Platform" list="false"
                           name="VectorF3D"/>
               </mal:field>
-              <mal:field canBeNull="true"
-                         comment="The elapsedTime field shall hold the elapsed time since the position's determination."
-                         name="elapsedTime">
-                <mal:type area="MAL" list="false"
-                          name="Duration" />
-              </mal:field>
             </mal:response>
           </mal:messages>
           <mal:errors>
