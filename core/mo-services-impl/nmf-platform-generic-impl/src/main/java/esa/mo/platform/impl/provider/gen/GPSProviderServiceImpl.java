@@ -82,11 +82,13 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
+import esa.mo.platform.impl.util.HelperGPS;
 import esa.mo.platform.impl.util.PositionsCalculator;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionAndVelocityResponse;
 import org.ccsds.moims.mo.platform.gps.provider.GetPositionAndVelocityInteraction;
+import org.ccsds.moims.mo.platform.structures.Vector3D;
 
 /**
  * GPS service Provider.
@@ -109,6 +111,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
   private final Object MUTEX = new Object();
   private Position currentPosition = null;
+  private Vector3D currentCartesianPosition = null;
+  private Vector3D currentCartesianPositionDeviation = null;
+  private Vector3D currentCartesianVelocity = null;
+  private Vector3D currentCartesianVelocityDeviation = null;
   private long timeOfCurrentPosition;
 
   /**
@@ -281,7 +287,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     }
 
     interaction.sendAcknowledgement();
-
     Position position = adapter.getCurrentPosition();
 
     synchronized (MUTEX) { // Store the latest Position
@@ -438,7 +443,39 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   public void getPositionAndVelocity(GetPositionAndVelocityInteraction interaction) throws
       MALInteractionException, MALException
   {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    if (!adapter.isUnitAvailable()) { // Is the unit available?
+      throw new MALInteractionException(
+          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+
+    interaction.sendAcknowledgement();
+    try {
+      String bestxyz = adapter.getBestXYZSentence();
+
+      String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
+
+      Vector3D position = null;
+      Vector3D positionDeviation = null;
+      Vector3D velocity = null;
+      Vector3D velocityDeviation = null;
+
+      synchronized (MUTEX) { // Store the latest Position
+        currentCartesianPosition = position;
+        currentCartesianPositionDeviation = positionDeviation;
+        currentCartesianVelocity = velocity;
+        currentCartesianVelocityDeviation = velocityDeviation;
+        timeOfCurrentPosition = System.currentTimeMillis();
+      }
+      Duration time = new Duration(0.0);
+
+      interaction.sendResponse(position, positionDeviation, velocity, velocityDeviation, time);
+
+    } catch (IOException e) {
+      interaction
+          .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+      e.printStackTrace();
+    }
+
   }
 
   public static final class PublishInteractionListener implements MALPublishInteractionListener
