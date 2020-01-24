@@ -24,21 +24,25 @@ import java.io.IOException;
 
 import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
 import opssat.simulator.main.ESASimulator;
+import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter {
+public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter
+{
 
   private final ESASimulator instrumentsSimulator;
 
-  public GPSSoftSimAdapter(ESASimulator instrumentsSimulator) {
+  public GPSSoftSimAdapter(ESASimulator instrumentsSimulator)
+  {
     this.instrumentsSimulator = instrumentsSimulator;
   }
 
   @Override
-  public synchronized String getNMEASentence(final String sentenceIdentifier) throws IOException {
+  public synchronized String getNMEASentence(final String sentenceIdentifier) throws IOException
+  {
     final String nmeaSentence = instrumentsSimulator.getpGPS().getNMEASentence(sentenceIdentifier);
 
     if (nmeaSentence == null) {
@@ -49,7 +53,8 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter {
   }
 
   @Override
-  public synchronized String getBestXYZSentence() throws IOException {
+  public synchronized String getBestXYZSentence() throws IOException
+  {
     String sentence = instrumentsSimulator.getpGPS().getBestXYZSentence();
 
     if (sentence == null) {
@@ -60,7 +65,8 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter {
   }
 
   @Override
-  public synchronized String getTIMEASentence() throws IOException {
+  public synchronized String getTIMEASentence() throws IOException
+  {
     String sentence = instrumentsSimulator.getpGPS().getTIMEASentence();
 
     if (sentence == null) {
@@ -71,7 +77,8 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter {
   }
 
   @Override
-  public boolean isUnitAvailable() {
+  public boolean isUnitAvailable()
+  {
     return true;
   }
 
