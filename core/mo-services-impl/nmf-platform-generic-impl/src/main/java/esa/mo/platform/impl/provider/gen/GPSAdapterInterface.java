@@ -24,12 +24,15 @@ import java.io.IOException;
 
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 
 /**
  *
  * @author Cesar Coelho
  */
-public interface GPSAdapterInterface {
+public interface GPSAdapterInterface
+{
+
   /**
    * Checks if the device is present and accessible.
    *
@@ -60,11 +63,26 @@ public interface GPSAdapterInterface {
    */
   SatelliteInfoList getSatelliteInfoList();
 
-  default String getBestXYZSentence() throws IOException {
+  /**
+   * Requests the current two line element set
+   *
+   * @return The current two line element set
+   * @throws IOException if TLE can't be read
+   */
+  TwoLineElementSet getTLE();
+
+  default String getBestXYZSentence() throws IOException
+  {
     return "";
   }
 
-  default String getTIMEASentence() throws IOException {
+  default String getTIMEASentence() throws IOException
+  {
+    return "";
+  }
+
+  default String getTLESentence() throws IOException
+  {
     return "";
   }
 

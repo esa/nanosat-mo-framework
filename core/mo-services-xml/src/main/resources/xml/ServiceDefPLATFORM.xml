@@ -885,7 +885,7 @@
           <mal:field canBeNull="true"
                      comment="Third part of International Designator, containing the piece of launch"
                      name="idPiece">
-            <mal:type area="MAL" list="false" name="Integer" />
+            <mal:type area="MAL" list="false" name="String" />
           </mal:field>
           <mal:field canBeNull="true"
                      comment="Epoch year (last two digits of year)"
