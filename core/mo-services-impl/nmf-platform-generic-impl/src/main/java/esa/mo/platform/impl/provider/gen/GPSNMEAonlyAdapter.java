@@ -68,11 +68,4 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
 
     return null;
   }
-
-  @Override
-  public TwoLineElementSet getTLE()
-  {
-    return null;
-  }
-
 }

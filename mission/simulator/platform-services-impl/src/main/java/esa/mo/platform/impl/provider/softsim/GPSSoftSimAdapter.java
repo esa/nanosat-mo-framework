@@ -23,8 +23,11 @@ package esa.mo.platform.impl.provider.softsim;
 import java.io.IOException;
 
 import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
+import org.orekit.propagation.analytical.tle.TLE;
 
 /**
  *
@@ -80,6 +83,22 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter
   public boolean isUnitAvailable()
   {
     return true;
+  }
+
+  @Override
+  public TwoLineElementSet getTLE()
+  {
+    TLE tle = this.instrumentsSimulator.getSimulatorNode().getTLE();
+
+    return new TwoLineElementSet(tle.getSatelliteNumber(), "" + tle.getClassification(),
+        tle.getLaunchYear(), tle.getLaunchNumber(), tle.getLaunchPiece(),
+        tle.getDate().getComponents(0).getDate().getYear(),
+        tle.getDate().getComponents(0).getDate().getDayOfYear(),
+        tle.getDate().getComponents(0).getTime().getSecondsInUTCDay(),
+        tle.getMeanMotionFirstDerivative(), tle.getMeanMotionSecondDerivative(),
+        tle.getBStar(), tle.getElementNumber(), tle.getI(), tle.getRaan(), tle.getE(),
+        tle.getPerigeeArgument(), tle.getMeanAnomaly(), tle.getMeanMotion(),
+        tle.getRevolutionNumberAtEpoch());
   }
 
 }
