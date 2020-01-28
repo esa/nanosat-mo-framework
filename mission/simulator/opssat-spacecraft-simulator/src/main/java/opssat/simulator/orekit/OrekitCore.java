@@ -25,7 +25,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -91,6 +90,7 @@ import org.hipparchus.geometry.euclidean.threed.Rotation;
 import org.hipparchus.geometry.euclidean.threed.RotationConvention;
 import org.hipparchus.geometry.euclidean.threed.RotationOrder;
 import org.hipparchus.util.FastMath;
+import org.orekit.orbits.OrbitType;
 
 /**
  *
@@ -209,6 +209,7 @@ public class OrekitCore
   AbstractPropagator runningPropagator;
   private AttitudeStateProvider attitudeState;
   boolean isInitialized;
+  private int tleNumber = 0;
   private Logger logger;
 
   // Magnetic field
@@ -341,61 +342,82 @@ public class OrekitCore
     // Transitions to nadir
     attitudesSequence.addSwitchingCondition(sunPointing, nadirPointing, nadirDetector, true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(targetTracking, nadirPointing, nadirDetector, true, false,
+    attitudesSequence.addSwitchingCondition(targetTracking, nadirPointing, nadirDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
     attitudesSequence.addSwitchingCondition(lofTracking, nadirPointing, nadirDetector, true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
     attitudesSequence.addSwitchingCondition(bDotDetumble, nadirPointing, nadirDetector, true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(spinStabilized, nadirPointing, nadirDetector, true, false,
+    attitudesSequence.addSwitchingCondition(spinStabilized, nadirPointing, nadirDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
 
     // Transitions to target tracking
-    attitudesSequence.addSwitchingCondition(sunPointing, targetTracking, targetTrackingDetector, true, false,
+    attitudesSequence.addSwitchingCondition(sunPointing, targetTracking, targetTrackingDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(nadirPointing, targetTracking, targetTrackingDetector, true, false,
+    attitudesSequence.addSwitchingCondition(nadirPointing, targetTracking, targetTrackingDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(lofTracking, targetTracking, targetTrackingDetector, true, false,
+    attitudesSequence.addSwitchingCondition(lofTracking, targetTracking, targetTrackingDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(bDotDetumble, targetTracking, targetTrackingDetector, true, false,
+    attitudesSequence.addSwitchingCondition(bDotDetumble, targetTracking, targetTrackingDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(spinStabilized, targetTracking, targetTrackingDetector, true, false,
+    attitudesSequence.addSwitchingCondition(spinStabilized, targetTracking, targetTrackingDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
 
     // Transitions to LOF tracking
     attitudesSequence.addSwitchingCondition(sunPointing, lofTracking, lofTargetDetector, true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(nadirPointing, lofTracking, lofTargetDetector, true, false,
+    attitudesSequence.addSwitchingCondition(nadirPointing, lofTracking, lofTargetDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(targetTracking, lofTracking, lofTargetDetector, true, false,
+    attitudesSequence.addSwitchingCondition(targetTracking, lofTracking, lofTargetDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(bDotDetumble, lofTracking, lofTargetDetector, true, false,
+    attitudesSequence.addSwitchingCondition(bDotDetumble, lofTracking, lofTargetDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(spinStabilized, lofTracking, lofTargetDetector, true, false,
+    attitudesSequence.addSwitchingCondition(spinStabilized, lofTracking, lofTargetDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
 
     // Transitions to B-Dot detumbling
-    attitudesSequence.addSwitchingCondition(sunPointing, bDotDetumble, bDotDetumbleDetector, true, false,
+    attitudesSequence.addSwitchingCondition(sunPointing, bDotDetumble, bDotDetumbleDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(nadirPointing, bDotDetumble, bDotDetumbleDetector, true, false,
+    attitudesSequence.addSwitchingCondition(nadirPointing, bDotDetumble, bDotDetumbleDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(targetTracking, bDotDetumble, bDotDetumbleDetector, true, false,
+    attitudesSequence.addSwitchingCondition(targetTracking, bDotDetumble, bDotDetumbleDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(lofTracking, bDotDetumble, bDotDetumbleDetector, true, false,
+    attitudesSequence.addSwitchingCondition(lofTracking, bDotDetumble, bDotDetumbleDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(spinStabilized, bDotDetumble, bDotDetumbleDetector, true, false,
+    attitudesSequence.addSwitchingCondition(spinStabilized, bDotDetumble, bDotDetumbleDetector, true,
+        false,
         60, AngularDerivativesFilter.USE_RRA, null);
 
     // Transitions to Spin stabilized
-    attitudesSequence.addSwitchingCondition(sunPointing, spinStabilized, spinStabilizedDetector, true, false,
+    attitudesSequence.addSwitchingCondition(sunPointing, spinStabilized, spinStabilizedDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(nadirPointing, spinStabilized, spinStabilizedDetector, true, false,
+    attitudesSequence.addSwitchingCondition(nadirPointing, spinStabilized, spinStabilizedDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(targetTracking, spinStabilized, spinStabilizedDetector, true, false,
+    attitudesSequence.addSwitchingCondition(targetTracking, spinStabilized, spinStabilizedDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(lofTracking, spinStabilized, spinStabilizedDetector, true, false,
+    attitudesSequence.addSwitchingCondition(lofTracking, spinStabilized, spinStabilizedDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
-    attitudesSequence.addSwitchingCondition(bDotDetumble, spinStabilized, spinStabilizedDetector, true, false,
+    attitudesSequence.addSwitchingCondition(bDotDetumble, spinStabilized, spinStabilizedDetector,
+        true, false,
         60, AngularDerivativesFilter.USE_RRA, null);
 
     this.attitudesSequence.registerSwitchEvents(runningPropagator);
@@ -573,12 +595,12 @@ public class OrekitCore
     }
   }
 
-  public boolean parseTLEFromStrings(byte[] date, String tle1, String tle2,
+  public static boolean parseTLEFromStrings(byte[] date, String tle1, String tle2,
       StringBuilder exception)
   {
     boolean TLEOk = false;
-    logger.log(Level.INFO, "1Trying to parse [\n" + tle1 + "\n" + tle2 + "\n], size is ["
-        + (tle1.length() + tle2.length()) + " bytes]");
+    //logger.log(Level.INFO, "1Trying to parse [\n" + tle1 + "\n" + tle2 + "\n], size is ["
+    //    + (tle1.length() + tle2.length()) + " bytes]");
     try {
       TLEOk = TLE.isFormatOK(tle1, tle2);
     } catch (OrekitException ex) {
@@ -595,15 +617,15 @@ public class OrekitCore
         date[index++] = b;
       }
     } else {
-      logger.log(Level.INFO, "TLE is not ok!");
+      //logger.log(Level.INFO, "TLE is not ok!");
     }
     return TLEOk;
   }
 
-  public boolean parseTLEFromBytes(byte[] date, StringBuilder tle1, StringBuilder tle2)
+  public static boolean parseTLEFromBytes(byte[] date, StringBuilder tle1, StringBuilder tle2)
   {
-    logger.log(Level.INFO,
-        "Trying to parse [" + date.toString() + "], size is [" + date.length + "]");
+    //logger.log(Level.INFO,
+    //    "Trying to parse [" + date.toString() + "], size is [" + date.length + "]");
     StringBuilder stringBuilder = new StringBuilder();
     String tl1 = null, tl2 = null;
     int index = 1;
@@ -621,7 +643,7 @@ public class OrekitCore
         tl2 = stringBuilder.toString();
       }
     }
-    logger.log(Level.INFO, "Result \n[" + tl1 + "]\n[" + tl2 + "]");
+    //logger.log(Level.INFO, "Result \n[" + tl1 + "]\n[" + tl2 + "]");
     tle1.append(tl1);
     tle2.append(tl2);
     try {
@@ -1237,6 +1259,89 @@ public class OrekitCore
     // double lat = Math.asin(this.r.z() / this.r.length());
 
     return this.spacecraftState.getOrbit();
+  }
+
+  /**
+   * returns the current TLE
+   *
+   * WARNING:
+   *
+   * Using getTLE() with any other than the TLEPropagator results in incomplete and inaccurate
+   * TLEMessages!
+   *
+   * Also When not using TLEPropagator, the following will apply:
+   *
+   * Catalog Number, launch year, launch number, ephemeris type, mean motion d1 and d2, number of
+   * revolutions and BStart will be set to 0"
+   *
+   * launch Piece will be set to "N", classification will be set to 'U'
+   *
+   * Element number will start at 0 and count up on every call of getTLE()
+   *
+   * @return
+   */
+  public TLE getTLE()
+  {
+    System.out.println("getTLE!");
+
+    if (this.runningPropagator instanceof TLEPropagator) {
+      System.out.println("TLEPropagator");
+      return ((TLEPropagator) this.runningPropagator).getTLE();
+    } else { // in case we are using the keplerian propagator, the TLE can not be reconstructed completle!
+      System.out.println("KeplerianPropagator");
+      this.logger.log(Level.WARNING,
+          "Using getTLE() with any other than the TLEPropagator results in incomplete and inaccurate TLE Messages!"
+          + "\n"
+          + "Catalog Number, launch year, launch number, ephemeris type, mean motion d1 and d2, number of revolutions and BStart will be set to 0"
+          + "\n"
+          + "launch Piece will be set to \"N\", classification will be set to 'U'"
+          + "\n"
+          + "Element number will start at 0 and count up on every call of getTLE()");
+
+      KeplerianOrbit orbit = (KeplerianOrbit) OrbitType.KEPLERIAN.convertType(this.getOrbit());
+
+      int SatelliteNumber = 0;
+      char classification = 'U';
+      int launchYear = 0;
+      int launchNumber = 0;
+      String launchPiece = "N";
+      int ephemerisType = 0;
+      int elementNumber = this.tleNumber;
+      AbsoluteDate date = orbit.getDate();
+      if (this.initialTLE != null) {
+        SatelliteNumber = this.initialTLE.getSatelliteNumber();
+        classification = this.initialTLE.getClassification();
+        launchYear = this.initialTLE.getLaunchYear();
+        launchNumber = this.initialTLE.getLaunchNumber();
+        launchPiece = this.initialTLE.getLaunchPiece();
+        ephemerisType = this.initialTLE.getEphemerisType();
+        elementNumber = this.initialTLE.getElementNumber() + this.tleNumber;
+        date = this.initialTLE.getDate();
+      }
+      this.tleNumber = +1;
+
+      return new TLE(
+          SatelliteNumber,
+          classification,
+          launchYear,
+          launchNumber,
+          launchPiece,
+          ephemerisType,
+          elementNumber,
+          date,
+          orbit.getKeplerianMeanMotion(),
+          0.0,// mean motion D1
+          0.0,// mean motion D2
+          orbit.getE(),
+          orbit.getI(),
+          orbit.getPerigeeArgument(),
+          orbit.getRightAscensionOfAscendingNode(),
+          orbit.getMeanAnomaly(),
+          0,// revolutions
+          0); // bStart / drag coeficient
+
+    }
+
   }
 
   public String getAbsoluteDate()
