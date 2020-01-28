@@ -893,8 +893,13 @@
             <mal:type area="MAL" list="false" name="Integer" />
           </mal:field>
           <mal:field canBeNull="true"
-                     comment="Epoch day (day of year and fractal portion of day)"
+                     comment="Epoch day (day of year)"
                      name="epochDay">
+            <mal:type area="MAL" list="false" name="Integer" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Epoch second (Second of day)"
+                     name="epochSecond">
             <mal:type area="MAL" list="false" name="Double" />
           </mal:field>
           <mal:field canBeNull="true"
@@ -1781,7 +1786,7 @@
       </mal:composite>
       <mal:composite
         comment="Holds a 3D double Vector."
-        name="VectorD3D" shortFormPart="1">
+        name="VectorD3D" shortFormPart="2">
         <mal:extends>
           <mal:type area="MAL" list="false" name="Composite" />
         </mal:extends>
