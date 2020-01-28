@@ -233,12 +233,12 @@ public class OrekitCore
     this.logger = logger;
     SimulatorNode.handleResourcePath("orekit-data.zip", logger, getClass().getClassLoader());
     SimulatorNode.handleResourcePath("IGRF.zip", logger, getClass().getClassLoader());
-    SimulatorNode.handleResourcePath("WMM2015COF.zip", logger, getClass().getClassLoader());
+    SimulatorNode.handleResourcePath("WMM2020COF.zip", logger, getClass().getClassLoader());
 
     StringBuffer pathBuffer = new StringBuffer();
     appendIfExists(pathBuffer, "orekit-data.zip");
     appendIfExists(pathBuffer, "IGRF.zip");
-    appendIfExists(pathBuffer, "WMM2015COF.zip");
+    appendIfExists(pathBuffer, "WMM2020COF.zip");
     System.setProperty(DataProvidersManager.OREKIT_DATA_PATH, pathBuffer.toString());
 
     // Initial date in UTC time scale
