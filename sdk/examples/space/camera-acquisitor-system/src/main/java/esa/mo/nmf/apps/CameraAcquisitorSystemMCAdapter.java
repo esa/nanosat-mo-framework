@@ -66,12 +66,12 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
       Constants.WGS84_EARTH_FLATTENING, this.earthFrame);
   ;
 
-  private CameraAcquisitorSystemCameraTargetHandler cameraHandler;
+  private CameraAcquisitorSystemCameraTargetHandler cameraTargetHandler;
   private CameraAcquisitorSystemGPSHandler gpsHandler;
 
   public CameraAcquisitorSystemCameraTargetHandler getCameraHandler()
   {
-    return cameraHandler;
+    return cameraTargetHandler;
   }
 
   public CameraAcquisitorSystemGPSHandler getGpsHandler()
@@ -87,7 +87,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   public CameraAcquisitorSystemMCAdapter(final NMFInterface connector)
   {
     this.connector = connector;
-    this.cameraHandler = new CameraAcquisitorSystemCameraTargetHandler(this);
+    this.cameraTargetHandler = new CameraAcquisitorSystemCameraTargetHandler(this);
     this.gpsHandler = new CameraAcquisitorSystemGPSHandler(this);
   }
 
@@ -116,7 +116,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
       Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
   {
-    this.cameraHandler.actionArrived(name, attributeValues, actionInstanceObjId, reportProgress,
+    this.cameraTargetHandler.actionArrived(name, attributeValues, actionInstanceObjId, reportProgress,
         interaction);
     return null;
   }
