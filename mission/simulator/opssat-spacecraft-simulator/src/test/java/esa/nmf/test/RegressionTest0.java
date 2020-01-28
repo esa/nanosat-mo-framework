@@ -2047,7 +2047,7 @@ public class RegressionTest0
     boolean boolean14 = simulatorHeader12.isAutoStartSystem();
     int int15 = simulatorHeader12.getDayStartDate();
     java.lang.String str16 = simulatorHeader12.getOrekitTLE1();
-    simulatorHeader12.setUseOrekit(true);
+    simulatorHeader12.setUseOrekitPropagator(true);
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
     org.junit.Assert.assertNotNull(date10);
@@ -9227,7 +9227,7 @@ public class RegressionTest0
     int int17 = simulatorHeader12.getDayStartDate();
     simulatorHeader12.setAutoStartTime(false);
     int int20 = simulatorHeader12.getMonthStartDate();
-    simulatorHeader12.setUseOrekit(false);
+    simulatorHeader12.setUseOrekitPropagator(false);
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
     org.junit.Assert.assertNotNull(date10);
@@ -11739,7 +11739,7 @@ public class RegressionTest0
             false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     int int36 = simulatorHeader12.getCelestiaPort();
-    boolean boolean37 = simulatorHeader12.isUseOrekit();
+    boolean boolean37 = simulatorHeader12.isUseOrekitPropagator();
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
     org.junit.Assert.assertNotNull(date10);
@@ -13585,7 +13585,7 @@ public class RegressionTest0
             false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
-    simulatorHeader12.setUseOrekit(true);
+    simulatorHeader12.setUseOrekitPropagator(true);
     java.lang.String str17 = simulatorHeader12.toFileString();
     java.util.Date date19 = simulatorHeader12.parseStringIntoDate("yyyy:MM:dd HH:mm:ss z");
     java.lang.String str20 = simulatorHeader12.getStartDateString();
@@ -16555,7 +16555,7 @@ public class RegressionTest0
     java.lang.String str52 = simulatorHeader27.getOrekitPropagator();
     simulatorHeader27
         .setOrekitPropagator("opssat.simulator.util.wav.WavFileException: 00000:00:00:00:008");
-    boolean boolean55 = simulatorHeader27.isUseOrekit();
+    boolean boolean55 = simulatorHeader27.isUseOrekitPropagator();
     org.junit.Assert.assertNotNull(date4);
     org.junit.Assert.assertNotNull(date8);
     org.junit.Assert.assertNotNull(date11);
@@ -17317,7 +17317,7 @@ public class RegressionTest0
             false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
-    simulatorHeader12.setUseOrekit(true);
+    simulatorHeader12.setUseOrekitPropagator(true);
     simulatorHeader12.setUseCelestia(false);
     boolean boolean19 = simulatorHeader12.isAutoStartTime();
     java.lang.String str20 = simulatorHeader12.getOrekitPropagator();
@@ -17704,7 +17704,7 @@ public class RegressionTest0
     int int15 = simulatorHeader12.getDayStartDate();
     boolean boolean16 = simulatorHeader12.isUseCelestia();
     simulatorHeader12.setKeplerElements("0900.0000");
-    simulatorHeader12.setUseOrekit(false);
+    simulatorHeader12.setUseOrekitPropagator(false);
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
     org.junit.Assert.assertNotNull(date10);
@@ -19400,7 +19400,7 @@ public class RegressionTest0
             false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
-    simulatorHeader12.setUseOrekit(true);
+    simulatorHeader12.setUseOrekitPropagator(true);
     simulatorHeader12.setUseCelestia(false);
     int int19 = simulatorHeader12.getDayStartDate();
     org.junit.Assert.assertNotNull(date3);
@@ -20014,8 +20014,8 @@ public class RegressionTest0
             false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     int int36 = simulatorHeader12.getHourStartDate();
-    simulatorHeader12.setUseOrekit(false);
-    boolean boolean39 = simulatorHeader12.isUseOrekit();
+    simulatorHeader12.setUseOrekitPropagator(false);
+    boolean boolean39 = simulatorHeader12.isUseOrekitPropagator();
     simulatorHeader12.setAutoStartTime(true);
     simulatorHeader12.setAutoStartSystem(false);
     org.junit.Assert.assertNotNull(date3);
@@ -20690,7 +20690,7 @@ public class RegressionTest0
             false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
-    simulatorHeader14.setUseOrekit(true);
+    simulatorHeader14.setUseOrekitPropagator(true);
     java.lang.String str19 = simulatorHeader14.toFileString();
     java.util.Date date21 = simulatorHeader14.parseStringIntoDate("yyyy:MM:dd HH:mm:ss z");
     endlessWavStreamOperatingBuffer1.setDataBuffer("yyyy:MM:dd HH:mm:ss z");

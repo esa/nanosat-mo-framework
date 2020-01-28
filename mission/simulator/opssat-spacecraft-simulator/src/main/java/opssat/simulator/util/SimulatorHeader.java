@@ -37,12 +37,13 @@ import opssat.simulator.threading.SimulatorNode;
  *
  * @author Cezar Suteu
  */
-public class SimulatorHeader implements Serializable {
+public class SimulatorHeader implements Serializable
+{
 
   private boolean autoStartSystem;
   private boolean autoStartTime;
   private String keplerElements;
-  private boolean useOrekit;
+  private boolean useOrekitPropagator;
   private boolean updateInternet;
   private String orekitPropagator;
   private String orekitTLE1;
@@ -59,7 +60,8 @@ public class SimulatorHeader implements Serializable {
   private final int MIN_DATE_YEAR = 2016;
   private final int MAX_DATE_YEAR = 2030;
 
-  public Date parseStringIntoDate(String fieldValue) {
+  public Date parseStringIntoDate(String fieldValue)
+  {
     Date result = null;
     Date originalResult = null;
     DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
@@ -107,11 +109,13 @@ public class SimulatorHeader implements Serializable {
     return result;
   }
 
-  public boolean validateTimeFactor(int newTimeFactor) {
+  public boolean validateTimeFactor(int newTimeFactor)
+  {
     return newTimeFactor >= MIN_TIME_FACTOR && newTimeFactor <= MAX_TIME_FACTOR;
   }
 
-  public String toFileString() {
+  public String toFileString()
+  {
     SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
     return "#Run the processing of internal models\n" + "startModels=" + autoStartSystem + "\n"
         + "#Increment the simulated time (depends on startModels)\n" + "startTime=" + autoStartTime
@@ -120,8 +124,9 @@ public class SimulatorHeader implements Serializable {
         + "keplerElements=" + SimulatorNode.DEFAULT_OPS_SAT_A + ";"
         + SimulatorNode.DEFAULT_OPS_SAT_E + ";" + SimulatorNode.DEFAULT_OPS_SAT_ORBIT_I + ";"
         + SimulatorNode.DEFAULT_OPS_SAT_RAAN + ";" + SimulatorNode.DEFAULT_OPS_SAT_ARG_PER + ";"
-        + SimulatorNode.DEFAULT_OPS_SAT_TRUE_ANOMALY + "\n" + "#Enable the Orekit library\n"
-        + "orekit=" + useOrekit + "\n"
+        + SimulatorNode.DEFAULT_OPS_SAT_TRUE_ANOMALY + "\n"
+        + "#Enable the Orekit library for orbital and attitude simulation\n"
+        + "orekit=" + useOrekitPropagator + "\n"
         + "#Enable updates from Internet (used for gps constellation TLEs)\n"
         + "updateFromInternet=" + updateInternet + "\n" + "#Configuration of the Celestia server\n"
         + "celestia=" + useCelestia + "\n" + "celestiaPort=" + celestiaPort + "\n"
@@ -134,169 +139,207 @@ public class SimulatorHeader implements Serializable {
   }
 
   @Override
-  public String toString() {
+  public String toString()
+  {
     return "SimulatorHeader{" + "autoStartSystem=" + autoStartSystem + ", autoStartTime="
         + autoStartTime + ", timeFactor=" + timeFactor + ", startDate=" + startDate + ", endDate="
         + endDate + '}';
   }
 
-  public boolean isAutoStartSystem() {
+  public boolean isAutoStartSystem()
+  {
     return autoStartSystem;
   }
 
-  public void setAutoStartSystem(boolean autoStartSystem) {
+  public void setAutoStartSystem(boolean autoStartSystem)
+  {
     this.autoStartSystem = autoStartSystem;
   }
 
-  public boolean isAutoStartTime() {
+  public boolean isAutoStartTime()
+  {
     return autoStartTime;
   }
 
-  public void setAutoStartTime(boolean autoStartTime) {
+  public void setAutoStartTime(boolean autoStartTime)
+  {
     this.autoStartTime = autoStartTime;
   }
 
-  public int getTimeFactor() {
+  public int getTimeFactor()
+  {
     return timeFactor;
   }
 
-  public void setTimeFactor(int timeFactor) {
+  public void setTimeFactor(int timeFactor)
+  {
     this.timeFactor = timeFactor;
   }
 
-  public Date getStartDate() {
+  public Date getStartDate()
+  {
     return startDate;
   }
 
-  public String getStartDateString() {
+  public String getStartDateString()
+  {
     DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
     return dateFormat.format(startDate);
   }
 
-  public void setStartDate(Date startDate) {
+  public void setStartDate(Date startDate)
+  {
     this.startDate = startDate;
   }
 
-  public Date getEndDate() {
+  public Date getEndDate()
+  {
     return endDate;
   }
 
-  public String getEndDateString() {
+  public String getEndDateString()
+  {
     DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
     return dateFormat.format(endDate);
   }
 
-  public void setEndDate(Date endDate) {
+  public void setEndDate(Date endDate)
+  {
     this.endDate = endDate;
   }
 
-  public boolean checkStartBeforeEnd() {
+  public boolean checkStartBeforeEnd()
+  {
     return endDate.compareTo(startDate) >= 0;
 
   }
 
-  public SimulatorHeader() {
+  public SimulatorHeader()
+  {
     this.autoStartSystem = true;
     this.autoStartTime = true;
     this.startDate = new Date();
     this.endDate = new Date();
-    this.useOrekit = true;
+    this.useOrekitPropagator = true;
     this.celestiaPort = 5909;
     this.useCelestia = true;
   }
 
-  public SimulatorHeader(boolean autoStart, Date startDate, Date endDate) {
+  public SimulatorHeader(boolean autoStart, Date startDate, Date endDate)
+  {
     this.autoStartSystem = autoStart;
 
     this.startDate = startDate;
     this.endDate = endDate;
   }
 
-  public int getYearStartDate() {
+  public int getYearStartDate()
+  {
     return DateExtraction.getYearFromDate(this.startDate);
   }
 
-  public int getMonthStartDate() {
+  public int getMonthStartDate()
+  {
     return DateExtraction.getMonthFromDate(this.startDate);
   }
 
-  public int getDayStartDate() {
+  public int getDayStartDate()
+  {
     return DateExtraction.getDayFromDate(this.startDate);
   }
 
-  public int getHourStartDate() {
+  public int getHourStartDate()
+  {
     return DateExtraction.getHourFromDate(this.startDate);
   }
 
-  public int getMinuteStartDate() {
+  public int getMinuteStartDate()
+  {
     return DateExtraction.getMinuteFromDate(this.startDate);
   }
 
-  public int getSecondStartDate() {
+  public int getSecondStartDate()
+  {
     return DateExtraction.getSecondsFromDate(this.startDate);
   }
 
-  public boolean isUseOrekit() {
-    return useOrekit;
+  public boolean isUseOrekitPropagator()
+  {
+    return useOrekitPropagator;
   }
 
-  public void setUseOrekit(boolean useOrekit) {
-    this.useOrekit = useOrekit;
+  public void setUseOrekitPropagator(boolean useOrekitPropagator)
+  {
+    this.useOrekitPropagator = useOrekitPropagator;
   }
 
-  public boolean isUseCelestia() {
+  public boolean isUseCelestia()
+  {
     return useCelestia;
   }
 
-  public void setUseCelestia(boolean useCelestia) {
+  public void setUseCelestia(boolean useCelestia)
+  {
     this.useCelestia = useCelestia;
   }
 
-  public int getCelestiaPort() {
+  public int getCelestiaPort()
+  {
     return celestiaPort;
   }
 
-  public void setCelestiaPort(int celestiaPort) {
+  public void setCelestiaPort(int celestiaPort)
+  {
     this.celestiaPort = celestiaPort;
   }
 
-  public String getOrekitPropagator() {
+  public String getOrekitPropagator()
+  {
     return orekitPropagator;
   }
 
-  public void setOrekitPropagator(String orekitPropagator) {
+  public void setOrekitPropagator(String orekitPropagator)
+  {
     this.orekitPropagator = orekitPropagator;
   }
 
-  public String getOrekitTLE1() {
+  public String getOrekitTLE1()
+  {
     return orekitTLE1;
   }
 
-  public void setOrekitTLE1(String orekitTLE1) {
+  public void setOrekitTLE1(String orekitTLE1)
+  {
     this.orekitTLE1 = orekitTLE1;
   }
 
-  public String getOrekitTLE2() {
+  public String getOrekitTLE2()
+  {
     return orekitTLE2;
   }
 
-  public void setOrekitTLE2(String orekitTLE2) {
+  public void setOrekitTLE2(String orekitTLE2)
+  {
     this.orekitTLE2 = orekitTLE2;
   }
 
-  public String getKeplerElements() {
+  public String getKeplerElements()
+  {
     return keplerElements;
   }
 
-  public void setKeplerElements(String keplerElements) {
+  public void setKeplerElements(String keplerElements)
+  {
     this.keplerElements = keplerElements;
   }
 
-  public boolean isUpdateInternet() {
+  public boolean isUpdateInternet()
+  {
     return updateInternet;
   }
 
-  public void setUpdateInternet(boolean updateInternet) {
+  public void setUpdateInternet(boolean updateInternet)
+  {
     this.updateInternet = updateInternet;
   }
 
