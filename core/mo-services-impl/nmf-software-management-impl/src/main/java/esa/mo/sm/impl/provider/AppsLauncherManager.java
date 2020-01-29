@@ -420,6 +420,8 @@ public class AppsLauncherManager extends DefinitionsManager
     // Extend the current environment by JAVA_OPTS
     targetEnv.put("JAVA_OPTS",
         "-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=" + directoryServiceURI + "");
+    // Ensure spawned apps do not inherit eventual library path of the Supervisor
+    targetEnv.remove("LD_LIBRARY_PATH");
   }
 
   protected void startAppProcess(final ProcessExecutionHandler handler,
