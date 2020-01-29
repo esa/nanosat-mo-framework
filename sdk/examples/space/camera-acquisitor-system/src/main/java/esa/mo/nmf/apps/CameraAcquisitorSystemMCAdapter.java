@@ -116,8 +116,21 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
       Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
   {
-    this.cameraTargetHandler.actionArrived(name, attributeValues, actionInstanceObjId, reportProgress,
-        interaction);
+
+    if (name.getValue() == null) {
+      return new UInteger(0);
+    }
+
+    LOGGER.log(Level.INFO, "number of parameters: {0}", attributeValues.size());
+
+    switch (name.getValue()) {
+      case (CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION):
+        return this.cameraTargetHandler.photographLocation(attributeValues, actionInstanceObjId,
+            reportProgress, interaction);
+      case (CameraAcquisitorSystemCameraHandler.ACTION_PHOTOGRAPH_NOW):
+        return this.cameraHandler.photographNow(attributeValues, actionInstanceObjId,
+            reportProgress, interaction);
+    }
     return null;
   }
 
