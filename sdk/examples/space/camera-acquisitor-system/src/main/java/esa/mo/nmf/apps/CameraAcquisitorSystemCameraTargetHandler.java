@@ -53,7 +53,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
   //TODO set corect number as soon as stages are defined
   private static final int PHOTOGRAPH_LOCATION_STAGES = 0;
 
-  private static final String ACTION_PHOTOGRAPH_LOCATION = "photographLocation";
+  public static final String ACTION_PHOTOGRAPH_LOCATION = "photographLocation";
 
   private CameraAcquisitorSystemMCAdapter casMCAdapter;
 
@@ -118,69 +118,60 @@ public class CameraAcquisitorSystemCameraTargetHandler
 
   }
 
-  public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-      Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
+  UInteger photographLocation(AttributeValueList attributeValues, Long actionInstanceObjId,
+      boolean reportProgress, MALInteraction interaction)
   {
+    //get parameters
+    Double longitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
+    Double latitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
+    Double maxAngle = HelperAttributes.attribute2double(attributeValues.get(2).getValue());
 
-    LOGGER.log(Level.INFO, "number of parameters: {0}", attributeValues.size());
+    CameraAcquisitorSystemTargetLocation.TimeModeEnum timeType =
+        CameraAcquisitorSystemTargetLocation.TimeModeEnum.ANY;
 
-    if (name.getValue() != null) {
-      switch (name.getValue()) {
-        case (ACTION_PHOTOGRAPH_LOCATION):
-          //get parameters
-          Double longitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
-          Double latitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
-          Double maxAngle = HelperAttributes.attribute2double(attributeValues.get(2).getValue());
-
-          CameraAcquisitorSystemTargetLocation.TimeModeEnum timeType =
-              CameraAcquisitorSystemTargetLocation.TimeModeEnum.ANY;
-
-          try {
-            //parse TimeModeEnum
-            int value = (int) ((UInteger) attributeValues.get(3).getValue()).getValue();
-            timeType = CameraAcquisitorSystemTargetLocation.TimeModeEnum.values()[value];
-          } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Invalid timeOfPhotograph! \n {0}", e);
-          }
-          LOGGER.log(Level.INFO, "{0}:", ACTION_PHOTOGRAPH_LOCATION);
-          LOGGER.log(Level.INFO, "  Longitude: {0}", longitude);
-          LOGGER.log(Level.INFO, "   Latitude: {0}", latitude);
-          LOGGER.log(Level.INFO, "  max Angle: {0}", maxAngle);
-          LOGGER.log(Level.INFO, "  time type: {0}", timeType.name());
-
-          // ------------------ add Location to queue ------------------
-          Orbit currentOrbit = this.casMCAdapter.getGpsHandler().getCurrentOrbit();
-
-          try {
-            CameraAcquisitorSystemTargetLocation location =
-                new CameraAcquisitorSystemTargetLocation(
-                    longitude, latitude, maxAngle, timeType, currentOrbit, this.casMCAdapter);
-            locationQueue.add(location);
-
-            double seconds = location.getOptimalTime().durationFrom(
-                CameraAcquisitorSystemMCAdapter.getNow());
-
-            new java.util.Timer().schedule(
-                new java.util.TimerTask()
-            {
-              @Override
-              public void run()
-              {
-                //TODO implement attitude corection and photograph
-                this.cancel();
-              }
-            },
-                (long) seconds * 1000 //conversion to milliseconds //TODO decide when to start
-            );
-
-          } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage());
-            return new UInteger(0); //TODO check posible error codes
-          }
-
-          return new UInteger(1);
-      }
+    try {
+      //parse TimeModeEnum
+      int value = (int) ((UInteger) attributeValues.get(3).getValue()).getValue();
+      timeType = CameraAcquisitorSystemTargetLocation.TimeModeEnum.values()[value];
+    } catch (Exception e) {
+      LOGGER.log(Level.SEVERE, "Invalid timeOfPhotograph! \n {0}", e);
     }
-    return new UInteger(0); // error code 0 - unknown error
+    LOGGER.log(Level.INFO, "{0}:", ACTION_PHOTOGRAPH_LOCATION);
+    LOGGER.log(Level.INFO, "  Longitude: {0}", longitude);
+    LOGGER.log(Level.INFO, "   Latitude: {0}", latitude);
+    LOGGER.log(Level.INFO, "  max Angle: {0}", maxAngle);
+    LOGGER.log(Level.INFO, "  time type: {0}", timeType.name());
+
+    // ------------------ add Location to queue ------------------
+    Orbit currentOrbit = this.casMCAdapter.getGpsHandler().getCurrentOrbit();
+
+    try {
+      CameraAcquisitorSystemTargetLocation location =
+          new CameraAcquisitorSystemTargetLocation(
+              longitude, latitude, maxAngle, timeType, currentOrbit, this.casMCAdapter);
+      locationQueue.add(location);
+
+      double seconds = location.getOptimalTime().durationFrom(
+          CameraAcquisitorSystemMCAdapter.getNow());
+
+      new java.util.Timer().schedule(
+          new java.util.TimerTask()
+      {
+        @Override
+        public void run()
+        {
+          //TODO implement attitude corection and photograph
+          this.cancel();
+        }
+      },
+          (long) seconds * 1000 //conversion to milliseconds //TODO decide when to start
+      );
+
+    } catch (Exception e) {
+      LOGGER.log(Level.SEVERE, e.getMessage());
+      return new UInteger(0); //TODO check posible error codes
+    }
+
+    return new UInteger(1);
   }
 }
