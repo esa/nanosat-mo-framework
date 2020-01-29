@@ -1,11 +1,21 @@
 package esa.nmf.test;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
+import opssat.simulator.threading.SimulatorNode;
+import opssat.simulator.util.SimulatorHeader;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.orekit.propagation.analytical.tle.TLE;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegressionTest2
@@ -38,10 +48,10 @@ public class RegressionTest2
     java.util.Date date13 = simulatorHeader12.getEndDate();
     simulatorHeader12.setOrekitTLE1("");
     java.util.Date date17 = simulatorHeader12.parseStringIntoDate("2019/05/23-15:09:35");
-    boolean boolean18 = simulatorHeader12.isUseOrekit();
+    boolean boolean18 = simulatorHeader12.isUseOrekitPropagator();
     java.lang.String str19 = simulatorHeader12.getStartDateString();
     simulatorHeader12.setOrekitTLE2("0000.0000");
-    boolean boolean22 = simulatorHeader12.isUseOrekit();
+    boolean boolean22 = simulatorHeader12.isUseOrekitPropagator();
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
     org.junit.Assert.assertNotNull(date10);
@@ -2222,7 +2232,7 @@ public class RegressionTest2
             false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
-    simulatorHeader14.setUseOrekit(true);
+    simulatorHeader14.setUseOrekitPropagator(true);
     java.lang.String str19 = simulatorHeader14.toFileString();
     java.util.Date date21 = simulatorHeader14.parseStringIntoDate("yyyy:MM:dd HH:mm:ss z");
     endlessWavStreamOperatingBuffer1.setDataBuffer("yyyy:MM:dd HH:mm:ss z");
@@ -2562,7 +2572,7 @@ public class RegressionTest2
             false, date20, date27);
     simulatorHeader12.setStartDate(date27);
     simulatorHeader12.setKeplerElements("-0100.0000000");
-    boolean boolean33 = simulatorHeader12.isUseOrekit();
+    boolean boolean33 = simulatorHeader12.isUseOrekitPropagator();
     java.lang.String str34 = simulatorHeader12.toString();
     int int35 = simulatorHeader12.getSecondStartDate();
     java.lang.String str36 = simulatorHeader12.getEndDateString();
@@ -4311,7 +4321,7 @@ public class RegressionTest2
     java.util.Date date13 = simulatorHeader12.getEndDate();
     simulatorHeader12.setOrekitTLE1("");
     java.util.Date date17 = simulatorHeader12.parseStringIntoDate("2019/05/23-15:09:35");
-    boolean boolean18 = simulatorHeader12.isUseOrekit();
+    boolean boolean18 = simulatorHeader12.isUseOrekitPropagator();
     java.lang.String str19 = simulatorHeader12.getStartDateString();
     int int20 = simulatorHeader12.getHourStartDate();
     int int21 = simulatorHeader12.getCelestiaPort();
@@ -4375,8 +4385,8 @@ public class RegressionTest2
             false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     int int36 = simulatorHeader12.getHourStartDate();
-    simulatorHeader12.setUseOrekit(false);
-    boolean boolean39 = simulatorHeader12.isUseOrekit();
+    simulatorHeader12.setUseOrekitPropagator(false);
+    boolean boolean39 = simulatorHeader12.isUseOrekitPropagator();
     int int40 = simulatorHeader12.getMonthStartDate();
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
@@ -5796,7 +5806,7 @@ public class RegressionTest2
             false, date82, date89);
     simulatorHeader74.setStartDate(date89);
     simulatorHeader74.setKeplerElements("-0100.0000000");
-    boolean boolean95 = simulatorHeader74.isUseOrekit();
+    boolean boolean95 = simulatorHeader74.isUseOrekitPropagator();
     int int96 = octetList0.indexOf(boolean95);
     org.junit.Assert.assertTrue("'" + int1 + "' != '" + (-7) + "'", int1.equals((-7)));
     org.junit.Assert.assertNotNull(uShort2);
@@ -6694,7 +6704,7 @@ public class RegressionTest2
             false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
-    simulatorHeader14.setUseOrekit(true);
+    simulatorHeader14.setUseOrekitPropagator(true);
     java.lang.String str19 = simulatorHeader14.toFileString();
     java.util.Date date21 = simulatorHeader14.parseStringIntoDate("yyyy:MM:dd HH:mm:ss z");
     endlessWavStreamOperatingBuffer1.setDataBuffer("yyyy:MM:dd HH:mm:ss z");
@@ -7920,7 +7930,7 @@ public class RegressionTest2
             false, date24, date31);
     java.util.Date date34 = simulatorHeader33.getEndDate();
     int int35 = simulatorHeader33.getMinuteStartDate();
-    simulatorHeader33.setUseOrekit(true);
+    simulatorHeader33.setUseOrekitPropagator(true);
     simulatorHeader33.setUseCelestia(false);
     boolean boolean40 = simulatorHeader33.isAutoStartTime();
     java.lang.String str41 = simulatorHeader33.getStartDateString();
@@ -8613,7 +8623,7 @@ public class RegressionTest2
             false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
-    simulatorHeader12.setUseOrekit(true);
+    simulatorHeader12.setUseOrekitPropagator(true);
     java.lang.String str17 = simulatorHeader12.toFileString();
     simulatorHeader12.setAutoStartTime(true);
     int int20 = simulatorHeader12.getTimeFactor();
@@ -8747,7 +8757,7 @@ public class RegressionTest2
             false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
-    simulatorHeader14.setUseOrekit(true);
+    simulatorHeader14.setUseOrekitPropagator(true);
     java.lang.String str19 = simulatorHeader14.toFileString();
     java.util.Date date21 = simulatorHeader14.parseStringIntoDate("yyyy:MM:dd HH:mm:ss z");
     endlessWavStreamOperatingBuffer1.setDataBuffer("yyyy:MM:dd HH:mm:ss z");
@@ -10412,7 +10422,7 @@ public class RegressionTest2
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
     simulatorHeader12.setOrekitPropagator("*0B");
-    simulatorHeader12.setUseOrekit(true);
+    simulatorHeader12.setUseOrekitPropagator(true);
     simulatorHeader12.setOrekitTLE1("00000:00:00:00:052");
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
@@ -11597,7 +11607,7 @@ public class RegressionTest2
             false, date24, date31);
     java.util.Date date34 = simulatorHeader33.getEndDate();
     int int35 = simulatorHeader33.getMinuteStartDate();
-    simulatorHeader33.setUseOrekit(true);
+    simulatorHeader33.setUseOrekitPropagator(true);
     simulatorHeader33.setUseCelestia(false);
     boolean boolean40 = simulatorHeader33.isAutoStartTime();
     java.lang.String str41 = simulatorHeader33.getStartDateString();
@@ -12251,7 +12261,7 @@ public class RegressionTest2
             false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
-    simulatorHeader14.setUseOrekit(true);
+    simulatorHeader14.setUseOrekitPropagator(true);
     java.lang.String str19 = simulatorHeader14.toFileString();
     java.util.Date date21 = simulatorHeader14.parseStringIntoDate("yyyy:MM:dd HH:mm:ss z");
     endlessWavStreamOperatingBuffer1.setDataBuffer("yyyy:MM:dd HH:mm:ss z");
@@ -12348,7 +12358,7 @@ public class RegressionTest2
             false, date3, date10);
     java.util.Date date13 = simulatorHeader12.getEndDate();
     int int14 = simulatorHeader12.getMinuteStartDate();
-    simulatorHeader12.setUseOrekit(true);
+    simulatorHeader12.setUseOrekitPropagator(true);
     simulatorHeader12.setUseCelestia(false);
     boolean boolean19 = simulatorHeader12.isAutoStartTime();
     java.lang.String str20 = simulatorHeader12.getStartDateString();
@@ -12956,7 +12966,7 @@ public class RegressionTest2
     simulatorHeader12.setStartDate(date27);
     simulatorHeader12.setKeplerElements("-0100.0000000");
     boolean boolean34 = simulatorHeader12.validateTimeFactor(23);
-    boolean boolean35 = simulatorHeader12.isUseOrekit();
+    boolean boolean35 = simulatorHeader12.isUseOrekitPropagator();
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
     org.junit.Assert.assertNotNull(date10);
@@ -14038,7 +14048,7 @@ public class RegressionTest2
             false, date5, date12);
     java.util.Date date15 = simulatorHeader14.getEndDate();
     int int16 = simulatorHeader14.getMinuteStartDate();
-    simulatorHeader14.setUseOrekit(true);
+    simulatorHeader14.setUseOrekitPropagator(true);
     java.lang.String str19 = simulatorHeader14.toFileString();
     java.util.Date date21 = simulatorHeader14.parseStringIntoDate("yyyy:MM:dd HH:mm:ss z");
     endlessWavStreamOperatingBuffer1.setDataBuffer("yyyy:MM:dd HH:mm:ss z");
@@ -15111,7 +15121,7 @@ public class RegressionTest2
     simulatorHeader12.setEndDate(date19);
     int int36 = simulatorHeader12.getHourStartDate();
     java.util.Date date37 = simulatorHeader12.getStartDate();
-    simulatorHeader12.setUseOrekit(true);
+    simulatorHeader12.setUseOrekitPropagator(true);
     org.junit.Assert.assertNotNull(date3);
     org.junit.Assert.assertNotNull(date7);
     org.junit.Assert.assertNotNull(date10);
@@ -15940,8 +15950,8 @@ public class RegressionTest2
             false, date19, date24);
     simulatorHeader12.setEndDate(date19);
     int int36 = simulatorHeader12.getHourStartDate();
-    simulatorHeader12.setUseOrekit(false);
-    boolean boolean39 = simulatorHeader12.isUseOrekit();
+    simulatorHeader12.setUseOrekitPropagator(false);
+    boolean boolean39 = simulatorHeader12.isUseOrekitPropagator();
     simulatorHeader12.setOrekitTLE2(
         "{counter=-18, methodsExecuted=0, currentTime=Thu May 23 15:10:00 UTC 2019}");
     simulatorHeader12.setUpdateInternet(false);
@@ -17620,5 +17630,138 @@ public class RegressionTest2
     org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
     org.junit.Assert.assertNotNull(floatItor14);
     org.junit.Assert.assertNotNull(uShort15);
+  }
+
+  final String TEST_TLE1_LINE1 =
+      "1 44878U 19092F   20026.53979074 -.00000066  00000-0  00000+0 0  9998";
+  final String TEST_TLE1_LINE2 =
+      "2 44878  97.4628 212.2828 0015597 128.3977 231.8751 15.15220787  5895";
+
+  final String TEST_TLE2_LINE1 =
+      "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+  final String TEST_TLE2_LINE2 =
+      "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+
+  /**
+   * test getTLE in case that tle propagator is running
+   */
+  @Test
+  public void test1344() throws Throwable
+  {
+    if (debug) {
+      System.out.format("%n%s%n", "RegressionTest2.test1343");
+    }
+    ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<Object>();
+    ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<Object>();
+
+    final Calendar calendar = Calendar.getInstance();
+    calendar.set(2017, 1, 10);
+    final Date startDate = calendar.getTime();
+    calendar.set(2019, 1, 10);
+    final Date endDate = calendar.getTime();
+
+    SimulatorHeader simHeader = new SimulatorHeader();
+    simHeader.setUseOrekitPropagator(true);
+    simHeader.setStartDate(startDate);
+    simHeader.setEndDate(endDate);
+    simHeader.setOrekitPropagator("tle");
+    simHeader.setOrekitTLE1(TEST_TLE2_LINE1 + " ");
+    simHeader.setOrekitTLE2(TEST_TLE2_LINE2 + " ");
+    simHeader.setUseCelestia(false);
+
+    String content = simHeader.toFileString();
+    content += "\norekitPropagator=tle";
+    content += "\norekitTLE1= " + TEST_TLE2_LINE1 + " ";
+    content += "\norekitTLE2= " + TEST_TLE2_LINE2 + " ";
+
+    File file = new File(System.getProperty("user.dir"), "_OPS-SAT-SIMULATOR-header.txt");
+    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    writer.write(content);
+    writer.flush();
+    writer.close();
+    SimulatorNode simNode =
+        new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 100, Level.SEVERE, Level.SEVERE);
+
+    TLE tle = simNode.getTLE();
+
+    org.junit.Assert.assertTrue(
+        "\n"
+        + tle.toString() + "\n != \n" + TEST_TLE2_LINE1 + "\n" + TEST_TLE2_LINE2,
+        tle.toString().equals(TEST_TLE2_LINE1 + "\n" + TEST_TLE2_LINE2));
+
+    file.delete();
+  }
+
+  /**
+   * test getTLE in case that tle propagator is NOT running
+   */
+  @Test
+  public void test1345() throws Throwable
+  {
+    if (debug) {
+      System.out.format("%n%s%n", "RegressionTest2.test1343");
+    }
+    ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<Object>();
+    ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<Object>();
+
+    final Calendar calendar = Calendar.getInstance();
+    calendar.set(2017, 1, 10);
+    final Date startDate = calendar.getTime();
+    calendar.set(2019, 1, 10);
+    final Date endDate = calendar.getTime();
+
+    SimulatorHeader simHeader = new SimulatorHeader();
+    simHeader.setUseOrekitPropagator(true);
+    simHeader.setStartDate(startDate);
+    simHeader.setEndDate(endDate);
+    simHeader.setUseCelestia(false);
+
+    String content = simHeader.toFileString();
+
+    File file = new File(System.getProperty("user.dir"), "_OPS-SAT-SIMULATOR-header.txt");
+    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    writer.write(content);
+    writer.flush();
+    writer.close();
+    SimulatorNode simNode =
+        new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 100, Level.SEVERE, Level.SEVERE);
+
+    TLE tle = simNode.getTLE();
+
+    //  Catalog Number, launch year, launch number, ephemeris type, mean motion d1 and d2, number of
+    // revolutions and BStart will be set to 0"
+    // launch Piece will be set to "N", classification will be set to 'U'
+    org.junit.Assert.assertTrue(
+        "TLE BStar is " + tle.getLaunchPiece() + " instead of 0", tle.getBStar() == 0);
+
+    org.junit.Assert.assertTrue(
+        "TLE launch piece is " + tle.getLaunchPiece() + " instead of 'N'",
+        tle.getLaunchPiece().equals("N"));
+
+    org.junit.Assert.assertTrue(
+        "TLE classification is " + tle.getClassification() + " instead of 'U'",
+        tle.getClassification() == 'U');
+
+    org.junit.Assert.assertTrue(
+        "TLE eccentricity is " + tle.getE() + " instead of " + SimulatorNode.DEFAULT_OPS_SAT_E,
+        tle.getE() == SimulatorNode.DEFAULT_OPS_SAT_E
+    );
+
+    org.junit.Assert.assertTrue(
+        "TLE mean motion is " + tle.getMeanMotionFirstDerivative() + " instead of 0",
+        tle.getMeanMotionFirstDerivative() == 0
+    );
+
+    org.junit.Assert.assertTrue(
+        "TLE mean motion is " + tle.getMeanMotionSecondDerivative() + " instead of 0",
+        tle.getMeanMotionSecondDerivative() == 0
+    );
+
+    org.junit.Assert.assertTrue(
+        "TLE argument of perigee is " + tle.getPerigeeArgument() + " instead of " + SimulatorNode.DEFAULT_OPS_SAT_ARG_PER,
+        tle.getPerigeeArgument() == SimulatorNode.DEFAULT_OPS_SAT_ARG_PER
+    );
+
+    file.delete();
   }
 }
