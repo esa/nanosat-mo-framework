@@ -13,9 +13,13 @@ if [ -z "$JAVA_OPTS" ] ; then
     JAVA_OPTS="-Xms32m -Xmx512m"
 fi
 
+LOCAL_LIB_PATH=`readlink -f lib`
+LD_LIBRARY_PATH=$LOCAL_LIB_PATH:@NMF_LIB@:$LD_LIBRARY_PATH
+
 export JAVA_OPTS
 export NMF_LIB
 export NMF_HOME
+export LD_LIBRARY_PATH
 
 # Replaced with the main class name
 MAIN_CLASS_NAME=@MAIN_CLASS_NAME@
