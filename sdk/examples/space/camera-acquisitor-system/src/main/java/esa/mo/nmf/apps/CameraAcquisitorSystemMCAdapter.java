@@ -24,9 +24,11 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFInterface;
+import java.io.File;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
@@ -37,6 +39,9 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.orekit.bodies.OneAxisEllipsoid;
+import org.orekit.data.DataProvidersManager;
+import org.orekit.data.DirectoryCrawler;
+import org.orekit.errors.OrekitException;
 import org.orekit.frames.FactoryManagedFrame;
 import org.orekit.frames.FramesFactory;
 import org.orekit.time.AbsoluteDate;
@@ -58,16 +63,13 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   private NMFInterface connector;
 
   //create earth reference frame:
-  public final FactoryManagedFrame earthFrame = FramesFactory.getITRF(
-      IERSConventions.IERS_2010,
-      true);
-  public final OneAxisEllipsoid earth = new OneAxisEllipsoid(
-      Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
-      Constants.WGS84_EARTH_FLATTENING, this.earthFrame);
+  public final FactoryManagedFrame earthFrame;
+  public final OneAxisEllipsoid earth;
   ;
 
-  private CameraAcquisitorSystemCameraTargetHandler cameraTargetHandler;
-  private CameraAcquisitorSystemGPSHandler gpsHandler;
+  private final CameraAcquisitorSystemCameraTargetHandler cameraTargetHandler;
+  private final CameraAcquisitorSystemCameraHandler cameraHandler;
+  private final CameraAcquisitorSystemGPSHandler gpsHandler;
 
   public CameraAcquisitorSystemCameraTargetHandler getCameraHandler()
   {
@@ -86,18 +88,44 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
   public CameraAcquisitorSystemMCAdapter(final NMFInterface connector)
   {
+    FactoryManagedFrame earthFrameTMP = null;
+    OneAxisEllipsoid earthTMP = null;
+    try {
+      initOrekit();
+      earthFrameTMP = FramesFactory.getITRF(
+          IERSConventions.IERS_2010,
+          true);
+      earthTMP = new OneAxisEllipsoid(
+          Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
+          Constants.WGS84_EARTH_FLATTENING, earthFrameTMP);
+    } catch (OrekitException e) {
+      LOGGER.log(Level.SEVERE, "Failed to initialise Orekit:\n{0}", e.getMessage());
+    }
+    this.earthFrame = earthFrameTMP;
+    this.earth = earthTMP;
+
     this.connector = connector;
+    LOGGER.log(Level.INFO, "init cameraTargetHandler");
     this.cameraTargetHandler = new CameraAcquisitorSystemCameraTargetHandler(this);
+    LOGGER.log(Level.INFO, "init gpsHandler");
     this.gpsHandler = new CameraAcquisitorSystemGPSHandler(this);
+    LOGGER.log(Level.INFO, "init cameraHandler");
+    this.cameraHandler = new CameraAcquisitorSystemCameraHandler(this);
+
   }
 
   @Override
   public void initialRegistrations(MCRegistration registration)
   {
+    LOGGER.log(Level.INFO, "initial registratin");
     // Prevent definition updates on consecutive application runs
     registration.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
+    LOGGER.log(Level.INFO, "register parameters");
     registerParameters(registration);
+    LOGGER.log(Level.INFO, "register target actions");
     CameraAcquisitorSystemCameraTargetHandler.registerActions(registration);
+    LOGGER.log(Level.INFO, "register camera actions");
+    CameraAcquisitorSystemCameraHandler.registerActions(registration);
   }
 
   @Override
@@ -159,5 +187,13 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
     return new AbsoluteDate(time.getYear(), time.getMonthValue(), time.getDayOfMonth(),
         time.getHour(), time.getMinute(), time.getSecond(), utc);
+  }
+
+  private void initOrekit()
+  {
+    File orekitData = new File(System.getProperty("user.home") + "src/main/resources/orekit-data");
+    LOGGER.log(Level.INFO, "Loading orekit data from " + orekitData.getAbsolutePath());
+    DataProvidersManager manager = DataProvidersManager.getInstance();
+    manager.addProvider(new DirectoryCrawler(orekitData));
   }
 }
