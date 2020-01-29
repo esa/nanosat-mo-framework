@@ -56,7 +56,7 @@ This packaging process is almost completely automated for you. You only need to 
          <filter token="MAIN_CLASS_NAME" value="esa.mo.nmf.apps.PayloadsTestApp"/>
          <filter token="APID" value="${expApid}"/>
          <filter token="NMF_HOME" value="`cd ../nmf > /dev/null; pwd`"/>
-         <filter token="NMF_LIB" value="`cd ../nmf/lib > /dev/null; pwd`/*"/>
+         <filter token="NMF_LIB" value="`cd ../nmf/lib > /dev/null; pwd`"/>
        </filterset>
        <firstmatchmapper>
          <globmapper from="startscript.sh" to="start_exp${expId}.sh"/>
