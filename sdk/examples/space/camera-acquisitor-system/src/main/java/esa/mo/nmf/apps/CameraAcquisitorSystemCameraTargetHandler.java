@@ -22,13 +22,17 @@ package esa.mo.nmf.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
-import java.util.Date;
+import esa.mo.nmf.NMFException;
+import java.io.IOException;
 import java.util.PriorityQueue;
-import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -40,6 +44,8 @@ import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTrackingLinear;
 import org.orekit.orbits.Orbit;
 
 /**
@@ -160,11 +166,77 @@ public class CameraAcquisitorSystemCameraTargetHandler
         @Override
         public void run()
         {
-          //TODO implement attitude corection and photograph
+          String error_information = "";
+          try {
+            // re-evaluate nearest Overpass for more accuracy
+            location.calculateTimeFrame(casMCAdapter.getGpsHandler().getCurrentOrbit(),
+                casMCAdapter);
+          } catch (Exception ex) {
+            Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                Level.SEVERE,
+                null, ex);
+            error_information += "__PRECICION-CALCULATION-FAIL";
+          }
+          // calculate Attitude
+          AttitudeMode desiredAttitude = new AttitudeModeTargetTrackingLinear(Float.MIN_NORMAL,
+              Float.NaN, Float.NaN, Float.NaN, Long.MAX_VALUE, Long.MIN_VALUE);
+
+          Duration timeTillPhotograph = new Duration(location.getOptimalTime().durationFrom(
+              CameraAcquisitorSystemMCAdapter.getNow()));
+
+          try {
+            //set Attitude
+            casMCAdapter.getConnector().getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
+                new Duration(
+                    timeTillPhotograph.getValue() + casMCAdapter.getAttitudeSaftyMarginSeconds()),
+                desiredAttitude);
+          } catch (MALException | NMFException | IOException | MALInteractionException ex) {
+            Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                Level.SEVERE,
+                null, ex);
+            error_information += "__ATTITUDE-CORECTION-FAIL";
+          }
+
+          // wait again
+          try {
+            double fractSeconds = timeTillPhotograph.getValue();
+            long seconds = (long) fractSeconds;
+            long milliSeconds = (long) ((fractSeconds - seconds) * 1000);
+            TimeUnit.SECONDS.sleep(seconds);
+            TimeUnit.MILLISECONDS.sleep(milliSeconds);
+          } catch (InterruptedException ex) {
+            Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                Level.SEVERE,
+                null, ex);
+            error_information += "__SLEEP-FAIL";
+          }
+
+          try {
+            // trigger photograph
+            casMCAdapter.getCameraHandler().takePhotograph(actionInstanceObjId,
+                PHOTOGRAPH_LOCATION_STAGES, PHOTOGRAPH_LOCATION_STAGES, error_information);
+          } catch (NMFException ex) {
+            Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                Level.SEVERE,
+                null, ex);
+          } catch (IOException ex) {
+            Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                Level.SEVERE,
+                null, ex);
+          } catch (MALInteractionException ex) {
+            Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                Level.SEVERE,
+                null, ex);
+          } catch (MALException ex) {
+            Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                Level.SEVERE,
+                null, ex);
+          }
+
           this.cancel();
         }
       },
-          (long) seconds * 1000 //conversion to milliseconds //TODO decide when to start
+          ((long) seconds) * 1000 - this.casMCAdapter.getWorstCaseRotationTimeMS() * 2 //conversion to milliseconds //Worst time * 2 just to be save.
       );
 
     } catch (Exception e) {

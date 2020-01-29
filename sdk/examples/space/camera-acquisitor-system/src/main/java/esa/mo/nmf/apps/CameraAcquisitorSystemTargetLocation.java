@@ -100,8 +100,11 @@ public class CameraAcquisitorSystemTargetLocation implements
 
   /**
    * calculates the next time frame in which this location can be photographed.
+   *
+   * @param currentOrbit the current Orbit
+   * @param addapter     the addapter to be used
    */
-  private void calculateTimeFrame(Orbit currentOrbit, CameraAcquisitorSystemMCAdapter addapter)
+  public void calculateTimeFrame(Orbit currentOrbit, CameraAcquisitorSystemMCAdapter addapter)
       throws Exception
   {
 

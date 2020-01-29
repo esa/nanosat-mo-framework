@@ -148,7 +148,7 @@ public class CameraAcquisitorSystemCameraHandler
     {
       this.actionInstanceObjId = actionInstanceObjId;
       this.stageOffset = stageOffset;
-      this.totalStage = totalStages;
+      this.totalStage = totalStages + PHOTOGRAPH_NOW_STAGES;
       this.fileName = fileName;
       this.casMCAdapter = casMCAdapter;
     }

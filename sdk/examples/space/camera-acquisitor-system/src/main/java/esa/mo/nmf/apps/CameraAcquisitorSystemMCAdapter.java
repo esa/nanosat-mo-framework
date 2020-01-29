@@ -69,9 +69,23 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
   private final CameraAcquisitorSystemCameraTargetHandler cameraTargetHandler;
   private final CameraAcquisitorSystemCameraHandler cameraHandler;
+
   private final CameraAcquisitorSystemGPSHandler gpsHandler;
 
-  public CameraAcquisitorSystemCameraTargetHandler getCameraHandler()
+  private long worstCaseRotationTimeMS = 1000000; //TODO add parameter
+  private long attitudeSaftyMarginMS = 20000;
+
+  public long getWorstCaseRotationTimeMS()
+  {
+    return worstCaseRotationTimeMS;
+  }
+
+  public CameraAcquisitorSystemCameraHandler getCameraHandler()
+  {
+    return cameraHandler;
+  }
+
+  public CameraAcquisitorSystemCameraTargetHandler getCameraTargetHandler()
   {
     return cameraTargetHandler;
   }
@@ -192,8 +206,13 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   private void initOrekit()
   {
     File orekitData = new File(System.getProperty("user.home") + "src/main/resources/orekit-data");
-    LOGGER.log(Level.INFO, "Loading orekit data from " + orekitData.getAbsolutePath());
+    LOGGER.log(Level.INFO, "Loading orekit data from {0}", orekitData.getAbsolutePath());
     DataProvidersManager manager = DataProvidersManager.getInstance();
     manager.addProvider(new DirectoryCrawler(orekitData));
+  }
+
+  double getAttitudeSaftyMarginSeconds()
+  {
+    return this.attitudeSaftyMarginMS / 1000;
   }
 }
