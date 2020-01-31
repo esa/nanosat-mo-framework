@@ -25,6 +25,17 @@ The recommended way to create a new NMF App project is to copy one of the exampl
 So in our case, we will copy the camera example project folder and rename it to something more fitting, e.g. 'sobel'.
 To make our life easier when we import the project into our workspace, we should edit the app's POM to give it a unique name and artifact ID.
 So in the ``pom.xml`` inside the folder **sobel** change the field ``artifactId`` from the value 'camera' to 'sobel'. You should also change the values of the ``name`` and ``description`` tags to relate to our example and put your name into the ``author`` tags. 
+If you need to use OreKit in your App and don't want to use custom orekit-data, than you sould alsow add the following dependency:
+.. code-block:: xml
+	:linenos:
+
+	<dependency>
+	  <groupId>int.esa.nmf.sdk</groupId>
+	  <artifactId>orekit-resources</artifactId>
+	  <version>2.0.0-SNAPSHOT</version>
+	  <type>jar</type>
+	</dependency>
+
 Now we can import the project either into Netbeans or into Eclipse, by using the same methods as we used to import the NMF before. Just for good measure, we should rename the files and classes to have a better representation of our app. Let's change the name of the main class (currently :java:type:`~esa.mo.nmf.apps.SnapNMF`) to :java:type:`~esa.mo.nmf.apps.SobelApp`. Also change the name of the adapter class (:java:type:`~esa.mo.nmf.apps.MCSnapNMFAdapter`) to :java:type:`~esa.mo.nmf.apps.SobelMCAdapter`.
 
 Nice job! You have set up your environment and project to develop your first NMF App. Let's start to take this example app apart and rebuild it to fit our needs!
