@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!--
+    Licensed under the European Space Agency Public License, Version 2.0
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>int.esa.nmf</groupId>
+    <artifactId>parent</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <relativePath>../../parent/pom.xml</relativePath>
+  </parent>
+
+  <groupId>int.esa.nmf.sdk</groupId>
+  <artifactId>orekit-resources</artifactId>
+  <packaging>jar</packaging>
+
+  <name>ESA NMF SDK - Orekit Resources</name>
+  <description> Jar containing the Orekit-Data that is needet as a resource for most Orekit opperations</description>
+  <url>http://www.esa.int</url>
+
+  <organization>
+    <name>ESA</name>
+    <url>http://www.esa.int</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The European Space Agency Public License, Version 2.0</name>
+      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <url>https://github.com/esa/nanosat-mo-framework</url>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/esa/nanosat-mo-framework/issues</url>
+  </issueManagement>
+
+  <developers>
+    <developer>
+      <id>KevnO</id>
+      <name>Kevin Otto</name>
+      <url>https://github.com/X52p</url>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.orekit</groupId>
+      <artifactId>orekit</artifactId>
+      <version>10.0</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>download-orekit-resources</id>
+            <phase>generate-resources</phase>
+            <configuration>
+              <tasks>
+                <sequential>
+                  <get dest="${project.build.directory}">
+                    <url url="https://gitlab.orekit.org/orekit/orekit-data/-/archive/master/orekit-data-master.zip"/>
+                  </get>
+                </sequential>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>copy-orekit-resources</id>
+            <phase>process-resources</phase>
+            <configuration>
+              <tasks>
+                <sequential>
+                  <get dest="${project.build.directory}">
+                    <url url="https://gitlab.orekit.org/orekit/orekit-data/-/archive/master/orekit-data-master.zip"/>
+                  </get>
+                  <!--<unzip src="${project.build.directory}/orekit-data-master.zip" dest="${project.build.directory}" />
+                  <move file="${project.build.directory}/orekit-data-master" tofile="${project.build.directory}/classes/orekit-data"/>-->
+                  <move file="${project.build.directory}/orekit-data-master.zip" tofile="${project.build.directory}/classes/orekit-data.zip"/>
+                </sequential>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+

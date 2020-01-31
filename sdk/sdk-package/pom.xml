@@ -67,6 +67,11 @@
     <!-- NOTE: Imprecise version resolution using ${esa.nmf.version-qualifier} cannot be used here,
     as maven-dependency-plugin:copy does not support it. -->
     <dependency>
+      <groupId>int.esa.nmf.sdk</groupId>
+      <artifactId>orekit-resources</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>int.esa.nmf.core</groupId>
       <artifactId>nanosat-mo-supervisor</artifactId>
       <version>${project.version}</version>
