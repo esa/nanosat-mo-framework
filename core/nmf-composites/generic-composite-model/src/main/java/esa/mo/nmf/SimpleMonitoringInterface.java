@@ -32,7 +32,9 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public interface SimpleMonitoringInterface {
 
     /**
-     * Reports the execution of the current action progress stage
+     * Reports the execution of the current action progress stage by producing necessary
+     * ActivityTracking Events which are persisted within COM Archive and published
+     * to all listeners with COM Event subscription for ActivityTracking objects.
      *
      * @param success Flag stating the successfulness of the stage
      * @param errorNumber Error number code. The interpretation of the value is
