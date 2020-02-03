@@ -20,14 +20,12 @@
  */
 package esa.mo.nmf.apps;
 
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hipparchus.ode.events.Action;
-//import org.ccsds.moims.mo.com.event.provider.EventHandler;
-
 import org.hipparchus.util.FastMath;
 import org.orekit.bodies.CelestialBodyFactory;
 import org.orekit.bodies.GeodeticPoint;
-import org.orekit.frames.FactoryManagedFrame;
 import org.orekit.frames.TopocentricFrame;
 import org.orekit.models.earth.EarthITU453AtmosphereRefraction;
 import org.orekit.orbits.Orbit;
@@ -52,8 +50,11 @@ public class CameraAcquisitorSystemTargetLocation implements
 {
 
   //how far to simulate into the future (in seconds)s
-  //current value = secondsPerMinute * minutesPerHour * hoursPerDay * 6 = 6 days
-  private double simulationRange = 60 * 60 * 24 * 6; //todo add parameter
+  //current value = secondsPerMinute * minutesPerHour * hoursPerDay * 30 = 30 days
+  private double simulationRange = 60 * 60 * 24 * 30; //todo add parameter
+
+  private static final Logger LOGGER = Logger.getLogger(
+      CameraAcquisitorSystemTargetLocation.class.getName());
 
   public static enum TimeModeEnum
   {
@@ -103,16 +104,18 @@ public class CameraAcquisitorSystemTargetLocation implements
    *
    * @param currentOrbit the current Orbit
    * @param addapter     the addapter to be used
+   * @throws java.lang.Exception
    */
-  public void calculateTimeFrame(Orbit currentOrbit, CameraAcquisitorSystemMCAdapter addapter)
+  public final void calculateTimeFrame(Orbit currentOrbit, CameraAcquisitorSystemMCAdapter addapter)
       throws Exception
   {
-
+    LOGGER.log(Level.INFO, "Calculating timeframe for photograph target");
     GeodeticPoint targetLocation = new GeodeticPoint(this.latitude, this.longitude, 0);
     TopocentricFrame groundFrame = new TopocentricFrame(addapter.earth, targetLocation,
         "cameraTarget");
 
     // ------------------ create Detectors ------------------
+    LOGGER.log(Level.INFO, "Creating propagation detectors");
     EventDetector overpassDetector = new ElevationDetector(groundFrame)
         .withConstantElevation(FastMath.toRadians(180.0 - this.maxAngle));
 
@@ -133,8 +136,8 @@ public class CameraAcquisitorSystemTargetLocation implements
       overpassDetector = BooleanDetector.andCombine(overpassDetector)
           .withHandler(new timedPassHandler(this));
     }
-
     // ------------------ Setup Simulation------------------
+    LOGGER.log(Level.INFO, "Setting up Propagator");
     //TODO better propagator?
     Propagator kepler = new KeplerianPropagator(currentOrbit);
     kepler.addEventDetector(overpassDetector);
@@ -142,10 +145,14 @@ public class CameraAcquisitorSystemTargetLocation implements
     AbsoluteDate endDate = startDate.shiftedBy(simulationRange);
 
     // ------------------ Simulate Orbit ------------------
+    LOGGER.log(Level.INFO, "Simulating Orbit");
     SpacecraftState finalState = kepler.propagate(endDate);
     if (finalState.getDate() == endDate) {
       throw new Exception("No possible Pass in set Timeframe");
     }
+    LOGGER.log(Level.INFO, "Final State: {0}", finalState);
+    LOGGER.log(Level.INFO, "Final State Date: {0}", finalState.getDate());
+    LOGGER.log(Level.INFO, "Optimal Time: {0}", this.optimalTime);
   }
 
   public AbsoluteDate getOptimalTime()

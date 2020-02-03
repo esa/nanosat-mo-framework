@@ -23,9 +23,6 @@ package esa.mo.nmf.apps;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -37,11 +34,8 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.orekit.bodies.GeodeticPoint;
-import org.orekit.orbits.CartesianOrbit;
+import org.orekit.orbits.KeplerianOrbit;
 import org.orekit.orbits.Orbit;
-import org.orekit.time.AbsoluteDate;
-import org.orekit.time.TimeScale;
-import org.orekit.time.TimeScalesFactory;
 import org.orekit.utils.Constants;
 import org.orekit.utils.PVCoordinates;
 
@@ -56,7 +50,7 @@ public class CameraAcquisitorSystemGPSHandler
   private static final Logger LOGGER = Logger.getLogger(
       CameraAcquisitorSystemGPSHandler.class.getName());
 
-  private CameraAcquisitorSystemMCAdapter casMCAdapter;
+  private final CameraAcquisitorSystemMCAdapter casMCAdapter;
 
   public CameraAcquisitorSystemGPSHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
   {
@@ -87,13 +81,7 @@ public class CameraAcquisitorSystemGPSHandler
       float altitude = pos.getBodyElement0().getAltitude();
       return new GeodeticPoint(latitude, longitude, altitude);
 
-    } catch (NMFException ex) {
-      Logger.getLogger(CameraAcquisitorSystemGPSHandler.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-      Logger.getLogger(CameraAcquisitorSystemGPSHandler.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (MALInteractionException ex) {
-      Logger.getLogger(CameraAcquisitorSystemGPSHandler.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (MALException ex) {
+    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
       Logger.getLogger(CameraAcquisitorSystemGPSHandler.class.getName()).log(Level.SEVERE, null, ex);
     }
     return null;
@@ -101,15 +89,21 @@ public class CameraAcquisitorSystemGPSHandler
 
   public Orbit getCurrentOrbit()
   {
+    LOGGER.log(Level.INFO, "calculating current Orbit");
     GeodeticPoint geoPosition = getCurrentPosition();
+    LOGGER.log(Level.INFO, "current position = LAT:{0} | LON:{1}", new Object[]{
+      geoPosition.getLatitude(),
+      geoPosition.getLongitude()});
     Vector3D startPos = this.casMCAdapter.earth.transform(geoPosition);
+    Vector3D velocity = new Vector3D(505.8479685, 942.7809215, 7435.922231); //for testing purposes, TODO replace
 
+    LOGGER.log(Level.INFO, "3D transformed position: {0}", startPos.toString());
     //TODO calculate velocity
     //best way?
-    PVCoordinates pvCoordinates = new PVCoordinates(startPos, startPos); //return new CartesianOrbit(pvCoordinates, frame, AbsoluteDate.GPS_EPOCH, altitude)
-    return new CartesianOrbit(pvCoordinates, this.casMCAdapter.earthFrame,
-        CameraAcquisitorSystemMCAdapter.getNow(),
-        Constants.EIGEN5C_EARTH_MU);
+    PVCoordinates pvCoordinates = new PVCoordinates(startPos, velocity); //return new CartesianOrbit(pvCoordinates, frame, AbsoluteDate.GPS_EPOCH, altitude)
+
+    return new KeplerianOrbit(pvCoordinates, this.casMCAdapter.earthFrame,
+        CameraAcquisitorSystemMCAdapter.getNow(), Constants.EIGEN5C_EARTH_MU);
   }
 
 }
