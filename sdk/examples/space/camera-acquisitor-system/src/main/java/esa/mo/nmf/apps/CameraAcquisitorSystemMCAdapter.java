@@ -47,6 +47,7 @@ import org.orekit.time.AbsoluteDate;
 import org.orekit.time.TimeScale;
 import org.orekit.time.TimeScalesFactory;
 import org.orekit.utils.Constants;
+import org.orekit.utils.ElevationMask;
 
 /**
  * Class for Interfacing with the Camera Acquisitor System. This class handles all Parameters and
@@ -71,13 +72,24 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   private final CameraAcquisitorSystemGPSHandler gpsHandler;
 
   private long worstCaseRotationTimeMS = 1000000; //TODO add parameter
-  private long attitudeSaftyMarginMS = 20000;
+  private long attitudeSaftyMarginMS = 20000;//TODO add parameter
+  private int maxRetrys = 1;//TODO add parameter
+
+  public int getMaxRetrys()
+  {
+    return maxRetrys;
+  }
 
   public static final String OREKIT_DATA_PATH = "../";
 
   public long getWorstCaseRotationTimeMS()
   {
     return worstCaseRotationTimeMS;
+  }
+
+  public long getWorstCaseRotationTimeSeconds()
+  {
+    return worstCaseRotationTimeMS / 1000;
   }
 
   public CameraAcquisitorSystemCameraHandler getCameraHandler()

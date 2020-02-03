@@ -36,6 +36,10 @@ import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.orbits.KeplerianOrbit;
 import org.orekit.orbits.Orbit;
+import org.orekit.orbits.OrbitType;
+import org.orekit.orbits.PositionAngle;
+import org.orekit.propagation.analytical.tle.TLE;
+import org.orekit.time.AbsoluteDate;
 import org.orekit.utils.Constants;
 import org.orekit.utils.PVCoordinates;
 
@@ -87,23 +91,12 @@ public class CameraAcquisitorSystemGPSHandler
     return null;
   }
 
-  public Orbit getCurrentOrbit()
+  public TLE getTLE()
   {
-    LOGGER.log(Level.INFO, "calculating current Orbit");
-    GeodeticPoint geoPosition = getCurrentPosition();
-    LOGGER.log(Level.INFO, "current position = LAT:{0} | LON:{1}", new Object[]{
-      geoPosition.getLatitude(),
-      geoPosition.getLongitude()});
-    Vector3D startPos = this.casMCAdapter.earth.transform(geoPosition);
-    Vector3D velocity = new Vector3D(505.8479685, 942.7809215, 7435.922231); //for testing purposes, TODO replace
+    String line1 = "1 99999U          19189.41666667 -.00000000  00000-0  00000-0 0 00009";
+    String line2 = "2 99999 097.7038 253.4570 0014081 261.6845 115.0798 15.07058460000011";
 
-    LOGGER.log(Level.INFO, "3D transformed position: {0}", startPos.toString());
-    //TODO calculate velocity
-    //best way?
-    PVCoordinates pvCoordinates = new PVCoordinates(startPos, velocity); //return new CartesianOrbit(pvCoordinates, frame, AbsoluteDate.GPS_EPOCH, altitude)
-
-    return new KeplerianOrbit(pvCoordinates, this.casMCAdapter.earthFrame,
-        CameraAcquisitorSystemMCAdapter.getNow(), Constants.EIGEN5C_EARTH_MU);
+    return new TLE(line1, line2);
   }
 
 }

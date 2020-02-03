@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.apps;
 
+import java.time.Instant;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hipparchus.ode.events.Action;
@@ -28,10 +30,9 @@ import org.orekit.bodies.CelestialBodyFactory;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.frames.TopocentricFrame;
 import org.orekit.models.earth.EarthITU453AtmosphereRefraction;
-import org.orekit.orbits.Orbit;
-import org.orekit.propagation.Propagator;
 import org.orekit.propagation.SpacecraftState;
-import org.orekit.propagation.analytical.KeplerianPropagator;
+import org.orekit.propagation.analytical.tle.TLE;
+import org.orekit.propagation.analytical.tle.TLEPropagator;
 import org.orekit.propagation.events.BooleanDetector;
 import org.orekit.propagation.events.ElevationDetector;
 import org.orekit.propagation.events.EventDetector;
@@ -50,8 +51,8 @@ public class CameraAcquisitorSystemTargetLocation implements
 {
 
   //how far to simulate into the future (in seconds)s
-  //current value = secondsPerMinute * minutesPerHour * hoursPerDay * 30 = 30 days
-  private double simulationRange = 60 * 60 * 24 * 30; //todo add parameter
+  //current value = secondsPerMinute * minutesPerHour * hoursPerDay * 365 = 365 days
+  private double simulationRange = 60 * 60 * 24 * 365; //todo add parameter
 
   private static final Logger LOGGER = Logger.getLogger(
       CameraAcquisitorSystemTargetLocation.class.getName());
@@ -73,6 +74,9 @@ public class CameraAcquisitorSystemTargetLocation implements
 
   private TimeModeEnum timeMode;
 
+  private TimerTask task;
+  private final long ID;
+
   /**
    * creates an Instance with the given parameters and calculates the next possible time frame, a
    * photograph with the given constraints can be taken.
@@ -88,7 +92,16 @@ public class CameraAcquisitorSystemTargetLocation implements
    * @param currentOrbit The current orbit of the spacecraft (used for orbit propagation)
    */
   public CameraAcquisitorSystemTargetLocation(double longitude, double latitude, double maxAngle,
-      TimeModeEnum timeMode, Orbit currentOrbit, CameraAcquisitorSystemMCAdapter addapter) throws
+      TimeModeEnum timeMode, TLE tle, CameraAcquisitorSystemMCAdapter addapter) throws
+      Exception
+  {
+    this(longitude, latitude, maxAngle, timeMode, tle, tle.getDate(),
+        addapter);
+  }
+
+  public CameraAcquisitorSystemTargetLocation(double longitude, double latitude, double maxAngle,
+      TimeModeEnum timeMode, TLE tle, AbsoluteDate notBeforeDate,
+      CameraAcquisitorSystemMCAdapter addapter) throws
       Exception
   {
     this.longitude = longitude;
@@ -96,28 +109,37 @@ public class CameraAcquisitorSystemTargetLocation implements
     this.maxAngle = maxAngle;
     this.timeMode = timeMode;
 
-    calculateTimeFrame(currentOrbit, addapter);
+    this.ID = Instant.now().toEpochMilli();
+
+    calculateTimeFrame(tle, notBeforeDate, addapter);
+  }
+
+  public final void calculateTimeFrame(TLE tle, CameraAcquisitorSystemMCAdapter adapter) throws
+      Exception
+  {
+    calculateTimeFrame(tle, tle.getDate(), adapter);
   }
 
   /**
    * calculates the next time frame in which this location can be photographed.
    *
-   * @param currentOrbit the current Orbit
-   * @param addapter     the addapter to be used
+   * @param tle     the current TLE
+   * @param adapter the adapter to be used
    * @throws java.lang.Exception
    */
-  public final void calculateTimeFrame(Orbit currentOrbit, CameraAcquisitorSystemMCAdapter addapter)
+  public final void calculateTimeFrame(TLE tle, AbsoluteDate notBeforeDate,
+      CameraAcquisitorSystemMCAdapter adapter)
       throws Exception
   {
     LOGGER.log(Level.INFO, "Calculating timeframe for photograph target");
     GeodeticPoint targetLocation = new GeodeticPoint(this.latitude, this.longitude, 0);
-    TopocentricFrame groundFrame = new TopocentricFrame(addapter.earth, targetLocation,
+    TopocentricFrame groundFrame = new TopocentricFrame(adapter.earth, targetLocation,
         "cameraTarget");
 
     // ------------------ create Detectors ------------------
     LOGGER.log(Level.INFO, "Creating propagation detectors");
     EventDetector overpassDetector = new ElevationDetector(groundFrame)
-        .withConstantElevation(FastMath.toRadians(180.0 - this.maxAngle));
+        .withConstantElevation(FastMath.toRadians(90.0 - this.maxAngle));
 
     if (timeMode != TimeModeEnum.ANY) {
 
@@ -131,28 +153,33 @@ public class CameraAcquisitorSystemTargetLocation implements
         timeModeDetector = BooleanDetector.notCombine(timeModeDetector);
       }
       overpassDetector = BooleanDetector.andCombine(timeModeDetector, overpassDetector)
-          .withHandler(new timedPassHandler(this));
+          .withHandler(new timedPassHandler(this, adapter, notBeforeDate));
     } else {
-      overpassDetector = BooleanDetector.andCombine(overpassDetector)
-          .withHandler(new timedPassHandler(this));
+      overpassDetector = BooleanDetector.orCombine(overpassDetector)
+          .withHandler(new timedPassHandler(this, adapter, notBeforeDate));
     }
     // ------------------ Setup Simulation------------------
     LOGGER.log(Level.INFO, "Setting up Propagator");
-    //TODO better propagator?
-    Propagator kepler = new KeplerianPropagator(currentOrbit);
-    kepler.addEventDetector(overpassDetector);
-    AbsoluteDate startDate = currentOrbit.getDate();
-    AbsoluteDate endDate = startDate.shiftedBy(simulationRange);
 
+    TLEPropagator propagator = TLEPropagator.selectExtrapolator(tle);
+
+    propagator.addEventDetector(overpassDetector);
+
+    AbsoluteDate startDate = tle.getDate();
+    AbsoluteDate endDate = startDate.shiftedBy(simulationRange);
+    LOGGER.log(Level.INFO, "Start Date: {0}", startDate);
+    LOGGER.log(Level.INFO, "EN Date: {0}", endDate);
     // ------------------ Simulate Orbit ------------------
     LOGGER.log(Level.INFO, "Simulating Orbit");
-    SpacecraftState finalState = kepler.propagate(endDate);
-    if (finalState.getDate() == endDate) {
-      throw new Exception("No possible Pass in set Timeframe");
-    }
+    SpacecraftState finalState = propagator.propagate(endDate);
+
     LOGGER.log(Level.INFO, "Final State: {0}", finalState);
     LOGGER.log(Level.INFO, "Final State Date: {0}", finalState.getDate());
     LOGGER.log(Level.INFO, "Optimal Time: {0}", this.optimalTime);
+
+    if (finalState.getDate() == endDate) {
+      throw new Exception("No possible Pass in set Timeframe");
+    }
   }
 
   public AbsoluteDate getOptimalTime()
@@ -194,48 +221,60 @@ public class CameraAcquisitorSystemTargetLocation implements
   public int compareTo(CameraAcquisitorSystemTargetLocation other)
   {
     return this.optimalTime.compareTo(other.getOptimalTime());
+
   }
 
   private static class timedPassHandler implements EventHandler<BooleanDetector>
   {
 
     private final CameraAcquisitorSystemTargetLocation parent;
+    private final CameraAcquisitorSystemMCAdapter addapter;
+    private final AbsoluteDate notBeforeDate;
 
-    public timedPassHandler(CameraAcquisitorSystemTargetLocation parent)
+    private boolean startIsSet = false;
+
+    public timedPassHandler(CameraAcquisitorSystemTargetLocation parent,
+        CameraAcquisitorSystemMCAdapter addapter, AbsoluteDate notBeforeDate)
     {
       this.parent = parent;
+      this.addapter = addapter;
+      this.notBeforeDate = notBeforeDate;
     }
 
     @Override
     public Action eventOccurred(SpacecraftState s, BooleanDetector detector, boolean increasing)
     {
-      if (!increasing) {
+      if (increasing) {
+        if (!startIsSet) {
+          parent.startTime = s.getDate();
+          startIsSet = true;
+        }
+      } else {
         parent.endTime = s.getDate();
         double elepsedTime = parent.endTime.durationFrom(parent.startTime);
         parent.optimalTime = parent.startTime.shiftedBy(elepsedTime / 2);
+        LOGGER.log(Level.INFO, "evemt at: {0}", s.getDate());
+        if (parent.optimalTime.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()) <= addapter.getWorstCaseRotationTimeSeconds() && parent.optimalTime.compareTo(
+            this.notBeforeDate) > 0) {
+          LOGGER.log(Level.INFO, "Time to close");
+          startIsSet = false;
+          return Action.CONTINUE;
+        }
+        LOGGER.log(Level.INFO, "Time found!");
         return Action.STOP;
       }
       return Action.CONTINUE;
     }
   }
 
-  private static class overpassBeginHandler implements EventHandler<ElevationDetector>
+  public TimerTask getTask()
   {
-
-    private final CameraAcquisitorSystemTargetLocation parent;
-
-    public overpassBeginHandler(CameraAcquisitorSystemTargetLocation parent)
-    {
-      this.parent = parent;
-    }
-
-    @Override
-    public Action eventOccurred(SpacecraftState s, ElevationDetector detector, boolean increasing)
-    {
-      if (increasing) {
-        parent.startTime = s.getDate();
-      }
-      return Action.CONTINUE;
-    }
+    return task;
   }
+
+  public void setTask(TimerTask task)
+  {
+    this.task = task;
+  }
+
 }
