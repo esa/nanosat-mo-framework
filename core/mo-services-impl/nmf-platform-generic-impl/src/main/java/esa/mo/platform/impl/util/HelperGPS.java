@@ -21,6 +21,8 @@
 package esa.mo.platform.impl.util;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.TimeZone;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
@@ -138,9 +140,46 @@ public class HelperGPS
     posExtraDetails.setHdop(Float.parseFloat(items[GPGGA_GEN_COL.HDOP]));
     posExtraDetails.setNumberOfSatellites(Integer.parseInt(items[GPGGA_GEN_COL.SATS_IN_USE]));
     posExtraDetails.setUndulation(Float.parseFloat(items[GPGGA_GEN_COL.UNDULATION]));
-    posExtraDetails.setUtc(null);
-    pos.setExtraDetails(posExtraDetails);
 
+    /*
+    * Time needs to be calculated, because GGA message only contains
+    * Hours, minutes and seconds but not day and year
+    * Format: hhmmss.sss
+    * with:
+    * hh = hour of day (24h format)
+    * mm = minute of hour
+    * ss.sss = second in Minute (with fractional second)
+     */
+    String time = items[GPGGA_GEN_COL.UTC];
+    int hours = Integer.valueOf(time.substring(0, 2));
+    int minutes = Integer.valueOf(time.substring(2, 4));
+    int seconds = Integer.valueOf(time.substring(4, 6));
+    // The GGALONG sentence also contains the fractions of second witch is not contained in the GGA sentence
+    int miliSeconds = (int) (Double.valueOf(time.substring(6, 10)) * 1000); // convert fractional seconds to milliseconds
+
+    // Get current time
+    Calendar cal = (Calendar) Calendar.getInstance().clone();
+    Calendar cal2 = (Calendar) cal.clone();
+
+    // Set Timezone to utc
+    cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+    cal2.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+    // Set time values from GGA NMEA sentence
+    cal.set(Calendar.HOUR_OF_DAY, hours);
+    cal.set(Calendar.MINUTE, minutes);
+    cal.set(Calendar.SECOND, seconds);
+    cal.set(Calendar.MILLISECOND, miliSeconds);
+
+    // In case, the current time is shortly after midnight and the message was received before midnight
+    if (cal.after(cal2)) {
+      // Subtract one day, so that the timestamp isn't 24h off
+      cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1);
+    }
+
+    posExtraDetails.setUtc(new Time(cal.toInstant().toEpochMilli()));
+
+    pos.setExtraDetails(posExtraDetails);
     return pos;
   }
 
@@ -159,7 +198,6 @@ public class HelperGPS
     for (String sentence : sentences) {
       String[] words = sentence.split(",|\\*");
       int count = words.length;
-      //System.out.println(count);
       int expectedSize = GPGSV_COL.CHECKSUM + 1;
       if (count == expectedSize) {
         int satCount = 0;

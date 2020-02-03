@@ -26,7 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
-import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 
 /**
  *
@@ -42,15 +41,14 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
     try {
       gpggalong = this.getNMEASentence("GPGGALONG");
       Position position = HelperGPS.gpggalong2Position(gpggalong);
-      // The utc time needs to be set here!
-
       return position;
     } catch (NumberFormatException ex1) {
       Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE,
           "Number format exception! The gpggalong string is: " + gpggalong, ex1);
     } catch (IOException ex) {
       Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE,
-          "The current position could not be retrieved! Exception: " + ex);
+          "The current position could not be retrieved! Exception: " + ex
+      );
     }
 
     return null;
