@@ -25,9 +25,12 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
 import java.util.PriorityQueue;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -46,7 +49,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTrackingLinear;
-import org.orekit.orbits.Orbit;
+import org.orekit.propagation.analytical.tle.TLE;
 
 /**
  * Class handling acquisition of targets and the corresponding actions
@@ -73,9 +76,12 @@ public class CameraAcquisitorSystemCameraTargetHandler
   private static final Logger LOGGER = Logger.getLogger(
       CameraAcquisitorSystemCameraTargetHandler.class.getName());
 
+  // time to keep track of all sheduled photographs
+  private final java.util.Timer timer = new java.util.Timer();
+
   //queue to save all target locations
   PriorityQueue<CameraAcquisitorSystemTargetLocation> locationQueue =
-      new PriorityQueue<CameraAcquisitorSystemTargetLocation>();
+      new PriorityQueue<>();
 
   public CameraAcquisitorSystemCameraTargetHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
   {
@@ -156,14 +162,14 @@ public class CameraAcquisitorSystemCameraTargetHandler
     LOGGER.log(Level.INFO, "  time type: {0}", timeType.name());
 
     // ------------------ add Location to queue ------------------
-    Orbit currentOrbit = this.casMCAdapter.getGpsHandler().getCurrentOrbit();
+    TLE tle = this.casMCAdapter.getGpsHandler().getTLE();
 
     try {
       this.casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
           STAGE_CALCULATE_CURRENT_ORBIT,
           PHOTOGRAPH_LOCATION_STAGES,
           actionInstanceObjId);
-      LOGGER.log(Level.INFO, "Current Orbit: {0}", currentOrbit.toString());
+      LOGGER.log(Level.INFO, "Current Orbit: {0}", tle.toString());
     } catch (NMFException ex) {
       Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(Level.SEVERE,
           ex.getMessage());
@@ -172,14 +178,43 @@ public class CameraAcquisitorSystemCameraTargetHandler
     try {
       CameraAcquisitorSystemTargetLocation location =
           new CameraAcquisitorSystemTargetLocation(
-              longitude, latitude, maxAngle, timeType, currentOrbit, this.casMCAdapter);
+              longitude, latitude, maxAngle, timeType, tle, this.casMCAdapter);
+
+      Stream<CameraAcquisitorSystemTargetLocation> sceduleCollisions = locationQueue.stream();
+      for (int i = 0; i < casMCAdapter.getMaxRetrys(); i++) {
+        //count collisions
+        final CameraAcquisitorSystemTargetLocation tmpLocation = location;
+        sceduleCollisions = locationQueue.stream().filter(
+            (otherLocation) -> (Math.abs(otherLocation.getOptimalTime().durationFrom(
+                tmpLocation.getOptimalTime())) < this.casMCAdapter.getWorstCaseRotationTimeSeconds()));
+        if (sceduleCollisions.count() == 0) {
+          //if collisions == 0 stop serching for new pass
+          break;
+        } else {
+          location =
+              new CameraAcquisitorSystemTargetLocation(
+                  longitude, latitude, maxAngle, timeType, tle, this.casMCAdapter);
+        }
+      }
+
+      // if we could not scedule after maxRetrys, stop the scedule process.
+      if (sceduleCollisions.count() != 0) {
+        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 0,
+            STAGE_CALCULATE_CURRENT_ORBIT,
+            PHOTOGRAPH_LOCATION_STAGES,
+            actionInstanceObjId);
+        return new UInteger(0);
+      }
+
       locationQueue.add(location);
 
       if (location.getOptimalTime() == null) {
         LOGGER.log(Level.SEVERE, "Target will not be Reached in maximal calculation time frame!");
-        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 0, STAGE_PREDICT_PASS,
+        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 0,
+            STAGE_PREDICT_PASS,
             PHOTOGRAPH_LOCATION_STAGES,
             actionInstanceObjId);
+        return new UInteger(0);
       } else {
         this.casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
             STAGE_PREDICT_PASS,
@@ -191,9 +226,8 @@ public class CameraAcquisitorSystemCameraTargetHandler
           CameraAcquisitorSystemMCAdapter.getNow());
 
       LOGGER.log(Level.INFO, "Seconds till photograph: {0}", seconds);
-
-      new java.util.Timer().schedule(
-          new java.util.TimerTask()
+      final CameraAcquisitorSystemTargetLocation sceduledLocation = location;
+      TimerTask task = new java.util.TimerTask()
       {
         @Override
         public void run()
@@ -201,8 +235,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
           String error_information = "";
           try {
             // re-evaluate nearest Overpass for more accuracy
-            location.calculateTimeFrame(casMCAdapter.getGpsHandler().getCurrentOrbit(),
-                casMCAdapter);
+            sceduledLocation.calculateTimeFrame(casMCAdapter.getGpsHandler().getTLE(), casMCAdapter);
           } catch (Exception ex) {
             Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
                 Level.SEVERE,
@@ -213,7 +246,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
           AttitudeMode desiredAttitude = new AttitudeModeTargetTrackingLinear(Float.MIN_NORMAL,
               Float.NaN, Float.NaN, Float.NaN, Long.MAX_VALUE, Long.MIN_VALUE);
 
-          Duration timeTillPhotograph = new Duration(location.getOptimalTime().durationFrom(
+          Duration timeTillPhotograph = new Duration(sceduledLocation.getOptimalTime().durationFrom(
               CameraAcquisitorSystemMCAdapter.getNow()));
 
           try {
@@ -267,7 +300,12 @@ public class CameraAcquisitorSystemCameraTargetHandler
 
           this.cancel();
         }
-      },
+      };
+
+      location.setTask(task);
+
+      this.timer.schedule(
+          task,
           ((long) seconds) * 1000 - this.casMCAdapter.getWorstCaseRotationTimeMS() * 2 //conversion to milliseconds //Worst time * 2 just to be save.
       );
 
