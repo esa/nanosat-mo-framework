@@ -57,7 +57,14 @@ public class CameraAcquisitorSystemCameraTargetHandler
 {
 
   //TODO set corect number as soon as stages are defined
-  private static final int PHOTOGRAPH_LOCATION_STAGES = 0;
+  private static final int PHOTOGRAPH_LOCATION_STAGES = 1;
+
+  private static final int STAGE_CALCULATE_CURRENT_ORBIT = 1;
+  private static final int STAGE_PREDICT_PASS = 2;
+  private static final int STAGE_WAIT_FOR_BEGIN_PASS = 3;
+  private static final int STAGE_ATTITUDE_CORECTION = 4;
+  private static final int STAGE_WAIT_FOR_OPTIMAL_PASS = 5;
+  private static final int STAGE_TAKE_PHOTOGRAPH = 6;
 
   public static final String ACTION_PHOTOGRAPH_LOCATION = "photographLocation";
 
@@ -152,13 +159,38 @@ public class CameraAcquisitorSystemCameraTargetHandler
     Orbit currentOrbit = this.casMCAdapter.getGpsHandler().getCurrentOrbit();
 
     try {
+      this.casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
+          STAGE_CALCULATE_CURRENT_ORBIT,
+          PHOTOGRAPH_LOCATION_STAGES,
+          actionInstanceObjId);
+      LOGGER.log(Level.INFO, "Current Orbit: {0}", currentOrbit.toString());
+    } catch (NMFException ex) {
+      Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(Level.SEVERE,
+          ex.getMessage());
+    }
+
+    try {
       CameraAcquisitorSystemTargetLocation location =
           new CameraAcquisitorSystemTargetLocation(
               longitude, latitude, maxAngle, timeType, currentOrbit, this.casMCAdapter);
       locationQueue.add(location);
 
+      if (location.getOptimalTime() == null) {
+        LOGGER.log(Level.SEVERE, "Target will not be Reached in maximal calculation time frame!");
+        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 0, STAGE_PREDICT_PASS,
+            PHOTOGRAPH_LOCATION_STAGES,
+            actionInstanceObjId);
+      } else {
+        this.casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
+            STAGE_PREDICT_PASS,
+            PHOTOGRAPH_LOCATION_STAGES,
+            actionInstanceObjId);
+      }
+
       double seconds = location.getOptimalTime().durationFrom(
           CameraAcquisitorSystemMCAdapter.getNow());
+
+      LOGGER.log(Level.INFO, "Seconds till photograph: {0}", seconds);
 
       new java.util.Timer().schedule(
           new java.util.TimerTask()
@@ -174,7 +206,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
           } catch (Exception ex) {
             Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
                 Level.SEVERE,
-                null, ex);
+                ex.getMessage());
             error_information += "__PRECICION-CALCULATION-FAIL";
           }
           // calculate Attitude
@@ -193,7 +225,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
           } catch (MALException | NMFException | IOException | MALInteractionException ex) {
             Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
                 Level.SEVERE,
-                null, ex);
+                ex.getMessage());
             error_information += "__ATTITUDE-CORECTION-FAIL";
           }
 
@@ -207,7 +239,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
           } catch (InterruptedException ex) {
             Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
                 Level.SEVERE,
-                null, ex);
+                ex.getMessage());
             error_information += "__SLEEP-FAIL";
           }
 
@@ -218,19 +250,19 @@ public class CameraAcquisitorSystemCameraTargetHandler
           } catch (NMFException ex) {
             Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
                 Level.SEVERE,
-                null, ex);
+                ex.getMessage());
           } catch (IOException ex) {
             Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
                 Level.SEVERE,
-                null, ex);
+                ex.getMessage());
           } catch (MALInteractionException ex) {
             Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
                 Level.SEVERE,
-                null, ex);
+                ex.getMessage());
           } catch (MALException ex) {
             Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
                 Level.SEVERE,
-                null, ex);
+                ex.getMessage());
           }
 
           this.cancel();

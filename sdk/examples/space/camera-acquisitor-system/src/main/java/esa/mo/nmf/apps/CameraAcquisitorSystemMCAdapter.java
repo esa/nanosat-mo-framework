@@ -24,7 +24,7 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFInterface;
-import java.io.File;
+import esa.mo.nmf.sdk.OrekitResources;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -40,7 +40,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.orekit.bodies.OneAxisEllipsoid;
 import org.orekit.data.DataProvidersManager;
-import org.orekit.data.DirectoryCrawler;
 import org.orekit.errors.OrekitException;
 import org.orekit.frames.FactoryManagedFrame;
 import org.orekit.frames.FramesFactory;
@@ -48,7 +47,6 @@ import org.orekit.time.AbsoluteDate;
 import org.orekit.time.TimeScale;
 import org.orekit.time.TimeScalesFactory;
 import org.orekit.utils.Constants;
-import org.orekit.utils.IERSConventions;
 
 /**
  * Class for Interfacing with the Camera Acquisitor System. This class handles all Parameters and
@@ -74,6 +72,8 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
   private long worstCaseRotationTimeMS = 1000000; //TODO add parameter
   private long attitudeSaftyMarginMS = 20000;
+
+  public static final String OREKIT_DATA_PATH = "../";
 
   public long getWorstCaseRotationTimeMS()
   {
@@ -105,13 +105,16 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     FactoryManagedFrame earthFrameTMP = null;
     OneAxisEllipsoid earthTMP = null;
     try {
-      initOrekit();
-      earthFrameTMP = FramesFactory.getITRF(
-          IERSConventions.IERS_2010,
-          true);
+      //load orekit-data wich is required for many parts of orekit to work.
+      LOGGER.log(Level.INFO, "Loading orekit data");
+      DataProvidersManager manager = DataProvidersManager.getInstance();
+      manager.addProvider(OrekitResources.getOrekitData());
+
+      earthFrameTMP = FramesFactory.getEME2000();
       earthTMP = new OneAxisEllipsoid(
           Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
           Constants.WGS84_EARTH_FLATTENING, earthFrameTMP);
+
     } catch (OrekitException e) {
       LOGGER.log(Level.SEVERE, "Failed to initialise Orekit:\n{0}", e.getMessage());
     }
@@ -201,14 +204,6 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
     return new AbsoluteDate(time.getYear(), time.getMonthValue(), time.getDayOfMonth(),
         time.getHour(), time.getMinute(), time.getSecond(), utc);
-  }
-
-  private void initOrekit()
-  {
-    File orekitData = new File(System.getProperty("user.home") + "src/main/resources/orekit-data");
-    LOGGER.log(Level.INFO, "Loading orekit data from {0}", orekitData.getAbsolutePath());
-    DataProvidersManager manager = DataProvidersManager.getInstance();
-    manager.addProvider(new DirectoryCrawler(orekitData));
   }
 
   double getAttitudeSaftyMarginSeconds()
