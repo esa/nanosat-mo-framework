@@ -302,15 +302,24 @@ public class CameraAcquisitorSystemCameraHandler
       MALInteractionException,
       MALException
   {
+
+    float exposureTime = casMCAdapter.getExposureTime();
+    if (casMCAdapter.getExposureType() != CameraAcquisitorSystemMCAdapter.ExposureTypeModeEnum.CUSTOM) {
+      //TODO
+    }
+    PixelResolution resolution = new PixelResolution(
+        new UInteger(casMCAdapter.getPictureWidth()),
+        new UInteger(casMCAdapter.getPictureWidth()));
+
     LOGGER.log(Level.INFO, "Taking Photograph");
     this.casMCAdapter.getConnector().getPlatformServices().getCameraService().takePicture(
         new CameraSettings(
-            defaultCameraResolution,
-            PictureFormat.PNG,
-            DEFAULT_CAMERA_EXPOSURE_TIME,
-            GAIN_R,
-            GAIN_G,
-            GAIN_B),
+            resolution,
+            casMCAdapter.getPictureType(),
+            new Duration(exposureTime),
+            casMCAdapter.getGainRed(),
+            casMCAdapter.getGainGreen(),
+            casMCAdapter.getGainBlue()),
         new CameraDataHandler(actionInstanceObjId, stageOffset, totalStages, fileName,
             this.casMCAdapter));
   }
