@@ -68,6 +68,7 @@
     <module>directory-consumer</module>
     <module>set-and-command</module>
     <module>facebook</module>
+    <module>camera-acquisitor-system-ground</module>
   </modules>
 
 </project>
