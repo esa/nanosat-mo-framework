@@ -26,8 +26,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hipparchus.ode.events.Action;
 import org.hipparchus.util.FastMath;
+import org.orekit.bodies.BodyShape;
 import org.orekit.bodies.CelestialBodyFactory;
 import org.orekit.bodies.GeodeticPoint;
+import org.orekit.bodies.OneAxisEllipsoid;
 import org.orekit.frames.TopocentricFrame;
 import org.orekit.models.earth.EarthITU453AtmosphereRefraction;
 import org.orekit.propagation.SpacecraftState;
@@ -92,16 +94,34 @@ public class CameraAcquisitorSystemTargetLocation implements
    * @param currentOrbit The current orbit of the spacecraft (used for orbit propagation)
    */
   public CameraAcquisitorSystemTargetLocation(double longitude, double latitude, double maxAngle,
+      TimeModeEnum timeMode, TLE tle, AbsoluteDate notBeforeDate,
+      CameraAcquisitorSystemMCAdapter addapter) throws
+      Exception
+  {
+    this(longitude, latitude, maxAngle, timeMode, tle, notBeforeDate,
+        addapter.getWorstCaseRotationTimeSeconds(),
+        addapter.earth);
+  }
+
+  public CameraAcquisitorSystemTargetLocation(double longitude, double latitude, double maxAngle,
       TimeModeEnum timeMode, TLE tle, CameraAcquisitorSystemMCAdapter addapter) throws
       Exception
   {
+    this(longitude, latitude, maxAngle, timeMode, tle, addapter.getWorstCaseRotationTimeSeconds(),
+        addapter.earth);
+  }
+
+  public CameraAcquisitorSystemTargetLocation(double longitude, double latitude, double maxAngle,
+      TimeModeEnum timeMode, TLE tle, long worstCaseRotationTimeSeconds, BodyShape earth) throws
+      Exception
+  {
     this(longitude, latitude, maxAngle, timeMode, tle, tle.getDate(),
-        addapter);
+        worstCaseRotationTimeSeconds, earth);
   }
 
   public CameraAcquisitorSystemTargetLocation(double longitude, double latitude, double maxAngle,
       TimeModeEnum timeMode, TLE tle, AbsoluteDate notBeforeDate,
-      CameraAcquisitorSystemMCAdapter addapter) throws
+      long worstCaseRotationTimeSeconds, BodyShape earth) throws
       Exception
   {
     this.longitude = longitude;
@@ -111,13 +131,22 @@ public class CameraAcquisitorSystemTargetLocation implements
 
     this.ID = Instant.now().toEpochMilli();
 
-    calculateTimeFrame(tle, notBeforeDate, addapter);
+    calculateTimeFrame(tle, notBeforeDate, worstCaseRotationTimeSeconds, earth);
   }
 
-  public final void calculateTimeFrame(TLE tle, CameraAcquisitorSystemMCAdapter adapter) throws
+  public final void calculateTimeFrame(TLE tle, long worstCaseRotationTimeSeconds,
+      BodyShape earth) throws
       Exception
   {
-    calculateTimeFrame(tle, tle.getDate(), adapter);
+    calculateTimeFrame(tle, tle.getDate(), worstCaseRotationTimeSeconds, earth);
+  }
+
+  public final void calculateTimeFrame(TLE tle,
+      CameraAcquisitorSystemMCAdapter addapter)
+      throws Exception
+  {
+    calculateTimeFrame(tle, tle.getDate(), addapter.getWorstCaseRotationTimeSeconds(),
+        addapter.earth);
   }
 
   /**
@@ -128,12 +157,12 @@ public class CameraAcquisitorSystemTargetLocation implements
    * @throws java.lang.Exception
    */
   public final void calculateTimeFrame(TLE tle, AbsoluteDate notBeforeDate,
-      CameraAcquisitorSystemMCAdapter adapter)
+      long worstCaseRotationTimeSeconds, BodyShape earth)
       throws Exception
   {
     LOGGER.log(Level.INFO, "Calculating timeframe for photograph target");
     GeodeticPoint targetLocation = new GeodeticPoint(this.latitude, this.longitude, 0);
-    TopocentricFrame groundFrame = new TopocentricFrame(adapter.earth, targetLocation,
+    TopocentricFrame groundFrame = new TopocentricFrame(earth, targetLocation,
         "cameraTarget");
 
     // ------------------ create Detectors ------------------
@@ -153,10 +182,10 @@ public class CameraAcquisitorSystemTargetLocation implements
         timeModeDetector = BooleanDetector.notCombine(timeModeDetector);
       }
       overpassDetector = BooleanDetector.andCombine(timeModeDetector, overpassDetector)
-          .withHandler(new timedPassHandler(this, adapter, notBeforeDate));
+          .withHandler(new timedPassHandler(this, notBeforeDate, worstCaseRotationTimeSeconds));
     } else {
       overpassDetector = BooleanDetector.orCombine(overpassDetector)
-          .withHandler(new timedPassHandler(this, adapter, notBeforeDate));
+          .withHandler(new timedPassHandler(this, notBeforeDate, worstCaseRotationTimeSeconds));
     }
     // ------------------ Setup Simulation------------------
     LOGGER.log(Level.INFO, "Setting up Propagator");
@@ -228,17 +257,17 @@ public class CameraAcquisitorSystemTargetLocation implements
   {
 
     private final CameraAcquisitorSystemTargetLocation parent;
-    private final CameraAcquisitorSystemMCAdapter addapter;
     private final AbsoluteDate notBeforeDate;
+    private final long worstCaseRotationTimeSeconds;
 
     private boolean startIsSet = false;
 
-    public timedPassHandler(CameraAcquisitorSystemTargetLocation parent,
-        CameraAcquisitorSystemMCAdapter addapter, AbsoluteDate notBeforeDate)
+    public timedPassHandler(CameraAcquisitorSystemTargetLocation parent, AbsoluteDate notBeforeDate,
+        long worstCaseRotationTimeSeconds)
     {
       this.parent = parent;
-      this.addapter = addapter;
       this.notBeforeDate = notBeforeDate;
+      this.worstCaseRotationTimeSeconds = worstCaseRotationTimeSeconds;
     }
 
     @Override
@@ -254,7 +283,7 @@ public class CameraAcquisitorSystemTargetLocation implements
         double elepsedTime = parent.endTime.durationFrom(parent.startTime);
         parent.optimalTime = parent.startTime.shiftedBy(elepsedTime / 2);
         LOGGER.log(Level.INFO, "evemt at: {0}", s.getDate());
-        if (parent.optimalTime.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()) <= addapter.getWorstCaseRotationTimeSeconds() && parent.optimalTime.compareTo(
+        if (parent.optimalTime.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()) <= worstCaseRotationTimeSeconds && parent.optimalTime.compareTo(
             this.notBeforeDate) > 0) {
           LOGGER.log(Level.INFO, "Time to close");
           startIsSet = false;

@@ -20,8 +20,12 @@
  */
 package esa.mo.ground.cameraacquisotorground;
 
+import esa.mo.com.impl.util.EventCOMObject;
+import esa.mo.com.impl.util.EventReceivedListener;
+import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.ground.cameraacquisotorground.OrbitHandler.PositionAndTime;
 import esa.mo.mc.impl.provider.ParameterInstance;
+import esa.mo.nmf.apps.CameraAcquisitorSystemCameraTargetHandler;
 import esa.mo.nmf.groundmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.sdk.OrekitResources;
@@ -38,39 +42,35 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageTypeSpecifier;
+import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.hipparchus.util.FastMath;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.propagation.analytical.tle.TLE;
 import org.orekit.time.AbsoluteDate;
-import org.orekit.time.DateComponents;
-import org.orekit.time.Month;
-import org.orekit.time.TimeScale;
 import org.orekit.time.TimeScalesFactory;
-import org.orekit.time.UTCScale;
 
 /**
  * Set and Command demo application. This demo should be used with the Hello World demo provider.
  * Camera Acquisition System ground application. Handles communication between user front-end and
  * space application as well as all computationally expensive calculations.
  */
-public class CameraAcquisitionGround
+public class CameraAcquisitorGround
 {
 
-  private static final Logger LOGGER = Logger.getLogger(CameraAcquisitionGround.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(CameraAcquisitorGround.class.getName());
+
   private final GroundMOAdapterImpl gma;
   private final TerminalInputHandler inputHandler;
   private OrbitHandler orbitHandler;
@@ -99,9 +99,12 @@ public class CameraAcquisitionGround
     private static final String PICTURE_TYPE = "PictureType";
   }
 
-  public CameraAcquisitionGround(URI DIRECTORY_URI) throws MALException, MalformedURLException,
+  GeodeticPoint esoc = new GeodeticPoint(49.869987, 8.622770, 0);
+
+  public CameraAcquisitorGround(URI DIRECTORY_URI) throws MALException, MalformedURLException,
       MALInteractionException, Exception
   {
+    System.out.println("--------------------------- initialisation ----------------------------");
     this.lastTLEUpdate = Instant.MIN;
 
     //setup orekit
@@ -128,19 +131,32 @@ public class CameraAcquisitionGround
     gma = gmaTMP;
     gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
 
+    Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
+        "ActivityTrackingListener",
+        ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
+    gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
+        new EventReceivedListenerAdapter());
+
     setInitialParameters();
 
     inputHandler = new TerminalInputHandler();
 
     orbitHandler = new OrbitHandler(getTLE());
-    drawOrbit();
-// Send a command with a Double argument
-    /*
-    Double value = 1.35565;
-    Double[] values = new Double[1];
-    values[0] = value;
-    gma.invokeAction("Go", values);
-     */
+    System.out.println("------------------------------------------------------------------------");
+
+    System.out.println("Sending Command");
+    sendCommandShedulePhotograph(esoc.getLatitude(), esoc.getLongitude(), 15.,
+        OrbitHandler.TimeModeEnum.ANY);
+  }
+
+  public void sendCommandShedulePhotograph(double latitude, double longitude, double maxAngle,
+      OrbitHandler.TimeModeEnum timeMode)
+  {
+    Union[] parameters = new Union[]{new Union(latitude), new Union(longitude), new Union(maxAngle),
+      new Union(timeMode.ordinal())};
+
+    gma.invokeAction(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION,
+        parameters);
   }
 
   private void drawOrbit()
@@ -175,7 +191,6 @@ public class CameraAcquisitionGround
         imageCoordianteY(currentPos, height) - 10,
         20, 20);
 
-    GeodeticPoint esoc = new GeodeticPoint(49.869987, 8.622770, 0);
     g.setColor(Color.BLUE);
     g.fillOval(
         imageCoordianteX(esoc, width) - 10,
@@ -188,7 +203,7 @@ public class CameraAcquisitionGround
       ImageIO.write(image, "png", outputfile);
       System.out.println("image saved");
     } catch (IOException ex) {
-      Logger.getLogger(CameraAcquisitionGround.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 
@@ -264,9 +279,9 @@ public class CameraAcquisitionGround
       cachedTLE = new TLE(line1, line2);
       return cachedTLE;
     } catch (MalformedURLException ex) {
-      Logger.getLogger(CameraAcquisitionGround.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
     } catch (IOException ex) {
-      Logger.getLogger(CameraAcquisitionGround.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
     }
     return null;
   }
@@ -283,6 +298,19 @@ public class CameraAcquisitionGround
             parameterInstance.getName(),
             parameterInstance.getParameterValue().toString()
           }
+      );
+    }
+  }
+
+  private class EventReceivedListenerAdapter extends EventReceivedListener
+  {
+
+    @Override
+    public void onDataReceived(EventCOMObject eventCOMObject)
+    {
+      LOGGER.log(Level.INFO,
+          "event: {0}",
+          eventCOMObject.getBody()
       );
     }
   }
@@ -319,7 +347,7 @@ public class CameraAcquisitionGround
     } else {
       directoryURI = new URI(args[0]);
     }
-    CameraAcquisitionGround demo = new CameraAcquisitionGround(directoryURI);
+    CameraAcquisitorGround demo = new CameraAcquisitorGround(directoryURI);
     demo.start();
   }
 }
