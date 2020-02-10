@@ -23,9 +23,11 @@ package esa.mo.ground.cameraacquisotorground;
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.ground.cameraacquisotorground.OrbitHandler.PositionAndTime;
+import esa.mo.ground.restservice.GroundTrack;
+import esa.mo.ground.restservice.PositionAndTime;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.apps.CameraAcquisitorSystemCameraTargetHandler;
+import esa.mo.nmf.apps.CameraAcquisitorSystemMCAdapter;
 import esa.mo.nmf.groundmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.sdk.OrekitResources;
@@ -43,8 +45,10 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
@@ -60,27 +64,52 @@ import org.orekit.data.DataProvidersManager;
 import org.orekit.propagation.analytical.tle.TLE;
 import org.orekit.time.AbsoluteDate;
 import org.orekit.time.TimeScalesFactory;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Set and Command demo application. This demo should be used with the Hello World demo provider.
  * Camera Acquisition System ground application. Handles communication between user front-end and
  * space application as well as all computationally expensive calculations.
  */
+@RestController
+@SpringBootApplication
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
 public class CameraAcquisitorGround
 {
 
   private static final Logger LOGGER = Logger.getLogger(CameraAcquisitorGround.class.getName());
 
-  private final GroundMOAdapterImpl gma;
+  private GroundMOAdapterImpl gma;
   private final TerminalInputHandler inputHandler;
   private OrbitHandler orbitHandler;
 
+
+  private final long MINUTE_IN_SECONDS = 60;
+  private final long HOUR_IN_SECONDS = MINUTE_IN_SECONDS * 60;
+  private final long DAY_IN_SECONDS = HOUR_IN_SECONDS * 24;
+  private final long FIVE_DAYS_IN_SECONDS = DAY_IN_SECONDS * 5;
+
+  // cached values
+  private PositionAndTime[] cachedTrack = new PositionAndTime[0];
+  private AtomicLong counter = new AtomicLong(0);
+
   private TLE cachedTLE;
   private Instant lastTLEUpdate;
-
+  //
+  @PostConstruct
   private void start()
   {
-    inputHandler.start();
+    System.out.println("----------------------------- STARTUP --------------------------------");
+    //inputHandler.start();
   }
 
   private class Parameter
@@ -101,9 +130,14 @@ public class CameraAcquisitorGround
 
   GeodeticPoint esoc = new GeodeticPoint(49.869987, 8.622770, 0);
 
-  public CameraAcquisitorGround(URI DIRECTORY_URI) throws MALException, MalformedURLException,
-      MALInteractionException, Exception
+  public CameraAcquisitorGround(ApplicationArguments args)
   {
+
+    System.out.println("------------------------- parsing arguments --------------------------");
+
+    URI directoryURI = new URI(args.getSourceArgs()[0]);
+    System.out.println("directoryURI = " + directoryURI);
+
     System.out.println("--------------------------- initialisation ----------------------------");
     this.lastTLEUpdate = Instant.MIN;
 
@@ -111,42 +145,47 @@ public class CameraAcquisitorGround
     DataProvidersManager manager = DataProvidersManager.getInstance();
     manager.addProvider(OrekitResources.getOrekitData());
 
-    ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
-        DIRECTORY_URI);
+    ProviderSummaryList providers;
+    try {
+      providers =
+          GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+              directoryURI);
 
-    // Connect to provider on index 0
-    GroundMOAdapterImpl gmaTMP = null;
-    boolean providerFound = false;
-    for (ProviderSummary provider : providers) {
-      if (provider.getProviderName().getValue().equals("App: camera-acquisitor-system")) {
-        gmaTMP = new GroundMOAdapterImpl(provider);
-        providerFound = true;
-        break;
+      // Connect to provider on index 0
+      GroundMOAdapterImpl gmaTMP = null;
+      boolean providerFound = false;
+      for (ProviderSummary provider : providers) {
+        if (provider.getProviderName().getValue().equals("App: camera-acquisitor-system")) {
+          gmaTMP = new GroundMOAdapterImpl(provider);
+          providerFound = true;
+          break;
+        }
       }
+
+      gma = gmaTMP;
+      gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
+
+      Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
+          "ActivityTrackingListener",
+          ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
+      gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
+          new EventReceivedListenerAdapter());
+
+      setInitialParameters();
+
+      System.out.println("------------------------------------------------------------------------");
+
+    } catch (MALException ex) {
+      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (MalformedURLException ex) {
+      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (MALInteractionException ex) {
+      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
     }
-    if (gmaTMP == null) {
-      throw new Exception("Could't find camara-acquisitor-system provider");
-    }
-
-    gma = gmaTMP;
-    gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
-
-    Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
-        "ActivityTrackingListener",
-        ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
-    gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
-        new EventReceivedListenerAdapter());
-
-    setInitialParameters();
 
     inputHandler = new TerminalInputHandler();
 
     orbitHandler = new OrbitHandler(getTLE());
-    System.out.println("------------------------------------------------------------------------");
-
-    System.out.println("Sending Command");
-    sendCommandShedulePhotograph(esoc.getLatitude(), esoc.getLongitude(), 15.,
-        OrbitHandler.TimeModeEnum.ANY);
   }
 
   public void sendCommandShedulePhotograph(double latitude, double longitude, double maxAngle,
@@ -178,7 +217,7 @@ public class CameraAcquisitorGround
     long shiftTime = (long) (60 * 60 * 1.57) * 4; // aproximatly one orbit
 
     PositionAndTime[] series =
-        orbitHandler.getPositionSeries(now, now.shiftedBy(shiftTime), 10);
+        orbitHandler.getGroundTrack(now, now.shiftedBy(shiftTime), 10);
     GeodeticPoint currentPos = orbitHandler.getPosition(now);
 
     // draw path segments
@@ -207,6 +246,26 @@ public class CameraAcquisitorGround
     }
   }
 
+  @GetMapping("/groundTrack")
+  public GroundTrack groundTrack(
+      @RequestParam(value = "duration", defaultValue = "" + FIVE_DAYS_IN_SECONDS) long duration,
+      @RequestParam(value = "stepsize", defaultValue = "60") long stepsize)
+  {
+    AbsoluteDate now = CameraAcquisitorSystemMCAdapter.getNow();
+    AbsoluteDate endDate = now.shiftedBy(duration);
+
+    //cache for one hour.
+    if (cachedTrack.length > 1
+        && (now.durationFrom(cachedTrack[0].orekitDate) < HOUR_IN_SECONDS
+        || endDate.durationFrom(cachedTrack[cachedTrack.length - 1].orekitDate) < HOUR_IN_SECONDS)) {
+      return new GroundTrack(counter.incrementAndGet(), cachedTrack);
+    }
+
+    PositionAndTime[] track = orbitHandler.getGroundTrack(now, endDate, stepsize);
+    cachedTrack = track;
+    return new GroundTrack(counter.incrementAndGet(), track);
+  }
+
   private void drawSeries(PositionAndTime[] series, int height, int width, Graphics g)
   {
     PositionAndTime lastPoint = series[0];
@@ -224,10 +283,10 @@ public class CameraAcquisitorGround
       if (x2 <= x1) {
         g.drawLine(x1, y1, x2, y2);
       } else {// wrap around case
-        /*  double m = (double) (y2 - y1) / (double) ((x2 - width) - x1);
+        double m = (double) (y2 - y1) / (double) ((x2 - width) - x1);
         double b = (int) -((x1 * m) - y1);
         g.drawLine(x1, y1, 0, (int) b);//mx+b //x=0
-        g.drawLine(x2, y2, width, (int) (m * (width - x2) + b));// x = width*/
+        g.drawLine(x2, y2, width, (int) (m * (width - x2) + b));// x = width
       }
 
       lastPoint = point;
@@ -329,25 +388,5 @@ public class CameraAcquisitorGround
     gma.setParameter(Parameter.PICTURE_WIDTH, 2048);
     gma.setParameter(Parameter.PICTURE_HEIGHT, 1944);
     gma.setParameter(Parameter.PICTURE_TYPE, PictureFormat.PNG.getOrdinal());
-  }
-
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   * @throws java.lang.Exception If there is an error
-   */
-  public static void main(final String args[]) throws Exception
-  {
-
-    URI directoryURI;
-    if (args.length == 0 || args[0].equals("")) {
-      System.err.println("NO URI! Please give an URI as first parameter.");
-      return;
-    } else {
-      directoryURI = new URI(args[0]);
-    }
-    CameraAcquisitorGround demo = new CameraAcquisitorGround(directoryURI);
-    demo.start();
   }
 }
