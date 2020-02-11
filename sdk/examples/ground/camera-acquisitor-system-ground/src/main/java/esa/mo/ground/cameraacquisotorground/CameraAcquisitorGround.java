@@ -24,6 +24,7 @@ import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.ground.restservice.GroundTrack;
+import esa.mo.ground.restservice.Pass;
 import esa.mo.ground.restservice.PositionAndTime;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.apps.CameraAcquisitorSystemCameraTargetHandler;
@@ -45,6 +46,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,6 +72,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -90,13 +93,25 @@ public class CameraAcquisitorGround
 
   private GroundMOAdapterImpl gma;
   private final TerminalInputHandler inputHandler;
-  private OrbitHandler orbitHandler;
+  private final OrbitHandler orbitHandler;
 
 
   private final long MINUTE_IN_SECONDS = 60;
   private final long HOUR_IN_SECONDS = MINUTE_IN_SECONDS * 60;
   private final long DAY_IN_SECONDS = HOUR_IN_SECONDS * 24;
   private final long FIVE_DAYS_IN_SECONDS = DAY_IN_SECONDS * 5;
+  private final long YEAR_IN_SECONDS = DAY_IN_SECONDS * 356;
+
+  private final long DEFAULT_WORST_CASE_ROTATION_TIME_MS = 20000;
+  private final long DEFAULT_WORST_CASE_ROTATION_TIME_SEC =
+      DEFAULT_WORST_CASE_ROTATION_TIME_MS / 1000;
+
+  private final long MAX_SIM_RANGE = YEAR_IN_SECONDS;
+  private final long DEFAULT_GROUND_TRACK_DURATION = FIVE_DAYS_IN_SECONDS;
+  private final long DEFAULT_STEPSIZE = MINUTE_IN_SECONDS;
+  private final double DEFAULT_MAX_ANGLE = 45.0;
+
+  private TreeSet<AbsoluteDate> schedule = new TreeSet<>();
 
   // cached values
   private PositionAndTime[] cachedTrack = new PositionAndTime[0];
@@ -246,10 +261,58 @@ public class CameraAcquisitorGround
     }
   }
 
+  @PostMapping("/schedulePhotographPosition")
+  public boolean schedulePhotographPosition(
+      @RequestParam(value = "longitude") double longitude,
+      @RequestParam(value = "latitude") double latitude,
+      @RequestParam(value = "timeStemp") String timeStemp)
+  {
+    Union[] parameters =
+        new Union[]{new Union(latitude), new Union(longitude), new Union(timeStemp)};
+
+    System.out.println(timeStemp);
+    AbsoluteDate scheduleDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
+    System.out.println(scheduleDate);
+    AbsoluteDate before = schedule.floor(scheduleDate);
+    AbsoluteDate after = schedule.ceiling(scheduleDate);
+
+    if ((before == null || scheduleDate.durationFrom(before) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC)
+        && (after == null || after.durationFrom(scheduleDate) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC)) {
+      try {
+        schedule.add(scheduleDate);
+
+        gma.invokeAction(
+            CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL,
+            parameters);
+        return true;
+      } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, e.getMessage());
+      }
+    }
+    return false;
+  }
+
+  @GetMapping("/photographTime")
+  public String getTimeOfPhotograph(
+      @RequestParam(value = "longitude") double longitude,
+      @RequestParam(value = "latitude") double latitude,
+      @RequestParam(value = "maxAngle", defaultValue = "" + DEFAULT_MAX_ANGLE) double maxAngle,
+      @RequestParam(value = "timeMode", defaultValue = "ANY") OrbitHandler.TimeModeEnum timeMode)
+  {
+    Pass pass = orbitHandler.getPassTime(
+        longitude, latitude,
+        maxAngle, timeMode,
+        CameraAcquisitorSystemMCAdapter.getNow(),
+        DEFAULT_WORST_CASE_ROTATION_TIME_SEC,
+        MAX_SIM_RANGE);
+
+    return pass.getResultTime();
+  }
+
   @GetMapping("/groundTrack")
   public GroundTrack groundTrack(
-      @RequestParam(value = "duration", defaultValue = "" + FIVE_DAYS_IN_SECONDS) long duration,
-      @RequestParam(value = "stepsize", defaultValue = "60") long stepsize)
+      @RequestParam(value = "duration", defaultValue = "" + DEFAULT_GROUND_TRACK_DURATION) long duration,
+      @RequestParam(value = "stepsize", defaultValue = "" + DEFAULT_STEPSIZE) long stepsize)
   {
     AbsoluteDate now = CameraAcquisitorSystemMCAdapter.getNow();
     AbsoluteDate endDate = now.shiftedBy(duration);
@@ -367,10 +430,9 @@ public class CameraAcquisitorGround
     @Override
     public void onDataReceived(EventCOMObject eventCOMObject)
     {
-      LOGGER.log(Level.INFO,
-          "event: {0}",
-          eventCOMObject.getBody()
-      );
+
+      LOGGER.log(Level.INFO, "event:\n{0}\n{1}\n{2}", new Object[]{eventCOMObject.getBody(),
+        eventCOMObject.getTimestamp(), eventCOMObject.getObjId()});
     }
   }
 
@@ -380,7 +442,7 @@ public class CameraAcquisitorGround
     gma.setParameter(Parameter.CUSTOM_EXPOSURE_TIME, 1.0f);
     gma.setParameter(Parameter.EXPOSURE_TYPE, 0);//CUSTOM = 0, AUTOMATIC = 1
     gma.setParameter(Parameter.MAX_RETRYS, 5);
-    gma.setParameter(Parameter.WORST_CASE_ROTATION_TIME_MS, 20000);
+    gma.setParameter(Parameter.WORST_CASE_ROTATION_TIME_MS, DEFAULT_WORST_CASE_ROTATION_TIME_MS);
 
     gma.setParameter(Parameter.GAIN_RED, 1.0f);
     gma.setParameter(Parameter.GAIN_GREEN, 1.0f);

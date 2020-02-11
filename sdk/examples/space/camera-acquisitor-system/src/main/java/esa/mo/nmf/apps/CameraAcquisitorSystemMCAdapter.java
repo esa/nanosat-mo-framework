@@ -85,7 +85,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   private float gainBlue = 1;
   private ExposureTypeModeEnum exposureType = ExposureTypeModeEnum.AUTOMATIC;
   private float exposureTime = 1.0f;
-  private long worstCaseRotationTimeMS = 1000000; //TODO add parameter
+  private long worstCaseRotationTimeMS = 1000000;
   private long attitudeSaftyMarginMS = 20000;//TODO add parameter
   private int maxRetrys = 10;//TODO add parameter
   private int pictureWidth = 2048;
@@ -295,7 +295,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
           result = true;
           break;
         case (WORST_CASE_ROTATION_TIME_MS):
-          worstCaseRotationTimeMS = (int) HelperAttributes.attribute2JavaType(
+          worstCaseRotationTimeMS = (long) HelperAttributes.attribute2JavaType(
               values.get(i).getRawValue());
           result = true;
           break;
@@ -342,9 +342,13 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
       case (CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION):
         return this.cameraTargetHandler.photographLocation(attributeValues, actionInstanceObjId,
             reportProgress, interaction);
+      case (CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL):
+        return this.cameraTargetHandler.photographLocationManual(attributeValues,
+            actionInstanceObjId, reportProgress, interaction);
       case (CameraAcquisitorSystemCameraHandler.ACTION_PHOTOGRAPH_NOW):
         return this.cameraHandler.photographNow(attributeValues, actionInstanceObjId,
             reportProgress, interaction);
+
     }
     return null;
   }
@@ -389,7 +393,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
     ParameterDefinitionDetails details_worstCaseRotationTimeMS = new ParameterDefinitionDetails(
         "The maximum time (in Milliseconds) the Satelite will take to rotated if its in the worst posible orientation",
-        Union.INTEGER_TYPE_SHORT_FORM.byteValue(), "", false,
+        Union.LONG_TYPE_SHORT_FORM.byteValue(), "", false,
         new Duration(0),
         null, null);
     defs.add(details_worstCaseRotationTimeMS);
