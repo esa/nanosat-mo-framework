@@ -28,10 +28,12 @@ import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -39,6 +41,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
@@ -47,6 +50,8 @@ import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
+import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
+import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 import org.orekit.bodies.GeodeticPoint;
 
 /**
@@ -65,16 +70,16 @@ public class CameraAcquisitorSystemCameraHandler
   // photographNow number of stages
   public static final int PHOTOGRAPH_NOW_STAGES = 2;
 
+  // stage numbers
+  private final int STAGE_RECIVED = 1;
+  private final int STAGE_FIN = 2;
+
   private final CameraAcquisitorSystemMCAdapter casMCAdapter;
 
   // Camera settings:
   private final int defaultPictureWidth = 2048;
   private final int defaultPictureHeight = 1944;
   public final PixelResolution defaultCameraResolution;
-  private final Duration DEFAULT_CAMERA_EXPOSURE_TIME = new Duration(1.1);
-  private final float GAIN_R = 1.0f;
-  private final float GAIN_G = 1.0f;
-  private final float GAIN_B = 1.0f;
 
   public CameraAcquisitorSystemCameraHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
   {
@@ -117,10 +122,37 @@ public class CameraAcquisitorSystemCameraHandler
   UInteger photographNow(AttributeValueList attributeValues, Long actionInstanceObjId,
       boolean reportProgress, MALInteraction interaction)
   {
+
+    class AdapterImpl extends GPSAdapter
+    {
+
+      @Override
+      public void getTLEResponseReceived(MALMessageHeader msgHeader, TwoLineElementSet tle,
+          Map qosProperties)
+      {
+        LOGGER.log(Level.INFO, "TLE: {0}", tle);
+      }
+
+      @Override
+      public void getTLEAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+          Map qosProperties)
+      {
+        LOGGER.log(Level.INFO, "TLE ERROR: {0}", error.toString());
+      }
+
+    }
+
+    try {
+      this.casMCAdapter.getConnector().getPlatformServices().getGPSService().getTLE(
+          new AdapterImpl());
+
+    } catch (Exception e) {
+      LOGGER.log(Level.SEVERE, "[TLE TEST]", e);
+    }
     try {
       takePhotograph(actionInstanceObjId, 0, PHOTOGRAPH_NOW_STAGES, "_INSTANT");
     } catch (MALInteractionException | MALException | IOException | NMFException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+      LOGGER.log(Level.SEVERE, "[take photograph now]", ex);
       return new UInteger(0);
     }
     return new UInteger(1);
@@ -136,10 +168,6 @@ public class CameraAcquisitorSystemCameraHandler
     private final int stageOffset;
     private final int totalStage;
 
-    private final int STAGE_ACK = 1;
-    private final int STAGE_RECIVED = 2;
-    private final int STAGE_FIN = 3;
-
     private final CameraAcquisitorSystemMCAdapter casMCAdapter;
     private final String fileName;
 
@@ -151,21 +179,6 @@ public class CameraAcquisitorSystemCameraHandler
       this.totalStage = totalStages + PHOTOGRAPH_NOW_STAGES;
       this.fileName = fileName;
       this.casMCAdapter = casMCAdapter;
-    }
-
-    @Override
-    public void takePictureAckReceived(
-        org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        java.util.Map qosProperties)
-    {
-      try {
-        this.casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
-            STAGE_ACK + stageOffset,
-            this.totalStage, this.actionInstanceObjId);
-      } catch (NMFException ex) {
-        Logger.getLogger(CameraAcquisitorSystemCameraHandler.class.getName()).log(Level.SEVERE, null,
-            ex);
-      }
     }
 
     @Override
@@ -256,7 +269,8 @@ public class CameraAcquisitorSystemCameraHandler
         java.util.Map qosProperties)
     {
       try {
-        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1, STAGE_ACK,
+        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1,
+            STAGE_RECIVED + this.stageOffset,
             this.totalStage, this.actionInstanceObjId);
         LOGGER.log(Level.WARNING,
             "takePicture ack error received {0}", error.toString());
@@ -274,7 +288,8 @@ public class CameraAcquisitorSystemCameraHandler
         java.util.Map qosProperties)
     {
       try {
-        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1, this.STAGE_RECIVED,
+        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1,
+            STAGE_RECIVED + this.stageOffset,
             this.totalStage, this.actionInstanceObjId);
         LOGGER.log(Level.WARNING,
             "takePicture response error received {0}", error.toString());
@@ -315,7 +330,7 @@ public class CameraAcquisitorSystemCameraHandler
     }
     PixelResolution resolution = new PixelResolution(
         new UInteger(casMCAdapter.getPictureWidth()),
-        new UInteger(casMCAdapter.getPictureWidth()));
+        new UInteger(casMCAdapter.getPictureHeight()));
 
     LOGGER.log(Level.INFO, "Taking Photograph");
     this.casMCAdapter.getConnector().getPlatformServices().getCameraService().takePicture(

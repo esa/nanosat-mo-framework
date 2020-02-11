@@ -62,7 +62,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
 {
 
   public static final String ACTION_PHOTOGRAPH_LOCATION = "photographLocation";
-  private static final int PHOTOGRAPH_LOCATION_STAGES = 6;
+  public static final int PHOTOGRAPH_LOCATION_STAGES = 6;
   private static final int STAGE_CALCULATE_CURRENT_ORBIT = 1;
   private static final int STAGE_PREDICT_PASS = 2;
   private static final int STAGE_WAIT_FOR_BEGIN_PASS = 3;
@@ -71,7 +71,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
   private static final int STAGE_TAKE_PHOTOGRAPH = 6;
 
   public static final String ACTION_PHOTOGRAPH_LOCATION_MANUAL = "photographLocationManual";
-  private static final int PHOTOGRAPH_LOCATION_MANUAL_STAGES =
+  public static final int PHOTOGRAPH_LOCATION_MANUAL_STAGES =
       3 + CameraAcquisitorSystemCameraHandler.PHOTOGRAPH_NOW_STAGES;
   private static final int STAGE_MANUAL_WAIT_FOR_PASS = 1;
   private static final int STAGE_MANUAL_ATTITUDE_CORECTION = 2;
@@ -198,6 +198,16 @@ public class CameraAcquisitorSystemCameraTargetHandler
       @Override
       public void run()
       {
+        try {
+          casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
+              STAGE_MANUAL_WAIT_FOR_PASS,
+              PHOTOGRAPH_LOCATION_MANUAL_STAGES,
+              actionInstanceObjId);
+        } catch (NMFException ex) {
+          Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+              Level.SEVERE,
+              null, ex);
+        }
 
         Duration timeTillPhotograph = new Duration(
             targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()));
@@ -230,6 +240,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
           double fractSeconds = timeTillPhotograph.getValue();
           long seconds = (long) fractSeconds;
           long milliSeconds = (long) ((fractSeconds - seconds) * 1000);
+
           TimeUnit.SECONDS.sleep(seconds);
           TimeUnit.MILLISECONDS.sleep(milliSeconds);
         } catch (InterruptedException ex) {
@@ -248,7 +259,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
           // trigger photograph
           LOGGER.log(Level.INFO, "Taking Photograph now");
           casMCAdapter.getCameraHandler().takePhotograph(actionInstanceObjId,
-              PHOTOGRAPH_LOCATION_MANUAL_STAGES, PHOTOGRAPH_LOCATION_MANUAL_STAGES, "");
+              STAGE_MANUAL_WAIT_FOR_OPTIMAL_PASS, PHOTOGRAPH_LOCATION_MANUAL_STAGES, "");
 
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
           Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
@@ -262,17 +273,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
         task,
         ((long) seconds) * 1000 - this.casMCAdapter.getWorstCaseRotationTimeMS() //conversion to milliseconds
     );
-
-    try {
-      LOGGER.log(Level.INFO, "Starting Timer for Photograph");
-      this.casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
-          STAGE_MANUAL_WAIT_FOR_PASS,
-          PHOTOGRAPH_LOCATION_MANUAL_STAGES,
-          actionInstanceObjId);
-    } catch (NMFException ex) {
-      Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(Level.SEVERE,
-          null, ex);
-    }
+    LOGGER.log(Level.INFO, "Starting Timer for Photograph, Number of Seconds: {0}", seconds);
 
     return new UInteger(0);
   }

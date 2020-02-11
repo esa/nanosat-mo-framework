@@ -32,23 +32,16 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
-import org.hipparchus.geometry.euclidean.threed.Vector3D;
+import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.orekit.bodies.GeodeticPoint;
-import org.orekit.orbits.KeplerianOrbit;
-import org.orekit.orbits.Orbit;
-import org.orekit.orbits.OrbitType;
-import org.orekit.orbits.PositionAngle;
 import org.orekit.propagation.analytical.tle.TLE;
-import org.orekit.time.AbsoluteDate;
-import org.orekit.utils.Constants;
-import org.orekit.utils.PVCoordinates;
 
 /**
  * Class handling communication with the navigation system (GPS)
  *
  * @author Kevin Otto <Kevin@KevinOtto.de>
  */
-public class CameraAcquisitorSystemGPSHandler
+public class CameraAcquisitorSystemGPSHandler extends GPSAdapter
 {
 
   private static final Logger LOGGER = Logger.getLogger(
@@ -76,9 +69,8 @@ public class CameraAcquisitorSystemGPSHandler
   {
     GetLastKnownPositionResponse pos;
     try {
+      casMCAdapter.getConnector().getPlatformServices().getGPSService().getPosition(this);//todo make more elegant
       pos = casMCAdapter.getConnector().getPlatformServices().getGPSService().getLastKnownPosition();
-
-      //Vector3D velocity = new Vector3D(0, 0, 0); TODO
       //get geographical position
       float latitude = pos.getBodyElement0().getLatitude();
       float longitude = pos.getBodyElement0().getLongitude();
