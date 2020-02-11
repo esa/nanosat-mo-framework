@@ -195,9 +195,15 @@ public class CameraAcquisitorSystemCameraHandler
       Format format = new SimpleDateFormat("yyyyMMdd_HHmmss_");
       final String timeNow = format.format(date);
 
-      GeodeticPoint position = this.casMCAdapter.getGpsHandler().getCurrentPosition();
-      String posString = String.valueOf(position.getLatitude()) + "-" + String.valueOf(
-          position.getLongitude());
+      String posString = "NO_POSITION";
+      try {
+        GeodeticPoint position = this.casMCAdapter.getGpsHandler().getCurrentPosition();
+
+        posString = String.valueOf(position.getLatitude()) + "_" + String.valueOf(
+            position.getLongitude());
+      } catch (Exception ex) {
+        LOGGER.log(Level.SEVERE, "getCurrentPosition Failed!/n{0}", ex);
+      }
 
       // create filename
       final String filenamePrefix =
@@ -228,7 +234,7 @@ public class CameraAcquisitorSystemCameraHandler
         }
         LOGGER.log(Level.INFO, "Photograph was taken at {0}", posString);
       } catch (IOException | MALException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
+        LOGGER.log(Level.SEVERE, "Saving of Photograph Failed!/n{0}", ex);
       }
 
       // report action progress
