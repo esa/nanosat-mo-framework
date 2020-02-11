@@ -45,7 +45,9 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
@@ -53,6 +55,8 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
+import org.ccsds.moims.mo.com.activitytracking.structures.ActivityAcceptance;
+import org.ccsds.moims.mo.com.activitytracking.structures.ActivityExecution;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
@@ -60,6 +64,9 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mc.alert.structures.AlertEventDetails;
+import org.ccsds.moims.mo.mc.structures.AttributeValue;
+import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.data.DataProvidersManager;
@@ -111,7 +118,8 @@ public class CameraAcquisitorGround
   private final long DEFAULT_STEPSIZE = MINUTE_IN_SECONDS;
   private final double DEFAULT_MAX_ANGLE = 45.0;
 
-  private TreeSet<AbsoluteDate> schedule = new TreeSet<>();
+  private final TreeSet<AbsoluteDate> schedule = new TreeSet<>();
+  private final HashMap<Long, ActionReport[]> activeActions = new HashMap<>();
 
   // cached values
   private PositionAndTime[] cachedTrack = new PositionAndTime[0];
@@ -141,6 +149,31 @@ public class CameraAcquisitorGround
     private static final String PICTURE_WIDTH = "PictureWidth";
     private static final String PICTURE_HEIGHT = "PictureHeight";
     private static final String PICTURE_TYPE = "PictureType";
+  }
+
+  /**
+   * Inner class for storing action progress
+   */
+  private class ActionReport
+  {
+
+    public int stage;
+    public boolean success;
+    public String error;
+
+    public ActionReport(int stage, boolean success, String error)
+    {
+      this.stage = stage;
+      this.success = success;
+      this.error = error;
+    }
+
+    @Override
+    public String toString()
+    {
+      return "Stage: " + stage + ", success: " + success + (success ? "" : ", ERROR: " + error);
+    }
+
   }
 
   GeodeticPoint esoc = new GeodeticPoint(49.869987, 8.622770, 0);
@@ -178,7 +211,7 @@ public class CameraAcquisitorGround
       }
 
       gma = gmaTMP;
-      gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
+      //gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
 
       Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
           "ActivityTrackingListener",
@@ -203,14 +236,28 @@ public class CameraAcquisitorGround
     orbitHandler = new OrbitHandler(getTLE());
   }
 
-  public void sendCommandShedulePhotograph(double latitude, double longitude, double maxAngle,
+  public boolean sendCommandShedulePhotograph(double latitude, double longitude, double maxAngle,
       OrbitHandler.TimeModeEnum timeMode)
   {
     Union[] parameters = new Union[]{new Union(latitude), new Union(longitude), new Union(maxAngle),
       new Union(timeMode.ordinal())};
 
-    gma.invokeAction(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION,
-        parameters);
+    // synchronized to prevent reciving first reply of action before it was added to list
+    synchronized (activeActions) {
+      Long actionID = gma.invokeAction(
+          CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION,
+          parameters);
+
+      if (actionID == null) {
+        LOGGER.log(Level.SEVERE, "Action ID == null!");
+        return false;
+      } else {
+        LOGGER.log(Level.INFO, "new Action: {0}", actionID);
+        activeActions.put(actionID,
+            new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_MANUAL_STAGES]);
+        return true;
+      }
+    }
   }
 
   private void drawOrbit()
@@ -261,8 +308,14 @@ public class CameraAcquisitorGround
     }
   }
 
+  @GetMapping("/getActionStatus")
+  public ActionReport[] getActionStatus(long actionID)
+  {
+    return activeActions.get(actionID);
+  }
+
   @PostMapping("/schedulePhotographPosition")
-  public boolean schedulePhotographPosition(
+  public Long schedulePhotographPosition(
       @RequestParam(value = "longitude") double longitude,
       @RequestParam(value = "latitude") double latitude,
       @RequestParam(value = "timeStemp") String timeStemp)
@@ -281,15 +334,24 @@ public class CameraAcquisitorGround
       try {
         schedule.add(scheduleDate);
 
-        gma.invokeAction(
+        Long actionID = gma.invokeAction(
             CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL,
             parameters);
-        return true;
+
+        if (actionID == null) {
+          LOGGER.log(Level.SEVERE, "Action ID == null!");
+        } else {
+          LOGGER.log(Level.INFO, "new Action: {0}", actionID);
+          activeActions.put(actionID,
+              new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_MANUAL_STAGES]);
+        }
+        return actionID;
+
       } catch (Exception e) {
         LOGGER.log(Level.SEVERE, e.getMessage());
       }
     }
-    return false;
+    return null;
   }
 
   @GetMapping("/photographTime")
@@ -415,15 +477,19 @@ public class CameraAcquisitorGround
     public void onDataReceived(ParameterInstance parameterInstance)
     {
       LOGGER.log(Level.INFO,
-          "\nParameter name: {0}" + "\n" + "Parameter Value: {1}",
+          "\nParameter name: {0}" + "\nParameter Value: {1}" + "\n Instance ID: {2}",
           new Object[]{
             parameterInstance.getName(),
-            parameterInstance.getParameterValue().toString()
+            parameterInstance.getParameterValue().toString(),
+            parameterInstance.getSource().getKey().getInstId()
           }
       );
     }
   }
 
+  /**
+   * class for handling the receiving of messages from the space Application
+   */
   private class EventReceivedListenerAdapter extends EventReceivedListener
   {
 
@@ -431,8 +497,63 @@ public class CameraAcquisitorGround
     public void onDataReceived(EventCOMObject eventCOMObject)
     {
 
-      LOGGER.log(Level.INFO, "event:\n{0}\n{1}\n{2}", new Object[]{eventCOMObject.getBody(),
-        eventCOMObject.getTimestamp(), eventCOMObject.getObjId()});
+      if (eventCOMObject.getBody() == null) {
+        return;
+      }
+
+      long actionID = eventCOMObject.getSource().getKey().getInstId();
+
+      int type = (int) eventCOMObject.getBody().getTypeShortForm();
+      if (type == ActivityAcceptance.TYPE_SHORT_FORM) {
+        System.out.println("ActivityAcceptance");
+        ActivityAcceptance event = (ActivityAcceptance) eventCOMObject.getBody();
+      } else if (type == ActivityExecution.TYPE_SHORT_FORM) {
+        System.out.println("ActivityExecution");
+        ActivityExecution event = (ActivityExecution) eventCOMObject.getBody();
+        int newState = (int) event.getExecutionStage().getValue();
+        int stageCount = (int) event.getExecutionStage().getValue();
+        boolean success = event.getSuccess();
+
+        // update status of action
+        if (activeActions.containsKey(actionID)) {
+          synchronized (activeActions) {
+            System.out.println("fill array");
+            // minus 2 because stage count starts at 1 and an extra stage (for message recived) is added by the Framework
+            activeActions.get(actionID)[stageCount - 2] = new ActionReport(stageCount - 1, success,
+                "");
+          }
+          LOGGER.log(Level.INFO, "action state: {0}", Arrays.toString(activeActions.get(actionID)));
+
+        }
+
+        if (success) {
+          LOGGER.log(Level.INFO, "Action Update: ID={0}, State={1}",
+              new Object[]{actionID, newState});
+        } else {
+          LOGGER.log(Level.WARNING, "Action Unseccessfull: ID={0}, State={1}",
+              new Object[]{actionID, newState});
+        }
+      } else if (type == AlertEventDetails.TYPE_SHORT_FORM) {
+        System.out.println("AlertEventDetails");
+        AlertEventDetails event = (AlertEventDetails) eventCOMObject.getBody();
+
+        AttributeValueList attValues = event.getArgumentValues();
+
+        String messageToDisplay = "ID: " + actionID + " ";
+
+        if (attValues != null) {
+          if (attValues.size() == 1) {
+            messageToDisplay += attValues.get(0).getValue().toString();
+          }
+          if (attValues.size() > 1) {
+            for (int i = 0; i < attValues.size(); i++) {
+              AttributeValue attValue = attValues.get(i);
+              messageToDisplay += "[" + i + "] " + attValue.getValue().toString() + "\n";
+            }
+          }
+        }
+        LOGGER.log(Level.WARNING, messageToDisplay);
+      }
     }
   }
 

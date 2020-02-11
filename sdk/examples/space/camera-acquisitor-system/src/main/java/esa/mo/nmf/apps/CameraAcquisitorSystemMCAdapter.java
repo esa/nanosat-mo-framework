@@ -80,9 +80,9 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     CUSTOM, AUTOMATIC // maybe add hdr?
   }
 
-  private float gainRed = 1;
-  private float gainGreen = 1;
-  private float gainBlue = 1;
+  private float gainRed = 1.0f;
+  private float gainGreen = 1.0f;
+  private float gainBlue = 1.0f;
   private ExposureTypeModeEnum exposureType = ExposureTypeModeEnum.AUTOMATIC;
   private float exposureTime = 1.0f;
   private long worstCaseRotationTimeMS = 1000000;
@@ -90,7 +90,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   private int maxRetrys = 10;//TODO add parameter
   private int pictureWidth = 2048;
   private int pictureHeight = 1944;
-  private PictureFormat pictureType = PictureFormat.PNG;
+  private PictureFormat pictureType = PictureFormat.JPG;
 
   // --------------- parameter strings ------------------
   private static final String GAIN_RED = "GainRed";
@@ -348,9 +348,10 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
       case (CameraAcquisitorSystemCameraHandler.ACTION_PHOTOGRAPH_NOW):
         return this.cameraHandler.photographNow(attributeValues, actionInstanceObjId,
             reportProgress, interaction);
-
+      default:
+        return new UInteger(0);
     }
-    return null;
+
   }
 
   private void registerParameters(MCRegistration registration)
