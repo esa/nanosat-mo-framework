@@ -29,6 +29,7 @@ import esa.mo.com.impl.util.Quota;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.Const;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -447,7 +448,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
               Level.INFO, "Stage 3: The objects were all successfully flushed! "
               + numberOfChunks + " chunks in total!");
           boolean purge = Boolean.valueOf(System.getProperty(
-              "esa.mo.nanosatmoframework.purgearchive"));
+              Const.ARCHIVESYNC_PURGE_ARCHIVE_PROPERTY, Const.ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT));
           if (purge) { // This block cleans up the archive after sync if the option is enabled
             ArchiveQueryList aql = new ArchiveQueryList();
             aql.add(new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null,

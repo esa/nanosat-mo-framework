@@ -29,6 +29,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
@@ -143,7 +144,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // nothing to be done..
       }
     }
-    int kbyte = Integer.valueOf(System.getProperty("esa.mo.nanosatmoframework.stdlimit"));
+    int kbyte = Integer.valueOf(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,
+        Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
     stdLimit = kbyte * 1024; // init limit with value of property
     publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
         ConfigurationProviderSingleton.getNetwork(),
@@ -220,7 +222,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         int end = Math.min(length, i + MAX_SEGMENT_SIZE);
         String segment = outputText.substring(i, end);
         outputList.add(segment);
-        if (Boolean.valueOf(System.getProperty("esa.mo.nanosatmoframework.storestd"))) {
+        if (Boolean.valueOf(System.getProperty(Const.APPSLAUNCHER_STD_STORE_PROPERTY,
+            Const.APPSLAUNCHER_STD_STORE_DEFAULT))) {
           // Store in COM archive if the option is enabled and below limit
           int currentStd = stdPerApp.retrieve(appObjId);
           if (currentStd + segment.length() <= stdLimit) {
