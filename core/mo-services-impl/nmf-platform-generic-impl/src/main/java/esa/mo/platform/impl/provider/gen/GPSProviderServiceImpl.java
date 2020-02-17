@@ -20,13 +20,22 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
+import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
+import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.TaskScheduler;
+import esa.mo.platform.impl.util.HelperGPS;
+import esa.mo.platform.impl.util.PositionsCalculator;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -62,33 +71,23 @@ import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
+import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionAndVelocityResponse;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.gps.provider.GetBestXYZSentenceInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.GetNMEASentenceInteraction;
+import org.ccsds.moims.mo.platform.gps.provider.GetPositionAndVelocityInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.GetPositionInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.GetSatellitesInfoInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.GetTIMEASentenceInteraction;
+import org.ccsds.moims.mo.platform.gps.provider.GetTLEInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.NearbyPositionPublisher;
 import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinition;
 import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.PositionList;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
-
-import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.helpertools.misc.TaskScheduler;
-import esa.mo.platform.impl.util.HelperGPS;
-import esa.mo.platform.impl.util.PositionsCalculator;
-import esa.mo.reconfigurable.service.ConfigurationChangeListener;
-import esa.mo.reconfigurable.service.ReconfigurableService;
-import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionAndVelocityResponse;
-import org.ccsds.moims.mo.platform.gps.provider.GetPositionAndVelocityInteraction;
-import org.ccsds.moims.mo.platform.gps.provider.GetTLEInteraction;
+import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 import org.ccsds.moims.mo.platform.structures.VectorD3D;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
@@ -523,7 +522,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   @Override
   public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException
   {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    if (!adapter.isUnitAvailable()) { // Is the unit available?
+      throw new MALInteractionException(
+          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+    interaction.sendAcknowledgement();
+    TwoLineElementSet tle = adapter.getTLE();
+    interaction.sendResponse(tle);
   }
 
   public static final class PublishInteractionListener implements MALPublishInteractionListener

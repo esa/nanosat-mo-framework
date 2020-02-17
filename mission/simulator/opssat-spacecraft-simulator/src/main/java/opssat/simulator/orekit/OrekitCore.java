@@ -38,13 +38,13 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import opssat.simulator.threading.SimulatorNode;
+import opssat.simulator.util.SimulatorHeader;
+import org.hipparchus.geometry.euclidean.threed.Rotation;
+import org.hipparchus.geometry.euclidean.threed.RotationConvention;
+import org.hipparchus.geometry.euclidean.threed.RotationOrder;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
-/*import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math3.geometry.euclidean.threed.RotationConvention;
-import org.apache.commons.math3.geometry.euclidean.threed.RotationOrder;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.util.FastMath;*/
+import org.hipparchus.util.FastMath;
 import org.orekit.attitudes.Attitude;
 import org.orekit.attitudes.AttitudeProvider;
 import org.orekit.attitudes.AttitudesSequence;
@@ -70,6 +70,7 @@ import org.orekit.models.earth.GeoMagneticField;
 import org.orekit.models.earth.GeoMagneticFieldFactory;
 import org.orekit.orbits.KeplerianOrbit;
 import org.orekit.orbits.Orbit;
+import org.orekit.orbits.OrbitType;
 import org.orekit.orbits.PositionAngle;
 import org.orekit.propagation.AbstractPropagator;
 import org.orekit.propagation.SpacecraftState;
@@ -83,14 +84,6 @@ import org.orekit.utils.AngularDerivativesFilter;
 import org.orekit.utils.Constants;
 import org.orekit.utils.IERSConventions;
 import org.orekit.utils.PVCoordinatesProvider;
-
-import opssat.simulator.threading.SimulatorNode;
-import opssat.simulator.util.SimulatorHeader;
-import org.hipparchus.geometry.euclidean.threed.Rotation;
-import org.hipparchus.geometry.euclidean.threed.RotationConvention;
-import org.hipparchus.geometry.euclidean.threed.RotationOrder;
-import org.hipparchus.util.FastMath;
-import org.orekit.orbits.OrbitType;
 
 /**
  *
@@ -1282,13 +1275,10 @@ public class OrekitCore
    */
   public TLE getTLE()
   {
-    System.out.println("getTLE!");
 
     if (this.runningPropagator instanceof TLEPropagator) {
-      System.out.println("TLEPropagator");
       return ((TLEPropagator) this.runningPropagator).getTLE();
     } else { // in case we are using the keplerian propagator, the TLE can not be reconstructed completle!
-      System.out.println("KeplerianPropagator");
       this.logger.log(Level.WARNING,
           "Using getTLE() with any other than the TLEPropagator results in incomplete and inaccurate TLE Messages!"
           + "\n"

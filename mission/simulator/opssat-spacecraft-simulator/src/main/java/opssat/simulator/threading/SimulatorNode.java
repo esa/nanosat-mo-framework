@@ -65,10 +65,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
-
-import org.orekit.bodies.GeodeticPoint;
-import org.orekit.errors.OrekitException;
-
 import opssat.simulator.GPS;
 import opssat.simulator.Orbit;
 import opssat.simulator.celestia.CelestiaData;
@@ -104,6 +100,8 @@ import opssat.simulator.util.SimulatorSpacecraftState;
 import opssat.simulator.util.SimulatorTimer;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import static org.hipparchus.util.FastMath.toDegrees;
+import org.orekit.bodies.GeodeticPoint;
+import org.orekit.errors.OrekitException;
 import org.orekit.propagation.analytical.tle.TLE;
 
 /**
@@ -176,6 +174,11 @@ public class SimulatorNode extends TaskNode
       + File.separator;
   private final static String OPS_SAT_SIMULATOR_RESOURCES = OPS_SAT_SIMULATOR_DATA + "resources"
       + File.separator;
+
+  private final static String OPSSAT_TLE_LINE1 =
+      "1 44878U 19092F   20159.72929773  .00000725  00000-0  41750-4 0  9990";
+  private final static String OPSSAT_TLE_LINE2 =
+      "2 44878  97.4685 343.1680 0015119  36.0805 324.1445 15.15469997 26069";
 
   // Platform sim properties
   private Properties platformProperties;
@@ -291,8 +294,13 @@ public class SimulatorNode extends TaskNode
    */
   public TLE getTLE()
   {
-    return this.orekitCore.getTLE();
-
+    if (this.simulatorHeader.isUseOrekitPropagator()) {
+      return this.orekitCore.getTLE();
+    } else {
+      Logger.getLogger(SimulatorNode.class.getCanonicalName()).log(Level.WARNING,
+          "TLE only awailable in Simulator, wenn Using Orekit propagator!");
+      return new TLE(OPSSAT_TLE_LINE1, OPSSAT_TLE_LINE2);
+    }
   }
 
   public enum DevDatPBind
