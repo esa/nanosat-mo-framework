@@ -65,10 +65,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
-
-import org.orekit.bodies.GeodeticPoint;
-import org.orekit.errors.OrekitException;
-
 import opssat.simulator.GPS;
 import opssat.simulator.Orbit;
 import opssat.simulator.celestia.CelestiaData;
@@ -104,7 +100,10 @@ import opssat.simulator.util.SimulatorSpacecraftState;
 import opssat.simulator.util.SimulatorTimer;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import static org.hipparchus.util.FastMath.toDegrees;
+import org.orekit.bodies.GeodeticPoint;
+import org.orekit.errors.OrekitException;
 import org.orekit.propagation.analytical.tle.TLE;
+import org.orekit.time.AbsoluteDate;
 
 /**
  *
@@ -291,8 +290,31 @@ public class SimulatorNode extends TaskNode
    */
   public TLE getTLE()
   {
-    return this.orekitCore.getTLE();
-
+    if (this.simulatorHeader.isUseOrekitPropagator()) {
+      return this.orekitCore.getTLE();
+    } else {
+      Logger.getLogger(SimulatorNode.class.getCanonicalName()).log(Level.WARNING,
+          "TLE only awailable in Simulator, wenn Using Orekit propagator!");
+      return new TLE(
+          0,
+          'U',
+          0,
+          0,
+          "N",
+          0,
+          0,
+          new AbsoluteDate(),
+          0.0,// keplerian motion
+          0.0,// mean motion D1
+          0.0,// mean motion D2
+          0.0,// E
+          0.0,// I
+          0.0,// perigee argument
+          0.0,// right ascension of ascending node
+          0.0,//mean anomaly
+          0, // revolutions
+          0); // bStart / drag coeficient
+    }
   }
 
   public enum DevDatPBind
