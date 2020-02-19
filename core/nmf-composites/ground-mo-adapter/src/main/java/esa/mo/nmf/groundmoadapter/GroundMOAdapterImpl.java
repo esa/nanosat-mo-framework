@@ -22,6 +22,7 @@ package esa.mo.nmf.groundmoadapter;
 
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.com.impl.util.ObjectInstanceIdGenerator;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperAttributes;
@@ -343,7 +344,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
   }
 
   @Override
-  public void invokeAction(final String actionName, final Serializable[] objects)
+  public Long invokeAction(final String actionName, final Serializable[] objects)
   {
     IdentifierList actionNames = new IdentifierList(1);
     actionNames.add(new Identifier(actionName));
@@ -355,7 +356,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
       ObjectInstancePairList objIds = actionService.listDefinition(actionNames);
 
       if (objIds == null) {
-        return;  // something went wrong...
+        return null;  // something went wrong...
       }
 
       ObjectInstancePair objId = objIds.get(0);
@@ -386,7 +387,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
               argDef.setRawType(HelperAttributes.SERIAL_OBJECT_RAW_TYPE);
             } catch (IOException ex) {
               LOGGER.log(Level.SEVERE, null, ex);
-              return;
+              return null;
             }
           }
           argDef.setRawUnit(null);
@@ -435,7 +436,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             argValue.setValue(rawValue);
           } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return;
+            return null;
           }
         }
         argValues.add(argValue);
@@ -445,19 +446,19 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
       action.setArgumentIds(null);
       action.setIsRawValue(null);
 
-      // Continues here...
-      ParameterRawValueList raws = new ParameterRawValueList();
-
       // Use action service to submit the action
-      actionService.submitAction(objId.getObjIdentityInstanceId(), action);
+      long actionID = ObjectInstanceIdGenerator.getInstance().generateObjectInstanceId();
 
-      // Todo: This will not work because we need to do the trick of the actions...
+      actionService.submitAction(actionID, action);
+
+      return actionID;
+
     } catch (MALInteractionException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     } catch (MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
-
+    return null;
   }
 
   /**
@@ -552,8 +553,8 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
     IdentifierList argumentIds = null;
 
     try {
-      ActionInstanceDetails instanceDetails
-          = new ActionInstanceDetails(
+      ActionInstanceDetails instanceDetails =
+          new ActionInstanceDetails(
               defInstId,
               stageStartedRequired,
               stageProgressRequired,
@@ -566,11 +567,11 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
       // object instance identifier to use during the submit
       Long related = defInstId;
       ObjectId source = null; // TBD - should be the OperationActivity object
-      SingleConnectionDetails actionConnection
-          = super.getMCServices().getActionService().getConnectionDetails();
+      SingleConnectionDetails actionConnection =
+          super.getMCServices().getActionService().getConnectionDetails();
 
-      ArchiveDetailsList archiveDetailsListActionInstance
-          = HelperArchive.generateArchiveDetailsList(
+      ArchiveDetailsList archiveDetailsListActionInstance =
+          HelperArchive.generateArchiveDetailsList(
               related,
               source,
               actionConnection.getProviderURI());
@@ -579,8 +580,8 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
       ActionInstanceDetailsList instanceDetailsList = new ActionInstanceDetailsList();
       instanceDetailsList.add(instanceDetails);
 
-      LongList objIdActionInstances
-          = super.getCOMServices().getArchiveService().getArchiveStub().store(
+      LongList objIdActionInstances =
+          super.getCOMServices().getArchiveService().getArchiveStub().store(
               returnObjInstIds,
               ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
               actionConnection.getDomain(),
