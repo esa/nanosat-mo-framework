@@ -114,7 +114,7 @@ public class CameraAcquisitorGround
       DEFAULT_WORST_CASE_ROTATION_TIME_MS / 1000;
 
   private final long MAX_SIM_RANGE = YEAR_IN_SECONDS;
-  private final long DEFAULT_GROUND_TRACK_DURATION = FIVE_DAYS_IN_SECONDS;
+  private final long DEFAULT_GROUND_TRACK_DURATION = DAY_IN_SECONDS;
   private final long DEFAULT_STEPSIZE = MINUTE_IN_SECONDS;
   private final double DEFAULT_MAX_ANGLE = 45.0;
 
@@ -309,7 +309,7 @@ public class CameraAcquisitorGround
   }
 
   @GetMapping("/getActionStatus")
-  public ActionReport[] getActionStatus(long actionID)
+  public ActionReport[] getActionStatus(@RequestParam(value = "actionID") long actionID)
   {
     return activeActions.get(actionID);
   }
@@ -326,11 +326,8 @@ public class CameraAcquisitorGround
     System.out.println(timeStemp);
     AbsoluteDate scheduleDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
     System.out.println(scheduleDate);
-    AbsoluteDate before = schedule.floor(scheduleDate);
-    AbsoluteDate after = schedule.ceiling(scheduleDate);
 
-    if ((before == null || scheduleDate.durationFrom(before) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC)
-        && (after == null || after.durationFrom(scheduleDate) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC)) {
+    if (checkTimeSlot(scheduleDate)) {
       try {
         schedule.add(scheduleDate);
 
@@ -361,14 +358,29 @@ public class CameraAcquisitorGround
       @RequestParam(value = "maxAngle", defaultValue = "" + DEFAULT_MAX_ANGLE) double maxAngle,
       @RequestParam(value = "timeMode", defaultValue = "ANY") OrbitHandler.TimeModeEnum timeMode)
   {
-    Pass pass = orbitHandler.getPassTime(
-        longitude, latitude,
-        maxAngle, timeMode,
-        CameraAcquisitorSystemMCAdapter.getNow(),
-        DEFAULT_WORST_CASE_ROTATION_TIME_SEC,
-        MAX_SIM_RANGE);
 
-    return pass.getResultTime();
+    System.out.println("longitude:" + longitude);
+    System.out.println("latitude:" + latitude);
+    System.out.println("maxAngle: " + maxAngle);
+    System.out.println("timeMode: " + timeMode.ordinal());
+    orbitHandler.reset();
+    AbsoluteDate now = CameraAcquisitorSystemMCAdapter.getNow();
+    AbsoluteDate simTime = CameraAcquisitorSystemMCAdapter.getNow();
+    AbsoluteDate simEnd = simTime.shiftedBy(MAX_SIM_RANGE);
+    while (simTime.compareTo(simEnd) < 0) {
+
+      Pass pass = orbitHandler.getPassTime(
+          longitude, latitude,
+          maxAngle, timeMode,
+          CameraAcquisitorSystemMCAdapter.getNow(),
+          DEFAULT_WORST_CASE_ROTATION_TIME_SEC,
+          MAX_SIM_RANGE);
+      simTime = pass.getOptimalTime();
+      if (checkTimeSlot(simTime)) {
+        return pass.getResultTime();
+      }
+    }
+    return null;
   }
 
   @GetMapping("/groundTrack")
@@ -468,6 +480,15 @@ public class CameraAcquisitorGround
       Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
     }
     return null;
+  }
+
+  private boolean checkTimeSlot(AbsoluteDate scheduleDate)
+  {
+    AbsoluteDate before = schedule.floor(scheduleDate);
+    AbsoluteDate after = schedule.ceiling(scheduleDate);
+
+    return (before == null || scheduleDate.durationFrom(before) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC)
+        && (after == null || after.durationFrom(scheduleDate) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC);
   }
 
   private class CompleteDataReceivedAdapter extends CompleteDataReceivedListener
