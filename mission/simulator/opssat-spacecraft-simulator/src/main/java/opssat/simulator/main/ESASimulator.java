@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import opssat.simulator.peripherals.PCamera;
 import opssat.simulator.peripherals.PFineADCS;
 import opssat.simulator.peripherals.PGPS;
@@ -43,7 +42,8 @@ import opssat.simulator.util.LoggerFormatter1Line;
  *
  * @author Cezar Suteu
  */
-public class ESASimulator extends GenericSimulator {
+public class ESASimulator extends GenericSimulator
+{
 
   private SimulatorNode simulatorNode;
   private CentralNode centralNode;
@@ -52,7 +52,8 @@ public class ESASimulator extends GenericSimulator {
   Level centralLoggingLevel = Level.INFO;
   Level consoleLoggingLevel = Level.INFO;
 
-  private Level getLevelFromString(String[] split, String test) {
+  private Level getLevelFromString(String[] split, String test)
+  {
     if (split[0].equals(test)) {
       Level logLevel = null;
       if ((logLevel = Level.parse(split[1])) != null) {
@@ -64,7 +65,8 @@ public class ESASimulator extends GenericSimulator {
 
   }
 
-  private void initProperties() {
+  private void initProperties()
+  {
     final String fileName = "_OPS-SAT-SIMULATOR-header.txt";
     File propertiesFile = new File(System.getProperty("user.dir"), fileName);
     if (propertiesFile.exists()) {
@@ -113,7 +115,8 @@ public class ESASimulator extends GenericSimulator {
 
   }
 
-  private void initDevices() {
+  private void initDevices()
+  {
     simulatorNode.getLogObject().fine("Initializing devices..");
     super.setpGPS(new PGPS(this.simulatorNode, "GPS"));
     super.setpFineADCS(new PFineADCS(this.simulatorNode, "FineADCS"));
@@ -123,7 +126,8 @@ public class ESASimulator extends GenericSimulator {
   }
 
   // Entry stub for lightweight component
-  public ESASimulator() {
+  public ESASimulator()
+  {
     initProperties();
     ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<Object>();
     ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<Object>();
@@ -134,7 +138,8 @@ public class ESASimulator extends GenericSimulator {
   }
 
   // Entry stub for simulator running with TCP listener
-  public ESASimulator(String listenURL) {
+  public ESASimulator(String listenURL)
+  {
     initProperties();
     final CentralNode centralNode;
 
@@ -151,7 +156,8 @@ public class ESASimulator extends GenericSimulator {
     initDevices();
   }
 
-  public SimulatorNode getSimulatorNode() {
+  public SimulatorNode getSimulatorNode()
+  {
     return simulatorNode;
   }
 

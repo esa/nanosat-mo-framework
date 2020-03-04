@@ -20,8 +20,8 @@
  */
 package esa.mo.nmf.ctt.guis;
 
-import esa.mo.nmf.ctt.utils.DirectoryConnectionConsumerPanel;
 import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.nmf.ctt.utils.DirectoryConnectionConsumerPanel;
 import java.awt.EventQueue;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
@@ -121,8 +121,8 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
 
   public void insertDirectoryServiceTab(final String defaultURI, final boolean isS2G)
   {
-    final DirectoryConnectionConsumerPanel directoryTab
-        = new DirectoryConnectionConsumerPanel(isS2G, connection, tabs);
+    final DirectoryConnectionConsumerPanel directoryTab =
+        new DirectoryConnectionConsumerPanel(isS2G, connection, tabs);
 
     tabs.insertTab("Communication Settings (Directory)", null,
         directoryTab,
@@ -164,7 +164,6 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
-
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JTabbedPane tabs;

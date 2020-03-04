@@ -131,6 +131,8 @@ public class SimulatorNode extends TaskNode
   // Orekit
   OrekitCore orekitCore;
 
+  String lastCelestiaCommand;
+
   // Models
   private Orbit darkDusk;
   private GPS gps;
@@ -1714,6 +1716,7 @@ public class SimulatorNode extends TaskNode
     if (super.getTimers().get(TIMER_SCHEDULER_DATA).isElapsed()) {
       return schedulerData;
     }
+
     if (super.getTimers().get(TIMER_CELESTIA_DATA).isElapsed() && simulatorHeader.isUseCelestia()
         && simulatorHeader.isUseOrekitPropagator()) {
       if (orekitCore.isIsInitialized()) {
@@ -1727,6 +1730,8 @@ public class SimulatorNode extends TaskNode
         celestiaData.setLos(orekitCore.getNextLOS());
         celestiaData.setInfo(
             "Time|x" + this.simulatorData.getTimeFactor() + "|" + orekitCore.getOrekitInfo());
+        celestiaData.setCommand(lastCelestiaCommand);
+        lastCelestiaCommand = null;
         return celestiaData;
       }
     }
@@ -3871,6 +3876,7 @@ public class SimulatorNode extends TaskNode
         case 3001: {// Origin [ICamera] Method [byte[] takePicture(int width,int
           // height);//3001//High level command: file written to filesystem to request
           // camera take a picture]
+          lastCelestiaCommand = "picture";
           int width = (Integer) argObject.get(0);
           int height = (Integer) argObject.get(1);
           final int maxSize = CAMERA_MAX_SIZE;

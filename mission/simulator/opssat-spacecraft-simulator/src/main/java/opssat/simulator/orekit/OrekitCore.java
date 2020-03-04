@@ -225,12 +225,12 @@ public class OrekitCore
   {
     this.logger = logger;
     SimulatorNode.handleResourcePath("orekit-data.zip", logger, getClass().getClassLoader());
-    SimulatorNode.handleResourcePath("IGRF.zip", logger, getClass().getClassLoader());
+    //SimulatorNode.handleResourcePath("IGRF.zip", logger, getClass().getClassLoader());
     SimulatorNode.handleResourcePath("WMM2020COF.zip", logger, getClass().getClassLoader());
 
     StringBuffer pathBuffer = new StringBuffer();
     appendIfExists(pathBuffer, "orekit-data.zip");
-    appendIfExists(pathBuffer, "IGRF.zip");
+    //appendIfExists(pathBuffer, "IGRF.zip");
     appendIfExists(pathBuffer, "WMM2020COF.zip");
     System.setProperty(DataProvidersManager.OREKIT_DATA_PATH, pathBuffer.toString());
 
@@ -423,7 +423,7 @@ public class OrekitCore
     double decimalYear = getDecimalYear(this.extrapDate);
     extrapDate.toDate(utc);
     logger.log(Level.FINE, "Decimal year is [" + decimalYear + "]");
-    this.geoMagneticField = GeoMagneticFieldFactory.getIGRF(decimalYear);
+    this.geoMagneticField = GeoMagneticFieldFactory.getWMM(decimalYear);
     logger.log(Level.FINE, "Magnetic model loaded: [" + this.geoMagneticField.getModelName() + "]");
     magneticFieldVector = new double[3];
 
@@ -1190,7 +1190,7 @@ public class OrekitCore
     this.sunVector[2] = sunZ;
     GeodeticPoint newPosition = this.getGeodeticPoint();
     synchronized (magneticFieldVectorLock) {
-      this.geoMagneticField = GeoMagneticFieldFactory.getIGRF(getDecimalYear(extrapDate));
+      this.geoMagneticField = GeoMagneticFieldFactory.getWMM(getDecimalYear(extrapDate));
       this.magneticFieldVector = this.geoMagneticField
           .calculateField(FastMath.toDegrees(newPosition.getLatitude()),
               FastMath.toDegrees(newPosition.getLongitude()), newPosition.getAltitude() / 1000.0)

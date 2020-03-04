@@ -33,126 +33,155 @@ import opssat.simulator.util.DateExtraction;
  *
  * @author Cezar Suteu
  */
-public class CelestiaData implements Serializable {
-    public static final String DATE_FORMAT = "yyyy/MM/dd-HH:mm:ss";
-    
-    float[] rv;
-    float[] q;
-    Date date;
-    String anx,dnx,aos,los,info;
+public class CelestiaData implements Serializable
+{
 
-    public String getInfo() {
-        return info;
-    }
+  public static final String DATE_FORMAT = "yyyy/MM/dd-HH:mm:ss";
 
-    public void setInfo(String info) {
-        this.info = info;
-    }
-    
-    public String getAnx() {
-        return anx;
-    }
+  float[] rv;
+  float[] q;
+  Date date;
+  String anx, dnx, aos, los, info, command;
 
-    public void setAnx(String anx) {
-        this.anx = anx;
-    }
+  public String getCommand()
+  {
+    return command;
+  }
 
-    public String getDnx() {
-        return dnx;
-    }
+  public void setCommand(String command)
+  {
+    this.command = command;
+  }
 
-    public void setDnx(String dnx) {
-        this.dnx = dnx;
-    }
+  public String getInfo()
+  {
+    return info;
+  }
 
-    public String getAos() {
-        return aos;
-    }
+  public void setInfo(String info)
+  {
+    this.info = info;
+  }
 
-    public void setAos(String aos) {
-        this.aos = aos;
-    }
+  public String getAnx()
+  {
+    return anx;
+  }
 
-    public String getLos() {
-        return los;
-    }
+  public void setAnx(String anx)
+  {
+    this.anx = anx;
+  }
 
-    public void setLos(String los) {
-        this.los = los;
-    }
-    
-    
-    public CelestiaData(float[] rv, float[] q) {
-        this.rv = rv;
-        this.q = q;
-    }
-    public int getYears()
-    {
-        return DateExtraction.getYearFromDate(this.date);
-    }
-    
-    public int getMonths()
-    {
-        return DateExtraction.getMonthFromDate(this.date);
-    }
-    
-    public int getDays()
-    {
-        return DateExtraction.getDayFromDate(this.date);
-    }
-    
-    public int getHours()
-    {
-        return DateExtraction.getHourFromDate(this.date);
-    }
-    
-    public int getMinutes()
-    {
-        return DateExtraction.getMinuteFromDate(this.date);
-    }
-    
-    public int getSeconds()
-    {
-        return DateExtraction.getSecondsFromDate(this.date);
-    }
-    
-    public String getDate() {
-        return new SimpleDateFormat(DATE_FORMAT).format(this.date);
-    }
+  public String getDnx()
+  {
+    return dnx;
+  }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-    
-    public void setDate(String date) {
-        try {
-            this.date = (new SimpleDateFormat(DATE_FORMAT)).parse(date);
-        } catch (ParseException ex) {
-            Logger.getLogger(CelestiaData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+  public void setDnx(String dnx)
+  {
+    this.dnx = dnx;
+  }
 
-    public float[] getRv() {
-        return rv;
-    }
+  public String getAos()
+  {
+    return aos;
+  }
 
-    public void setRv(float[] rv) {
-        this.rv = rv;
-    }
+  public void setAos(String aos)
+  {
+    this.aos = aos;
+  }
 
-    public float[] getQ() {
-        return q;
-    }
+  public String getLos()
+  {
+    return los;
+  }
 
-    public void setQ(float[] q) {
-        this.q = q;
-    }
+  public void setLos(String los)
+  {
+    this.los = los;
+  }
 
-    @Override
-    public String toString() {
-        return "CelestiaData{" + "rv=" + "["+rv[0]+","+rv[1]+","+rv[2]+","+rv[3]+","+rv[4]+","+rv[5]+"]" + ", q0=" + q[0] + ",q1=" + q[1]+",q2=" + q[2]+",q3=" + q[3]+'}';
+  public CelestiaData(float[] rv, float[] q)
+  {
+    this.rv = rv;
+    this.q = q;
+  }
+
+  public int getYears()
+  {
+    return DateExtraction.getYearFromDate(this.date);
+  }
+
+  public int getMonths()
+  {
+    return DateExtraction.getMonthFromDate(this.date);
+  }
+
+  public int getDays()
+  {
+    return DateExtraction.getDayFromDate(this.date);
+  }
+
+  public int getHours()
+  {
+    return DateExtraction.getHourFromDate(this.date);
+  }
+
+  public int getMinutes()
+  {
+    return DateExtraction.getMinuteFromDate(this.date);
+  }
+
+  public int getSeconds()
+  {
+    return DateExtraction.getSecondsFromDate(this.date);
+  }
+
+  public String getDate()
+  {
+    return new SimpleDateFormat(DATE_FORMAT).format(this.date);
+  }
+
+  public void setDate(Date date)
+  {
+    this.date = date;
+  }
+
+  public void setDate(String date)
+  {
+    try {
+      this.date = (new SimpleDateFormat(DATE_FORMAT)).parse(date);
+    } catch (ParseException ex) {
+      Logger.getLogger(CelestiaData.class.getName()).log(Level.SEVERE, null, ex);
     }
-    
-    
-    
+  }
+
+  public float[] getRv()
+  {
+    return rv;
+  }
+
+  public void setRv(float[] rv)
+  {
+    this.rv = rv;
+  }
+
+  public float[] getQ()
+  {
+    return q;
+  }
+
+  public void setQ(float[] q)
+  {
+    this.q = q;
+  }
+
+  @Override
+  public String toString()
+  {
+    return "CelestiaData{" + "rv=" + "[" + rv[0] + "," + rv[1] + "," + rv[2] + "," + rv[3] + "," + rv[4] + "," + rv[5] + "]" + ", q0=" + q[0] + ",q1=" + q[1] + ",q2=" + q[2] + ",q3=" + q[3] + '}';
+  }
+
 }

@@ -40,228 +40,240 @@ import java.util.logging.Logger;
  * @author Tiago Nogueira
  *
  */
-public class CelestiaIf implements Runnable {
+public class CelestiaIf implements Runnable
+{
 
-    final boolean PRINT_EVENTS = true;
+  final boolean PRINT_EVENTS = true;
 
-    final String PROTOCOL_VERSION = "1.1";
-    ArrayList<String> SPACECRAFT_ID;
-    final int portOpsSat = 5909;
-    final int portNetSat = 5910;
-    final int SLEEP_DURATION_ACK = 150;
-    final int DURATION_ACK_RECOVER = 15000;//After 5 seconds of no confirmation resend the command
-    final String DEFAULT_MESSAGE = "connection_alive";
-    final String HANDSHAKE_MESSAGE = "connection_successful";
-    final String STOP_MESSAGE = "connection_stop";
+  final String PROTOCOL_VERSION = "1.1";
+  ArrayList<String> SPACECRAFT_ID;
+  final int portOpsSat = 5909;
+  final int portNetSat = 5910;
+  final int SLEEP_DURATION_ACK = 150;
+  final int DURATION_ACK_RECOVER = 15000;//After 5 seconds of no confirmation resend the command
+  final String DEFAULT_MESSAGE = "connection_alive";
+  final String HANDSHAKE_MESSAGE = "connection_successful";
+  final String STOP_MESSAGE = "connection_stop";
 
-    int port = 0;
-    int retries = 0;
+  int port = 0;
+  int retries = 0;
 
-    String MISSION_ID;// = "OPS-SAT";
+  String MISSION_ID;// = "OPS-SAT";
 
-    ConcurrentLinkedQueue<Object> sendQueue;
+  ConcurrentLinkedQueue<Object> sendQueue;
 
-    ServerSocket socket;
-    Socket connection = null;
-    PrintWriter out;
-    BufferedReader in;
-    private Logger logger;
+  ServerSocket socket;
+  Socket connection = null;
+  PrintWriter out;
+  BufferedReader in;
+  private Logger logger;
 
-    public CelestiaIf(ConcurrentLinkedQueue<Object> sendQueue, int listenPort, String mission_ID, Logger logger) {
-        this.logger = logger;
-        this.sendQueue = sendQueue;
-        this.port = listenPort;
-        this.MISSION_ID = mission_ID;
-    }
+  public CelestiaIf(ConcurrentLinkedQueue<Object> sendQueue, int listenPort, String mission_ID,
+      Logger logger)
+  {
+    this.logger = logger;
+    this.sendQueue = sendQueue;
+    this.port = listenPort;
+    this.MISSION_ID = mission_ID;
+  }
 
-    @Override
-    public void run() {
-        this.init();
-        while (true) {
-            if (!this.openConnection()) {
-                try {
-                    Thread.sleep(3000);
-                    try {
-                        if (this.socket != null) {
-                            this.socket.close();
-                        }
-                        if (this.connection != null) {
-                            this.connection.close();
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    continue;
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            String outMsg = "";
-            String inMsg = "";
-            try {
-                do {
-                    Object data = this.sendQueue.poll();
-                    while (this.sendQueue.peek() != null) {
-                        data = this.sendQueue.poll();
-                    }
-                    if (data instanceof CelestiaData) {
-                        outMsg = this.buildMessage((CelestiaData) data);
-                        if (!outMsg.isEmpty()) {
-                            this.sendMessage(outMsg);
-                            // wait for acknowledgement from Celestia
-
-                            int waitedTime = 0;
-                            while (!in.ready() && waitedTime < DURATION_ACK_RECOVER) {
-                                Thread.sleep(SLEEP_DURATION_ACK);
-                                waitedTime = waitedTime + SLEEP_DURATION_ACK;
-                            }
-                            if (in.ready()) {
-                                retries = 0;
-                                inMsg = in.readLine();
-                            } else {
-                                //No reply
-                                retries = retries + 1;
-                                if (retries <= 1) {
-                                    logger.log(Level.WARNING, "CelestiaIf: No response within [" + DURATION_ACK_RECOVER + "] ms, resending data message!");
-                                } else {
-                                    break;
-                                }
-
-                            }
-                        }
-                    } else {
-                        Thread.sleep(150);
-                    }
-
-                } while (!inMsg.equals(this.STOP_MESSAGE)); // keep connection until STOP_MESSAGE received from Celestia
-            } catch (Exception e) {
-                System.err.println(e.toString());
-                outMsg = this.STOP_MESSAGE;
-            } finally {
-
-                try {
-                    logger.log(Level.FINE, "Closing all connections...");
-                    this.in.close();
-                    this.out.close();
-                    this.socket.close();
-                    logger.log(Level.FINE, "All connections closed.");
-                } catch (IOException ioException) {
-                    System.err.println(ioException.toString());
-                }
-            }
-        }
-
-    }
-
-    /**
-     */
-    private void init() {
-
-        this.SPACECRAFT_ID = new ArrayList<String>();
-
-        if (MISSION_ID.equals("OPS-SAT")) {
-            this.SPACECRAFT_ID.add("OPSSAT");
-        } else if (MISSION_ID.equals("NetSat")) {
-            this.SPACECRAFT_ID.add("NETSAT1");
-            this.SPACECRAFT_ID.add("NETSAT2");
-            this.SPACECRAFT_ID.add("NETSAT3");
-            this.SPACECRAFT_ID.add("NETSAT4");
-        }
-
-    }
-
-    /**
-     * @brief Establish TCP/IP connection with Celestia
-     */
-    private boolean openConnection() {
+  @Override
+  public void run()
+  {
+    this.init();
+    while (true) {
+      if (!this.openConnection()) {
         try {
-
-            //1. create a socket
-            this.socket = new ServerSocket(this.port, 10);
-            logger.log(Level.INFO, "Created ServerSocket for Celestia on port [" + this.port + "] ");
-            //this.socket.setReuseAddress(true); // set reusable socket address     
-            //this.socket.setSoTimeout(60*1000);
-            //this.socket.bind(new InetSocketAddress(), 10); // bind to address              
-
-            //2. Wait for connection            
-            logger.log(Level.FINE, "Waiting for connection...");
-            connection = this.socket.accept();
-            connection.setTcpNoDelay(true);
-            logger.log(Level.INFO, "Connection received from " + connection.getInetAddress().getHostName() + " on port " + connection.getLocalPort());
-
-            //3. get Input and Output streams
-            //output stream: MO Consumer -> Celestia
-            logger.log(Level.FINE, "Getting output stream...");
-            this.out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
-            this.out.flush();
-            //input stream: Celestia -> MO Consumer
-            logger.log(Level.FINE, "Getting input stream...");
-            this.in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-            //4. handshake
-            logger.log(Level.FINE, "Handshake - SENT - " + this.HANDSHAKE_MESSAGE);
-            sendMessage(this.HANDSHAKE_MESSAGE);
-            int waitedTime = 0;
-            while (!in.ready() && waitedTime < DURATION_ACK_RECOVER) {
-                try {
-                    Thread.sleep(SLEEP_DURATION_ACK);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                waitedTime = waitedTime + SLEEP_DURATION_ACK;
+          Thread.sleep(3000);
+          try {
+            if (this.socket != null) {
+              this.socket.close();
             }
-            String message = null;
-            if (in.ready()) {
-                message = in.readLine();
-            } else {
-                //No reply to handshake
-                logger.log(Level.FINE, "No reply to handshake");
-                return false;
+            if (this.connection != null) {
+              this.connection.close();
             }
-            logger.log(Level.FINE, "Handshake - RECEIVED - " + message);
-
-            retries = 0;
-
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error establishing connection1" + e.toString());
-            return false;
+          } catch (IOException ex) {
+            Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
+          }
+          continue;
+        } catch (InterruptedException ex) {
+          Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return true;
+      }
+
+      String outMsg = "";
+      String inMsg = "";
+      try {
+        do {
+          Object data = this.sendQueue.poll();
+          while (this.sendQueue.peek() != null) {
+            data = this.sendQueue.poll();
+          }
+          if (data instanceof CelestiaData) {
+            outMsg = this.buildMessage((CelestiaData) data);
+            if (!outMsg.isEmpty()) {
+              this.sendMessage(outMsg);
+              // wait for acknowledgement from Celestia
+
+              int waitedTime = 0;
+              while (!in.ready() && waitedTime < DURATION_ACK_RECOVER) {
+                Thread.sleep(SLEEP_DURATION_ACK);
+                waitedTime = waitedTime + SLEEP_DURATION_ACK;
+              }
+              if (in.ready()) {
+                retries = 0;
+                inMsg = in.readLine();
+              } else {
+                //No reply
+                retries = retries + 1;
+                if (retries <= 1) {
+                  logger.log(Level.WARNING,
+                      "CelestiaIf: No response within [" + DURATION_ACK_RECOVER + "] ms, resending data message!");
+                } else {
+                  break;
+                }
+
+              }
+            }
+          } else {
+            Thread.sleep(150);
+          }
+
+        } while (!inMsg.equals(this.STOP_MESSAGE)); // keep connection until STOP_MESSAGE received from Celestia
+      } catch (Exception e) {
+        System.err.println(e.toString());
+        outMsg = this.STOP_MESSAGE;
+      } finally {
+
+        try {
+          logger.log(Level.FINE, "Closing all connections...");
+          this.in.close();
+          this.out.close();
+          this.socket.close();
+          logger.log(Level.FINE, "All connections closed.");
+        } catch (IOException ioException) {
+          System.err.println(ioException.toString());
+        }
+      }
     }
 
-    /**
-     * @brief Send message to client
-     *
-     * @param msg
-     */
-    private void sendMessage(String msg) {
-        this.out.println(msg);
-        this.out.flush();
+  }
+
+  /**
+   */
+  private void init()
+  {
+
+    this.SPACECRAFT_ID = new ArrayList<String>();
+
+    if (MISSION_ID.equals("OPS-SAT")) {
+      this.SPACECRAFT_ID.add("OPSSAT");
+    } else if (MISSION_ID.equals("NetSat")) {
+      this.SPACECRAFT_ID.add("NETSAT1");
+      this.SPACECRAFT_ID.add("NETSAT2");
+      this.SPACECRAFT_ID.add("NETSAT3");
+      this.SPACECRAFT_ID.add("NETSAT4");
     }
 
-    public void putDataInBuffer(Object obj) {
-        this.sendQueue.add(obj);
+  }
+
+  /**
+   * @brief Establish TCP/IP connection with Celestia
+   */
+  private boolean openConnection()
+  {
+    try {
+
+      //1. create a socket
+      this.socket = new ServerSocket(this.port, 10);
+      logger.log(Level.INFO, "Created ServerSocket for Celestia on port [" + this.port + "] ");
+      //this.socket.setReuseAddress(true); // set reusable socket address     
+      //this.socket.setSoTimeout(60*1000);
+      //this.socket.bind(new InetSocketAddress(), 10); // bind to address              
+
+      //2. Wait for connection            
+      logger.log(Level.FINE, "Waiting for connection...");
+      connection = this.socket.accept();
+      connection.setTcpNoDelay(true);
+      logger.log(Level.INFO,
+          "Connection received from " + connection.getInetAddress().getHostName() + " on port " + connection.getLocalPort());
+
+      //3. get Input and Output streams
+      //output stream: MO Consumer -> Celestia
+      logger.log(Level.FINE, "Getting output stream...");
+      this.out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+      this.out.flush();
+      //input stream: Celestia -> MO Consumer
+      logger.log(Level.FINE, "Getting input stream...");
+      this.in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+      //4. handshake
+      logger.log(Level.FINE, "Handshake - SENT - " + this.HANDSHAKE_MESSAGE);
+      sendMessage(this.HANDSHAKE_MESSAGE);
+      int waitedTime = 0;
+      while (!in.ready() && waitedTime < DURATION_ACK_RECOVER) {
+        try {
+          Thread.sleep(SLEEP_DURATION_ACK);
+        } catch (InterruptedException ex) {
+          Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        waitedTime = waitedTime + SLEEP_DURATION_ACK;
+      }
+      String message = null;
+      if (in.ready()) {
+        message = in.readLine();
+      } else {
+        //No reply to handshake
+        logger.log(Level.INFO, "No reply to handshake");
+        return false;
+      }
+      logger.log(Level.INFO, "Handshake - RECEIVED - " + message);
+
+      retries = 0;
+
+    } catch (IOException e) {
+      logger.log(Level.SEVERE, "Error establishing connection1" + e.toString());
+      return false;
     }
+    return true;
+  }
 
-    /**
-     * @brief Get data from MO Consumer and build message
-     *
-     * @return The message
-     */
-    String buildMessage(CelestiaData data) {
+  /**
+   * @brief Send message to client
+   *
+   * @param msg
+   */
+  private void sendMessage(String msg)
+  {
+    logger.log(Level.INFO, "Sending message: {0}", msg);
+    this.out.println(msg);
+    this.out.flush();
+  }
 
-        String dataStringSc = "";
-        String dataStringParam = "";
-        String dataStringValue = "";
-        String dataStringUnit = "";
-        String outMsg = "";
-        String scId = "";
+  public void putDataInBuffer(Object obj)
+  {
+    this.sendQueue.add(obj);
+  }
 
-        float[] rv = data.getRv();//{-7000,0,0,4,5,6}; // [x, y, z, vx, vy, vz]
-        //LocalDateTime dateTime = LocalDateTime.now();  
+  /**
+   * @brief Get data from MO Consumer and build message
+   *
+   * @return The message
+   */
+  String buildMessage(CelestiaData data)
+  {
 
-        /*
+    String dataStringSc = "";
+    String dataStringParam = "";
+    String dataStringValue = "";
+    String dataStringUnit = "";
+    String outMsg = "";
+    String scId = "";
+
+    float[] rv = data.getRv();//{-7000,0,0,4,5,6}; // [x, y, z, vx, vy, vz]
+    //LocalDateTime dateTime = LocalDateTime.now();  
+
+    /*
         LocalDateTime dateTime = LocalDateTime.parse(
                 data.getYears()
                 + "-" + String.format("%02d", data.getMonths())
@@ -269,94 +281,104 @@ public class CelestiaIf implements Runnable {
                 + "T" + String.format("%02d", data.getHours())
                 + ":" + String.format("%02d", data.getMinutes())
                 + ":" + String.format("%02d", data.getSeconds()));
-*/
-        
-        float[] q = {data.getQ()[0], data.getQ()[1], data.getQ()[2], data.getQ()[3]}; // [qs, q1, q2, q3]
+     */
+    float[] q = {data.getQ()[0], data.getQ()[1], data.getQ()[2], data.getQ()[3]}; // [qs, q1, q2, q3]
 //        LocalDateTime anxTime = LocalDateTime.parse("2015-08-09T10:00:00");
 //        LocalDateTime dnxTime = LocalDateTime.parse("2015-08-09T10:45:33");
 //        LocalDateTime aosKirTime = LocalDateTime.parse("2015-08-09T11:49:00");
 //        LocalDateTime losKirTime = LocalDateTime.parse("2015-08-09T12:01:00");
 
-        ListIterator<String> iter = this.SPACECRAFT_ID.listIterator();
+    ListIterator<String> iter = this.SPACECRAFT_ID.listIterator();
 
-        // build message
-        while (iter.hasNext()) {
+    // build message
+    while (iter.hasNext()) {
 
-            scId = iter.next();
+      scId = iter.next();
 
-            // epoch        
-            dataStringSc = dataStringSc + " " + scId;
-            dataStringParam = dataStringParam + " " + "SIM_EPOCH_TIME";
-            /*
+      // epoch        
+      dataStringSc = dataStringSc + " " + scId;
+      dataStringParam = dataStringParam + " " + "SIM_EPOCH_TIME";
+      /*
             dataStringValue = dataStringValue + " " + dateTime.getYear() + "/"
                     + dateTime.getMonthValue() + "/"
                     + dateTime.getDayOfMonth() + "-"
                     + dateTime.getHour() + ":"
                     + dateTime.getMinute() + ":"
                     + dateTime.getSecond();
-            */
-            dataStringValue = dataStringValue + " " + data.getYears() + "/"
-                    + data.getMonths() + "/"
-                    + data.getDays() + "-"
-                    + data.getHours() + ":"
-                    + data.getMinutes() + ":"
-                    + data.getSeconds();
-            
-            dataStringUnit = dataStringUnit + " " + "UTC";
+       */
+      dataStringValue = dataStringValue + " " + data.getYears() + "/"
+          + data.getMonths() + "/"
+          + data.getDays() + "-"
+          + data.getHours() + ":"
+          + data.getMinutes() + ":"
+          + data.getSeconds();
 
-            // ICF position and velocity        
-            dataStringSc = dataStringSc + " " + scId + " " + scId + " " + scId + " " + scId + " " + scId + " " + scId;
-            dataStringParam = dataStringParam + " " + "X_ICF Y_ICF Z_ICF VX_ICF VY_ICF VZ_ICF";
-            dataStringValue = dataStringValue + " " + rv[0] + " " + rv[1] + " " + rv[2] + " " + rv[3] + " " + rv[4] + " " + rv[5];
-            dataStringUnit = dataStringUnit + " " + "km km km km/s km/s km/s";
+      dataStringUnit = dataStringUnit + " " + "UTC";
 
-            // attitude        
-            dataStringSc = dataStringSc + " " + scId + " " + scId + " " + scId + " " + scId;
-            dataStringParam = dataStringParam + " " + "QS_ICF QX_ICF QY_ICF QZ_ICF";
-            dataStringValue = dataStringValue + " " + q[0] + " " // scalar part  --> order to be checked with MO message
-                    + q[1] + " "
-                    + q[2] + " "
-                    + q[3];
-            dataStringUnit = dataStringUnit + " " + "- - - -";
+      // ICF position and velocity        
+      dataStringSc =
+          dataStringSc + " " + scId + " " + scId + " " + scId + " " + scId + " " + scId + " " + scId;
+      dataStringParam = dataStringParam + " " + "X_ICF Y_ICF Z_ICF VX_ICF VY_ICF VZ_ICF";
+      dataStringValue =
+          dataStringValue + " " + rv[0] + " " + rv[1] + " " + rv[2] + " " + rv[3] + " " + rv[4] + " " + rv[5];
+      dataStringUnit = dataStringUnit + " " + "km km km km/s km/s km/s";
 
-            if (this.PRINT_EVENTS) {
-                // INFO        
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "INFO";
-                dataStringValue = dataStringValue + " " + data.getInfo();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+      // attitude        
+      dataStringSc = dataStringSc + " " + scId + " " + scId + " " + scId + " " + scId;
+      dataStringParam = dataStringParam + " " + "QS_ICF QX_ICF QY_ICF QZ_ICF";
+      dataStringValue = dataStringValue + " " + q[0] + " " // scalar part  --> order to be checked with MO message
+          + q[1] + " "
+          + q[2] + " "
+          + q[3];
+      dataStringUnit = dataStringUnit + " " + "- - - -";
 
-                // ANX        
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "ANX";
-                dataStringValue = dataStringValue + " " + data.getAnx();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+      if (this.PRINT_EVENTS) {
+        // INFO        
+        dataStringSc = dataStringSc + " " + scId;
+        dataStringParam = dataStringParam + " " + "INFO";
+        dataStringValue = dataStringValue + " " + data.getInfo();
+        dataStringUnit = dataStringUnit + " " + "UTC";
 
-                // DNX        
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "DNX";
-                dataStringValue = dataStringValue + " " + data.getDnx();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+        // ANX        
+        dataStringSc = dataStringSc + " " + scId;
+        dataStringParam = dataStringParam + " " + "ANX";
+        dataStringValue = dataStringValue + " " + data.getAnx();
+        dataStringUnit = dataStringUnit + " " + "UTC";
 
-                // AOS_KIRUNA
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "AOS_ESOC";
-                dataStringValue = dataStringValue + " " + data.getAos();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+        // DNX        
+        dataStringSc = dataStringSc + " " + scId;
+        dataStringParam = dataStringParam + " " + "DNX";
+        dataStringValue = dataStringValue + " " + data.getDnx();
+        dataStringUnit = dataStringUnit + " " + "UTC";
 
-                // LOS_KIRUNA
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "LOS_ESOC";
-                dataStringValue = dataStringValue + " " + data.getLos();
-                dataStringUnit = dataStringUnit + " " + "UTC";
-            }
+        // AOS_KIRUNA
+        dataStringSc = dataStringSc + " " + scId;
+        dataStringParam = dataStringParam + " " + "AOS_ESOC";
+        dataStringValue = dataStringValue + " " + data.getAos();
+        dataStringUnit = dataStringUnit + " " + "UTC";
 
-        }
+        // LOS_KIRUNA
+        dataStringSc = dataStringSc + " " + scId;
+        dataStringParam = dataStringParam + " " + "LOS_ESOC";
+        dataStringValue = dataStringValue + " " + data.getLos();
+        dataStringUnit = dataStringUnit + " " + "UTC";
+      }
 
-        // put together the message to be transmitted                                   
-        outMsg = "$DATA_START$ $PROTOCOL_VERSION_" + this.PROTOCOL_VERSION + "$" + dataStringSc + " //" + dataStringParam + " //" + dataStringValue + " //" + dataStringUnit + " $DATA_END$";
-
-        return outMsg;
     }
+
+    // put together the message to be transmitted                                   
+    outMsg =
+        "$DATA_START$ $PROTOCOL_VERSION_" + this.PROTOCOL_VERSION + "$" + dataStringSc + " //" + dataStringParam + " //" + dataStringValue + " //" + dataStringUnit + " $DATA_END$";
+
+    // new implementation:
+    outMsg =
+        data.getQ()[0] + " " + data.getQ()[1] + " " + data.getQ()[2] + " " + data.getQ()[3] + " " + data.getRv()[0] + " " + data.getRv()[1] + " " + data.getRv()[2] + " " + data.getRv()[3] + " " + data.getRv()[4] + " " + data.getRv()[5] + " " + data.getYears() + " " + data.getMonths() + " " + data.getDays() + " " + data.getHours() + " " + data.getMinutes() + " " + data.getSeconds();
+    System.out.println(data.getCommand());
+    if (data.getCommand() != null) {
+      outMsg += " " + data.getCommand();
+    }
+
+    return outMsg;
+  }
 
 }

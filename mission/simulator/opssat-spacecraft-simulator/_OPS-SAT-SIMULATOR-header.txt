@@ -11,7 +11,7 @@ orekit=true
 #Enable updates from Internet (used for gps constellation TLEs)
 updateFromInternet=true
 #Configuration of the Celestia server
-celestia=false
+celestia=true
 celestiaPort=5909
 #Start and end dates of simulation
 startDate=2016:09:28 14:33:14 CEST
@@ -20,4 +20,4 @@ endDate=2016:09:28 14:33:14 CEST
 #Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL
 centralLogLevel=INFO
 simulatorLogLevel=INFO
-consoleLogLevel=INFO
+consoleLogLevel=FINE
