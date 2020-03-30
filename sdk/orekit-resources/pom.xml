@@ -99,33 +99,12 @@
         <version>1.7</version>
         <executions>
           <execution>
-            <id>download-orekit-resources</id>
-            <phase>generate-resources</phase>
-            <configuration>
-              <tasks>
-                <sequential>
-                  <get dest="${project.build.directory}">
-                    <url url="https://gitlab.orekit.org/orekit/orekit-data/-/archive/master/orekit-data-master.zip"/>
-                  </get>
-                </sequential>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-          <execution>
             <id>copy-orekit-resources</id>
             <phase>process-resources</phase>
             <configuration>
               <tasks>
                 <sequential>
-                  <get dest="${project.build.directory}">
-                    <url url="https://gitlab.orekit.org/orekit/orekit-data/-/archive/master/orekit-data-master.zip"/>
-                  </get>
-                  <!--<unzip src="${project.build.directory}/orekit-data-master.zip" dest="${project.build.directory}" />
-                  <move file="${project.build.directory}/orekit-data-master" tofile="${project.build.directory}/classes/orekit-data"/>-->
-                  <move file="${project.build.directory}/orekit-data-master.zip" tofile="${project.build.directory}/classes/orekit-data.zip"/>
+                  <copy file="src/main/resources/esa/mo/nmf/sdk/orekit-data.zip" tofile="${project.build.directory}/classes/orekit-data.zip"/>
                 </sequential>
               </tasks>
             </configuration>
