@@ -190,19 +190,22 @@ public class CameraAcquisitorGround
     this.lastTLEUpdate = Instant.MIN;
 
     //setup orekit
+    System.out.println("Setup Orekit");
     DataProvidersManager manager = DataProvidersManager.getInstance();
     manager.addProvider(OrekitResources.getOrekitData());
 
+    System.out.println("Setup Providers");
     ProviderSummaryList providers;
     try {
+      System.out.println("retrive providers");
       providers =
           GroundMOAdapterImpl.retrieveProvidersFromDirectory(
               directoryURI);
-
-      // Connect to provider on index 0
+      System.out.println("retrive providers fin");
       GroundMOAdapterImpl gmaTMP = null;
       boolean providerFound = false;
       for (ProviderSummary provider : providers) {
+        System.out.println("name : " + provider.getProviderName().getValue());
         if (provider.getProviderName().getValue().equals("App: camera-acquisitor-system")) {
           gmaTMP = new GroundMOAdapterImpl(provider);
           providerFound = true;
@@ -320,12 +323,15 @@ public class CameraAcquisitorGround
       @RequestParam(value = "latitude") double latitude,
       @RequestParam(value = "timeStemp") String timeStemp)
   {
+    System.out.println("schedulePhotographPosition");
+    System.out.println("longitude:" + longitude);
+    System.out.println("latitude:" + latitude);
+    System.out.println("time:" + timeStemp);
+
     Union[] parameters =
         new Union[]{new Union(latitude), new Union(longitude), new Union(timeStemp)};
 
-    System.out.println(timeStemp);
     AbsoluteDate scheduleDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
-    System.out.println(scheduleDate);
 
     if (checkTimeSlot(scheduleDate)) {
       try {
@@ -348,6 +354,7 @@ public class CameraAcquisitorGround
         LOGGER.log(Level.SEVERE, e.getMessage());
       }
     }
+    LOGGER.log(Level.INFO, "Timeslot not awailable!");
     return null;
   }
 
@@ -475,9 +482,11 @@ public class CameraAcquisitorGround
       cachedTLE = new TLE(line1, line2);
       return cachedTLE;
     } catch (MalformedURLException ex) {
-      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, "loadTLE {0}",
+          ex.getMessage());
     } catch (IOException ex) {
-      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, "loadTLE {0}",
+          ex.getMessage());
     }
     return null;
   }
@@ -486,7 +495,8 @@ public class CameraAcquisitorGround
   {
     AbsoluteDate before = schedule.floor(scheduleDate);
     AbsoluteDate after = schedule.ceiling(scheduleDate);
-
+    System.out.println("before " + before);
+    System.out.println("after " + after);
     return (before == null || scheduleDate.durationFrom(before) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC)
         && (after == null || after.durationFrom(scheduleDate) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC);
   }
