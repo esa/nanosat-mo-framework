@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.groundmoadapter;
 
-import esa.mo.nmf.NMFConsumer;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.ObjectInstanceIdGenerator;
 import esa.mo.helpertools.connections.ConnectionConsumer;
@@ -28,6 +27,7 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.AggregationInstance;
 import esa.mo.mc.impl.provider.ParameterInstance;
+import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
 import java.io.Serializable;
