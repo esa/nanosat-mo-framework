@@ -26,7 +26,9 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.ground.restservice.GroundTrack;
 import esa.mo.ground.restservice.Pass;
 import esa.mo.ground.restservice.PositionAndTime;
+import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterInstance;
+import esa.mo.nmf.NMFException;
 import esa.mo.nmf.apps.CameraAcquisitorSystemCameraTargetHandler;
 import esa.mo.nmf.apps.CameraAcquisitorSystemMCAdapter;
 import esa.mo.nmf.groundmoadapter.CompleteDataReceivedListener;
@@ -48,6 +50,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
@@ -57,16 +60,30 @@ import javax.imageio.ImageIO;
 import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
 import org.ccsds.moims.mo.com.activitytracking.structures.ActivityAcceptance;
 import org.ccsds.moims.mo.com.activitytracking.structures.ActivityExecution;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.alert.structures.AlertEventDetails;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.data.DataProvidersManager;
@@ -132,7 +149,6 @@ public class CameraAcquisitorGround
   private void start()
   {
     System.out.println("----------------------------- STARTUP --------------------------------");
-    //inputHandler.start();
   }
 
   private class Parameter
@@ -224,6 +240,28 @@ public class CameraAcquisitorGround
 
       setInitialParameters();
 
+      // get previous requests
+      ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+      ArchiveQuery archiveQuery = new ArchiveQuery();
+
+      archiveQuery.setDomain(null);
+      archiveQuery.setNetwork(null);
+      archiveQuery.setProvider(null);
+      archiveQuery.setRelated(new Long(0));
+      archiveQuery.setSource(null);
+      archiveQuery.setStartTime(null);
+      archiveQuery.setEndTime(null);
+      archiveQuery.setSortFieldName(null);
+
+      archiveQueryList.add(archiveQuery);
+
+      GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
+
+      gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(
+          //new UShort(4), new UShort(1), new UOctet((short) 1), new UShort(3)),
+          new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
+          archiveQueryList, null, archiveAdapter);
+
       System.out.println("------------------------------------------------------------------------");
 
     } catch (MALException ex) {
@@ -247,10 +285,32 @@ public class CameraAcquisitorGround
 
     // synchronized to prevent reciving first reply of action before it was added to list
     synchronized (activeActions) {
-      Long actionID = gma.invokeAction(
-          CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION,
-          parameters);
+      /*Long actionID = gma.invokeAction(
+      CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION,
+      parameters);*/
+      IdentifierList idList = new IdentifierList();
+      idList.add(
+          new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
+      Long actionID = null;
 
+      try {
+        ObjectInstancePairList objIds =
+            gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
+        if (objIds == null) {
+          LOGGER.log(Level.SEVERE,
+              "Action does not exist, please check if space application is running");
+          return false;
+        }
+        AttributeValueList arguments = new AttributeValueList();
+        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(latitude)));
+        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(longitude)));
+        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(maxAngle)));
+        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(
+            timeMode.ordinal())));
+        actionID = gma.invokeAction(objIds.get(0).getObjDefInstanceId(), arguments);
+      } catch (MALInteractionException | MALException | NMFException ex) {
+        Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
+      }
       if (actionID == null) {
         LOGGER.log(Level.SEVERE, "Action ID == null!");
         return false;
@@ -337,10 +397,22 @@ public class CameraAcquisitorGround
       try {
         schedule.add(scheduleDate);
 
-        Long actionID = gma.invokeAction(
-            CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL,
-            parameters);
+        IdentifierList idList = new IdentifierList();
+        idList.add(
+            new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
+        ObjectInstancePairList objIds =
+            gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
+        if (objIds == null) {
+          LOGGER.log(Level.SEVERE,
+              "Action does not exist, please check if space application is running");
+        }
+        AttributeValueList arguments = new AttributeValueList();
+        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(latitude)));
+        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(longitude)));
+        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(timeStemp)));
+
+        Long actionID = gma.invokeAction(objIds.get(0).getObjDefInstanceId(), arguments);
         if (actionID == null) {
           LOGGER.log(Level.SEVERE, "Action ID == null!");
         } else {
@@ -497,8 +569,10 @@ public class CameraAcquisitorGround
     AbsoluteDate after = schedule.ceiling(scheduleDate);
     System.out.println("before " + before);
     System.out.println("after " + after);
-    return (before == null || scheduleDate.durationFrom(before) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC)
-        && (after == null || after.durationFrom(scheduleDate) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC);
+    return (before == null || scheduleDate.durationFrom(before) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC && scheduleDate.compareTo(
+        before) != 0)
+        && (after == null || after.durationFrom(scheduleDate) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC && scheduleDate.compareTo(
+        after) != 0);
   }
 
   private class CompleteDataReceivedAdapter extends CompleteDataReceivedListener
@@ -515,6 +589,76 @@ public class CameraAcquisitorGround
             parameterInstance.getSource().getKey().getInstId()
           }
       );
+    }
+  }
+
+  private void setInitialParameters()
+  {
+    gma.setParameter(Parameter.ATTITUDE_SAFTY_MARGIN_MS, 1000000);
+    gma.setParameter(Parameter.CUSTOM_EXPOSURE_TIME, 1.0f);
+    gma.setParameter(Parameter.EXPOSURE_TYPE, 0);//CUSTOM = 0, AUTOMATIC = 1
+    gma.setParameter(Parameter.MAX_RETRYS, 5);
+    gma.setParameter(Parameter.WORST_CASE_ROTATION_TIME_MS, DEFAULT_WORST_CASE_ROTATION_TIME_MS);
+
+    gma.setParameter(Parameter.GAIN_RED, 1.0f);
+    gma.setParameter(Parameter.GAIN_GREEN, 1.0f);
+    gma.setParameter(Parameter.GAIN_BLUE, 1.0f);
+    gma.setParameter(Parameter.PICTURE_WIDTH, 2048);
+    gma.setParameter(Parameter.PICTURE_HEIGHT, 1944);
+    gma.setParameter(Parameter.PICTURE_TYPE, PictureFormat.PNG.getOrdinal());
+  }
+
+  private void updateEvent(long actionID, int type, Object body)
+  {
+    if (type == ActivityAcceptance.TYPE_SHORT_FORM) {
+      System.out.println("ActivityAcceptance");
+      ActivityAcceptance event = (ActivityAcceptance) body;
+    } else if (type == ActivityExecution.TYPE_SHORT_FORM) {
+      System.out.println("ActivityExecution");
+      ActivityExecution event = (ActivityExecution) body;
+      int newState = (int) event.getExecutionStage().getValue();
+      int stageCount = (int) event.getExecutionStage().getValue();
+      boolean success = event.getSuccess();
+
+      // update status of action
+      if (activeActions.containsKey(actionID)) {
+        synchronized (activeActions) {
+          System.out.println("fill array");
+          // minus 2 because stage count starts at 1 and an extra stage (for message recived) is added by the Framework
+          activeActions.get(actionID)[stageCount - 2] = new ActionReport(stageCount - 1, success,
+              "");
+        }
+        LOGGER.log(Level.INFO, "action state: {0}", Arrays.toString(activeActions.get(actionID)));
+
+      }
+
+      if (success) {
+        LOGGER.log(Level.INFO, "Action Update: ID={0}, State={1}",
+            new Object[]{actionID, newState});
+      } else {
+        LOGGER.log(Level.WARNING, "Action Unseccessfull: ID={0}, State={1}",
+            new Object[]{actionID, newState});
+      }
+    } else if (type == AlertEventDetails.TYPE_SHORT_FORM) {
+      System.out.println("AlertEventDetails");
+      AlertEventDetails event = (AlertEventDetails) body;
+
+      AttributeValueList attValues = event.getArgumentValues();
+
+      String messageToDisplay = "ID: " + actionID + " ";
+
+      if (attValues != null) {
+        if (attValues.size() == 1) {
+          messageToDisplay += attValues.get(0).getValue().toString();
+        }
+        if (attValues.size() > 1) {
+          for (int i = 0; i < attValues.size(); i++) {
+            AttributeValue attValue = attValues.get(i);
+            messageToDisplay += "[" + i + "] " + attValue.getValue().toString() + "\n";
+          }
+        }
+      }
+      LOGGER.log(Level.WARNING, messageToDisplay);
     }
   }
 
@@ -535,72 +679,66 @@ public class CameraAcquisitorGround
       long actionID = eventCOMObject.getSource().getKey().getInstId();
 
       int type = (int) eventCOMObject.getBody().getTypeShortForm();
-      if (type == ActivityAcceptance.TYPE_SHORT_FORM) {
-        System.out.println("ActivityAcceptance");
-        ActivityAcceptance event = (ActivityAcceptance) eventCOMObject.getBody();
-      } else if (type == ActivityExecution.TYPE_SHORT_FORM) {
-        System.out.println("ActivityExecution");
-        ActivityExecution event = (ActivityExecution) eventCOMObject.getBody();
-        int newState = (int) event.getExecutionStage().getValue();
-        int stageCount = (int) event.getExecutionStage().getValue();
-        boolean success = event.getSuccess();
-
-        // update status of action
-        if (activeActions.containsKey(actionID)) {
-          synchronized (activeActions) {
-            System.out.println("fill array");
-            // minus 2 because stage count starts at 1 and an extra stage (for message recived) is added by the Framework
-            activeActions.get(actionID)[stageCount - 2] = new ActionReport(stageCount - 1, success,
-                "");
-          }
-          LOGGER.log(Level.INFO, "action state: {0}", Arrays.toString(activeActions.get(actionID)));
-
-        }
-
-        if (success) {
-          LOGGER.log(Level.INFO, "Action Update: ID={0}, State={1}",
-              new Object[]{actionID, newState});
-        } else {
-          LOGGER.log(Level.WARNING, "Action Unseccessfull: ID={0}, State={1}",
-              new Object[]{actionID, newState});
-        }
-      } else if (type == AlertEventDetails.TYPE_SHORT_FORM) {
-        System.out.println("AlertEventDetails");
-        AlertEventDetails event = (AlertEventDetails) eventCOMObject.getBody();
-
-        AttributeValueList attValues = event.getArgumentValues();
-
-        String messageToDisplay = "ID: " + actionID + " ";
-
-        if (attValues != null) {
-          if (attValues.size() == 1) {
-            messageToDisplay += attValues.get(0).getValue().toString();
-          }
-          if (attValues.size() > 1) {
-            for (int i = 0; i < attValues.size(); i++) {
-              AttributeValue attValue = attValues.get(i);
-              messageToDisplay += "[" + i + "] " + attValue.getValue().toString() + "\n";
-            }
-          }
-        }
-        LOGGER.log(Level.WARNING, messageToDisplay);
-      }
+      updateEvent(actionID, type, eventCOMObject.getBody());
     }
   }
 
-  private void setInitialParameters()
+  private class GetAllArchiveAdapter extends ArchiveAdapter
   {
-    gma.setParameter(Parameter.ATTITUDE_SAFTY_MARGIN_MS, 1000000);
-    gma.setParameter(Parameter.CUSTOM_EXPOSURE_TIME, 1.0f);
-    gma.setParameter(Parameter.EXPOSURE_TYPE, 0);//CUSTOM = 0, AUTOMATIC = 1
-    gma.setParameter(Parameter.MAX_RETRYS, 5);
-    gma.setParameter(Parameter.WORST_CASE_ROTATION_TIME_MS, DEFAULT_WORST_CASE_ROTATION_TIME_MS);
 
-    gma.setParameter(Parameter.GAIN_RED, 1.0f);
-    gma.setParameter(Parameter.GAIN_GREEN, 1.0f);
-    gma.setParameter(Parameter.GAIN_BLUE, 1.0f);
-    gma.setParameter(Parameter.PICTURE_WIDTH, 2048);
-    gma.setParameter(Parameter.PICTURE_HEIGHT, 1944);
-    gma.setParameter(Parameter.PICTURE_TYPE, PictureFormat.PNG.getOrdinal());
+    @Override
+    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
+        IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
+        Map qosProperties)
+    {
+      if (objBodies != null) {
+        int i = 0;
+        for (Object objBody : objBodies) {
+          if (objBody instanceof ActionInstanceDetails) {
+            ActionInstanceDetails instance = ((ActionInstanceDetails) objBody);
+            try {
+              IdentifierList idList = new IdentifierList();
+              idList.add(
+                  new Identifier(
+                      CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
+
+              ObjectInstancePairList objIds =
+                  gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
+              if (objIds.size() > 0
+                  && objIds.get(0).getObjDefInstanceId().longValue() == instance.getDefInstId().longValue()
+                  && instance.getArgumentValues().size() == 3) {
+
+                String timestamp = instance.getArgumentValues().get(2).getValue().toString();
+                System.out.println("recovered action: " + timestamp);
+
+                activeActions.put(objDetails.get(i).getInstId(),
+                    new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_MANUAL_STAGES]);
+
+                AbsoluteDate scheduleDate = new AbsoluteDate(timestamp, TimeScalesFactory.getUTC());
+
+                schedule.add(scheduleDate);
+              }
+            } catch (MALInteractionException | MALException ex) {
+              Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE,
+                  ex.getMessage());
+            }
+          } else {
+            updateEvent(objDetails.get(i).getInstId(), objDetails.get(i).getTypeShortForm(), objBody);
+          }
+          i++;
+        }
+      }
+    }
+
+    @Override
+    public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
+        IdentifierList domain, ArchiveDetailsList objDetails,
+        ElementList objBodies,
+        Map qosProperties)
+    {
+      queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
+    }
+
   }
+
 }
