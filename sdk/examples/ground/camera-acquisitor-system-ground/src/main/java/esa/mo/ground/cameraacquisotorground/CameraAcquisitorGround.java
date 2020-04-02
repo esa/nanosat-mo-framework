@@ -50,6 +50,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
@@ -132,7 +133,7 @@ public class CameraAcquisitorGround
 
   private final long MAX_SIM_RANGE = YEAR_IN_SECONDS;
   private final long DEFAULT_GROUND_TRACK_DURATION = DAY_IN_SECONDS;
-  private final long DEFAULT_STEPSIZE = MINUTE_IN_SECONDS;
+  private final long DEFAULT_STEPSIZE = MINUTE_IN_SECONDS / 2;
   private final double DEFAULT_MAX_ANGLE = 45.0;
 
   private final TreeSet<AbsoluteDate> schedule = new TreeSet<>();
@@ -141,6 +142,7 @@ public class CameraAcquisitorGround
   // cached values
   private PositionAndTime[] cachedTrack = new PositionAndTime[0];
   private AtomicLong counter = new AtomicLong(0);
+  private int numTries = 5; // number of timeslots that will maximaly be calculated.
 
   private TLE cachedTLE;
   private Instant lastTLEUpdate;
@@ -431,7 +433,7 @@ public class CameraAcquisitorGround
   }
 
   @GetMapping("/photographTime")
-  public String getTimeOfPhotograph(
+  public LinkedList<String> getTimeOfPhotograph(
       @RequestParam(value = "longitude") double longitude,
       @RequestParam(value = "latitude") double latitude,
       @RequestParam(value = "maxAngle", defaultValue = "" + DEFAULT_MAX_ANGLE) double maxAngle,
@@ -443,23 +445,29 @@ public class CameraAcquisitorGround
     System.out.println("maxAngle: " + maxAngle);
     System.out.println("timeMode: " + timeMode.ordinal());
     orbitHandler.reset();
-    AbsoluteDate now = CameraAcquisitorSystemMCAdapter.getNow();
     AbsoluteDate simTime = CameraAcquisitorSystemMCAdapter.getNow();
     AbsoluteDate simEnd = simTime.shiftedBy(MAX_SIM_RANGE);
-    while (simTime.compareTo(simEnd) < 0) {
+
+    LinkedList<String> results = new LinkedList();
+    while (simTime.compareTo(simEnd) < 0 && results.size() <= numTries) {
 
       Pass pass = orbitHandler.getPassTime(
           longitude, latitude,
           maxAngle, timeMode,
-          CameraAcquisitorSystemMCAdapter.getNow(),
+          simTime,
           DEFAULT_WORST_CASE_ROTATION_TIME_SEC,
           MAX_SIM_RANGE);
       simTime = pass.getOptimalTime();
-      if (checkTimeSlot(simTime)) {
-        return pass.getResultTime();
+      if (simTime != null && checkTimeSlot(simTime)) {
+        results.add(pass.getResultTime());
+      } else {
+        break;
       }
     }
-    return null;
+    if (results.isEmpty()) {
+      return null;
+    }
+    return results;
   }
 
   @GetMapping("/groundTrack")
