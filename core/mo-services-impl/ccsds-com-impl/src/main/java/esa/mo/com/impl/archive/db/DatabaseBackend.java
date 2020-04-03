@@ -42,7 +42,7 @@ public class DatabaseBackend {
 
     private static final String DROP_TABLE_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.droptable";
     private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
-    private static final boolean OPTIMIZED_STARTUP = true;
+    private static final boolean OPTIMIZED_STARTUP = false;
 
     private final Semaphore emAvailability = new Semaphore(0, true);  // true for fairness, because we want FIFO
     private EntityManagerFactory emf;
