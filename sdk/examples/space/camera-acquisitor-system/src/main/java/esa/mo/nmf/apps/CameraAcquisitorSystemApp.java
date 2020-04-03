@@ -41,5 +41,6 @@ public class CameraAcquisitorSystemApp
     final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     CameraAcquisitorSystemMCAdapter adapter = new CameraAcquisitorSystemMCAdapter(connector);
     connector.init(adapter);
+    adapter.recoverLastState();
   }
 }

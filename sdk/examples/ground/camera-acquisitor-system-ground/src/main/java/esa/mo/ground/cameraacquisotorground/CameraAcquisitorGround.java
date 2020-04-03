@@ -142,7 +142,7 @@ public class CameraAcquisitorGround
   // cached values
   private PositionAndTime[] cachedTrack = new PositionAndTime[0];
   private AtomicLong counter = new AtomicLong(0);
-  private int numTries = 5; // number of timeslots that will maximaly be calculated.
+  private final int NUM_TRIES = 5; // number of timeslots that will maximaly be calculated.
 
   private TLE cachedTLE;
   private Instant lastTLEUpdate;
@@ -292,7 +292,7 @@ public class CameraAcquisitorGround
       parameters);*/
       IdentifierList idList = new IdentifierList();
       idList.add(
-          new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
+          new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL));
       Long actionID = null;
 
       try {
@@ -401,7 +401,8 @@ public class CameraAcquisitorGround
 
         IdentifierList idList = new IdentifierList();
         idList.add(
-            new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
+            new Identifier(
+                CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL));
 
         ObjectInstancePairList objIds =
             gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
@@ -449,7 +450,7 @@ public class CameraAcquisitorGround
     AbsoluteDate simEnd = simTime.shiftedBy(MAX_SIM_RANGE);
 
     LinkedList<String> results = new LinkedList();
-    while (simTime.compareTo(simEnd) < 0 && results.size() <= numTries) {
+    while (simTime.compareTo(simEnd) < 0 && results.size() <= NUM_TRIES) {
 
       Pass pass = orbitHandler.getPassTime(
           longitude, latitude,
@@ -460,7 +461,7 @@ public class CameraAcquisitorGround
       simTime = pass.getOptimalTime();
       if (simTime != null && checkTimeSlot(simTime)) {
         results.add(pass.getResultTime());
-      } else {
+      } else if (simTime == null) {
         break;
       }
     }
@@ -635,6 +636,10 @@ public class CameraAcquisitorGround
           // minus 2 because stage count starts at 1 and an extra stage (for message recived) is added by the Framework
           activeActions.get(actionID)[stageCount - 2] = new ActionReport(stageCount - 1, success,
               "");
+          // if some other stage is seccesfull, the command has also been transmitted to the sattelite!
+          if (stageCount - 2 > 0 && success) {
+            activeActions.get(actionID)[0] = new ActionReport(1, true, "");
+          }
         }
         LOGGER.log(Level.INFO, "action state: {0}", Arrays.toString(activeActions.get(actionID)));
 
@@ -708,7 +713,7 @@ public class CameraAcquisitorGround
               IdentifierList idList = new IdentifierList();
               idList.add(
                   new Identifier(
-                      CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
+                      CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL));
 
               ObjectInstancePairList objIds =
                   gma.getMCServices().getActionService().getActionStub().listDefinition(idList);

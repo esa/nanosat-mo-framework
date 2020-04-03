@@ -30,18 +30,26 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import org.ccsds.moims.mo.com.archive.provider.QueryInteraction;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.transport.MALMessage;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
@@ -456,5 +464,118 @@ public class CameraAcquisitorSystemCameraTargetHandler
     }
 
     return new UInteger(1);
+  }
+
+  /**
+   * recovers all scheduled photographs in case of a crash or a reboot of the system.
+   */
+  void recoverLastState()
+  {
+    // get previous requests
+    ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+    ArchiveQuery archiveQuery = new ArchiveQuery();
+
+    archiveQuery.setDomain(null);
+    archiveQuery.setNetwork(null);
+    archiveQuery.setProvider(null);
+    archiveQuery.setRelated(new Long(0));
+    archiveQuery.setSource(null);
+    archiveQuery.setStartTime(null);
+    archiveQuery.setEndTime(null);
+    archiveQuery.setSortFieldName(null);
+
+    archiveQueryList.add(archiveQuery);
+
+    SchedulerArchiveAdapter archiveAdapter = new SchedulerArchiveAdapter();
+
+    // query all necessary information from archive service
+    try {
+      if (casMCAdapter.getConnector().getCOMServices().getArchiveService() != null) {
+        Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+            Level.INFO,
+            "Archive Service found.");
+
+        casMCAdapter.getConnector().getCOMServices().getArchiveService()
+            .query(
+                true,
+                new ObjectType(
+                    //  new UShort(4), new UShort(1), new UOctet((short) 1), new UShort(3)),
+                    new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
+                archiveQueryList, null, archiveAdapter);
+      } else {
+        Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+            Level.INFO,
+            "NO Archive Service found!");
+
+      }
+    } catch (NMFException | MALException | MALInteractionException ex) {
+      Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(Level.SEVERE,
+          null, ex);
+    }
+  }
+
+  /**
+   * Class for handling responses from Archive service query
+   */
+  private class SchedulerArchiveAdapter extends QueryInteraction
+  {
+
+    public SchedulerArchiveAdapter()
+    {
+      super(null);
+    }
+
+    @Override
+    public MALMessage sendResponse(ObjectType objType, IdentifierList domain,
+        ArchiveDetailsList objDetails, ElementList objBodies) throws MALInteractionException,
+        MALException
+    {
+      if (objBodies != null) {
+        int i = 0;
+        for (Object objBody : objBodies) {
+          if (objBody instanceof ActionInstanceDetails) {
+            ActionInstanceDetails instance = ((ActionInstanceDetails) objBody);
+            if (instance.getArgumentValues().size() == 3) {
+              String timeStemp = instance.getArgumentValues().get(2).getValue().toString();
+              try {
+                AbsoluteDate targetDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
+
+                if (targetDate.compareTo(CameraAcquisitorSystemMCAdapter.getNow()) > 0) {
+                  photographLocationManual(instance.getArgumentValues(), objDetails.get(
+                      i).getInstId(), true,
+                      null);
+                  Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                      Level.INFO, "recovered action: {0} longitude:{1} latitude:{2}", new Object[]{
+                        timeStemp,
+                        instance.getArgumentValues().get(0).getValue().toString(),
+                        instance.getArgumentValues().get(
+                            2).getValue().toString()});
+                }
+              } catch (Exception e) {
+                Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                    Level.WARNING,
+                    "recover action failed: {0}", e.getMessage());
+              }
+            }
+          }
+        }
+      }
+      return null;
+    }
+
+    @Override
+    public MALMessage sendAcknowledgement() throws MALInteractionException, MALException
+    {
+      return null;
+    }
+
+    @Override
+    public MALMessage sendUpdate(ObjectType objType, IdentifierList domain,
+        ArchiveDetailsList objDetails, ElementList objBodies) throws MALInteractionException,
+        MALException
+    {
+      sendResponse(objType, domain, objDetails, objBodies);
+      return null;
+    }
   }
 }

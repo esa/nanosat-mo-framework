@@ -75,6 +75,11 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
   private final CameraAcquisitorSystemGPSHandler gpsHandler;
 
+  void recoverLastState()
+  {
+    this.cameraTargetHandler.recoverLastState();
+  }
+
   public static enum ExposureTypeModeEnum
   {
     CUSTOM, AUTOMATIC // maybe add hdr?
