@@ -22,8 +22,9 @@ package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
 
 /**
  *
@@ -90,5 +91,20 @@ public interface AutonomousADCSAdapterInterface
    * @return Descriptor of the attitude currently set in the ADCS or NULL if none (IDLE)
    */
   public AttitudeMode getActiveAttitudeMode();
+
+  /**
+   * Sets the Speeds for all Reaction wheels in rad/second
+   *
+   * @param wheelX speed for wheel x
+   * @param wheelY speed for wheel y
+   * @param wheelZ speed for wheel z
+   * @param wheelU speed for wheel u
+   * @param wheelV speed for wheel v
+   * @param wheelW speed for wheel w
+   */
+  public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU,
+      float wheelV, float wheelW);
+
+  public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed);
 
 }

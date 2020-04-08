@@ -23,6 +23,8 @@ package esa.mo.platform.impl.provider.softsim;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface;
 import esa.mo.platform.impl.util.HelperIADCS100;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
@@ -34,6 +36,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetT
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeVectorPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.MagnetorquersState;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
 /**
@@ -158,6 +161,21 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   public AttitudeMode getActiveAttitudeMode()
   {
     return activeAttitudeMode;
+  }
+
+  @Override
+  public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU,
+      float wheelV, float wheelW)
+  {
+    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+        "Setting of Reaction wheels is not implemented in the Simulator yet!");
+  }
+
+  @Override
+  public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed)
+  {
+    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+        "Setting of Reaction wheels is not implemented in the Simulator yet!");
   }
 
 }
