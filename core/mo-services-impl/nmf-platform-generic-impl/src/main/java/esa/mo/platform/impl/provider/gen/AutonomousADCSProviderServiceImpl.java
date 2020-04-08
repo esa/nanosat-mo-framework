@@ -66,6 +66,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeBDotLis
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
 
 /**
  * AutonomousADCS service Provider.
@@ -185,13 +186,13 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     try {
       final AttitudeTelemetry attitudeTelemetry = adapter.getAttitudeTelemetry();
-      final AttitudeTelemetryList attitudeTelemetryList
-          = (AttitudeTelemetryList) HelperMisc.element2elementList(attitudeTelemetry);
+      final AttitudeTelemetryList attitudeTelemetryList =
+          (AttitudeTelemetryList) HelperMisc.element2elementList(attitudeTelemetry);
       attitudeTelemetryList.add(attitudeTelemetry);
 
       final ActuatorsTelemetry actuatorsTelemetry = adapter.getActuatorsTelemetry();
-      final ActuatorsTelemetryList actuatorsTelemetryList
-          = (ActuatorsTelemetryList) HelperMisc.element2elementList(actuatorsTelemetry);
+      final ActuatorsTelemetryList actuatorsTelemetryList =
+          (ActuatorsTelemetryList) HelperMisc.element2elementList(actuatorsTelemetry);
       actuatorsTelemetryList.add(actuatorsTelemetry);
 
       final AttitudeMode activeAttitudeMode = adapter.getActiveAttitudeMode();
@@ -388,6 +389,31 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     } else {
       return new Duration((attitudeControlEndTime - System.currentTimeMillis()) / 1000.f);
     }
+  }
+
+  @Override
+  public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, Float speed,
+      MALInteraction interaction) throws MALInteractionException, MALException
+  {
+    if (!adapter.isUnitAvailable()) {
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+
+    adapter.setReactionWheelSpeed(wheel, speed);
+
+  }
+
+  @Override
+  public void setAllReactionWheelSpeeds(Float speedX, Float speedY, Float speedZ, Float speedU,
+      Float speedV, Float speedW, MALInteraction interaction) throws MALInteractionException,
+      MALException
+  {
+    if (!adapter.isUnitAvailable()) {
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+    adapter.setAllReactionWheelSpeeds(speedX, speedY, speedZ, speedU, speedV, speedW);
   }
 
   private class PublishInteractionListener implements MALPublishInteractionListener

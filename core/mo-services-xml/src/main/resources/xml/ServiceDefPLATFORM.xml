@@ -1265,6 +1265,88 @@
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="20">
+        <mal:submitIP
+          comment="The setReactionWheelSpeed operation allows a consumer to set a desired speed for the specified Reaction wheel in rad/second."
+          name="setReactionWheelSpeed" number="20" supportInReplay="false">
+          <mal:messages>
+            <mal:submit comment="">
+              <mal:field canBeNull="false"
+                         comment="The Reaction wheel indentifier."
+                         name="wheel">
+                <mal:type area="Platform" list="false"
+                          name="ReactionWheelIdentifier" service="AutonomousADCS" />
+              </mal:field>
+              <mal:field canBeNull="false"
+                         comment="Desired Speed in rad/second"
+                         name="speed">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+            </mal:submit>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The ADCS unit is not available.">
+              <mal:type area="Platform" list="false"
+                        name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="21">
+        <mal:submitIP
+          comment="The setAllReactionWheelSpeed operation allows a consumer to set the desired speed for all Reaction wheels in rad/second."
+          name="setAllReactionWheelSpeeds" number="21" supportInReplay="false">
+          <mal:messages>
+            <mal:submit comment="">
+              <mal:field canBeNull="false"
+                         comment="Desired Speed of wheel x in rad/second"
+                         name="speedX">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+              <mal:field canBeNull="false"
+                         comment="Desired Speed of wheel y in rad/second"
+                         name="speedY">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+              <mal:field canBeNull="false"
+                         comment="Desired Speed of wheel z in rad/second"
+                         name="speedZ">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+              <mal:field canBeNull="false"
+                         comment="Desired Speed of wheel u in rad/second"
+                         name="speedU">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+              <mal:field canBeNull="false"
+                         comment="Desired Speed of wheel v in rad/second"
+                         name="speedV">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+              <mal:field canBeNull="false"
+                         comment="Desired Speed of wheel w in rad/second"
+                         name="speedW">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+            </mal:submit>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The ADCS unit is not available.">
+              <mal:type area="Platform" list="false"
+                        name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
+      </mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite
           comment="Holds quaternion components." name="Quaternion"
@@ -1480,6 +1562,22 @@
           <mal:item
             comment="Magnetorquers operating and automatically suspended."
             nvalue="3" value="SUSPEND" />
+        </mal:enumeration>
+        <mal:enumeration
+          comment="Wheel identifiers."
+          name="ReactionWheelIdentifier" shortFormPart="12">
+          <mal:item comment="Reaction wheel x"
+                    nvalue="1" value="WHEEL_X" />
+          <mal:item comment="Reaction wheel y"
+                    nvalue="2" value="WHEEL_Y" />
+          <mal:item comment="Reaction wheel Z"
+                    nvalue="3" value="WHEEL_Z" />
+          <mal:item comment="Reaction wheel u"
+                    nvalue="4" value="WHEEL_U" />
+          <mal:item comment="Reaction wheel v"
+                    nvalue="5" value="WHEEL_V" />
+          <mal:item comment="Reaction wheel w"
+                    nvalue="6" value="WHEEL_W" />
         </mal:enumeration>
       </mal:dataTypes>
     </mal:service>
