@@ -1347,6 +1347,42 @@
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="22">
+        <mal:submitIP
+          comment="The setAllReactionWheelSpeed operation allows a consumer to set the desired speed for all Reaction wheels in rad/second."
+          name="setAllMagnetorquersDipoleMoments" number="22" supportInReplay="false">
+          <mal:messages>
+            <mal:submit comment="">
+              <mal:field canBeNull="false"
+                         comment="Desired Dipole moment fro Magnetorquer x in Am (in actuator frame)"
+                         name="dipoleX">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+              <mal:field canBeNull="false"
+                         comment="Desired Dipole moment fro Magnetorquer y in Am (in actuator frame)"
+                         name="dipoleY">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+              <mal:field canBeNull="false"
+                         comment="Desired Dipole moment fro Magnetorquer z in Am (in actuator frame)"
+                         name="dipoleZ">
+                <mal:type area="MAL" list="false"
+                          name="Float"/>
+              </mal:field>
+              
+            </mal:submit>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The ADCS unit is not available.">
+              <mal:type area="Platform" list="false"
+                        name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
+      </mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite
           comment="Holds quaternion components." name="Quaternion"

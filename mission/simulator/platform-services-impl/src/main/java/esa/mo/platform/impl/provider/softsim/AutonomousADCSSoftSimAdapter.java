@@ -171,4 +171,10 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
         "Setting of Reaction wheels is not implemented in the Simulator yet!");
   }
 
+  @Override
+  public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ)
+  {
+    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+        "Setting of Reaction wheels is not implemented in the Simulator yet!");
+  }
 }

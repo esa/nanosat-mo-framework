@@ -107,4 +107,13 @@ public interface AutonomousADCSAdapterInterface
 
   public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed);
 
+  /**
+   * Sets the dipole moments for all Magnetorquers in Am (in actuator frame)
+   *
+   * @param dipoleX dipole moment for Magnetorquer x
+   * @param dipoleY dipole moment for Magnetorquer y
+   * @param dipoleZ dipole moment for Magnetorquer z
+   */
+  public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ);
+
 }
