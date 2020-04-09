@@ -416,6 +416,17 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     adapter.setAllReactionWheelSpeeds(speedX, speedY, speedZ, speedU, speedV, speedW);
   }
 
+  @Override
+  public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ,
+      MALInteraction interaction) throws MALInteractionException, MALException
+  {
+    if (!adapter.isUnitAvailable()) {
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+    adapter.setAllMagnetorquersDipoleMoments(dipoleX, dipoleY, dipoleZ);
+  }
+
   private class PublishInteractionListener implements MALPublishInteractionListener
   {
 
