@@ -1383,6 +1383,28 @@
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="23">
+        <mal:requestIP comment="The getAllReactionWheelParameters operation allows a consumer to get all parameters that are currently set for the Reaction wheels."
+                       name="getAllReactionWheelParameters" number="23" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment=""/>
+            <mal:response comment="">
+              <mal:field canBeNull="false"
+                         comment="Reaction wheel parameters" name="parameters">
+                <mal:type area="Platform" list="false"
+                          name="ReactionWheelParameters" service="AutonomousADCS" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The ADCS unit is not available.">
+              <mal:type area="Platform" list="false"
+                        name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite
           comment="Holds quaternion components." name="Quaternion"
@@ -1615,6 +1637,26 @@
           <mal:item comment="Reaction wheel w"
                     nvalue="6" value="WHEEL_W" />
         </mal:enumeration>
+        <mal:composite
+          comment="Holds Raction wheel parameters" name="ReactionWheelParameters"
+          shortFormPart="12">
+          <mal:field canBeNull="false"
+                     comment="maximum speed of the Reaction wheels in rad/second" name="maxSpeed">
+            <mal:type area="MAL" list="false" name="Float" />
+          </mal:field>
+          <mal:field canBeNull="false"
+                     comment="maximum torque of the Reaction wheels in Nm" name="maxTorque">
+            <mal:type area="MAL" list="false" name="Float" />
+          </mal:field>
+          <mal:field canBeNull="false"
+                     comment="moment of inertia of the Reaction wheels in kg/m^2" name="inertia">
+            <mal:type area="MAL" list="false" name="Float" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="motor constant of the Reaction wheels in Nm/A" name="motorConst">
+            <mal:type area="MAL" list="false" name="Float" />
+          </mal:field>
+        </mal:composite>
       </mal:dataTypes>
     </mal:service>
     <mal:service

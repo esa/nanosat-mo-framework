@@ -25,6 +25,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelParameters;
 
 /**
  *
@@ -115,5 +116,12 @@ public interface AutonomousADCSAdapterInterface
    * @param dipoleZ dipole moment for Magnetorquer z
    */
   public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ);
+
+  /**
+   * gets the current Reaction wheel Parameters.
+   *
+   * @return the current Reaction wheel parameters
+   */
+  public ReactionWheelParameters getAllReactionWheelParameters();
 
 }

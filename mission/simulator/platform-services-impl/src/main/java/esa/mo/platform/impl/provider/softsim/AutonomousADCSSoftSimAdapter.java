@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetT
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.MagnetorquersState;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelParameters;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
 /**
@@ -144,6 +145,14 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   }
 
   @Override
+  public ReactionWheelParameters getAllReactionWheelParameters()
+  {
+    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+        "Reaction wheel parameters are not implemented in the Simulator yet!");
+    return null;
+  }
+
+  @Override
   public String validateAttitudeDescriptor(AttitudeMode attitude)
   {
     // TODO do some rudimentary checks (i.e. if the angles make sense)
@@ -175,6 +184,6 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ)
   {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
-        "Setting of Reaction wheels is not implemented in the Simulator yet!");
+        "Setting of Magnetorquer dipole moments is not implemented in the Simulator yet!");
   }
 }
