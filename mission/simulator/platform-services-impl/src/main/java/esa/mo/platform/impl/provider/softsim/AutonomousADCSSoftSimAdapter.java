@@ -154,6 +154,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   @Override
   public ReactionWheelParameters getAllReactionWheelParameters()
   {
+
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Reaction wheel parameters are not implemented in the Simulator yet!");
     return null;
@@ -182,6 +183,13 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 
   @Override
   public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed)
+  {
+    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+        "Setting of Reaction wheels is not implemented in the Simulator yet!");
+  }
+
+  @Override
+  public void setAllReactionWheelParameters(ReactionWheelParameters parameters)
   {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Setting of Reaction wheels is not implemented in the Simulator yet!");

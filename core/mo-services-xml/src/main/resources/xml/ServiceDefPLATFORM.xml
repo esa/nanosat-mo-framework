@@ -1403,24 +1403,46 @@
       </mal:capabilitySet>
       <mal:capabilitySet comment="" number="22">
         <mal:submitIP
-          comment="The setAllReactionWheelSpeed operation allows a consumer to set the desired speed for all Reaction wheels in rad/second."
-          name="setAllMagnetorquersDipoleMoments" number="22" supportInReplay="false">
+          comment="The setAllReactionWheelParameters operation allows a consumer to set the desired Parameters for all Reaction wheels. All parameters that are set to -1 will not be changed. WARNING: This will effect all ADCS operation modes! Only maximum speed, maximum torque and control mode will be change!"
+          name="setAllReactionWheelParameters" number="22" supportInReplay="false">
           <mal:messages>
             <mal:submit comment="">
               <mal:field canBeNull="false"
-                         comment="Desired Dipole moment fro Magnetorquer x in Am (in actuator frame)"
+                         comment="Reaction wheel parameters" name="parameters">
+                <mal:type area="Platform" list="false"
+                          name="ReactionWheelParameters" service="AutonomousADCS" />
+              </mal:field>
+            </mal:submit>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The ADCS unit is not available.">
+              <mal:type area="Platform" list="false"
+                        name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="23">
+        <mal:submitIP
+          comment="The setAllMagnetorquersDipoleMoments operation allows a consumer to set the desired dipole moments for all Magnetorquers in Am"
+          name="setAllMagnetorquersDipoleMoments" number="23" supportInReplay="false">
+          <mal:messages>
+            <mal:submit comment="">
+              <mal:field canBeNull="false"
+                         comment="Desired Dipole moment for Magnetorquer x in Am (in actuator frame)"
                          name="dipoleX">
                 <mal:type area="MAL" list="false"
                           name="Float"/>
               </mal:field>
               <mal:field canBeNull="false"
-                         comment="Desired Dipole moment fro Magnetorquer y in Am (in actuator frame)"
+                         comment="Desired Dipole moment for Magnetorquer y in Am (in actuator frame)"
                          name="dipoleY">
                 <mal:type area="MAL" list="false"
                           name="Float"/>
               </mal:field>
               <mal:field canBeNull="false"
-                         comment="Desired Dipole moment fro Magnetorquer z in Am (in actuator frame)"
+                         comment="Desired Dipole moment for Magnetorquer z in Am (in actuator frame)"
                          name="dipoleZ">
                 <mal:type area="MAL" list="false"
                           name="Float"/>
@@ -1437,9 +1459,9 @@
           </mal:errors>
         </mal:submitIP>
       </mal:capabilitySet>
-      <mal:capabilitySet comment="" number="23">
+      <mal:capabilitySet comment="" number="24">
         <mal:requestIP comment="The getAllReactionWheelParameters operation allows a consumer to get all parameters that are currently set for the Reaction wheels."
-                       name="getAllReactionWheelParameters" number="23" supportInReplay="false">
+                       name="getAllReactionWheelParameters" number="24" supportInReplay="false">
           <mal:messages>
             <mal:request comment=""/>
             <mal:response comment="">
@@ -1714,7 +1736,11 @@
           comment="Holds Raction wheel parameters" name="ReactionWheelParameters"
           shortFormPart="12">
           <mal:field canBeNull="false"
-                     comment="maximum speed of the Reaction wheels in rad/second" name="maxSpeed">
+                     comment="Control mode of the Reaction wheels. 0 = Target value is a current value [A]; 1 = Target value is a speed value [rad/sec]; 2 = Target alue is a torgh [Nm]" name="controlMode">
+            <mal:type area="MAL" list="false" name="Integer" />
+          </mal:field>
+          <mal:field canBeNull="false"
+                     comment="maximum speed of the Reaction wheels in rad/second. For safety reasons, the value for this can not exceed 1047.197551" name="maxSpeed">
             <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
           <mal:field canBeNull="false"
