@@ -67,6 +67,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelParameters;
 
 /**
  * AutonomousADCS service Provider.
@@ -425,6 +426,17 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
           PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
     adapter.setAllMagnetorquersDipoleMoments(dipoleX, dipoleY, dipoleZ);
+  }
+
+  @Override
+  public ReactionWheelParameters getAllReactionWheelParameters(MALInteraction interaction) throws
+      MALInteractionException, MALException
+  {
+    if (!adapter.isUnitAvailable()) {
+      throw new MALInteractionException(new MALStandardError(
+          PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+    return adapter.getAllReactionWheelParameters();
   }
 
   private class PublishInteractionListener implements MALPublishInteractionListener
