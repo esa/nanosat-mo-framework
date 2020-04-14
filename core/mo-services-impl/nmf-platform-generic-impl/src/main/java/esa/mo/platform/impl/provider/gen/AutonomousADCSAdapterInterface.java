@@ -106,7 +106,20 @@ public interface AutonomousADCSAdapterInterface
   public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU,
       float wheelV, float wheelW);
 
+  /**
+   * Sets the speed of one Reaction wheel
+   *
+   * @param wheel the wheel which the speed should be set for.
+   * @param Speed the speed that should be set
+   */
   public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed);
+
+  /**
+   * Sets the parameters for all Reaction wheels.
+   *
+   * @param parameters the parameters to be set
+   */
+  public void setAllReactionWheelParameters(ReactionWheelParameters parameters);
 
   /**
    * Sets the dipole moments for all Magnetorquers in Am (in actuator frame)

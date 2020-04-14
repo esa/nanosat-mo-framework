@@ -418,6 +418,13 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   }
 
   @Override
+  public void setAllReactionWheelParameters(ReactionWheelParameters parameters,
+      MALInteraction interaction) throws MALInteractionException, MALException
+  {
+    adapter.setAllReactionWheelParameters(parameters);
+  }
+
+  @Override
   public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ,
       MALInteraction interaction) throws MALInteractionException, MALException
   {
