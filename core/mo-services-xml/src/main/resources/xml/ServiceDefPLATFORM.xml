@@ -1450,6 +1450,25 @@
           </mal:extends>
         </mal:composite>
         <mal:composite
+          comment="Vector Pointing attitude mode defined by the consumer."
+          name="AttitudeModeVectorPointing" shortFormPart="12">
+          <mal:extends>
+            <mal:type area="Platform" list="false"
+                      name="AttitudeMode" service="AutonomousADCS" />
+          </mal:extends>
+          <mal:field canBeNull="false"
+                     comment="Vector the Satelite should point the camera at (in ICRF)"
+                     name="target">
+            <mal:type area="Platform" list="false"
+                      name="VectorF3D"/>
+          </mal:field>
+          <mal:field canBeNull="false"
+                     comment="margin between target vector and current vector (in degrees)"
+                     name="margin">
+            <mal:type area="MAL" list="false" name="Float" />
+          </mal:field>
+        </mal:composite>
+        <mal:composite
           comment="Holds the speed of reaction wheels."
           name="WheelsSpeed" shortFormPart="8">
           <mal:extends>
