@@ -50,7 +50,7 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
   public boolean loadFromPath(String path) {
     try {
       String absolutePath = SimulatorNode.handleResourcePath(path, logger,
-          getClass().getClassLoader());
+          getClass().getClassLoader(), false);
 //            this.dataBuffer = Files.readAllBytes(Paths.get(absolutePath));
       RandomAccessFile f = new RandomAccessFile(absolutePath, "r");
       if (f.length() > Integer.MAX_VALUE) {

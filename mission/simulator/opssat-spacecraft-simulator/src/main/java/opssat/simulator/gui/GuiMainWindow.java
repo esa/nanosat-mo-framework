@@ -233,7 +233,7 @@ public class GuiMainWindow implements Runnable {
      * targetPath = interfacesFile.getAbsolutePath();
      */
     String absolutePath = SimulatorNode.handleResourcePath(path, logger,
-        getClass().getClassLoader());
+        getClass().getClassLoader(), false);
     File interfacesFile = new File(absolutePath);
     String targetPath = interfacesFile.getAbsolutePath();
 

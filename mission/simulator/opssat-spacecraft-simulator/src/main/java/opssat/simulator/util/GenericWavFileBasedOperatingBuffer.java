@@ -83,7 +83,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
                 }
             }
             */
-            String absolutePath=SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader());
+            String absolutePath=SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader(), false);
             
 //            this.dataFilePath = Paths.get(absolutePath).toString();
             this.dataFilePath = absolutePath;

@@ -231,7 +231,8 @@ public class SimulatorNode extends TaskNode
     return String.format("*%02X", (int) result);
   }
 
-  public static String handleResourcePath(String path, Logger logger, ClassLoader classLoader)
+  public static String handleResourcePath(String path, Logger logger, ClassLoader classLoader,
+      boolean replace)
   {
     String resourcesFolder = SimulatorNode.getResourcesPath();
     File folder = new File(resourcesFolder);
@@ -241,6 +242,11 @@ public class SimulatorNode extends TaskNode
     }
     String absolutePath = resourcesFolder + path;
     File f = new File(absolutePath);
+
+    if (replace && !f.isDirectory()) {
+      f.delete();
+    }
+
     if (f.exists() && !f.isDirectory()) {
       logger.log(Level.FINE, "File [" + f.getAbsolutePath() + "] exists");
     } else {
@@ -267,7 +273,7 @@ public class SimulatorNode extends TaskNode
           logger.log(Level.WARNING, e.toString());
         }
       } else {
-        logger.log(Level.INFO, "Resource file [" + path + "] could not be found");
+        logger.log(Level.WARNING, "Resource file [" + path + "] could not be found");
       }
     }
     return absolutePath;
@@ -300,6 +306,14 @@ public class SimulatorNode extends TaskNode
       Logger.getLogger(SimulatorNode.class.getCanonicalName()).log(Level.WARNING,
           "TLE only awailable in Simulator, wenn Using Orekit propagator!");
       return new TLE(OPSSAT_TLE_LINE1, OPSSAT_TLE_LINE2);
+    }
+  }
+
+  public void runVectorTargetTracking(float x, float y, float z, float margin)
+  {
+    logger.log(Level.INFO, "Vector " + x + " " + y + " " + z);
+    if (simulatorHeader.isUseOrekitPropagator()) {
+      this.orekitCore.changeAttitudeVectorTarget(x, y, z, margin);
     }
   }
 
