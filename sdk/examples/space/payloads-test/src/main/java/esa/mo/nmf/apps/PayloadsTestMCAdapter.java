@@ -247,7 +247,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   private static enum AttitudeModeEnum
   {
-    IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING
+    IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING, VECTORPOINTING
   }
 
   private UOctet attitudeModeToParamValue(AttitudeMode attitude)
@@ -265,7 +265,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       modeEnum = AttitudeModeEnum.TARGETTRACKING;
     } else if (attitude instanceof AttitudeModeNadirPointing) {
       modeEnum = AttitudeModeEnum.NADIRPOINTING;
-    } else {
+    } else if (attitude instanceof AttitudeModeVectorPointing) {
+      modeEnum = AttitudeModeEnum.VECTORPOINTING;
+    } else{
       throw new IllegalArgumentException("Unrecognized attitude mode type!");
     }
     return new UOctet((short) modeEnum.ordinal());
@@ -317,6 +319,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         "TARGETTRACKING")));
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.NADIRPOINTING.ordinal()), new Union(
         "NADIRPOINTING")));
+    mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.VECTORPOINTING.ordinal()), new Union(
+        "VECTORPOINTING")));
     DiscreteConversionDetailsList conversions = new DiscreteConversionDetailsList();
     conversions.add(new DiscreteConversionDetails(mappings));
     ParameterConversion paramConversion = null;

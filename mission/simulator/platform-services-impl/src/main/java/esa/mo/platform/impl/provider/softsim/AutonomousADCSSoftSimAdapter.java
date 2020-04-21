@@ -31,6 +31,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeNadirPo
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSingleSpinning;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeVectorPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.MagnetorquersState;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
@@ -104,6 +105,12 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
           BEGIN_END_TIMES, latitudeLongitude);
     } else if (att instanceof AttitudeModeNadirPointing) {
       instrumentsSimulator.getpFineADCS().opModeSetNadirTargetTracking(MODE_START, BEGIN_END_TIMES);
+    } else if (att instanceof AttitudeModeVectorPointing) {
+      AttitudeModeVectorPointing a = (AttitudeModeVectorPointing) att;
+      VectorF3D vec = a.getTarget();
+      instrumentsSimulator.getpFineADCS().getSimulatorNode().runVectorTargetTracking(
+          vec.getX(), vec.getY(),
+          vec.getZ(), a.getMargin());
     }
 
   }
