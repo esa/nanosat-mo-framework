@@ -220,8 +220,7 @@ public class CameraAcquisitorSystemCameraHandler
 
       // create filename
       final String filenamePrefix =
-          folder + File.separator + timeNow + "_" + posString + "_" + this.fileName;
-
+          folder + File.separator + timeNow + "_" + posString + "_" + this.fileName + "_" + this.actionInstanceObjId;
       try {
         // Store it in a file!
         if (picture.getSettings().getFormat().equals(PictureFormat.RAW)) {
