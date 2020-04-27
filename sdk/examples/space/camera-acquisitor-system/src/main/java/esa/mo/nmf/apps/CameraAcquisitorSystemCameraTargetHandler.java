@@ -65,12 +65,12 @@ import org.orekit.time.TimeScalesFactory;
 public class CameraAcquisitorSystemCameraTargetHandler
 {
 
-  public static final String ACTION_PHOTOGRAPH_LOCATION_MANUAL = "photographLocationManual";
-  public static final int PHOTOGRAPH_LOCATION_MANUAL_STAGES =
+  public static final String ACTION_PHOTOGRAPH_LOCATION = "photographLocation";
+  public static final int PHOTOGRAPH_LOCATION_STAGES =
       3 + CameraAcquisitorSystemCameraHandler.PHOTOGRAPH_NOW_STAGES;
-  private static final int STAGE_MANUAL_WAIT_FOR_PASS = 1;
-  private static final int STAGE_MANUAL_ATTITUDE_CORECTION = 2;
-  private static final int STAGE_MANUAL_WAIT_FOR_OPTIMAL_PASS = 3;
+  private static final int STAGE_WAIT_FOR_PASS = 1;
+  private static final int STAGE_ATTITUDE_CORECTION = 2;
+  private static final int STAGE_WAIT_FOR_OPTIMAL_PASS = 3;
 
   private CameraAcquisitorSystemMCAdapter casMCAdapter;
 
@@ -95,7 +95,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
     ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
     IdentifierList actionNames = new IdentifierList();
 
-    ArgumentDefinitionDetailsList argumentsPhotographLocationManual =
+    ArgumentDefinitionDetailsList argumentsPhotographLocation =
         new ArgumentDefinitionDetailsList();
     {
       byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
@@ -103,10 +103,10 @@ public class CameraAcquisitorSystemCameraTargetHandler
       ConditionalConversionList conditionalConversions = null;
       Byte convertedType = null;
       String convertedUnit = null;
-      argumentsPhotographLocationManual.add(new ArgumentDefinitionDetails(
+      argumentsPhotographLocation.add(new ArgumentDefinitionDetails(
           new Identifier("targetLongitude"), null, rawType, rawUnit,
           conditionalConversions, convertedType, convertedUnit));
-      argumentsPhotographLocationManual.add(new ArgumentDefinitionDetails(
+      argumentsPhotographLocation.add(new ArgumentDefinitionDetails(
           new Identifier("targetLatitude"), null, rawType, rawUnit,
           conditionalConversions, convertedType, convertedUnit));
     }
@@ -116,24 +116,24 @@ public class CameraAcquisitorSystemCameraTargetHandler
       ConditionalConversionList conditionalConversions = null;
       Byte convertedType = null;
       String convertedUnit = null;
-      argumentsPhotographLocationManual.add(new ArgumentDefinitionDetails(
+      argumentsPhotographLocation.add(new ArgumentDefinitionDetails(
           new Identifier("timeStemp"), null, rawType, rawUnit,
           conditionalConversions, convertedType, convertedUnit));
     }
 
-    ActionDefinitionDetails actionDefTakePhotograpManual = new ActionDefinitionDetails(
+    ActionDefinitionDetails actionDefTakePhotograp = new ActionDefinitionDetails(
         "queues a new photograph target at the Specified Timestemp",
-        new UOctet((short) 0), new UShort(PHOTOGRAPH_LOCATION_MANUAL_STAGES),
-        argumentsPhotographLocationManual);
+        new UOctet((short) 0), new UShort(PHOTOGRAPH_LOCATION_STAGES),
+        argumentsPhotographLocation);
 
-    actionDefs.add(actionDefTakePhotograpManual);
-    actionNames.add(new Identifier(ACTION_PHOTOGRAPH_LOCATION_MANUAL));
+    actionDefs.add(actionDefTakePhotograp);
+    actionNames.add(new Identifier(ACTION_PHOTOGRAPH_LOCATION));
 
     registration.registerActions(actionNames, actionDefs);
 
   }
 
-  UInteger photographLocationManual(AttributeValueList attributeValues, Long actionInstanceObjId,
+  UInteger photographLocation(AttributeValueList attributeValues, Long actionInstanceObjId,
       boolean reportProgress, MALInteraction interaction)
   {
     // get parameters
@@ -155,8 +155,8 @@ public class CameraAcquisitorSystemCameraTargetHandler
       {
         try {
           casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
-              STAGE_MANUAL_WAIT_FOR_PASS,
-              PHOTOGRAPH_LOCATION_MANUAL_STAGES,
+              STAGE_WAIT_FOR_PASS,
+              PHOTOGRAPH_LOCATION_STAGES,
               actionInstanceObjId);
         } catch (NMFException ex) {
           Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
@@ -180,8 +180,8 @@ public class CameraAcquisitorSystemCameraTargetHandler
                   desiredAttitude);
 
           casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
-              STAGE_MANUAL_ATTITUDE_CORECTION,
-              PHOTOGRAPH_LOCATION_MANUAL_STAGES,
+              STAGE_ATTITUDE_CORECTION,
+              PHOTOGRAPH_LOCATION_STAGES,
               actionInstanceObjId);
           LOGGER.log(Level.INFO, "Attitude Correction Running");
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
@@ -206,15 +206,15 @@ public class CameraAcquisitorSystemCameraTargetHandler
 
         try {
           casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
-              STAGE_MANUAL_WAIT_FOR_OPTIMAL_PASS,
-              PHOTOGRAPH_LOCATION_MANUAL_STAGES,
+              STAGE_WAIT_FOR_OPTIMAL_PASS,
+              PHOTOGRAPH_LOCATION_STAGES,
               actionInstanceObjId);
           LOGGER.log(Level.INFO, "Finished waiting for Pass");
 
           // trigger photograph
           LOGGER.log(Level.INFO, "Taking Photograph now");
           casMCAdapter.getCameraHandler().takePhotograph(actionInstanceObjId,
-              STAGE_MANUAL_WAIT_FOR_OPTIMAL_PASS, PHOTOGRAPH_LOCATION_MANUAL_STAGES, "");
+              STAGE_WAIT_FOR_OPTIMAL_PASS, PHOTOGRAPH_LOCATION_STAGES, "");
 
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
           Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
@@ -308,7 +308,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
                 AbsoluteDate targetDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
 
                 if (targetDate.compareTo(CameraAcquisitorSystemMCAdapter.getNow()) > 0) {
-                  photographLocationManual(instance.getArgumentValues(), objDetails.get(
+                  photographLocation(instance.getArgumentValues(), objDetails.get(
                       i).getInstId(), true,
                       null);
                   Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
