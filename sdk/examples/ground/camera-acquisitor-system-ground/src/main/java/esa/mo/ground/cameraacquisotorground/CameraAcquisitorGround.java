@@ -292,7 +292,7 @@ public class CameraAcquisitorGround
       parameters);*/
       IdentifierList idList = new IdentifierList();
       idList.add(
-          new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL));
+          new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
       Long actionID = null;
 
       try {
@@ -319,7 +319,7 @@ public class CameraAcquisitorGround
       } else {
         LOGGER.log(Level.INFO, "new Action: {0}", actionID);
         activeActions.put(actionID,
-            new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_MANUAL_STAGES]);
+            new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
         return true;
       }
     }
@@ -402,7 +402,7 @@ public class CameraAcquisitorGround
         IdentifierList idList = new IdentifierList();
         idList.add(
             new Identifier(
-                CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL));
+                CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
         ObjectInstancePairList objIds =
             gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
@@ -421,7 +421,7 @@ public class CameraAcquisitorGround
         } else {
           LOGGER.log(Level.INFO, "new Action: {0}", actionID);
           activeActions.put(actionID,
-              new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_MANUAL_STAGES]);
+              new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
         }
         return actionID;
 
@@ -713,7 +713,7 @@ public class CameraAcquisitorGround
               IdentifierList idList = new IdentifierList();
               idList.add(
                   new Identifier(
-                      CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL));
+                      CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
               ObjectInstancePairList objIds =
                   gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
@@ -725,7 +725,7 @@ public class CameraAcquisitorGround
                 System.out.println("recovered action: " + timestamp);
 
                 activeActions.put(objDetails.get(i).getInstId(),
-                    new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_MANUAL_STAGES]);
+                    new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
 
                 AbsoluteDate scheduleDate = new AbsoluteDate(timestamp, TimeScalesFactory.getUTC());
 

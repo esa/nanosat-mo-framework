@@ -325,8 +325,8 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     LOGGER.log(Level.INFO, "number of parameters: {0}", attributeValues.size());
 
     switch (name.getValue()) {
-      case (CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL):
-        return this.cameraTargetHandler.photographLocationManual(attributeValues,
+      case (CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION):
+        return this.cameraTargetHandler.photographLocation(attributeValues,
             actionInstanceObjId, reportProgress, interaction);
       case (CameraAcquisitorSystemCameraHandler.ACTION_PHOTOGRAPH_NOW):
         return this.cameraHandler.photographNow(attributeValues, actionInstanceObjId,
