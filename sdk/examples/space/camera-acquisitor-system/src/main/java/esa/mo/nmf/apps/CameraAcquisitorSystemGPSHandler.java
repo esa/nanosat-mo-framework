@@ -23,6 +23,7 @@ package esa.mo.nmf.apps;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -30,9 +31,11 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
+import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.propagation.analytical.tle.TLE;
 
@@ -82,13 +85,4 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter
     }
     return null;
   }
-
-  public TLE getTLE()
-  {
-    String line1 = "1 99999U          19189.41666667 -.00000000  00000-0  00000-0 0 00009";
-    String line2 = "2 99999 097.7038 253.4570 0014081 261.6845 115.0798 15.07058460000011";
-
-    return new TLE(line1, line2);
-  }
-
 }

@@ -43,15 +43,11 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.orekit.bodies.OneAxisEllipsoid;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.errors.OrekitException;
-import org.orekit.frames.FactoryManagedFrame;
-import org.orekit.frames.FramesFactory;
 import org.orekit.time.AbsoluteDate;
 import org.orekit.time.TimeScale;
 import org.orekit.time.TimeScalesFactory;
-import org.orekit.utils.Constants;
 
 /**
  * Class for Interfacing with the Camera Acquisitor System. This class handles all Parameters and
@@ -64,11 +60,6 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
       CameraAcquisitorSystemMCAdapter.class.getName());
 
   private NMFInterface connector;
-
-  //create earth reference frame:
-  public final FactoryManagedFrame earthFrame;
-  public final OneAxisEllipsoid earth;
-  ;
 
   private final CameraAcquisitorSystemCameraTargetHandler cameraTargetHandler;
   private final CameraAcquisitorSystemCameraHandler cameraHandler;
@@ -188,24 +179,14 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
   public CameraAcquisitorSystemMCAdapter(final NMFInterface connector)
   {
-    FactoryManagedFrame earthFrameTMP = null;
-    OneAxisEllipsoid earthTMP = null;
     try {
       //load orekit-data wich is required for many parts of orekit to work.
       LOGGER.log(Level.INFO, "Loading orekit data");
       DataProvidersManager manager = DataProvidersManager.getInstance();
       manager.addProvider(OrekitResources.getOrekitData());
-
-      earthFrameTMP = FramesFactory.getEME2000();
-      earthTMP = new OneAxisEllipsoid(
-          Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
-          Constants.WGS84_EARTH_FLATTENING, earthFrameTMP);
-
     } catch (OrekitException e) {
       LOGGER.log(Level.SEVERE, "Failed to initialise Orekit:\n{0}", e.getMessage());
     }
-    this.earthFrame = earthFrameTMP;
-    this.earth = earthTMP;
 
     this.connector = connector;
     LOGGER.log(Level.INFO, "init cameraTargetHandler");
@@ -344,9 +325,6 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     LOGGER.log(Level.INFO, "number of parameters: {0}", attributeValues.size());
 
     switch (name.getValue()) {
-      case (CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION):
-        return this.cameraTargetHandler.photographLocation(attributeValues, actionInstanceObjId,
-            reportProgress, interaction);
       case (CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION_MANUAL):
         return this.cameraTargetHandler.photographLocationManual(attributeValues,
             actionInstanceObjId, reportProgress, interaction);
