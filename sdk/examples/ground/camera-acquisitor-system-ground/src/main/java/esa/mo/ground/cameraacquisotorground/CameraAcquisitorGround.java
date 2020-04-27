@@ -117,7 +117,6 @@ public class CameraAcquisitorGround
   private static final Logger LOGGER = Logger.getLogger(CameraAcquisitorGround.class.getName());
 
   private GroundMOAdapterImpl gma;
-  private final TerminalInputHandler inputHandler;
   private final OrbitHandler orbitHandler;
 
 
@@ -273,8 +272,6 @@ public class CameraAcquisitorGround
     } catch (MALInteractionException ex) {
       Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
     }
-
-    inputHandler = new TerminalInputHandler();
 
     orbitHandler = new OrbitHandler(getTLE());
   }
