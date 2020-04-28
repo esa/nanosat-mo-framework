@@ -46,31 +46,33 @@ import org.orekit.utils.IERSConventions;
 import org.orekit.utils.PVCoordinatesProvider;
 
 /**
+ * Class for calculating passes and propagating orbits.
  *
  * @author Kevin Otto <Kevin@KevinOtto.de>
  */
 public class OrbitHandler
 {
 
+  /**
+   * Enum for pass time modes ANY: the photograph will be taken as soon as possible. DAYTIME: the
+   * photograph will be taken at a daytime pass NIGHTTIME: the photograph will be taken at a
+   * nighttime pass
+   */
   public static enum TimeModeEnum
   {
     ANY, DAYTIME, NIGHTTIME
   }
-
-  private TreeSet targets = new TreeSet(new Comparator<PositionAndTime>()
-  {
-    @Override
-    public int compare(PositionAndTime o1, PositionAndTime o2)
-    {
-      return o1.orekitDate.compareTo(o2.orekitDate);
-    }
-  });
 
   private final FactoryManagedFrame earthFrame;
   private final OneAxisEllipsoid earth;
   private TLEPropagator propagator;
   private TLE initialTLE;
 
+  /**
+   * creates a new orbit handler
+   *
+   * @param tle the current TLE
+   */
   public OrbitHandler(TLE tle)
   {
 
@@ -83,17 +85,33 @@ public class OrbitHandler
     propagator = TLEPropagator.selectExtrapolator(tle);
   }
 
+  /**
+   * updates the TLE that is used for orbit propagation
+   *
+   * @param tle the new TLE
+   */
   public void updateTLE(TLE tle)
   {
     initialTLE = tle;
     propagator = TLEPropagator.selectExtrapolator(tle);
   }
 
+  /**
+   * resets the State of the propagator.
+   */
   public void reset()
   {
     propagator = TLEPropagator.selectExtrapolator(initialTLE);
   }
 
+  /**
+   * calculates ground with given parameters.
+   *
+   * @param startDate       date of first entry in the ground track.
+   * @param endDate         date of last entry in the ground track.
+   * @param timeStepSeconds seconds between entries.
+   * @return
+   */
   public PositionAndTime[] getGroundTrack(AbsoluteDate startDate, AbsoluteDate endDate,
       double timeStepSeconds)
   {
@@ -123,15 +141,16 @@ public class OrbitHandler
   }
 
   /**
+   * returns the next time a pass happens with the given parameters
    *
-   * @param longitude
-   * @param latitude
-   * @param maxAngle
-   * @param timeMode
-   * @param notBeforeDate
-   * @param worstCaseRotationTimeSeconds
+   * @param longitude                    target longitude
+   * @param latitude                     target latitude
+   * @param maxAngle                     maximum angle between satellite and target
+   * @param timeMode                     time at which the pass should be
+   * @param notBeforeDate                the earliest time the pass can be
+   * @param worstCaseRotationTimeSeconds the time needed to orient the satellite
    * @param simulationRange
-   * @return
+   * @return the earliest pass that fits the given parameters
    */
   public Pass getPassTime(double longitude, double latitude, double maxAngle,
       TimeModeEnum timeMode, AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds,
