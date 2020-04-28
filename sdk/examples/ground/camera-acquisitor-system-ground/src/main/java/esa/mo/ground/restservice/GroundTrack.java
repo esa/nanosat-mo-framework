@@ -21,6 +21,7 @@
 package esa.mo.ground.restservice;
 
 /**
+ * Class for containing ground track information
  *
  * @author Kevin Otto <Kevin@KevinOtto.de>
  */

@@ -21,12 +21,11 @@
 package esa.mo.ground.restservice;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.Date;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.time.AbsoluteDate;
-import org.orekit.time.TimeScalesFactory;
 
 /**
+ * Class for containing geographical data and a corresponding date (used for ground track)
  *
  * @author Kevin Otto <Kevin@KevinOtto.de>
  */

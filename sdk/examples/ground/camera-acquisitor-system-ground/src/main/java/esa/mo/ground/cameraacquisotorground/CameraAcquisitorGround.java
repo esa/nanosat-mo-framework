@@ -27,28 +27,19 @@ import esa.mo.ground.restservice.GroundTrack;
 import esa.mo.ground.restservice.Pass;
 import esa.mo.ground.restservice.PositionAndTime;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.apps.CameraAcquisitorSystemCameraTargetHandler;
 import esa.mo.nmf.apps.CameraAcquisitorSystemMCAdapter;
-import esa.mo.nmf.groundmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.sdk.OrekitResources;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -57,7 +48,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.imageio.ImageIO;
 import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
 import org.ccsds.moims.mo.com.activitytracking.structures.ActivityAcceptance;
 import org.ccsds.moims.mo.com.activitytracking.structures.ActivityExecution;
@@ -78,7 +68,6 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.alert.structures.AlertEventDetails;
@@ -119,13 +108,14 @@ public class CameraAcquisitorGround
   private GroundMOAdapterImpl gma;
   private final OrbitHandler orbitHandler;
 
-
+  // some usefull time constants
   private final long MINUTE_IN_SECONDS = 60;
   private final long HOUR_IN_SECONDS = MINUTE_IN_SECONDS * 60;
   private final long DAY_IN_SECONDS = HOUR_IN_SECONDS * 24;
   private final long FIVE_DAYS_IN_SECONDS = DAY_IN_SECONDS * 5;
   private final long YEAR_IN_SECONDS = DAY_IN_SECONDS * 356;
 
+  // default values for space application parameters
   private final long DEFAULT_WORST_CASE_ROTATION_TIME_MS = 20000;
   private final long DEFAULT_WORST_CASE_ROTATION_TIME_SEC =
       DEFAULT_WORST_CASE_ROTATION_TIME_MS / 1000;
@@ -135,7 +125,10 @@ public class CameraAcquisitorGround
   private final long DEFAULT_STEPSIZE = MINUTE_IN_SECONDS / 2;
   private final double DEFAULT_MAX_ANGLE = 45.0;
 
+  // Tree set to keep track of sheduled photographs and make checking for collisions easyer
   private final TreeSet<AbsoluteDate> schedule = new TreeSet<>();
+
+  // Hashmap containing the currently running actions and their status (current stage)
   private final HashMap<Long, ActionReport[]> activeActions = new HashMap<>();
 
   // cached values
@@ -152,9 +145,11 @@ public class CameraAcquisitorGround
     System.out.println("----------------------------- STARTUP --------------------------------");
   }
 
+  /**
+   * class containing all parameters needed for the space application
+   */
   private class Parameter
   {
-
     private static final String GAIN_RED = "GainRed";
     private static final String GAIN_GREEN = "GainGreen";
     private static final String GAIN_BLUE = "GainBlue";
@@ -169,15 +164,25 @@ public class CameraAcquisitorGround
   }
 
   /**
-   * Inner class for storing action progress
+   * Inner class for storing action progress (like current stage etc.)
    */
   private class ActionReport
   {
-
+    // number of the stage
     public int stage;
+
+    // true if the stage was successful, false if not
     public boolean success;
+
+    // error message (if seccess is true, this should be empty)
     public String error;
 
+    /**
+     *
+     * @param stage   stage this report refers too.
+     * @param success if the stage was executed successfully.
+     * @param error   the corresponding error message if it was not successful.
+     */
     public ActionReport(int stage, boolean success, String error)
     {
       this.stage = stage;
@@ -193,6 +198,7 @@ public class CameraAcquisitorGround
 
   }
 
+  // Coordinates of esoc in darmstadt
   GeodeticPoint esoc = new GeodeticPoint(49.869987, 8.622770, 0);
 
   public CameraAcquisitorGround(ApplicationArguments args)
@@ -231,7 +237,6 @@ public class CameraAcquisitorGround
       }
 
       gma = gmaTMP;
-      //gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
 
       Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
           "ActivityTrackingListener",
@@ -259,141 +264,52 @@ public class CameraAcquisitorGround
       GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
 
       gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(
-          //new UShort(4), new UShort(1), new UOctet((short) 1), new UShort(3)),
           new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
           archiveQueryList, null, archiveAdapter);
 
       System.out.println("------------------------------------------------------------------------");
 
-    } catch (MALException ex) {
-      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (MalformedURLException ex) {
-      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (MALInteractionException ex) {
+    } catch (MALException | MalformedURLException | MALInteractionException ex) {
       Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     orbitHandler = new OrbitHandler(getTLE());
   }
 
-  public boolean sendCommandShedulePhotograph(double latitude, double longitude, double maxAngle,
-      OrbitHandler.TimeModeEnum timeMode)
-  {
-    Union[] parameters = new Union[]{new Union(latitude), new Union(longitude), new Union(maxAngle),
-      new Union(timeMode.ordinal())};
-
-    // synchronized to prevent reciving first reply of action before it was added to list
-    synchronized (activeActions) {
-      /*Long actionID = gma.invokeAction(
-      CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION,
-      parameters);*/
-      IdentifierList idList = new IdentifierList();
-      idList.add(
-          new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
-      Long actionID = null;
-
-      try {
-        ObjectInstancePairList objIds =
-            gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
-        if (objIds == null) {
-          LOGGER.log(Level.SEVERE,
-              "Action does not exist, please check if space application is running");
-          return false;
-        }
-        AttributeValueList arguments = new AttributeValueList();
-        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(latitude)));
-        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(longitude)));
-        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(maxAngle)));
-        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(
-            timeMode.ordinal())));
-        actionID = gma.invokeAction(objIds.get(0).getObjDefInstanceId(), arguments);
-      } catch (MALInteractionException | MALException | NMFException ex) {
-        Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
-      }
-      if (actionID == null) {
-        LOGGER.log(Level.SEVERE, "Action ID == null!");
-        return false;
-      } else {
-        LOGGER.log(Level.INFO, "new Action: {0}", actionID);
-        activeActions.put(actionID,
-            new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
-        return true;
-      }
-    }
-  }
-
-  private void drawOrbit()
-  {
-
-    int width = 1920;
-    int height = 1080;
-    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    Graphics g = image.createGraphics();
-
-    // draw background
-    g.setColor(Color.WHITE);
-    g.fillRect(0, 0, width, height);
-
-    AbsoluteDate now = new AbsoluteDate(
-        Date.from(OffsetDateTime.now(ZoneOffset.UTC).toInstant()),
-        TimeScalesFactory.getUTC());
-
-    long shiftTime = (long) (60 * 60 * 1.57) * 4; // aproximatly one orbit
-
-    PositionAndTime[] series =
-        orbitHandler.getGroundTrack(now, now.shiftedBy(shiftTime), 10);
-    GeodeticPoint currentPos = orbitHandler.getPosition(now);
-
-    // draw path segments
-    g.setColor(Color.BLACK);
-    drawSeries(series, height, width, g);
-
-    g.setColor(Color.GREEN);
-    g.fillOval(
-        imageCoordianteX(currentPos, width) - 10,
-        imageCoordianteY(currentPos, height) - 10,
-        20, 20);
-
-    g.setColor(Color.BLUE);
-    g.fillOval(
-        imageCoordianteX(esoc, width) - 10,
-        imageCoordianteY(esoc, height) - 10,
-        20, 20);
-
-    // save image
-    File outputfile = new File(System.getProperty("user.home") + "/orbit.png");
-    try {
-      ImageIO.write(image, "png", outputfile);
-      System.out.println("image saved");
-    } catch (IOException ex) {
-      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
-    }
-  }
-
+  /**
+   * Exposes the Action status over the REST API returns the status of the action with the given
+   * actionID.
+   *
+   * @param actionID the action id of the action to request status of.
+   * @return the status of the action with the given actionID
+   */
   @GetMapping("/getActionStatus")
   public ActionReport[] getActionStatus(@RequestParam(value = "actionID") long actionID)
   {
     return activeActions.get(actionID);
   }
 
+  /**
+   * Schedules a photograph of the given target location at a given time.
+   *
+   * @param longitude longitude of the target location.
+   * @param latitude  latitude of the target location.
+   * @param timeStemp time at which the photograph should be taken.
+   * @return the actionID that was assigned to space application action.
+   */
   @PostMapping("/schedulePhotographPosition")
   public Long schedulePhotographPosition(
       @RequestParam(value = "longitude") double longitude,
       @RequestParam(value = "latitude") double latitude,
       @RequestParam(value = "timeStemp") String timeStemp)
   {
-    System.out.println("schedulePhotographPosition");
-    System.out.println("longitude:" + longitude);
-    System.out.println("latitude:" + latitude);
-    System.out.println("time:" + timeStemp);
-
-    Union[] parameters =
-        new Union[]{new Union(latitude), new Union(longitude), new Union(timeStemp)};
 
     AbsoluteDate scheduleDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
 
+    // check if timeslot is awailable
     if (checkTimeSlot(scheduleDate)) {
       try {
+        // add new action to schedule
         schedule.add(scheduleDate);
 
         IdentifierList idList = new IdentifierList();
@@ -422,7 +338,7 @@ public class CameraAcquisitorGround
         }
         return actionID;
 
-      } catch (Exception e) {
+      } catch (NMFException | MALException | MALInteractionException e) {
         LOGGER.log(Level.SEVERE, e.getMessage());
       }
     }
@@ -430,6 +346,17 @@ public class CameraAcquisitorGround
     return null;
   }
 
+  /**
+   * calculates multiple time slots at which a photograph with the given parameters can be taken.
+   * Takes current schedule into account. Returns at most NUM_TRIES time slots. Returns less if
+   * MAX_SIM_RANGE is exceeded before NUM_TRIES slots have been found.
+   *
+   * @param longitude longitude of the target
+   * @param latitude  latitude of the target
+   * @param maxAngle  maximum angle between target and satellite.
+   * @param timeMode  the time at which the photograph should be taken (ANY, DAY, NIGHT)
+   * @return list of possible time slots
+   */
   @GetMapping("/photographTime")
   public LinkedList<String> getTimeOfPhotograph(
       @RequestParam(value = "longitude") double longitude,
@@ -437,16 +364,13 @@ public class CameraAcquisitorGround
       @RequestParam(value = "maxAngle", defaultValue = "" + DEFAULT_MAX_ANGLE) double maxAngle,
       @RequestParam(value = "timeMode", defaultValue = "ANY") OrbitHandler.TimeModeEnum timeMode)
   {
-
-    System.out.println("longitude:" + longitude);
-    System.out.println("latitude:" + latitude);
-    System.out.println("maxAngle: " + maxAngle);
-    System.out.println("timeMode: " + timeMode.ordinal());
+    // reset propagator state
     orbitHandler.reset();
     AbsoluteDate simTime = CameraAcquisitorSystemMCAdapter.getNow();
     AbsoluteDate simEnd = simTime.shiftedBy(MAX_SIM_RANGE);
 
     LinkedList<String> results = new LinkedList();
+    // check next NUM_TRIES passes
     while (simTime.compareTo(simEnd) < 0 && results.size() <= NUM_TRIES) {
 
       Pass pass = orbitHandler.getPassTime(
@@ -456,6 +380,9 @@ public class CameraAcquisitorGround
           DEFAULT_WORST_CASE_ROTATION_TIME_SEC,
           MAX_SIM_RANGE);
       simTime = pass.getOptimalTime();
+
+      // if timeslot awailable add to possible results
+      // simTime is null, if start time > end time, in that case abort.
       if (simTime != null && checkTimeSlot(simTime)) {
         results.add(pass.getResultTime());
       } else if (simTime == null) {
@@ -468,6 +395,13 @@ public class CameraAcquisitorGround
     return results;
   }
 
+  /**
+   * calculates the ground track for the satellite and returns a list of locations and time stamps.
+   *
+   * @param duration how far into the future the ground track should be calculated in seconds
+   * @param stepsize the amount of time between entries in the resulting list in seconds
+   * @return
+   */
   @GetMapping("/groundTrack")
   public GroundTrack groundTrack(
       @RequestParam(value = "duration", defaultValue = "" + DEFAULT_GROUND_TRACK_DURATION) long duration,
@@ -488,54 +422,12 @@ public class CameraAcquisitorGround
     return new GroundTrack(counter.incrementAndGet(), track);
   }
 
-  private void drawSeries(PositionAndTime[] series, int height, int width, Graphics g)
-  {
-    PositionAndTime lastPoint = series[0];
-    for (PositionAndTime point : series) {
-      int x1 = imageCoordianteX(lastPoint.location, width);
-      int y1 = imageCoordianteY(lastPoint.location, height);
-      int x2 = imageCoordianteX(point.location, width);
-      int y2 = imageCoordianteY(point.location, height);
-
-      System.out.println(x1);
-      System.out.println(x2);
-      System.out.println(y1);
-      System.out.println(y2);
-
-      if (x2 <= x1) {
-        g.drawLine(x1, y1, x2, y2);
-      } else {// wrap around case
-        double m = (double) (y2 - y1) / (double) ((x2 - width) - x1);
-        double b = (int) -((x1 * m) - y1);
-        g.drawLine(x1, y1, 0, (int) b);//mx+b //x=0
-        g.drawLine(x2, y2, width, (int) (m * (width - x2) + b));// x = width
-      }
-
-      lastPoint = point;
-    }
-  }
-
-  private int imageCoordianteX(GeodeticPoint point, int width)
-  {
-    return (int) (((mercatorX(point) + Math.PI) / (2 * Math.PI)) * width);
-  }
-
-  private int imageCoordianteY(GeodeticPoint point, int height)
-  {
-    return height - (int) (((mercatorY(point) + Math.PI) / (2 * Math.PI)) * height);
-  }
-
-  private double mercatorX(GeodeticPoint point)
-  {
-    return (point.getLongitude());
-  }
-
-  private double mercatorY(GeodeticPoint point)
-  {
-    double x = Math.sin(point.getLatitude());
-    return ((Math.log(1 + x) - Math.log(1 - x)) / 2);
-  }
-
+  /**
+   * Requests the current TLE if the cached TLE is older than 1 hour and caches it. Than Returns the
+   * cached TLE
+   *
+   * @return Cached TLE
+   */
   private TLE getTLE()
   {
     if (lastTLEUpdate.until(Instant.now(), ChronoUnit.HOURS) < 1) {
@@ -545,6 +437,11 @@ public class CameraAcquisitorGround
     }
   }
 
+  /**
+   * loads the current TLE of OPS-SAT from celestark.com
+   *
+   * @return the current LTE or NULL if the site is not reachable
+   */
   private TLE loadTLE()
   {
     try {
@@ -569,6 +466,12 @@ public class CameraAcquisitorGround
     return null;
   }
 
+  /**
+   * checks if time slot is available
+   *
+   * @param scheduleDate slot to check
+   * @return
+   */
   private boolean checkTimeSlot(AbsoluteDate scheduleDate)
   {
     AbsoluteDate before = schedule.floor(scheduleDate);
@@ -581,23 +484,9 @@ public class CameraAcquisitorGround
         after) != 0);
   }
 
-  private class CompleteDataReceivedAdapter extends CompleteDataReceivedListener
-  {
-
-    @Override
-    public void onDataReceived(ParameterInstance parameterInstance)
-    {
-      LOGGER.log(Level.INFO,
-          "\nParameter name: {0}" + "\nParameter Value: {1}" + "\n Instance ID: {2}",
-          new Object[]{
-            parameterInstance.getName(),
-            parameterInstance.getParameterValue().toString(),
-            parameterInstance.getSource().getKey().getInstId()
-          }
-      );
-    }
-  }
-
+  /**
+   * sets the default parameters for the space application
+   */
   private void setInitialParameters()
   {
     gma.setParameter(Parameter.ATTITUDE_SAFTY_MARGIN_MS, 1000000);
