@@ -33,6 +33,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -56,6 +57,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
@@ -71,6 +73,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
   private final HashMap<Long, Field> parameterMapping = new HashMap<>();
   private final HashMap<Long, Method> actionMapping = new HashMap<>();
+  private final HashMap<String, Long> actionNameMapping = new HashMap<>();
 
   public void initialRegistrations(MCRegistration registration)
   {
@@ -189,7 +192,27 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
       Action annotation = method.getAnnotation(Action.class);
       // if field has Parameter anotation
       if (annotation != null) {
-        // TODO check if Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction is implemented
+        // check if Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction is implemented. If not, don't parse the action
+        {
+          java.lang.reflect.Parameter actionInstanceObjId = method.getParameters()[0];
+          java.lang.reflect.Parameter reportProgress = method.getParameters()[1];
+          java.lang.reflect.Parameter interaction = method.getParameters()[2];
+          if (!actionInstanceObjId.getType().getClass().equals(Long.class)) {
+            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                "Unable to parse action! First argument of action has to be Long actionInstanceObjId!");
+            continue;
+          }
+          if (!reportProgress.getType().getClass().equals(boolean.class)) {
+            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                "Unable to parse action! Second argument of action has to be boolean reportProgress!");
+            continue;
+          }
+          if (!interaction.getType().getClass().equals(MALInteraction.class)) {
+            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                "Unable to parse action! Third argument of action has to be MALInteraction interaction!");
+            continue;
+          }
+        }
         method.setAccessible(true);
         actionFunctions.add(method);
 
@@ -202,15 +225,30 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
               ((Attribute) HelperAttributes.javaType2Attribute(param.getType().cast(null)))
                   .getTypeShortForm().byteValue();
           String rawUnit = "";
-          ConditionalConversionList conditionalConversions = null;// TODO
-          Byte convertedType = null;// TODO
-          String convertedUnit = null;// TOOD
+          ConditionalConversionList conditionalConversions = null;
+          Byte convertedType = null;
+          String convertedUnit = null;
           ActionParameter paramAnnotation = param.getAnnotation(ActionParameter.class);
           if (paramAnnotation != null) {
             identifier = new Identifier(paramAnnotation.name());
             description = paramAnnotation.description();
             rawType = paramAnnotation.rawType();
             rawUnit = paramAnnotation.rawUnit();
+            // if converted unit exists, set variables accordingly
+            if (!paramAnnotation.conditionalConversionFieldName().equals("")) {
+              try {
+                conditionalConversions = ConditionalConversionList.class.cast(
+                    this.getClass().getDeclaredField(
+                        paramAnnotation.conditionalConversionFieldName())
+                        .get(this));
+                convertedType = paramAnnotation.convertedType();
+                convertedUnit = paramAnnotation.convertedUnit();
+              } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
+                  | IllegalAccessException ex) {
+                Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                    ex.getMessage());
+              }
+            }
           }
 
           arguments.add(new ArgumentDefinitionDetails(identifier, description,
@@ -233,6 +271,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
       // save mapping (id -> Field) in map
       for (int i = 0; i < idList.size(); i++) {
         actionMapping.put(idList.get(i), actionFunctions.get(i));
+        actionNameMapping.put(actionNames.get(i).getValue(), idList.get(i));
       }
     }
   }
@@ -241,8 +280,33 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
   public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
       Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
   {
-    //TODO
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    Method actionMethod = actionMapping.get(actionNameMapping.get(identifier.getValue()));
+    try {
+      // add default arguments
+      Object[] arguments = new Object[attributeValues.size() + 3];
+      arguments[0] = actionInstanceObjId;
+      arguments[1] = reportProgress;
+      arguments[2] = interaction;
+
+      // add custom arguments
+      int i = 3;
+      for (AttributeValue attribute : attributeValues) {
+        arguments[i] = actionMethod.getParameters()[i].getType().cast(attribute.getValue());
+        i++;
+      }
+
+      Object result = actionMethod.invoke(this, arguments);
+      if (result == null) {
+        return null;
+      } else {
+        return UInteger.class.cast(result);
+      }
+    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+      Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+          ex.getMessage());
+    }
+    return new UInteger(0);
   }
 
   @Override
@@ -252,7 +316,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
       Field field = parameterMapping.get(parameterID);
       String onGet = field.getAnnotation(Parameter.class).onGetFunction();
       if (!onGet.equals("")) {
-        System.out.println(onGet);
         Method onGetMethod = this.getClass().getMethod(onGet);
         onGetMethod.setAccessible(true);
         onGetMethod.invoke(this);
