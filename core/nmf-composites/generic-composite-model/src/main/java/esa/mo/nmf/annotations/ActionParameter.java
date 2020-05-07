@@ -35,14 +35,14 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 public @interface ActionParameter
 {
 
-  String name() default "";
+  String name(); // sadly, the compiler removes argument names so it is not possible to automaticaly parse them
 
   String description() default "";
 
   byte rawType() default 0;
 
   String rawUnit() default "";
-  ConditionalConversionList conditionalConversions = null;
-  Byte convertedType = null;
-  String convertedUnit = null;
+  String conditionalConversionFieldName() default "";
+  byte convertedType() default -1;
+  String convertedUnit() default "";
 }

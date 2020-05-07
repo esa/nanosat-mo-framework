@@ -91,7 +91,7 @@ public @interface Parameter
    *
    * default: no conversion
    */
-  public String conversionFieldName() default "";
+  public String conversionFunctionName() default "";
 
   /**
    * If this parameter should be read only. Parameters which are final are always read only!

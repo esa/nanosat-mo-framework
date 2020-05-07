@@ -26,21 +26,27 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Declares a method as an action. Every action has to have the following arguments before the
+ * parameters. (not to be declared as ActionParameters!)
+ *
+ * Long actionInstanceObjId boolean reportProgress MALInteraction interaction
+ *
+ * Every argument after these, has to be annotated with @ActionParameter
  *
  * @author Kevin Otto <Kevin@KevinOtto.de>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target(ElementType.METHOD)
 public @interface Action
 {
 
-  public String name();
+  public String name() default "";
 
   public String description() default "";
 
   public short category() default 0;
 
-  public int stepCount();
+  public int stepCount() default 0;
 
   public String rawUnit() default "";
 }
