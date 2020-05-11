@@ -26,6 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Parameters are not allowed to be null on initialization!
  *
  * @author Kevin Otto <Kevin@KevinOtto.de>
  */
@@ -110,5 +111,12 @@ public @interface Parameter
    * default: no function is called
    */
   public String onGetFunction() default "";
+
+  /**
+   * array of Aggregation ids this parameter belongs to.
+   *
+   * @return
+   */
+  public String[] aggregations() default {};
 
 }
