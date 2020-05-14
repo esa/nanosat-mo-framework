@@ -57,6 +57,7 @@ import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.camera.body.GetPropertiesResponse;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.camera.provider.PicturesStreamPublisher;
+import org.ccsds.moims.mo.platform.camera.provider.TakeAutoExposedPictureInteraction;
 import org.ccsds.moims.mo.platform.camera.provider.TakePictureInteraction;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
@@ -328,6 +329,31 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
     synchronized (lock) {
       try {
         Picture picture = adapter.takePicture(settings);
+
+        LOGGER.log(Level.INFO,
+            "The picture has been taken!");
+
+        interaction.sendResponse(picture);
+        LOGGER.log(Level.INFO,
+            "The picture has been sent!");
+
+      } catch (IOException ex) {
+        interaction.sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
+            null));
+      }
+    }
+  }
+
+  @Override
+  public void takeAutoExposedPicture(CameraSettings settings,
+      TakeAutoExposedPictureInteraction interaction) throws MALInteractionException, MALException
+  {
+    isCapturePossible(settings);
+    interaction.sendAcknowledgement();
+
+    synchronized (lock) {
+      try {
+        Picture picture = adapter.takeAutoExposedPicture(settings);
 
         LOGGER.log(Level.INFO,
             "The picture has been taken!");

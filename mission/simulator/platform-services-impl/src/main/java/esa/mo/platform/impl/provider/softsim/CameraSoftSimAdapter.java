@@ -38,6 +38,7 @@ import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
 import esa.opssat.camera.processing.OPSSATCameraDebayering;
 import opssat.simulator.main.ESASimulator;
+import org.ccsds.moims.mo.mal.MALException;
 
 /**
  *
@@ -123,6 +124,13 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
     Picture picture = new Picture(timestamp, pictureSettings, new Blob(data));
     return picture;
   }
+
+  @Override
+  public Picture takeAutoExposedPicture(CameraSettings settings) throws IOException, MALException
+  {
+    return takePicture(settings);
+  }
+
 
   @Override
   public Duration getMinimumPeriod()

@@ -21,6 +21,7 @@
 package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
+import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
@@ -55,6 +56,9 @@ public interface CameraAdapterInterface
 
   Picture takePicture(final CameraSettings settings)
       throws IOException;
+
+  Picture takeAutoExposedPicture(final CameraSettings settings)
+      throws IOException, MALException;
 
   /**
    * The getMinimumPeriod method shall return the duration of taking a picture. This value is
