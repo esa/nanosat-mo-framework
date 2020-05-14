@@ -195,6 +195,60 @@
           </mal:errors>
         </mal:invokeIP>
       </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="36">
+        <mal:invokeIP
+          comment="The takeAutoExposedPicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected. The exposure will be auto calculated, but it is way slower than using takePicture."
+          name="takeAutoExposedPicture" number="15" supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="">
+              <mal:field canBeNull="true"
+                         comment="Picture acquisition settings." name="settings">
+                <mal:type area="Platform" list="false"
+                          name="CameraSettings" service="Camera" />
+              </mal:field>
+            </mal:invoke>
+            <mal:acknowledgement comment="" />
+            <mal:response comment="">
+              <mal:field canBeNull="true"
+                         comment="The picture field shall hold the picture."
+                         name="picture">
+                <mal:type area="Platform" list="false"
+                          name="Picture" service="Camera" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The Camera is currently being used. Use the enableStream(false, ...)) operation in order stop the streaming and try again.">
+              <mal:type area="Platform" list="false"
+                        name="DEVICE_IN_USE" />
+            </mal:errorRef>
+            <mal:errorRef
+              comment="The Camera unit is not available.">
+              <mal:type area="Platform" list="false"
+                        name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+            <mal:errorRef
+              comment="The requested resolution is not supported.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information fied shall hold the list of available resolutions.">
+                <mal:type area="Platform" list="true"
+                          name="PixelResolution" service="Camera" />
+              </mal:extraInformation>
+            </mal:errorRef>
+            <mal:errorRef
+              comment="The requested format is not supported.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information fied shall hold the list of available formats.">
+                <mal:type area="Platform" list="true"
+                          name="PictureFormat" service="Camera" />
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
       <mal:capabilitySet comment="" number="4">
         <mal:requestIP
           comment="The getProperties operation allows a consumer to request the properties of the service and camera. The service shall provide information about the available resolutions, formats and some extra information."
