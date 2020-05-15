@@ -109,8 +109,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
   private static final Logger LOGGER = Logger.getLogger(PayloadsTestMCAdapter.class.getName());
 
-  private static final float DEFAULT_CAMERA_GAIN = 6;
-  private static final Duration DEFAULT_CAMERA_EXPOSURE_TIME = new Duration(0.1);
+  private static final float DEFAULT_CAMERA_GAIN = 1.0f;
+  private static final float DEFAULT_CAMERA_EXPOSURE_TIME = 0.1f;
   public final NMFInterface nmf;
 
   public final AtomicInteger picturesTaken = new AtomicInteger(0);
@@ -153,7 +153,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       description = "Camera exposure time",
       generationEnabled = false,
       reportIntervalSeconds = 10)
-  public Duration cameraExposureTime = DEFAULT_CAMERA_EXPOSURE_TIME;
+  public float cameraExposureTime = DEFAULT_CAMERA_EXPOSURE_TIME;
 
   //-----------------------------------------------------------------------------------------------
   //-------------------------------------- GPS Parameters -----------------------------------------
@@ -522,6 +522,40 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   {
     return actionsHandler
         .takePicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.BMP);
+  }
+
+  @Action(description = "Uses the NMF Camera service to take a auto exposed picture in RAW format.",
+      stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
+  public UInteger takeAutoExposedPicture_RAW(
+      Long actionInstanceObjId,
+      boolean reportProgress,
+      MALInteraction interaction)
+  {
+    return actionsHandler
+        .takeAutoExposedPicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.RAW);
+  }
+
+  @Action(description = "Uses the NMF Camera service to take a auto exposed picture in JPG format.",
+      stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
+  public UInteger takeAutoExposedPicture_JPG(
+      Long actionInstanceObjId,
+      boolean reportProgress,
+      MALInteraction interaction)
+  {
+    return actionsHandler
+        .takeAutoExposedPicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.JPG);
+  }
+
+
+  @Action(description = "Uses the NMF Camera service to take a auto exposed picture in BMP format.",
+      stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
+  public UInteger takeAutoExposedPicture_BMP(
+      Long actionInstanceObjId,
+      boolean reportProgress,
+      MALInteraction interaction)
+  {
+    return actionsHandler
+        .takeAutoExposedPicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.BMP);
   }
 
   @Action(description = "Use NMF PowerControl to switch a device On.")

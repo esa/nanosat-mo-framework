@@ -27,10 +27,14 @@ import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
+import org.ccsds.moims.mo.platform.camera.structures.Picture;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 
 /**
@@ -69,11 +73,18 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter
   }
 
   @Override
+  public void takeAutoExposedPictureAckReceived(MALMessageHeader msgHeader, Map qosProperties)
+  {
+    takePictureAckReceived(msgHeader, qosProperties);
+  }
+
+  @Override
   public void takePictureResponseReceived(
       org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
       org.ccsds.moims.mo.platform.camera.structures.Picture picture,
       java.util.Map qosProperties)
   {
+    LOGGER.log(Level.INFO, "Image has been recived");
     // The picture was received!
     mcAdapter.picturesTaken.incrementAndGet();
     try {
@@ -97,21 +108,25 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter
         fos.write(picture.getContent().getValue());
         fos.flush();
         fos.close();
+        LOGGER.log(Level.INFO, "Image saved to {0}myPicture.raw", filenamePrefix);
       } else if (picture.getSettings().getFormat().equals(PictureFormat.PNG)) {
         FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.png");
         fos.write(picture.getContent().getValue());
         fos.flush();
         fos.close();
+        LOGGER.log(Level.INFO, "Image saved to {0}myPicture.png", filenamePrefix);
       } else if (picture.getSettings().getFormat().equals(PictureFormat.BMP)) {
         FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.bmp");
         fos.write(picture.getContent().getValue());
         fos.flush();
         fos.close();
+        LOGGER.log(Level.INFO, "Image saved to {0}myPicture.bmp", filenamePrefix);
       } else if (picture.getSettings().getFormat().equals(PictureFormat.JPG)) {
         FileOutputStream fos = new FileOutputStream(filenamePrefix + "myPicture.jpg");
         fos.write(picture.getContent().getValue());
         fos.flush();
         fos.close();
+        LOGGER.log(Level.INFO, "Image saved to {0}myPicture.jpg", filenamePrefix);
       }
     } catch (IOException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
@@ -124,6 +139,13 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter
       LOGGER.log(Level.SEVERE,
           "The action progress could not be reported!", ex);
     }
+  }
+
+  @Override
+  public void takeAutoExposedPictureResponseReceived(MALMessageHeader msgHeader, Picture picture,
+      Map qosProperties)
+  {
+    takePictureResponseReceived(msgHeader, picture, qosProperties);
   }
 
   @Override
@@ -145,6 +167,14 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter
   }
 
   @Override
+  public void takeAutoExposedPictureAckErrorReceived(MALMessageHeader msgHeader,
+      MALStandardError error, Map qosProperties)
+  {
+    takePictureAckErrorReceived(msgHeader, error, qosProperties);
+  }
+
+
+  @Override
   public void takePictureResponseErrorReceived(
       org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
       org.ccsds.moims.mo.mal.MALStandardError error,
@@ -162,4 +192,10 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter
     }
   }
 
+  @Override
+  public void takeAutoExposedPictureResponseErrorReceived(MALMessageHeader msgHeader,
+      MALStandardError error, Map qosProperties)
+  {
+    takePictureResponseErrorReceived(msgHeader, error, qosProperties); //To change body of generated methods, choose Tools | Templates.
+  }
 }
