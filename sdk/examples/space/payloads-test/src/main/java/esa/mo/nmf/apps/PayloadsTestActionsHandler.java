@@ -104,7 +104,30 @@ public class PayloadsTestActionsHandler
           new CameraSettings(
               payloadsTestMCAdapter.defaultCameraResolution,
               format,
-              payloadsTestMCAdapter.cameraExposureTime,
+              new Duration(payloadsTestMCAdapter.cameraExposureTime),
+              payloadsTestMCAdapter.cameraGainR,
+              payloadsTestMCAdapter.cameraGainG,
+              payloadsTestMCAdapter.cameraGainB),
+          new PayloadsTestCameraDataHandler(actionInstanceObjId, payloadsTestMCAdapter));
+      return null; // Success!
+    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+      return new UInteger(1);
+    }
+  }
+
+  public UInteger takeAutoExposedPicture(
+      Long actionInstanceObjId,
+      boolean reportProgress,
+      MALInteraction interaction,
+      PictureFormat format)
+  {
+    try {
+      payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takeAutoExposedPicture(
+          new CameraSettings(
+              payloadsTestMCAdapter.defaultCameraResolution,
+              format,
+              new Duration(payloadsTestMCAdapter.cameraExposureTime),
               payloadsTestMCAdapter.cameraGainR,
               payloadsTestMCAdapter.cameraGainG,
               payloadsTestMCAdapter.cameraGainB),
