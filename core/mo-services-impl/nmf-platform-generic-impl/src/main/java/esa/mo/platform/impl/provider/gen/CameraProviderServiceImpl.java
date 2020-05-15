@@ -350,7 +350,6 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
   {
     isCapturePossible(settings);
     interaction.sendAcknowledgement();
-
     synchronized (lock) {
       try {
         Picture picture = adapter.takeAutoExposedPicture(settings);
