@@ -317,7 +317,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             Arrays.copyOfRange(method.getParameters(), 3, method.getParameters().length);
         for (java.lang.reflect.Parameter param : parameters) {
 
-          Identifier identifier = new Identifier(param.getName());
+          Identifier identifier = new Identifier(method.getName() + "_" + param.getName());
           String description = null;
           Byte rawType = getTypeShortForm(param.getType());
           if (rawType == null) {
@@ -332,7 +332,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
           String convertedUnit = null;
           ActionParameter paramAnnotation = param.getAnnotation(ActionParameter.class);
           if (paramAnnotation != null) {
-            if (!paramAnnotation.name().equals("")) {
+            if (!paramAnnotation.name().equals("")) { // if user given name exist, use it
               identifier = new Identifier(paramAnnotation.name());
             }
             description = paramAnnotation.description();
@@ -363,7 +363,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
         Identifier actionId;
         if (annotation.name().equals("")) {
-          actionId = new Identifier(method.getName() + "_" + method.getName()); // use fallback name if no name was given
+          actionId = new Identifier(method.getName()); // use fallback name if no name was given
         } else {
           actionId = new Identifier(annotation.name());
         }
