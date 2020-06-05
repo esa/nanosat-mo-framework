@@ -322,25 +322,30 @@ public class CameraAcquisitorSystemCameraHandler
       MALInteractionException,
       MALException
   {
-
-    float exposureTime = casMCAdapter.getExposureTime();
-    if (casMCAdapter.getExposureType() != CameraAcquisitorSystemMCAdapter.ExposureTypeModeEnum.CUSTOM) {
-      //TODO
-    }
     PixelResolution resolution = new PixelResolution(
         new UInteger(casMCAdapter.getPictureWidth()),
         new UInteger(casMCAdapter.getPictureHeight()));
 
-    LOGGER.log(Level.INFO, "Taking Photograph");
-    this.casMCAdapter.getConnector().getPlatformServices().getCameraService().takePicture(
-        new CameraSettings(
-            resolution,
-            casMCAdapter.getPictureType(),
-            new Duration(exposureTime),
-            casMCAdapter.getGainRed(),
-            casMCAdapter.getGainGreen(),
-            casMCAdapter.getGainBlue()),
-        new CameraDataHandler(actionInstanceObjId, stageOffset, totalStages, fileName,
-            this.casMCAdapter));
+    CameraAdapter adapter = new CameraDataHandler(actionInstanceObjId, stageOffset, totalStages,
+        fileName,
+        this.casMCAdapter);
+
+    CameraSettings settings = new CameraSettings(
+        resolution,
+        casMCAdapter.getPictureType(),
+        new Duration(casMCAdapter.getExposureTime()),
+        casMCAdapter.getGainRed(),
+        casMCAdapter.getGainGreen(),
+        casMCAdapter.getGainBlue());
+
+    if (casMCAdapter.getExposureType() == CameraAcquisitorSystemMCAdapter.ExposureTypeModeEnum.AUTOMATIC) {
+      LOGGER.log(Level.INFO, "Taking Photograph with automatic exposure");
+      this.casMCAdapter.getConnector().getPlatformServices().getCameraService()
+          .takeAutoExposedPicture(settings, adapter);
+    } else {
+      LOGGER.log(Level.INFO, "Taking Photograph with manual exposure");
+      this.casMCAdapter.getConnector().getPlatformServices().getCameraService()
+          .takePicture(settings, adapter);
+    }
   }
 }
