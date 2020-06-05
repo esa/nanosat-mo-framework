@@ -486,6 +486,21 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         new AttitudeModeNadirPointing(), this);
   }
 
+  @Action(description = "Changes the spacecraft's attitude to vector pointing mode.")
+  public UInteger adcs_VectorPointingMode(
+      Long actionInstanceObjId,
+      boolean reportProgress,
+      MALInteraction interaction,
+      @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
+      @ActionParameter(name = "X", rawUnit = "degree") float x,
+      @ActionParameter(name = "Y", rawUnit = "degree") float y,
+      @ActionParameter(name = "Z", rawUnit = "degree") float z,
+      @ActionParameter(name = "margin", rawUnit = "degree") float margin)
+  {
+    return actionsHandler.executeAdcsModeAction(holdDuration,
+        new AttitudeModeVectorPointing(new VectorF3D(x, y, z), new Float(margin)), this);
+  }
+
   @Action(description = "Unsets the spacecraft's attitude.")
   public UInteger adcs_UnsetAttitude(
       Long actionInstanceObjId,
