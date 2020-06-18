@@ -47,8 +47,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
           "Number format exception! The gpggalong string is: " + gpggalong, ex1);
     } catch (IOException ex) {
       Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE,
-          "The current position could not be retrieved! Exception: " + ex
-      );
+          "The current position could not be retrieved! Exception: {0}", ex.getMessage());
     }
 
     return null;

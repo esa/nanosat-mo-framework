@@ -76,6 +76,9 @@ public class HelperMisc {
   public static final String PROP_NETWORK_ZONE = "helpertools.configurations.NetworkZone";
   public static final String PROP_DEVICE_NAME = "helpertools.configurations.DeviceName";
 
+  public static final String PROP_GPS_POLL_RATE_MS = "helpertools.configurations.gpspollrate";
+  public static final String PROP_GPS_POLLING_ACTIVE = "helpertools.configurations.pollgps";
+
   private static final String PROP_TRANSPORT_ID = "helpertools.configurations.provider.transportfilepath";
   private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";
   public static final String SECONDARY_PROTOCOL = "org.ccsds.moims.mo.mal.transport.secondary.protocol";

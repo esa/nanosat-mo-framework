@@ -24,6 +24,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.platform.impl.util.HelperGPS;
@@ -167,11 +168,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     gpsServiceProvider = connection.startService(GPSHelper.GPS_SERVICE_NAME.toString(),
         GPSHelper.GPS_SERVICE, this);
 
+    if (Boolean.parseBoolean(System.getProperty(HelperMisc.PROP_GPS_POLLING_ACTIVE))) {
     periodicCurrentPosition = new PeriodicCurrentPosition();
     periodicCurrentPosition.init();
     running = true;
     initialiased = true;
-    periodicCurrentPosition.start();
+      periodicCurrentPosition.start();
+    }
     Logger.getLogger(GPSProviderServiceImpl.class.getName()).info("GPS service READY");
   }
 
@@ -656,10 +659,19 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
     private final TaskScheduler timer;
     boolean active = false; // Flag that determines if publishes or not
-    private static final int PERIOD = 1000;
+    private final int PERIOD;
 
     public PeriodicCurrentPosition()
     {
+      int period;
+      try {
+        period = Integer.parseInt(System.getProperty(HelperMisc.PROP_GPS_POLL_RATE_MS));
+      } catch (NumberFormatException e) {
+        period = 1000;
+      }
+      PERIOD = period;
+
+
       timer = new TaskScheduler(1);
     }
 
