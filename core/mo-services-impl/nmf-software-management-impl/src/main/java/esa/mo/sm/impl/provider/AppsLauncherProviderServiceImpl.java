@@ -35,7 +35,6 @@ import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -664,8 +663,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void processStopped(Long objId, int exitCode) {
-
+    public void processStopped(Long objId, int exitCode)
+    {
+      manager.setRunning(objId, false, null);
     }
   }
 
