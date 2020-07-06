@@ -39,9 +39,13 @@ public class SpringInitiator
    */
   public static void main(final String args[])
   {
+    if (args.length != 2) {
+      System.err.println("Please give directoryURI as first argument and Port as seconds argument!");
+      System.exit(1);
+    }
     SpringApplication app = new SpringApplication(CameraAcquisitorGround.class);
 
-    app.setDefaultProperties(Collections.singletonMap("server.port", "8083"));
+    app.setDefaultProperties(Collections.singletonMap("server.port", args[1]));
     app.run(args);
   }
 
