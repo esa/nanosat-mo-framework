@@ -203,7 +203,10 @@ public class CameraAcquisitorGround
 
   public CameraAcquisitorGround(ApplicationArguments args)
   {
-
+    if (args.getSourceArgs().length == 0) {
+      System.err.println("No directoryURI given! exiting now");
+      System.exit(1);
+    }
     System.out.println("------------------------- parsing arguments --------------------------");
 
     URI directoryURI = new URI(args.getSourceArgs()[0]);

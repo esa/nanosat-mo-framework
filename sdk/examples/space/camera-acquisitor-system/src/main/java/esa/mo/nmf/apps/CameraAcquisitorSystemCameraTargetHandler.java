@@ -21,7 +21,6 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
 import java.util.TimerTask;
@@ -36,22 +35,15 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
 import org.orekit.time.AbsoluteDate;
@@ -72,7 +64,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
   private static final int STAGE_ATTITUDE_CORECTION = 2;
   private static final int STAGE_WAIT_FOR_OPTIMAL_PASS = 3;
 
-  private CameraAcquisitorSystemMCAdapter casMCAdapter;
+  private final CameraAcquisitorSystemMCAdapter casMCAdapter;
 
   private static final Logger LOGGER = Logger.getLogger(
       CameraAcquisitorSystemCameraTargetHandler.class.getName());
@@ -85,55 +77,9 @@ public class CameraAcquisitorSystemCameraTargetHandler
     this.casMCAdapter = casMCAdapter;
   }
 
-  /**
-   * Registers all target related actions
-   *
-   * @param registration
-   */
-  static void registerActions(MCRegistration registration)
-  {
-    ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-    IdentifierList actionNames = new IdentifierList();
-
-    ArgumentDefinitionDetailsList argumentsPhotographLocation =
-        new ArgumentDefinitionDetailsList();
-    {
-      byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
-      String rawUnit = "degree";
-      ConditionalConversionList conditionalConversions = null;
-      Byte convertedType = null;
-      String convertedUnit = null;
-      argumentsPhotographLocation.add(new ArgumentDefinitionDetails(
-          new Identifier("targetLongitude"), null, rawType, rawUnit,
-          conditionalConversions, convertedType, convertedUnit));
-      argumentsPhotographLocation.add(new ArgumentDefinitionDetails(
-          new Identifier("targetLatitude"), null, rawType, rawUnit,
-          conditionalConversions, convertedType, convertedUnit));
-    }
-    {
-      byte rawType = Attribute._STRING_TYPE_SHORT_FORM;
-      String rawUnit = null;
-      ConditionalConversionList conditionalConversions = null;
-      Byte convertedType = null;
-      String convertedUnit = null;
-      argumentsPhotographLocation.add(new ArgumentDefinitionDetails(
-          new Identifier("timeStemp"), null, rawType, rawUnit,
-          conditionalConversions, convertedType, convertedUnit));
-    }
-
-    ActionDefinitionDetails actionDefTakePhotograp = new ActionDefinitionDetails(
-        "queues a new photograph target at the Specified Timestemp",
-        new UOctet((short) 0), new UShort(PHOTOGRAPH_LOCATION_STAGES),
-        argumentsPhotographLocation);
-
-    actionDefs.add(actionDefTakePhotograp);
-    actionNames.add(new Identifier(ACTION_PHOTOGRAPH_LOCATION));
-
-    registration.registerActions(actionNames, actionDefs);
-
-  }
-
-  UInteger photographLocation(AttributeValueList attributeValues, Long actionInstanceObjId,
+  UInteger photographLocation(
+      AttributeValueList attributeValues,
+      Long actionInstanceObjId,
       boolean reportProgress, MALInteraction interaction)
   {
     // get parameters
@@ -142,7 +88,15 @@ public class CameraAcquisitorSystemCameraTargetHandler
     String timeStemp =
         HelperAttributes.attribute2JavaType(attributeValues.get(2).getValue()).toString();
     //
+    return photographLocation(
+        longitude, latitude, timeStemp, actionInstanceObjId, reportProgress, interaction);
+  }
 
+
+  UInteger photographLocation(double longitude, double latitude, String timeStemp,
+      Long actionInstanceObjId,
+      boolean reportProgress, MALInteraction interaction)
+  {
     AbsoluteDate targetDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
 
     double seconds = targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow());
@@ -169,8 +123,8 @@ public class CameraAcquisitorSystemCameraTargetHandler
 
         // set desired attitude using target latitude and longitude
         AttitudeMode desiredAttitude = new AttitudeModeTargetTracking(
-            longitude.floatValue(),
-            latitude.floatValue());
+            (float) longitude,
+            (float) latitude);
 
         try {
           casMCAdapter.getConnector().getPlatformServices().getAutonomousADCSService()
