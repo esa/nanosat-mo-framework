@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,16 +35,8 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
@@ -90,26 +81,6 @@ public class CameraAcquisitorSystemCameraHandler
   }
 
   /**
-   * Registers all Camera Actions
-   *
-   * @param registration
-   */
-  static void registerActions(MCRegistration registration)
-  {
-    ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-    IdentifierList actionNames = new IdentifierList();
-
-    ActionDefinitionDetails actionDefTakePhotograpNow = new ActionDefinitionDetails(
-        "takes a photograph imidietly",
-        new UOctet((short) 0), new UShort(PHOTOGRAPH_NOW_STAGES),
-        new ArgumentDefinitionDetailsList());
-
-    actionDefs.add(actionDefTakePhotograpNow);
-    actionNames.add(new Identifier(ACTION_PHOTOGRAPH_NOW));
-    registration.registerActions(actionNames, actionDefs);
-  }
-
-  /**
    * Action that immediately takes a photograph.
    *
    * @see takePhotograph
@@ -119,7 +90,7 @@ public class CameraAcquisitorSystemCameraHandler
    * @param interaction
    * @return
    */
-  UInteger photographNow(AttributeValueList attributeValues, Long actionInstanceObjId,
+  UInteger photographNow(Long actionInstanceObjId,
       boolean reportProgress, MALInteraction interaction)
   {
 
