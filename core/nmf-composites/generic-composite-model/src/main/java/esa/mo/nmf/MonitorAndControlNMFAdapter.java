@@ -406,7 +406,14 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
       // add custom arguments
       int i = 3;
       for (AttributeValue attribute : attributeValues) {
-        arguments[i] = actionMethod.getParameters()[i].getType().cast(attribute.getValue());
+        Class type = actionMethod.getParameters()[i].getType();
+        if (type == double.class) {
+          arguments[i] = HelperAttributes.attribute2double(attribute.getValue());
+        } else if (type == String.class) {
+          arguments[i] = HelperAttributes.attribute2string(attribute.getValue());
+        } else {
+          arguments[i] = HelperAttributes.attribute2JavaType(attribute.getValue());
+        }
         i++;
       }
 
@@ -416,9 +423,15 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
       } else {
         return UInteger.class.cast(result);
       }
-    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+    } catch (IllegalAccessException ex) {
       Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-          ex.getMessage());
+          "Cannot access Method! {0}", ex.getMessage());
+    } catch (IllegalArgumentException ex) {
+      Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+          "Arguments for action are incorrect! {0}", ex.getMessage());
+    } catch (InvocationTargetException ex) {
+      Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+          "The action Method threw an exception! {0}", ex.getMessage());
     }
     return new UInteger(0);
   }
