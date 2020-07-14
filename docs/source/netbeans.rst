@@ -8,8 +8,7 @@ Getting started
 ---------------
 Netbeans is the recommended IDE to use with the NMF as it definitely works out of the box.
 To import your NMF distribution into the IDE, select `File -> Open Project` and select the NMF
-root directory that you cloned from GitHub. Netbeans will now import all Maven subprojects into the Netbeans
-workspace.
+root directory that you cloned from GitHub. Netbeans will now import all Maven subprojects into the Netbeans workspace.
 
 Setting up the supervisor with simulator
 ----------------------------------------
