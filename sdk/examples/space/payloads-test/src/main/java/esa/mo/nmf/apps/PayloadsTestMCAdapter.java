@@ -543,7 +543,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         .takePicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.BMP);
   }
 
-  @Action(description = "Uses the NMF Camera service to take a auto exposed picture in RAW format.",
+  @Action(description = "Uses the NMF Camera service to take an auto exposed picture in RAW format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takeAutoExposedPicture_RAW(
       Long actionInstanceObjId,
@@ -554,7 +554,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         .takeAutoExposedPicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.RAW);
   }
 
-  @Action(description = "Uses the NMF Camera service to take a auto exposed picture in JPG format.",
+  @Action(description = "Uses the NMF Camera service to take an auto exposed picture in JPG format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takeAutoExposedPicture_JPG(
       Long actionInstanceObjId,
@@ -566,7 +566,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   }
 
 
-  @Action(description = "Uses the NMF Camera service to take a auto exposed picture in BMP format.",
+  @Action(description = "Uses the NMF Camera service to take an auto exposed picture in BMP format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takeAutoExposedPicture_BMP(
       Long actionInstanceObjId,

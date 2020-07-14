@@ -89,7 +89,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   private float exposureTime = 1.0f;
 
   @Parameter(description =
-      "The maximum time (in Milliseconds) the Satelite will take to rotated if its in the worst posible orientation",
+      "The maximum time (in Milliseconds) the Satellite will take to rotated if it's in the worst possible orientation",
       generationEnabled = false)
   private long worstCaseRotationTimeMS = 1000000;
 
@@ -187,7 +187,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   public CameraAcquisitorSystemMCAdapter(final NMFInterface connector)
   {
     try {
-      //load orekit-data wich is required for many parts of orekit to work.
+      // load orekit-data wich is required for many parts of orekit to work.
       LOGGER.log(Level.INFO, "Loading orekit data");
       DataProvidersManager manager = DataProvidersManager.getInstance();
       manager.addProvider(OrekitResources.getOrekitData());
@@ -224,7 +224,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   }
 
   @Action(
-      description = "takes a photograph imidietly",
+      description = "takes a photograph immediately",
       stepCount = CameraAcquisitorSystemCameraHandler.PHOTOGRAPH_NOW_STAGES)
   public UInteger photographNow(Long actionInstanceObjId,
       boolean reportProgress,

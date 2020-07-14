@@ -277,7 +277,7 @@ public class CameraAcquisitorSystemCameraHandler
    * @param actionInstanceObjId the Instance ID of the action that triggers the Photograph
    * @param stageOffset         number of states that where already executed before taking a
    *                            photograph
-   * @param totalStages         total number of Stages (including all stages needet for a
+   * @param totalStages         total number of Stages (including all stages needed for a
    *                            photograph)
    * @param fileName            a text that is added at the end of the filename (before the file
    *                            ending)

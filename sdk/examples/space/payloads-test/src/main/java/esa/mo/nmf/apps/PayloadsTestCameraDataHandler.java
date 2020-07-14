@@ -196,6 +196,6 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter
   public void takeAutoExposedPictureResponseErrorReceived(MALMessageHeader msgHeader,
       MALStandardError error, Map qosProperties)
   {
-    takePictureResponseErrorReceived(msgHeader, error, qosProperties); //To change body of generated methods, choose Tools | Templates.
+    takePictureResponseErrorReceived(msgHeader, error, qosProperties); // To change body of generated methods, choose Tools | Templates.
   }
 }

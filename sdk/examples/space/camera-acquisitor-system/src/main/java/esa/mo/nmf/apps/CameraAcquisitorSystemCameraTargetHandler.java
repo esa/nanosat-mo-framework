@@ -69,7 +69,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
   private static final Logger LOGGER = Logger.getLogger(
       CameraAcquisitorSystemCameraTargetHandler.class.getName());
 
-  // time to keep track of all sheduled photographs
+  // time to keep track of all scheduled photographs
   private final java.util.Timer timer = new java.util.Timer();
 
   public CameraAcquisitorSystemCameraTargetHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
@@ -101,7 +101,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
 
     double seconds = targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow());
 
-    // create TimerTask to shedule attitude correction shortly before targetDate
+    // create TimerTask to schedule attitude correction shortly before targetDate
     TimerTask task = new java.util.TimerTask()
     {
       @Override
