@@ -11,7 +11,7 @@ General configuration options
 - Increment simulated time
 - Realtime factor
 - Kepler elements of orbit
-- Wether to use Orekit library
+- Whether to use Orekit library
 - Update GPS constellation TLEs from Internet
 - Enable Celestia visualisation and the port to use
 - Start and end date of simulation
