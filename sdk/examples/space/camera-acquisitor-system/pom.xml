@@ -23,7 +23,7 @@
   <packaging>jar</packaging>
 
   <name>ESA NMF SDK App Example - Camera acquisitor system</name>
-  <description>An app for planning camera images based on the satelites position</description>
+  <description>An app for planning camera images based on the satellite's position</description>
   <url>http://www.esa.int</url>
   <organization>
     <name>ESA</name>

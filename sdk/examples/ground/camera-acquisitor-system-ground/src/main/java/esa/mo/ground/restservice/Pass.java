@@ -95,7 +95,7 @@ public class Pass implements EventHandler<BooleanDetector>
       if (this.optimalTime.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()) <= worstCaseRotationTimeSeconds && this.optimalTime.compareTo(
           this.notBeforeDate) > 0) {
 
-        //time too close, try again
+        // time too close, try again
         startIsSet = false;
         return Action.CONTINUE;
       }

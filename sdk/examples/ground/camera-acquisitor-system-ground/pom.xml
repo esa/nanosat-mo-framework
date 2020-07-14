@@ -27,7 +27,7 @@
   <packaging>jar</packaging>
 
   <name>ESA NMF SDK Ground Example - Camera Acquisitor System</name>
-  <description>A advanced demo for the Ground part, setting a parameter and submitting action to a provider exposing a REST API</description>
+  <description>An advanced demo for the Ground part, setting a parameter and submitting action to a provider exposing a REST API</description>
   <url>http://www.esa.int</url>
 
   <organization>

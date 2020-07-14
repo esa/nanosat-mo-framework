@@ -72,7 +72,7 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter
   {
     GetLastKnownPositionResponse pos;
     try {
-      casMCAdapter.getConnector().getPlatformServices().getGPSService().getPosition(this);//todo make more elegant
+      casMCAdapter.getConnector().getPlatformServices().getGPSService().getPosition(this);
       pos = casMCAdapter.getConnector().getPlatformServices().getGPSService().getLastKnownPosition();
       //get geographical position
       float latitude = pos.getBodyElement0().getLatitude();

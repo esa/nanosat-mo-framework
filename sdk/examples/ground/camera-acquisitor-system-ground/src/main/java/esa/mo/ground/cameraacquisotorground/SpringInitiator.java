@@ -40,7 +40,7 @@ public class SpringInitiator
   public static void main(final String args[])
   {
     if (args.length != 2) {
-      System.err.println("Please give directoryURI as first argument and Port as seconds argument!");
+      System.err.println("Please give directoryURI as first argument and Port as second argument!");
       System.exit(1);
     }
     SpringApplication app = new SpringApplication(CameraAcquisitorGround.class);
