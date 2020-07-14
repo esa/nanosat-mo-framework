@@ -1,14 +1,14 @@
 ===
 SDK
 ===
-The SDK provides basic functionality to develop and test your space apps our ground applications. The SDK is located is the **sdk/** folder of the repository. 
+The SDK provides basic functionality to develop and test your space apps and ground applications. The SDK is located is the **sdk/** folder of the repository. 
 To build the SDK you can just run ``mvn install`` in the **sdk/** directory. This will build all examples and package them into a release zip and folder which you can find under **sdk/sdk-package/target/**.
 
 .. contents:: Table of Contents
 
 Space app examples
 ------------------
-In the folder `sdk/examples/space <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples/space>`_ you find several completely implemented apps which can run on any cubesat running the NMF.
+In the folder `sdk/examples/space <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples/space>`_ you will find several completely implemented apps which can run on any cubesat running the NMF.
 These examples are also a great starting point when you begin to develop your own apps.
 
 The examples include:
