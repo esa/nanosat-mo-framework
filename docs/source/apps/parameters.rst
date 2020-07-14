@@ -81,7 +81,7 @@ All that is left to do for the parameter registration is to call ``registration.
 Getting the value of a parameter
 --------------------------------
 Without ground access to your parameters, they are most likely useless. To make your parameter values accessible from the ground you need to implement the method ``onGetValue`` which provides you with and **Identifier** and a rawType as a **Byte**.
-In ``onGetValue`` we basicly need to check, if our app knows the provided identifier and return the corresponding value. So our code looks like this:
+In ``onGetValue`` we basically need to check, if our app knows the provided identifier and return the corresponding value. So our code looks like this:
 
 .. code-block:: java
    :linenos:
