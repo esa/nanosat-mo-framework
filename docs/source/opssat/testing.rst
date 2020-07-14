@@ -1,7 +1,7 @@
 ===============================================
 Testing your app in an OPS-SAT-like environment
 ===============================================
-Testing your app with the NMF SDK is the fastest way to confirm if all functional features work .
+Testing your app with the NMF SDK is the fastest way to confirm if all functional features work.
 However, there might be some problems with respect to the behaviour on a real satellite with a space link between your ground software (CTT during development) and your app.
 To find these problems early on, it is recommended to test your app in a semi-authentic test setup.
 
@@ -9,7 +9,7 @@ Getting Ground MO Proxy for OPS-SAT
 -----------------------------------
 Ground MO Proxy is an application running in the ground segment during operation of the nanosatellite. 
 Its main purpose is to transform MALTCP packets (which you send over your network) into MALSPP packets which can be sent over a space link.
-Apart from that, the Ground MO Proxy provides a directory service which is synchronized to the one of the supervisor on the satellite.
+Apart from that, the Ground MO Proxy provides a directory service which is synchronized to the one of the supervisors on the satellite.
 The easy way to imagine it is: It takes your requests to the apps, forwards them to the spacecraft and from there, they are distributed accordingly.
 
 If you followed the previous chapter and already packaged your app for deployment on OPS-SAT, you already are in possession of the code for the Ground MO Proxy for OPS-SAT.
@@ -52,6 +52,6 @@ Now you can revisit the ``Communication Settings`` tab and ``Fetch Information``
 
 .. note::
 
-   The Ground MO Proxy might take a moment to synchronize its directory entries with the supervisor. If the app does not show up immediately after clicking the "Fetch Information" button wait 10 seconds and    try again.
+   The Ground MO Proxy might take a moment to synchronize its directory entries with the supervisor. If the app does not show up immediately after clicking the "Fetch Information" button wait 10 seconds and try again.
 
 After connecting to your app, you are free to test your app like you did with the SDK.
