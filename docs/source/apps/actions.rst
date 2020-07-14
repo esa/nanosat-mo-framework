@@ -79,7 +79,7 @@ The **CameraAdapter** class offers several (empty) default implementations, so y
 So, in our case, we only want to implement the method ``takePictureResponseReceived``. Therefore, we can get rid of every other overridden method.
 We also want to change the names of the constant integers at the beginning of the class from **STAGE_ACK** and **STAGE_RSP** to **STAGE_IMG** and **STAGE_GS**. Further, we want to add a third constant for the last execution stage: ``private final int STAGE_SOBEL = 3``.
 We'll come back to them, later.
-Now, let's talk about ``takePictureResponseReceived``. This method is invoked when the camera service aquired an image for us. This image is wrapped into the CCSDS Picture structure which offers us the image data as a **Blob** (essentially a byte array) and the **CameraSettings** which were used to take the picture.
+Now, let's talk about ``takePictureResponseReceived``. This method is invoked when the camera service acquired an image for us. This image is wrapped into the CCSDS Picture structure which offers us the image data as a **Blob** (essentially a byte array) and the **CameraSettings** which were used to take the picture.
 What we need to do is to get the content of the *picture*, get its bytes and convert them into a BufferedImage. This is done in the method ``byteArrToBufferedImage`` in the reference implementation.
 We won't cover this method (and other non-NMF related methods) in this tutorial. After that, we take the **BufferedImage** and grayscale it (method ``grayscale``) and take the grayscaled image and apply the sobel operator on it (method ``sobel``).
 In the end, we use ``ImageIO.write(sobel, "bmp", new File(filenamePrefix + "sobel.bmp"))`` to write the image to disk. The code for the method ``takePictureResponseReceived`` looks like this:
@@ -117,7 +117,7 @@ The only thing missing from our implementation now is to report our execution pr
 So, in this example we have three progress stages and, therefore, five execution stages. 
 We want to report that we obtained a **BufferedImage** from the camera service, grayscaled the image and that we finished writing the image to a file.
 To achieve that, we simply have to call ``connector.reportActionExecutionProgress(success, errorCode, currentStage, maxStages, actionID)`` after each method call. ``success`` is a boolean, describing if everything worked fine.
-If ``success`` is false, the parameter ``errorCode`` represents the occuring problem. ``currentStage`` is the stage that we want to report as finished and ``maxStages`` is the total number of stages that will be reported by our app (the same number we used when registering the action).
+If ``success`` is false, the parameter ``errorCode`` represents the occurring problem. ``currentStage`` is the stage that we want to report as finished and ``maxStages`` is the total number of stages that will be reported by our app (the same number we used when registering the action).
 The last parameter is the object instance ID of the action which is used to map the progress to the action in the event service.
 Therefore, our finished code for ``takePictureReceived`` looks as follows:
 
