@@ -3,7 +3,7 @@ stages:
   - regression-test
   - deploy
 
-image: maven:3.3.9-jdk-8
+image: maven:3-openjdk-8
 
 variables:
   NMF_HOME: $NMF_HOME
