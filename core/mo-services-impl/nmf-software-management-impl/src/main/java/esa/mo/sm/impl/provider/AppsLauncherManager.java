@@ -606,8 +606,12 @@ public class AppsLauncherManager extends DefinitionsManager
     for (int i = 0; i < appInstIds.size(); i++) {
       long appInstId = appInstIds.get(i);
       AppDetails curr = this.get(appInstId);
+      String fileExt = ".sh";
+      if (osValidator.isWindows()) {
+        fileExt = ".bat";
+      }
       File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue()
-          + File.separator + "stop_" + curr.getName().getValue());
+          + File.separator + "stop_" + curr.getName().getValue() + fileExt);
       boolean stopExists = stopScript.exists();
       if (isNmf[i]) {
         if (stopExists) {
