@@ -126,4 +126,26 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>ops-sat-test</id>
+      <dependencies>
+        <dependency>
+          <groupId>int.esa.opssat.transport</groupId>
+          <artifactId>malspp-over-cfp-tcp</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>int.esa.nmf.mission.opssat.moservices.impl</groupId>
+          <artifactId>nmf-platform-impl-opssat</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>int.esa.opssat.transport.dlr</groupId>
+          <artifactId>malspp-encoding-opssat</artifactId>
+          <version>1.0.1-FC</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>
