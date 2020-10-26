@@ -184,26 +184,36 @@ public class SimulatorNode extends TaskNode
   private Properties platformProperties;
 
   /**
+   * Reads the platform properties or initializes them with default
+   */
+  private void loadPlatformProperties()
+  {
+    try
+    {
+      platformProperties = this.readProperties("platformsim.properties");
+    }
+    catch(IOException e) {
+      logger.log(Level.WARNING, "Could not initialize platformsim.properties - using defaults.");
+      platformProperties = new Properties();
+      platformProperties.setProperty("platform.mode", "sim");
+      platformProperties.setProperty("camerasim.imagemode", "Fixed");
+      platformProperties.setProperty("camerasim.imagefile", "fix/me/earth.jpg");
+      platformProperties.setProperty("camerasim.imagedirectory", "fix/me");
+      platformProperties.setProperty("camera.adapter", "esa.mo.platform.impl.provider.opssat.CameraOPSSATAdapter");
+      updatePlatformConfig();
+    }
+  }
+  /**
    * Reads the properties of the given .properties file.
    *
    * @param filename The properties file to read.
    */
-  private Properties readProperties(String filename)
+  private Properties readProperties(String filename) throws FileNotFoundException, IOException
   {
-    try {
-      InputStream input = new FileInputStream(filename);
-      Properties prop = new Properties();
-      prop.load(input);
-      return prop;
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-      logger.log(Level.WARNING, "Could not find file " + filename);
-      return null;
-    } catch (IOException e) {
-      e.printStackTrace();
-      logger.log(Level.WARNING, "Could not load file " + filename);
-      return null;
-    }
+    InputStream input = new FileInputStream(filename);
+    Properties prop = new Properties();
+    prop.load(input);
+    return prop;
   }
 
   public static String getResourcesPath()
@@ -412,7 +422,6 @@ public class SimulatorNode extends TaskNode
   {
     benchmarkInProgress = false;
     benchmarkFinished = false;
-    this.cameraBuffer = new EndlessSingleStreamOperatingBuffer(this.logger);
     String imageFile = platformProperties.getProperty("camerasim.imagefile");
     this.cameraBuffer.loadImageFromAbsolutePath(imageFile);
     this.sdrBuffer = new EndlessWavStreamOperatingBuffer(this.logger);
@@ -541,7 +550,8 @@ public class SimulatorNode extends TaskNode
     simulatorData.initFromHeader(simulatorHeader);
     makeSimulatorDeviceBindings();
     loadSimulatorCommandsFilter();
-    platformProperties = this.readProperties("platformsim.properties");
+    this.cameraBuffer = new EndlessSingleStreamOperatingBuffer(this.logger);
+    loadPlatformProperties();
     // Models
     initModels();
 
@@ -590,10 +600,9 @@ public class SimulatorNode extends TaskNode
     try {
       this.writeProperties(new File("platformsim.properties"), this.platformProperties);
     } catch (IOException e) {
-      Logger.getLogger(SimulatorNode.class.getName()).log(Level.WARNING,
+      Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE,
           "Could not save platform properties");
     }
-    this.platformProperties = this.readProperties("platformsim.properties");
     reloadImageBuffer();
   }
 
