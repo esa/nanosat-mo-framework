@@ -239,7 +239,7 @@ public class HelperMisc {
           sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
         } else {
           Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-              "The file provider.properties does not exist on the path: " + providerFile);
+              "The file provider.properties does not exist on the path: {}. Is the application working directory configured properly?", providerFile);
         }
       }
 
@@ -251,7 +251,7 @@ public class HelperMisc {
           sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "settings.properties"));
         } else {
           Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-              "The file settings.properties does not exist on the path: " + settingsFile);
+              "The file settings.properties does not exist on the path: {}. Is the application working directory configured properly?", settingsFile);
         }
       }
 
@@ -267,7 +267,7 @@ public class HelperMisc {
         sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "transport.properties"));
       } else {
         Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-            "The file transport.properties does not exist on the path: " + transport_file_path);
+            "The file transport.properties does not exist on the path: {}. Is the application working directory configured properly?", transport_file_path);
       }
 
       if (useSharedBroker) {
