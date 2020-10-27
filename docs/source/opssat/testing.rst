@@ -7,7 +7,7 @@ To find these problems early on, it is recommended to test your app in a semi-au
 
 Getting Ground MO Proxy for OPS-SAT
 -----------------------------------
-Ground MO Proxy is an application running in the ground segment during operation of the nanosatellite. 
+Ground MO Proxy is an application running in the ground segment during operation of the nanosatellite.
 Its main purpose is to transform MALTCP packets (which you send over your network) into MALSPP packets which can be sent over a space link.
 Apart from that, the Ground MO Proxy provides a directory service which is synchronized to the one of the supervisors on the satellite.
 The easy way to imagine it is: It takes your requests to the apps, forwards them to the spacecraft and from there, they are distributed accordingly.
@@ -22,6 +22,9 @@ Preparing the folders for tests
 By default your app and the NMF are packaged separately. The reason for this is that your app and the NMF will never be installed together, so it makes no sense to make the packages unnecessarily large.
 To make the OPS-SAT NMF supervisor find your app, you should put it into ``opssat-package/target/home/expXYZ/`` where you replace XYZ with your experimenter ID.
 You can copy this folder from ``opssat-package/target/experimenter-package/home/``.
+
+Note that by default the application's ``provider.properties`` will contain proerty ``helpertools.configurations.provider.app.user``.
+For stand-alone tests it is recommended to remove it, unless necessary users are created in the testing system.
 
 Starting tests
 --------------

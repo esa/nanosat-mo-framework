@@ -45,7 +45,7 @@ Specify the URI of a running Supervisor's Directory Service, so the app can conn
 > `-Desa.mo.nmf.centralDirectoryURI=maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory`
 
 NMF Ground Applications
-------------------
+------------------------
 
 Set the working directory of the application to a newly created directory containing:
 
