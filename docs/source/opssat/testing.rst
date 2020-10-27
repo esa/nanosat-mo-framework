@@ -23,7 +23,7 @@ By default your app and the NMF are packaged separately. The reason for this is 
 To make the OPS-SAT NMF supervisor find your app, you should put it into ``opssat-package/target/home/expXYZ/`` where you replace XYZ with your experimenter ID.
 You can copy this folder from ``opssat-package/target/experimenter-package/home/``.
 
-Note that by default the application's ``provider.properties`` will contain proerty ``helpertools.configurations.provider.app.user``.
+Note that by default the application's ``provider.properties`` will contain property ``helpertools.configurations.provider.app.user``.
 For stand-alone tests it is recommended to remove it, unless necessary users are created in the testing system.
 
 Starting tests
