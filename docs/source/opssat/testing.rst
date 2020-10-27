@@ -32,9 +32,11 @@ Starting the NMF
 The first thing you should do is start the Ground MO Proxy.
 For this, open a shell in the folder ``opssat-package/target/nmf-opssat-VERSION/home/nmf/ground-mo-proxy`` and execute the ``ground-mo-proxy.sh`` script.
 The warning stating that we should check the link to the spacecraft is completely natural at this point, since we did not start the supervisor yet. Therefore, there is no one the Ground MO Proxy could synchronize with.
-The next thing to do is to start the supervisor. You should wait with this step until the Ground MO Proxy started its directory service. 
+The next thing to do is to start the supervisor. You should wait with this step until the Ground MO Proxy started its directory service.
 This is important, as we will not be able to connect to the Ground MO Proxy through the CTT/EUD4MO as long as the directory service is not initialized properly.
 You can see that the directory service is ready when you can spot a URI of the form ``maltcp://some.ip.right.here:somePort/ground-mo-proxy-Directory``.
+
+Note that the CTT built together with the SDK is universal and does not have to come in mission flavor (as long as there is a Ground MO Proxy in between).
 
 We have two choices concerning the start of the supervisor:
 

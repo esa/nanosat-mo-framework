@@ -18,7 +18,7 @@ import os
 # -- Project information -----------------------------------------------------
 
 project = 'Nanosat MO Framework'
-copyright = '2019, European Space Agency'
+copyright = '2020, European Space Agency'
 author = 'Dominik Marszk, Yannick Lavan'
 
 # The full version, including alpha/beta/rc tags
