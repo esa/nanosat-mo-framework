@@ -14,7 +14,7 @@ The currently stable branch is master, for an up-to-date version it is recommend
 
 Installing the NMF
 ------------------
-Make sure that Maven2 is installed on your system and that you have a working internet connection. Open a shell/console in the root directory of the NMF and use the following command: ``mvn install``.
+Make sure that a recent version of Maven is installed on your system and that you have a working internet connection. Open a shell/console in the root directory of the NMF and use the following command: ``mvn install``.
 In order to produce independently runnable Java executables (JAR artifacts with dependencies - equivalent of statically linked executables), use mvn install -P assembly-with-dependencies.
 
 *Please note:* warnings are completely natural and the errors concerning missing module descriptors during Javadoc generation are to be expected and non breaking.
