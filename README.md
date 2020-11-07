@@ -56,7 +56,7 @@ The NanoSat MO Framework is **licensed** under the **[European Space Agency Publ
 [NMFImage]: http://nanosat-mo-framework.github.io/img/NMF_logo_1124_63.png
 [ESAImage]: http://www.esa.int/esalogo/images/logotype/img_colorlogo_darkblue.gif
 [European Space Agency Public License - v2.0]: https://github.com/esa/CCSDS_MO_TRANS/blob/master/LICENCE.md
-[GitHub]: https://github.com/esa
+[GitHub]: https://github.com/esa/nanosat-mo-framework
 [Releases]: https://github.com/esa/nanosat-mo-framework/releases
 [Bug Reports]: https://github.com/esa/nanosat-mo-framework/issues
 [website]: http://www.esa.int/
