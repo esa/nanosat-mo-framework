@@ -80,6 +80,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeBDot;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeNadirPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeInertialPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSingleSpinning;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
@@ -139,7 +140,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
 
   private static enum AttitudeModeEnum
   {
-    IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING
+    IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING, INERTIALPOINTING
   }
 
   private UOctet attitudeModeToParamValue(AttitudeMode attitude)
@@ -157,6 +158,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
       modeEnum = AttitudeModeEnum.TARGETTRACKING;
     } else if (attitude instanceof AttitudeModeNadirPointing) {
       modeEnum = AttitudeModeEnum.NADIRPOINTING;
+      } else if (attitude instanceof AttitudeModeInertialPointing) {
+      modeEnum = AttitudeModeEnum.INERTIALPOINTING;
     } else {
       throw new IllegalArgumentException("Unrecognized attitude mode type!");
     }
