@@ -146,24 +146,14 @@ public class AppsLauncherManager extends DefinitionsManager
     return (AppDetails) this.getDef(input);
   }
 
-  protected Long add(final AppDetails definition, final ObjectId source, final URI uri)
+  protected Long addApp(final AppDetails definition, final ObjectId source, final URI uri)
   {
     Long objId = null;
     Long related = null;
 
     if (definition.getExtraInfo() != null) {
       try { // Read the provider.properties of the app
-        File fileProps = new File(appsFolderPath.getCanonicalPath() + File.separator + definition.
-            getName().getValue() + File.separator + definition.getExtraInfo());
-
-        Properties props = HelperMisc.loadProperties(fileProps.getCanonicalPath());
-
-        // Look up for apid
-        String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
-        int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
-        objId = new Long(apid);
-      } catch (MalformedURLException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
+        objId = readAppObjectId(definition);
       } catch (IOException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
       }
@@ -176,43 +166,63 @@ public class AppsLauncherManager extends DefinitionsManager
       this.addDef(objId, definition);
       return objId;
     } else {
-      AppDetailsList defs = new AppDetailsList();
-      defs.add(definition);
+      if (objId != null)
+      {
+        try {
+          // Attempt to resurrect previous app object from the archive
+          updateAppInArchive(objId, definition, null);
+          this.addDef(objId, definition);
+          return objId;
+        }
+        catch(MALException | MALInteractionException ex) {
+          // No previous object - fail silently and proceed to creating one
+        }
+      }
 
       try {
-        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related,
-            source, uri);
-        archDetails.get(0).setInstId(objId);
-
-        LongList objIds = super.getArchiveService().store(
-            true,
-            AppsLauncherHelper.APP_OBJECT_TYPE,
-            ConfigurationProviderSingleton.getDomain(),
-            archDetails,
-            defs,
-            null);
+        LongList objIds = addAppToArchive(definition, source, uri, objId, related);
 
         if (objIds.size() == 1) {
           this.addDef(objIds.get(0), definition);
           return objIds.get(0);
         }
-      } catch (MALException ex) {
+      } catch (MALException | MALInteractionException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
-      } catch (MALInteractionException ex) {
-        if (ex.getStandardError().getErrorNumber().equals(COMHelper.DUPLICATE_ERROR_NUMBER)) {
-          LOGGER.log(Level.WARNING,
-              "Error while adding new App: {0}! "
-              + "The App COM object with objId: {1} already exists in the Archive!",
-              new Object[]{definition.getName().toString(), objId});
-
-          return objId;
-        } else {
-          LOGGER.log(Level.SEVERE, null, ex);
-        }
       }
     }
 
     return null;
+  }
+
+  private Long readAppObjectId(final AppDetails definition) throws IOException {
+    Long objId;
+    File fileProps = new File(appsFolderPath.getCanonicalPath() + File.separator + definition.
+        getName().getValue() + File.separator + definition.getExtraInfo());
+
+    Properties props = HelperMisc.loadProperties(fileProps.getCanonicalPath());
+
+    // Look up for apid
+    String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
+    int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
+    objId = (long) apid;
+    return objId;
+  }
+
+  private LongList addAppToArchive(final AppDetails definition, final ObjectId source, final URI uri, Long objId,
+      Long related) throws MALException, MALInteractionException {
+    AppDetailsList defs = new AppDetailsList();
+    defs.add(definition);
+    final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related,
+        source, uri);
+    archDetails.get(0).setInstId(objId);
+
+    return super.getArchiveService().store(
+        true,
+        AppsLauncherHelper.APP_OBJECT_TYPE,
+        ConfigurationProviderSingleton.getDomain(),
+        archDetails,
+        defs,
+        null);
   }
 
   protected boolean update(final Long objId, final AppDetails definition,
@@ -222,33 +232,35 @@ public class AppsLauncherManager extends DefinitionsManager
 
     if (super.getArchiveService() != null) {  // It should also update on the COM Archive
       try {
-        AppDetailsList defs = new AppDetailsList();
-        defs.add(definition);
-        final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
-
-        ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.
-            getArchiveService(),
-            AppsLauncherHelper.APP_OBJECT_TYPE, domain, objId);
-
-        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-        archiveDetailsList.add(archiveDetails);
-
-        super.getArchiveService().update(
-            AppsLauncherHelper.APP_OBJECT_TYPE,
-            domain,
-            archiveDetailsList,
-            defs,
-            interaction);
-      } catch (MALException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-        return false;
-      } catch (MALInteractionException ex) {
+        updateAppInArchive(objId, definition, interaction);
+      } catch (MALException | MALInteractionException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
         return false;
       }
     }
 
     return success;
+  }
+
+  private void updateAppInArchive(final Long objId, final AppDetails definition, final MALInteraction interaction)
+      throws MALException, MALInteractionException {
+    AppDetailsList defs = new AppDetailsList();
+    defs.add(definition);
+    final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+
+    ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.
+        getArchiveService(),
+        AppsLauncherHelper.APP_OBJECT_TYPE, domain, objId);
+
+    ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+    archiveDetailsList.add(archiveDetails);
+
+    super.getArchiveService().update(
+        AppsLauncherHelper.APP_OBJECT_TYPE,
+        domain,
+        archiveDetailsList,
+        defs,
+        interaction);
   }
 
   protected boolean delete(Long objId)
@@ -295,7 +307,7 @@ public class AppsLauncherManager extends DefinitionsManager
 
         // Either is the first time running or it is a newly installed app!
         ObjectId source = null;
-        this.add(singleApp, source, providerURI);
+        this.addApp(singleApp, source, providerURI);
         anyChanges = true;
         continue; // Check the next one...
       }
@@ -311,7 +323,7 @@ public class AppsLauncherManager extends DefinitionsManager
         LOGGER.log(Level.INFO,
             "New update found on app: {0}\nPrevious: {1}\nNew: {2}",
             new Object[]{singleApp.getName().getValue(),
-              previousAppDetails.toString(), singleApp.toString()});
+              previousAppDetails, singleApp});
 
         this.update(id, singleApp, null);
         anyChanges = true;
@@ -787,11 +799,9 @@ public class AppsLauncherManager extends DefinitionsManager
     final AppDetails app = new AppDetails();
     app.setName(new Identifier(appName)); // Use the name of the folder
 
-    try {
+    try (FileInputStream inputStream = new FileInputStream(propertiesFile)){
       final Properties props = new Properties();
-      final FileInputStream inputStream = new FileInputStream(propertiesFile);
       props.load(inputStream);
-      inputStream.close();
       app.setExtraInfo(HelperMisc.PROVIDER_PROPERTIES_FILE);
 
       final String category = (props.getProperty(HelperMisc.APP_CATEGORY) != null) ? props.
