@@ -1703,6 +1703,12 @@
             <mal:type area="Platform" list="false"
                       name="VectorF3D"/>
           </mal:field>
+		  <mal:field canBeNull="false"
+                     comment="Current state of the State Machine"
+                     name="StateFSM">
+            <mal:type area="MAL" list="false"
+                      name="Short"/>
+          </mal:field>
         </mal:composite>
         <mal:enumeration
           comment="State of the magnetorquers."
