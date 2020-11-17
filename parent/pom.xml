@@ -252,6 +252,16 @@
       </dependency>
       <dependency>
         <groupId>int.esa.nmf.core</groupId>
+        <artifactId>space-mo-adapter</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>common-mo-adapter</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
         <artifactId>generic-ground-mo-proxy</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
       </dependency>

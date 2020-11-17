@@ -61,6 +61,10 @@ public abstract class MCManager {
     private final HashMap<Identifier, ObjectInstancePair> namesToPairsMap;
     private final HashMap<Long, Element> objIdToDefMap;
 
+    // Maps all existing Identity objects names that exists in the archive to their ID
+    // Identity objects type for which names are stored depends on the implementation class (ParameterIdentity, ActionIdentity...)
+    private HashMap<Identifier, Long> storedNamesToIdMap;
+
     private final EventProviderServiceImpl eventService;
     private final ArchiveProviderServiceImpl archiveService;
     private final ActivityTrackingProviderServiceImpl activityTrackingService;
@@ -68,9 +72,11 @@ public abstract class MCManager {
     private final GroupServiceImpl groupService = new GroupServiceImpl();
 
     protected MCManager(COMServicesProvider comServices) {
+
         this.identitiesToNamesMap = new HashMap<Long, Identifier>();
         this.namesToPairsMap = new HashMap<Identifier, ObjectInstancePair>();
         this.objIdToDefMap = new HashMap<Long, Element>();
+        this.storedNamesToIdMap = null;
 
         if (comServices != null) {
             this.eventService = comServices.getEventService();
@@ -258,6 +264,7 @@ public abstract class MCManager {
         this.identitiesToNamesMap.put(pair.getObjIdentityInstanceId(), name);
         this.namesToPairsMap.put(name, pair);
         this.objIdToDefMap.put(pair.getObjDefInstanceId(), defDetails);
+        this.storedNamesToIdMap.put(name, pair.getObjIdentityInstanceId());
         return true;
     }
 
@@ -415,29 +422,32 @@ public abstract class MCManager {
      * @return The id of the Identity-Object with the given name if it exists in
      * the archive. NULL otherwise.
      */
-    protected Long retrieveIdentityIdByNameFromArchive(IdentifierList domain,
+    protected synchronized Long retrieveIdentityIdByNameFromArchive(IdentifierList domain,
             Identifier name, ObjectType identitysObjectType) {
-        final ArchiveProviderServiceImpl archive = getArchiveService();
-        if (archive == null) { // If there's no archive...
-            return null;
-        }
-        //get all identity-objects with the given objectType
-        LongList identityIds = new LongList();
-        identityIds.add(0L);
-        final List<ArchivePersistenceObject> identityArchiveObjs
-                = HelperArchive.getArchiveCOMObjectList(archive, identitysObjectType, domain, identityIds);
-        if (identityArchiveObjs == null) {
-            return null;
-        }
-        //get the  Identity with the given name
-        for (ArchivePersistenceObject identityArchiveObj : identityArchiveObjs) {
-            final Identifier objArchiveName = (Identifier) identityArchiveObj.getObject();
-            if (objArchiveName.equals(name)) //return the id of the  Identity with the given name
-            {
-                return identityArchiveObj.getObjectId();
+        // We never queried the archive -> do it once
+        if(storedNamesToIdMap == null)
+        {
+            final ArchiveProviderServiceImpl archive = getArchiveService();
+            if (archive == null) { // If there's no archive...
+                return null;
+            }
+            // Get all identity-objects with the given objectType
+            LongList identityIds = new LongList();
+            identityIds.add(0L);
+            final List<ArchivePersistenceObject> identityArchiveObjs
+                    = HelperArchive.getArchiveCOMObjectList(archive, identitysObjectType, domain, identityIds);
+
+            // Build the Identifier to id map
+            storedNamesToIdMap = new HashMap<Identifier, Long>();
+
+            if (identityArchiveObjs != null) {
+                for (ArchivePersistenceObject identityArchiveObj : identityArchiveObjs) {
+                    storedNamesToIdMap.put((Identifier) identityArchiveObj.getObject(), identityArchiveObj.getObjectId());
+                }
             }
         }
-        return null;
+
+        return storedNamesToIdMap.get(name);
     }
 
     /**

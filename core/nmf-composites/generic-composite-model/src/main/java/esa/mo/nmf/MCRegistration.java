@@ -141,7 +141,7 @@ public class MCRegistration {
                 //-------------New Definitions-------------
                 ParameterCreationRequestList newDefs = new ParameterCreationRequestList();
 
-                for (int i = 0; i < extraInfo.size(); i++) { // Which ones already exist?
+                for (int i = 0; i < extraInfo.size(); i++) { // Which ones are new?
                     int index = (short) extraInfo.get(i).getValue();
                     newDefs.add(new ParameterCreationRequest(names.get(index), definitions.get(index)));
                 }

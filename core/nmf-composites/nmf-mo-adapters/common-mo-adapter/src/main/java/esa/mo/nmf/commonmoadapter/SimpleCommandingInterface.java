@@ -18,10 +18,11 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.groundmoadapter;
+package esa.mo.nmf.commonmoadapter;
 
 import esa.mo.nmf.NMFException;
 import java.io.Serializable;
+import java.util.List;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -41,9 +42,19 @@ public interface SimpleCommandingInterface
    * service. Any sort of data can be exchanged as long as the content is serializable.
    *
    * @param parameterName The name of the Parameter as set in the parameter definition
-   * @param content       The content of the Parameter
+   * @param content The content of the Parameter
    */
   void setParameter(String parameterName, Serializable content);
+
+  /**
+   * Toggle the generation of the given parameters. Their values can then be received using the
+   * addDataReceivedListener() method.
+   *
+   * @param parameterNames Names of the parameters to toggle the generation for
+   * @param generationEnabled Whether to enable or disable the parameters generation
+   * @throws NMFException in case something goes wrong
+   */
+  void toggleParametersGeneration(List<String> parameterNames, boolean generationEnabled) throws NMFException;
 
   /**
    * The addDataReceivedListener method allows an external software entity to submit a
@@ -60,7 +71,7 @@ public interface SimpleCommandingInterface
    * implementer-specific data necessary for the execution of that action.
    *
    * @param actionName The name of the Action to be executed
-   * @param objects    Implementer-specific data necessary to execute the action
+   * @param objects Implementer-specific data necessary to execute the action
    */
   Long invokeAction(String actionName, Serializable[] objects);
 
@@ -69,11 +80,11 @@ public interface SimpleCommandingInterface
    * service by selecting the defInstId of the action and the respective argument values necessary
    * for the execution of that action.
    *
-   * @param defInstId      The object instance identifier of the ActionDefinition
+   * @param defInstId The object instance identifier of the ActionDefinition
    * @param argumentValues List containing the values of the arguments. The ordering of the list
-   *                       matches that of the definition
+   *        matches that of the definition
    * @return The object instance identifier of the ActionInstance. This can be used to track the
-   * action via the Activity Tracking service.
+   *         action via the Activity Tracking service.
    * @throws NMFException in case something goes wrong
    */
   Long invokeAction(Long defInstId, AttributeValueList argumentValues) throws NMFException;

@@ -22,7 +22,7 @@ package esa.mo.ground.simpleground;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
+import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.net.MalformedURLException;

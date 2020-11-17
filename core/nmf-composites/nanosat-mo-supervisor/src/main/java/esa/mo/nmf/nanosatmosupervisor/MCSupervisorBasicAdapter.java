@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.xml.parsers.ParserConfigurationException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
@@ -35,14 +35,17 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
-
+import org.xml.sax.SAXException;
+import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.annotations.Action;
 import esa.mo.nmf.annotations.ActionParameter;
 import esa.mo.nmf.annotations.Parameter;
+import esa.mo.nmf.nanosatmosupervisor.parameter.OBSWParameterManager;
 import esa.mo.sm.impl.util.OSValidator;
 import esa.mo.sm.impl.util.ShellCommander;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
@@ -85,11 +88,47 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
   
   private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
   
+  /**
+   * Manages the OBSW parameter provisioning
+   */
+  private OBSWParameterManager obswParameterManager;
+  
 
   public MCSupervisorBasicAdapter() {
   }
   public void setNmfSupervisor(NanoSatMOSupervisor supervisor) {
     nmfSupervisor = supervisor;
+  }
+  
+  @Override
+  public void initialRegistrations(MCRegistration registrationObject) {
+    super.initialRegistrations(registrationObject);
+    
+    if(registrationObject == null){
+      return;
+    }
+    
+    /* OBSW PARAMETERS PROXIES */
+    try {
+      obswParameterManager =
+          new OBSWParameterManager(getClass().getClassLoader().getResourceAsStream("Datapool.xml"));
+      obswParameterManager.registerParametersProxies(registrationObject);
+    } catch (ParserConfigurationException | SAXException | IOException e) {
+      LOGGER.log(Level.SEVERE, "Couldn't register OBSW parameters proxies", e);
+    }
+  }
+  
+  @Override
+  public Attribute onGetValue(Long parameterID) throws IOException {
+    // see if id matches one of the OBSW parameter proxies
+    if (obswParameterManager != null) {
+      if (obswParameterManager.isOBSWParameterProxy(parameterID)) {
+        return obswParameterManager.getValue(parameterID);
+      }
+    }
+
+    // otherwise it's one of the annotated internal parameters
+    return super.onGetValue(parameterID);
   }
 
   public void startAdcsAttitudeMonitoring()

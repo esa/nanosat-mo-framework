@@ -95,6 +95,9 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         LongList objIds = new LongList();
         LongList identities = new LongList();
 
+        // Sort by Identity id
+        pairs.sort((ObjectInstancePair p1, ObjectInstancePair p2)->p1.getObjIdentityInstanceId().compareTo(p2.getObjIdentityInstanceId()));
+
         for (ObjectInstancePair pair : pairs) {
             objIds.add(pair.getObjDefInstanceId());
             identities.add(pair.getObjIdentityInstanceId());

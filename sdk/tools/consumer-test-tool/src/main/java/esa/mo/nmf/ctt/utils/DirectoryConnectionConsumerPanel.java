@@ -112,10 +112,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
       public void valueChanged(ListSelectionEvent listSelectionEvent)
       {
         // Update the jTable according to the selection of the index
-        // So, remove all...
-        while (tableData.getRowCount() != 0) {
-          tableData.removeRow(tableData.getRowCount() - 1);
-        }
+        cleanTableData();
 
         int index = providersList.getSelectedIndex();
 
@@ -164,6 +161,15 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
 
     providersList.addListSelectionListener(listSelectionListener);
     connectButton.setEnabled(false);
+  }
+
+  /**
+   * Cleans the table data that contains the list of services provided by the currently selected prodiver.
+   */
+  private void cleanTableData() {
+    while (tableData.getRowCount() != 0) {
+      tableData.removeRow(tableData.getRowCount() - 1);
+    }
   }
 
   public void setURITextbox(final String uri)
@@ -416,24 +422,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         prefs.put(LAST_USED_CONSUMER_PREF, uriServiceDirectory.getText());
 
         connectButton.setEnabled(true);
-      } catch (MALException ex) {
+      } catch (MalformedURLException | MALInteractionException | MALException ex) {
         errorConnectionProvider("Directory", ex);
         providersList.setModel(new DefaultListModel());
         connectButton.setEnabled(false);
         Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
             ex);
-      } catch (MalformedURLException ex) {
-        errorConnectionProvider("Directory", ex);
-        providersList.setModel(new DefaultListModel());
-        connectButton.setEnabled(false);
-        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
-            ex);
-      } catch (MALInteractionException ex) {
-        errorConnectionProvider("Directory", ex);
-        providersList.setModel(new DefaultListModel());
-        connectButton.setEnabled(false);
-        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
-            ex);
+        cleanTableData();
       }
     }//GEN-LAST:event_load_URI_links1ActionPerformed
 

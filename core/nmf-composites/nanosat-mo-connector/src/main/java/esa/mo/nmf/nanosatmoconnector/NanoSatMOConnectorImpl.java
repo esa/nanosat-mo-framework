@@ -50,13 +50,9 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
-import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
-import org.ccsds.moims.mo.common.directory.structures.ProviderDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
@@ -205,7 +201,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     }
 
                     // Select the best transport for IPC and convert to a ConnectionConsumer object
-                    final ProviderSummary filteredConnections = NanoSatMOConnectorImpl.selectBestIPCTransport(supervisorConnections.get(0));
+                    final ProviderSummary filteredConnections = HelperCommon.selectBestIPCTransport(supervisorConnections.get(0));
                     final ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(filteredConnections);
 
                     // Connect to them...
@@ -318,45 +314,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
      */
     public final Long getAppDirectoryId() {
         return this.appDirectoryServiceId;
-    }
-
-    private static ProviderSummary selectBestIPCTransport(final ProviderSummary provider) {
-        final ProviderSummary newSummary = new ProviderSummary();
-        newSummary.setProviderKey(provider.getProviderKey());
-        newSummary.setProviderName(provider.getProviderName());
-
-        final ProviderDetails details = new ProviderDetails();
-        newSummary.setProviderDetails(details);
-        details.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
-
-        final ServiceCapabilityList oldCapabilities = provider.getProviderDetails().getServiceCapabilities();
-        final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
-
-        for (int i = 0; i < oldCapabilities.size(); i++) {
-            AddressDetailsList addresses = oldCapabilities.get(i).getServiceAddresses();
-            ServiceCapability cap = new ServiceCapability();
-            cap.setServiceKey(oldCapabilities.get(i).getServiceKey());
-            cap.setServiceProperties(oldCapabilities.get(i).getServiceProperties());
-            cap.setSupportedCapabilities(oldCapabilities.get(i).getSupportedCapabilities());
-
-            try {
-                final int bestIndex = AppsLauncherManager.getBestIPCServiceAddressIndex(addresses);
-
-                // Select only the best address for IPC
-                AddressDetailsList newAddresses = new AddressDetailsList();
-                newAddresses.add(addresses.get(bestIndex));
-                cap.setServiceAddresses(newAddresses);
-            } catch (IllegalArgumentException ex) {
-                LOGGER.log(Level.SEVERE,
-                        "The best IPC service address index could not be determined!", ex);
-            }
-
-            newCapabilities.add(cap);
-        }
-
-        details.setServiceCapabilities(newCapabilities);
-
-        return newSummary;
     }
 
     /**

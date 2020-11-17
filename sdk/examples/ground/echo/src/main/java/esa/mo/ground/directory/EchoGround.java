@@ -22,8 +22,8 @@ package esa.mo.ground.directory;
 
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import esa.mo.nmf.groundmoadapter.CompleteDataReceivedListener;
-import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
+import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
+import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;

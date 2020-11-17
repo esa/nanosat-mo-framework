@@ -28,7 +28,7 @@ import com.restfb.types.FacebookType;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
+import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
