@@ -166,8 +166,7 @@ public class AppsLauncherManager extends DefinitionsManager
       this.addDef(objId, definition);
       return objId;
     } else {
-      if (objId != null)
-      {
+      if (objId != null) {
         try {
           // Attempt to resurrect previous app object from the archive
           updateAppInArchive(objId, definition, null);
@@ -251,6 +250,9 @@ public class AppsLauncherManager extends DefinitionsManager
     ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.
         getArchiveService(),
         AppsLauncherHelper.APP_OBJECT_TYPE, domain, objId);
+    if (archiveDetails == null) {
+      throw new MALException("No object present in archive.");
+    }
 
     ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
     archiveDetailsList.add(archiveDetails);

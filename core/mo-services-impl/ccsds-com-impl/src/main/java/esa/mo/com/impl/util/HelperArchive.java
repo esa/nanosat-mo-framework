@@ -248,7 +248,7 @@ public class HelperArchive {
      * @param objType The object Type of the COM object
      * @param domain The domain of the COM object
      * @param objId The object instance identifier of the COM object
-     * @return The object body of the retrieved COM object
+     * @return The object body of the retrieved COM object or null if no object was returned
      */
     public static Element getObjectBodyFromArchive(final Object archiveService,
             final ObjectType objType, final IdentifierList domain, final Long objId) {
@@ -263,13 +263,6 @@ public class HelperArchive {
         );
 
         return (objs != null) ? (Element) objs.get(0) : null;
-        /*
-        if (objs != null) {
-            return (Element) objs.get(0);
-        } else {
-            return null;
-        }
-         */
     }
 
     /**
@@ -280,7 +273,7 @@ public class HelperArchive {
      * @param objType The object Type of the COM object
      * @param domain The domain of the COM object
      * @param objIds The List of object instance identifiers of the COM object
-     * @return The List of object bodies of the retrieved COM objects
+     * @return The List of object bodies of the retrieved COM objects or null if no object was returned
      */
     public static ElementList getObjectBodyListFromArchive(Object archiveService,
             final ObjectType objType, final IdentifierList domain, final LongList objIds) {
@@ -294,14 +287,16 @@ public class HelperArchive {
      * @param objType The object Type of the COM object
      * @param domain The domain of the COM object
      * @param objId The object instance identifier of the COM object
-     * @return The ArchiveDetails object of the retrieved COM objects
+     * @return The ArchiveDetails object of the retrieved COM objects or null if no object was returned
      */
     public static ArchiveDetails getArchiveDetailsFromArchive(Object archiveService,
             final ObjectType objType, final IdentifierList domain, final Long objId) {
         final LongList objIds = new LongList();
         objIds.add(objId);
         final ArchiveDetailsList archiveDetailsList = (ArchiveDetailsList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.ARCHIVE_DETAILS);
-
+        if (archiveDetailsList == null) {
+            return null;
+        }
         return archiveDetailsList.get(0);
     }
 
@@ -312,7 +307,7 @@ public class HelperArchive {
      * @param objType The object Type of the COM object
      * @param domain The domain of the COM object
      * @param objIds The List of object instance identifiers of the COM objects
-     * @return The list of ArchiveDetails objects of the retrieved COM objects
+     * @return The list of ArchiveDetails objects of the retrieved COM objects or null if no object was returned
      */
     public static ArchiveDetailsList getArchiveDetailsListFromArchive(Object archiveService,
             final ObjectType objType, final IdentifierList domain, final LongList objIds) {
@@ -332,7 +327,7 @@ public class HelperArchive {
      * @param domain The domain of the COM object
      * @param objId The object instance identifier of the COM object to be
      * retrieved
-     * @return The COM object
+     * @return The COM object or null if no object was returned
      */
     public static ArchivePersistenceObject getArchiveCOMObject(Object archiveService,
             final ObjectType objType, final IdentifierList domain, final Long objId) {
@@ -362,7 +357,7 @@ public class HelperArchive {
      * @param domain The domain of the COM object
      * @param objIds The List of object instance identifiers of the COM objects
      * to be retrieved
-     * @return The list of COM objects
+     * @return The list of COM objects or null if no object was returned
      */
     public static List<ArchivePersistenceObject> getArchiveCOMObjectList(Object archiveService,
             final ObjectType objType, final IdentifierList domain, final LongList objIds) {
