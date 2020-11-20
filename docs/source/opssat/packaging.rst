@@ -4,6 +4,8 @@ Packaging your app for deployment on OPS-SAT
 Packaging your app for testing on the ground is slightly different from testing your app on a satellite or a flat-sat.
 In this tutorial you will learn how to package your app for deployment on OPS-SAT or get it ready for flat-sat tests.
 
+Note: The instructions below only work on a Linux machine!
+
 Getting the right files
 -----------------------
 This packaging process is almost completely automated for you. You only need to clone a repository, change some configuration files and run maven. So, let's jump into it!
