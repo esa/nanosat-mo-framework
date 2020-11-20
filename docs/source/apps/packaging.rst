@@ -1,14 +1,14 @@
 ======================
-Packaging your NMF app
+Deploying your NMF app in the SDK
 ======================
 Now that you finished implementing your NMF app, you want to make sure it works properly.
 Apart from unit tests over some methods, one way to test is to just run your app and connect to it through the CTT.
 The recommended way of running an app is through the NMF supervisor. 
-The easiest way to achieve that, is to package your app with the SDK. For this we have to look at several files.
+The easiest way to achieve that, is to deploy your app in the SDK. For this we have to look at several files.
 
-.. contents:: Packaging requirements
+.. contents:: Deployment steps
 
-SDK Package POM
+Update the SDK Package POM
 ---------------
 The first file we have to change is the ``pom.xml`` in the folder ``sdk/sdk-package``. First, add your app to the dependencies.
 
@@ -34,7 +34,7 @@ This is done in an execution of the ``Maven Antrun Plugin``. Add a copy task wit
 
 That is all you need to do here! Easy, right?
 
-Build.xml
+Update the Build.xml
 ---------
 The next step is to update the ``sdk/sdk-package/antpkg/build.xml``. This is an Ant script which is called by the same plugin that copies the properties files.
 In principle, it works like a Makefile in C. We have a top level target which is execution through the Maven Antrun Plugin and this target depends on several subtargets.
