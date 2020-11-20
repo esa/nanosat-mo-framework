@@ -1,7 +1,8 @@
 ===============
-NMF for OPS-SAT
+NMF on OPS-SAT mission
 ===============
-At the time of writing, the NMF is mainly used as a framework for experimenters on `OPS-SAT <https://www.esa.int/Our_Activities/Operations/OPS-SAT>`_.
+The NMF is used as the default software framework for experimenters on `OPS-SAT <https://www.esa.int/Our_Activities/Operations/OPS-SAT>`_.
+The OPS-SAT mission was successfully launched in December 2019 and the NanoSat MO Framework was executed in space for the first time in 2020.
 This chapter addresses the differences between the NMF SDK packaging and the OPS-SAT packaging including the differences in the test setup.
 
 .. toctree::
