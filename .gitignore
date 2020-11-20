@@ -6,7 +6,7 @@
 **/providerURIs.properties
 *.iml
 **/.idea
-*/**/nbactions.xml
+*/**/nbactions*.xml
 **/.project
 **/.classpath
 **/.settings
