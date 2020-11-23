@@ -53,6 +53,6 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = []
 
 def setup(app):
-    os.mkdir("./javadoc-cache")
+    os.makedirs("./javadoc-cache", exist_ok=True)
     os.system("javasphinx-apidoc -u -c ./javadoc-cache -o ./javadoc --title='NMF Javadoc' ../../")
     os.system("find . -name '*Test*' -delete")
