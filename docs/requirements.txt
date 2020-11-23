@@ -1,2 +1,2 @@
 sphinx==2.1.0
-git+https://github.com/bronto/javasphinx.git
+javasphinx
