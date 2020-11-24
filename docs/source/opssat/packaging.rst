@@ -8,7 +8,7 @@ Note: The instructions below only work on a Linux machine!
 
 Getting the right files
 -----------------------
-This packaging process is almost completely automated for you. You only need to clone a repository, change some configuration files and run maven. So, let's jump into it!
+In short, you will need to: clone a repository, change some configuration files, run maven to generate the folder structure, and zip that folder. So, let's jump into it!
 
 1. Clone the `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_.
 2. Checkout the ``dev`` branch to get the latest version.
@@ -68,4 +68,8 @@ This packaging process is almost completely automated for you. You only need to 
      <chmod dir="${esa.nmf.mission.opssat.assembly.outputdir}" perm="ugo+rx" includes="**/*.sh"/>
    </target>
 
-7. Invoke ``mvn clean install -Pexp``. In the folder ``target/nmf-opssat-VERSION/experimenter-package/`` you will find the directory structure that you need to package your app as an IPK for OPS-SAT. 
+7. Invoke ``mvn clean install -Pexp``.
+
+8. Go to the folder ``target/nmf-opssat-VERSION/experimenter-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT. 
+
+9. Zip the generated directory structure and send it to OPS-SAT's Flight Control Team (FCT).
