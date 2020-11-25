@@ -72,13 +72,10 @@
     <esa.nmf.maximum-version>2.1.100</esa.nmf.maximum-version>
     <!-- Automatically use the latest patch of each component for the current major.minor version -->
     <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.maximum-version}]</esa.nmf.version-qualifier>
-    <!-- NMF Artifacts -->
-    <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
-    <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}
-    </esa.nmf.artifact.app.folder>
-    <!-- NMF Playground -->
-    <playground.folder.output>${basedir}/../../../../Playground</playground.folder.output>
-    <playground.folder.app>${playground.folder.output}/apps/${esa.nmf.artifact.app.artifactid}</playground.folder.app>
+    <javax.activation-api.version>1.2.0</javax.activation-api.version>
+    <jaxb-api.version>2.3.1</jaxb-api.version>
+    <jaxb-impl.version>2.3.0.1</jaxb-impl.version>
+    <jaxb2-maven-plugin.version>2.3</jaxb2-maven-plugin.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -275,6 +272,21 @@
         <artifactId>nmf-package-maven-plugin</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
       </dependency>
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>${jaxb-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>${jaxb-impl.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-core</artifactId>
+        <version>${jaxb-impl.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>
@@ -319,6 +331,53 @@
               </goals>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>int.esa.ccsds.mo</groupId>
+          <artifactId>StubGenerator</artifactId>
+          <version>${esa.stubgen.version}</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+              <configuration>
+                <targetLanguages>
+                  <targetLanguage>Java</targetLanguage>
+                </targetLanguages>
+                <xmlDirectory>${esa.stubgen.xmlDirectory}</xmlDirectory>
+                <xmlRefDirectory>${esa.stubgen.xmlRefDirectory}</xmlRefDirectory>
+              </configuration>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>int.esa.ccsds.mo</groupId>
+              <artifactId>StubGenerator_Java</artifactId>
+              <version>${esa.stubgen.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>javax.activation</groupId>
+              <artifactId>javax.activation-api</artifactId>
+              <version>${javax.activation-api.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>javax.xml.bind</groupId>
+              <artifactId>jaxb-api</artifactId>
+              <version>${jaxb-api.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.sun.xml.bind</groupId>
+              <artifactId>jaxb-impl</artifactId>
+              <version>${jaxb-impl.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.sun.xml.bind</groupId>
+              <artifactId>jaxb-core</artifactId>
+              <version>${jaxb-impl.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
