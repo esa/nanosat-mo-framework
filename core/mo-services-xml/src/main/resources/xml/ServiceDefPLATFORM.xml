@@ -1703,11 +1703,11 @@
             <mal:type area="Platform" list="false"
                       name="VectorF3D"/>
           </mal:field>
-		  <mal:field canBeNull="false"
-                     comment="Current state of the State Machine"
-                     name="StateFSM">
-            <mal:type area="MAL" list="false"
-                      name="Short"/>
+          <mal:field canBeNull="false"
+                     comment="true = Final target pointing; false = Pointing StarTracket in the dark"
+                     name="StateTarget">
+          <mal:type area="MAL" list="false"
+                      name="Boolean"/>
           </mal:field>
         </mal:composite>
         <mal:enumeration
