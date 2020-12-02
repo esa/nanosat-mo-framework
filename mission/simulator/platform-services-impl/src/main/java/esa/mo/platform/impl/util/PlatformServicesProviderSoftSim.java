@@ -80,7 +80,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     Properties platformProperties = new Properties();
     try {
       platformProperties
-          .load(new FileInputStream(System.getProperty("user.dir") + "/platformsim.properties"));
+          .load(new FileInputStream("platformsim.properties"));
       if (platformProperties.getProperty("platform.mode").equals("hybrid")) {
         String camAdapterName = platformProperties.getProperty("camera.adapter");
         String adcsAdapterName = platformProperties.getProperty("adcs.adapter");
