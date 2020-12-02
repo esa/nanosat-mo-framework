@@ -580,12 +580,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         ConfigurationProviderSingleton.getDomain(),
         confSet.getObjInstIds());
 
-    manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs);   // Reconfigures the Manager
-
-    for (Long id : confSet.getObjInstIds()) { // Set all running state to false
-      manager.setRunning(id, false, null);
+    if (manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs)) {
+      for (Long id : confSet.getObjInstIds()) { // Set all running state to false
+        manager.setRunning(id, false, null);
+      }
+    } else {
+      LOGGER.log(Level.WARNING, "Failed to reconfigure definitions. Ids: {0} pDefs: {1}", new Object[]{confSet.getObjInstIds(), pDefs});
     }
-
     return true;
   }
 

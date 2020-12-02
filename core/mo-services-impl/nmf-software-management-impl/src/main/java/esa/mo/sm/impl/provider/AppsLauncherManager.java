@@ -177,7 +177,10 @@ public class AppsLauncherManager extends DefinitionsManager
           // No previous object - fail silently and proceed to creating one
         }
       }
-
+      if (objId == null) {
+        // Ensure archive allocates the id
+        objId = (long) 0;
+      }
       try {
         LongList objIds = addAppToArchive(definition, source, uri, objId, related);
 
@@ -203,7 +206,7 @@ public class AppsLauncherManager extends DefinitionsManager
     // Look up for apid
     String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
     int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
-    objId = (long) apid;
+    objId = apid != 0 ? (long) apid : null;
     return objId;
   }
 
