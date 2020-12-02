@@ -103,7 +103,11 @@ public class ProcessExecutionHandler
   public void removeShutdownHook()
   {
     if (shutdownHook != null) {
-      Runtime.getRuntime().removeShutdownHook(shutdownHook);
+      try {
+        Runtime.getRuntime().removeShutdownHook(shutdownHook);
+      } catch (IllegalStateException e) {
+        // JVM already shutting down
+      }
     }
   }
 
