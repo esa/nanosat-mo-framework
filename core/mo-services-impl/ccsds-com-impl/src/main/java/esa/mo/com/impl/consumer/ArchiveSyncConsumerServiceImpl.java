@@ -122,7 +122,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
                 if (adapter.waitUntilResponseReceived(timeout)) {
                     unfinished = false;
                     Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
-                            Level.INFO, "Finished the synchronization!\n");
+                            Level.INFO, "Retrieved the range of objects");
                 }
             } catch (InterruptedException ex) {
                 // Still not complete...
@@ -157,6 +157,8 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
             if (!adapter.receivedAllChunks()) {
                 // Then we will have to retrieve the missing ones...
                 UIntegerList missingIndexes = adapter.getMissingIndexes();
+                Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
+                        Level.INFO, "Missing {0} chunks.", missingIndexes.size());
 
                 try {
                     archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
