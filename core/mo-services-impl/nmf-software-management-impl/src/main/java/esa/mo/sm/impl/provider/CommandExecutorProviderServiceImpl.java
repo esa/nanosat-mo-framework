@@ -213,7 +213,6 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
       ProcessExecutionHandler handler = new ProcessExecutionHandler(new CallbacksImpl(),
           storedCommandObject);
       handler.monitorProcess(proc);
-      Runtime.getRuntime().addShutdownHook(new Thread(() -> proc.destroy()));
     } catch (IOException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       throw new MALException("Cannot start the process!", ex);

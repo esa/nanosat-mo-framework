@@ -385,60 +385,69 @@ public class AppsLauncherManager extends DefinitionsManager
     return this.get(appId).getRunning();
   }
 
-  protected String[] assembleAppStopCommand(final String appName)
+  protected String[] assembleCommand(final String appName, final String runAs, final String prefix, final String[] env)
   {
     ArrayList<String> ret = new ArrayList<>();
     String trimmedAppName = appName.replaceAll("space-app-", "");
     if (osValidator.isWindows()) {
       ret.add("cmd");
       ret.add("/c");
-      ret.add("stop_" + trimmedAppName + ".bat");
+      for (String envVar : env) {
+        ret.add("set");
+        ret.add(envVar);
+        ret.add("&&");
+      }
+      ret.add(prefix + trimmedAppName + ".bat");
     } else {
-      ret.add("/bin/sh");
-      ret.add("stop_" + trimmedAppName + ".sh");
-    }
-    return ret.toArray(new String[ret.size()]);
-  }
-
-  protected String[] assembleAppLauncherCommand(final String appName, String runAs)
-  {
-    ArrayList<String> ret = new ArrayList<>();
-    String trimmedAppName = appName.replaceAll("space-app-", "");
-    if (osValidator.isWindows()) {
-      ret.add("cmd");
-      ret.add("/c");
-      ret.add("start_" + trimmedAppName + ".bat");
-    } else {
-      String quote = "";
       if (runAs != null) {
         ret.add("su");
         ret.add("-");
         ret.add(runAs);
-        ret.add("-m");
         ret.add("-c");
-        quote = "'";
       } else {
         ret.add("/bin/sh");
+        ret.add("-c");
+      }
+      StringBuilder envString = new StringBuilder();
+      for (String envVar : env) {
+        envString.append(envVar);
+        envString.append(" ");
       }
 
-      ret.add(quote + "./start_" + trimmedAppName + ".sh" + quote); // Ugly workaround but works!
+      ret.add(envString.toString() + "./" + prefix + trimmedAppName + ".sh");
     }
     return ret.toArray(new String[ret.size()]);
+  }
+  protected String[] assembleAppStopCommand(final String appName, final String runAs, final String[] env)
+  {
+    return assembleCommand(appName, runAs, "stop_", env);
+  }
+
+  protected String[] assembleAppStartCommand(final String appName, final String runAs, final String[] env)
+  {
+    return assembleCommand(appName, runAs, "start_", env);
   }
 
   protected void assembleAppLauncherEnvironment(final String directoryServiceURI,
       final Map<String, String> targetEnv)
   {
     try {
-      targetEnv.putAll(EnvironmentUtils.getProcEnvironment());
+      // Inherit NMF HOME and NMF LIB from the supervisor
+      Map<String, String> parentEnv = EnvironmentUtils.getProcEnvironment();
+      if (parentEnv.containsKey("NMF_LIB"))
+      {
+        targetEnv.put("NMF_LIB", parentEnv.get("NMF_LIB"));
+      }
+      if (parentEnv.containsKey("NMF_HOME"))
+      {
+        targetEnv.put("NMF_HOME", parentEnv.get("NMF_HOME"));
+      }
     } catch (IOException ex) {
       LOGGER.log(Level.SEVERE, "getProcEnvironment failed!", ex);
     }
     // Extend the current environment by JAVA_OPTS
     targetEnv.put("JAVA_OPTS",
         "-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=" + directoryServiceURI + "");
-    // Ensure spawned apps do not inherit eventual library path of the Supervisor
-    targetEnv.remove("LD_LIBRARY_PATH");
   }
 
   protected void startAppProcess(final ProcessExecutionHandler handler,
@@ -450,21 +459,20 @@ public class AppsLauncherManager extends DefinitionsManager
     // Go to the folder where the app are installed
     final File appFolder
         = new File(appsFolderPath + File.separator + app.getName().getValue());
-    final String[] appLauncherCommand = assembleAppLauncherCommand(app.getName().getValue(),
-        app.getRunAs());
+    Map<String, String> env = new HashMap<>();
+    assembleAppLauncherEnvironment(directoryServiceURI, env);
+    final String[] appLauncherCommand = assembleAppStartCommand(app.getName().getValue(),
+        app.getRunAs(), EnvironmentUtils.toStrings(env));
 
     final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
-    Map<String, String> env = pb.environment();
-    env.clear();
-    assembleAppLauncherEnvironment(directoryServiceURI, env);
+    pb.environment().clear();
     pb.directory(appFolder);
     LOGGER.log(Level.INFO,
-        "Initializing ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
+        "Initializing ''{0}'' app in dir: {1}, using launcher command: {2}",
         new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
-          appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
+          appLauncherCommand)});
     final Process proc = pb.start();
     handler.monitorProcess(proc);
-    Runtime.getRuntime().addShutdownHook(new Thread(() -> proc.destroy()));
     handlers.put(handler.getObjId(), handler);
     this.setRunning(handler.getObjId(), true, interaction); // Update the Archive
   }
@@ -502,17 +510,18 @@ public class AppsLauncherManager extends DefinitionsManager
     // Go to the folder where the app are installed
     final File appFolder
         = new File(appsFolderPath + File.separator + app.getName().getValue());
-    final String[] appLauncherCommand = assembleAppStopCommand(app.getName().getValue());
+    Map<String, String> env = new HashMap<>();
+    assembleAppLauncherEnvironment("", env);
+    final String[] appLauncherCommand = assembleAppStopCommand(app.getName().getValue(),
+        app.getRunAs(), EnvironmentUtils.toStrings(env));
 
     final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
-    Map<String, String> env = pb.environment();
-    env.clear();
-    assembleAppLauncherEnvironment("", env);
+    pb.environment().clear();
     pb.directory(appFolder);
     LOGGER.log(Level.INFO,
-        "Stopping ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
+        "Stopping ''{0}'' app in dir: {1}, using launcher command: {2}",
         new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
-          appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
+          appLauncherCommand)});
     final Process proc = pb.start();
     interaction.sendUpdate(appInstId);
     boolean exitCleanly = false;
@@ -632,18 +641,19 @@ public class AppsLauncherManager extends DefinitionsManager
       boolean stopExists = stopScript.exists();
       if (isNmf[i]) {
         if (stopExists) {
-          final String[] appLauncherCommand = assembleAppStopCommand(curr.getName().getValue());
+          Map<String, String> env = new HashMap<>();
+          assembleAppLauncherEnvironment("", env);
+          final String[] appLauncherCommand = assembleAppStopCommand(curr.getName().getValue(),
+              curr.getRunAs(), EnvironmentUtils.toStrings(env));
           final File appFolder
               = new File(appsFolderPath + File.separator + curr.getName().getValue());
           final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
-          Map<String, String> env = pb.environment();
-          env.clear();
-          assembleAppLauncherEnvironment("", env);
+          pb.environment().clear();
           pb.directory(appFolder);
           LOGGER.log(Level.INFO,
-              "Stopping native component of ''{0}'' app in dir: {1}, using launcher command: {2}, and env: {3}",
+              "Stopping native component of ''{0}'' app in dir: {1}, using launcher command: {2}",
               new Object[]{curr.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
-                appLauncherCommand), Arrays.toString(EnvironmentUtils.toStrings(env))});
+                appLauncherCommand)});
           try {
             final Process proc = pb.start();
           } catch (IOException ex) {

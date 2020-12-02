@@ -66,6 +66,7 @@ public class ProcessExecutionHandler
   private final Long objId;
   private Thread stdoutReader;
   private Thread stderrReader;
+  private Thread shutdownHook;
   private Process process = null;
   private Callbacks cb = null;
   private static final Logger LOGGER = Logger.getLogger(ProcessExecutionHandler.class.getName());
@@ -90,11 +91,26 @@ public class ProcessExecutionHandler
   {
     timer.stopLast();
     process.destroy();
+    removeShutdownHook();
+  }
+
+  public void installShutdownHook()
+  {
+    shutdownHook = new Thread(() -> close());
+    Runtime.getRuntime().addShutdownHook(shutdownHook);
+  }
+
+  public void removeShutdownHook()
+  {
+    if (shutdownHook != null) {
+      Runtime.getRuntime().removeShutdownHook(shutdownHook);
+    }
   }
 
   public void monitorProcess(final Process process)
   {
     this.process = process;
+    installShutdownHook();
     final StringBuffer stdoutBuf = new StringBuffer();
     final StringBuffer stderrBuf = new StringBuffer();
     // Every PERIOD_PUB seconds, publish the String data
