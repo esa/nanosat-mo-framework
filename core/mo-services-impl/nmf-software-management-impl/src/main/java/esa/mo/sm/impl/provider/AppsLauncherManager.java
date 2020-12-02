@@ -536,7 +536,7 @@ public class AppsLauncherManager extends DefinitionsManager
       LOGGER.log(Level.WARNING,
           "App {0} stop script did not exit within the timeout ({1} ms). Killing the stop script and forcing the app exit.",
           new Object[]{app.getName().getValue(), APP_STOP_TIMEOUT});
-      proc.destroy();
+      proc.destroyForcibly();
     }
 
     if (handler == null) {

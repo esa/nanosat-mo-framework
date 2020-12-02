@@ -90,7 +90,7 @@ public class ProcessExecutionHandler
   public void close()
   {
     timer.stopLast();
-    process.destroy();
+    process.destroyForcibly();
     removeShutdownHook();
   }
 

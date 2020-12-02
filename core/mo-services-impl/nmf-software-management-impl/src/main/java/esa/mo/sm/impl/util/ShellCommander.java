@@ -55,7 +55,7 @@ public class ShellCommander {
             
             error.join(DEATH_TIMEOUT);
             output.join(DEATH_TIMEOUT);
-            proc.destroy();
+            proc.destroyForcibly();
 //            String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
             
             return output.getMessage();
