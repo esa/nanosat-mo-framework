@@ -289,7 +289,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
   private class Dispatcher {
 
-    private final static int CHUNK_SIZE = 512;
+    private final static int CHUNK_SIZE = 200;
 
     // A temporary queue to hold the objects that were queried
     private final LinkedBlockingQueue<COMObjectEntity> tempQueue
