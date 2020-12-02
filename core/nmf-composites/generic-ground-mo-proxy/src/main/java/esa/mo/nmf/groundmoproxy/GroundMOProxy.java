@@ -270,11 +270,11 @@ public abstract class GroundMOProxy
             }
           };
 
-          // Use the cout operation from the Archive for Common.Directory.ServiceProvider
+          // Use the count operation from the Archive for Common.Directory.ServiceProvider
           archiveService.getArchiveStub().count(DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE,
               archiveQueryList, null, adapter);
 
-          // use the cout operation from the Archive for SoftwareManagement.AppsLauncher.StopApp
+          // use the count operation from the Archive for SoftwareManagement.AppsLauncher.StopApp
           archiveService.getArchiveStub().count(AppsLauncherHelper.STOPAPP_OBJECT_TYPE,
               archiveQueryList, null, adapter);
 
@@ -314,7 +314,7 @@ public abstract class GroundMOProxy
               return;
             } else {
 
-              // If it is first time, then we need to conect to the
+              // If it is first time, then we need to connect to the
               // heartbeat service and listen to the beat
               SingleConnectionDetails connectionDetails = cdFromService(
                   HeartbeatHelper.HEARTBEAT_SERVICE);

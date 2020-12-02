@@ -487,7 +487,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
           IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
           Map qosProperties) {
         super.queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
-        if (objType == null && domain == null && objDetails == null && objBodies == null) {
+        if (objType == null || domain == null || objDetails == null || objBodies == null) {
           return;
         }
         HashSet<Long> clearedIds = new HashSet<Long>();
