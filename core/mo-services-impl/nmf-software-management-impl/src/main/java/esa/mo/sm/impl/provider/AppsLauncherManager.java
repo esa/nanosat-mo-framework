@@ -385,7 +385,7 @@ public class AppsLauncherManager extends DefinitionsManager
     return this.get(appId).getRunning();
   }
 
-  protected String[] assembleCommand(final String appName, final String runAs, final String prefix, final String[] env)
+  protected String[] assembleCommand(final String workDir, final String appName, final String runAs, final String prefix, final String[] env)
   {
     ArrayList<String> ret = new ArrayList<>();
     String trimmedAppName = appName.replaceAll("space-app-", "");
@@ -414,18 +414,18 @@ public class AppsLauncherManager extends DefinitionsManager
         envString.append(" ");
       }
 
-      ret.add(envString.toString() + "./" + prefix + trimmedAppName + ".sh");
+      ret.add("cd " + workDir + ";" + envString.toString() + "./" + prefix + trimmedAppName + ".sh");
     }
     return ret.toArray(new String[ret.size()]);
   }
-  protected String[] assembleAppStopCommand(final String appName, final String runAs, final String[] env)
+  protected String[] assembleAppStopCommand(final String workDir, final String appName, final String runAs, final String[] env)
   {
-    return assembleCommand(appName, runAs, "stop_", env);
+    return assembleCommand(workDir, appName, runAs, "stop_", env);
   }
 
-  protected String[] assembleAppStartCommand(final String appName, final String runAs, final String[] env)
+  protected String[] assembleAppStartCommand(final String workDir, final String appName, final String runAs, final String[] env)
   {
-    return assembleCommand(appName, runAs, "start_", env);
+    return assembleCommand(workDir, appName, runAs, "start_", env);
   }
 
   protected void assembleAppLauncherEnvironment(final String directoryServiceURI,
@@ -461,8 +461,10 @@ public class AppsLauncherManager extends DefinitionsManager
         = new File(appsFolderPath + File.separator + app.getName().getValue());
     Map<String, String> env = new HashMap<>();
     assembleAppLauncherEnvironment(directoryServiceURI, env);
-    final String[] appLauncherCommand = assembleAppStartCommand(app.getName().getValue(),
-        app.getRunAs(), EnvironmentUtils.toStrings(env));
+    final String[] appLauncherCommand = assembleAppStartCommand(appFolder.getAbsolutePath(),
+        app.getName().getValue(),
+        app.getRunAs(),
+        EnvironmentUtils.toStrings(env));
 
     final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
     pb.environment().clear();
@@ -512,8 +514,8 @@ public class AppsLauncherManager extends DefinitionsManager
         = new File(appsFolderPath + File.separator + app.getName().getValue());
     Map<String, String> env = new HashMap<>();
     assembleAppLauncherEnvironment("", env);
-    final String[] appLauncherCommand = assembleAppStopCommand(app.getName().getValue(),
-        app.getRunAs(), EnvironmentUtils.toStrings(env));
+    final String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
+        app.getName().getValue(), app.getRunAs(), EnvironmentUtils.toStrings(env));
 
     final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
     pb.environment().clear();
@@ -643,10 +645,10 @@ public class AppsLauncherManager extends DefinitionsManager
         if (stopExists) {
           Map<String, String> env = new HashMap<>();
           assembleAppLauncherEnvironment("", env);
-          final String[] appLauncherCommand = assembleAppStopCommand(curr.getName().getValue(),
-              curr.getRunAs(), EnvironmentUtils.toStrings(env));
           final File appFolder
               = new File(appsFolderPath + File.separator + curr.getName().getValue());
+          final String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
+              curr.getName().getValue(), curr.getRunAs(), EnvironmentUtils.toStrings(env));
           final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
           pb.environment().clear();
           pb.directory(appFolder);
