@@ -1,12 +1,12 @@
 ===================================
-Importing the NMF into Netbeans IDE
+Developing and debugging the NMF under Netbeans
 ===================================
 
 .. contents:: Table of contents
 
 Getting started
 ---------------
-Netbeans is the recommended IDE to use with the NMF as it definitely works out of the box.
+Netbeans 8.2 is the recommended IDE to use with the NMF as it definitely works out of the box.
 To import your NMF distribution into the IDE, select `File -> Open Project` and select the NMF
 root directory that you cloned from GitHub. Netbeans will now import all Maven subprojects into the Netbeans workspace.
 
@@ -15,9 +15,7 @@ Setting up the supervisor with simulator
 Right click the project **ESA NMF Core Composite - NanoSat MO Supervisor** and select the option **Properties**.
 In the options **Run** enter the path to the supervisor simulator environment (by default at **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim**). Then add the following line under VM Options and save the configuration.
 
-```
--Dnmf.platform.impl=esa.mo.platform.impl.util.PlatformServicesProviderSoftSim
-```
+:code:`-Dnmf.platform.impl=esa.mo.platform.impl.util.PlatformServicesProviderSoftSim`
 
 Setting up the CTT
 ------------------
@@ -39,10 +37,10 @@ Set the working directory of the application to a newly created directory contai
 The above files are also deployed into all home directories of Space Apps inside an assembled SDK package.
 
 Specify the URI of a running Supervisor's Directory Service, so the app can connect to it and consume Platform Services provided by the Supervisor:
-> In Netbeans, Right Click on a project (e.g. 'ESA NMF SDK App Example - All MC services')->Properties->Run, and set the VM Options to:
-> `-Desa.mo.nmf.centralDirectoryURI=<Directory_Service_URI>`
-> e.g.
-> `-Desa.mo.nmf.centralDirectoryURI=maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory`
+
+- In Netbeans, Right Click on a project (e.g. 'ESA NMF SDK App Example - All MC services')->Properties->Run, and set the VM Options to:
+- :code:`-Desa.mo.nmf.centralDirectoryURI=<Directory_Service_URI>`
+- e.g. :code:`-Desa.mo.nmf.centralDirectoryURI=maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory`
 
 NMF Ground Applications
 ------------------------
