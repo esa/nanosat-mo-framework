@@ -65,6 +65,8 @@
   </developers>
   <properties>
     <maven.test.skip>true</maven.test.skip>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- NMF general properties -->
     <esa.nmf.version>2.0.0-SNAPSHOT</esa.nmf.version>
     <esa.nmf.next-version>2.1.0</esa.nmf.next-version>
