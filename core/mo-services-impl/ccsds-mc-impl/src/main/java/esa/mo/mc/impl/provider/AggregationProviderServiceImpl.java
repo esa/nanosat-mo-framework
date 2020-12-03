@@ -752,11 +752,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      */
     public Boolean pushAggregationAdhocUpdate(Identifier name, final ObjectId source, final Time timestamp) { //requirement: 3.7.2.b.b, 3.7.4.i
         final Long identityId = manager.getIdentity(name);
-        
         if(identityId == null){
             return false;
         }
-
         //check the filter and sample
         if (!checkFilterAndSampleParam(identityId, false)) {
             //filter didnt trigger
@@ -799,10 +797,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         if (aSetVal.size() != aggrDef.getParameterSets().size()) {
             return false;
         }
-        //check that the generation of updates is enabled
-        if (!aggrDef.getGenerationEnabled()) { //requirement 3.7.3.a, 3.7.3.b
-            return false;
-        }
         //check the filter and sample
         if (!checkFilterAndSampleParams(identityId, false, aSetVal)) {
             return false;
@@ -811,7 +805,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         if (!publishAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.ADHOC), source, timestamp)) {
             return false;
         }
-
         //if the push value was published during a periodic update reset the timers //not standarized, impl. specific
         if (manager.getAggregationDefinition(identityId).getReportInterval().getValue() != 0) {
             periodicReportingManager.refresh(identityId);// then, refresh the Periodic updates and samplings
