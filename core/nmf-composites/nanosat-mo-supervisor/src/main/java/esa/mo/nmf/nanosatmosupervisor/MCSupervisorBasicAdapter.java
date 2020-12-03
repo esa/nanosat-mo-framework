@@ -43,7 +43,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter{
   private static final String CMD_WINDOWS_VERSION = "systeminfo | findstr Version";
 
   private final ShellCommander shellCommander = new ShellCommander();
-  private NanoSatMOSupervisor nmfconnector;
+  private NanoSatMOSupervisor nmfSupervisor;
   private OSValidator osValidator;
 
   @Parameter(
@@ -62,11 +62,12 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter{
       reportIntervalSeconds = 10)
   public String OSPartition = "";
 
-  public void setNmfConnector(NanoSatMOSupervisor conn) {
-    nmfconnector = conn;
-  }
   public MCSupervisorBasicAdapter() {
     osValidator = new OSValidator();
+  }
+
+  public void setNmfSupervisor(NanoSatMOSupervisor supervisor) {
+    nmfSupervisor = supervisor;
   }
 
   public void onGetOSVersion()
@@ -86,7 +87,6 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter{
     }
   }
 
-
   @Action(
       name="NMEA_Sentence",
       description = "Forwards a raw NMEA query to the GNSS Provider")
@@ -97,7 +97,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter{
       @ActionParameter(name="arg") String arg)
   {
     try {
-    nmfconnector.getPlatformServices().getGPSService().getNMEASentence(arg,
+    nmfSupervisor.getPlatformServices().getGPSService().getNMEASentence(arg,
       new GPSConsumerAdapter());
     }  catch (MALInteractionException | MALException | IOException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
