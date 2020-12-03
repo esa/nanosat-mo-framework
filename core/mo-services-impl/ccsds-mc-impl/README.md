@@ -11,7 +11,7 @@ For the Action service, there is an Action Manager that allows the management of
 
 ============
 
-The Managers have interactions with the Archive service in order to store and retrieve the definitions. Additionally, each service has a certain configuration that can be restored at any time by the provider. For the NMF’s Java implementation, this occurs during start up.
+The Managers have interactions with the Archive service in order to store and retrieve the definitions. Additionally, each service has a certain configuration that can be restored at any time by the provider. For the NMF's Java implementation, this occurs during start up.
 
 The implementation of the services was started when the 3rd revision of the M&C services specification was on-going. It was developed in collaboration with DLR and found many problems with the specification which were later fixed. Both the specification and implementation had to be updated to cope with these changes.
 

@@ -24,14 +24,14 @@ European Space Agency Public License - v2.0
 
 1.10	"Object Code" means any non-Source Code form of the Software and/or Modifications.
 
-1.11	"Patent Claims" (of a Contributor) means any patent claim(s), owned at the time of the Distribution or subsequently acquired, including without limitation, method, process and apparatus claims, in any patent licensable by a Contributor which would be infringed by making use of the rights granted under Sec. 2.1, including but not limited to make, have made, use, sell, offer for sale or import of the Contributor Version and/or such Contributor’s Modifications (if any), either alone or in combination with the Contributor Version. "Licensable" means having the right to grant, whether at the time of the Distribution or subsequently acquired, the rights conveyed herein.
+1.11	"Patent Claims" (of a Contributor) means any patent claim(s), owned at the time of the Distribution or subsequently acquired, including without limitation, method, process and apparatus claims, in any patent licensable by a Contributor which would be infringed by making use of the rights granted under Sec. 2.1, including but not limited to make, have made, use, sell, offer for sale or import of the Contributor Version and/or such Contributor's Modifications (if any), either alone or in combination with the Contributor Version. "Licensable" means having the right to grant, whether at the time of the Distribution or subsequently acquired, the rights conveyed herein.
 
 1.12	"You" means an individual or legal entity exercising rights under this License (the licensee). 
 
 2	Grant of Rights
 -----------------
 
-2.1	_Copyright._ The Licensor, and each Contributor in respect of such Contributor’s Modifications, hereby grants You a world-wide, royalty-free, non-exclusive license under Copyright, subject to the terms and conditions of this License, to:
+2.1	_Copyright._ The Licensor, and each Contributor in respect of such Contributor's Modifications, hereby grants You a world-wide, royalty-free, non-exclusive license under Copyright, subject to the terms and conditions of this License, to:
 -	use the Software;
 -	reproduce the Software by any or all means and in any or all form;
 -	Modify the Software and create works based on the Software;
@@ -40,14 +40,14 @@ European Space Agency Public License - v2.0
 
 The license grant is perpetual and irrevocable, unless terminated pursuant to Sec. 7.
 
-2.2	_Patents._ Each Contributor in respect of such Contributor’s Modifications, hereby grants You a world-wide, royalty-free, non-exclusive, sub-licensable license under Patent Claims to the extent necessary to make use of the rights granted under Sec. 2.1, including but not limited to make, have made, use, sell, offer for sale, import, export and Distribute such Contributor’s Modifications and the combination of such Contributor’s Modifications with the Contributor Version (collectively called the "Patent Licensed Version" of the Software).
+2.2	_Patents._ Each Contributor in respect of such Contributor's Modifications, hereby grants You a world-wide, royalty-free, non-exclusive, sub-licensable license under Patent Claims to the extent necessary to make use of the rights granted under Sec. 2.1, including but not limited to make, have made, use, sell, offer for sale, import, export and Distribute such Contributor's Modifications and the combination of such Contributor's Modifications with the Contributor Version (collectively called the "Patent Licensed Version" of the Software).
 
 No patent license is granted for claims that are infringed:
 -	only as a consequence of further modification of the Patent Licensed Version; or
 -	by the combination of the Patent Licensed Version with other software or other devices or hardware, unless such combination was an intended use case of the Patent Licensed Version (e.g. a general purpose library is intended to be used with other software, a satellite navigation software is intended to be used with appropriate hardware); or
--	by a Modification under Patent Claims in the absence of the Contributor’s Modifications or by a combination of the Contributor’s Modifications with software other than the Patent Licensed Version or Modifications thereof.
+-	by a Modification under Patent Claims in the absence of the Contributor's Modifications or by a combination of the Contributor's Modifications with software other than the Patent Licensed Version or Modifications thereof.
 
-2.3	_Trademark._ This License does not grant permission to use trade names, trademarks, services marks, logos or names of the Licensor, except as required for reasonable and customary use in describing the origin of the Software and as reasonable necessary to comply with the obligations of this License (e.g. by reproducing the content of the notices). For the avoidance of doubt, upon Distribution of Modifications You must not use the Licensor’s or ESA’s trademarks, names or logos in any way that states or implies, or can be interpreted as stating or implying, that the final product is endorsed or created by the Licensor or ESA.
+2.3	_Trademark._ This License does not grant permission to use trade names, trademarks, services marks, logos or names of the Licensor, except as required for reasonable and customary use in describing the origin of the Software and as reasonable necessary to comply with the obligations of this License (e.g. by reproducing the content of the notices). For the avoidance of doubt, upon Distribution of Modifications You must not use the Licensor's or ESA's trademarks, names or logos in any way that states or implies, or can be interpreted as stating or implying, that the final product is endorsed or created by the Licensor or ESA.
 
 3	Distribution
 --------------
@@ -64,12 +64,12 @@ No patent license is granted for claims that are infringed:
 
 3.2.4	_Combinations._ You may create a Modification (the "Combination") by combining or linking the Software or Modifications thereof (the "Covered Code") with additional code or software (the "External Code") not governed by the terms of this License and Distribute the Combination
 -	in Object Code form under any license terms, and/or
--	in Source Code form the External Code’s Source Code under any license terms and the Covered Code’s Source Code under this License,
+-	in Source Code form the External Code's Source Code under any license terms and the Covered Code's Source Code under this License,
 provided that:
 (a) the Covered Code will be governed by this License and the different license terms effectively do not restrict the rights granted by this License; and
 (b) the External Code and its license terms are clearly identified and notice is given of the use of Covered Code and the applicability of this License; and
-(c) the External Code’s Source Code is clearly separated from the Covered Code’s Source Code (usually contained in different files); and
-(d) You communicate the Covered Code’s Source Code in accordance with Sec. 3.3
+(c) the External Code's Source Code is clearly separated from the Covered Code's Source Code (usually contained in different files); and
+(d) You communicate the Covered Code's Source Code in accordance with Sec. 3.3
 
 3.3	_Communication of the Source Code._
 If You Distribute the Software and/or Modifications as Object Code, You must:
@@ -112,7 +112,7 @@ The following obligations apply in the event of any Distribution of the Software
 6	Additional Agreements
 -----------------------
 
-While Distributing the Software or Modifications, You may choose to conclude additional agreements, for free or for charge, regarding for example support, warranty, indemnity, liability or liability obligations and/or rights, provided such additional agreements are consistent with this License and do not effectively restrict the recipient’s rights under this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor or Licensor, and only if You agree to indemnify, defend, and hold each Contributor or Licensor harmless for any liability incurred by, or claims asserted against, such Contributor or Licensor by reason of your accepting any such warranty or additional liability.
+While Distributing the Software or Modifications, You may choose to conclude additional agreements, for free or for charge, regarding for example support, warranty, indemnity, liability or liability obligations and/or rights, provided such additional agreements are consistent with this License and do not effectively restrict the recipient's rights under this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor or Licensor, and only if You agree to indemnify, defend, and hold each Contributor or Licensor harmless for any liability incurred by, or claims asserted against, such Contributor or Licensor by reason of your accepting any such warranty or additional liability.
 
 
 7	Infringements

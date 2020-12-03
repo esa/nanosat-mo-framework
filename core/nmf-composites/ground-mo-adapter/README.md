@@ -1,7 +1,7 @@
 Ground MO Adapter
 ============
 
-The Ground MO Adapter is an NMF Composite that enables ground systems to connect to MO providers. It is intended to be deployed on ground and it is able to connect to all the other NMF Composites. Service interfaces are exposed to the ground system for interactions with MO providers. The services’ communication configurations can be automatically discovered from the Directory service by using the provider’s URI of the Directory service.
+The Ground MO Adapter is an NMF Composite that enables ground systems to connect to MO providers. It is intended to be deployed on ground and it is able to connect to all the other NMF Composites. Service interfaces are exposed to the ground system for interactions with MO providers. The services' communication configurations can be automatically discovered from the Directory service by using the provider's URI of the Directory service.
 
 This component is foreseen to be used for the development of Monitor and Control Systems (MCS) or ground applications capable of interfacing with an NMF App however it is not limited NMF software. This means that a ground consumer using this component shall be able to connect to other different providers, such as a simple provider with only a Parameter service.
 

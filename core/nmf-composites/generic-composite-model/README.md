@@ -12,7 +12,7 @@ In order to cover the core functionalities of the framework, the NMF Generic Mod
 * Platform services
 * Software Management services
 
-The same underlying transport layer must be present on the consumer and provider sides in order to exchange data between the two entities. At least one transport layer binding needs to be available in all the NMF Composites in order to guarantee that the components are able to exchange data. Therefore, the NMF Generic Model has TCP/IP transport layer binding as default due its general availability in today’s computers, and for being already a standardized CCSDS transport binding. The NMF Generic Model has the Binary encoding as default due to its simplicity.
+The same underlying transport layer must be present on the consumer and provider sides in order to exchange data between the two entities. At least one transport layer binding needs to be available in all the NMF Composites in order to guarantee that the components are able to exchange data. Therefore, the NMF Generic Model has TCP/IP transport layer binding as default due its general availability in today's computers, and for being already a standardized CCSDS transport binding. The NMF Generic Model has the Binary encoding as default due to its simplicity.
 
 If a mission needs to use a mission-specific transport, a protocol bridge can be used to accommodate this need.
 
