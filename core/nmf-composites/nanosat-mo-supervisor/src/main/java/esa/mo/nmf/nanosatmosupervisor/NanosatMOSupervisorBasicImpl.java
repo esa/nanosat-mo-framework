@@ -6,11 +6,16 @@
 package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
+
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -23,29 +28,37 @@ import org.ccsds.moims.mo.mal.MALException;
  * @author yannick
  */
 public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
-
-  private PlatformServicesProviderInterface platformServices;
+  private static final Logger LOGGER = Logger.getLogger(NanosatMOSupervisorBasicImpl.class.getName());
+  private PlatformServicesProviderInterface platformServicesProvider;
 
   @Override
   public void initPlatformServices(COMServicesProvider comServices) {
     try {
       String platformProviderClass = System.getProperty("nmf.platform.impl");
       try {
-        platformServices
+        platformServicesProvider
             = (PlatformServicesProviderInterface) Class.forName(platformProviderClass).newInstance();
       } catch (NullPointerException | ClassNotFoundException | InstantiationException
           | IllegalAccessException ex) {
         // If the property for the platform implementation is not provided, an NPE will occur.
         // In this case or any other problem with reflection default to the simulated platforms
-        Logger.getLogger(NanosatMOSupervisorBasicImpl.class.getName()).log(Level.SEVERE,
+        LOGGER.log(Level.SEVERE,
             "Something went wrong when initializing the platform services. Using simulated services.",
             ex);
-        platformServices
+            platformServicesProvider
             = new PlatformServicesProviderSoftSim();
       }
-      platformServices.init(comServices);
+      platformServicesProvider.init(comServices);
     } catch (MALException ex) {
-      Logger.getLogger(NanosatMOSupervisorBasicImpl.class.getName()).log(Level.SEVERE, null, ex);
+      LOGGER.log(Level.SEVERE, null, ex);
+    }
+    // Now connect the platform services consumer loopback to it
+    ConnectionConsumer connectionConsumer = new ConnectionConsumer();
+    try {
+      connectionConsumer.loadURIs();
+      super.getPlatformServices().init(connectionConsumer, null);
+    } catch (MalformedURLException | NMFException | FileNotFoundException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
   }
 
