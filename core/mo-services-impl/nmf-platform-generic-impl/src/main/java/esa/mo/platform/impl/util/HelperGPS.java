@@ -298,4 +298,17 @@ public class HelperGPS
     return bestXYZ.split(";")[0];
   }
 
+  /** Removes details from the NMEA log like <OK [COM1]
+   *
+   * @param log NMEA log string
+   * @return sanitized NMEA log string
+  */
+  public static String sanitizeNMEALog(String log)
+  {
+    log = log.replace("<OK", "").replace("[COM1]", "");
+    if (log.contains("$"))
+      log = log.substring(log.indexOf("$"));
+    return log.trim(); // Remove whitespaces
+  }
+
 }

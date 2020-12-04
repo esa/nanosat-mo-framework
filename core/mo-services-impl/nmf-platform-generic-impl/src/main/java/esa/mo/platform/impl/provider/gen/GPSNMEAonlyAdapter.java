@@ -38,17 +38,20 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
   @Override
   public Position getCurrentPosition()
   {
-    String gpggalong = "";
+    String nmeaLog = "";
     try {
-      gpggalong = this.getNMEASentence("GPGGALONG\r\n");
-      Position position = HelperGPS.gpggalong2Position(gpggalong);
-      return position;
+      nmeaLog = this.getNMEASentence("LOG GPGGALONG\r\n").trim();
+      if (!nmeaLog.startsWith("$GPGGA")) {
+        LOGGER.log(Level.SEVERE, "Unexpected response format: " + nmeaLog);
+      } else {
+        return HelperGPS.gpggalong2Position(nmeaLog); // TODO fixme GPGGA parsing
+      }
     } catch (NumberFormatException ex1) {
       LOGGER.log(Level.SEVERE,
-          "Number format exception! The gpggalong string is: " + gpggalong, ex1);
+          "Number format exception! The gpggalong string is: " + nmeaLog, ex1);
     } catch (IOException ex) {
       LOGGER.log(Level.SEVERE,
-          "The current position could not be retrieved! Exception: {0}", ex.getMessage());
+          "The current position could not be retrieved!", ex);
     }
 
     return null;
@@ -58,8 +61,12 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
   public SatelliteInfoList getSatelliteInfoList()
   {
     try {
-      String gpgsv = this.getNMEASentence("GPGSV\r\n");
-      return HelperGPS.gpgsv2SatelliteInfoList(gpgsv);
+      String nmeaLog = this.getNMEASentence("LOG GPGSV\r\n").trim();
+      if (!nmeaLog.startsWith("$GPSV")) {
+        LOGGER.log(Level.SEVERE, "Unexpected response format: " + nmeaLog);
+      } else {
+        return HelperGPS.gpgsv2SatelliteInfoList(nmeaLog);
+      }
     } catch (IOException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }

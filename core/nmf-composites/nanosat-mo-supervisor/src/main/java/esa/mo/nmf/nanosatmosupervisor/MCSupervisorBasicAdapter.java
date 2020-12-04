@@ -73,13 +73,15 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
   }
 
-  @Action(name = "NMEA_Sentence", description = "Forwards a raw NMEA query to the GNSS Provider")
+  @Action(name = "NMEA_Sentence", description = "Adds <CR><LF> to a raw NMEA query and forwards it to the GNSS Provider")
   public UInteger nmeaAction(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
       @ActionParameter(name = "arg") String arg) {
     try {
+      arg = arg + "\r\n";
       nmfSupervisor.getPlatformServices().getGPSService().getNMEASentence(arg, new GPSConsumerAdapter());
     } catch (MALInteractionException | MALException | IOException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
+      return new UInteger(1);
     }
     return null;
   }

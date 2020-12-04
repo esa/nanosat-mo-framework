@@ -3318,7 +3318,7 @@ public class SimulatorNode extends TaskNode
           // inputSentence);//201//Obtain a NMEA response for a given NMEA sentence]
           String inputSentence = ((String) argObject.get(0)).trim(); // discard white characters
           String result = "";
-          if (inputSentence.equals("GLMLA")) {
+          if (inputSentence.endsWith("GLMLA")) {
             String separator = ",";
             String separatorNewLine = "\r\n";
             LinkedList<GPSSatInView> tempResult = getSatsInView();
@@ -3363,7 +3363,7 @@ public class SimulatorNode extends TaskNode
               }
               result += separatorNewLine;
             }
-          } else if (inputSentence.equals("GPGRS")) {
+          } else if (inputSentence.endsWith("GPGRS")) {
             String separator = ",";
             String separatorNewLine = "\r\n";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM; i++) {
@@ -3380,7 +3380,7 @@ public class SimulatorNode extends TaskNode
                 result += calcNMEAChecksum(result);
               }
             }
-          } else if (inputSentence.equals("GPGRS")) {
+          } else if (inputSentence.endsWith("GPGRS")) {
             String separator = ",";
             String separatorNewLine = "\r\n";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM; i++) {
@@ -3397,7 +3397,7 @@ public class SimulatorNode extends TaskNode
                 result += calcNMEAChecksum(result);
               }
             }
-          } else if (inputSentence.equals("GPGST")) {
+          } else if (inputSentence.endsWith("GPGST")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGST_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGST_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.HEADER) {
@@ -3422,7 +3422,7 @@ public class SimulatorNode extends TaskNode
                 result += calcNMEAChecksum(result);
               }
             }
-          } else if (inputSentence.equals("GPGSV")) {
+          } else if (inputSentence.endsWith("GPGSV")) {
             String separator = ",";
             LinkedList<GPSSatInView> tempResult = getSatsInView();
             int numberInSet = tempResult.size();
@@ -3486,7 +3486,7 @@ public class SimulatorNode extends TaskNode
               }
               result += "\n";
             }
-          } else if (inputSentence.equals("GPHDT")) {
+          } else if (inputSentence.endsWith("GPHDT")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPHDT_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPHDT_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPHDT_COL.HEADER) {
@@ -3499,7 +3499,7 @@ public class SimulatorNode extends TaskNode
                 result += calcNMEAChecksum(result);
               }
             }
-          } else if (inputSentence.equals("GPRMB")) {
+          } else if (inputSentence.endsWith("GPRMB")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPRMB_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPRMB_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.HEADER) {
@@ -3536,7 +3536,7 @@ public class SimulatorNode extends TaskNode
                 result += calcNMEAChecksum(result);
               }
             }
-          } else if (inputSentence.equals("GPRMC")) {
+          } else if (inputSentence.endsWith("GPRMC")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPRMC_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPRMC_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.HEADER) {
@@ -3569,7 +3569,7 @@ public class SimulatorNode extends TaskNode
                 result += calcNMEAChecksum(result);
               }
             }
-          } else if (inputSentence.equals("GPVTG")) {
+          } else if (inputSentence.endsWith("GPVTG")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPVTG_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPVTG_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.HEADER) {
@@ -3596,7 +3596,7 @@ public class SimulatorNode extends TaskNode
                 result += calcNMEAChecksum(result);
               }
             }
-          } else if (inputSentence.equals("GPZDA")) {
+          } else if (inputSentence.endsWith("GPZDA")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPZDA_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPZDA_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.HEADER) {
@@ -3617,7 +3617,7 @@ public class SimulatorNode extends TaskNode
                 result += calcNMEAChecksum(result);
               }
             }
-          } else if (inputSentence.equals("GPALM")) {
+          } else if (inputSentence.endsWith("GPALM")) {
             String separator = ",";
             String separatorNewLine = "\r\n";
             LinkedList<GPSSatInView> tempResult = getSatsInView();
@@ -3662,7 +3662,7 @@ public class SimulatorNode extends TaskNode
               }
               result += separatorNewLine;
             }
-          } else if (inputSentence.equals("GPGGA")) {
+          } else if (inputSentence.endsWith("GPGGA")) {
             SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGGA_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGGA_COL.CHECKSUM; i++) {
@@ -3718,7 +3718,7 @@ public class SimulatorNode extends TaskNode
              * of undulation #11 ""+separator+//age of correction data [seconds] #12
              * ""+separator+//differential base station ID #13 "*XX"//checksum #14 ;
              */
-          } else if (inputSentence.equals("GPGGALONG")) {
+          } else if (inputSentence.endsWith("GPGGALONG")) {
             SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.CHECKSUM; i++) {
@@ -3759,7 +3759,7 @@ public class SimulatorNode extends TaskNode
                 result += calcNMEAChecksum(result);
               }
             }
-          } else if (inputSentence.equals("GPGGARTK")) {
+          } else if (inputSentence.endsWith("GPGGARTK")) {
             SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.CHECKSUM; i++) {
