@@ -39,7 +39,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
   {
     String gpggalong = "";
     try {
-      gpggalong = this.getNMEASentence("GPGGALONG");
+      gpggalong = this.getNMEASentence("GPGGALONG\r\n");
       Position position = HelperGPS.gpggalong2Position(gpggalong);
       return position;
     } catch (NumberFormatException ex1) {
@@ -57,7 +57,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
   public SatelliteInfoList getSatelliteInfoList()
   {
     try {
-      String gpgsv = this.getNMEASentence("GPGSV");
+      String gpgsv = this.getNMEASentence("GPGSV\r\n");
       return HelperGPS.gpgsv2SatelliteInfoList(gpgsv);
     } catch (IOException ex) {
       Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, null, ex);

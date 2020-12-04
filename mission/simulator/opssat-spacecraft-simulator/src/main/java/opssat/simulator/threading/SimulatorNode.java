@@ -3316,7 +3316,7 @@ public class SimulatorNode extends TaskNode
 
         case 2001: {// Origin [IGPS] Method [String getNMEASentence(String
           // inputSentence);//201//Obtain a NMEA response for a given NMEA sentence]
-          String inputSentence = (String) argObject.get(0);
+          String inputSentence = ((String) argObject.get(0)).trim(); // discard white characters
           String result = "";
           if (inputSentence.equals("GLMLA")) {
             String separator = ",";
