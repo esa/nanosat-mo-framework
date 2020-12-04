@@ -748,7 +748,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       throw new MALInteractionException(
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
-    System.out.println("providerbla");
     interaction.sendAcknowledgement();
     try {
       String resp = adapter.getBestXYZSentence();
@@ -768,7 +767,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       throw new MALInteractionException(
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
-    System.out.println("providerbla");
     interaction.sendAcknowledgement();
     try {
       String resp = adapter.getTIMEASentence();
@@ -778,7 +776,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
           .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
       e.printStackTrace();
     }
-    System.out.println("providerbla");
   }
 
 }

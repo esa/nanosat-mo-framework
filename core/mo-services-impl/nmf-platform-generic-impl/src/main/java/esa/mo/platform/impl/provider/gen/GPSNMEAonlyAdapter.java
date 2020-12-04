@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
  */
 public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
 {
+  private static Logger LOGGER = Logger.getLogger(GPSNMEAonlyAdapter.class.getName());
 
   @Override
   public Position getCurrentPosition()
@@ -43,10 +44,10 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
       Position position = HelperGPS.gpggalong2Position(gpggalong);
       return position;
     } catch (NumberFormatException ex1) {
-      Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE,
+      LOGGER.log(Level.SEVERE,
           "Number format exception! The gpggalong string is: " + gpggalong, ex1);
     } catch (IOException ex) {
-      Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE,
+      LOGGER.log(Level.SEVERE,
           "The current position could not be retrieved! Exception: {0}", ex.getMessage());
     }
 
@@ -60,9 +61,21 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
       String gpgsv = this.getNMEASentence("GPGSV\r\n");
       return HelperGPS.gpgsv2SatelliteInfoList(gpgsv);
     } catch (IOException ex) {
-      Logger.getLogger(GPSNMEAonlyAdapter.class.getName()).log(Level.SEVERE, null, ex);
+      LOGGER.log(Level.SEVERE, null, ex);
     }
 
     return null;
+  }
+
+  @Override
+  public String getBestXYZSentence() throws IOException
+  {
+    return this.getNMEASentence("LOG BESTXYZ\r\n");
+  }
+
+  @Override
+  public String getTIMEASentence() throws IOException
+  {
+    return this.getNMEASentence("LOG TIMEA\r\n");
   }
 }

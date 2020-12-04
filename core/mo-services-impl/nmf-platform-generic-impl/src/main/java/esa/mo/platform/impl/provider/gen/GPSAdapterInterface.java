@@ -71,19 +71,20 @@ public interface GPSAdapterInterface
    */
   TwoLineElementSet getTLE();
 
-  default String getBestXYZSentence() throws IOException
-  {
-    return "";
-  }
+  /**
+   * Requests the BESTXYZ NMEA sentence
+   *
+   * @return BESTXYZ response
+   * @throws IOException if the request fails
+   */
+  String getBestXYZSentence() throws IOException;
 
-  default String getTIMEASentence() throws IOException
-  {
-    return "";
-  }
-
-  default String getTLESentence() throws IOException
-  {
-    return "";
-  }
+  /**
+   * Requests the TIMEA NMEA sentence
+   *
+   * @return TIMEA response
+   * @throws IOException if the request fails
+   */
+  String getTIMEASentence() throws IOException;
 
 }
