@@ -33,7 +33,7 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
  */
 public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
 {
-  private static Logger LOGGER = Logger.getLogger(GPSNMEAonlyAdapter.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(GPSNMEAonlyAdapter.class.getName());
 
   @Override
   public Position getCurrentPosition()
