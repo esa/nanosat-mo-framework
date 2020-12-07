@@ -10,11 +10,11 @@ The operational IPK generation instructions can be found under https://opssat1.e
 
 Getting the right files
 -----------------------
-In short, you will need to: clone a repository, change some configuration files, run maven to generate the folder structure, and zip that folder. So, let's jump into it!
+In short, you will need to: clone a repository, change some configuration files, run maven to generate the directory structure, and zip that directory. So, let's jump into it!
 
 1. Clone the `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_.
 2. Checkout the ``dev`` branch to get the latest version.
-3. Open the ``pom.xml`` file in the ``opssat-package`` folder.
+3. Open the ``pom.xml`` file in the ``opssat-package`` directory.
 4. In the exp profile, edit your experimenter ID ``expId``, ``expApid`` (typically equals to sum of ``expId + 1024``), and the Maven information for your app. Make sure that ``expVersion`` matches the version defined in your app's POM.
 
 .. code-block:: xml
@@ -36,7 +36,7 @@ In short, you will need to: clone a repository, change some configuration files,
      </dependency>
    </dependencies>
 
-5. In the ``expLib`` execution of the maven-dependency-plugin inside the ``exp`` profile you need to add the Maven information of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` folder for your SEPP package.
+5. In the ``artifactItems`` configuration of the ``expLib`` execution of the maven-dependency-plugin inside the ``exp`` profile you need to add the Maven qualifier of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` directory for your SEPP package.
 
 .. note::
 
@@ -66,7 +66,7 @@ In short, you will need to: clone a repository, change some configuration files,
      <chmod dir="${esa.nmf.mission.opssat.assembly.outputdir}" perm="ugo+rx" includes="**/*.sh"/>
    </target>
 
-7. Invoke ``mvn clean install -Pexp``.
+7. Invoke ``mvn clean install -Pexp`` in the ``opssat-package`` directory.
 
 8. Go to the folder ``target/nmf-opssat-VERSION/experimenter-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT.
 
