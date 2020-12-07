@@ -14,8 +14,9 @@ In short, you will need to: clone a repository, change some configuration files,
 
 1. Clone the `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_.
 2. Checkout the ``dev`` branch to get the latest version.
-3. Open the ``pom.xml`` file in the ``opssat-package`` directory.
-4. In the exp profile, edit your experimenter ID ``expId``, ``expApid`` (typically equals to sum of ``expId + 1024``), and the Maven information for your app. Make sure that ``expVersion`` matches the version defined in your app's POM.
+3. Ensure your local maven repository has the latest NMF Core and NMF Mission OPS-SAT artifacts by running ``mvn install`` in both NMF Core and and NMF Mission OPS-SAT repository clones.
+4. Open the ``pom.xml`` file in the ``opssat-package`` directory.
+5. In the exp profile, edit your experimenter ID ``expId``, ``expApid`` (typically equals to sum of ``expId + 1024``), and the Maven information for your app. Make sure that ``expVersion`` matches the version defined in your app's POM.
 
 .. code-block:: xml
    :linenos:
@@ -36,13 +37,13 @@ In short, you will need to: clone a repository, change some configuration files,
      </dependency>
    </dependencies>
 
-5. In the ``artifactItems`` configuration of the ``expLib`` execution of the maven-dependency-plugin inside the ``exp`` profile you need to add the Maven qualifier of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` directory for your SEPP package.
+6. In the ``artifactItems`` configuration of the ``expLib`` execution of the maven-dependency-plugin inside the ``exp`` profile you need to add the Maven qualifier of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` directory for your SEPP package.
 
 .. note::
 
    If your app requires additional dependencies, you can add them in the same manner as the app itself. Just add it as a ``<dependency>`` inside the ``exp`` profile.
 
-6. Open the file ``copy.xml`` in the ``opssat-package`` folder. In the target ``copyExp`` edit the filter for ``MAIN_CLASS_NAME``. You can also add additional copy tasks to package additional files that your app requires. These copy tasks will be executed by the ``Maven AntRun Plugin``.
+7. Open the file ``copy.xml`` in the ``opssat-package`` folder. In the target ``copyExp`` edit the filter for ``MAIN_CLASS_NAME``. You can also add additional copy tasks to package additional files that your app requires. These copy tasks will be executed by the ``Maven AntRun Plugin``.
 
 .. code-block:: xml
    :linenos:
@@ -66,8 +67,8 @@ In short, you will need to: clone a repository, change some configuration files,
      <chmod dir="${esa.nmf.mission.opssat.assembly.outputdir}" perm="ugo+rx" includes="**/*.sh"/>
    </target>
 
-7. Invoke ``mvn clean install -Pexp`` in the ``opssat-package`` directory.
+8. Invoke ``mvn clean install -Pexp`` in the ``opssat-package`` directory.
 
-8. Go to the folder ``target/nmf-opssat-VERSION/experimenter-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT.
+9. Go to the folder ``target/nmf-opssat-VERSION/experimenter-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT.
 
-9. Zip the generated directory structure and send it to OPS-SAT's Flight Control Team (FCT) by following the guide instructions in: https://opssat1.esoc.esa.int/projects/experimenter-information/wiki/Building_and_submitting_your_application_to_ESOC
+10. Zip the generated directory structure and send it to OPS-SAT's Flight Control Team (FCT) by following the guide instructions in: https://opssat1.esoc.esa.int/projects/experimenter-information/wiki/Building_and_submitting_your_application_to_ESOC
