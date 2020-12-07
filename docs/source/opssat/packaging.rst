@@ -53,7 +53,7 @@ In short, you will need to: clone a repository, change some configuration files,
        <fileset dir="${basedir}/src/main/resources/space-common"/>
        <fileset dir="${basedir}/src/main/resources/space-app-root"/>
        <filterset>
-         <filter token="MAIN_CLASS_NAME" value="esa.mo.nmf.apps.PayloadsTestApp"/>
+         <filter token="MAIN_CLASS_NAME" value="esa.mo.exampleApps.Test.MainClass"/>
          <filter token="APID" value="${expApid}"/>
          <filter token="NMF_HOME" value="`cd ../nmf > /dev/null; pwd`"/>
          <filter token="NMF_LIB" value="`cd ../nmf/lib > /dev/null; pwd`"/>
