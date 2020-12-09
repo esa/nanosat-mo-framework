@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -190,7 +191,7 @@ public final class AggregationManager extends MCManager {
         sampleCountList.remove(identityId);
     }
 
-    public Long storeAndGenerateAValobjId(AggregationValue aVal, Long related, ObjectId source, URI uri) {
+    public Long storeAndGenerateAValobjId(AggregationValue aVal, Long related, ObjectId source, URI uri, FineTime timestamp) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAVal++;
             return this.uniqueObjIdAVal;
@@ -204,7 +205,12 @@ public final class AggregationManager extends MCManager {
                         true,
                         AggregationHelper.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(related, source, uri), //requirement: 3.7.4.e
+                        HelperArchive.generateArchiveDetailsList(
+                            related,
+                            source,
+                            ConfigurationProviderSingleton.getNetwork(),
+                            uri,
+                            timestamp), //requirement: 3.7.4.e
                         aValList,
                         null);
 

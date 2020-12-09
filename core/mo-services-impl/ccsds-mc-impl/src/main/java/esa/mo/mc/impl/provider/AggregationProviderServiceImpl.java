@@ -223,16 +223,18 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                     });
 
             final Long definitionId = manager.getDefinitionId(identityId);
-            //requirement 3.7.6.b
-            final Long aValObjId = manager.storeAndGenerateAValobjId(aVal, definitionId, source, connection.getPrimaryConnectionDetails().getProviderURI());
-
-            // requirements: 3.7.7.2.a , 3.7.7.2.b , 3.7.7.2.c , 3.7.7.2.d
-            final EntityKey ekey = new EntityKey(new Identifier(manager.getName(identityId).toString()), identityId, definitionId, aValObjId);
             Time time = timestamp;
 
             if (time == null) {
                 time = HelperTime.getTimestampMillis(); //  requirement: 3.7.7.2.e
             }
+            //requirement 3.7.6.b
+            final Long aValObjId = manager.storeAndGenerateAValobjId(
+                aVal, definitionId, source, connection.getPrimaryConnectionDetails().getProviderURI(),
+                HelperTime.timeToFineTime(time));
+
+            // requirements: 3.7.7.2.a , 3.7.7.2.b , 3.7.7.2.c , 3.7.7.2.d
+            final EntityKey ekey = new EntityKey(new Identifier(manager.getName(identityId).toString()), identityId, definitionId, aValObjId);
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList(1);
             final ObjectIdList objectIdlst = new ObjectIdList(1);
