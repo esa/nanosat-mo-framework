@@ -68,6 +68,9 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
 
   public boolean loadImageFromAbsolutePath(String path) {
     try {
+      if (path == null) {
+        throw new IOException("Image path is null. Please provide correct camerasim.imagefile property.");
+      }
       String[] parts = path.split("\\.");
       String ending = parts[parts.length - 1];
       if (ending.equals("raw")) {
