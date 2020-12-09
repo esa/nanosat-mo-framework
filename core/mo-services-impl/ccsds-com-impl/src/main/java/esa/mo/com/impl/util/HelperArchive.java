@@ -47,6 +47,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALInvoke;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -126,16 +127,11 @@ public class HelperArchive {
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final MALInteraction interaction) {
-        final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
-        archiveDetails.setDetails(new ObjectDetails(related, source));
-        archiveDetails.setNetwork(interaction.getMessageHeader().getNetworkZone());
-        archiveDetails.setTimestamp(HelperTime.getTimestamp());
-        archiveDetails.setProvider(interaction.getMessageHeader().getURIFrom());
-
-        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-        archiveDetailsList.add(archiveDetails);
-        return archiveDetailsList;
+        return generateArchiveDetailsList(
+            related,
+            source,
+            interaction.getMessageHeader().getNetworkZone(),
+            interaction.getMessageHeader().getURIFrom());
     }
 
     /**
@@ -150,16 +146,8 @@ public class HelperArchive {
     @Deprecated
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final SingleConnectionDetails connectionDetails) {
-        final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
-        archiveDetails.setDetails(new ObjectDetails(related, source));
-        archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
-        archiveDetails.setTimestamp(HelperTime.getTimestamp());
-        archiveDetails.setProvider(connectionDetails.getProviderURI());
-
-        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-        archiveDetailsList.add(archiveDetails);
-        return archiveDetailsList;
+        return generateArchiveDetailsList(related, source,
+            connectionDetails.getProviderURI());
     }
 
     /**
@@ -171,21 +159,16 @@ public class HelperArchive {
      *
      * @param related Related field
      * @param source Source field
-     * @param uri URI field
+     * @param provider Provider URI field
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final URI uri) {
-        final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
-        archiveDetails.setDetails(new ObjectDetails(related, source));
-        archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
-        archiveDetails.setTimestamp(HelperTime.getTimestamp());
-        archiveDetails.setProvider(uri);
-
-        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-        archiveDetailsList.add(archiveDetails);
-        return archiveDetailsList;
+        return generateArchiveDetailsList(
+            related,
+            source,
+            ConfigurationProviderSingleton.getNetwork(),
+            uri);
     }
 
     /**
@@ -197,16 +180,39 @@ public class HelperArchive {
      * @param related Related field
      * @param source Source field
      * @param network Network field
-     * @param provider Provider field
+     * @param provider Provider URI field
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final Identifier network, final URI provider) {
+        return generateArchiveDetailsList(
+            related,
+            source,
+            ConfigurationProviderSingleton.getNetwork(),
+            provider,
+            HelperTime.getTimestamp());
+    }
+
+    /**
+     * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
+     * The object instance identifier will be set as 0. The operation will use
+     * the submitted related, source, network and provider fields to fill-in the
+     * object. The fields network and provider are not set.
+     *
+     * @param related Related field
+     * @param source Source field
+     * @param network Network field
+     * @param provider Provider URI field
+     * @param timestamp Timestamp field
+     * @return The ArchiveDetailsList object
+     */
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final Identifier network, final URI provider, final FineTime timestamp) {
         final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
+        archiveDetails.setInstId(Long.valueOf(0));
         archiveDetails.setDetails(new ObjectDetails(related, source));
         archiveDetails.setNetwork(network);
-        archiveDetails.setTimestamp(HelperTime.getTimestamp());
+        archiveDetails.setTimestamp(timestamp);
         archiveDetails.setProvider(provider);
 
         final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
