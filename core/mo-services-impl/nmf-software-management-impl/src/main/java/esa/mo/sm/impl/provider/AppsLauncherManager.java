@@ -392,12 +392,11 @@ public class AppsLauncherManager extends DefinitionsManager
     if (osValidator.isWindows()) {
       ret.add("cmd");
       ret.add("/c");
-      for (String envVar : env) {
-        ret.add("set");
-        ret.add(envVar);
-        ret.add("&&");
-      }
-      ret.add(prefix + trimmedAppName + ".bat");
+      StringBuilder str = new StringBuilder();
+      str.append(prefix);
+      str.append(trimmedAppName);
+      str.append(".bat");
+      ret.add(str.toString());
     } else {
       if (runAs != null) {
         ret.add("su");
@@ -434,13 +433,22 @@ public class AppsLauncherManager extends DefinitionsManager
     try {
       // Inherit NMF HOME and NMF LIB from the supervisor
       Map<String, String> parentEnv = EnvironmentUtils.getProcEnvironment();
-      if (parentEnv.containsKey("NMF_LIB"))
-      {
+      if (parentEnv.containsKey("NMF_LIB")) {
         targetEnv.put("NMF_LIB", parentEnv.get("NMF_LIB"));
       }
-      if (parentEnv.containsKey("NMF_HOME"))
-      {
+      if (parentEnv.containsKey("NMF_HOME")) {
         targetEnv.put("NMF_HOME", parentEnv.get("NMF_HOME"));
+      }
+      if (osValidator.isWindows()) {
+        if (parentEnv.containsKey("PATH")) {
+          targetEnv.put("PATH", parentEnv.get("PATH"));
+        }
+        if (parentEnv.containsKey("TEMP")) {
+          targetEnv.put("TEMP", parentEnv.get("TEMP"));
+        }
+        if (parentEnv.containsKey("OS")) {
+          targetEnv.put("OS", parentEnv.get("OS"));
+        }
       }
     } catch (IOException ex) {
       LOGGER.log(Level.SEVERE, "getProcEnvironment failed!", ex);
@@ -468,6 +476,9 @@ public class AppsLauncherManager extends DefinitionsManager
 
     final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
     pb.environment().clear();
+    if(osValidator.isWindows()) {
+        pb.environment().putAll(env);
+    }
     pb.directory(appFolder);
     LOGGER.log(Level.INFO,
         "Initializing ''{0}'' app in dir: {1}, using launcher command: {2}",
@@ -626,11 +637,6 @@ public class AppsLauncherManager extends DefinitionsManager
       final ArrayList<SingleConnectionDetails> appConnections,
       final StopAppInteraction interaction) throws MALException, MALInteractionException
   {
-    boolean[] isNmf = new boolean[appInstIds.size()];
-    for (int i = 0; i < isNmf.length; i++) {
-      isNmf[i] = this.get(appInstIds.get(i)).getCategory().getValue().equals("NMF_App");
-    }
-
     for (int i = 0; i < appInstIds.size(); i++) {
       long appInstId = appInstIds.get(i);
       AppDetails curr = this.get(appInstId);
@@ -641,7 +647,7 @@ public class AppsLauncherManager extends DefinitionsManager
       File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue()
           + File.separator + "stop_" + curr.getName().getValue() + fileExt);
       boolean stopExists = stopScript.exists();
-      if (isNmf[i]) {
+      if (this.get(appInstIds.get(i)).getCategory().getValue().equals("NMF_App")) {
         if (stopExists) {
           Map<String, String> env = new HashMap<>();
           assembleAppLauncherEnvironment("", env);
