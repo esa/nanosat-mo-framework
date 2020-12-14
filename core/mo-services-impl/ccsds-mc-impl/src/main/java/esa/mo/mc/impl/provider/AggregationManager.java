@@ -235,13 +235,13 @@ public final class AggregationManager extends MCManager {
      * sampling the parameter, is periodic and the update hasnt been received in
      * the aggregation-period. if true, the validity-state of the new parameter
      * will be expired.
-     * @return
+     * @return ParameterValue of the parameter, or an empty ParameterValue with INVALID state if parameter cannot be retrieved
      */
     private ParameterValue sampleParameter(Long paramIdentityId, boolean aggrExpired) {
         try {
             return parameterManager.getParameterValue(paramIdentityId, aggrExpired);
         } catch (MALInteractionException ex) {
-            return null;
+            return new ParameterValue(new UOctet((short)ValidityState.INVALID_RAW_NUM_VALUE.getValue()), null, null);
         }
     }
 
@@ -298,7 +298,7 @@ public final class AggregationManager extends MCManager {
      * @param identityId The identity Id.
      * @param indexOfparameterSet
      */
-    public void sampleParam(Long identityId, int indexOfparameterSet) {
+    protected void sampleParam(Long identityId, int indexOfparameterSet) {
         this.sampleParam(identityId, indexOfparameterSet, false, null);
     }
 

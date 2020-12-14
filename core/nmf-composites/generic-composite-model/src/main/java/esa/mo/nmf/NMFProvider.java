@@ -183,9 +183,9 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             mcServices = new MCServicesProviderNMF();
             mcServices.init(comServices, mcAdapter);
             this.reconfigurableServices.add(mcServices.getActionService());
+            this.reconfigurableServices.add(mcServices.getParameterService());
             this.reconfigurableServices.add(mcServices.getAggregationService());
             this.reconfigurableServices.add(mcServices.getAlertService());
-            this.reconfigurableServices.add(mcServices.getParameterService());
         }
     }
 

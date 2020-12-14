@@ -989,7 +989,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
          * started
          */
         private void addPeriodicReporting(Long identityId) {
-            //requirement: 3.7.9.2.k
+            //requirement: 3.7.9.2.12
             publishImmediatePeriodicUpdate(identityId);
             TaskScheduler timer = new TaskScheduler(1);
             updateTimerList.put(identityId, timer);
