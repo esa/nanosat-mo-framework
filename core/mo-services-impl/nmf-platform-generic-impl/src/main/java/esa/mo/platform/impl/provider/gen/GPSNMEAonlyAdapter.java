@@ -40,7 +40,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
   {
     String nmeaLog = "";
     try {
-      nmeaLog = this.getNMEASentence("LOG GPGGALONG\r\n").trim();
+      nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGGALONG\r\n").trim());
       if (!nmeaLog.startsWith("$GPGGA")) {
         LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
       } else {
@@ -61,7 +61,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
   public SatelliteInfoList getSatelliteInfoList()
   {
     try {
-      String nmeaLog = this.getNMEASentence("LOG GPGSV\r\n").trim();
+      String nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGSV\r\n").trim());
       if (!nmeaLog.startsWith("$GPGSV")) {
         LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
       } else {
@@ -77,12 +77,12 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
   @Override
   public String getBestXYZSentence() throws IOException
   {
-    return this.getNMEASentence("LOG BESTXYZ\r\n");
+    return HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG BESTXYZ\r\n"));
   }
 
   @Override
   public String getTIMEASentence() throws IOException
   {
-    return this.getNMEASentence("LOG TIMEA\r\n");
+    return HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG TIMEA\r\n"));
   }
 }
