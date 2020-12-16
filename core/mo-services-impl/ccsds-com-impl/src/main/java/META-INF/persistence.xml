@@ -30,7 +30,7 @@
         -->
         
         <property name="javax.persistence.schema-generation.database.action" value="create"/>
-        <property name="eclipselink.target-database" value="SQLServer"/>
+        <property name="eclipselink.target-database" value="Auto"/>
 
         <property name="eclipselink.logging.level" value="WARNING"/>
 
