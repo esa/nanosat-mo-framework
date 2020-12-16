@@ -52,14 +52,14 @@ public interface GPSAdapterInterface
   /**
    * Request the current position from the GPS
    *
-   * @return The Position
+   * @return The Position or null in case of error
    */
   Position getCurrentPosition();
 
   /**
    * Requests the information of the satellites in view.
    *
-   * @return The list of Satellites Information
+   * @return The list of Satellites Information or null in case of error
    */
   SatelliteInfoList getSatelliteInfoList();
 

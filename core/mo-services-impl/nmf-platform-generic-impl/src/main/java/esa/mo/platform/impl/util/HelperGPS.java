@@ -239,11 +239,11 @@ public class HelperGPS
             }
           }
         } else {
-          System.out.println("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["
+          throw new IOException("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["
               + sentence + "] has wrong header [" + words[GPGSV_COL.HEADER] + "], expected [$GPGSV]");
         }
       } else {
-        System.out.println("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["
+        throw new IOException("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["
             + sentence + "] has wrong GPS sentence size [" + count + "], expected [" + expectedSize + "]");
       }
 

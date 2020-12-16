@@ -42,7 +42,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
     try {
       nmeaLog = this.getNMEASentence("LOG GPGGALONG\r\n").trim();
       if (!nmeaLog.startsWith("$GPGGA")) {
-        LOGGER.log(Level.SEVERE, "Unexpected response format: " + nmeaLog);
+        LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
       } else {
         return HelperGPS.gpggalong2Position(nmeaLog); // TODO fixme GPGGA parsing
       }
@@ -62,8 +62,8 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
   {
     try {
       String nmeaLog = this.getNMEASentence("LOG GPGSV\r\n").trim();
-      if (!nmeaLog.startsWith("$GPSV")) {
-        LOGGER.log(Level.SEVERE, "Unexpected response format: " + nmeaLog);
+      if (!nmeaLog.startsWith("$GPGSV")) {
+        LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
       } else {
         return HelperGPS.gpgsv2SatelliteInfoList(nmeaLog);
       }

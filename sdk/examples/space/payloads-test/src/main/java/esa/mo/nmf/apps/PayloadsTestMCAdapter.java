@@ -352,9 +352,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   public void onGPSSatsInView()
   {
     final Semaphore sem = new Semaphore(0);
-    class AdapterImpl extends GPSAdapter
+    class GPSAdapterImpl extends GPSAdapter
     {
-
       @Override
       public void getSatellitesInfoResponseReceived(MALMessageHeader msgHeader,
           SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties)
@@ -362,10 +361,24 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         GPS_NumberOfSatellitesInView = gpsSatellitesInfo.size();
         sem.release();
       }
+
+      @Override
+      public void getSatellitesInfoAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+          org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties)
+      {
+        sem.release();
+      }
+
+      @Override
+      public void getSatellitesInfoResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+          org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties)
+      {
+        sem.release();
+      }
     }
 
     try {
-      nmf.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
+      nmf.getPlatformServices().getGPSService().getSatellitesInfo(new GPSAdapterImpl());
     } catch (IOException | MALInteractionException | MALException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       GPS_NumberOfSatellitesInView = null;

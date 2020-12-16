@@ -227,13 +227,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
       publisher.publish(hdrlst, bools);
 
-    } catch (IllegalArgumentException ex) {
-      Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALException ex) {
-      Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALInteractionException ex) {
+    } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
       Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING,
           "Exception during publishing process on the provider {0}", ex);
     }
@@ -286,13 +280,17 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   public void getPosition(GetPositionInteraction interaction)
       throws MALInteractionException, MALException
   {
-    if (!adapter.isUnitAvailable()) { // Is the unit available?
+    if (!adapter.isUnitAvailable()) {
       throw new MALInteractionException(
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
 
     interaction.sendAcknowledgement();
     Position position = adapter.getCurrentPosition();
+    if (position == null) {
+      throw new MALInteractionException(
+          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
 
     synchronized (MUTEX) { // Store the latest Position
       currentPosition = position;
@@ -306,14 +304,16 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   public void getSatellitesInfo(GetSatellitesInfoInteraction interaction)
       throws MALInteractionException, MALException
   {
-    if (!adapter.isUnitAvailable()) { // Is the unit available?
+    if (!adapter.isUnitAvailable()) {
       throw new MALInteractionException(
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
-
     interaction.sendAcknowledgement();
-
     SatelliteInfoList sats = adapter.getSatelliteInfoList();
+    if (sats == null) {
+      throw new MALInteractionException(
+          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
     interaction.sendResponse(sats);
   }
 
