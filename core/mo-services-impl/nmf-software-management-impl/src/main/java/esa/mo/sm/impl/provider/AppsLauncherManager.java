@@ -495,14 +495,20 @@ public class AppsLauncherManager extends DefinitionsManager
   {
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
+    LOGGER.log(Level.INFO,
+        "Killing {0} app in.", app.getName().getValue());
     ProcessExecutionHandler handler = handlers.get(appInstId);
 
     if (handler == null) {
+      LOGGER.log(Level.INFO,
+          "Handler of {0} app is null, setting running = false.", app.getName().getValue());
       app.setRunning(false);
       return false;
     }
 
     if (handler.getProcess() == null) {
+      LOGGER.log(Level.INFO,
+          "Process of {0} app is null, setting running = false.", app.getName().getValue());
       app.setRunning(false);
       return true;
     }
@@ -647,7 +653,8 @@ public class AppsLauncherManager extends DefinitionsManager
       File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue()
           + File.separator + "stop_" + curr.getName().getValue() + fileExt);
       boolean stopExists = stopScript.exists();
-      if (this.get(appInstIds.get(i)).getCategory().getValue().equals("NMF_App")) {
+      if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
+        this.stopNMFApp(appInstId, appDirectoryServiceNames.get(i), appConnections.get(i), interaction);
         if (stopExists) {
           Map<String, String> env = new HashMap<>();
           assembleAppLauncherEnvironment("", env);
@@ -669,7 +676,6 @@ public class AppsLauncherManager extends DefinitionsManager
                 "Stopping native component failed", ex);
           }
         }
-        this.stopNMFApp(appInstId, appDirectoryServiceNames.get(i), appConnections.get(i), interaction);
       } else {
         if (!stopExists) {
           LOGGER.log(Level.INFO, "No stop script present for app {0}. Killing the process.",
