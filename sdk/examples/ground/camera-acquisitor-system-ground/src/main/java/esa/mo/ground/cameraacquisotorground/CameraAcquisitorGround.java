@@ -297,17 +297,17 @@ public class CameraAcquisitorGround
    *
    * @param longitude longitude of the target location.
    * @param latitude  latitude of the target location.
-   * @param timeStemp time at which the photograph should be taken.
+   * @param timeStamp time at which the photograph should be taken.
    * @return the actionID that was assigned to space application action.
    */
   @PostMapping("/schedulePhotographPosition")
   public Long schedulePhotographPosition(
       @RequestParam(value = "longitude") double longitude,
       @RequestParam(value = "latitude") double latitude,
-      @RequestParam(value = "timeStemp") String timeStemp)
+      @RequestParam(value = "timeStamp") String timeStamp)
   {
 
-    AbsoluteDate scheduleDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
+    AbsoluteDate scheduleDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
     // check if timeslot is awailable
     if (checkTimeSlot(scheduleDate)) {
@@ -329,7 +329,7 @@ public class CameraAcquisitorGround
         AttributeValueList arguments = new AttributeValueList();
         arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(latitude)));
         arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(longitude)));
-        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(timeStemp)));
+        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(timeStamp)));
 
         Long actionID = gma.invokeAction(objIds.get(0).getObjDefInstanceId(), arguments);
         if (actionID == null) {

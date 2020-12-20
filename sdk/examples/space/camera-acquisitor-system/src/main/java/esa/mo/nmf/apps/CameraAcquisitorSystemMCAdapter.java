@@ -33,6 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDeterminationMode;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.errors.OrekitException;
@@ -113,7 +114,17 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
       generationEnabled = false)
   private int pictureType = 3;
 
+  @Parameter(description =
+      "The attitude determination mode to select (_MGT_SUN_INDEX = 0, _STRTRK_MGT_SUN_INDEX = 1, _STRTRK_ONLY_INDEX = 2, _Invalid_INDEX = 3)",
+      generationEnabled = false)
+  private AttitudeDeterminationMode determinationMode;
+
   // ----------------------------------------------------------------------------------------------
+  public AttitudeDeterminationMode getDeterminationMode()
+  {
+    return determinationMode;
+  }
+  
   public PictureFormat getPictureType()
   {
     return PictureFormat.fromOrdinal(pictureType);
@@ -206,7 +217,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   }
 
   @Action(
-      description = "queues a new photograph target at the Specified Timestemp",
+      description = "queues a new photograph target at the Specified timeStamp",
       stepCount = CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES,
       name = CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION)
   public UInteger photographLocation(
@@ -215,12 +226,12 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
       MALInteraction interaction,
       @ActionParameter(name = "targetLongitude", rawUnit = "degree") Double targetLongitude,
       @ActionParameter(name = "targetLatitude", rawUnit = "degree") Double targetLatitude,
-      @ActionParameter(name = "timeStemp") String timeStemp)
+      @ActionParameter(name = "timeStamp") String timeStamp, AttitudeDeterminationMode determinationMode)
   {
     Logger.getLogger(CameraAcquisitorSystemMCAdapter.class.getName()).log(Level.SEVERE,
-        "" + targetLongitude + " " + targetLatitude + " " + timeStemp);
-    return this.cameraTargetHandler.photographLocation(targetLongitude, targetLatitude, timeStemp,
-        actionInstanceObjId, reportProgress, interaction);
+        "" + targetLongitude + " " + targetLatitude + " " + timeStamp);
+    return this.cameraTargetHandler.photographLocation(targetLongitude, targetLatitude, timeStamp,
+        actionInstanceObjId, reportProgress, interaction, determinationMode);
   }
 
   @Action(

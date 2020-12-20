@@ -1511,6 +1511,12 @@
           <mal:extends>
             <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
+          <mal:field canBeNull="true"
+            comment="Commanded attitude determination mode."
+            name="attitudeDeterminationMode">
+            <mal:type area="Platform" list="false"
+              name="AttitudeDeterminationMode" service="AutonomousADCS" />
+          </mal:field>
         </mal:composite>
         <mal:composite
           comment="B-dot detumbling attitude mode defined by the consumer."
@@ -1606,6 +1612,14 @@
         <mal:composite
           comment="Nadir Pointing attitude mode defined by the consumer."
           name="AttitudeModeNadirPointing" shortFormPart="7">
+          <mal:extends>
+            <mal:type area="Platform" list="false"
+                      name="AttitudeMode" service="AutonomousADCS" />
+          </mal:extends>
+        </mal:composite>
+        <mal:composite
+          comment="Inertial Pointing attitude mode defined by the consumer."
+          name="AttitudeModeInertialPointing" shortFormPart="25">
           <mal:extends>
             <mal:type area="Platform" list="false"
                       name="AttitudeMode" service="AutonomousADCS" />
@@ -1738,9 +1752,21 @@
           <mal:item comment="Reaction wheel w"
                     nvalue="6" value="WHEEL_W" />
         </mal:enumeration>
+        <mal:enumeration
+          comment="Attitude determination mode identifier."
+          name="AttitudeDeterminationMode" shortFormPart="13">
+          <mal:item comment="Attitude determination using magnetometer and sun sensors"
+                    nvalue="1" value="MGT_SUN" />
+          <mal:item comment="Attitude determination using star tracker with magnetometer and sun sensors"
+                    nvalue="2" value="STRTRK_MGT_SUN" />
+          <mal:item comment="Attitude determination using star tracker only"
+                    nvalue="3" value="STRTRK_ONLY" />
+          <mal:item comment="Attitude determination invalid"
+                    nvalue="4" value="Invalid" />
+        </mal:enumeration>
         <mal:composite
-          comment="Holds Raction wheel parameters" name="ReactionWheelParameters"
-          shortFormPart="12">
+          comment="Holds reaction wheel parameters" name="ReactionWheelParameters"
+          shortFormPart="14">
           <mal:field canBeNull="false"
                      comment="Control mode of the Reaction wheels. 0 = Target value is a current value [A]; 1 = Target value is a speed value [rad/sec]; 2 = Target alue is a torgh [Nm]" name="controlMode">
             <mal:type area="MAL" list="false" name="Integer" />

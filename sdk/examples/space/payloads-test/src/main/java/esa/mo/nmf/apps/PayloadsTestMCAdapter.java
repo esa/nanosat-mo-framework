@@ -61,6 +61,7 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.*;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.factory.AttitudeDeterminationModeFactory;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
@@ -511,7 +512,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       @ActionParameter(name = "margin", rawUnit = "degree") float margin)
   {
     return actionsHandler.executeAdcsModeAction(holdDuration,
-        new AttitudeModeVectorPointing(new VectorF3D(x, y, z), new Float(margin)), this);
+        new AttitudeModeVectorPointing(new AttitudeDeterminationModeFactory(), new VectorF3D(x, y, z), new Float(margin)), this);
   }
 
   @Action(description = "Unsets the spacecraft's attitude.")
