@@ -52,9 +52,9 @@ How to do all of that is described further in the next section.
 
 Running the CubeSat Simulator
 ---------------
-You can run a CubeSat simulator to try out your app in a playgrund environment which mimics the a CubeSat system.
+You can run a CubeSat simulator to try out your app in a playground environment which mimics the a CubeSat system.
 
-In ordet to do this, Please do the following:
+In order to do this, Please do the following:
 
 1. Run the Supervisor, go to **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
 
