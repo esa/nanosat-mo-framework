@@ -74,7 +74,8 @@ public class NMFPackageDescriptor {
                 String version;
                 // Check the version of the Installation procedure
                 if (line.startsWith(line)) {
-                    version = line.substring(HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length());
+                    int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
+                    version = line.substring(length);
                 } else {
                     throw new IOException("Could not read the NMF Package Descriptor version!");
                 }
@@ -90,7 +91,8 @@ public class NMFPackageDescriptor {
 
             br.close();
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackageDescriptor.class.getName()).log(Level.SEVERE, "An error happened!", ex);
+            Logger.getLogger(NMFPackageDescriptor.class.getName()).log(
+                    Level.SEVERE, "An error happened!", ex);
         }
 
         return newDescriptor;

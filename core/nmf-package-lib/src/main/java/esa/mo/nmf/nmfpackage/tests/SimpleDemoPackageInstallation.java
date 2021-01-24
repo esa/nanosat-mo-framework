@@ -39,19 +39,14 @@ public class SimpleDemoPackageInstallation {
     public static void main(final String args[]) {
         SimpleDemoPackageInstallation.installPackage();
     }
-    
-    
-    public static void installPackage(){
+
+    public static void installPackage() {
         String filename = "C:\\Users\\Cesar Coelho\\Dropbox\\PhD\\NetBeansProjects\\AGSA-LAB\\NMF\\NMF_CORE\\NMF_PACKAGE\\TestPackage-1.0.nmfpack";
-                
+
         try {
             NMFPackageManager.install(filename);
         } catch (IOException ex) {
             Logger.getLogger(SimpleDemoPackageInstallation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
-    
-
-
 }
