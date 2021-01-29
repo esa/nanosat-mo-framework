@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -32,7 +32,7 @@ public class NMFPackageFile {
     public NMFPackageFile(final String path, final long crc) {
         this.path = path;
         this.crc = crc;
-    }
+    }   
 
     public String getPath() {
         return path;

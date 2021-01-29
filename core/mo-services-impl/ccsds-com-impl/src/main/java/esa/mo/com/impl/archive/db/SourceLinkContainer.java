@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2016      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany

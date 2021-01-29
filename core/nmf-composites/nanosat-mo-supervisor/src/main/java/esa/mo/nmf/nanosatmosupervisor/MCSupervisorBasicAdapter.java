@@ -5,6 +5,7 @@
  */
 package esa.mo.nmf.nanosatmosupervisor;
 
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,6 +28,16 @@ import esa.mo.nmf.annotations.ActionParameter;
 import esa.mo.nmf.annotations.Parameter;
 import esa.mo.sm.impl.util.OSValidator;
 import esa.mo.sm.impl.util.ShellCommander;
+import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
+import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
 /**
  *
@@ -43,22 +54,70 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
   private final ShellCommander shellCommander = new ShellCommander();
   private NanoSatMOSupervisor nmfSupervisor;
-  private OSValidator osValidator;
+  private final OSValidator osValidator = new OSValidator();
 
   @Parameter(description = "The version of the operating system.", generationEnabled = false, onGetFunction = "onGetOSVersion", readOnly = true, reportIntervalSeconds = 10)
   public String OSVersion = "";
 
   @Parameter(description = "The Current partition where the OS is running. Only works for linux", generationEnabled = false, onGetFunction = "onGetOSPartition", readOnly = true, reportIntervalSeconds = 10)
   public String OSPartition = "";
+  
+  @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
+  public float attitudeQuatA;
+  @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
+  public float attitudeQuatB;
+  @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
+  public float attitudeQuatC;
+  @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
+  public float attitudeQuatD;
+  
+  private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
+  
 
   public MCSupervisorBasicAdapter() {
-    osValidator = new OSValidator();
   }
-
   public void setNmfSupervisor(NanoSatMOSupervisor supervisor) {
     nmfSupervisor = supervisor;
   }
 
+  public void startAdcsAttitudeMonitoring()
+  {
+    try {
+      // Subscribe monitorAttitude
+      nmfSupervisor.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
+          ConnectionConsumer.subscriptionWildcard(),
+          new ADCSDataHandler()
+      );
+      nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(true,
+          ATTITUDE_MONITORING_INTERVAL);
+    } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+      LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
+    }
+  }
+  
+  public class ADCSDataHandler extends AutonomousADCSAdapter
+  {
+    @Override
+    public void monitorAttitudeNotifyReceived(
+        final MALMessageHeader msgHeader,
+        final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
+        org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList,
+        final Map qosp)
+    {
+      LOGGER.log(Level.FINE, "Received monitorAttitude notify");
+      for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
+          Quaternion attitude = attitudeTm.getAttitude();
+          attitudeQuatA = attitude.getA();
+          attitudeQuatB = attitude.getB();
+          attitudeQuatC = attitude.getC();
+          attitudeQuatD = attitude.getD();
+      }
+    }
+  }
+  
   public void onGetOSVersion() {
     if (osValidator.isWindows()) {
       OSVersion = shellCommander.runCommandAndGetOutputMessage(CMD_WINDOWS_VERSION);
@@ -88,11 +147,50 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
   @Action(name = "Clock.setTimeUsingDeltaMilliseconds", description = "Sets the clock using a diff between the on-board time and the desired time.")
   public UInteger setTimeUsingDeltaMilliseconds(Long actionInstanceObjId, boolean reportProgress,
-      MALInteraction interaction, @ActionParameter(name = "arg", rawUnit = "milliseconds") Long delta) {
+      MALInteraction interaction, @ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta) {
     String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));
 
     ShellCommander shell = new ShellCommander();
     shell.runCommand("date -s \"" + str + " UTC\" | hwclock --systohc");
+    return null;
+  }
+
+  @Action(name = "ADCS.sunpointing")
+  public UInteger adcsSunPointing(Long actionInstanceObjId, boolean reportProgress,
+      MALInteraction interaction) {
+    
+    try {
+      nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(null, new AttitudeModeSunPointing());
+    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+      return new UInteger(1);
+    }
+    return null;
+  }
+
+  @Action(name = "ADCS.nadirPointing")
+  public UInteger adcsNadirPointing(Long actionInstanceObjId, boolean reportProgress,
+      MALInteraction interaction, @ActionParameter(name = "duration") Duration duration) {
+    
+    try {
+      nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration, new AttitudeModeSunPointing());
+    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+      return new UInteger(1);
+    }
+    return null;
+  }
+
+  @Action(name = "ADCS.unsetAttitude")
+  public UInteger adcsUnsetAttitude(Long actionInstanceObjId, boolean reportProgress,
+      MALInteraction interaction) {
+    
+    try {
+      nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(new Duration(0), null);
+    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+      return new UInteger(1);
+    }
     return null;
   }
 

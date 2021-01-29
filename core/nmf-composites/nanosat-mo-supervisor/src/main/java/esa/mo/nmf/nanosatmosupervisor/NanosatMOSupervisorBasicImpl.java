@@ -12,7 +12,6 @@ import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
-import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
@@ -34,21 +33,18 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
   @Override
   public void initPlatformServices(COMServicesProvider comServices) {
     try {
-      String platformProviderClass = System.getProperty("nmf.platform.impl");
+      String platformProviderClass = System.getProperty("nmf.platform.impl", "esa.mo.platform.impl.util.PlatformServicesProviderSoftSim");
       try {
         platformServicesProvider
             = (PlatformServicesProviderInterface) Class.forName(platformProviderClass).newInstance();
+        platformServicesProvider.init(comServices);
       } catch (NullPointerException | ClassNotFoundException | InstantiationException
           | IllegalAccessException ex) {
-        // If the property for the platform implementation is not provided, an NPE will occur.
-        // In this case or any other problem with reflection default to the simulated platforms
         LOGGER.log(Level.SEVERE,
-            "Something went wrong when initializing the platform services. Using simulated services.",
+            "Something went wrong when initializing the platform services.",
             ex);
-            platformServicesProvider
-            = new PlatformServicesProviderSoftSim();
+        System.exit(-1);
       }
-      platformServicesProvider.init(comServices);
     } catch (MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
@@ -78,6 +74,7 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
     MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter();
     adapter.setNmfSupervisor(supervisor);
     supervisor.init(adapter);
+    adapter.startAdcsAttitudeMonitoring();
   }
 
 }

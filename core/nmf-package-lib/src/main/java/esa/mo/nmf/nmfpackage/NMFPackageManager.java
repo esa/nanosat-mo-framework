@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -113,8 +113,8 @@ public class NMFPackageManager {
         zis.close();
         // ---------------------------------------
 
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Package successfully installed from location: " + packageLocation);
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, 
+                "Package successfully installed from location: {0}", packageLocation);
     }
 
     public static void uninstall(final String packageLocation, final boolean keepConfigurations) throws IOException {
@@ -440,6 +440,6 @@ public class NMFPackageManager {
         }
          */
 
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -93,7 +93,8 @@ public class ReceiptVersion1 {
         return descriptor;
     }
 
-    public static void writeReceiptVersion1(final BufferedWriter bw, final NMFPackageDescriptor descriptor) throws IOException {
+    public static void writeReceiptVersion1(final BufferedWriter bw, 
+            final NMFPackageDescriptor descriptor) throws IOException {
         bw.write(PACKAGE_NAME + descriptor.getDetails().getPackageName());
         bw.newLine();
         bw.write(PACKAGE_VERSION + descriptor.getDetails().getVersion());

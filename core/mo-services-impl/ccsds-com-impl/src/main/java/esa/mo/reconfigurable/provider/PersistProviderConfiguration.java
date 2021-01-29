@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -177,8 +177,8 @@ public class PersistProviderConfiguration {
                 ConfigurationProviderSingleton.getDomain(), objIds);
 
         if (comObjects == null) { // Could not be found, return
-            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE,
-                    "The configuration object of one of the services does not exist in the Archive.");
+            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.INFO,
+                    "The service configuration object of one of the services does not exist in the Archive.");
             return;
         }
 
@@ -193,6 +193,11 @@ public class PersistProviderConfiguration {
         List<ArchivePersistenceObject> confObjs = HelperArchive.getArchiveCOMObjectList(
                 archiveService, ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), relateds);
+        if (confObjs == null) {
+            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE,
+                "The configuration object of one of the services does not exist in the Archive.");
+            return;
+        }
 
         for (int i = 0; i < confObjs.size(); i++) {
             ConfigurationObjectDetails configurationObjectDetails = (ConfigurationObjectDetails) confObjs.get(i).getObject();

@@ -926,17 +926,6 @@ public class RegressionTest0
   }
 
   @Test
-  public void test0050() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0050");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("10");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
-  }
-
-  @Test
   public void test0051() throws Throwable
   {
     if (debug) {
@@ -1471,17 +1460,6 @@ public class RegressionTest0
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray1);
-  }
-
-  @Test
-  public void test0081() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0081");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("[false]");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
   }
 
   @Test
@@ -2185,62 +2163,6 @@ public class RegressionTest0
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray1);
-  }
-
-  @Test
-  public void test0121() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0121");
-    }
-    java.lang.String[] strArray3 = new java.lang.String[]{"[100, 1, -1, 10]", "hi!", ""};
-    java.util.ArrayList<java.lang.String> strList4 = new java.util.ArrayList<java.lang.String>();
-    boolean boolean5 = java.util.Collections.addAll(
-        (java.util.Collection<java.lang.String>) strList4, strArray3);
-    boolean boolean6 = strList4.isEmpty();
-    java.lang.Class<?> wildcardClass7 = strList4.getClass();
-    org.ccsds.moims.mo.mal.structures.URIList uRIList8 =
-        new org.ccsds.moims.mo.mal.structures.URIList();
-    org.ccsds.moims.mo.mal.structures.UShort uShort9 = uRIList8.getAreaNumber();
-    boolean boolean10 = strList4.remove((java.lang.Object) uShort9);
-    org.ccsds.moims.mo.mal.structures.FineTime fineTime11 =
-        new org.ccsds.moims.mo.mal.structures.FineTime();
-    org.ccsds.moims.mo.mal.structures.UShort uShort12 = fineTime11.getAreaNumber();
-    boolean boolean13 = strList4.remove((java.lang.Object) uShort12);
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList15 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("10");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList17 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("10");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList19 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("[false]");
-    org.ccsds.moims.mo.mal.structures.CompositeList[] compositeListArray21 =
-        new org.ccsds.moims.mo.mal.structures.CompositeList[3];
-    @SuppressWarnings("unchecked")
-    org.ccsds.moims.mo.mal.structures.CompositeList<org.ccsds.moims.mo.platform.gps.structures.SatelliteInfo>[] satelliteInfoListArray22 =
-        (org.ccsds.moims.mo.mal.structures.CompositeList<org.ccsds.moims.mo.platform.gps.structures.SatelliteInfo>[]) compositeListArray21;
-    satelliteInfoListArray22[0] = satelliteInfoList15;
-    satelliteInfoListArray22[1] = satelliteInfoList17;
-    satelliteInfoListArray22[2] = satelliteInfoList19;
-    try {
-      org.ccsds.moims.mo.mal.structures.CompositeList<org.ccsds.moims.mo.platform.gps.structures.SatelliteInfo>[] satelliteInfoListArray29 =
-          strList4.toArray(satelliteInfoListArray22);
-      org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayStoreException; message: null");
-    } catch (java.lang.ArrayStoreException e) {
-    }
-    org.junit.Assert.assertNotNull(strArray3);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
-    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-    org.junit.Assert.assertNotNull(wildcardClass7);
-    org.junit.Assert.assertNotNull(uShort9);
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
-    org.junit.Assert.assertNotNull(uShort12);
-    org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
-    org.junit.Assert.assertNotNull(satelliteInfoList15);
-    org.junit.Assert.assertNotNull(satelliteInfoList17);
-    org.junit.Assert.assertNotNull(satelliteInfoList19);
-    org.junit.Assert.assertNotNull(compositeListArray21);
-    org.junit.Assert.assertNotNull(satelliteInfoListArray22);
   }
 
   @Test
@@ -3184,17 +3106,6 @@ public class RegressionTest0
   }
 
   @Test
-  public void test0172() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0172");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("[0.0]");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
-  }
-
-  @Test
   public void test0173() throws Throwable
   {
     if (debug) {
@@ -3701,17 +3612,6 @@ public class RegressionTest0
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray1);
-  }
-
-  @Test
-  public void test0201() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0201");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("15.0");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
   }
 
   @Test
@@ -4279,17 +4179,6 @@ public class RegressionTest0
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray1);
-  }
-
-  @Test
-  public void test0233() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0233");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("[-1.0]");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
   }
 
   @Test
@@ -4968,17 +4857,6 @@ public class RegressionTest0
   }
 
   @Test
-  public void test0258() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0258");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("false");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
-  }
-
-  @Test
   public void test0259() throws Throwable
   {
     if (debug) {
@@ -5085,17 +4963,6 @@ public class RegressionTest0
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray1);
-  }
-
-  @Test
-  public void test0265() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0265");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("-1.0");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
   }
 
   @Test
@@ -5944,17 +5811,6 @@ public class RegressionTest0
   }
 
   @Test
-  public void test0309() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0309");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("[52]");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
-  }
-
-  @Test
   public void test0310() throws Throwable
   {
     if (debug) {
@@ -6007,17 +5863,6 @@ public class RegressionTest0
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray1);
-  }
-
-  @Test
-  public void test0313() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0313");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("14");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
   }
 
   @Test
@@ -6159,17 +6004,6 @@ public class RegressionTest0
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray1);
-  }
-
-  @Test
-  public void test0322() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0322");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("0");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
   }
 
   @Test
@@ -6612,18 +6446,6 @@ public class RegressionTest0
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray1);
-  }
-
-  @Test
-  public void test0347() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0347");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList(
-            "[17, 15, 0, 6, 0, -1, 12, 14, 60, 4, 9, 14, 17, 5, -1, -10, -9, 17, 15, 17, 19, 2, 44, 65535, 3, 70, 36, 100, 10]");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
   }
 
   @Test
@@ -8235,43 +8057,6 @@ public class RegressionTest0
   }
 
   @Test
-  public void test0417() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0417");
-    }
-    org.ccsds.moims.mo.mal.structures.StringList stringList1 =
-        new org.ccsds.moims.mo.mal.structures.StringList((int) '#');
-    java.lang.Object[] objArray2 = stringList1.toArray();
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList4 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("0");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList6 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("false");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList8 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("14");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList10 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("-1.0");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList[] satelliteInfoListArray11 =
-        new org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList[]{satelliteInfoList4,
-          satelliteInfoList6, satelliteInfoList8, satelliteInfoList10};
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList[] satelliteInfoListArray12 =
-        stringList1.toArray(satelliteInfoListArray11);
-    try {
-      java.lang.String str14 = stringList1.get((-5));
-      org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
-    }
-    org.junit.Assert.assertNotNull(objArray2);
-    org.junit.Assert.assertNotNull(satelliteInfoList4);
-    org.junit.Assert.assertNotNull(satelliteInfoList6);
-    org.junit.Assert.assertNotNull(satelliteInfoList8);
-    org.junit.Assert.assertNotNull(satelliteInfoList10);
-    org.junit.Assert.assertNotNull(satelliteInfoListArray11);
-    org.junit.Assert.assertNotNull(satelliteInfoListArray12);
-  }
-
-  @Test
   public void test0418() throws Throwable
   {
     if (debug) {
@@ -8321,18 +8106,6 @@ public class RegressionTest0
         281474993487884L));
     org.junit.Assert.assertNotNull(byteArray32);
     org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
-  }
-
-  @Test
-  public void test0420() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0420");
-    }
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList1 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList(
-            "[-1, 281475010265083, 281475010265070, 281474993487883, 281474993487885, 281474993487872, 281475010265070, 281474993487885, 281474993487889, -1, 281475010265086, 281475010265078, 4294967295, 281474993487874, 281474993487885, 281474993487886, 1, 281475010265086, 281475010265075, 281474993487876, 281474993487878, 281474993487889, -1, 100, 281474993487875]");
-    org.junit.Assert.assertNotNull(satelliteInfoList1);
   }
 
   @Test
@@ -9208,65 +8981,6 @@ public class RegressionTest0
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray1);
-  }
-
-  @Test
-  public void test0455() throws Throwable
-  {
-    if (debug) {
-      System.out.format("%n%s%n", "RegressionTest0.test0455");
-    }
-    org.ccsds.moims.mo.mal.structures.DoubleList doubleList0 =
-        new org.ccsds.moims.mo.mal.structures.DoubleList();
-    java.util.Iterator<java.lang.Double> doubleItor1 = doubleList0.iterator();
-    org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList0.getServiceNumber();
-    org.ccsds.moims.mo.mal.structures.Element element3 = doubleList0.createElement();
-    doubleList0.ensureCapacity(16);
-    org.ccsds.moims.mo.mal.structures.Identifier identifier7 =
-        new org.ccsds.moims.mo.mal.structures.Identifier("281475010265070");
-    java.lang.Integer int8 = identifier7.getTypeShortForm();
-    org.ccsds.moims.mo.mal.structures.UShort uShort9 = identifier7.getAreaNumber();
-    org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = identifier7.getAreaVersion();
-    int int11 = doubleList0.indexOf((java.lang.Object) identifier7);
-    org.ccsds.moims.mo.mal.structures.UShort uShort12 = identifier7.getServiceNumber();
-    org.ccsds.moims.mo.mal.structures.UOctet uOctet13 = identifier7.getAreaVersion();
-    org.ccsds.moims.mo.mal.structures.StringList stringList15 =
-        new org.ccsds.moims.mo.mal.structures.StringList((int) '#');
-    java.lang.Object[] objArray16 = stringList15.toArray();
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList18 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("0");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList20 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("false");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList22 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("14");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList24 =
-        esa.mo.platform.impl.util.HelperGPS.gpgsv2SatelliteInfoList("-1.0");
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList[] satelliteInfoListArray25 =
-        new org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList[]{satelliteInfoList18,
-          satelliteInfoList20, satelliteInfoList22, satelliteInfoList24};
-    org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList[] satelliteInfoListArray26 =
-        stringList15.toArray(satelliteInfoListArray25);
-    boolean boolean27 = identifier7.equals((java.lang.Object) stringList15);
-    java.lang.String str28 = identifier7.getValue();
-    org.junit.Assert.assertNotNull(doubleItor1);
-    org.junit.Assert.assertNotNull(uShort2);
-    org.junit.Assert.assertNotNull(element3);
-    org.junit.Assert.assertTrue("'" + int8 + "' != '" + 6 + "'", int8.equals(6));
-    org.junit.Assert.assertNotNull(uShort9);
-    org.junit.Assert.assertNotNull(uOctet10);
-    org.junit.Assert.assertTrue("'" + int11 + "' != '" + (-1) + "'", int11 == (-1));
-    org.junit.Assert.assertNotNull(uShort12);
-    org.junit.Assert.assertNotNull(uOctet13);
-    org.junit.Assert.assertNotNull(objArray16);
-    org.junit.Assert.assertNotNull(satelliteInfoList18);
-    org.junit.Assert.assertNotNull(satelliteInfoList20);
-    org.junit.Assert.assertNotNull(satelliteInfoList22);
-    org.junit.Assert.assertNotNull(satelliteInfoList24);
-    org.junit.Assert.assertNotNull(satelliteInfoListArray25);
-    org.junit.Assert.assertNotNull(satelliteInfoListArray26);
-    org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
-    org.junit.Assert.assertTrue("'" + str28 + "' != '" + "281475010265070" + "'", str28.equals(
-        "281475010265070"));
   }
 
   @Test

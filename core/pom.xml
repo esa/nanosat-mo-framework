@@ -55,6 +55,7 @@
     <module>mo-services-apis</module>
     <module>mo-services-impl</module>
     <module>nmf-package-lib</module>
+    <module>nmf-package-maven-plugin</module>
     <module>nmf-composites</module>
     <module>misc</module>
   </modules>
