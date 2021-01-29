@@ -35,6 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.CameraHelper;
@@ -64,47 +65,55 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
   public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices)
   {
+    init(connectionConsumer, comServices, null, null);
+  }
+
+  public void init(ConnectionConsumer connectionConsumer,
+                   COMServicesConsumer comServices,
+                   Blob authenticationID,
+                   String localNamePrefix)
+  {
     SingleConnectionDetails details;
 
     try {
       // Initialize the AutonomousADCS service
       details = connectionConsumer.getServicesDetails().get(
-          AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
+              AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
       if (details != null) {
-        autonomousADCSService = new AutonomousADCSConsumerServiceImpl(details, comServices);
+        autonomousADCSService = new AutonomousADCSConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
       }
 
       // Initialize the Camera service
       details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
       if (details != null) {
-        cameraService = new CameraConsumerServiceImpl(details, comServices);
+        cameraService = new CameraConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
       }
 
       // Initialize the GPS service
       details = connectionConsumer.getServicesDetails().get(GPSHelper.GPS_SERVICE_NAME);
       if (details != null) {
-        gpsService = new GPSConsumerServiceImpl(details, comServices);
+        gpsService = new GPSConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
       }
 
       // Initialize the Optical Data Receiver service
       details = connectionConsumer.getServicesDetails().get(
-          OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
+              OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
       if (details != null) {
-        odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices);
+        odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
       }
 
       // Initialize the Software Defined Radio service
       details = connectionConsumer.getServicesDetails().get(
-          SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
+              SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
       if (details != null) {
-        sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices);
+        sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
       }
 
       // Initialize the Power Control service
       details = connectionConsumer.getServicesDetails().get(
-          PowerControlHelper.POWERCONTROL_SERVICE_NAME);
+              PowerControlHelper.POWERCONTROL_SERVICE_NAME);
       if (details != null) {
-        powerControlService = new PowerControlConsumerServiceImpl(details, comServices);
+        powerControlService = new PowerControlConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
       }
     } catch (MALException ex) {
       Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);

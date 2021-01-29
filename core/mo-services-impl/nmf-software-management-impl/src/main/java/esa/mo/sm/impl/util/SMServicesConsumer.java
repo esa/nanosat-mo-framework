@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
@@ -57,35 +58,48 @@ public class SMServicesConsumer
    */
   public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices)
   {
+    init(connectionConsumer, comServices, null, null);
+  }
+
+  /**
+   * Initializes the Package Management service and the Applications Manager service
+   *
+   * @param connectionConsumer Connection details
+   * @param comServices        COM services
+   * @param authenticationId authenticationId of the logged in user
+   */
+  public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices,
+                   Blob authenticationId, String localNamePrefix)
+  {
 
     SingleConnectionDetails details;
 
     try {
       // Initialize the Apps Launcher service
       details = connectionConsumer.getServicesDetails().get(
-          AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME);
+              AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME);
       if (details != null) {
-        appsLauncherService = new AppsLauncherConsumerServiceImpl(details, comServices);
+        appsLauncherService = new AppsLauncherConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
       }
 
       // Initialize the Command Executor Service service
       details = connectionConsumer.getServicesDetails().get(
-          CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME);
+              CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME);
       if (details != null) {
-        commandExecutorService = new CommandExecutorConsumerServiceImpl(details, comServices);
+        commandExecutorService = new CommandExecutorConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
       }
 
       // Initialize the Package Management service
       details = connectionConsumer.getServicesDetails().get(
-          PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME);
+              PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME);
       if (details != null) {
-        packageManagementService = new PackageManagementConsumerServiceImpl(details, comServices);
+        packageManagementService = new PackageManagementConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
       }
 
       // Initialize the Heartbeat service
       details = connectionConsumer.getServicesDetails().get(HeartbeatHelper.HEARTBEAT_SERVICE_NAME);
       if (details != null) {
-        heartbeatService = new HeartbeatConsumerServiceImpl(details, comServices);
+        heartbeatService = new HeartbeatConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
       }
     } catch (MALException | MalformedURLException | MALInteractionException ex) {
       Logger.getLogger(SMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);

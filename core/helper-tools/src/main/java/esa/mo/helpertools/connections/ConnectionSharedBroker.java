@@ -55,6 +55,18 @@ public class ConnectionSharedBroker {
      * @throws MALException On error.
      */
     public MALBrokerBinding startBroker(String brokerName) throws MALException {
+        return startBroker(brokerName, null);
+    }
+
+    /**
+     * Closes any existing service brokers and recreates them.
+     *
+     * @param brokerName
+     * @param authenticationId authenticationId of the logged in user
+     * @return
+     * @throws MALException On error.
+     */
+    public MALBrokerBinding startBroker(String brokerName, Blob authenticationId) throws MALException {
         malFactory = MALContextFactory.newFactory();
         mal = malFactory.createMALContext(System.getProperties());
         brokerMgr = mal.createBrokerManager();
@@ -64,7 +76,7 @@ public class ConnectionSharedBroker {
                 sharedBroker,
                 brokerName,
                 System.getProperties().getProperty("org.ccsds.moims.mo.mal.transport.default.protocol"),
-                new Blob("".getBytes()),
+                null == authenticationId ? new Blob("".getBytes()) : authenticationId,
                 new QoSLevel[]{QoSLevel.ASSURED},
                 new UInteger(1),
                 new Hashtable());

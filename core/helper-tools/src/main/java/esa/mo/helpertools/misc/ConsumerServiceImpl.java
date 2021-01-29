@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALService;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.URI;
 
@@ -79,6 +80,21 @@ public abstract class ConsumerServiceImpl {
      * @throws java.net.MalformedURLException
      */
     public Object createConsumer(String subsystem, MALService service) throws MALException, MalformedURLException {
+        return createConsumer(subsystem, service, null, null);
+    }
+
+    /**
+     * Creates a tmConsumer connection for a specified subsystem
+     *
+     * @param subsystem Name of the subsystem
+     * @param service Definition of the consumed service
+     * @param authenticationId authenticationId of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @return Wrapped MALconsumer
+     * @throws org.ccsds.moims.mo.mal.MALException
+     * @throws java.net.MalformedURLException
+     */
+    public Object createConsumer(String subsystem, MALService service, Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException {
 
         Logger.getLogger(ConsumerServiceImpl.class.getName()).log(Level.INFO, "URI" + this.connectionDetails.getProviderURI().toString() + "@" + subsystem);
 
@@ -86,7 +102,8 @@ public abstract class ConsumerServiceImpl {
                 new URI(this.connectionDetails.getProviderURI().toString() + "@" + subsystem),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                service);
+                service,
+                authenticationId, localNamePrefix);
 
         Object stub = generateServiceStub(consumer);
         servicesMap.put(new Identifier(subsystem), stub);

@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
  *
@@ -56,6 +57,10 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
+        this(connectionDetails, null, null);
+    }
+
+    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -85,7 +90,8 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                ArchiveHelper.ARCHIVE_SERVICE);
+                ArchiveHelper.ARCHIVE_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.archiveService = new ArchiveStub(tmConsumer);
 
