@@ -109,7 +109,19 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
    */
   public GroundMOAdapterImpl(final ConnectionConsumer connection)
   {
-    super(connection);
+    this(connection, null, null);
+  }
+
+  /**
+   * The constructor of this class
+   *
+   * @param connection The connection details of the provider
+   * @param authenticationId authenticationId of the logged in user
+   * @param localNamePrefix the prefix for the local name of the consumer
+   */
+  public GroundMOAdapterImpl(final ConnectionConsumer connection, final Blob authenticationId, final String localNamePrefix)
+  {
+    super(connection, authenticationId, localNamePrefix);
     super.init();
   }
 
@@ -121,7 +133,20 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
    */
   public GroundMOAdapterImpl(final ProviderSummary providerDetails)
   {
-    super(providerDetails);
+    this(providerDetails, null, null);
+  }
+
+  /**
+   * The constructor of this class
+   *
+   * @param providerDetails The Provider details. This object can be obtained from the Directory
+   *                        service
+   * @param authenticationId authenticationId of the logged in user
+   * @param localNamePrefix the prefix for the local name of the consumer
+   */
+  public GroundMOAdapterImpl(final ProviderSummary providerDetails, final Blob authenticationId, final String localNamePrefix)
+  {
+    super(providerDetails, authenticationId, localNamePrefix);
     super.init();
   }
 

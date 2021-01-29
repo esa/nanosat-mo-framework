@@ -99,7 +99,7 @@ public class ConnectionProvider {
      * @param serviceName Name of the service
      * @param malService MAL service
      * @param handler The handler of the interaction
-     * @return
+     * @return MALProvider
      * @throws MALException On error.
      */
     public MALProvider startService(String serviceName, MALService malService,
@@ -115,11 +115,28 @@ public class ConnectionProvider {
      * @param malService MAL service
      * @param isPublisher Boolean flag to define if the service has PUB-SUB
      * @param handler The handler of the interaction
-     * @return
+     * @return MALProvider
      * @throws MALException On error.
      */
     public MALProvider startService(String serviceName, MALService malService,
-            boolean isPublisher, MALInteractionHandler handler) throws MALException {
+                                    boolean isPublisher, MALInteractionHandler handler) throws MALException {
+        return startService(serviceName, malService, isPublisher, handler, null);
+    }
+
+    /**
+     * Closes any existing service providers and recreates them. Used to
+     * initialize services.
+     *
+     * @param serviceName Name of the service
+     * @param malService MAL service
+     * @param isPublisher Boolean flag to define if the service has PUB-SUB
+     * @param handler The handler of the interaction
+     * @param authenticationId authenticationId of the logged in user
+     * @return MALProvider
+     * @throws MALException On error.
+     */
+    public MALProvider startService(String serviceName, MALService malService,
+            boolean isPublisher, MALInteractionHandler handler, Blob authenticationId) throws MALException {
         try {
             malFactory = MALContextFactory.newFactory();
         } catch (MALException ex) {
@@ -146,7 +163,7 @@ public class ConnectionProvider {
         MALProvider serviceProvider = providerMgr.createProvider(uriName,
                 null,
                 malService,
-                new Blob("".getBytes()),
+                null == authenticationId ? new Blob("".getBytes()) : authenticationId,
                 handler,
                 new QoSLevel[]{
                     QoSLevel.ASSURED
@@ -193,7 +210,7 @@ public class ConnectionProvider {
             MALProvider serviceProvider2 = providerMgr.createProvider(uriName,
                     secondaryProtocol,
                     malService,
-                    new Blob("".getBytes()),
+                    null == authenticationId ? new Blob("".getBytes()) : authenticationId,
                     handler,
                     new QoSLevel[]{
                         QoSLevel.ASSURED
