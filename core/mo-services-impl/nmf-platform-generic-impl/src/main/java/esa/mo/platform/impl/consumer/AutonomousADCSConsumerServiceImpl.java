@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
@@ -77,6 +78,15 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl
       COMServicesConsumer comServices) throws MALException, MalformedURLException,
       MALInteractionException
   {
+    this(connectionDetails, comServices, null, null);
+  }
+
+  public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                           COMServicesConsumer comServices,
+                                           Blob authenticationID,
+                                           String localNamePrefix) throws MALException, MalformedURLException,
+                                                                         MALInteractionException
+  {
     this.connectionDetails = connectionDetails;
     this.comServices = comServices;
 
@@ -86,15 +96,16 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl
         tmConsumer.close();
       } catch (MALException ex) {
         Logger.getLogger(AutonomousADCSConsumerServiceImpl.class.getName()).log(Level.SEVERE, null,
-            ex);
+                                                                                ex);
       }
     }
 
     tmConsumer = connection.startService(
-        this.connectionDetails.getProviderURI(),
-        this.connectionDetails.getBrokerURI(),
-        this.connectionDetails.getDomain(),
-        AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE);
+            this.connectionDetails.getProviderURI(),
+            this.connectionDetails.getBrokerURI(),
+            this.connectionDetails.getDomain(),
+            AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE,
+            authenticationID, localNamePrefix);
 
     this.autonomousADCSService = new AutonomousADCSStub(tmConsumer);
   }

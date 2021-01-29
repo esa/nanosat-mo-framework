@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
  * Class holding all the COM services consumers. The services can all be
@@ -51,25 +52,36 @@ public class COMServicesConsumer {
      * @param connectionConsumer Connection details
      */
     public void init(final ConnectionConsumer connectionConsumer) {
+        init(connectionConsumer, null, null);
+    }
+
+    /**
+     * Initializes all the COM services consumer side automatically from the
+     * connectionConsumer holding the details of the connections.
+     *
+     * @param connectionConsumer Connection details
+     * @param authenticationId authenticationId of the logged in user
+     */
+    public void init(final ConnectionConsumer connectionConsumer, final Blob authenticationId, final String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
             // Initialize the Archive service
             details = connectionConsumer.getServicesDetails().get(ArchiveHelper.ARCHIVE_SERVICE_NAME);
             if (details != null) {
-                archiveService = new ArchiveConsumerServiceImpl(details);
+                archiveService = new ArchiveConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
 
             // Initialize the Event service (without an Archive)
             details = connectionConsumer.getServicesDetails().get(EventHelper.EVENT_SERVICE_NAME);
             if (details != null) {
-                eventService = new EventConsumerServiceImpl(details);
+                eventService = new EventConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
 
             // Initialize the Event service (without an Archive)
             details = connectionConsumer.getServicesDetails().get(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME);
             if (details != null) {
-                archiveSyncService = new ArchiveSyncConsumerServiceImpl(details);
+                archiveSyncService = new ArchiveSyncConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
         } catch (MALException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);

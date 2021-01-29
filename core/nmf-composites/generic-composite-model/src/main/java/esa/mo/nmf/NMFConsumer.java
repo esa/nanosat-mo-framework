@@ -44,6 +44,7 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
@@ -68,6 +69,8 @@ public class NMFConsumer {
     protected final CommonServicesConsumer commonServices = new CommonServicesConsumer();
     protected final SMServicesConsumer smServices = new SMServicesConsumer();
     private final ConnectionConsumer connection;
+    private final Blob authenticationId;
+    private final String localNamePrefix;
 
     /**
      * The constructor of this class
@@ -75,7 +78,20 @@ public class NMFConsumer {
      * @param connection The connection details of the provider
      */
     public NMFConsumer(final ConnectionConsumer connection) {
+        this(connection, null, null);
+    }
+
+    /**
+     * The constructor of this class
+     *
+     * @param connection The connection details of the provider
+     * @param authenticationId authenticationId of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     */
+    public NMFConsumer(final ConnectionConsumer connection, final Blob authenticationId, final String localNamePrefix) {
         this.connection = connection;
+        this.authenticationId = authenticationId;
+        this.localNamePrefix = localNamePrefix;
         NMFConsumer.initHelpers();
     }
 
@@ -86,9 +102,23 @@ public class NMFConsumer {
      * the Directory service
      */
     public NMFConsumer(final ProviderSummary provider) {
+        this(provider, null, null);
+    }
+
+    /**
+     * The constructor of this class
+     *
+     * @param provider The Provider details. This object can be obtained from
+     * the Directory service
+     * @param authenticationId authenticationId of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     */
+    public NMFConsumer(final ProviderSummary provider, final Blob authenticationId, final String localNamePrefix) {
         NMFConsumer.initHelpers(); // The Helpers need to be initialized before conversion
         // Grab the provider variable and put it into a ConnectionConsumer
         this.connection = HelperCommon.providerSummaryToConnectionConsumer(provider);
+        this.authenticationId = authenticationId;
+        this.localNamePrefix = localNamePrefix;
     }
 
     public void init() {
@@ -112,23 +142,23 @@ public class NMFConsumer {
     }
 
     private void initCOMServices() {
-        comServices.init(connection);
+        comServices.init(connection, authenticationId, localNamePrefix);
     }
 
     private void initMCServices() {
-        mcServices.init(connection, comServices);
+        mcServices.init(connection, comServices, authenticationId, localNamePrefix);
     }
 
     private void initPlatformServices() {
-        platformServices.init(connection, comServices);
+        platformServices.init(connection, comServices, authenticationId, localNamePrefix);
     }
 
     private void initCommonServices() {
-        commonServices.init(connection, comServices);
+        commonServices.init(connection, comServices, authenticationId, localNamePrefix);
     }
 
     private void initSMServices() {
-        smServices.init(connection, comServices);
+        smServices.init(connection, comServices, authenticationId, localNamePrefix);
     }
 
     /**

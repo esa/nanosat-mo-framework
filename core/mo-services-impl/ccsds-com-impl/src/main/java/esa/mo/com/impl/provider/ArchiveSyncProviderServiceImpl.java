@@ -95,8 +95,13 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
   private Quota quota;
 
   public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService) {
+    this(connectionToArchiveService, null, null);
+  }
+
+  public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService,
+                                        Blob authenticationId, String localNamePrefix) {
     try {
-      this.archive = new ArchiveConsumerServiceImpl(connectionToArchiveService);
+      this.archive = new ArchiveConsumerServiceImpl(connectionToArchiveService, authenticationId, localNamePrefix);
     } catch (MALException ex) {
       Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
     } catch (MalformedURLException ex) {

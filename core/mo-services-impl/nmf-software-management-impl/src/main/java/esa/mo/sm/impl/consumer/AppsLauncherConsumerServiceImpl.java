@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherStub;
@@ -65,6 +66,13 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
 
     public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
             final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
+                                           final COMServicesConsumer comServices,
+                                           final Blob authenticationId,
+                                           final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -75,7 +83,7 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -101,7 +109,8 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                AppsLauncherHelper.APPSLAUNCHER_SERVICE);
+                AppsLauncherHelper.APPSLAUNCHER_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.appLauncherService = new AppsLauncherStub(tmConsumer);
     }
