@@ -88,11 +88,9 @@ public class NMFPackageCreator {
             ArrayList<String> filesInput, ArrayList<String> newLocationsInput,
             String destinationFolder) {
         NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
-        final ArrayList<String> files = new ArrayList<>();
-        files.addAll(filesInput);
+        final ArrayList<String> files = new ArrayList<>(filesInput);
 
-        final ArrayList<String> newLocations = new ArrayList<>();
-        newLocations.addAll(newLocationsInput);
+        final ArrayList<String> newLocations = new ArrayList<>(newLocationsInput);
 
         for (int i = 0; i < newLocations.size(); i++) {
             try {

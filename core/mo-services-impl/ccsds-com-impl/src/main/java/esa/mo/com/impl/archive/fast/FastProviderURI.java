@@ -68,8 +68,7 @@ public class FastProviderURI {
         // Get All the providerURIs available
         Query query = dbBackend.getEM().createQuery(QUERY_SELECT_PROVIDERURI);
         List resultList = query.getResultList();
-        ArrayList<ProviderURIHolderEntity> providerURIHolderEntities = new ArrayList<ProviderURIHolderEntity>();
-        providerURIHolderEntities.addAll(resultList);
+        ArrayList<ProviderURIHolderEntity> providerURIHolderEntities = new ArrayList<ProviderURIHolderEntity>(resultList);
 
         dbBackend.closeEntityManager();
 

@@ -117,7 +117,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
         actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null,  new Boolean(true), null},
+                {null, null, null, null, null, Boolean.TRUE, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
@@ -476,25 +476,24 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             values = this.serviceMCParameter.getParameterStub().getValue(longlist);
             
-            String str = "";
+            StringBuilder str = new StringBuilder();
             for (int i = 0; i < values.size(); i++) {
-                str += "The value for objId " + values.get(i).getParamId().toString() 
-                        + " is:" + "\n" + values.get(i).getValue().toString() + "\n";
+                str.append("The value for objId ").append(values.get(i).getParamId().toString()).append(" is:").append("\n").append(values.get(i).getValue().toString()).append("\n");
 
                 Attribute attribute = values.get(i).getValue().getRawValue();
                 if (attribute instanceof Blob){
                     try {
                         // Try to get a serial Object...
                         Object obj = HelperAttributes.blobAttribute2serialObject((Blob) attribute);
-                        str += obj.toString();
+                        str.append(obj.toString());
                     } catch (IOException ex) {
                         // If it fails, then just pring the byte array...
-                        str += Arrays.toString(((Blob) attribute).getValue()) + "\n";
+                        str.append(Arrays.toString(((Blob) attribute).getValue())).append("\n");
                     }
                 }
             }
 
-            JOptionPane.showMessageDialog(null, str, "Returned Values from the Provider", JOptionPane.PLAIN_MESSAGE);            
+            JOptionPane.showMessageDialog(null, str.toString(), "Returned Values from the Provider", JOptionPane.PLAIN_MESSAGE);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {

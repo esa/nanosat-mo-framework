@@ -547,20 +547,20 @@ public class CameraAcquisitorGround
 
       AttributeValueList attValues = event.getArgumentValues();
 
-      String messageToDisplay = "ID: " + actionID + " ";
+      StringBuilder messageToDisplay = new StringBuilder("ID: " + actionID + " ");
 
       if (attValues != null) {
         if (attValues.size() == 1) {
-          messageToDisplay += attValues.get(0).getValue().toString();
+          messageToDisplay.append(attValues.get(0).getValue().toString());
         }
         if (attValues.size() > 1) {
           for (int i = 0; i < attValues.size(); i++) {
             AttributeValue attValue = attValues.get(i);
-            messageToDisplay += "[" + i + "] " + attValue.getValue().toString() + "\n";
+            messageToDisplay.append("[").append(i).append("] ").append(attValue.getValue().toString()).append("\n");
           }
         }
       }
-      LOGGER.log(Level.WARNING, messageToDisplay);
+      LOGGER.log(Level.WARNING, messageToDisplay.toString());
     }
   }
 

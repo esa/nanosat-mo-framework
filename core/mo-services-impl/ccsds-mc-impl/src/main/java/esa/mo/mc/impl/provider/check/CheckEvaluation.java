@@ -210,7 +210,7 @@ public class CheckEvaluation {
                 countChecksViolate++;
             }
         }
-        Boolean result;
+        boolean result;
         //wildcard check
         if (minChecksViolate.getValue() == 0) //requirement: 3.5.3.ee - true if any check is not currently in violation
         {

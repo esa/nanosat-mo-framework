@@ -211,10 +211,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         public static void putFloatInByteArray(float value, int byteOffset, byte[] target)
         {
             byte [] tempByte=float2ByteArray(value);
-            for (int i=0;i<=FLOAT_BYTES-1;i++)
-            {
-                target[byteOffset+i]=tempByte[i];
-            }
+            System.arraycopy(tempByte, 0, target, byteOffset + 0, FLOAT_BYTES - 1 + 1);
         }
         public static float getFloatFromByteArray(byte[] source, int byteOffset)
         {
@@ -223,10 +220,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         public static void putDoubleInByteArray(double value, int byteOffset, byte[] target)
         {
             byte [] tempByte=double2ByteArray(value);
-            for (int i=0;i<=DOUBLE_BYTES-1;i++)
-            {
-                target[byteOffset+i]=tempByte[i];
-            }
+            System.arraycopy(tempByte, 0, target, byteOffset + 0, DOUBLE_BYTES - 1 + 1);
         }
         public static double getDoubleFromByteArray(byte[] source, int byteOffset)
         {
@@ -235,10 +229,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         public static void putIntInByteArray(int value, int byteOffset, byte[] target)
         {
             byte [] tempByte=int2ByteArray(value);
-            for (int i=0;i<=INTEGER_BYTES-1;i++)
-            {
-                target[byteOffset+i]=tempByte[i];
-            }
+            System.arraycopy(tempByte, 0, target, byteOffset + 0, INTEGER_BYTES - 1 + 1);
         }
         /**
         Inserts a 16-bit integer into a byte array
@@ -249,10 +240,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         public static void putInt16InByteArray(int value, int byteOffset, byte[] target)
         {
             byte [] tempByte=int2ByteArray(value);
-            for (int i=0;i<=INTEGER_BYTES-1-2;i++)
-            {
-                target[byteOffset+i]=tempByte[i+2];
-            }
+            System.arraycopy(tempByte, 2, target, byteOffset + 0, INTEGER_BYTES - 1 - 2 + 1);
         }
         public static int getIntFromByteArray(byte[] source, int byteOffset)
         {
@@ -268,10 +256,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         public static void putLongInByteArray(long value, int byteOffset, byte[] target)
         {
             byte [] tempByte=long2ByteArray(value);
-            for (int i=0;i<=LONG_BYTES-1;i++)
-            {
-                target[byteOffset+i]=tempByte[i];
-            }
+            System.arraycopy(tempByte, 0, target, byteOffset + 0, LONG_BYTES - 1 + 1);
         }
         public static long getLongFromByteArray(byte[] source, int byteOffset)
         {

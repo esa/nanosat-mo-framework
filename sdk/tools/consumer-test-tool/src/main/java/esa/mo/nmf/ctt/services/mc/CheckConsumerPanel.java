@@ -134,7 +134,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null,  new Boolean(true), null},
+                {null, null, null, null, null, Boolean.TRUE, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
@@ -166,7 +166,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         actionDefinitionsTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null,  new Boolean(true), null},
+                {null, null, null, null, null, Boolean.TRUE, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {

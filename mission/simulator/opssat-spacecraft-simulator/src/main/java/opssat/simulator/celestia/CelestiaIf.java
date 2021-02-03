@@ -251,10 +251,10 @@ public class CelestiaIf implements Runnable {
      */
     String buildMessage(CelestiaData data) {
 
-        String dataStringSc = "";
-        String dataStringParam = "";
-        String dataStringValue = "";
-        String dataStringUnit = "";
+        StringBuilder dataStringSc = new StringBuilder();
+        StringBuilder dataStringParam = new StringBuilder();
+        StringBuilder dataStringValue = new StringBuilder();
+        StringBuilder dataStringUnit = new StringBuilder();
         String outMsg = "";
         String scId = "";
 
@@ -285,8 +285,8 @@ public class CelestiaIf implements Runnable {
             scId = iter.next();
 
             // epoch        
-            dataStringSc = dataStringSc + " " + scId;
-            dataStringParam = dataStringParam + " " + "SIM_EPOCH_TIME";
+            dataStringSc.append(" ").append(scId);
+            dataStringParam.append(" ").append("SIM_EPOCH_TIME");
             /*
             dataStringValue = dataStringValue + " " + dateTime.getYear() + "/"
                     + dateTime.getMonthValue() + "/"
@@ -295,60 +295,53 @@ public class CelestiaIf implements Runnable {
                     + dateTime.getMinute() + ":"
                     + dateTime.getSecond();
             */
-            dataStringValue = dataStringValue + " " + data.getYears() + "/"
-                    + data.getMonths() + "/"
-                    + data.getDays() + "-"
-                    + data.getHours() + ":"
-                    + data.getMinutes() + ":"
-                    + data.getSeconds();
+            dataStringValue.append(" ").append(data.getYears()).append("/").append(data.getMonths()).append("/").append(data.getDays()).append("-").append(data.getHours()).append(":").append(data.getMinutes()).append(":").append(data.getSeconds());
             
-            dataStringUnit = dataStringUnit + " " + "UTC";
+            dataStringUnit.append(" ").append("UTC");
 
             // ICF position and velocity        
-            dataStringSc = dataStringSc + " " + scId + " " + scId + " " + scId + " " + scId + " " + scId + " " + scId;
-            dataStringParam = dataStringParam + " " + "X_ICF Y_ICF Z_ICF VX_ICF VY_ICF VZ_ICF";
-            dataStringValue = dataStringValue + " " + rv[0] + " " + rv[1] + " " + rv[2] + " " + rv[3] + " " + rv[4] + " " + rv[5];
-            dataStringUnit = dataStringUnit + " " + "km km km km/s km/s km/s";
+            dataStringSc.append(" ").append(scId).append(" ").append(scId).append(" ").append(scId).append(" ").append(scId).append(" ").append(scId).append(" ").append(scId);
+            dataStringParam.append(" ").append("X_ICF Y_ICF Z_ICF VX_ICF VY_ICF VZ_ICF");
+            dataStringValue.append(" ").append(rv[0]).append(" ").append(rv[1]).append(" ").append(rv[2]).append(" ").append(rv[3]).append(" ").append(rv[4]).append(" ").append(rv[5]);
+            dataStringUnit.append(" ").append("km km km km/s km/s km/s");
 
             // attitude        
-            dataStringSc = dataStringSc + " " + scId + " " + scId + " " + scId + " " + scId;
-            dataStringParam = dataStringParam + " " + "QS_ICF QX_ICF QY_ICF QZ_ICF";
-            dataStringValue = dataStringValue + " " + q[0] + " " // scalar part  --> order to be checked with MO message
-                    + q[1] + " "
-                    + q[2] + " "
-                    + q[3];
-            dataStringUnit = dataStringUnit + " " + "- - - -";
+            dataStringSc.append(" ").append(scId).append(" ").append(scId).append(" ").append(scId).append(" ").append(scId);
+            dataStringParam.append(" ").append("QS_ICF QX_ICF QY_ICF QZ_ICF");
+            dataStringValue.append(" ").append(q[0]).append(" " // scalar part  --> order to be checked with MO message
+            ).append(q[1]).append(" ").append(q[2]).append(" ").append(q[3]);
+            dataStringUnit.append(" ").append("- - - -");
 
             if (this.PRINT_EVENTS) {
                 // INFO        
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "INFO";
-                dataStringValue = dataStringValue + " " + data.getInfo();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("INFO");
+                dataStringValue.append(" ").append(data.getInfo());
+                dataStringUnit.append(" ").append("UTC");
 
                 // ANX        
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "ANX";
-                dataStringValue = dataStringValue + " " + data.getAnx();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("ANX");
+                dataStringValue.append(" ").append(data.getAnx());
+                dataStringUnit.append(" ").append("UTC");
 
                 // DNX        
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "DNX";
-                dataStringValue = dataStringValue + " " + data.getDnx();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("DNX");
+                dataStringValue.append(" ").append(data.getDnx());
+                dataStringUnit.append(" ").append("UTC");
 
                 // AOS_KIRUNA
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "AOS_ESOC";
-                dataStringValue = dataStringValue + " " + data.getAos();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("AOS_ESOC");
+                dataStringValue.append(" ").append(data.getAos());
+                dataStringUnit.append(" ").append("UTC");
 
                 // LOS_KIRUNA
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "LOS_ESOC";
-                dataStringValue = dataStringValue + " " + data.getLos();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("LOS_ESOC");
+                dataStringValue.append(" ").append(data.getLos());
+                dataStringUnit.append(" ").append("UTC");
             }
 
         }
