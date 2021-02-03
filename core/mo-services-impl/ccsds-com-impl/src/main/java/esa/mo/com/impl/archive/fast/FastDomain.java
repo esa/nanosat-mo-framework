@@ -71,8 +71,7 @@ public class FastDomain {
         // Get All the domains available
         Query query = dbBackend.getEM().createQuery(QUERY_SELECT_DOMAIN);
         List resultList = query.getResultList();
-        ArrayList<DomainHolderEntity> domainHolderEntities = new ArrayList<DomainHolderEntity>();
-        domainHolderEntities.addAll(resultList);
+        ArrayList<DomainHolderEntity> domainHolderEntities = new ArrayList<DomainHolderEntity>(resultList);
         dbBackend.closeEntityManager();
 
         int max = 0;

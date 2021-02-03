@@ -772,38 +772,38 @@ public class SimulatorNode extends TaskNode
             // Disregard the method, it is internal to java language
             foundData = false;
           } else {
-            String arguments = "";
+            StringBuilder arguments = new StringBuilder();
             String[] argumentsBody = functionWords[1].split("\\,");
             InternalData internalData = m.getAnnotation(InternalData.class);
             int indexArg = 0;
             for (String singleArg : argumentsBody) {
               this.logger.log(Level.FINE, "Checking singleArg [" + singleArg + "]");
               if (singleArg.equals("java.lang.String)") || singleArg.equals("java.lang.String")) {
-                arguments = arguments + "String " + internalData.argNames()[indexArg];
+                arguments.append("String ").append(internalData.argNames()[indexArg]);
               } else if (singleArg.contains("int[]")) {
-                arguments = arguments + "int[] " + internalData.argNames()[indexArg];
+                arguments.append("int[] ").append(internalData.argNames()[indexArg]);
               } else if (singleArg.contains("int")) {
-                arguments = arguments + "int " + internalData.argNames()[indexArg];
+                arguments.append("int ").append(internalData.argNames()[indexArg]);
               } else if (singleArg.contains("byte[]")) {
-                arguments = arguments + "byte[] " + internalData.argNames()[indexArg];
+                arguments.append("byte[] ").append(internalData.argNames()[indexArg]);
               } else if (singleArg.contains("byte")) {
-                arguments = arguments + "byte " + internalData.argNames()[indexArg];
+                arguments.append("byte ").append(internalData.argNames()[indexArg]);
               } else if (singleArg.contains("long[]")) {
-                arguments = arguments + "long[] " + internalData.argNames()[indexArg];
+                arguments.append("long[] ").append(internalData.argNames()[indexArg]);
               } else if (singleArg.contains("long")) {
-                arguments = arguments + "long " + internalData.argNames()[indexArg];
+                arguments.append("long ").append(internalData.argNames()[indexArg]);
               } else if (singleArg.contains("float[]")) {
-                arguments = arguments + "float[] " + internalData.argNames()[indexArg];
+                arguments.append("float[] ").append(internalData.argNames()[indexArg]);
               } else if (singleArg.contains("float")) {
-                arguments = arguments + "float " + internalData.argNames()[indexArg];
+                arguments.append("float ").append(internalData.argNames()[indexArg]);
               } else if (singleArg.contains("double")) {
-                arguments = arguments + "double " + internalData.argNames()[indexArg];
+                arguments.append("double ").append(internalData.argNames()[indexArg]);
               } else if (!singleArg.equals(")")) {
                 this.logger.log(Level.INFO, "Unknown argument type [" + singleArg + "]");
               }
               indexArg = indexArg + 1;
               if (indexArg < argumentsBody.length) {
-                arguments = arguments + ",";
+                arguments.append(",");
               }
             }
             body = returnString + " " + functionName + "(" + arguments + ")";
@@ -813,14 +813,14 @@ public class SimulatorNode extends TaskNode
 
       }
       if (foundData) {
-        String argNames = "";
+        StringBuilder argNames = new StringBuilder();
         InternalData internalData = m.getAnnotation(InternalData.class);
         String annotation = "";
 
         if (internalData != null) {
           annotation = String.valueOf(internalData.internalID());
           for (String str : internalData.argNames()) {
-            argNames += str;
+            argNames.append(str);
           }
 
           CommandDescriptor commandDescriptor = new CommandDescriptor(name, body,
@@ -3317,7 +3317,7 @@ public class SimulatorNode extends TaskNode
         case 2001: {// Origin [IGPS] Method [String getNMEASentence(String
           // inputSentence);//201//Obtain a NMEA response for a given NMEA sentence]
           String inputSentence = ((String) argObject.get(0)).trim(); // discard white characters
-          String result = "";
+          StringBuilder result = new StringBuilder();
           if (inputSentence.endsWith("GLMLA")) {
             String separator = ",";
             String separatorNewLine = "\r\n";
@@ -3326,58 +3326,58 @@ public class SimulatorNode extends TaskNode
             for (int iSat = 1; iSat <= numberInSet; iSat++) {
               for (int i = PGPS.FirmwareReferenceOEM16.GLMLA_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GLMLA_COL.CHECKSUM; i++) {
                 if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.HEADER) {
-                  result += "$GLMLA" + separator;
+                  result.append("$GLMLA").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.NUMBER_IN_SET) {
-                  result += numberInSet + separator;
+                  result.append(numberInSet).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.NUMBER_CURRENT) {
-                  result += iSat + separator;
+                  result.append(iSat).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.SLOT) {
-                  result += tempResult.get(iSat - 1).getName() + separator;
+                  result.append(tempResult.get(iSat - 1).getName()).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.CALDAY_LEAP_YEAR) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.HEALTH_FREQ) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.ECC) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.DELTAT_DOT) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.ARG_PER) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.CLK_OFFSET) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.DELTA_T_DRACONIAN) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.GLONASSTIME_ASC_NODE_EQ) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.LONG_ASC_NODE_CROSS) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.DELTA_NOMINAL_I) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.CLK_OFFSET_LSB12) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.CLK_SHIFT_COARSE) {
-                  result += "0";
+                  result.append("0");
                 } else if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.CHECKSUM) {
-                  result += calcNMEAChecksum(result);
+                  result.append(calcNMEAChecksum(result.toString()));
                 }
               }
-              result += separatorNewLine;
+              result.append(separatorNewLine);
             }
           } else if (inputSentence.endsWith("GPGRS")) {
             String separator = ",";
             String separatorNewLine = "\r\n";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER) {
-                result += "$GPGRS" + separator;
+                result.append("$GPGRS").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.UTC) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.MODE) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i >= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES1
                   && i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES12) {
-                result += "0";
+                result.append("0");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else if (inputSentence.endsWith("GPGRS")) {
@@ -3385,41 +3385,41 @@ public class SimulatorNode extends TaskNode
             String separatorNewLine = "\r\n";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER) {
-                result += "$GPGRS" + separator;
+                result.append("$GPGRS").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.UTC) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.MODE) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i >= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES1
                   && i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES12) {
-                result += "0";
+                result.append("0");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else if (inputSentence.endsWith("GPGST")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGST_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGST_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.HEADER) {
-                result += "$GPGST" + separator;
+                result.append("$GPGST").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.UTC) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.RMS_STD) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.SMJR_STD) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.SMNR_STD) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.ORIENT_SMJR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.LAT_STD) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.LON_STD) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.ALT_STD) {
-                result += "0";
+                result.append("0");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else if (inputSentence.endsWith("GPGSV")) {
@@ -3441,180 +3441,180 @@ public class SimulatorNode extends TaskNode
               }
               for (int i = PGPS.FirmwareReferenceOEM16.GPGSV_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGSV_COL.CHECKSUM; i++) {
                 if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.HEADER) {
-                  result += "$GPGSV" + separator;
+                  result.append("$GPGSV").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.NUMBER_MSGS) {
-                  result += numberMessages + separator;
+                  result.append(numberMessages).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.CURRENT_MSG) {
-                  result += iSat + separator;
+                  result.append(iSat).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.NUMBER_SATS) {
-                  result += numberInSet + separator;
+                  result.append(numberInSet).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT1_PRN) {
-                  result += tempPRN[0] + separator;
+                  result.append(tempPRN[0]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT1_ELEV) {
-                  result += tempElevation[0] + separator;
+                  result.append(tempElevation[0]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT1_AZ) {
-                  result += tempAzimuth[0] + separator;
+                  result.append(tempAzimuth[0]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT1_SNR) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT2_PRN) {
-                  result += tempPRN[1] + separator;
+                  result.append(tempPRN[1]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT2_ELEV) {
-                  result += tempElevation[1] + separator;
+                  result.append(tempElevation[1]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT2_AZ) {
-                  result += tempAzimuth[1] + separator;
+                  result.append(tempAzimuth[1]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT2_SNR) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT3_PRN) {
-                  result += tempPRN[2] + separator;
+                  result.append(tempPRN[2]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT3_ELEV) {
-                  result += tempElevation[2] + separator;
+                  result.append(tempElevation[2]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT3_AZ) {
-                  result += tempAzimuth[2] + separator;
+                  result.append(tempAzimuth[2]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT3_SNR) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT4_PRN) {
-                  result += tempPRN[3] + separator;
+                  result.append(tempPRN[3]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT4_ELEV) {
-                  result += tempElevation[3] + separator;
+                  result.append(tempElevation[3]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT4_AZ) {
-                  result += tempAzimuth[3] + separator;
+                  result.append(tempAzimuth[3]).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.SAT4_SNR) {
-                  result += "0";
+                  result.append("0");
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPGSV_COL.CHECKSUM) {
-                  result += calcNMEAChecksum(result);
+                  result.append(calcNMEAChecksum(result.toString()));
                 }
               }
-              result += "\n";
+              result.append("\n");
             }
           } else if (inputSentence.endsWith("GPHDT")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPHDT_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPHDT_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPHDT_COL.HEADER) {
-                result += "$GPHDT" + separator;
+                result.append("$GPHDT").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPHDT_COL.HEADING) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPHDT_COL.DEGREES_TRUE) {
-                result += "T";
+                result.append("T");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPHDT_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else if (inputSentence.endsWith("GPRMB")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPRMB_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPRMB_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.HEADER) {
-                result += "$GPRMB" + separator;
+                result.append("$GPRMB").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.DATA_STATUS) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.XTRACK_ERR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.DIR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.ORIGIN_ID) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.DEST_ID) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.DEST_LAT) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.LAT_DIR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.DEST_LON) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.LON_DIR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.RANGE) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.BEARING) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.VEL) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.ARR_STATUS) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.MODE_IND) {
-                result += "0";
+                result.append("0");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else if (inputSentence.endsWith("GPRMC")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPRMC_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPRMC_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.HEADER) {
-                result += "$GPRMC" + separator;
+                result.append("$GPRMC").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.UTC) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.POS_STATUS) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.LAT) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.LAT_DIR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.LON) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.LON_DIR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.SPEED_KN) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.TRACK_TRUE) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.DATE) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.MAG_VAR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.VAR_DIR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.MODE_IND) {
-                result += "0";
+                result.append("0");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else if (inputSentence.endsWith("GPVTG")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPVTG_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPVTG_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.HEADER) {
-                result += "$GPVTG" + separator;
+                result.append("$GPVTG").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.TRACK_TRUE) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.T_INDICATOR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.TRACK_GOOD_DEG_MAGNETIC) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.MAGNETIC_TRACK) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.SPEED_KN) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.NAUTICAL_SPEED_IND) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.SPEED_KMH) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.SPEED_INDICATOR) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.POS_MODE) {
-                result += "0";
+                result.append("0");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else if (inputSentence.endsWith("GPZDA")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPZDA_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPZDA_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.HEADER) {
-                result += "$GPZDA" + separator;
+                result.append("$GPZDA").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.UTC) {
-                result += simulatorData.getUTCCurrentTime() + separator;
+                result.append(simulatorData.getUTCCurrentTime()).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.DAY) {
-                result += simulatorData.getCurrentDay() + separator;
+                result.append(simulatorData.getCurrentDay()).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.MONTH) {
-                result += simulatorData.getCurrentMonth() + separator;
+                result.append(simulatorData.getCurrentMonth()).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.YEAR) {
-                result += simulatorData.getCurrentYear() + separator;
+                result.append(simulatorData.getCurrentYear()).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.NULL1) {
-                result += "" + separator;
+                result.append("").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.NULL2) {
-                result += "";
+                result.append("");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else if (inputSentence.endsWith("GPALM")) {
@@ -3625,82 +3625,81 @@ public class SimulatorNode extends TaskNode
             for (int iSat = 1; iSat <= numberInSet; iSat++) {
               for (int i = PGPS.FirmwareReferenceOEM16.GPALM_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPALM_COL.CHECKSUM; i++) {
                 if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.HEADER) {
-                  result += "$GPALM" + separator;
+                  result.append("$GPALM").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.NUMBER_MSG_LOG) {
-                  result += numberInSet + separator;
+                  result.append(numberInSet).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.NUMBER_CURRENT) {
-                  result += iSat + separator;
+                  result.append(iSat).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.PRN) {
-                  result += tempResult.get(iSat - 1).getPrn() + separator;
+                  result.append(tempResult.get(iSat - 1).getPrn()).append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.REF_WEEK_NO) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.SV_HEALTH) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.ECC) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.ALM_REF_TIME) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.INC_ANGLE) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.OMEGA_DOT) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.RT_AXIS) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.OMEGA) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.LONG_ASC_NODE) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.MO_MEAN_ANOMALY) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.AF0_CLK_PAR) {
-                  result += "0" + separator;
+                  result.append("0").append(separator);
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.AF1_CLK_PAR) {
-                  result += "0";
+                  result.append("0");
                 } else if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.CHECKSUM) {
-                  result += calcNMEAChecksum(result);
+                  result.append(calcNMEAChecksum(result.toString()));
                 }
               }
-              result += separatorNewLine;
+              result.append(separatorNewLine);
             }
           } else if (inputSentence.endsWith("GPGGA")) {
             SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGGA_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGGA_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.HEADER) {
-                result += "$GPGGA" + separator;
+                result.append("$GPGGA").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.UTC) {
-                result += simulatorData.getUTCCurrentTime() + separator;
+                result.append(simulatorData.getUTCCurrentTime()).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.LAT) {
-                result += PGPS.FirmwareReferenceOEM16.degrees2DDMMpMMMM(
-                    Math.abs(simulatorSpacecraftState.getLatitude())) + separator;
+                result.append(PGPS.FirmwareReferenceOEM16.degrees2DDMMpMMMM(
+                        Math.abs(simulatorSpacecraftState.getLatitude()))).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.LAT_DIR) {
-                result += (simulatorSpacecraftState.getLatitude() >= 0 ? "N" : "S") + separator;
+                result.append(simulatorSpacecraftState.getLatitude() >= 0 ? "N" : "S").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.LONG) {
-                result += PGPS.FirmwareReferenceOEM16.degrees2DDDMMpMMMM(
-                    Math.abs(simulatorSpacecraftState.getLongitude())) + separator;
+                result.append(PGPS.FirmwareReferenceOEM16.degrees2DDDMMpMMMM(
+                        Math.abs(simulatorSpacecraftState.getLongitude()))).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.LONG_DIR) {
-                result += (simulatorSpacecraftState.getLongitude() >= 0 ? "E" : "W") + separator;
+                result.append(simulatorSpacecraftState.getLongitude() >= 0 ? "E" : "W").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.QUAL) {
-                result += "1" + separator;
+                result.append("1").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.SATS_IN_USE) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.HDOP) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.ALTITUDE) {
-                result += String.format(Locale.ROOT, "%.2f", simulatorSpacecraftState.getAltitude())
-                    + separator;
+                result.append(String.format(Locale.ROOT, "%.2f", simulatorSpacecraftState.getAltitude())).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.ALTITUDE_UNITS) {
-                result += "M" + separator;
+                result.append("M").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.UNDULATION) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.UNDULATION_UNITS) {
-                result += "M" + separator;
+                result.append("M").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.AGE_CORR_DATA) {
-                result += "" + separator;
+                result.append("").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.DIFF_BASESID) {
-                result += "";
+                result.append("");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
             /*
@@ -3723,40 +3722,39 @@ public class SimulatorNode extends TaskNode
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.HEADER) {
-                result += "$GPGGALONG" + separator;
+                result.append("$GPGGALONG").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.UTC) {
-                result += simulatorData.getUTCCurrentTime() + separator;
+                result.append(simulatorData.getUTCCurrentTime()).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.LAT) {
-                result += PGPS.FirmwareReferenceOEM16.degrees2DDMMpMMMMMMM(
-                    Math.abs(simulatorSpacecraftState.getLatitude())) + separator;
+                result.append(PGPS.FirmwareReferenceOEM16.degrees2DDMMpMMMMMMM(
+                        Math.abs(simulatorSpacecraftState.getLatitude()))).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.LAT_DIR) {
-                result += (simulatorSpacecraftState.getLatitude() >= 0 ? "N" : "S") + separator;
+                result.append(simulatorSpacecraftState.getLatitude() >= 0 ? "N" : "S").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.LONG) {
-                result += PGPS.FirmwareReferenceOEM16.degrees2DDDMMpMMMMMMM(
-                    Math.abs(simulatorSpacecraftState.getLongitude())) + separator;
+                result.append(PGPS.FirmwareReferenceOEM16.degrees2DDDMMpMMMMMMM(
+                        Math.abs(simulatorSpacecraftState.getLongitude()))).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.LONG_DIR) {
-                result += (simulatorSpacecraftState.getLongitude() >= 0 ? "E" : "W") + separator;
+                result.append(simulatorSpacecraftState.getLongitude() >= 0 ? "E" : "W").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.QUAL) {
-                result += "1" + separator;
+                result.append("1").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.SATS_IN_USE) {
-                result += simulatorSpacecraftState.getSatsInView() + separator;
+                result.append(simulatorSpacecraftState.getSatsInView()).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.HDOP) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.ALTITUDE) {
-                result += String.format(Locale.ROOT, "%.3f", simulatorSpacecraftState.getAltitude())
-                    + separator;
+                result.append(String.format(Locale.ROOT, "%.3f", simulatorSpacecraftState.getAltitude())).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.ALTITUDE_UNITS) {
-                result += "M" + separator;
+                result.append("M").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.UNDULATION) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.UNDULATION_UNITS) {
-                result += "M" + separator;
+                result.append("M").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.AGE_CORR_DATA) {
-                result += "" + separator;
+                result.append("").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.DIFF_BASESID) {
-                result += "";
+                result.append("");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else if (inputSentence.endsWith("GPGGARTK")) {
@@ -3764,47 +3762,46 @@ public class SimulatorNode extends TaskNode
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.HEADER) {
-                result += "$GPGGARTK" + separator;
+                result.append("$GPGGARTK").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.UTC) {
-                result += simulatorData.getUTCCurrentTime() + separator;
+                result.append(simulatorData.getUTCCurrentTime()).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.LAT) {
-                result += PGPS.FirmwareReferenceOEM16.degrees2DDMMpMMMMMMM(
-                    Math.abs(simulatorSpacecraftState.getLatitude())) + separator;
+                result.append(PGPS.FirmwareReferenceOEM16.degrees2DDMMpMMMMMMM(
+                        Math.abs(simulatorSpacecraftState.getLatitude()))).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.LAT_DIR) {
-                result += (simulatorSpacecraftState.getLatitude() >= 0 ? "N" : "S") + separator;
+                result.append(simulatorSpacecraftState.getLatitude() >= 0 ? "N" : "S").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.LONG) {
-                result += PGPS.FirmwareReferenceOEM16.degrees2DDDMMpMMMMMMM(
-                    Math.abs(simulatorSpacecraftState.getLongitude())) + separator;
+                result.append(PGPS.FirmwareReferenceOEM16.degrees2DDDMMpMMMMMMM(
+                        Math.abs(simulatorSpacecraftState.getLongitude()))).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.LONG_DIR) {
-                result += (simulatorSpacecraftState.getLongitude() >= 0 ? "E" : "W") + separator;
+                result.append(simulatorSpacecraftState.getLongitude() >= 0 ? "E" : "W").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.QUAL) {
-                result += "1" + separator;
+                result.append("1").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.SATS_IN_USE) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.HDOP) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.ALTITUDE) {
-                result += String.format(Locale.ROOT, "%.3f", simulatorSpacecraftState.getAltitude())
-                    + separator;
+                result.append(String.format(Locale.ROOT, "%.3f", simulatorSpacecraftState.getAltitude())).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.ALTITUDE_UNITS) {
-                result += "M" + separator;
+                result.append("M").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.NULL1) {
-                result += "0" + separator;
+                result.append("0").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.NULL2) {
-                result += "M" + separator;
+                result.append("M").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.AGE_DIFF_DATA) {
-                result += "" + separator;
+                result.append("").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.DIFF_BASESID) {
-                result += "";
+                result.append("");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.CHECKSUM) {
-                result += calcNMEAChecksum(result);
+                result.append(calcNMEAChecksum(result.toString()));
               }
             }
           } else {
-            result = "Sentence identifier [" + inputSentence + "] unknown";
+            result = new StringBuilder("Sentence identifier [" + inputSentence + "] unknown");
             commandResult.setCommandFailed(true);
           }
-          globalResult = result;
+          globalResult = result.toString();
           break;
         }
         case 2002: {// Origin [IGPS] Method [String getLastKnownPosition();//2002//Obtain the last
@@ -3816,9 +3813,9 @@ public class SimulatorNode extends TaskNode
         case 2003: {// Origin [IGPS] Method [String getBestXYZSentence();//2003//Obtain current
           // position in xyz coordinates]
           SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
-          Double lat = Math.toRadians(simulatorSpacecraftState.getLatitude());
-          Double lon = Math.toRadians(simulatorSpacecraftState.getLongitude());
-          Double alt = simulatorSpacecraftState.getAltitude() / 1000.0;
+          double lat = Math.toRadians(simulatorSpacecraftState.getLatitude());
+          double lon = Math.toRadians(simulatorSpacecraftState.getLongitude());
+          double alt = simulatorSpacecraftState.getAltitude() / 1000.0;
           double e = Math.sqrt(1.0 - (EARTH_RADIUS_POLAR * EARTH_RADIUS_POLAR)
               / (EARTH_RADIUS_EQUATOR * EARTH_RADIUS_EQUATOR));
           double e_sqr = e * e;

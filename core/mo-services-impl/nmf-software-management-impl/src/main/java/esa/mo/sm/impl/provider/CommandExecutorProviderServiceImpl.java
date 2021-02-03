@@ -142,7 +142,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
       ret.add("-c");
       ret.add(command);
     }
-    return ret.toArray(new String[ret.size()]);
+    return ret.toArray(new String[0]);
   }
 
   public static synchronized long getProcessPid(Process p)

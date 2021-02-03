@@ -458,7 +458,7 @@ public class GuiMainWindow implements Runnable {
         String test1 = JOptionPane.showInputDialog("Input description for new template: ");
         Object c = comboCommands.getSelectedItem();
         if (test1 != null && c instanceof CommandDescriptor) {
-          if (test1.length() == 0) {
+          if (test1.isEmpty()) {
             JOptionPane.showMessageDialog(frame, "The description cannot be empty");
           } else if (!test1.matches("^[a-zA-Z0-9]*$")) {
             JOptionPane.showMessageDialog(frame, "Template name must be alphanumeric.");
@@ -506,9 +506,7 @@ public class GuiMainWindow implements Runnable {
         if (resultConfirm == JOptionPane.YES_OPTION) {
           showMessageConsole("User;Local;UpdateServer;");
           LinkedList<CommandDescriptor> newCommandsList = new LinkedList<CommandDescriptor>();
-          for (int i = 0; i < commandsList.size(); i++) {
-            newCommandsList.add(commandsList.get(i));
-          }
+          newCommandsList.addAll(commandsList);
           parent.addGUIInteraction(newCommandsList);
         } else {
           ;
@@ -941,14 +939,13 @@ public class GuiMainWindow implements Runnable {
       @Override
       public void run() {
         txtScheduler.setText("");
-        String schedulerDataStr = "";
+        StringBuilder schedulerDataStr = new StringBuilder();
         for (SimulatorSchedulerPiece piece : data) {
           CommandDescriptor c = getCommandDescriptorForID(piece.getInternalID());
           ArgumentTemplate t = getArgTemplateForString(c, piece.getArgumentTemplateDescription());
-          schedulerDataStr = schedulerDataStr + piece.getSchedulerOutput() + c.getMethodBody()
-              + CommandDescriptor.SEPARATOR_DATAFILES + t.getArgContent() + "\n";
+          schedulerDataStr.append(piece.getSchedulerOutput()).append(c.getMethodBody()).append(CommandDescriptor.SEPARATOR_DATAFILES).append(t.getArgContent()).append("\n");
         }
-        txtScheduler.setText(schedulerDataStr);
+        txtScheduler.setText(schedulerDataStr.toString());
       }
     });
   }
@@ -988,12 +985,12 @@ public class GuiMainWindow implements Runnable {
       public void run() {
         for (SimulatorDeviceData simulatorDeviceData : linkedSimulatorDeviceData) {
           if (hashTableDataOutAgregate.get(simulatorDeviceData.getName()).isUpdateValues()) {
-            String composite = "";
+            StringBuilder composite = new StringBuilder();
             for (ArgumentDescriptor simulatorDeviceDataPiece : simulatorDeviceData.getDataList()) {
-              composite = composite + simulatorDeviceDataPiece.toString() + "\n\n";
+              composite.append(simulatorDeviceDataPiece.toString()).append("\n\n");
             }
             hashTableDataOutAgregate.get(simulatorDeviceData.getName()).getTextArea()
-                .setText(composite);
+                .setText(composite.toString());
           }
         }
       }

@@ -61,9 +61,7 @@ class CheckLinksManager extends MCManager {
 //    }
     public LongList listAllCheckLinkIds() {
         LongList checkLinkIdList = new LongList();
-        for (Long key : checkLinkIds.keySet()) {
-            checkLinkIdList.add(key);
-        }
+        checkLinkIdList.addAll(checkLinkIds.keySet());
         return checkLinkIdList;
     }
 

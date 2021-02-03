@@ -1131,9 +1131,9 @@ public class OrekitCore
 
   public LinkedList<GPSSatInView> getSatsInViewAsList()
   {
-    LinkedList<GPSSatInView> result = new LinkedList<GPSSatInView>();
+    LinkedList<GPSSatInView> result;
     synchronized (gpsSatsInView) {
-      result.addAll(gpsSatsInView);
+      result = new LinkedList<GPSSatInView>(gpsSatsInView);
     }
     return result;
   }
@@ -1153,9 +1153,9 @@ public class OrekitCore
 
   public GPSSatInViewScience getSatsInViewScience()
   {
-    LinkedList<GPSSatInView> result = new LinkedList<GPSSatInView>();
+    LinkedList<GPSSatInView> result;
     synchronized (gpsSatsInView) {
-      result.addAll(gpsSatsInView);
+      result = new LinkedList<GPSSatInView>(gpsSatsInView);
     }
     double minDistance = 0;
     double maxDistance = 0;

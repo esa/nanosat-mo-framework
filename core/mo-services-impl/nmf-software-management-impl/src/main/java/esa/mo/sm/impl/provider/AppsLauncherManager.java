@@ -230,7 +230,7 @@ public class AppsLauncherManager extends DefinitionsManager
   protected boolean update(final Long objId, final AppDetails definition,
       final MALInteraction interaction)
   { // requirement: 3.3.2.5
-    Boolean success = this.updateDef(objId, definition);
+    boolean success = this.updateDef(objId, definition);
 
     if (super.getArchiveService() != null) {  // It should also update on the COM Archive
       try {
@@ -415,7 +415,7 @@ public class AppsLauncherManager extends DefinitionsManager
 
       ret.add("cd " + workDir + ";" + envString.toString() + "./" + prefix + trimmedAppName + ".sh");
     }
-    return ret.toArray(new String[ret.size()]);
+    return ret.toArray(new String[0]);
   }
   protected String[] assembleAppStopCommand(final String workDir, final String appName, final String runAs, final String[] env)
   {

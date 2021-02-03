@@ -450,14 +450,14 @@ public class TransactionsProcessor {
       return field + "=" + list.get(0) + " AND ";
     }
 
-    String stringForWildcards = "(";
+    StringBuilder stringForWildcards = new StringBuilder("(");
 
     for (Integer id : list) {
-      stringForWildcards += field + "=" + id + " OR ";
+      stringForWildcards.append(field).append("=").append(id).append(" OR ");
     }
 
     // Remove the " OR " par of it!
-    stringForWildcards = stringForWildcards.substring(0, stringForWildcards.length() - 4);
+    stringForWildcards = new StringBuilder(stringForWildcards.substring(0, stringForWildcards.length() - 4));
 
     return stringForWildcards + ") AND ";
   }
