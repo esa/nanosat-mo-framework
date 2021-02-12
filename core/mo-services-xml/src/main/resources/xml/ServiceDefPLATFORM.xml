@@ -1703,6 +1703,12 @@
             <mal:type area="Platform" list="false"
                       name="VectorF3D"/>
           </mal:field>
+          <mal:field canBeNull="false"
+                     comment="True when achieved desired pointing mode, false otherwise."
+                     name="stateTarget">
+          <mal:type area="MAL" list="false"
+                      name="Boolean"/>
+          </mal:field>
         </mal:composite>
         <mal:enumeration
           comment="State of the magnetorquers."

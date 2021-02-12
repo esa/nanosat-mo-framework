@@ -170,6 +170,10 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
             public final static int RW_SPEED_Y                       = 15*4;
             public final static int RW_SPEED_Z                       = 16*4;
         }
+        public static class POINTING_LOOP_IDX{
+            //Byte offset
+            public final static int POINTING_LOOP_STATE              = 0*4;
+        }
         
         public static byte [] long2ByteArray (long value)
         {
@@ -196,6 +200,14 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
              return ByteBuffer.allocate(DOUBLE_BYTES).putDouble(value).array();
         }
         
+        public static void putByteInByteArray(byte value, int byteOffset, byte[] target)
+        {
+            target[byteOffset]=value;
+        }
+        public static byte getByteFromByteArray(byte[] source, int byteOffset)
+        {
+            return source[byteOffset];
+        }
         public static void putFloatInByteArray(float value, int byteOffset, byte[] target)
         {
             byte [] tempByte=float2ByteArray(value);

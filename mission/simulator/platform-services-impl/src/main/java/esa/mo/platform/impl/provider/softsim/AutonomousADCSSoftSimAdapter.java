@@ -20,9 +20,11 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
+import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface;
 import esa.mo.platform.impl.util.HelperIADCS100;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;
@@ -136,6 +138,13 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
     ret.setAttitude(HelperIADCS100.getAttitudeFromSensorTM(tmBuffer));
     ret.setMagneticField(HelperIADCS100.getMagneticFieldFromSensorTM(tmBuffer));
     ret.setSunVector(new VectorF3D((float) 1, (float) 0, (float) 0)); // TODO provide real data
+    byte[] tmBufferPointingLoop = instrumentsSimulator.getpFineADCS().GetAttitudeTelemetry();
+    if(HelperIADCS100.getPointingLoopStateTarget(tmBufferPointingLoop) == 1)
+    {
+      ret.setStateTarget(true);
+    } else {
+      ret.setStateTarget(false);
+    }
     return ret;
   }
 
