@@ -38,6 +38,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Timer;
+import java.util.TimerTask;
 import opssat.simulator.threading.SimulatorNode;
 import opssat.simulator.util.SimulatorHeader;
 import org.hipparchus.geometry.euclidean.threed.Rotation;
@@ -801,7 +803,9 @@ public class OrekitCore
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     //attitudesSequence.resetActiveProvider(spinStabilized);
-
+    this.changeAttitudeTimer.cancel();
+    this.stateTarget = 0;
+    this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
   }
 
   public void changeAttitudeTarget(double latitude, double longitude, double altitude)
@@ -818,7 +822,9 @@ public class OrekitCore
     }
     //attitudesSequence.resetActiveProvider(targetTracking);
     this.attitudeMode = ATTITUDE_MODE.TARGET_TRACKING;
-
+    this.changeAttitudeTimer.cancel();
+    this.stateTarget = 0;
+    this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
   }
 
   public void changeAttitudeVectorTarget(float x, float y, float z, float margin)
@@ -829,6 +835,9 @@ public class OrekitCore
 
     this.vectorPointing.start(x, y, z, margin);
     this.attitudeMode = ATTITUDE_MODE.VECTOR_POINTING;
+    this.changeAttitudeTimer.cancel();
+    this.stateTarget = 0;
+    this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
   }
 
   public void changeAttitude(ATTITUDE_MODE newAttitude)
@@ -849,7 +858,9 @@ public class OrekitCore
       logger.log(Level.SEVERE, "Attitude type lookup failed!");
     }
     this.attitudeMode = newAttitude;
-
+    this.changeAttitudeTimer.cancel();
+    this.stateTarget = 0;
+    this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
   }
 
   private void appendIfExists(final StringBuffer path, final String directory)
@@ -1492,5 +1503,22 @@ public class OrekitCore
       return t;
     }
   }
-
+  
+  private byte stateTarget = 0;
+  private long delayPeriod = 2*60*1000; // 2 minutes delay expressed in milliseconds.
+  
+  TimerTask changeAttitudeTask = new java.util.TimerTask()
+  {
+    @Override
+    public void run() {
+        stateTarget = 1;
+    };
+  };
+  
+  public byte getStateTarget()
+  {
+    return stateTarget;
+  };
+  
+  private final java.util.Timer changeAttitudeTimer = new java.util.Timer();
 }
