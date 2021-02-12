@@ -298,17 +298,6 @@
             <mal:type area="MAL" list="false" name="Integer"/>
           </mal:field>
         </mal:composite>
-        <mal:composite comment="The StringPair structure used to pass environment variables." name="StringPair" shortFormPart="2">
-          <mal:extends>
-            <mal:type area="MAL" list="false" name="Composite"/>
-          </mal:extends>
-          <mal:field canBeNull="false" comment="The first field (typically a key)." name="first">
-            <mal:type area="MAL" list="false" name="String"/>
-          </mal:field>
-          <mal:field canBeNull="false" comment="The second field (typically a value)." name="second">
-            <mal:type area="MAL" list="false" name="String"/>
-          </mal:field>
-        </mal:composite>
       </mal:dataTypes>
       <com:features>
         <com:objects comment="A Command COM object represents an instance of direct command execution requested from the provider. The COM object body shall hold the details of the command.&#10;&lt;ol&gt;&#10;&lt;/ol&gt;">
