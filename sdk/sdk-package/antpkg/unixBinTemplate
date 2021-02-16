@@ -10,7 +10,7 @@ if [ -z "$NMF_HOME" ] ; then
 fi
 
 if [ -z "$JAVA_OPTS" ] ; then
-    JAVA_OPTS="-Xms32m -Xmx512m"
+    JAVA_OPTS="-Xms32m -Xmx256m"
 fi
 
 LOCAL_LIB_PATH=`readlink -f lib`
