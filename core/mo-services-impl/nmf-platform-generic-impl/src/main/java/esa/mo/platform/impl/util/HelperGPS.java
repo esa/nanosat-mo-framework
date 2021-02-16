@@ -144,18 +144,18 @@ public class HelperGPS
     /*
     * Time needs to be calculated, because GGA message only contains
     * Hours, minutes and seconds but not day and year
-    * Format: hhmmss.sss
+    * Format: hhmmss.ss
     * with:
     * hh = hour of day (24h format)
     * mm = minute of hour
-    * ss.sss = second in Minute (with fractional second)
+    * ss.ss = second in Minute (with fractional second)
      */
     String time = items[GPGGA_GEN_COL.UTC];
     int hours = Integer.valueOf(time.substring(0, 2));
     int minutes = Integer.valueOf(time.substring(2, 4));
     int seconds = Integer.valueOf(time.substring(4, 6));
     // The GGALONG sentence also contains the fractions of second witch is not contained in the GGA sentence
-    int miliSeconds = (int) (Double.valueOf(time.substring(6, 10)) * 1000); // convert fractional seconds to milliseconds
+    int miliSeconds = (int) (Double.valueOf(time.substring(6, 9)) * 1000); // convert fractional seconds to milliseconds
 
     // Get current time
     Calendar cal = (Calendar) Calendar.getInstance().clone();

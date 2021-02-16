@@ -44,7 +44,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
       if (!nmeaLog.startsWith("$GPGGA")) {
         LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
       } else {
-        return HelperGPS.gpggalong2Position(nmeaLog); // TODO fixme GPGGA parsing
+        return HelperGPS.gpggalong2Position(nmeaLog);
       }
     } catch (NumberFormatException ex1) {
       LOGGER.log(Level.SEVERE,
