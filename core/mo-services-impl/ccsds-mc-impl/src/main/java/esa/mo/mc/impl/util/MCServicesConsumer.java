@@ -215,4 +215,30 @@ public class MCServicesConsumer {
             this.aggregationService.closeConnection();
         }
     }
+
+    public void setAuthenticationId(Blob authenticationId) {
+        if (this.actionService != null) {
+            this.actionService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.parameterService != null) {
+            this.parameterService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.alertService != null) {
+            this.alertService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.checkService != null) {
+            this.checkService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.statisticService != null) {
+            this.statisticService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.aggregationService != null) {
+            this.aggregationService.setAuthenticationId(authenticationId);
+        }
+    }
 }

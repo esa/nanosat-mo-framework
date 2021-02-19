@@ -151,4 +151,18 @@ public class COMServicesConsumer {
         }
     }
 
+    public void setAuthenticationId(Blob authenticationId) {
+        if (this.eventService != null) {
+            this.eventService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.archiveService != null) {
+            this.archiveService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.archiveSyncService != null) {
+            this.archiveSyncService.setAuthenticationId(authenticationId);
+        }
+    }
+
 }
