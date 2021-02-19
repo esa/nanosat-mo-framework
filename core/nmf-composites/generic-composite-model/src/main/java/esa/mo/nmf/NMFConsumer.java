@@ -325,4 +325,13 @@ public class NMFConsumer {
         }
     }
 
+    public void setAuthenticationId(Blob authenticationId) {
+        this.comServices.setAuthenticationId(authenticationId);
+        this.connection.setAuthenticationId(authenticationId);
+        this.mcServices.setAuthenticationId(authenticationId);
+        this.platformServices.setAuthenticationId(authenticationId);
+        this.commonServices.setAuthenticationId(authenticationId);
+        this.smServices.setAuthenticationId(authenticationId);
+    }
+
 }

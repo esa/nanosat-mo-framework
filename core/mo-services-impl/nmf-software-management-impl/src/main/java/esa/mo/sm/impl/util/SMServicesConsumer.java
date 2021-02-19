@@ -168,4 +168,22 @@ public class SMServicesConsumer
     }
   }
 
+  public void setAuthenticationId(Blob authenticationId) {
+    if (this.packageManagementService != null) {
+      this.packageManagementService.setAuthenticationId(authenticationId);
+    }
+
+    if (this.appsLauncherService != null) {
+      this.appsLauncherService.setAuthenticationId(authenticationId);
+    }
+
+    if (this.commandExecutorService != null) {
+      this.commandExecutorService.setAuthenticationId(authenticationId);
+    }
+
+    if (this.heartbeatService != null) {
+      this.heartbeatService.setAuthenticationId(authenticationId);
+    }
+  }
+
 }

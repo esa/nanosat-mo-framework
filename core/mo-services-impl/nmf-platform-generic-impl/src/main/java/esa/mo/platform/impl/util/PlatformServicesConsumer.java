@@ -246,4 +246,30 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     }
   }
 
+  public void setAuthenticationId(Blob authenticationId) {
+    if (this.autonomousADCSService != null) {
+      this.autonomousADCSService.setAuthenticationId(authenticationId);
+    }
+
+    if (this.cameraService != null) {
+      this.cameraService.setAuthenticationId(authenticationId);
+    }
+
+    if (this.gpsService != null) {
+      this.gpsService.setAuthenticationId(authenticationId);
+    }
+
+    if (this.odrService != null) {
+      this.odrService.setAuthenticationId(authenticationId);
+    }
+
+    if (this.sdrService != null) {
+      this.sdrService.setAuthenticationId(authenticationId);
+    }
+
+    if (this.powerControlService != null) {
+      this.powerControlService.setAuthenticationId(authenticationId);
+    }
+  }
+
 }

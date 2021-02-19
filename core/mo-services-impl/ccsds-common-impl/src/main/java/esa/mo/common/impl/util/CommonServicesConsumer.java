@@ -134,4 +134,17 @@ public class CommonServicesConsumer {
         }
     }
 
+    public void setAuthenticationId(Blob authenticationId) {
+        if (this.directoryService != null) {
+            this.directoryService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.configurationService != null) {
+            this.configurationService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.loginService != null) {
+            this.loginService.setAuthenticationId(authenticationId);
+        }
+    }
 }
