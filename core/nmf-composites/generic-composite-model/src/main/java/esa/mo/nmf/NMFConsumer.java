@@ -235,6 +235,41 @@ public class NMFConsumer {
      * Retrieves the complete list of Providers available on the Directory
      * service.
      *
+     * @param directoryURI The Directory service URI
+     * @param authenticationId
+     * @param localNamePrefix
+     * @return The list of providers
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
+     */
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI, final Blob authenticationId, final String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
+        return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, authenticationId, localNamePrefix);
+    }
+
+    /**
+     * Retrieves the complete list of Providers available on the Directory
+     * service.
+     *
+     * @param directoryURI The Directory service URI
+     * @param localNamePrefix
+     * @return The list of providers
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
+     */
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI, final String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
+        return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, null, localNamePrefix);
+    }
+
+    /**
+     * Retrieves the complete list of Providers available on the Directory
+     * service.
+     *
      * @param isS2G If true, then the method will only request for SPP
      * connections.
      * @param directoryURI The Directory service URI
@@ -246,6 +281,26 @@ public class NMFConsumer {
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
             final URI directoryURI) throws MALException, MalformedURLException, MALInteractionException {
+        return NMFConsumer.retrieveProvidersFromDirectory(isS2G, directoryURI, null, null);
+    }
+
+    /**
+     * Retrieves the complete list of Providers available on the Directory
+     * service.
+     *
+     * @param isS2G If true, then the method will only request for SPP
+     * connections.
+     * @param directoryURI The Directory service URI
+     * @param authenticationId
+     * @param localNamePrefix
+     * @return The list of providers
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
+     */
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
+                                                                           final URI directoryURI, final Blob authenticationId, final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         // Starting the directory service consumer from static method.
         // The whole Common area should be registered to avoid errors during the initHelpers
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
@@ -258,13 +313,13 @@ public class NMFConsumer {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING,
-                    "The file " + HelperMisc.CONSUMER_PROPERTIES_FILE
-                    + " could not be found! This error can happen if the user "
-                    + "is trying to run the application from a different "
-                    + "folder other than the one where the file is.", ex);
+                                                              "The file " + HelperMisc.CONSUMER_PROPERTIES_FILE
+                                                              + " could not be found! This error can happen if the user "
+                                                              + "is trying to run the application from a different "
+                                                              + "folder other than the one where the file is.", ex);
         }
 
-        DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI);
+        DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI, authenticationId, localNamePrefix);
 
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
