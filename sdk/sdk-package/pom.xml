@@ -116,6 +116,12 @@
       <artifactId>camera-acquisitor-system</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>picture-processor</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <!-- Needed as the transitive dependency is not resolved properly -->
     <dependency>
       <groupId>int.esa.nmf.core.moservices.impl</groupId>
@@ -123,7 +129,7 @@
       <version>${project.version}</version>
     </dependency>
   </dependencies>
-  <build> 
+  <build>
     <plugins>
       <!-- disable JAR assembly -->
       <plugin>
@@ -329,6 +335,11 @@
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/camera-acquisitor-system">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/picture-processor">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                  <fileset dir="${basedir}/../examples/space/picture-processor/src/main/resources/scripts/imageEditor"/>
                 </copy>
               </target>
             </configuration>
