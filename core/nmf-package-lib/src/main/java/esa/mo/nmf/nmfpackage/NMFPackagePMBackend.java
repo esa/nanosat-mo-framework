@@ -34,23 +34,34 @@ import org.ccsds.moims.mo.mal.structures.StringList;
  */
 public class NMFPackagePMBackend implements PMBackend {
 
+    @Deprecated
     private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.nmf.package.FolderLocation";
+    
     private static final String PACKAGES_FOLDER = "packages";  // dir name
     private File folderWithPackages = new File(PACKAGES_FOLDER);  // Location of the folder
 
+    /**
+     * Initializes a backend for NMF Packages. The backend will look for 
+     * packages in the folder passed as argument.
+     *
+     * @param folder The folder to look for packages
+     */
     public NMFPackagePMBackend(String folder) {
-        if(folder != null){
-            folderWithPackages = new File(folder);
-        }else{
-            // If there is a property for that, then use it!! 
-            if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
-                folderWithPackages = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
-            }
-        }
+        folderWithPackages = new File(folder);
     }
 
+    /**
+     *
+     * @deprecated The folder with the packages must be passed as argument 
+     * instead of having the internal hidden properties for it!
+     * Please use: NMFPackagePMBackend(String folder)
+     */
+    @Deprecated
     public NMFPackagePMBackend() {
-        this(null);
+        // If there is a property for that, then use it!! 
+        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
+            folderWithPackages = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
+        }
     }
     
     @Override
