@@ -38,13 +38,21 @@ public class NMFPackagePMBackend implements PMBackend {
     private static final String PACKAGES_FOLDER = "packages";  // dir name
     private File folderWithPackages = new File(PACKAGES_FOLDER);  // Location of the folder
 
-    public NMFPackagePMBackend() {
-        // If there is a property for that, then use it!! 
-        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
-            folderWithPackages = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
+    public NMFPackagePMBackend(String folder) {
+        if(folder != null){
+            folderWithPackages = new File(folder);
+        }else{
+            // If there is a property for that, then use it!! 
+            if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
+                folderWithPackages = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
+            }
         }
     }
 
+    public NMFPackagePMBackend() {
+        this(null);
+    }
+    
     @Override
     public StringList getListOfPackages() throws IOException {
         // Go to the folder that contains the Packages and return the list of files!
