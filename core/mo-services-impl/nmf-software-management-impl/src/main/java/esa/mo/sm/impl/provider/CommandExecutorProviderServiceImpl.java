@@ -145,9 +145,9 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     return ret.toArray(new String[ret.size()]);
   }
 
-  public static synchronized long getProcessPid(Process p)
+  public static synchronized long getProcessPid(Process p) throws IOException
   {
-    long pid = -1;
+    long pid;
 
     try {
       if (p.getClass().getName().equals("java.lang.UNIXProcess")) {
@@ -156,12 +156,11 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         pid = f.getLong(p);
         f.setAccessible(false);
       } else {
-        LOGGER.log(Level.WARNING, "Trying to resolve PID on an unsupported platform");
+        throw new IOException("Trying to resolve PID on an unsupported platform");
       }
     } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
         | SecurityException ex) {
-      LOGGER.log(Level.SEVERE, "Exception when trying to resolve PID", ex);
-      pid = -1;
+      throw new IOException("Exception when trying to resolve PID", ex);
     }
     return pid;
   }
@@ -217,10 +216,15 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
       LOGGER.log(Level.SEVERE, null, ex);
       throw new MALException("Cannot start the process!", ex);
     }
-    long pid = getProcessPid(proc);
-    command.setPid(new UInteger(pid));
-    updateCommandDetails(storedCommandObject, command);
-    return storedCommandObject;
+
+    try {
+          long pid = getProcessPid(proc);
+          command.setPid(new UInteger(pid));
+          updateCommandDetails(storedCommandObject, command);
+          return storedCommandObject;
+      } catch (IOException ex) {
+          throw new MALException("The process PID could not be determined!", ex);
+      }
   }
 
   private void commandOutputEvent(final Long objId, final String outputText,

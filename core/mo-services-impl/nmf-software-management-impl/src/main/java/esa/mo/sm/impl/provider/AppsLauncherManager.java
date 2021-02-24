@@ -280,8 +280,8 @@ public class AppsLauncherManager extends DefinitionsManager
     File[] fList = appsFolderPath.listFiles();
 
     if (fList == null) {
-      LOGGER.log(Level.SEVERE,
-          "The directory could not be found: {0}", appsFolderPath.toString());
+      LOGGER.log(Level.SEVERE, "The directory could not be found: {0} (full path: {1})", 
+              new Object[]{appsFolderPath.toString(), appsFolderPath.getAbsolutePath()});
 
       return false;
     }
