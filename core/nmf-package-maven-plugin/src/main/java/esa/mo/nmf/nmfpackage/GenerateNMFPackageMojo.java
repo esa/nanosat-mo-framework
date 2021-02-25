@@ -45,15 +45,27 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     /**
      * The version of the NMF Package
      */
-    @Parameter(property = "generate-nmf-package.version", defaultValue = "1.0")
+    @Parameter(property = "generate-nmf-package.version", defaultValue = "${project.version}")
     private String version;
 
     /**
      * The App name of the NMF Package
      */
-    @Parameter(property = "generate-nmf-package.name", defaultValue = "package")
+    @Parameter(property = "generate-nmf-package.name", defaultValue = "${project.artifactId}")
     private String name;
 
+    /**
+     * Defines if this App needs root permissions to execute
+     */
+    @Parameter(property = "generate-nmf-package.needsRoot", defaultValue = "false")
+    private boolean needsRoot;
+    
+    /**
+     * The set of libraries to be added to the .nmfpack
+     */
+    @Parameter(property = "generate-nmf-package.libs")
+    private String[] libs;
+    
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
@@ -80,6 +92,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         final String timestamp = HelperTime.time2readableString(time);
 
         getLog().info("\n------------- NMF Package Generation -------------\n");
+        getLog().info("needsRoot = " + needsRoot);
 
         // Package 1
         NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp);

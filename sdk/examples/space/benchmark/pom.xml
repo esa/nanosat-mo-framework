@@ -106,8 +106,7 @@
                     <goal>generate-nmf-package</goal>
                   </goals>
                   <configuration>
-                    <name>${project.artifactId}</name>
-                    <version>${project.version}</version>
+                    <needsRoot>false</needsRoot>
                   </configuration>
                 </execution>
               </executions>
