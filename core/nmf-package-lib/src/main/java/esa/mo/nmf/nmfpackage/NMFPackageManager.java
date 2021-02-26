@@ -41,11 +41,17 @@ import java.util.zip.ZipFile;
  */
 public class NMFPackageManager {
 
+    @Deprecated
     private static final String INSTALLATION_FOLDER_PROPERTY = "esa.mo.nmf.nmfpackage.installationFolder";
+
     private static final String INSTALLED_RECEIPTS_FOLDER_PROPERTY = "esa.mo.nmf.nmfpackage.receipts";
+
     private static final String RECEIPT_ENDING = ".receipt";
 
-    public static void install(final String packageLocation) throws FileNotFoundException, IOException {
+    private static final String DEFAULT_FOLDER_RECEIPT = "installation_receipts";
+
+    public static void install(final String packageLocation, 
+            final File installationFolder) throws FileNotFoundException, IOException {
         // Get the File to be installed
         ZipFile zipFile = new ZipFile(packageLocation);
         ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
@@ -87,7 +93,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the files to the new locations...");
 
-        installFiles(descriptor, zipFile);
+        installFiles(descriptor, zipFile, installationFolder);
 
         // ---------------------------------------
         // Store a copy of the receipt to know that it has been installed!
@@ -156,7 +162,7 @@ public class NMFPackageManager {
                 "Package successfully uninstalled from location: " + packageLocation);
     }
 
-    public static void upgrade(final String packageLocation) throws IOException {
+    public static void upgrade(final String packageLocation, final File installationFolder) throws IOException {
         // Get the Package to be uninstalled
         ZipFile zipFile = new ZipFile(packageLocation);
         ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
@@ -201,7 +207,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the new files to the locations...");
 
-        installFiles(descriptor, zipFile);
+        installFiles(descriptor, zipFile, installationFolder);
 
         // ---------------------------------------
         // Store a copy of the receipt to know that it has been installed!
@@ -325,7 +331,7 @@ public class NMFPackageManager {
 
     private static File getReceiptsFolder() {
         // Default location of the folder
-        File folder = new File("receipts");
+        File folder = new File(DEFAULT_FOLDER_RECEIPT);
 
         // Read the Property of the folder to install the packages
         if (System.getProperty(INSTALLED_RECEIPTS_FOLDER_PROPERTY) != null) {
@@ -335,6 +341,7 @@ public class NMFPackageManager {
         return folder;
     }
 
+    @Deprecated
     private static File getInstallationFolder() {
         // Default location of the folder
         File folder = new File(".." + File.separator + ".." + File.separator);
@@ -354,10 +361,7 @@ public class NMFPackageManager {
     }
 
     private static void installFiles(final NMFPackageDescriptor descriptor,
-            final ZipFile zipFile) throws IOException {
-        // Default location of the folder
-        File installationFolder = getInstallationFolder();
-
+            final ZipFile zipFile, File installationFolder) throws IOException {
         File newFile;
         byte[] buffer = new byte[1024];
 
@@ -370,8 +374,7 @@ public class NMFPackageManager {
             newFile = new File(installationFolder.getCanonicalPath() + File.separator + path);
             new File(newFile.getParent()).mkdirs();
 
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                    "Copying the file to location: " + newFile.getCanonicalPath());
+            System.out.println(" >> Installing file: " + newFile.getCanonicalPath());
 
             final FileOutputStream fos = new FileOutputStream(newFile);
 

@@ -36,12 +36,12 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Deprecated
     private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.nmf.package.FolderLocation";
-    
+
     private static final String PACKAGES_FOLDER = "packages";  // dir name
     private File folderWithPackages = new File(PACKAGES_FOLDER);  // Location of the folder
 
     /**
-     * Initializes a backend for NMF Packages. The backend will look for 
+     * Initializes a backend for NMF Packages. The backend will look for
      * packages in the folder passed as argument.
      *
      * @param folder The folder to look for packages
@@ -52,9 +52,9 @@ public class NMFPackagePMBackend implements PMBackend {
 
     /**
      *
-     * @deprecated The folder with the packages must be passed as argument 
-     * instead of having the internal hidden properties for it!
-     * Please use: NMFPackagePMBackend(String folder)
+     * @deprecated The folder with the packages must be passed as argument
+     * instead of having the internal hidden properties for it! Please use:
+     * NMFPackagePMBackend(String folder)
      */
     @Deprecated
     public NMFPackagePMBackend() {
@@ -63,7 +63,7 @@ public class NMFPackagePMBackend implements PMBackend {
             folderWithPackages = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
         }
     }
-    
+
     @Override
     public StringList getListOfPackages() throws IOException {
         // Go to the folder that contains the Packages and return the list of files!
@@ -97,12 +97,17 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Override
     public void install(final String packageName) {
-        String folderLocation = this.getFolderLocation(packageName);
-        Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-                "Installing the package from: {0}", folderLocation);
+        String packageLocation = this.getFolderLocation(packageName);
+        String destination = getFolderDestination();
 
+        Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
+                "Installing the package...\nPackage name: " + packageName
+                + "\nPackage location:\n" + packageLocation
+                + "\nDestination: " + destination);
+
+        // Define the location to be installed!
         try {
-            NMFPackageManager.install(folderLocation);
+            NMFPackageManager.install(packageLocation, new File(destination));
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -126,20 +131,23 @@ public class NMFPackagePMBackend implements PMBackend {
         String folderLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Upgrading the package from: {0}", folderLocation);
-        
+
+        // Define the location to be installed!
+        String destination = getFolderDestination();
+
         try {
-            NMFPackageManager.upgrade(folderLocation);
+            NMFPackageManager.upgrade(folderLocation, new File(destination));
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
-    public String getPublicKey(final String packageName){
+    public String getPublicKey(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
         return NMFPackageManager.getPublicKey(folderLocation);
     }
-    
+
     @Override
     public boolean isPackageInstalled(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
@@ -155,6 +163,10 @@ public class NMFPackagePMBackend implements PMBackend {
 
     private String getFolderLocation(final String packageName) {
         return folderWithPackages.getAbsolutePath() + File.separator + packageName;
+    }
+
+    private String getFolderDestination() {
+        return "";
     }
 
 }

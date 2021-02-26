@@ -21,6 +21,7 @@
 package esa.mo.nmf.nmfpackage.tests;
 
 import esa.mo.nmf.nmfpackage.NMFPackageManager;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,12 +42,14 @@ public class SimpleDemoPackageInstallation {
     }
 
     public static void installPackage() {
-        String filename = "C:\\Users\\Cesar Coelho\\Dropbox\\PhD\\NetBeansProjects\\AGSA-LAB\\NMF\\NMF_CORE\\NMF_PACKAGE\\TestPackage-1.0.nmfpack";
-
+        String packagePath = "TBD";
+        String destinationFolder = "TBD";
+        
         try {
-            NMFPackageManager.install(filename);
+            NMFPackageManager.install(packagePath, new File(destinationFolder));
         } catch (IOException ex) {
-            Logger.getLogger(SimpleDemoPackageInstallation.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SimpleDemoPackageInstallation.class.getName()).log(
+                    Level.SEVERE, "The package could not be installed!", ex);
         }
     }
 }
