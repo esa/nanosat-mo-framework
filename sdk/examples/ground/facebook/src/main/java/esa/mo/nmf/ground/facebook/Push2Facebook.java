@@ -45,7 +45,7 @@ public class Push2Facebook
 
   private static final Logger LOGGER = Logger.getLogger(Push2Facebook.class.getName());
   private static final String TOKEN_FILENAME = "token.properties";
-  private GroundMOAdapterImpl gma;
+  private final GroundMOAdapterImpl gma;
   private final String ACCESS_TOKEN;
 
   public Push2Facebook()

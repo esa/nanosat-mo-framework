@@ -50,9 +50,9 @@ public class PushClock {
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private final TaskScheduler timer = new TaskScheduler(1);
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
-    private int hours = 0;
-    private int minutes = 0;
-    private int seconds = 0;
+    private int hours;
+    private int minutes;
+    private int seconds;
     private String day_of_the_week = "";
     private static final int REFRESH_RATE = 1; // 1 second
 

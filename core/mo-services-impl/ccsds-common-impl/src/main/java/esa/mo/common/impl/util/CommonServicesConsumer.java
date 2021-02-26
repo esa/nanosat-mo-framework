@@ -73,11 +73,7 @@ public class CommonServicesConsumer {
             if (details != null) {
                 loginService = new LoginConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
-        } catch (MALException ex) {
-            Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
 

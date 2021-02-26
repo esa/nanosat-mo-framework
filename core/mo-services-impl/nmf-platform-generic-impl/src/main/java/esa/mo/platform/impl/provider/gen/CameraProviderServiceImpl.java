@@ -77,14 +77,14 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
   private Duration minimumPeriod;
   private final Duration serviceLowestMinimumPeriod = new Duration(0.01); // 10 millisecods
   private MALProvider cameraServiceProvider;
-  private boolean initialiased = false;
-  private boolean running = false;
+  private boolean initialiased;
+  private boolean running;
   private PicturesStreamPublisher publisher;
   private boolean cameraInUse;
   private final Object lock = new Object();
-  private boolean isRegistered = false;
+  private boolean isRegistered;
   private final ConnectionProvider connection = new ConnectionProvider();
-  private TaskScheduler publishTimer = new TaskScheduler(1);
+  private final TaskScheduler publishTimer = new TaskScheduler(1);
   private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
   private CameraAdapterInterface adapter;
   private PictureFormatList availableFormats;

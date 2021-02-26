@@ -52,8 +52,8 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  */
 public class EventConsumerPanel extends javax.swing.JPanel {
 
-    private EventConsumerServiceImpl serviceCOMEvent;
-    private List<ArchivePersistenceObject> comObjects;
+    private final EventConsumerServiceImpl serviceCOMEvent;
+    private final List<ArchivePersistenceObject> comObjects;
     private final DefaultTableModel eventTableData;
 
     /**
@@ -65,7 +65,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
     public EventConsumerPanel(EventConsumerServiceImpl eventService, final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         serviceCOMEvent = eventService;
-        comObjects = new ArrayList<ArchivePersistenceObject>();
+        comObjects = new ArrayList<>();
 
         String[] parameterTableCol = new String[]{
             "Timestamp", "Source URI", "From Service", "Event name", "Domain",
@@ -74,7 +74,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
 
         eventTableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, parameterTableCol) {
-            Class[] types = new Class[]{
+            final Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,
                 java.lang.String.class, java.lang.Long.class, java.lang.String.class,
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class
@@ -207,7 +207,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                 "HDR - Timestamp", "HDR - uriTo", "eKey1 - Event ojb number", "eKey2 - Service", "eKey3 - ObjId", "eKey4 - Source ObjType", "Related (ObjDetails)", "Source (ObjDetails)", "N of event objs"
             }
         ) {
-            Class[] types = new Class [] {
+            final Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
 

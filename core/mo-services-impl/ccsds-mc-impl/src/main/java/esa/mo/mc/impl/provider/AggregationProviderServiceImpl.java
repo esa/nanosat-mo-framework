@@ -86,11 +86,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     private final static double MIN_REPORTING_INTERVAL = 0.2;
     private MALProvider aggregationServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
+    private boolean initialiased;
+    private boolean running;
     private MonitorValuePublisher publisher;
     private final Object lock = new Object();
-    private boolean isRegistered = false;
+    private boolean isRegistered;
     protected AggregationManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private PeriodicSamplingManager periodicSamplingManager;
@@ -245,13 +245,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             aValLst.add(aVal); //requirement 3.7.7.2.h
 
             publisher.publish(hdrlst, objectIdlst, aValLst);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALException ex) {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALInteractionException ex) {
+        } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
             return false;
         }
@@ -918,13 +912,13 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     private class PeriodicReportingManager { // requirement: 3.7.2.1a
 
-        private HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
-        private HashMap<Long, TaskScheduler> filterTimeoutTimerList; // filterTimeout Timers list
-        private boolean active = false; // Flag that determines if the Manager is on or off
+        private final HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
+        private final HashMap<Long, TaskScheduler> filterTimeoutTimerList; // filterTimeout Timers list
+        private boolean active; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingManager() {
-            updateTimerList = new HashMap<Long, TaskScheduler>();
-            filterTimeoutTimerList = new HashMap<Long, TaskScheduler>();
+            updateTimerList = new HashMap<>();
+            filterTimeoutTimerList = new HashMap<>();
         }
 
         public void refreshAll() {
@@ -1117,15 +1111,15 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      */
     private class PeriodicSamplingManager { // requirement: 3.7.2.1a
 
-        private List<TaskScheduler> sampleTimerList; // Timer List. One timer for each parameterSet of each aggregation that needs to be sampled
-        private LongList aggregationObjIdList; // ids of the aggregations whiches parameterSet started the timer above. first index here belongs to the first timer abode. 
-        private List<Integer> parameterSetIndexList; // index of the parameter set in the aggregation above, that belongs to the timer. first index here belngs to the first  aggregation id above and belongs to the first timer above.
-        private boolean active = false; // Flag that determines if the Manager is on or off
+        private final List<TaskScheduler> sampleTimerList; // Timer List. One timer for each parameterSet of each aggregation that needs to be sampled
+        private final LongList aggregationObjIdList; // ids of the aggregations whiches parameterSet started the timer above. first index here belongs to the first timer abode.
+        private final List<Integer> parameterSetIndexList; // index of the parameter set in the aggregation above, that belongs to the timer. first index here belngs to the first  aggregation id above and belongs to the first timer above.
+        private boolean active; // Flag that determines if the Manager is on or off
 
         public PeriodicSamplingManager() {
-            sampleTimerList = new ArrayList<TaskScheduler>();
+            sampleTimerList = new ArrayList<>();
             aggregationObjIdList = new LongList();
-            parameterSetIndexList = new ArrayList<Integer>();
+            parameterSetIndexList = new ArrayList<>();
         }
 
         public void refreshAll() {

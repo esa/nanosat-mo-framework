@@ -51,10 +51,10 @@ public final class GPSManager extends DefinitionsManager {
     public GPSManager(COMServicesProvider comServices){
         super(comServices);
 
-        this.previousIsInsideStatus = new HashMap<Long, Boolean>();
+        this.previousIsInsideStatus = new HashMap<>();
         
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
         }else{
             
         }
@@ -110,9 +110,7 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -143,16 +141,14 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             return null;
         }
         
-        return new Long(0);
+        return 0L;
     }
 
 }

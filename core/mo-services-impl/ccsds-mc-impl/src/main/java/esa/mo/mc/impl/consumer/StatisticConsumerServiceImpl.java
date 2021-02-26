@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.mc.statistic.consumer.StatisticStub;
  */
 public class StatisticConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private StatisticStub statisticService = null;
-    private COMServicesConsumer comServices;
+    private final StatisticStub statisticService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

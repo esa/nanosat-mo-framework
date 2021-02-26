@@ -50,15 +50,15 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
-    private boolean proxyInitialiased = false;
+    private boolean proxyInitialiased;
 
     private ParameterConsumerServiceImpl consumer;
     private final Semaphore queueSemaphore = new Semaphore(1, true);
     
     private MALProvider parameterServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
-    private boolean isRegistered = false;
+    private boolean initialiased;
+    private boolean running;
+    private boolean isRegistered;
     private final ConnectionProvider connection = new ConnectionProvider();
 
     /**

@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.softwaremanagement.commandexecutor.consumer.CommandExe
  */
 public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private CommandExecutorStub commandExecutorService = null;
-    private COMServicesConsumer comServices;
+    private final CommandExecutorStub commandExecutorService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

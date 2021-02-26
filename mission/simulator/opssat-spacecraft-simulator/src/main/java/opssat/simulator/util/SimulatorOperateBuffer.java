@@ -26,7 +26,7 @@ package opssat.simulator.util;
  * @author Cezar Suteu
  */
 public interface SimulatorOperateBuffer {
-    public boolean loadFromPath(String path);
-    public boolean preparePath(String path);
-    public int getOperatingIndex();
+    boolean loadFromPath(String path);
+    boolean preparePath(String path);
+    int getOperatingIndex();
 }

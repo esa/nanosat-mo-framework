@@ -23,8 +23,6 @@ package esa.mo.platform.impl.provider.softsim;
 import java.io.IOException;
 
 import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 import org.orekit.propagation.analytical.tle.TLE;

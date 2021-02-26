@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherS
  */
 public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private AppsLauncherStub appLauncherService = null;
-    private COMServicesConsumer comServices;
+    private final AppsLauncherStub appLauncherService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

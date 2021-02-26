@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,13 +70,13 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     protected final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     protected MCServicesProviderNMF mcServices;
     protected PlatformServicesConsumer platformServices;
-    protected CloseAppListener closeAppAdapter = null;
-    protected ConfigurationChangeListener providerConfigurationAdapter = null;
+    protected CloseAppListener closeAppAdapter;
+    protected ConfigurationChangeListener providerConfigurationAdapter;
     protected String providerName;
     protected long startTime;
 
     protected PersistProviderConfiguration providerConfiguration;
-    protected final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<ReconfigurableService>();
+    protected final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<>();
 
     /**
      * Initializes the NMF provider using a monitoring and control adapter that
@@ -163,7 +164,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
 
         ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null, null);
-        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1); // We just add 1 element
+        ArrayList<ParameterInstance> parameters = new ArrayList<>(1); // We just add 1 element
         parameters.add(instance);
 
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
@@ -258,7 +259,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
             try {
                 // Get the text out of that file...
-                InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
+                InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
                 BufferedReader br = new BufferedReader(isr);
 
                 try {

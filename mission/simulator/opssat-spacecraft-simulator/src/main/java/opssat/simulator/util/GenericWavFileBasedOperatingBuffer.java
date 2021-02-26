@@ -41,7 +41,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
     private Object dataBuffer;
     private String dataFilePath;
     private int operatingIndex;
-    private Logger logger;
+    private final Logger logger;
 
     public GenericWavFileBasedOperatingBuffer(Logger logger) {
         operatingIndex = 0;

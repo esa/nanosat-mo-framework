@@ -90,7 +90,7 @@ public class AppsLauncherManager extends DefinitionsManager
   /**
    * Location of the apps folder, relative to the MO Supervisor
    */
-  private File appsFolderPath;
+  private final File appsFolderPath;
   private final HashMap<Long, ProcessExecutionHandler> handlers
       = new HashMap<>();
 

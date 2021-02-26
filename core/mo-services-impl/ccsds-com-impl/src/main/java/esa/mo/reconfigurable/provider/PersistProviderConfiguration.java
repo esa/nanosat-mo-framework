@@ -59,7 +59,7 @@ public class PersistProviderConfiguration {
     private final ArchiveInheritanceSkeleton archiveService;
     private final ObjectId confId;
     private final ArrayList<ReconfigurableService> reconfigurableServices;
-    private LongList objIds;
+    private final LongList objIds;
     private final ExecutorService executor;
 
     public PersistProviderConfiguration(final ReconfigurableProvider provider,
@@ -142,9 +142,7 @@ public class PersistProviderConfiguration {
                     details,
                     providerNameList,
                     null);
-        } catch (MALException ex) {
-            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

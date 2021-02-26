@@ -62,8 +62,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
     private final ArchiveManager manager = new ArchiveManager(null);
     private MALProvider archiveServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
+    private boolean initialiased;
+    private boolean running;
     private final ConnectionProvider connection = new ConnectionProvider();
 
     /**
@@ -292,9 +292,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
                             perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
                         }
-                    } catch (SecurityException ex) {
-                        invIndexList.add(new UInteger(index));
-                    } catch (IllegalArgumentException ex) {
+                    } catch (SecurityException | IllegalArgumentException ex) {
                         invIndexList.add(new UInteger(index));
                     }
                 }
@@ -309,7 +307,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
-                perObjs = new ArrayList<ArchivePersistenceObject>();
+                perObjs = new ArrayList<>();
                 perObjs.add(latestPerObj);
             }
 
@@ -467,9 +465,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
                             perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
                         }
-                    } catch (SecurityException ex) {
-                        invIndexList.add(new UInteger(index));
-                    } catch (IllegalArgumentException ex) {
+                    } catch (SecurityException | IllegalArgumentException ex) {
                         invIndexList.add(new UInteger(index));
                     }
                 }
@@ -484,7 +480,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
-                perObjs = new ArrayList<ArchivePersistenceObject>();
+                perObjs = new ArrayList<>();
                 perObjs.add(latestPerObj);
             }
 
@@ -498,7 +494,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 }
             }
 
-            outLong.add(new Long(perObjs.size())); // requirement: 3.4.5.2.2
+            outLong.add((long) perObjs.size()); // requirement: 3.4.5.2.2
         }
 
         // Errors

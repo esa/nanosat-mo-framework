@@ -71,7 +71,6 @@ import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
@@ -102,9 +101,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   private static final int MAX_SEGMENT_SIZE = UShort.MAX_VALUE - 256;
   private MALProvider appsLauncherServiceProvider;
   private MonitorExecutionPublisher publisher;
-  private boolean initialiased = false;
-  private boolean running = false;
-  private boolean isRegistered = false;
+  private boolean initialiased;
+  private boolean running;
+  private boolean isRegistered;
   private final Object lock = new Object();
   private AppsLauncherManager manager;
   private final ConnectionProvider connection = new ConnectionProvider();
@@ -143,7 +142,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // nothing to be done..
       }
     }
-    int kbyte = Integer.valueOf(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,
+    int kbyte = Integer.parseInt(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,
         Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
     stdLimit = kbyte * 1024; // init limit with value of property
     publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
@@ -221,7 +220,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         int end = Math.min(length, i + MAX_SEGMENT_SIZE);
         String segment = outputText.substring(i, end);
         outputList.add(segment);
-        if (Boolean.valueOf(System.getProperty(Const.APPSLAUNCHER_STD_STORE_PROPERTY,
+        if (Boolean.parseBoolean(System.getProperty(Const.APPSLAUNCHER_STD_STORE_PROPERTY,
             Const.APPSLAUNCHER_STD_STORE_DEFAULT))) {
           // Store in COM archive if the option is enabled and below limit
           int currentStd = stdPerApp.retrieve(appObjId);

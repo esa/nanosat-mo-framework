@@ -47,8 +47,8 @@ import org.ccsds.moims.mo.mal.structures.Element;
 public final class ArchiveTablePanel extends javax.swing.JPanel {
 
     private final DefaultTableModel archiveTableData;
-    private List<ArchivePersistenceObject> comObjects;
-    private Semaphore semaphore = new Semaphore(1);
+    private final List<ArchivePersistenceObject> comObjects;
+    private final Semaphore semaphore = new Semaphore(1);
 
     /**
      * Creates new form ObjectsDisplay
@@ -60,7 +60,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
 
-        comObjects = new ArrayList<ArchivePersistenceObject>();
+        comObjects = new ArrayList<>();
 
         String[] archiveTableCol = new String[]{
             "Domain", "Object Type", "Object Instance Identifier",
@@ -68,7 +68,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         archiveTableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, archiveTableCol) {
-            Class[] types = new Class[]{
+            final Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class, java.lang.String.class,
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
@@ -226,7 +226,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
                 "Domain", "Object Type", "Obj Instance Id", "Timestamp", "Related", "Source"
             }
         ) {
-            Class[] types = new Class [] {
+            final Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 

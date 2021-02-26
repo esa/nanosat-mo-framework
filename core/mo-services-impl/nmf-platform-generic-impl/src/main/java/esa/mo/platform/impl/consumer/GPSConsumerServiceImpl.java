@@ -39,8 +39,8 @@ import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
  */
 public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private GPSStub gpsService = null;
-    private COMServicesConsumer comServices;
+    private final GPSStub gpsService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

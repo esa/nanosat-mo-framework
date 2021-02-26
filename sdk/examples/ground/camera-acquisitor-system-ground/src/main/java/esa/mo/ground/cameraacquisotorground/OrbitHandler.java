@@ -22,9 +22,9 @@ package esa.mo.ground.cameraacquisotorground;
 
 import esa.mo.ground.restservice.Pass;
 import esa.mo.ground.restservice.PositionAndTime;
-import java.util.Comparator;
+
 import java.util.LinkedList;
-import java.util.TreeSet;
+
 import org.hipparchus.util.FastMath;
 import org.orekit.bodies.CelestialBodyFactory;
 import org.orekit.bodies.GeodeticPoint;
@@ -58,7 +58,7 @@ public class OrbitHandler
    * photograph will be taken at a daytime pass NIGHTTIME: the photograph will be taken at a
    * nighttime pass
    */
-  public static enum TimeModeEnum
+  public enum TimeModeEnum
   {
     ANY, DAYTIME, NIGHTTIME
   }

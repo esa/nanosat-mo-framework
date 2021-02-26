@@ -37,13 +37,13 @@ public class COMObjectStructure {
 
     private final ObjectType objType;
     private final IdentifierList domain;
-    private Long objId;
+    private final Long objId;
 
-    private ObjectId sourceLink;
-    private Long relatedLink;
-    private Identifier network;
-    private FineTime timestamp;
-    private URI providerURI;
+    private final ObjectId sourceLink;
+    private final Long relatedLink;
+    private final Identifier network;
+    private final FineTime timestamp;
+    private final URI providerURI;
 
     private final Element object;
 

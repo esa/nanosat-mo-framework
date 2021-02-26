@@ -45,8 +45,8 @@ public class SimpleDemoPackageCreation {
     }
 
     public static void createPackage() {
-        ArrayList<String> files = new ArrayList<String>();
-        ArrayList<String> newLocations = new ArrayList<String>();
+        ArrayList<String> files = new ArrayList<>();
+        ArrayList<String> newLocations = new ArrayList<>();
 
         String myAppFilename = "myApp.filetype";
         String dummyFolder = "myInstalledApp";

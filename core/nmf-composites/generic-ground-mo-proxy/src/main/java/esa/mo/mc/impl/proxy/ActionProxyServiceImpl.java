@@ -57,8 +57,8 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
     private MALProvider actionServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
+    private boolean initialiased;
+    private boolean running;
     private ActionManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ActionConsumerServiceImpl actionConsumer;

@@ -37,7 +37,7 @@ public class ObjectInstanceIdGenerator
   private final Random RNG = new Random(System.nanoTime());
   private final AtomicInteger objectInstanceIdCounter = new AtomicInteger(0);
 
-  private long lastObjectInstanceIdTimeStamp = 0;
+  private long lastObjectInstanceIdTimeStamp;
 
   /**
    * Returns the Singleton instance of ObjectInstanceIdGenerator. The instance will be generated if

@@ -39,8 +39,8 @@ import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
  */
 public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private CameraStub cameraService = null;
-    private COMServicesConsumer comServices;
+    private final CameraStub cameraService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

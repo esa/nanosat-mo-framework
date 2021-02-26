@@ -264,7 +264,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             timer = new TaskScheduler(1);
             timer.scheduleTask(new Thread()
           {
-            int tryNumber = 0;
+            int tryNumber;
 
             @Override
             public void run()

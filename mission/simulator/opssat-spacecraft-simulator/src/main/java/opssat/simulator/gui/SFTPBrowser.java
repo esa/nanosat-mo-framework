@@ -54,13 +54,13 @@ import com.jcraft.jsch.SftpException;
 
 public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntry> {
 
-  private ChannelSftp channel;
-  private String mode;
-  private JTextField tfName;
-  private GuiMainWindow mainGui;
+  private final ChannelSftp channel;
+  private final String mode;
+  private final JTextField tfName;
+  private final GuiMainWindow mainGui;
   private StringBuilder sb;
-  private JTable tableFiles;
-  private boolean doubleClick = false;
+  private final JTable tableFiles;
+  private boolean doubleClick;
 
   public SFTPBrowser(ChannelSftp chan, String mode, GuiMainWindow mainGui) {
     this.mainGui = mainGui;
@@ -89,14 +89,14 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
       }
     };
     tableFiles.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Name" }) {
-      Class[] columnTypes = new Class[] { String.class };
+      final Class[] columnTypes = new Class[] { String.class };
 
       @Override
       public Class getColumnClass(int columnIndex) {
         return columnTypes[columnIndex];
       }
 
-      boolean[] columnEditables = new boolean[] { false };
+      final boolean[] columnEditables = new boolean[] { false };
 
       @Override
       public boolean isCellEditable(int row, int column) {
@@ -138,13 +138,10 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
           String folder = (String) table.getValueAt(row, 0);
           sb.append("/").append(folder);
           tfName.setText(sb.toString());
-          Timer timer = new Timer(timerinterval.intValue(), new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-              if (doubleClick) {
-                doubleClick = false; // reset flag
-                updateFileTable();
-              }
+          Timer timer = new Timer(timerinterval, evt -> {
+            if (doubleClick) {
+              doubleClick = false; // reset flag
+              updateFileTable();
             }
           });
           timer.setRepeats(false);
@@ -166,12 +163,9 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
     tfName.setColumns(10);
 
     JButton btnSubmit = new JButton("Select");
-    btnSubmit.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        mainGui.setPathFromSFTP(sb.toString());
-        SFTPBrowser.this.dispose();
-      }
+    btnSubmit.addActionListener(arg0 -> {
+      mainGui.setPathFromSFTP(sb.toString());
+      SFTPBrowser.this.dispose();
     });
     springLayout.putConstraint(SpringLayout.NORTH, btnSubmit, 5, SpringLayout.SOUTH, tfName);
     springLayout.putConstraint(SpringLayout.EAST, btnSubmit, 0, SpringLayout.EAST, scrollPane);
@@ -186,8 +180,8 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
       return false;
     }
     String extension = parts[parts.length - 1];
-    ArrayList<String> extensions = new ArrayList<String>(
-        Arrays.asList(new String[] { "jpg", "jpeg", "png", "bmp", "raw" }));
+    ArrayList<String> extensions = new ArrayList<>(
+            Arrays.asList(new String[]{"jpg", "jpeg", "png", "bmp", "raw"}));
     return extensions.contains(extension);
   }
 
@@ -203,9 +197,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
       } else {
         predicate = x -> x.getAttrs().isDir();
       }
-      List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate)
-          .collect(Collectors.toList());
-      Collections.sort(filteredFiles, (Comparator<ChannelSftp.LsEntry>) this);
+      List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate).sorted(this).collect(Collectors.toList());
       for (ChannelSftp.LsEntry e : filteredFiles) {
         String key = e.getFilename();
         dtm.addRow(new String[] { key });

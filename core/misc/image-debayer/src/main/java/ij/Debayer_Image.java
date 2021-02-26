@@ -11,12 +11,12 @@ public class Debayer_Image implements PlugInFilter {
   ImageProcessor ip;
   int width;
   int height;
-  static boolean normalize = false;
-  static boolean equalize = false;
-  static boolean stackHist = false;
-  static boolean showColour = false;
-  static boolean median = false;
-  static boolean gauss = false;
+  static boolean normalize;
+  static boolean equalize;
+  static boolean stackHist;
+  static boolean showColour;
+  static boolean median;
+  static boolean gauss;
   static int med_radius = 2;
   static int gauss_radius = 2;
   int algorithm;

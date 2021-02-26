@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
  */
 public class ActionConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private ActionStub actionService = null;
-    private COMServicesConsumer comServices;
+    private final ActionStub actionService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

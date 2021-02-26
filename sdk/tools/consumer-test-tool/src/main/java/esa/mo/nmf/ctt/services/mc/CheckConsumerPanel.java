@@ -64,11 +64,11 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class CheckConsumerPanel extends javax.swing.JPanel {
 
-    private CheckConsumerServiceImpl serviceMCCheck;
+    private final CheckConsumerServiceImpl serviceMCCheck;
 //    private ParameterConsumerServiceImpl serviceMCParameter;
-    private CheckDefinitionsTablePanel checkDefsTable;
-    private CheckLinksTablePanel checkLinksTable;
-    private ObjectType objTypeCheckDefinition;
+    private final CheckDefinitionsTablePanel checkDefsTable;
+    private final CheckLinksTablePanel checkLinksTable;
+    private final ObjectType objTypeCheckDefinition;
 
     /**
      *
@@ -141,7 +141,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
                 "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
             }
         ) {
-            Class[] types = new Class [] {
+            final Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
             };
 
@@ -173,7 +173,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
                 "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
             }
         ) {
-            Class[] types = new Class [] {
+            final Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
             };
 
@@ -197,35 +197,19 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(3, 1));
 
         getCurrentTransitionListButton.setText("getCurrentTransitionList");
-        getCurrentTransitionListButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getCurrentTransitionListButtonActionPerformed(evt);
-            }
-        });
+        getCurrentTransitionListButton.addActionListener(evt -> getCurrentTransitionListButtonActionPerformed(evt));
         jPanel2.add(getCurrentTransitionListButton);
 
         getSummaryReportButton.setText("getSummaryReport");
-        getSummaryReportButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getSummaryReportButtonActionPerformed(evt);
-            }
-        });
+        getSummaryReportButton.addActionListener(evt -> getSummaryReportButtonActionPerformed(evt));
         jPanel2.add(getSummaryReportButton);
 
         enableServiceButton.setText("enableService");
-        enableServiceButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableServiceButtonActionPerformed(evt);
-            }
-        });
+        enableServiceButton.addActionListener(evt -> enableServiceButtonActionPerformed(evt));
         jPanel2.add(enableServiceButton);
 
         getServiceStatusButton.setText("getServiceStatus");
-        getServiceStatusButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getServiceStatusButtonActionPerformed(evt);
-            }
-        });
+        getServiceStatusButton.addActionListener(evt -> getServiceStatusButtonActionPerformed(evt));
         jPanel2.add(getServiceStatusButton);
 
         jLabel1.setText("Unk");
@@ -234,85 +218,45 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         parameterTab.add(jPanel2);
 
         enableCheckButton.setText("enableCheck");
-        enableCheckButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableCheckButtonActionPerformed(evt);
-            }
-        });
+        enableCheckButton.addActionListener(evt -> enableCheckButtonActionPerformed(evt));
         jPanel1.add(enableCheckButton);
 
         enableCheckAllButton.setText("enableCheck(group=false, 0)");
-        enableCheckAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableCheckAllButtonActionPerformed(evt);
-            }
-        });
+        enableCheckAllButton.addActionListener(evt -> enableCheckAllButtonActionPerformed(evt));
         jPanel1.add(enableCheckAllButton);
 
         triggerCheckButton.setText("triggerCheck");
-        triggerCheckButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                triggerCheckButtonActionPerformed(evt);
-            }
-        });
+        triggerCheckButton.addActionListener(evt -> triggerCheckButtonActionPerformed(evt));
         jPanel1.add(triggerCheckButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
         jPanel1.add(listDefinitionAllButton);
 
         parameterTab.add(jPanel1);
 
         addDefButton.setText("addDefinition");
-        addDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefButtonActionPerformed(evt);
-            }
-        });
+        addDefButton.addActionListener(evt -> addDefButtonActionPerformed(evt));
         jPanel5.add(addDefButton);
 
         updateDefButton.setText("updateDefinition");
-        updateDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateDefButtonActionPerformed(evt);
-            }
-        });
+        updateDefButton.addActionListener(evt -> updateDefButtonActionPerformed(evt));
         jPanel5.add(updateDefButton);
 
         removeDefButton.setText("removeDefinition");
-        removeDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefButtonActionPerformed(evt);
-            }
-        });
+        removeDefButton.addActionListener(evt -> removeDefButtonActionPerformed(evt));
         jPanel5.add(removeDefButton);
 
         removeDefAllButton.setText("removeDefinition(0)");
-        removeDefAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefAllButtonActionPerformed(evt);
-            }
-        });
+        removeDefAllButton.addActionListener(evt -> removeDefAllButtonActionPerformed(evt));
         jPanel5.add(removeDefAllButton);
 
         addParameterCheck.setText("addParameterCheck");
-        addParameterCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addParameterCheckActionPerformed(evt);
-            }
-        });
+        addParameterCheck.addActionListener(evt -> addParameterCheckActionPerformed(evt));
         jPanel5.add(addParameterCheck);
 
         removeParameterCheck.setText("removeParameterCheck");
-        removeParameterCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeParameterCheckActionPerformed(evt);
-            }
-        });
+        removeParameterCheck.addActionListener(evt -> removeParameterCheckActionPerformed(evt));
         jPanel5.add(removeParameterCheck);
 
         parameterTab.add(jPanel5);
@@ -461,9 +405,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeCheck(longlist);
             checkDefsTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefButtonActionPerformed
@@ -482,11 +424,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             }
                     
             checkDefsTable.refreshTableWithIds(objIds, serviceMCCheck.getConnectionDetails().getDomain(), objTypeCheckDefinition);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -503,9 +441,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeCheck(longlist);
             checkDefsTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefAllButtonActionPerformed
@@ -548,12 +484,10 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_enableCheckAllButtonActionPerformed
 
     private void enableCheckButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableCheckButtonActionPerformed
@@ -576,9 +510,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableCheckButtonActionPerformed
@@ -611,7 +543,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             
             details.setRelated(checkDefsTable.getSelectedCOMObject().getObjectId());
             details.setSource(new ObjectId(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, 
-                    new ObjectKey(serviceMCCheck.getConnectionDetails().getDomain(), new Long (1))));
+                    new ObjectKey(serviceMCCheck.getConnectionDetails().getDomain(), 1L)));
 
             MOWindow linksWindow = new MOWindow(details, true);
             ObjectDetailsList detailsList = new ObjectDetailsList();
@@ -652,9 +584,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeParameterCheck(longlist);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 

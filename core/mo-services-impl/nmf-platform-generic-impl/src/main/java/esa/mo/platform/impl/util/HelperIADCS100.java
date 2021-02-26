@@ -22,7 +22,7 @@ package esa.mo.platform.impl.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import org.ccsds.moims.mo.mal.structures.DoubleList;
+
 import org.ccsds.moims.mo.mal.structures.FloatList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed;

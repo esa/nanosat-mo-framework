@@ -70,7 +70,7 @@ public class Orbit {
 
 //Epoch time: '2003 June 01 - 00:00:00'
     public static String DATEFORMATSTRING = "yyyy:MM:dd HH:mm:ss z";
-    private static String EPOCH_INITIAL="2003:06:01 00:00:00 CEST";
+    private static final String EPOCH_INITIAL="2003:06:01 00:00:00 CEST";
     private Date Epoch;
 
     public static class OrbitParameters {

@@ -35,11 +35,11 @@ import java.util.logging.Logger;
  */
 public class TCPServerReceiveOnly extends Thread {
 
-    private int port;
-    private Object dataMutex = new Object();
+    private final int port;
+    private final Object dataMutex = new Object();
     private String data;
     private boolean shouldClose;
-    private Logger logger;
+    private final Logger logger;
 
     public void setShouldClose(boolean shouldClose) {
         this.shouldClose = shouldClose;

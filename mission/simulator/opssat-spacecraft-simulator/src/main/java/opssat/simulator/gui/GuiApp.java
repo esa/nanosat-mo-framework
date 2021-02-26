@@ -92,8 +92,8 @@ public class GuiApp {
     ConsoleHandler consoleHandler = (new ConsoleHandler());
     consoleHandler.setFormatter(new LoggerFormatter1Line(GuiMainWindow.class.getName()));
     logger.addHandler(consoleHandler);
-    fromServerQueue = new ConcurrentLinkedQueue<Object>();
-    toServerQueue = new ConcurrentLinkedQueue<Object>();
+    fromServerQueue = new ConcurrentLinkedQueue<>();
+    toServerQueue = new ConcurrentLinkedQueue<>();
     this.targetURL = targetURL;
     this.targetPort = targetPort;
     guiMainWindow = new GuiMainWindow(this, targetURL, targetPort);

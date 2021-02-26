@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationStub;
  */
 public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private AggregationStub aggregationService = null;
-    private COMServicesConsumer comServices;
+    private final AggregationStub aggregationService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

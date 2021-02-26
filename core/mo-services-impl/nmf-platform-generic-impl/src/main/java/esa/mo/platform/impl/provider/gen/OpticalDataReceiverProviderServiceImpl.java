@@ -21,8 +21,7 @@
 package esa.mo.platform.impl.provider.gen;
 
 import esa.mo.helpertools.connections.ConnectionProvider;
-import java.util.Timer;
-import java.util.concurrent.atomic.AtomicLong;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -47,7 +46,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
 {
 
   private MALProvider opticalDataReceiverServiceProvider;
-  private boolean initialiased = false;
+  private boolean initialiased;
   private final ConnectionProvider connection = new ConnectionProvider();
   private OpticalDataReceiverAdapterInterface adapter;
   public static double MAX_RECORDING_DURATION = 10.0; // 10 seconds

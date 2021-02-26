@@ -37,7 +37,7 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
   private Object dataBuffer;
   private String dataFilePath;
   private int operatingIndex;
-  private Logger logger;
+  private final Logger logger;
 
   public GenericFileBasedOperatingBuffer(Logger logger) {
     byte[] tempArray = new byte[0];

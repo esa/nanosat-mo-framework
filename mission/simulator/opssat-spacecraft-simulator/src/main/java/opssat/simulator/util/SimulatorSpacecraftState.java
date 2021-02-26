@@ -33,8 +33,8 @@ public class SimulatorSpacecraftState {
     private double latitude,longitude,altitude;
     private float rv[];//[x, y, z, vx, vy, vz]
     private float q[];// [qs, q1, q2, q3]
-    private float magField[];//[x,y,z]
-    private float magnetometer[];//[x,y,z]
+    private final float[] magField;//[x,y,z]
+    private final float[] magnetometer;//[x,y,z]
     private double sunVector[];//[x,y,z]
     private int satsInView;
     private String modeOperation;

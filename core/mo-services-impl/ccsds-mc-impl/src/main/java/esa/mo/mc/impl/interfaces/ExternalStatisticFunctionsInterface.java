@@ -41,10 +41,10 @@ public interface ExternalStatisticFunctionsInterface {
      * MC Standard.
      * @return The corresponding Statistic Function
      */
-    public StatisticFunctionDetails getCustomStatisticFunction (Long statFuncId);
+    StatisticFunctionDetails getCustomStatisticFunction(Long statFuncId);
     
     
-    public StatisticValue generateCustomStatisticValue(Long statFuncId, TimeList times, AttributeValueList values);
+    StatisticValue generateCustomStatisticValue(Long statFuncId, TimeList times, AttributeValueList values);
 
     
     

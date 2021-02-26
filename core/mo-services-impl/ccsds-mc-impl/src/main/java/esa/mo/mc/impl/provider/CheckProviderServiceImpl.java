@@ -86,9 +86,9 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
     private MALProvider checkServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
-    private boolean isRegistered = false;
+    private boolean initialiased;
+    private boolean running;
+    private boolean isRegistered;
     private CheckManager manager;
     private ParameterMonitoringManager paramMonitorManager;
     protected CheckLinkMonitorManager checkLinkMonitorManager;
@@ -149,11 +149,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
                 checkLinkMonitorManager = new CheckLinkMonitorManager(eventServiceConsumer.getEventStub(), manager);
             }
 
-        } catch (MALException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
+        } catch (MALException | MalformedURLException | MALInteractionException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -952,11 +948,11 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
     private class PeriodicCheckingManager { // requirement: 3.7.2.1a
 
-        private HashMap<Long, TaskScheduler> sampleTimerList; // Timers list
-        private boolean active = false; // Flag that determines if the Manager is on or off
+        private final HashMap<Long, TaskScheduler> sampleTimerList; // Timers list
+        private boolean active; // Flag that determines if the Manager is on or off
 
         public PeriodicCheckingManager() {
-            sampleTimerList = new HashMap<Long, TaskScheduler>();
+            sampleTimerList = new HashMap<>();
 
         }
 
@@ -1051,11 +1047,11 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
     private class PeriodicReportingMaxManager { // requirement: 3.7.2.1a
 
-        private HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
-        private boolean active = false; // Flag that determines if the Manager is on or off
+        private final HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
+        private boolean active; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingMaxManager() {
-            updateTimerList = new HashMap<Long, TaskScheduler>();
+            updateTimerList = new HashMap<>();
         }
 
         public void refreshAll() {

@@ -19,7 +19,6 @@
  */
 package esa.mo.mc.impl.provider.check;
 
-import java.util.Map;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 

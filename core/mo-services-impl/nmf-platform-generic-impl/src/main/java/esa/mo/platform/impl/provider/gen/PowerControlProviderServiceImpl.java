@@ -50,8 +50,8 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 {
 
   private MALProvider powerControlServiceProvider;
-  private boolean initialiased = false;
-  private boolean running = false;
+  private boolean initialiased;
+  private boolean running;
   private final ConnectionProvider connection = new ConnectionProvider();
   private PowerControlAdapterInterface adapter;
   private static final Logger LOGGER = Logger.getLogger(

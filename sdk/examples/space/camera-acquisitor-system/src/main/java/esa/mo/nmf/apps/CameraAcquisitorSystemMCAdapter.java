@@ -50,7 +50,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   private static final Logger LOGGER = Logger.getLogger(
       CameraAcquisitorSystemMCAdapter.class.getName());
 
-  private NMFInterface connector;
+  private final NMFInterface connector;
 
   private final CameraAcquisitorSystemCameraTargetHandler cameraTargetHandler;
   private final CameraAcquisitorSystemCameraHandler cameraHandler;
@@ -62,7 +62,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     this.cameraTargetHandler.recoverLastState();
   }
 
-  public static enum ExposureTypeModeEnum
+  public enum ExposureTypeModeEnum
   {
     CUSTOM, AUTOMATIC // maybe implement hdr?
   }
@@ -70,48 +70,48 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   // ----------------------------------- Parameters -----------------------------------------------
 
   @Parameter(description = "The red channel gain", generationEnabled = false)
-  private float gainRed = 1.0f;
+  private final float gainRed = 1.0f;
 
   @Parameter(description = "The green channel gain", generationEnabled = false)
-  private float gainGreen = 1.0f;
+  private final float gainGreen = 1.0f;
 
   @Parameter(description = "The blue channel gain", generationEnabled = false)
-  private float gainBlue = 1.0f;
+  private final float gainBlue = 1.0f;
 
   @Parameter(
       description = "The camera's exposure Type (CUSTOM = 0, AUTOMATIC = 1)",
       generationEnabled = false)
-  private byte exposureType = 0;
+  private byte exposureType;
 
   @Parameter(
       description = "The camera's exposure time (only used if exposureType is CUSTOM)",
       generationEnabled = false)
-  private float exposureTime = 1.0f;
+  private final float exposureTime = 1.0f;
 
   @Parameter(description =
       "The maximum time (in Milliseconds) the Satellite will take to rotated if it's in the worst possible orientation",
       generationEnabled = false)
-  private long worstCaseRotationTimeMS = 1000000;
+  private final long worstCaseRotationTimeMS = 1000000;
 
   @Parameter(description =
       "The time (in Milliseconds) the Satelite will start the attitude control prior to reaching a target",
       generationEnabled = false)
-  private long attitudeSaftyMarginMS = 20000;
+  private final long attitudeSaftyMarginMS = 20000;
 
   @Parameter(
       description = "The width (x resolution) of the picture taken by the camera",
       generationEnabled = false)
-  private int pictureWidth = 2048;
+  private final int pictureWidth = 2048;
 
   @Parameter(
       description = "The height (y resolution) of the picture taken by the camera",
       generationEnabled = false)
-  private int pictureHeight = 1944;
+  private final int pictureHeight = 1944;
 
   @Parameter(description =
       "The picture type to use (uses PictureFormat ENUM: RAW=0, RGB24=1, BMP=2, PNG=3, JPG=4)",
       generationEnabled = false)
-  private int pictureType = 3;
+  private final int pictureType = 3;
 
   // ----------------------------------------------------------------------------------------------
   public PictureFormat getPictureType()

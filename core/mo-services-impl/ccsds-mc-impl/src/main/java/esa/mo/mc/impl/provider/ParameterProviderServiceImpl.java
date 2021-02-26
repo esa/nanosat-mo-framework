@@ -100,10 +100,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     private final static double MIN_REPORTING_INTERVAL = 0.2;
     private MALProvider parameterServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
+    private boolean initialiased;
+    private boolean running;
     private MonitorValuePublisher publisher;
-    private boolean isRegistered = false;
+    private boolean isRegistered;
     private final Object lock = new Object();
     private final AtomicLong pValUniqueObjId = new AtomicLong(System.currentTimeMillis());
     protected ParameterManager manager;
@@ -388,7 +388,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         FineTime timestamp = HelperTime.getTimestamp();
 
         //requirement: 3.3.9.2.h, 3.3.9.2.i
-        List<ParameterInstance> toPublishParamInstances = new ArrayList<ParameterInstance>();
+        List<ParameterInstance> toPublishParamInstances = new ArrayList<>();
         ParameterValueList noPublishParamValList = new ParameterValueList();
         LongList noPublishRelatedIds = new LongList();
         ObjectIdList noPublishSourceIds = new ObjectIdList();
@@ -763,11 +763,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     private class PeriodicReportingManager { // requirement: 3.3.2.a.a
 
-        private HashMap<Long, TaskScheduler> timerList; // Timers list
-        boolean active = false; // Flag that determines if the Manager publishes or not
+        private final HashMap<Long, TaskScheduler> timerList; // Timers list
+        boolean active; // Flag that determines if the Manager publishes or not
 
         public PeriodicReportingManager() {
-            timerList = new HashMap<Long, TaskScheduler>();
+            timerList = new HashMap<>();
         }
 
         public void start() {
@@ -885,7 +885,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     public Boolean pushSingleParameterValueAttribute(final Identifier name,
             final Attribute value, final ObjectId source, final Time timestamp) {
         final ParameterValue parameterValue = new ParameterValue(new UOctet((short) 0), value, null);
-        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1);
+        ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
         parameters.add(new ParameterInstance(name, parameterValue, source, timestamp));
 
         return this.pushMultipleParameterValues(parameters);
@@ -912,7 +912,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     public Boolean pushParameterValue(final Identifier name, final ParameterValue parameterValue,
             final ObjectId source, final Time timestamp) {
         ParameterInstance instance = new ParameterInstance(name, parameterValue, source, timestamp);
-        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>();
+        ArrayList<ParameterInstance> parameters = new ArrayList<>();
         parameters.add(instance);
 
         return this.pushMultipleParameterValues(parameters);
@@ -964,7 +964,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             final ObjectInstancePairList outIds = new ObjectInstancePairList(parameters.size());
             final ParameterValueList parameterValueList = new ParameterValueList(parameters.size());
-            final List<ParameterInstance> parameterInstances = new ArrayList<ParameterInstance>(parameters.size());
+            final List<ParameterInstance> parameterInstances = new ArrayList<>(parameters.size());
 
             for (int i = 0; i < parameters.size(); i++) {
                 ObjectInstancePair objId = manager.getIdentityDefinition(parameters.get(i).getName());  // Does the submitted name exists in the manager? 
@@ -992,10 +992,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     try {
                         ObjectInstancePairList returnedObjIds = this.addParameter(pDefCreationReqs, null); // Enable the reporting for this Alert Definition 
                         objId = returnedObjIds.get(0);
-                    } catch (MALInteractionException ex) {
-                        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                        return false;
-                    } catch (MALException ex) {
+                    } catch (MALInteractionException | MALException ex) {
                         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     }
@@ -1071,15 +1068,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
             publisher.publish(hdrlst, objectIdlst, pVallst);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALInteractionException ex) {
+        } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
             return false;
@@ -1103,13 +1092,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             final ParameterValue parameterValue = manager.getParameterValue(identityId);
             final Identifier name = manager.getName(identityId);
             
-            ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1);
+            ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
             parameters.add(new ParameterInstance(name, parameterValue, null, HelperTime.getTimestampMillis()));
             this.pushMultipleParameterValues(parameters);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during publishing process on the provider {0}", ex);
-        } catch (MALInteractionException ex) {
+        } catch (IllegalArgumentException | MALInteractionException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         }

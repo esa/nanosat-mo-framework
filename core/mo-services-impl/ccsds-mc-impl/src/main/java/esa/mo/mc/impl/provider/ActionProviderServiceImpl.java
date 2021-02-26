@@ -69,8 +69,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
     private final static String IS_INTERMEDIATE_RELAY_PROPERTY = "esa.mo.mc.impl.provider.ActionProviderServiceImpl.isIntermediateRelay";
     private MALProvider actionServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
+    private boolean initialiased;
+    private boolean running;
     protected ActionManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ConfigurationChangeListener configurationAdapter;
@@ -174,9 +174,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             //body of AcceptanceEvent is true? -> issue #187
             // requirement: 3.2.8.e
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, true, null, saSource); // requirement: f, g
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -198,9 +196,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
                     new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId)); // requirement: 3.2.8.f  
             //body of AcceptanceEvent is value of "accepted"? -> issue #187
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, accepted, null, source); // requirement: 3.2.8.e, f, g  
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 

@@ -39,8 +39,8 @@ import org.ccsds.moims.mo.platform.powercontrol.consumer.PowerControlStub;
  */
 public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private PowerControlStub powerControlStub = null;
-    private COMServicesConsumer comServices;
+    private final PowerControlStub powerControlStub;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

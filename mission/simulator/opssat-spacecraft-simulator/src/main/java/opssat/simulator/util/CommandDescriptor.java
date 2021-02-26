@@ -136,7 +136,7 @@ public class CommandDescriptor implements Serializable {
   }
 
   private ArrayList<ArgumentDescriptor> parseMethodBodyStringForArgList(String methodBody) {
-    ArrayList<ArgumentDescriptor> result = new ArrayList<ArgumentDescriptor>();
+    ArrayList<ArgumentDescriptor> result = new ArrayList<>();
     String argsBody = methodBody.substring(methodBody.indexOf("(", 0) + 1);
     argsBody = argsBody.substring(0, argsBody.length() - 1);
     this.logger.log(Level.ALL, "argsBody is [" + argsBody + "]");
@@ -207,7 +207,7 @@ public class CommandDescriptor implements Serializable {
     this.comment = comment;
     this.internalID = internalID;
     this.inputArgList = parseMethodBodyStringForArgList(methodBody);
-    this.templateList = new ArrayList<ArgumentTemplate>();
+    this.templateList = new ArrayList<>();
     this.templateList.add(new ArgumentTemplate(KEYWORD_DEFAULT, getInputArgs()));
 
     if (comment.equals("")) {
@@ -248,7 +248,7 @@ public class CommandDescriptor implements Serializable {
 
   private ArrayList<ArgumentDescriptor> deepCopyArgDescriptorList(
       ArrayList<ArgumentDescriptor> data) {
-    ArrayList<ArgumentDescriptor> newInputArgs = new ArrayList<ArgumentDescriptor>();
+    ArrayList<ArgumentDescriptor> newInputArgs = new ArrayList<>();
     for (ArgumentDescriptor argDesc : data) {
       ArgumentDescriptor newArgDesc = new ArgumentDescriptor(argDesc.getType(), argDesc.getName());
       newInputArgs.add(newArgDesc);
@@ -537,7 +537,7 @@ public class CommandDescriptor implements Serializable {
 
   public void setInputArgsFromArrayList(ArrayList<Object> data) {
     // Set input data in the blind, from an outside call
-    this.inputArgList = new ArrayList<ArgumentDescriptor>();
+    this.inputArgList = new ArrayList<>();
     if (data != null) {
       for (Object obj : data) {
         this.inputArgList.add(new ArgumentDescriptor(obj, "external"));
@@ -552,7 +552,7 @@ public class CommandDescriptor implements Serializable {
     String dataOk = "ParseOk";
 
     if (this.inputArgList.isEmpty()) {
-      ;// Do nothing, input parameters will be treated as void anyway
+      // Do nothing, input parameters will be treated as void anyway
     } else if (this.inputArgList.size() == 1) {
       dataOk = checkSingleArg(inputArgListString, 0);
     } else {
@@ -579,7 +579,7 @@ public class CommandDescriptor implements Serializable {
   }
 
   public ArrayList<Object> getInputArgObjList() {
-    ArrayList<Object> inputArgObjList = new ArrayList<Object>();
+    ArrayList<Object> inputArgObjList = new ArrayList<>();
     for (ArgumentDescriptor obj : this.inputArgList) {
       inputArgObjList.add(obj.getType());
     }

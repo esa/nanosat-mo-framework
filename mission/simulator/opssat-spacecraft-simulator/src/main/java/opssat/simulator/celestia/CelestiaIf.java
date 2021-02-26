@@ -54,18 +54,18 @@ public class CelestiaIf implements Runnable {
     final String HANDSHAKE_MESSAGE = "connection_successful";
     final String STOP_MESSAGE = "connection_stop";
 
-    int port = 0;
-    int retries = 0;
+    int port;
+    int retries;
 
     String MISSION_ID;// = "OPS-SAT";
 
     ConcurrentLinkedQueue<Object> sendQueue;
 
     ServerSocket socket;
-    Socket connection = null;
+    Socket connection;
     PrintWriter out;
     BufferedReader in;
-    private Logger logger;
+    private final Logger logger;
 
     public CelestiaIf(ConcurrentLinkedQueue<Object> sendQueue, int listenPort, String mission_ID, Logger logger) {
         this.logger = logger;
@@ -158,7 +158,7 @@ public class CelestiaIf implements Runnable {
      */
     private void init() {
 
-        this.SPACECRAFT_ID = new ArrayList<String>();
+        this.SPACECRAFT_ID = new ArrayList<>();
 
         if (MISSION_ID.equals("OPS-SAT")) {
             this.SPACECRAFT_ID.add("OPSSAT");

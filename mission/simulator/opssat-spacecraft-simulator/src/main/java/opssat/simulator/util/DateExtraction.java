@@ -34,41 +34,41 @@ public class DateExtraction {
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return Integer.valueOf(dateFormat.format(date));
+        return Integer.parseInt(dateFormat.format(date));
     }
     
     public static int getMonthFromDate(Date date)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return Integer.valueOf(dateFormat.format(date));
+        return Integer.parseInt(dateFormat.format(date));
     }
     
     public static int getDayFromDate(Date date)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return Integer.valueOf(dateFormat.format(date));
+        return Integer.parseInt(dateFormat.format(date));
     }
     
     public static int getHourFromDate(Date date)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return Integer.valueOf(dateFormat.format(date));
+        return Integer.parseInt(dateFormat.format(date));
     }
     
     public static int getMinuteFromDate(Date date)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("mm");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return Integer.valueOf(dateFormat.format(date));
+        return Integer.parseInt(dateFormat.format(date));
     }
     
     public static int getSecondsFromDate(Date date)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ss");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return Integer.valueOf(dateFormat.format(date));
+        return Integer.parseInt(dateFormat.format(date));
     }
 }

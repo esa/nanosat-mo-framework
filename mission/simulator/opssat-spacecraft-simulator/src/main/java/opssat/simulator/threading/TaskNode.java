@@ -54,11 +54,11 @@ public abstract class TaskNode implements Runnable {
     
     private static final int TIMER_ALIVE_INTERVAL = 10000;
     
-    private Hashtable<String, SimulatorTimer> timers;
+    private final Hashtable<String, SimulatorTimer> timers;
 
     private Logger logObject;
-    private FileHandler fh = null;
-    private FileHandler fh_static = null;
+    private FileHandler fh;
+    private FileHandler fh_static;
     private String LogPath;
 
     public Logger getLogObject() {
@@ -120,7 +120,7 @@ public abstract class TaskNode implements Runnable {
         this.name = name;
         initLogging(logLevel,consoleLogLevel);
         
-        this.timers = new Hashtable<String, SimulatorTimer>();
+        this.timers = new Hashtable<>();
         
         this.timers.put(TIMER_ALIVE, new SimulatorTimer(TIMER_ALIVE, TIMER_ALIVE_INTERVAL));
         

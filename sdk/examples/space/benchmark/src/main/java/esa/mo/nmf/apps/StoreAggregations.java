@@ -127,9 +127,7 @@ public class StoreAggregations {
 
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;

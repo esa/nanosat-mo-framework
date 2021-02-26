@@ -68,9 +68,9 @@ public abstract class MCManager {
     private final GroupServiceImpl groupService = new GroupServiceImpl();
 
     protected MCManager(COMServicesProvider comServices) {
-        this.identitiesToNamesMap = new HashMap<Long, Identifier>();
-        this.namesToPairsMap = new HashMap<Identifier, ObjectInstancePair>();
-        this.objIdToDefMap = new HashMap<Long, Element>();
+        this.identitiesToNamesMap = new HashMap<>();
+        this.namesToPairsMap = new HashMap<>();
+        this.objIdToDefMap = new HashMap<>();
 
         if (comServices != null) {
             this.eventService = comServices.getEventService();

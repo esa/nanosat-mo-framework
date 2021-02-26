@@ -78,7 +78,8 @@ public class MCRegistration {
      */
     public enum RegistrationMode {
         UPDATE_IF_EXISTS, DONT_UPDATE_IF_EXISTS
-    };
+    }
+
     private RegistrationMode mode = RegistrationMode.DONT_UPDATE_IF_EXISTS; // default mode
 
     public final COMServicesProvider comServices;
@@ -178,9 +179,7 @@ public class MCRegistration {
             }
 
             return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
+        } catch (MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -260,9 +259,7 @@ public class MCRegistration {
             }
 
             return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
+        } catch (MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -342,9 +339,7 @@ public class MCRegistration {
             }
 
             return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
+        } catch (MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -424,9 +419,7 @@ public class MCRegistration {
             }
 
             return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
+        } catch (MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 

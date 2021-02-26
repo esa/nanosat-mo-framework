@@ -75,8 +75,8 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     protected static COMService service;
 
     private MALProvider configurationServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
+    private boolean initialiased;
+    private boolean running;
     private final HashMap<ObjectId, Element> configs = new HashMap<ObjectId, Element>();
     private final ConnectionProvider connection = new ConnectionProvider();
     private final Random random = new Random();
@@ -237,13 +237,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             IdentifierList subIds = new IdentifierList();
             subIds.add(subId);
             eventServiceConsumer.getEventStub().monitorEventDeregister(subIds);
-        } catch (MALException ex) {
-            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            interaction.sendError(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            interaction.sendError(null);
-        } catch (MalformedURLException ex) {
+        } catch (MALException | MalformedURLException | MALInteractionException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             interaction.sendError(null);
         }
@@ -291,8 +285,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
             return xmlFile;
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -317,8 +309,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 */
 //            ConfigurationObjectDetails decodedElement = (ConfigurationObjectDetails) xmlEIS.readElement(new ConfigurationObjectDetails(), null);
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -375,8 +365,8 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
         private final Long originalObjId;
         private final int timeout = 15; // (seconds) Default timeout for the waiting of a response from the service
-        private ObjectId objectId = null;
-        private boolean available = false;
+        private ObjectId objectId;
+        private boolean available;
 
         private EventConsumerConfigurationCallbackAdapter(Long emittedEventObjId) {
             originalObjId = emittedEventObjId;

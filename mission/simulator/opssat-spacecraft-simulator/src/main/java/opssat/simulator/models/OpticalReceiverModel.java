@@ -30,9 +30,9 @@ import opssat.simulator.util.EndlessSingleStreamOperatingBuffer;
  * @author Suteu Silviu Cezar
  */
 public class OpticalReceiverModel extends AbstractModel {
-    private byte[] operatingBuffer;
+    private final byte[] operatingBuffer;
     private int successRate;
-    private EndlessSingleStreamOperatingBuffer singleStreamOperatingBuffer;
+    private final EndlessSingleStreamOperatingBuffer singleStreamOperatingBuffer;
     
     public OpticalReceiverModel(String name, Logger logger) {
         super(name);

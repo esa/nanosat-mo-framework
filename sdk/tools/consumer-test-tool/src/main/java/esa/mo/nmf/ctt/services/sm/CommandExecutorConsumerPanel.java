@@ -41,7 +41,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
@@ -166,24 +165,12 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
     jPanel1.setPreferredSize(new java.awt.Dimension(419, 23));
 
     runAppButton.setText("runCommand");
-    runAppButton.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        runCommandButtonActionPerformed(evt);
-      }
-    });
+    runAppButton.addActionListener(evt -> runCommandButtonActionPerformed(evt));
     jPanel1.add(runAppButton);
 
     listAppAllButton.setText("List Recent Commands");
     listAppAllButton.setEnabled(false);
-    listAppAllButton.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        listRecentCommandsButtonActionPerformed(evt);
-      }
-    });
+    listAppAllButton.addActionListener(evt -> listRecentCommandsButtonActionPerformed(evt));
     jPanel1.add(listAppAllButton);
 
     parameterTab.add(jPanel1);

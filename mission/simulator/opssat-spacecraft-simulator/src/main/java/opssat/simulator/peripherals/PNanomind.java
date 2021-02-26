@@ -37,31 +37,34 @@ super(simulatorNode,name);
     @Override
     @InternalData (internalID=4001,commandIDs={"",""},argNames={"cmdID","data"})
     public byte[] runRawCommand(int cmdID,byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(4001,argObject);
-    };
+    }
+
     @Override
     @InternalData (internalID=4002,commandIDs={"","0x01"},argNames={"device"})
     public void SetPowerState(byte device) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(device);
         super.getSimulatorNode().runGenericMethod(4002,argObject);
-    };
+    }
+
     @Override
     @InternalData (internalID=4003,commandIDs={"","0x06"},argNames={""})
     public byte GetPowerState() {
         ArrayList<Object> argObject=null;
         return (Byte) super.getSimulatorNode().runGenericMethod(4003,argObject);
-    };
+    }
+
     @Override
     @InternalData (internalID=4004,commandIDs={"","0x10"},argNames={"opmode"})
     public void SetOperationMode(byte opmode) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(opmode);
         super.getSimulatorNode().runGenericMethod(4004,argObject);
-    };
+    }
 }
 
 

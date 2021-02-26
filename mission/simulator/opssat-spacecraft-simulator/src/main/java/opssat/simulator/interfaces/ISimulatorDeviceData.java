@@ -35,5 +35,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 
 public @interface ISimulatorDeviceData {
-    public String[] descriptors();
+    String[] descriptors();
 }

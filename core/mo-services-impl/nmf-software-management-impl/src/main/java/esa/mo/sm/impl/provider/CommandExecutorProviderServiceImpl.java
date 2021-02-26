@@ -20,7 +20,6 @@
  */
 package esa.mo.sm.impl.provider;
 
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
@@ -75,7 +74,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
       CommandExecutorProviderServiceImpl.class.getName());
   private final ConnectionProvider connection = new ConnectionProvider();
   private MALProvider commandExecutorServiceProvider;
-  private boolean initialiased = false;
+  private boolean initialiased;
   private EventProviderServiceImpl eventService;
   private ArchiveProviderServiceImpl archiveService;
   private final OSValidator osValidator = new OSValidator();

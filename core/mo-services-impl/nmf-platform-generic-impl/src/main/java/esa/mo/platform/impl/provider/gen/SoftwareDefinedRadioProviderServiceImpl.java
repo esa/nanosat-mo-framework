@@ -65,12 +65,12 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 {
 
   private MALProvider softwareDefinedRadioServiceProvider;
-  private boolean initialiased = false;
-  private boolean running = false;
+  private boolean initialiased;
+  private boolean running;
   private boolean sdrInUse;
   private StreamRadioPublisher publisher;
   private final Object lock = new Object();
-  private boolean isRegistered = false;
+  private boolean isRegistered;
   private final ConnectionProvider connection = new ConnectionProvider();
   private Timer publishTimer = new Timer();
   private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
@@ -178,13 +178,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
       publisher.publish(hdrlst, iqComponentsList);
 
-    } catch (IllegalArgumentException ex) {
-      Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALException ex) {
-      Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALInteractionException ex) {
+    } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
       Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
           "Exception during publishing process on the provider {0}", ex);
     }

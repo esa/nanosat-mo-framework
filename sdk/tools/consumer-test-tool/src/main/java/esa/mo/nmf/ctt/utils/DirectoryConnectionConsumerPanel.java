@@ -56,13 +56,13 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
 {
 
-  private ConnectionConsumer connectionConsumer;
-  private javax.swing.JTabbedPane tabs;
+  private final ConnectionConsumer connectionConsumer;
+  private final javax.swing.JTabbedPane tabs;
   private ProviderSummaryList summaryList;
-  private DefaultTableModel tableData;
+  private final DefaultTableModel tableData;
   private final boolean isS2G;
   private static final String LAST_USED_CONSUMER_PREF = "last_used_consumer";
-  private static Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
+  private static final Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
 
   /**
    * Creates new form ConsumerPanelArchive
@@ -86,7 +86,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
     tableData = new javax.swing.table.DefaultTableModel(
         new Object[][]{}, tableCol)
     {
-      Class[] types = new Class[]{
+      final Class[] types = new Class[]{
         java.lang.String.class, java.lang.String.class, java.lang.String.class,
         java.lang.String.class, java.lang.String.class
       };
@@ -106,59 +106,54 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
 
     jTable1.setModel(tableData);
 
-    ListSelectionListener listSelectionListener = new ListSelectionListener()
-    {
-      @Override
-      public void valueChanged(ListSelectionEvent listSelectionEvent)
-      {
-        // Update the jTable according to the selection of the index
-        // So, remove all...
-        while (tableData.getRowCount() != 0) {
-          tableData.removeRow(tableData.getRowCount() - 1);
+    ListSelectionListener listSelectionListener = listSelectionEvent -> {
+      // Update the jTable according to the selection of the index
+      // So, remove all...
+      while (tableData.getRowCount() != 0) {
+        tableData.removeRow(tableData.getRowCount() - 1);
+      }
+
+      int index = providersList.getSelectedIndex();
+
+      if (index == -1) {
+        index = 0;
+      }
+
+      ServiceCapabilityList services
+          = summaryList.get(index).getProviderDetails().getServiceCapabilities();
+
+      // And then add the new stuff
+      for (int i = 0; i < services.size(); i++) {
+        ServiceCapability service = services.get(i);
+
+        String serviceName;
+        try {
+          serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(),
+              service.getServiceKey().getVersion(), service.getServiceKey().getService());
+        } catch (MALException ex) {
+          serviceName = "<Unknown service>";
         }
 
-        int index = providersList.getSelectedIndex();
+        String serviceURI = "";
+        String brokerURI = "";
 
-        if (index == -1) {
-          index = 0;
+        if (service.getServiceAddresses().size() > 0) {
+          serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
+          // To avoid null pointers here...
+          brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null)
+              ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
         }
 
-        ServiceCapabilityList services
-            = summaryList.get(index).getProviderDetails().getServiceCapabilities();
+        String supportedCapabilities = (service.getSupportedCapabilities() == null)
+            ? "All Supported" : service.getSupportedCapabilities().toString();
 
-        // And then add the new stuff
-        for (int i = 0; i < services.size(); i++) {
-          ServiceCapability service = services.get(i);
-
-          String serviceName;
-          try {
-            serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(),
-                service.getServiceKey().getVersion(), service.getServiceKey().getService());
-          } catch (MALException ex) {
-            serviceName = "<Unknown service>";
-          }
-
-          String serviceURI = "";
-          String brokerURI = "";
-
-          if (service.getServiceAddresses().size() > 0) {
-            serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
-            // To avoid null pointers here...
-            brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null)
-                ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
-          }
-
-          String supportedCapabilities = (service.getSupportedCapabilities() == null)
-              ? "All Supported" : service.getSupportedCapabilities().toString();
-
-          tableData.addRow(new Object[]{
-            serviceName,
-            supportedCapabilities,
-            service.getServiceProperties().toString(),
-            serviceURI,
-            brokerURI
-          });
-        }
+        tableData.addRow(new Object[]{
+          serviceName,
+          supportedCapabilities,
+          service.getServiceProperties().toString(),
+          serviceURI,
+          brokerURI
+        });
       }
     };
 
@@ -213,25 +208,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         jLabel29.setPreferredSize(new java.awt.Dimension(150, 14));
 
         uriServiceDirectory.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceDirectory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceDirectoryActionPerformed(evt);
-            }
-        });
+        uriServiceDirectory.addActionListener(evt -> uriServiceDirectoryActionPerformed(evt));
 
         load_URI_links1.setText("Fetch Information");
-        load_URI_links1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                load_URI_links1ActionPerformed(evt);
-            }
-        });
+        load_URI_links1.addActionListener(evt -> load_URI_links1ActionPerformed(evt));
 
         connectButton.setText("Connect to Selected Provider");
-        connectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                connectButtonActionPerformed(evt);
-            }
-        });
+        connectButton.addActionListener(evt -> connectButtonActionPerformed(evt));
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -416,26 +399,14 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         prefs.put(LAST_USED_CONSUMER_PREF, uriServiceDirectory.getText());
 
         connectButton.setEnabled(true);
-      } catch (MALException ex) {
-        errorConnectionProvider("Directory", ex);
-        providersList.setModel(new DefaultListModel());
-        connectButton.setEnabled(false);
-        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
-            ex);
-      } catch (MalformedURLException ex) {
-        errorConnectionProvider("Directory", ex);
-        providersList.setModel(new DefaultListModel());
-        connectButton.setEnabled(false);
-        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
-            ex);
-      } catch (MALInteractionException ex) {
+      } catch (MALException | MALInteractionException | MalformedURLException ex) {
         errorConnectionProvider("Directory", ex);
         providersList.setModel(new DefaultListModel());
         connectButton.setEnabled(false);
         Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
             ex);
       }
-    }//GEN-LAST:event_load_URI_links1ActionPerformed
+  }//GEN-LAST:event_load_URI_links1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectButton;

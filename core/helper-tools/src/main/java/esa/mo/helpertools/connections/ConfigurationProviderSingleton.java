@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mal.structures.SessionType;
 public final class ConfigurationProviderSingleton {
 
     private static final ConfigurationProviderSingleton INSTANCE = new ConfigurationProviderSingleton();
-    private static boolean isInitialized = false;
+    private static boolean isInitialized;
     private static Identifier NETWORK = new Identifier();
     private static SessionType SESSION;
     private static final IdentifierList DOMAIN = new IdentifierList();

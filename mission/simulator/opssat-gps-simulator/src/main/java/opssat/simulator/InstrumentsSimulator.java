@@ -32,9 +32,9 @@ public class InstrumentsSimulator {
     private final GPS gps;
     private final FineADCS fineADCS;
     private final Camera camera;
-    private int mode = 0;
-    private double temperature = 0;
-    private byte[] picture = null;
+    private int mode;
+    private double temperature;
+    private byte[] picture;
     
     /**
      * Constructor for the Instruments Simulator Block

@@ -27,7 +27,6 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
@@ -58,7 +57,6 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -231,7 +229,7 @@ public abstract class GroundMOProxy
               archiveService.getConnectionDetails().getDomain(),
               null,
               null,
-              new Long(0),
+                  0L,
               null,
               lastTime,
               currentOBT,
@@ -259,11 +257,7 @@ public abstract class GroundMOProxy
                   localDirectoryService.syncLocalDirectoryServiceWithCentral(
                       centralDirectoryServiceURI, routedURI);
                   additionalHandling();
-                } catch (MALException ex) {
-                  LOGGER.log(Level.SEVERE, null, ex);
-                } catch (MalformedURLException ex) {
-                  LOGGER.log(Level.SEVERE, null, ex);
-                } catch (MALInteractionException ex) {
+                } catch (MALException | MALInteractionException | MalformedURLException ex) {
                   LOGGER.log(Level.SEVERE, null, ex);
                 }
               }

@@ -77,9 +77,9 @@ import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implements ReconfigurableService {
 
     private MALProvider alertServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
-    private boolean isRegistered = false;
+    private boolean initialiased;
+    private boolean running;
+    private boolean isRegistered;
     protected AlertManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private final GroupServiceImpl groupService = new GroupServiceImpl();
@@ -586,9 +586,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 //            InstanceBooleanPairList ids = new InstanceBooleanPairList();
 //            ids.add(new InstanceBooleanPair(identityId, true));
 //            this.enableGeneration(true, ids, interaction); // Enable the reporting for this Alert Definition
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return identityId;

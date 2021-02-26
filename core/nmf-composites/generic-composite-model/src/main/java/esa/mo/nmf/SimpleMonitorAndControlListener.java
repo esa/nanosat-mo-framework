@@ -28,7 +28,7 @@ import java.util.EventListener;
  * receive actions, set parameters and get parameters.
  *
  */
-public abstract interface SimpleMonitorAndControlListener extends EventListener {
+public interface SimpleMonitorAndControlListener extends EventListener {
 
     /**
      * The user must implement this interface in order to link a certain action

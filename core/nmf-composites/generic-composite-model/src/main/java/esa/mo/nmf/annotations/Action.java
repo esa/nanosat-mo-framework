@@ -40,13 +40,13 @@ import java.lang.annotation.Target;
 public @interface Action
 {
 
-  public String name() default "";
+  String name() default "";
 
-  public String description() default "";
+  String description() default "";
 
-  public short category() default 0;
+  short category() default 0;
 
-  public int stepCount() default 0;
+  int stepCount() default 0;
 
-  public String rawUnit() default "";
+  String rawUnit() default "";
 }

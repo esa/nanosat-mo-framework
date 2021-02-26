@@ -41,7 +41,7 @@ class GroundHeartbeatAdapter extends HeartbeatAdapter
   private long lag; // In milliseconds
   private final TaskScheduler timer;
   private Time lastBeatAt = HelperTime.getTimestampMillis();
-  private Time lastBeatOBT = null; // Last beat in On-Board timestamp
+  private Time lastBeatOBT; // Last beat in On-Board timestamp
   private final GroundMOProxy moProxy;
 
   public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat,
@@ -97,7 +97,7 @@ class GroundHeartbeatAdapter extends HeartbeatAdapter
       this.moProxy = moProxy;
       this.heartbeat = heartbeat;
     }
-    int tryNumber = 0;
+    int tryNumber;
 
     @Override
     public void run()

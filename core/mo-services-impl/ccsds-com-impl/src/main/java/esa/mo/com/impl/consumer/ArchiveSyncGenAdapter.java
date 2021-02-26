@@ -41,9 +41,9 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
     private final Map<Integer, byte[]> receivedChunks;
     private final Semaphore completed;
 //    private Long interactionTicket = null;
-    private UInteger numberOfChunks = null;
-    private long lastTimeReceived = 0;
-    private long lastknowIndex = 0;
+    private UInteger numberOfChunks;
+    private long lastTimeReceived;
+    private long lastknowIndex;
 
     public ArchiveSyncGenAdapter() {
         this.receivedChunks = new HashMap<>();
@@ -183,7 +183,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
     }
 
     public ArrayList<byte[]> getReceivedChunks() {
-        return new ArrayList<byte[]>(receivedChunks.values());
+        return new ArrayList<>(receivedChunks.values());
     }
 
 }

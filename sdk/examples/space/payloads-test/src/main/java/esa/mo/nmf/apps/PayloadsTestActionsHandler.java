@@ -58,7 +58,7 @@ public class PayloadsTestActionsHandler
   private static final int SDR_RECORDING_DURATION = 2000;
   static final int TOTAL_STAGES = 3;
 
-  private boolean sdrRegistered = false;
+  private boolean sdrRegistered;
 
   private final PayloadsTestMCAdapter payloadsTestMCAdapter;
 

@@ -135,7 +135,7 @@ public class CameraAcquisitorSystemCameraHandler
   private class CameraDataHandler extends CameraAdapter
   {
 
-    private Long actionInstanceObjId;
+    private final Long actionInstanceObjId;
     private final int stageOffset;
     private final int totalStage;
 
@@ -183,8 +183,7 @@ public class CameraAcquisitorSystemCameraHandler
       try {
         GeodeticPoint position = this.casMCAdapter.getGpsHandler().getCurrentPosition();
 
-        posString = String.valueOf(position.getLatitude()) + "_" + String.valueOf(
-            position.getLongitude());
+        posString = position.getLatitude() + "_" + position.getLongitude();
       } catch (Exception ex) {
         LOGGER.log(Level.SEVERE, "getCurrentPosition Failed!/n{0}", ex);
       }

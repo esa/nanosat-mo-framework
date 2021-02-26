@@ -28,9 +28,9 @@ import org.orekit.time.AbsoluteDate;
 public class AttitudeStateProvider implements AdditionalStateProvider
 {
 
-  private String name = "attitude";
-  private double transitionTime = 1;
-  private AbsoluteDate[] transitionDate = {null, null, null, null, null, null, null, null};
+  private final String name = "attitude";
+  private final double transitionTime = 1;
+  private final AbsoluteDate[] transitionDate = {null, null, null, null, null, null, null, null};
   private boolean[] switched = {false, false, false, false, false, false, false, false};
 
   public AttitudeStateProvider()

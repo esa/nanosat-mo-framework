@@ -30,13 +30,13 @@ import java.util.LinkedList;
  */
 public class SimulatorDeviceData implements Serializable {
 
-    private LinkedList<ArgumentDescriptor> dataList;
+    private final LinkedList<ArgumentDescriptor> dataList;
 
     String name;
 
     public SimulatorDeviceData(String name) {
         this.name = name;
-        this.dataList = new LinkedList<ArgumentDescriptor>();
+        this.dataList = new LinkedList<>();
     }
 
     public String getName() {

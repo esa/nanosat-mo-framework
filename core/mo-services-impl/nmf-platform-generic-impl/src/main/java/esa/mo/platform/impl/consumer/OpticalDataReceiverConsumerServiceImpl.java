@@ -39,8 +39,8 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataRecei
  */
 public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private OpticalDataReceiverStub opticalDataReceiverService = null;
-    private COMServicesConsumer comServices;
+    private final OpticalDataReceiverStub opticalDataReceiverService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

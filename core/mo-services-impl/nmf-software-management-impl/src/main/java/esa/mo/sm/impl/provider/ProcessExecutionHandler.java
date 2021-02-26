@@ -23,7 +23,6 @@ package esa.mo.sm.impl.provider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +58,7 @@ public class ProcessExecutionHandler
      * @param exitCode Application exit code
      */
     void processStopped(Long objId, int exitCode);
-  };
+  }
 
   private final TaskScheduler timer = new TaskScheduler(1);
   private static final int PERIOD_PUB = 2 * 1000; // Publish every 2 seconds
@@ -67,8 +66,8 @@ public class ProcessExecutionHandler
   private Thread stdoutReader;
   private Thread stderrReader;
   private Thread shutdownHook;
-  private Process process = null;
-  private Callbacks cb = null;
+  private Process process;
+  private final Callbacks cb;
   private static final Logger LOGGER = Logger.getLogger(ProcessExecutionHandler.class.getName());
 
   public ProcessExecutionHandler(final Callbacks cb, final Long objId)
@@ -96,7 +95,7 @@ public class ProcessExecutionHandler
 
   public void installShutdownHook()
   {
-    shutdownHook = new Thread(() -> close());
+    shutdownHook = new Thread(this::close);
     Runtime.getRuntime().addShutdownHook(shutdownHook);
   }
 

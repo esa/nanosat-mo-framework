@@ -105,8 +105,8 @@ public class ShellCommander {
 
     private class StreamWrapper extends Thread {
 
-        private InputStream is = null;
-        private String type = null;
+        private final InputStream is;
+        private final String type;
         private String message = "<Nothing>";
 
         public String getMessage() {

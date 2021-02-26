@@ -100,10 +100,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 {
 
   private MALProvider gpsServiceProvider;
-  private boolean initialiased = false;
-  private boolean running = false;
+  private boolean initialiased;
+  private boolean running;
   private NearbyPositionPublisher publisher;
-  private boolean isRegistered = false;
+  private boolean isRegistered;
   private final Object lock = new Object();
   private GPSManager manager;
   private PeriodicCurrentPosition periodicCurrentPosition;
@@ -112,11 +112,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   private ConfigurationChangeListener configurationAdapter;
 
   private final Object MUTEX = new Object();
-  private Position currentPosition = null;
-  private VectorD3D currentCartesianPosition = null;
-  private VectorF3D currentCartesianPositionDeviation = null;
-  private VectorD3D currentCartesianVelocity = null;
-  private VectorF3D currentCartesianVelocityDeviation = null;
+  private Position currentPosition;
+  private VectorD3D currentCartesianPosition;
+  private VectorF3D currentCartesianPositionDeviation;
+  private VectorD3D currentCartesianVelocity;
+  private VectorF3D currentCartesianVelocityDeviation;
   private long timeOfCurrentPosition;
   private long timeOfCurrentPositionAndVelocity;
 
@@ -658,7 +658,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   {
 
     private final TaskScheduler timer;
-    boolean active = false; // Flag that determines if publishes or not
+    boolean active; // Flag that determines if publishes or not
     private final int PERIOD;
 
     public PeriodicCurrentPosition()

@@ -39,8 +39,8 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefined
  */
 public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private SoftwareDefinedRadioStub softwareDefinedRadioService = null;
-    private COMServicesConsumer comServices;
+    private final SoftwareDefinedRadioStub softwareDefinedRadioService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

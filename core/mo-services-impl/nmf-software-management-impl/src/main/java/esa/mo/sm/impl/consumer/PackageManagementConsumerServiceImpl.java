@@ -44,8 +44,8 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageM
 public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
 
     
-    private PackageManagementStub packageManagementService = null;
-    private COMServicesConsumer comServices;
+    private final PackageManagementStub packageManagementService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

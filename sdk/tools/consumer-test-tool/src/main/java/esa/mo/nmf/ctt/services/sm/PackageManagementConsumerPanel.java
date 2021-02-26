@@ -96,7 +96,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
             }
         ) {
-            Class[] types = new Class [] {
+            final Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
             };
 
@@ -123,35 +123,19 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(419, 23));
 
         installButton.setText("install");
-        installButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                installButtonActionPerformed(evt);
-            }
-        });
+        installButton.addActionListener(evt -> installButtonActionPerformed(evt));
         jPanel1.add(installButton);
 
         uninstallButton.setText("uninstall");
-        uninstallButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uninstallButtonActionPerformed(evt);
-            }
-        });
+        uninstallButton.addActionListener(evt -> uninstallButtonActionPerformed(evt));
         jPanel1.add(uninstallButton);
 
         upgradeButton.setText("upgrade");
-        upgradeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                upgradeButtonActionPerformed(evt);
-            }
-        });
+        upgradeButton.addActionListener(evt -> upgradeButtonActionPerformed(evt));
         jPanel1.add(upgradeButton);
 
         listAppAllButton.setText("listApp(\"*\")");
-        listAppAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listAppAllButtonActionPerformed(evt);
-            }
-        });
+        listAppAllButton.addActionListener(evt -> listAppAllButtonActionPerformed(evt));
         jPanel1.add(listAppAllButton);
 
         parameterTab.add(jPanel1);
@@ -232,9 +216,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_listAppAllButtonActionPerformed
@@ -279,9 +261,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_upgradeButtonActionPerformed
@@ -324,9 +304,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_uninstallButtonActionPerformed
@@ -368,9 +346,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_installButtonActionPerformed

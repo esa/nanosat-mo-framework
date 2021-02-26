@@ -133,7 +133,7 @@ public class CameraAcquisitorGround
 
   // cached values
   private PositionAndTime[] cachedTrack = new PositionAndTime[0];
-  private AtomicLong counter = new AtomicLong(0);
+  private final AtomicLong counter = new AtomicLong(0);
   private final int NUM_TRIES = 5; // number of timeslots that will maximaly be calculated.
 
   private TLE cachedTLE;
@@ -256,7 +256,7 @@ public class CameraAcquisitorGround
       archiveQuery.setDomain(null);
       archiveQuery.setNetwork(null);
       archiveQuery.setProvider(null);
-      archiveQuery.setRelated(new Long(0));
+      archiveQuery.setRelated(0L);
       archiveQuery.setSource(null);
       archiveQuery.setStartTime(null);
       archiveQuery.setEndTime(null);
@@ -459,9 +459,6 @@ public class CameraAcquisitorGround
       lastTLEUpdate = Instant.now();
       cachedTLE = new TLE(line1, line2);
       return cachedTLE;
-    } catch (MalformedURLException ex) {
-      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, "loadTLE {0}",
-          ex.getMessage());
     } catch (IOException ex) {
       Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, "loadTLE {0}",
           ex.getMessage());

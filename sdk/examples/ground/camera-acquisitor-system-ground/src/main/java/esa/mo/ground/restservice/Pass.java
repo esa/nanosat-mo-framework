@@ -44,9 +44,9 @@ public class Pass implements EventHandler<BooleanDetector>
 
   private String resultTime;
 
-  private boolean timeFound = false;
+  private boolean timeFound;
 
-  private boolean startIsSet = false;
+  private boolean startIsSet;
 
   public Pass(AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds)
   {

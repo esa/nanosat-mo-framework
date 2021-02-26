@@ -43,19 +43,16 @@ public class MOelementList extends MOelement{
         buttonRemove = new javax.swing.JToggleButton();
         buttonRemove.setText("Remove");
         final MOelementList temp = this;
-        java.awt.event.ActionListener actionListenerRemove = new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    previousWindow.getComponentsPanel().remove(temp);
-                    
-                    // Fix the indexes
-                    for (int i = 0; i < previousWindow.getComponentsPanel().getComponentCount()-1; i++){
-                        ( (MOelement) previousWindow.getComponentsPanel().getComponent(i)).getFieldNameLabel().setText(String.valueOf(i));
-                    }
-                    
-                    previousWindow.refreshVerticalSize();
-                }
-            };
+        java.awt.event.ActionListener actionListenerRemove = evt -> {
+            previousWindow.getComponentsPanel().remove(temp);
+
+            // Fix the indexes
+            for (int i = 0; i < previousWindow.getComponentsPanel().getComponentCount()-1; i++){
+                ( (MOelement) previousWindow.getComponentsPanel().getComponent(i)).getFieldNameLabel().setText(String.valueOf(i));
+            }
+
+            previousWindow.refreshVerticalSize();
+        };
         buttonRemove.addActionListener(actionListenerRemove);
 
         // Is it an Attribute?
@@ -77,12 +74,7 @@ public class MOelementList extends MOelement{
         }else{
             // Make a button and put it in the middle Panel
             buttonEdit = new javax.swing.JToggleButton();
-            buttonEdit.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    buttonEditActionPerformed(evt);
-                }
-            });
+            buttonEdit.addActionListener(evt -> buttonEditActionPerformed(evt));
         
             super.middlePanel.add(buttonEdit);
 

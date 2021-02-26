@@ -99,8 +99,8 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
   /* Logger */
   private static final Logger LOGGER = Logger.getLogger(GroundMOAdapterImpl.class.getName());
 
-  private Subscription parameterSubscription = null;
-  private Subscription aggregationSubscription = null;
+  private Subscription parameterSubscription;
+  private Subscription aggregationSubscription;
 
   /**
    * The constructor of this class
@@ -297,7 +297,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
           for (int i = 0; i < lUpdateHeaderList.size(); i++) {
 
             if (listener instanceof SimpleAggregationReceivedListener) {
-              List<ParameterInstance> parameterInstances = new LinkedList<ParameterInstance>();
+              List<ParameterInstance> parameterInstances = new LinkedList<>();
 
               AggregationValue aggregationValue = lAggregationValueList.get(i);
 
@@ -338,9 +338,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         // Register for pub-sub of all parameters
         super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(
             this.parameterSubscription, new DataReceivedParameterAdapter());
-      } catch (MALInteractionException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      } catch (MALException ex) {
+      } catch (MALInteractionException | MALException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
       } catch (NullPointerException ex) {
         LOGGER.log(Level.SEVERE,
@@ -478,9 +476,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
       return actionID;
 
-    } catch (MALInteractionException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    } catch (MALException ex) {
+    } catch (MALInteractionException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
     return null;
@@ -510,9 +506,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
         }
         );
-      } catch (MALInteractionException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      } catch (MALException ex) {
+      } catch (MALInteractionException | MALException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
       }
 
@@ -535,9 +529,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
           }
         }
         );
-      } catch (MALInteractionException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      } catch (MALException ex) {
+      } catch (MALInteractionException | MALException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
       }
 
@@ -679,11 +671,7 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
           actionConnection.getDomain(),
           archiveDetailsListActionInstance,
           instanceDetailsList);
-    } catch (MALInteractionException ex) {
-      throw new NMFException("Failed to execute Action " + defInstId, ex);
-    } catch (MALException ex) {
-      throw new NMFException("Failed to execute Action " + defInstId, ex);
-    } catch (NMFException ex) {
+    } catch (MALInteractionException | NMFException | MALException ex) {
       throw new NMFException("Failed to execute Action " + defInstId, ex);
     }
 

@@ -124,7 +124,7 @@ public class CommandExecutorTablePanel extends SharedTablePanel
 
     tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol)
     {
-      Class[] columnClasses = new Class[]{
+      final Class[] columnClasses = new Class[]{
         java.lang.Long.class, java.lang.String.class, java.lang.String.class,
         java.lang.String.class
       };

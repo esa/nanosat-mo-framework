@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.mc.alert.consumer.AlertStub;
  */
 public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private AlertStub alertService = null;
-    private COMServicesConsumer comServices;
+    private final AlertStub alertService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

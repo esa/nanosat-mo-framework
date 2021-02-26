@@ -48,14 +48,14 @@ public class VectorPointingSimulator implements AttitudeProvider
 
   Attitude lastState;
 
-  boolean isHoldingPosition = false;
+  boolean isHoldingPosition;
   private float margin;
 
   Vector3D targetVec;
 
-  boolean isX = false;
-  boolean isY = false;
-  boolean isZ = false;
+  boolean isX;
+  boolean isY;
+  boolean isZ;
 
   private enum AXIS
   {

@@ -45,7 +45,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
 
     private final URI providerURI;
-    private DirectoryStub directoryService = null;
+    private final DirectoryStub directoryService;
 
     @Override
     public Object getStub() {

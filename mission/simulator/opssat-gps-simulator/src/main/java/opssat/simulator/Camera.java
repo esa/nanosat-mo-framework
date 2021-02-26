@@ -21,12 +21,8 @@
 package opssat.simulator;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
 /**
  * The Camera class simulates a picture taken by a real camera by providing a

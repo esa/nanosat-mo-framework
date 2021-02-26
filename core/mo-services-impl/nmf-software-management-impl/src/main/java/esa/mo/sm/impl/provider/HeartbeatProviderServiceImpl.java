@@ -62,10 +62,10 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton
       = Logger.getLogger(HeartbeatProviderServiceImpl.class.getName());
   private MALProvider heartbeatServiceProvider;
   private BeatPublisher publisher;
-  private boolean initialiased = false;
-  private boolean isRegistered = false;
+  private boolean initialiased;
+  private boolean isRegistered;
   private final Object lock = new Object();
-  private boolean running = false;
+  private boolean running;
   private final ConnectionProvider connection = new ConnectionProvider();
   private Timer timer;
   protected long period = 10000; // 10 seconds

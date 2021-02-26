@@ -42,7 +42,7 @@ import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 public class GroupServiceImpl extends ConversionInheritanceSkeleton {
 
     private ArchiveProviderServiceImpl archiveService;
-    private boolean initialiased = false;
+    private boolean initialiased;
 
     /**
      *

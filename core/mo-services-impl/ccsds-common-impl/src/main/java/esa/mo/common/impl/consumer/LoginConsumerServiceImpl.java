@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.mal.structures.Blob;
  */
 public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private LoginStub loginService = null;
-    private COMServicesConsumer comServices;
+    private final LoginStub loginService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

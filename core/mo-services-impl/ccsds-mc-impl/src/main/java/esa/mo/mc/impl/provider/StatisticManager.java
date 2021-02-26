@@ -89,10 +89,10 @@ public final class StatisticManager {
         this.parameterManager = parameterManager;
         this.externalStatFunctions = externalStatFunctions;
 
-        this.statFunctions = new HashMap<Long, StatisticFunctionDetails>();
-        this.statLinks = new HashMap<Long, StatisticCreationRequest>();
-        this.statEvaluationReports = new HashMap<Long, StatisticEvaluationReport>();
-        this.statLinkDefIdsByStatLinkIds = new HashMap<Long, Long>();
+        this.statFunctions = new HashMap<>();
+        this.statLinks = new HashMap<>();
+        this.statEvaluationReports = new HashMap<>();
+        this.statLinkDefIdsByStatLinkIds = new HashMap<>();
         this.dataSets = new DataSets();
 
         if (comServices != null) {  // Do we have COM services?
@@ -193,9 +193,7 @@ public final class StatisticManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -298,10 +296,7 @@ public final class StatisticManager {
 
                 newLinkDefId = linkDefIds.get(0);
 
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -331,10 +326,7 @@ public final class StatisticManager {
                         null);
 
                 newLinkDefId = linkDefIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -577,8 +569,8 @@ public final class StatisticManager {
 
     public class DataSets {
 
-        private final HashMap<Long, AttributeValueList> dataSets = new HashMap<Long, AttributeValueList>();
-        private final HashMap<Long, TimeList> timeSets = new HashMap<Long, TimeList>();
+        private final HashMap<Long, AttributeValueList> dataSets = new HashMap<>();
+        private final HashMap<Long, TimeList> timeSets = new HashMap<>();
         private final Semaphore semaphore = new Semaphore(1);
 
         public void lock() {

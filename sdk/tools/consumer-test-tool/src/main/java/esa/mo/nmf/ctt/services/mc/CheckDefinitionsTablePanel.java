@@ -89,7 +89,7 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
 
         tableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, tableCol) {
-                    Class[] types = new Class[]{
+                    final Class[] types = new Class[]{
                         java.lang.Integer.class, java.lang.String.class, java.lang.String.class, 
                         java.lang.String.class, java.lang.String.class, java.lang.Integer.class, 
                         java.lang.String.class, java.lang.Integer.class, java.lang.String.class

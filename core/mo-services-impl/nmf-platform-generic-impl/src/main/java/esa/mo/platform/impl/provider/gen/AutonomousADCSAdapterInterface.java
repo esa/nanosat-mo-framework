@@ -84,14 +84,14 @@ public interface AutonomousADCSAdapterInterface
    * @return null if attitude descriptor is valid. Human readable string with error message if
    * validation fails.
    */
-  public String validateAttitudeDescriptor(AttitudeMode attitude);
+  String validateAttitudeDescriptor(AttitudeMode attitude);
 
   /**
    * Get active attitude mode.
    *
    * @return Descriptor of the attitude currently set in the ADCS or NULL if none (IDLE)
    */
-  public AttitudeMode getActiveAttitudeMode();
+  AttitudeMode getActiveAttitudeMode();
 
   /**
    * Sets the Speeds for all Reaction wheels in rad/second
@@ -103,8 +103,8 @@ public interface AutonomousADCSAdapterInterface
    * @param wheelV speed for wheel v
    * @param wheelW speed for wheel w
    */
-  public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU,
-      float wheelV, float wheelW);
+  void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU,
+                                 float wheelV, float wheelW);
 
   /**
    * Sets the speed of one Reaction wheel
@@ -112,14 +112,14 @@ public interface AutonomousADCSAdapterInterface
    * @param wheel the wheel which the speed should be set for.
    * @param Speed the speed that should be set
    */
-  public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed);
+  void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed);
 
   /**
    * Sets the parameters for all Reaction wheels.
    *
    * @param parameters the parameters to be set
    */
-  public void setAllReactionWheelParameters(ReactionWheelParameters parameters);
+  void setAllReactionWheelParameters(ReactionWheelParameters parameters);
 
   /**
    * Sets the dipole moments for all Magnetorquers in Am (in actuator frame)
@@ -128,13 +128,13 @@ public interface AutonomousADCSAdapterInterface
    * @param dipoleY dipole moment for Magnetorquer y
    * @param dipoleZ dipole moment for Magnetorquer z
    */
-  public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ);
+  void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ);
 
   /**
    * gets the current Reaction wheel Parameters.
    *
    * @return the current Reaction wheel parameters
    */
-  public ReactionWheelParameters getAllReactionWheelParameters();
+  ReactionWheelParameters getAllReactionWheelParameters();
 
 }

@@ -49,10 +49,10 @@ public class ConnectionProvider {
     private MALContextFactory malFactory;
     private MALContext mal;
     private MALProviderManager providerMgr;
-    private MALProvider primaryMALServiceProvider = null;
-    private MALProvider secondaryMALServiceProvider = null;
+    private MALProvider primaryMALServiceProvider;
+    private MALProvider secondaryMALServiceProvider;
     private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
-    private SingleConnectionDetails secondaryConnectionDetails = null;
+    private SingleConnectionDetails secondaryConnectionDetails;
 
     /**
      * Getter for the primaryConnectionDetails object.

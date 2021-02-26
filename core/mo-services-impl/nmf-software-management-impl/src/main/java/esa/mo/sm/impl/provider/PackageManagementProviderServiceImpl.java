@@ -55,8 +55,8 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageR
 public class PackageManagementProviderServiceImpl extends PackageManagementInheritanceSkeleton {
 
     private MALProvider packageManagementServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
+    private boolean initialiased;
+    private boolean running;
     private final ConnectionProvider connection = new ConnectionProvider();
     private COMServicesProvider comServices;
     private PMBackend backend;

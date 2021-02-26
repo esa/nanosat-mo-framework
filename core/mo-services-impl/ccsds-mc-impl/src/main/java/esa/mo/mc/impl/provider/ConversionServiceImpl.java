@@ -62,7 +62,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
     private ArchiveProviderServiceImpl archiveService;
     private ParameterManager manager;
-    private boolean initialiased = false;
+    private boolean initialiased;
 
     /**
      *

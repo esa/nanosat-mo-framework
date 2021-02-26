@@ -61,9 +61,9 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class StatisticConsumerPanel extends javax.swing.JPanel {
 
-    private StatisticConsumerServiceImpl serviceMCStatistic;
-    private ParameterConsumerServiceImpl serviceMCParameter;
-    private StatisticLinkTablePanel statisticTable;
+    private final StatisticConsumerServiceImpl serviceMCStatistic;
+    private final ParameterConsumerServiceImpl serviceMCParameter;
+    private final StatisticLinkTablePanel statisticTable;
 
     /**
      *
@@ -86,12 +86,10 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         Subscription subscription = ConnectionConsumer.subscriptionWildcard();
         try {
             serviceMCStatistic.getStatisticStub().monitorStatisticsRegister(subscription, new StatisticConsumerAdapter());
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
 
     /**
@@ -137,7 +135,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
                 "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
             }
         ) {
-            Class[] types = new Class [] {
+            final Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
             };
 
@@ -161,77 +159,41 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
-        enableDefinitionAllAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionAllAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionAllAgg.addActionListener(evt -> enableDefinitionAllAggActionPerformed(evt));
         jPanel1.add(enableDefinitionAllAgg);
 
         enableDefinitionButtonAgg.setText("enableGeneration");
-        enableDefinitionButtonAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionButtonAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionButtonAgg.addActionListener(evt -> enableDefinitionButtonAggActionPerformed(evt));
         jPanel1.add(enableDefinitionButtonAgg);
 
         listDefinitionButton.setText("listDefinition()");
-        listDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionButton.addActionListener(evt -> listDefinitionButtonActionPerformed(evt));
         jPanel1.add(listDefinitionButton);
 
         msgBoxOn2.setText("Display Published Statistic Values");
-        msgBoxOn2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                msgBoxOn2ActionPerformed(evt);
-            }
-        });
+        msgBoxOn2.addActionListener(evt -> msgBoxOn2ActionPerformed(evt));
         jPanel1.add(msgBoxOn2);
 
         parameterTab.add(jPanel1);
 
         addLinkButton.setText("addParameterEvaluation");
-        addLinkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addLinkButtonActionPerformed(evt);
-            }
-        });
+        addLinkButton.addActionListener(evt -> addLinkButtonActionPerformed(evt));
         jPanel5.add(addLinkButton);
 
         updateLinkButton.setText("updateParameterEvaluation");
-        updateLinkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateLinkButtonActionPerformed(evt);
-            }
-        });
+        updateLinkButton.addActionListener(evt -> updateLinkButtonActionPerformed(evt));
         jPanel5.add(updateLinkButton);
 
         removeLinkButton.setText("removeParameterEvaluation");
-        removeLinkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeLinkButtonActionPerformed(evt);
-            }
-        });
+        removeLinkButton.addActionListener(evt -> removeLinkButtonActionPerformed(evt));
         jPanel5.add(removeLinkButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(listDefinitionAllButton);
 
         removeLinkAllButton.setText("removeParameterEvaluation(0)");
-        removeLinkAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeLinkAllButtonActionPerformed(evt);
-            }
-        });
+        removeLinkAllButton.addActionListener(evt -> removeLinkAllButtonActionPerformed(evt));
         jPanel5.add(removeLinkAllButton);
 
         parameterTab.add(jPanel5);
@@ -308,10 +270,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
             // Add the Statistic Link to the table
             statisticTable.addEntry(new Identifier("MyStat!"), comObject);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted statistic link.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted statistic link.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -341,12 +300,10 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().updateParameterEvaluation(objIds, links);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_updateLinkButtonActionPerformed
 
     private void removeLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLinkButtonActionPerformed
@@ -361,9 +318,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().removeParameterEvaluation(longlist);
             statisticTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -386,9 +341,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().removeParameterEvaluation(longlist);
             statisticTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -419,9 +372,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
@@ -438,9 +389,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed

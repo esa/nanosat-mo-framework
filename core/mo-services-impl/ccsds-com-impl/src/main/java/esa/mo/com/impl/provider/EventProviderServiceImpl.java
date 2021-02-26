@@ -72,10 +72,10 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
     private MALProvider eventServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
+    private boolean initialiased;
+    private boolean running;
     private final Object lock = new Object();
-    private boolean isRegistered = false;
+    private boolean isRegistered;
     private MonitorEventPublisher publisher;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ArchiveProviderServiceImpl archiveService;
@@ -428,7 +428,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         for (int i = 0; i < objectDetailsList.size(); i++) {
             ArchiveDetails archiveDetails = new ArchiveDetails();
             archiveDetails.setDetails(objectDetailsList.get(i));
-            archiveDetails.setInstId(new Long(0)); // no need to worry about objIds
+            archiveDetails.setInstId(0L); // no need to worry about objIds
             archiveDetails.setTimestamp(HelperTime.getTimestamp());
 
             if (network != null) {
@@ -449,9 +449,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         try {
             // requirement 3.3.4.2.8
             return this.archiveService.store(true, objType, domain, archiveDetailsList, events, null);
-        } catch (MALException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -512,7 +510,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         ArchiveDetails archiveDetails = new ArchiveDetails();
         archiveDetails.setDetails(objectDetailsList.get(0));
-        archiveDetails.setInstId(new Long(0)); // no need to worry about objIds
+        archiveDetails.setInstId(0L); // no need to worry about objIds
 
         if (network != null) {
             archiveDetails.setNetwork(network);
@@ -534,9 +532,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         try {
             // requirement 3.3.4.2.8
             return this.archiveService.store(true, objType, domain, archiveDetailsList, events, null).get(0);
-        } catch (MALException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

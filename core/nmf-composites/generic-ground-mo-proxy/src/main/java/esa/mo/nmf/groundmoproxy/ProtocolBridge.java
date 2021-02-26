@@ -107,10 +107,7 @@ public class ProtocolBridge {
                 MALMessage dMsg = cloneForwardMessage(destination, srcMessage);
                 System.out.println("Injecting message...");
                 destination.sendMessage(dMsg);
-            } catch (MALException ex) {
-                Logger.getLogger(ProtocolBridge.class.getName()).log(Level.SEVERE, null, ex);
-                // ToDo need to bounce this back to source... maybe
-            } catch (MALTransmitErrorException ex) {
+            } catch (MALException | MALTransmitErrorException ex) {
                 Logger.getLogger(ProtocolBridge.class.getName()).log(Level.SEVERE, null, ex);
                 // ToDo need to bounce this back to source... maybe
             }

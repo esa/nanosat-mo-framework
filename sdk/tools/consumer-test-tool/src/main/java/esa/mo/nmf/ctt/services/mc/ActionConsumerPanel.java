@@ -122,7 +122,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 "Identity", "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
             }
         ) {
-            Class[] types = new Class [] {
+            final Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
             };
 
@@ -144,69 +144,37 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         submitAction.setText("submitAction");
-        submitAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitActionActionPerformed(evt);
-            }
-        });
+        submitAction.addActionListener(evt -> submitActionActionPerformed(evt));
         jPanel1.add(submitAction);
 
         preCheckActionButton.setText("preCheckAction");
-        preCheckActionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                preCheckActionButtonActionPerformed(evt);
-            }
-        });
+        preCheckActionButton.addActionListener(evt -> preCheckActionButtonActionPerformed(evt));
         jPanel1.add(preCheckActionButton);
 
         listDefinitionButton.setText("listDefinition()");
-        listDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionButton.addActionListener(evt -> listDefinitionButtonActionPerformed(evt));
         jPanel1.add(listDefinitionButton);
 
         parameterTab.add(jPanel1);
 
         addDefinitionButton.setText("addDefinition");
-        addDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefinitionButtonActionPerformed(evt);
-            }
-        });
+        addDefinitionButton.addActionListener(evt -> addDefinitionButtonActionPerformed(evt));
         jPanel5.add(addDefinitionButton);
 
         updateDefinitionButton.setText("updateDefinition");
-        updateDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateDefinitionButtonActionPerformed(evt);
-            }
-        });
+        updateDefinitionButton.addActionListener(evt -> updateDefinitionButtonActionPerformed(evt));
         jPanel5.add(updateDefinitionButton);
 
         removeDefinitionButton.setText("removeDefinition");
-        removeDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionButton.addActionListener(evt -> removeDefinitionButtonActionPerformed(evt));
         jPanel5.add(removeDefinitionButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(listDefinitionAllButton);
 
         removeDefinitionAllButton.setText("removeDefinition(0)");
-        removeDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionAllButton.addActionListener(evt -> removeDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(removeDefinitionAllButton);
 
         parameterTab.add(jPanel5);
@@ -323,9 +291,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
 
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -374,10 +340,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
             // Add the Action Definition to the table
             actionTable.addEntry(requestList.get(0).getName(), comObject);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -406,9 +369,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAction.getActionStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
@@ -425,9 +386,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             this.serviceMCAction.getActionStub().removeAction(longlist);
 
             actionTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
@@ -469,9 +428,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -486,9 +443,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAction.getActionStub().removeAction(longlist);
             actionTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
@@ -509,10 +464,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
         try {
             this.serviceMCAction.getActionStub().preCheckAction(actionInstanceDetails);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -49,9 +49,9 @@ import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
  */
 public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
-    private ConfigurationConsumerServiceImpl serviceMCConfiguration;
-    private ConfigurationTablePanel configurationTable;
-    private ConfigurationConsumer configuration = new ConfigurationConsumer();
+    private final ConfigurationConsumerServiceImpl serviceMCConfiguration;
+    private final ConfigurationTablePanel configurationTable;
+    private final ConfigurationConsumer configuration = new ConfigurationConsumer();
     private File file;
 
     /**
@@ -113,7 +113,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
                 "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
             }
         ) {
-            Class[] types = new Class [] {
+            final Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
             };
 
@@ -137,85 +137,45 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         activateButton.setText("activate");
-        activateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                activateButtonActionPerformed(evt);
-            }
-        });
+        activateButton.addActionListener(evt -> activateButtonActionPerformed(evt));
         jPanel1.add(activateButton);
 
         getCurrentButton.setText("getCurrent");
-        getCurrentButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getCurrentButtonActionPerformed(evt);
-            }
-        });
+        getCurrentButton.addActionListener(evt -> getCurrentButtonActionPerformed(evt));
         jPanel1.add(getCurrentButton);
 
         storeCurrentButton.setText("storeCurrent");
-        storeCurrentButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                storeCurrentButtonActionPerformed(evt);
-            }
-        });
+        storeCurrentButton.addActionListener(evt -> storeCurrentButtonActionPerformed(evt));
         jPanel1.add(storeCurrentButton);
 
         exportXMLButton.setText("exportXML");
-        exportXMLButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportXMLButtonActionPerformed(evt);
-            }
-        });
+        exportXMLButton.addActionListener(evt -> exportXMLButtonActionPerformed(evt));
         jPanel1.add(exportXMLButton);
 
         importXMLButton.setText("importXML");
-        importXMLButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importXMLButtonActionPerformed(evt);
-            }
-        });
+        importXMLButton.addActionListener(evt -> importXMLButtonActionPerformed(evt));
         jPanel1.add(importXMLButton);
 
         parameterTab.add(jPanel1);
 
         addButton.setText("add");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
-            }
-        });
+        addButton.addActionListener(evt -> addButtonActionPerformed(evt));
         jPanel5.add(addButton);
 
         updateButton.setText("update");
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
-            }
-        });
+        updateButton.addActionListener(evt -> updateButtonActionPerformed(evt));
         jPanel5.add(updateButton);
 
         removeButton.setText("remove");
-        removeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeButtonActionPerformed(evt);
-            }
-        });
+        removeButton.addActionListener(evt -> removeButtonActionPerformed(evt));
         jPanel5.add(removeButton);
 
         listAllButton.setText("list(\"*\")");
-        listAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listAllButtonActionPerformed(evt);
-            }
-        });
+        listAllButton.addActionListener(evt -> listAllButtonActionPerformed(evt));
         jPanel5.add(listAllButton);
 
         removeAllButton.setText("remove(0)");
-        removeAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeAllButtonActionPerformed(evt);
-            }
-        });
+        removeAllButton.addActionListener(evt -> removeAllButtonActionPerformed(evt));
         jPanel5.add(removeAllButton);
 
         parameterTab.add(jPanel5);
@@ -284,9 +244,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCConfiguration.getConfigurationStub().remove(oil);
             configurationTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -310,11 +268,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         try {
             output = this.serviceMCConfiguration.getConfigurationStub().list(prov, ConfigurationType.SERVICE);
 //            configurationTable.refreshTableWithIds(output, serviceMCConfiguration.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -339,9 +293,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCConfiguration.getConfigurationStub().remove(oil);
             configurationTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -382,9 +334,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         try {
             this.serviceMCConfiguration.getConfigurationStub().storeCurrent(prov, ConfigurationType.SERVICE, true, new ConfigAdapter());
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -397,9 +347,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         try {
             file = this.serviceMCConfiguration.getConfigurationStub().exportXML(confObjId, Boolean.TRUE);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_exportXMLButtonActionPerformed
@@ -408,9 +356,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         try {
             this.serviceMCConfiguration.getConfigurationStub().importXML(file);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_importXMLButtonActionPerformed

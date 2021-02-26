@@ -31,7 +31,7 @@ import java.io.Serializable;
 public class ParameterValueLabel implements Serializable {
 
     private String labelValue = "";
-    private boolean inError = false;
+    private boolean inError;
 
     public ParameterValueLabel() {
     }

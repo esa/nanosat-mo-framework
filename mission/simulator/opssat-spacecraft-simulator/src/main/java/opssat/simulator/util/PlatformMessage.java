@@ -3,8 +3,8 @@ package opssat.simulator.util;
 import java.io.Serializable;
 
 public class PlatformMessage implements Serializable {
-  private String key;
-  private String value;
+  private final String key;
+  private final String value;
 
   public PlatformMessage(String key, String value) {
     super();

@@ -40,7 +40,8 @@ import javax.sound.sampled.AudioSystem;
 
 public class WavFile
 {
-	private enum IOState {READING, WRITING, CLOSED};
+	private enum IOState {READING, WRITING, CLOSED}
+
 	private final static int BUFFER_SIZE = 4096;
 
 	private final static int FMT_CHUNK_ID = 0x20746D66;
@@ -66,7 +67,7 @@ public class WavFile
 	private int validBits;					// 2 bytes unsigned, 0x0002 (2) to 0xFFFF (65,535)
 
 	// Buffering
-	private byte[] buffer;					// Local buffer used for IO
+	private final byte[] buffer;					// Local buffer used for IO
 	private int bufferPointer;				// Points to the current position in local buffer
 	private int bytesRead;					// Bytes read after last read into local buffer
 	private long frameCounter;				// Current number of frames read or written

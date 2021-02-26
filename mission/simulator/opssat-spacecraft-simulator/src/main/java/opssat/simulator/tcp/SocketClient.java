@@ -24,7 +24,6 @@ package opssat.simulator.tcp;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -89,7 +88,7 @@ public class SocketClient extends Thread {
   }
 
   private boolean connectionEstablished;
-  private GuiApp parent;
+  private final GuiApp parent;
   private Socket s;
 
   public SocketClient(String targetURL, int targetPort, GuiApp tcpClientNode) {
@@ -142,8 +141,8 @@ public class SocketClient extends Thread {
 
   class SocketClientThreadReceiver extends Thread {
 
-    private Socket socket;
-    private GuiApp parent;
+    private final Socket socket;
+    private final GuiApp parent;
 
     SocketClientThreadReceiver(Socket socket, GuiApp tcpClientNode) {
       this.socket = socket;
@@ -204,8 +203,8 @@ public class SocketClient extends Thread {
 
   class SocketClientThreadSender extends Thread {
 
-    private Socket socket;
-    private GuiApp parent;
+    private final Socket socket;
+    private final GuiApp parent;
 
     SocketClientThreadSender(Socket socket, GuiApp tcpClientNode) {
       this.socket = socket;

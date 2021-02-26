@@ -128,7 +128,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
 
   private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
   private static final Logger LOGGER = Logger.getLogger(MCAllInOneAdapter.class.getName());
-  private NMFInterface nmf;
+  private final NMFInterface nmf;
 
   private final TaskScheduler periodicAlertTimer = new TaskScheduler(1);
 
@@ -137,7 +137,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
     this.nmf = nmfProvider;
   }
 
-  private static enum AttitudeModeEnum
+  private enum AttitudeModeEnum
   {
     IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING
   }

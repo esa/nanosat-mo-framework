@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.mc.check.consumer.CheckStub;
  */
 public class CheckConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private CheckStub checkService = null;
-    private COMServicesConsumer comServices;
+    private final CheckStub checkService;
+    private final COMServicesConsumer comServices;
    
     public COMServicesConsumer getCOMServices() {
         return comServices;

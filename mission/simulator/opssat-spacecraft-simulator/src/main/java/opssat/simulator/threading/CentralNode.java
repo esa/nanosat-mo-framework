@@ -36,9 +36,9 @@ import opssat.simulator.util.SimulatorHeader;
  */
 public class CentralNode extends TaskNode {
 
-  private ConcurrentLinkedQueue<Object> qFromGUI;
-  private ConcurrentLinkedQueue<Object> qToCelestia;
-  private ESASimulator parent;
+  private final ConcurrentLinkedQueue<Object> qFromGUI;
+  private final ConcurrentLinkedQueue<Object> qToCelestia;
+  private final ESASimulator parent;
 
   public synchronized ConcurrentLinkedQueue<Object> getqFromGUI() {
     return qFromGUI;
@@ -51,8 +51,8 @@ public class CentralNode extends TaskNode {
   public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut,
       String name, int delay, Level logLevel, Level consoleLogLevel, ESASimulator sim) {
     super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
-    this.qFromGUI = new ConcurrentLinkedQueue<Object>();
-    this.qToCelestia = new ConcurrentLinkedQueue<Object>();
+    this.qFromGUI = new ConcurrentLinkedQueue<>();
+    this.qToCelestia = new ConcurrentLinkedQueue<>();
     this.parent = sim;
   }
 
@@ -69,8 +69,8 @@ public class CentralNode extends TaskNode {
       String listenURL, String name, int delay, Level logLevel, Level consoleLogLevel,
       ESASimulator sim) {
     super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
-    this.qFromGUI = new ConcurrentLinkedQueue<Object>();
-    this.qToCelestia = new ConcurrentLinkedQueue<Object>();
+    this.qFromGUI = new ConcurrentLinkedQueue<>();
+    this.qToCelestia = new ConcurrentLinkedQueue<>();
     super.getLogObject().log(Level.FINE, "Creating listener on URL [" + listenURL + "]..");
     this.multiThreadedSocketServer = new MultiThreadedSocketServer(listenURL, this,
         MultiThreadedSocketServer.DEFAULT_SOCKET_PORT, super.getLogObject());
@@ -91,7 +91,6 @@ public class CentralNode extends TaskNode {
     if (obj instanceof CelestiaData && this.celestiaInterfaceServer != null) {
       this.celestiaInterfaceServer.putDataInBuffer(obj);
     } else if (this.multiThreadedSocketServer == null) {
-      ;
     } else {
       if (obj instanceof SimulatorHeader && !this.celestiaInitDone) {
         SimulatorHeader centralHeader = (SimulatorHeader) obj;
@@ -108,7 +107,6 @@ public class CentralNode extends TaskNode {
 
   @Override
   void coreRun() {
-    ;
   }
 
   @Override

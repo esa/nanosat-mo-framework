@@ -29,8 +29,8 @@ import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
 public interface PowerControlAdapterInterface
 {
 
-  public Map<Identifier, Device> getDeviceMap();
+  Map<Identifier, Device> getDeviceMap();
 
-  public void enableDevices(DeviceList devices) throws IOException;
+  void enableDevices(DeviceList devices) throws IOException;
 
 }

@@ -273,15 +273,11 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter
           fos.flush();
           fos.close();
         }
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (IOException ex) {
-        Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (MALException ex) {
+      } catch (MALException | IOException ex) {
         Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
       }
 
-      try { // Stored
+        try { // Stored
         connector.reportActionExecutionProgress(true, 0, 3, TOTAL_STAGES, actionInstanceObjId);
       } catch (NMFException ex) {
         Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,

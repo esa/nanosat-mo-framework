@@ -50,8 +50,8 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
  */
 public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private ArchiveSyncStub archiveSyncService = null;
-    private Dictionary dictionary = new Dictionary();
+    private final ArchiveSyncStub archiveSyncService;
+    private final Dictionary dictionary = new Dictionary();
 
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
@@ -113,10 +113,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
 
         try { // Do a retrieve with the correct times
             iTicket = archiveSyncService.retrieveRange(from, until, objTypes, new Identifier(""), adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -148,9 +145,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
 
                     try {
                         archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
-                    } catch (MALInteractionException ex1) {
-                        Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
-                    } catch (MALException ex1) {
+                    } catch (MALInteractionException | MALException ex1) {
                         Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
                     }
                 }
@@ -169,9 +164,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
 
                 try {
                     archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
-                } catch (MALInteractionException ex1) {
-                    Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
-                } catch (MALException ex1) {
+                } catch (MALInteractionException | MALException ex1) {
                     Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
                 }
             } else {
@@ -188,9 +181,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         try {
             // Free the data from the provider!
             archiveSyncService.free(iTicket);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 

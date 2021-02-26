@@ -18,7 +18,7 @@ public enum ToDelete
   AGGREGATION_VALUE(new UShort(4), new UShort(6), new UOctet((short)1), new UShort(3)),
   STDOUT_VALUE(new UShort(7), new UShort(3), new UOctet((short)1), new UShort(2)),
   STDERR_VALUE(new UShort(7), new UShort(3), new UOctet((short)1), new UShort(3));
-  private ObjectType type;
+  private final ObjectType type;
 
   ToDelete(UShort area, UShort service, UOctet version, UShort number){
     this.type = new ObjectType(area, service, version, number);

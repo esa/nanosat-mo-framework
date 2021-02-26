@@ -59,11 +59,11 @@ public class Waveform
 {
 
   private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-  private TaskScheduler tasker = null;
+  private final TaskScheduler tasker;
   private double amplitude = 1.0;
   private double frequency = 1.0;
   private long refresh = 100;
-  private boolean started = false;
+  private boolean started;
 
   public Waveform()
   {

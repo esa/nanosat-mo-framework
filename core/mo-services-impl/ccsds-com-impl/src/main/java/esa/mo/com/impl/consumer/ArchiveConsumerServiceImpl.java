@@ -40,7 +40,7 @@ import org.ccsds.moims.mo.mal.structures.Blob;
  */
 public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private ArchiveStub archiveService = null;
+    private final ArchiveStub archiveService;
 
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {

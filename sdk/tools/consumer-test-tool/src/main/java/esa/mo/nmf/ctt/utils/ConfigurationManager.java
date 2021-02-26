@@ -44,7 +44,7 @@ import org.ccsds.moims.mo.mc.MCHelper;
 public class ConfigurationManager extends javax.swing.JFrame
 {
 
-  private ConnectionConsumer connection = new ConnectionConsumer();
+  private final ConnectionConsumer connection = new ConnectionConsumer();
 
   /**
    * Main command line entry point.
@@ -57,17 +57,11 @@ public class ConfigurationManager extends javax.swing.JFrame
     try {
       // Set cross-platform Java L&F (also called "Metal")
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    } catch (UnsupportedLookAndFeelException e) {
-      // handle exception
-    } catch (ClassNotFoundException e) {
-      // handle exception
-    } catch (InstantiationException e) {
-      // handle exception
-    } catch (IllegalAccessException e) {
+    } catch (UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
       // handle exception
     }
 
-    try {
+      try {
       final Properties sysProps = System.getProperties();
 
       final File file = new File(
@@ -89,13 +83,7 @@ public class ConfigurationManager extends javax.swing.JFrame
             Object assfsfd = genericObj.getObject();
             assfsfd = null;
        */
-      EventQueue.invokeLater(new Runnable()
-      {
-        public void run()
-        {
-          gui.setVisible(true);
-        }
-      });
+      EventQueue.invokeLater(() -> gui.setVisible(true));
     } catch (MalformedURLException ex) {
       Logger.getLogger(ConfigurationManager.class.getName()).log(Level.SEVERE,
           "Exception thrown during initialisation of Demo Consumer {0}", ex);
@@ -211,11 +199,7 @@ public class ConfigurationManager extends javax.swing.JFrame
         COM_button.setMinimumSize(new java.awt.Dimension(200, 23));
         COM_button.setName("COM_button"); // NOI18N
         COM_button.setPreferredSize(new java.awt.Dimension(200, 23));
-        COM_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                COM_buttonActionPerformed(evt);
-            }
-        });
+        COM_button.addActionListener(evt -> COM_buttonActionPerformed(evt));
         jPanel1.add(COM_button);
 
         MC_button.setText("Monitor & Control services");
@@ -223,11 +207,7 @@ public class ConfigurationManager extends javax.swing.JFrame
         MC_button.setMinimumSize(new java.awt.Dimension(200, 23));
         MC_button.setName("MC_button"); // NOI18N
         MC_button.setPreferredSize(new java.awt.Dimension(200, 23));
-        MC_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MC_buttonActionPerformed(evt);
-            }
-        });
+        MC_button.addActionListener(evt -> MC_buttonActionPerformed(evt));
         jPanel1.add(MC_button);
 
         Platform_button.setText("Platform services");
@@ -235,11 +215,7 @@ public class ConfigurationManager extends javax.swing.JFrame
         Platform_button.setMinimumSize(new java.awt.Dimension(200, 23));
         Platform_button.setName("Platform_button"); // NOI18N
         Platform_button.setPreferredSize(new java.awt.Dimension(200, 23));
-        Platform_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Platform_buttonActionPerformed(evt);
-            }
-        });
+        Platform_button.addActionListener(evt -> Platform_buttonActionPerformed(evt));
         jPanel1.add(Platform_button);
 
         jSplitPane2.setLeftComponent(jPanel1);

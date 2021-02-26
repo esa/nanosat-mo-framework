@@ -96,11 +96,11 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
-    private static final Set<Integer> TYPES_ALLOWED_FOR_STATISTIC_EVALUATION = new HashSet<Integer>();
+    private static final Set<Integer> TYPES_ALLOWED_FOR_STATISTIC_EVALUATION = new HashSet<>();
     private MALProvider statisticServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
-    private boolean isRegistered = false;
+    private boolean initialiased;
+    private boolean running;
+    private boolean isRegistered;
     protected StatisticManager manager;
     private final Object lock = new Object();
     private MonitorStatisticsPublisher publisher;
@@ -251,13 +251,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
             publisher.publish(hdrlst, relatedId, sourceId, statisticValues);
 
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during publishing process on the provider {0}", ex);
-        } catch (MALException ex) {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during publishing process on the provider {0}", ex);
-        } catch (MALInteractionException ex) {
+        } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         }
@@ -974,11 +968,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
          * Key: the id of the ParameterIdentity, Value: the
          * sample-reporting-timer
          */
-        private HashMap<Long, TaskScheduler> sampleTimerList; // Timers list
-        private boolean active = false; // Flag that determines if the Manager is on or off
+        private final HashMap<Long, TaskScheduler> sampleTimerList; // Timers list
+        private boolean active; // Flag that determines if the Manager is on or off
 
         public PeriodicSamplingManager() {
-            sampleTimerList = new HashMap<Long, TaskScheduler>();
+            sampleTimerList = new HashMap<>();
         }
 
         public void refreshAll() {
@@ -1104,11 +1098,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
     private class PeriodicCollectionManager {
 
-        private HashMap<Long, TaskScheduler> collectionTimerList; // Timers list
-        private boolean active = false; // Flag that determines if the Manager is on or off
+        private final HashMap<Long, TaskScheduler> collectionTimerList; // Timers list
+        private boolean active; // Flag that determines if the Manager is on or off
 
         public PeriodicCollectionManager() {
-            collectionTimerList = new HashMap<Long, TaskScheduler>();
+            collectionTimerList = new HashMap<>();
         }
 
         public void refreshAll() {
@@ -1216,11 +1210,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
     private class PeriodicReportingManager { // requirement: 3.7.2.1a
 
-        private HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
-        private boolean active = false; // Flag that determines if the Manager is on or off
+        private final HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
+        private boolean active; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingManager() {
-            updateTimerList = new HashMap<Long, TaskScheduler>();
+            updateTimerList = new HashMap<>();
         }
 
         public void refreshAll() {

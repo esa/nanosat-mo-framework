@@ -56,7 +56,7 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
         if (newVal.equals("")) {
             setText("");
         } else {
-            setText(String.valueOf(newVal));
+            setText(newVal);
         }
 
         // if we are in error we highlight the label in a different colour

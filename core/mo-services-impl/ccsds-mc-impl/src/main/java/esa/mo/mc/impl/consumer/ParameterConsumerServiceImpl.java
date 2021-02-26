@@ -45,8 +45,8 @@ import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
  */
 public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private ParameterStub parameterService = null;
-    private COMServicesConsumer comServices;
+    private ParameterStub parameterService;
+    private final COMServicesConsumer comServices;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;

@@ -47,9 +47,9 @@ import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
  */
 public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
 
-    private HeartbeatStub heartbeatService = null;
-    private COMServicesConsumer comServices;
-    private Subscription heartbeatSubscription = null;
+    private final HeartbeatStub heartbeatService;
+    private final COMServicesConsumer comServices;
+    private Subscription heartbeatSubscription;
 
     public COMServicesConsumer getCOMServices() {
         return comServices;
@@ -130,9 +130,7 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
             try {
                 heartbeatService.beatRegister(heartbeatSubscription, adapter);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -151,9 +149,7 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
                 IdentifierList ids = new IdentifierList();
                 ids.add(heartbeatSubscription.getSubscriptionId());
                 heartbeatService.beatDeregister(ids);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

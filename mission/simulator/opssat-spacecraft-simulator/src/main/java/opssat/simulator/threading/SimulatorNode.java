@@ -158,18 +158,18 @@ public class SimulatorNode extends TaskNode
   public static final double EARTH_RADIUS_EQUATOR = 6378.1; // [km]
 
   public final static int CAMERA_MAX_SIZE = 7962624;// [bytes]
-  private EndlessSingleStreamOperatingBuffer cameraBuffer;
+  private final EndlessSingleStreamOperatingBuffer cameraBuffer;
   private EndlessWavStreamOperatingBuffer sdrBuffer;
 
   private final static int BENCHMARK_START_COUNTER = 3000;
   private final static int BENCHMARK_COUNTER_EVALUATIONS = 1500;
-  private boolean benchmarkInProgress = false;
-  private boolean benchmarkFinished = false;
-  private long benchmarkTimeElapsed = 0;
-  private long benchmarkStartupTime = 0;
-  TCPServerReceiveOnly quaternionTcpServer = null;
+  private boolean benchmarkInProgress;
+  private boolean benchmarkFinished;
+  private long benchmarkTimeElapsed;
+  private final long benchmarkStartupTime;
+  TCPServerReceiveOnly quaternionTcpServer;
 
-  private String cameraScriptPath = null;
+  private String cameraScriptPath;
   private final static String OPS_SAT_SIMULATOR_DATA = File.separator + ".ops-sat-simulator"
       + File.separator;
   private final static String OPS_SAT_SIMULATOR_RESOURCES = OPS_SAT_SIMULATOR_DATA + "resources"
@@ -291,7 +291,7 @@ public class SimulatorNode extends TaskNode
 
   private LinkedList<GPSSatInView> getSatsInView()
   {
-    LinkedList<GPSSatInView> tempResult = new LinkedList<GPSSatInView>();
+    LinkedList<GPSSatInView> tempResult = new LinkedList<>();
     if (this.simulatorHeader.isUseOrekitPropagator()) {
       tempResult = this.orekitCore.getSatsInViewAsList();
     } else {
@@ -343,7 +343,7 @@ public class SimulatorNode extends TaskNode
 
   private void makeSimulatorDeviceBindings()
   {
-    hMapSDData = new HashMap<DevDatPBind, ArgumentDescriptor>();
+    hMapSDData = new HashMap<>();
     int i = 0;
     this.hMapSDData.put(DevDatPBind.Camera_CameraBuffer,
         simulatorDevices.get(INTERFACE_CAMERA).getDataList().get(i++));
@@ -513,7 +513,7 @@ public class SimulatorNode extends TaskNode
   private static final int TIMER_SIMULATOR_DATA_INTERVAL = 500;
   private static final int TIMER_CELESTIA_INTERVAL = 300;
 
-  private Logger logger;
+  private final Logger logger;
 
   public SimulatorNode(ConcurrentLinkedQueue<Object> queueIn,
       ConcurrentLinkedQueue<Object> queueOut, String name, int delay, Level logLevel,
@@ -532,11 +532,11 @@ public class SimulatorNode extends TaskNode
         new SimulatorTimer(TIMER_CELESTIA_DATA, TIMER_CELESTIA_INTERVAL));
     // super.getTimers().put(TIMER_SCIENCE1_DATA, new
     // SimulatorTimer(TIMER_SCIENCE1_DATA, TIMER_SCIENCE1_DATA_INTERVAL));
-    interfaceFilesList = new LinkedList<File>();
-    simulatorDevices = new LinkedList<SimulatorDeviceData>();
-    commandsList = new LinkedList<CommandDescriptor>();
-    commandsQueue = new LinkedList<CommandDescriptor>();
-    commandsResults = new LinkedList<CommandResult>();
+    interfaceFilesList = new LinkedList<>();
+    simulatorDevices = new LinkedList<>();
+    commandsList = new LinkedList<>();
+    commandsQueue = new LinkedList<>();
+    commandsResults = new LinkedList<>();
     String workingdir = System.getProperty("user.dir");
     this.logger.log(Level.ALL, "Workingdir is [" + workingdir + "]");
     File interfacesFolderCheck = new File(workingdir);
@@ -571,14 +571,7 @@ public class SimulatorNode extends TaskNode
     reflectObjectGetMethods(new POpticalReceiver(null, "OpticalReceiver"));
     reflectObjectGetMethods(new PSDR(null, "SDR"));
 
-    Collections.sort(commandsList, new Comparator<CommandDescriptor>()
-    {
-      @Override
-      public int compare(CommandDescriptor o1, CommandDescriptor o2)
-      {
-        return o1.getInternalID() - o2.getInternalID();
-      }
-    });
+    Collections.sort(commandsList, (o1, o2) -> o1.getInternalID() - o2.getInternalID());
     loadMethodsDescriptionFromResources();
   }
 
@@ -645,7 +638,7 @@ public class SimulatorNode extends TaskNode
   {
 
     if (fileName != null) {
-      ArrayList<String> result = new ArrayList<String>();
+      ArrayList<String> result = new ArrayList<>();
       try {
         BufferedReader in = new BufferedReader(new InputStreamReader(fileName));
         String line;
@@ -653,8 +646,6 @@ public class SimulatorNode extends TaskNode
           result.add(line);
         }
 
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -894,7 +885,7 @@ public class SimulatorNode extends TaskNode
         while ((line = in.readLine()) != null) {
           List<String> items = Arrays.asList(line.split(" "));
           if (line.startsWith("#")) {
-            ;// comment line
+            // comment line
           } else if (items.size() != 1) {
             this.logger.log(Level.SEVERE,
                 "Read from filter file: size of line [" + line + "]  was invalid!");
@@ -920,8 +911,6 @@ public class SimulatorNode extends TaskNode
         }
 
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1024,8 +1013,6 @@ public class SimulatorNode extends TaskNode
 
         }
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1171,7 +1158,7 @@ public class SimulatorNode extends TaskNode
   {
     BufferedWriter outScheduler = null;
     File schedulerFile = null;
-    schedulerData = new LinkedList<SimulatorSchedulerPiece>();
+    schedulerData = new LinkedList<>();
     boolean errorsExist = false;
     boolean minorErrorsExist = false;
     boolean sortingRequired = false;
@@ -1187,7 +1174,6 @@ public class SimulatorNode extends TaskNode
         } catch (IOException ex) {
           Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ;
 
         String line;
         while ((line = in.readLine()) != null) {
@@ -1214,12 +1200,10 @@ public class SimulatorNode extends TaskNode
                   minorErrorsExist = true;
                 } else {
                   // both values are not valid, disregard this row
-                  ;
                 }
               }
               if (def1Value == def2Value) {
                 // time definition is consistent
-                ;
               } else {
                 // def2Value is not matching a valid def1Value, update it
                 def2Value = def1Value;
@@ -1266,8 +1250,6 @@ public class SimulatorNode extends TaskNode
           }
         }
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1292,18 +1274,13 @@ public class SimulatorNode extends TaskNode
        * else if (o1.getTime() == o2.getTime()) { return 0; } else { return -1; } }
        * });
        */
-      java.util.Collections.sort(schedulerData, new Comparator<SimulatorSchedulerPiece>()
-      {
-        @Override
-        public int compare(SimulatorSchedulerPiece o1, SimulatorSchedulerPiece o2)
-        {
-          if (o1.getTime() > o2.getTime()) {
-            return 1;
-          } else if (o1.getTime() == o2.getTime()) {
-            return 0;
-          } else {
-            return -1;
-          }
+      java.util.Collections.sort(schedulerData, (o1, o2) -> {
+        if (o1.getTime() > o2.getTime()) {
+          return 1;
+        } else if (o1.getTime() == o2.getTime()) {
+          return 0;
+        } else {
+          return -1;
         }
       });
 
@@ -1364,8 +1341,6 @@ public class SimulatorNode extends TaskNode
           }
         }
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1381,9 +1356,7 @@ public class SimulatorNode extends TaskNode
   {
     try {
       Integer.parseInt(s);
-    } catch (NumberFormatException e) {
-      return false;
-    } catch (NullPointerException e) {
+    } catch (NumberFormatException | NullPointerException e) {
       return false;
     }
     // only got here if we didn't return false
@@ -1399,7 +1372,6 @@ public class SimulatorNode extends TaskNode
     } catch (IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
-    ;
     try {
       outScheduler.write("#Simulator scheduler data file\n");
       outScheduler.write(
@@ -1444,7 +1416,6 @@ public class SimulatorNode extends TaskNode
     } catch (IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
-    ;
     if (obj != null) {
       LinkedList<CommandDescriptor> castedObj = (LinkedList<CommandDescriptor>) obj;
       for (CommandDescriptor c : castedObj) {
@@ -1712,7 +1683,7 @@ public class SimulatorNode extends TaskNode
     }
     if (sendList) {
       sendList = false;
-      LinkedList<Object> newDataOut = new LinkedList<Object>();
+      LinkedList<Object> newDataOut = new LinkedList<>();
       newDataOut.addAll(commandsList);
       newDataOut.addAll(simulatorDevices);
       return newDataOut;
@@ -3959,15 +3930,7 @@ public class SimulatorNode extends TaskNode
           globalResult = "CommandID [" + c.getInternalID() + "] unknown";
           commandResult.setCommandFailed(true);
       }
-    } catch (ClassCastException e) {
-      String errorString = e.toString();
-      commandResult.setOutput(errorString);
-      commandResult.setCommandFailed(true);
-    } catch (IndexOutOfBoundsException e) {
-      String errorString = e.toString();
-      commandResult.setOutput(errorString);
-      commandResult.setCommandFailed(true);
-    } catch (IOException e) {
+    } catch (IndexOutOfBoundsException | IOException e) {
       String errorString = e.toString();
       commandResult.setOutput(errorString);
       commandResult.setCommandFailed(true);

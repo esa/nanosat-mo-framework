@@ -216,9 +216,7 @@ public class DemoGPSData {
                     if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
                         return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NMFException ex) {
+                } catch (IOException | NMFException ex) {
                     Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -238,9 +236,7 @@ public class DemoGPSData {
 
                     try {
                         connector.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
-                    } catch (IOException ex) {
-                        Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NMFException ex) {
+                    } catch (IOException | NMFException ex) {
                         Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -252,9 +248,7 @@ public class DemoGPSData {
 
                     return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
                 }
-            } catch (MALException ex) {
-                Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             }
 

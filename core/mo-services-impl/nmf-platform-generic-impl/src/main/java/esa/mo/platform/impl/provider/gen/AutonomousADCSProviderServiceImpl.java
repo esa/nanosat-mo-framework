@@ -79,17 +79,17 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       AutonomousADCSProviderServiceImpl.class.getName());
   private final static Duration MINIMUM_MONITORING_PERIOD = new Duration(0.1); // 100 Milliseconds
   private MALProvider autonomousADCSServiceProvider;
-  private boolean initialiased = false;
-  private boolean generationEnabled = false;
+  private boolean initialiased;
+  private boolean generationEnabled;
   private MonitorAttitudePublisher publisher;
-  private boolean isRegistered = false;
+  private boolean isRegistered;
   private final Object lock = new Object();
   private final ConnectionProvider connection = new ConnectionProvider();
   private AutonomousADCSAdapterInterface adapter;
   private boolean adcsInUse;
-  private TaskScheduler publishTimer = new TaskScheduler(1);
-  private Thread autoUnsetThread = null;
-  private long attitudeControlEndTime = 0;
+  private final TaskScheduler publishTimer = new TaskScheduler(1);
+  private Thread autoUnsetThread;
+  private long attitudeControlEndTime;
   private int monitoringPeriod = 5000; // Default value: 5 seconds
 
   /**

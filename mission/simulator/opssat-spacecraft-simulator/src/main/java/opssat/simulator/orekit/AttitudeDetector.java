@@ -18,7 +18,7 @@ import org.orekit.time.AbsoluteDate;
  */
 public class AttitudeDetector extends AbstractDetector<AttitudeDetector>
 {
-  private int position;
+  private final int position;
 
   public AttitudeDetector(int position) {
     super(DEFAULT_MAXCHECK, DEFAULT_THRESHOLD, DEFAULT_MAX_ITER, null);
