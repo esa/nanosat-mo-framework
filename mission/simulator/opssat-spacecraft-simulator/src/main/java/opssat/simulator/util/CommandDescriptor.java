@@ -588,20 +588,20 @@ public class CommandDescriptor implements Serializable {
 
   public String getInputArgs() {
     // Direct kinematics (ArrayList<ArgumentDescriptor> -> String)
-    String formattedArgs = "inputArgs=[";
+    StringBuilder formattedArgs = new StringBuilder("inputArgs=[");
     int argsCount = 0;
     if (this.logger != null)
       this.logger.log(Level.ALL, "inputArgList count is [" + inputArgList.size() + "]");
     for (ArgumentDescriptor obj : inputArgList) {
       if (this.logger != null)
         this.logger.log(Level.ALL, "Trying to read from [" + obj.getName() + "]");
-      formattedArgs = formattedArgs + obj.toString();
+      formattedArgs.append(obj.toString());
       if (++argsCount < inputArgList.size()) {
-        formattedArgs = formattedArgs + ";";
+        formattedArgs.append(";");
       }
     }
-    formattedArgs = formattedArgs + "]";
-    return formattedArgs;
+    formattedArgs.append("]");
+    return formattedArgs.toString();
   }
 
   public int getInternalID() {

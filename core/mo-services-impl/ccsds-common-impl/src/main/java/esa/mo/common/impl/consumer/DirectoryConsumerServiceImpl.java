@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -65,6 +66,12 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public DirectoryConsumerServiceImpl(final URI providerURI) throws MALException, MalformedURLException, MALInteractionException {
+        this(providerURI, null, null);
+    }
+
+    public DirectoryConsumerServiceImpl(final URI providerURI,
+                                        final Blob authenticationId,
+                                        final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -95,7 +102,7 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
                 Logger.getLogger(DirectoryConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
 
@@ -103,9 +110,9 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
                 providerURI,
                 null,
                 domain,
-                DirectoryHelper.DIRECTORY_SERVICE);
+                DirectoryHelper.DIRECTORY_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.directoryService = new DirectoryStub(tmConsumer);
     }
-
 }

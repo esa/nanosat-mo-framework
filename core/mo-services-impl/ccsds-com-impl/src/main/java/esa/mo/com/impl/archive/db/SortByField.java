@@ -141,11 +141,11 @@ public class SortByField implements Comparator {
         }
 
         // Treat empty strings like nulls
-        if (obj1 instanceof String && ((String) obj1).length() == 0) {
+        if (obj1 instanceof String && ((String) obj1).isEmpty()) {
             obj1 = null;
         }
 
-        if (obj2 instanceof String && ((String) obj2).length() == 0) {
+        if (obj2 instanceof String && ((String) obj2).isEmpty()) {
             obj2 = null;
         }
 

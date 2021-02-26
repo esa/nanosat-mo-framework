@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 
@@ -61,6 +62,13 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
 
     public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
             COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                     COMServicesConsumer comServices,
+                                     Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
+                                                                                              MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -77,7 +85,8 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                CameraHelper.CAMERA_SERVICE);
+                CameraHelper.CAMERA_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.cameraService = new CameraStub(tmConsumer);
     }

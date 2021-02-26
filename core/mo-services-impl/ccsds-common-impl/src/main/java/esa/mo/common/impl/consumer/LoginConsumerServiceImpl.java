@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
  *
@@ -64,6 +65,12 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
+            throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                    COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -100,7 +107,8 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                LoginHelper.LOGIN_SERVICE);
+                LoginHelper.LOGIN_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.loginService = new LoginStub(tmConsumer);
     }

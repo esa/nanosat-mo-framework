@@ -44,6 +44,7 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
@@ -68,6 +69,8 @@ public class NMFConsumer {
     protected final CommonServicesConsumer commonServices = new CommonServicesConsumer();
     protected final SMServicesConsumer smServices = new SMServicesConsumer();
     private final ConnectionConsumer connection;
+    private final Blob authenticationId;
+    private final String localNamePrefix;
 
     /**
      * The constructor of this class
@@ -75,7 +78,20 @@ public class NMFConsumer {
      * @param connection The connection details of the provider
      */
     public NMFConsumer(final ConnectionConsumer connection) {
+        this(connection, null, null);
+    }
+
+    /**
+     * The constructor of this class
+     *
+     * @param connection The connection details of the provider
+     * @param authenticationId authenticationId of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     */
+    public NMFConsumer(final ConnectionConsumer connection, final Blob authenticationId, final String localNamePrefix) {
         this.connection = connection;
+        this.authenticationId = authenticationId;
+        this.localNamePrefix = localNamePrefix;
         NMFConsumer.initHelpers();
     }
 
@@ -86,9 +102,23 @@ public class NMFConsumer {
      * the Directory service
      */
     public NMFConsumer(final ProviderSummary provider) {
+        this(provider, null, null);
+    }
+
+    /**
+     * The constructor of this class
+     *
+     * @param provider The Provider details. This object can be obtained from
+     * the Directory service
+     * @param authenticationId authenticationId of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     */
+    public NMFConsumer(final ProviderSummary provider, final Blob authenticationId, final String localNamePrefix) {
         NMFConsumer.initHelpers(); // The Helpers need to be initialized before conversion
         // Grab the provider variable and put it into a ConnectionConsumer
         this.connection = HelperCommon.providerSummaryToConnectionConsumer(provider);
+        this.authenticationId = authenticationId;
+        this.localNamePrefix = localNamePrefix;
     }
 
     public void init() {
@@ -112,23 +142,23 @@ public class NMFConsumer {
     }
 
     private void initCOMServices() {
-        comServices.init(connection);
+        comServices.init(connection, authenticationId, localNamePrefix);
     }
 
     private void initMCServices() {
-        mcServices.init(connection, comServices);
+        mcServices.init(connection, comServices, authenticationId, localNamePrefix);
     }
 
     private void initPlatformServices() {
-        platformServices.init(connection, comServices);
+        platformServices.init(connection, comServices, authenticationId, localNamePrefix);
     }
 
     private void initCommonServices() {
-        commonServices.init(connection, comServices);
+        commonServices.init(connection, comServices, authenticationId, localNamePrefix);
     }
 
     private void initSMServices() {
-        smServices.init(connection, comServices);
+        smServices.init(connection, comServices, authenticationId, localNamePrefix);
     }
 
     /**
@@ -205,6 +235,41 @@ public class NMFConsumer {
      * Retrieves the complete list of Providers available on the Directory
      * service.
      *
+     * @param directoryURI The Directory service URI
+     * @param authenticationId
+     * @param localNamePrefix
+     * @return The list of providers
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
+     */
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI, final Blob authenticationId, final String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
+        return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, authenticationId, localNamePrefix);
+    }
+
+    /**
+     * Retrieves the complete list of Providers available on the Directory
+     * service.
+     *
+     * @param directoryURI The Directory service URI
+     * @param localNamePrefix
+     * @return The list of providers
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
+     */
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI, final String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
+        return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, null, localNamePrefix);
+    }
+
+    /**
+     * Retrieves the complete list of Providers available on the Directory
+     * service.
+     *
      * @param isS2G If true, then the method will only request for SPP
      * connections.
      * @param directoryURI The Directory service URI
@@ -216,6 +281,26 @@ public class NMFConsumer {
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
             final URI directoryURI) throws MALException, MalformedURLException, MALInteractionException {
+        return NMFConsumer.retrieveProvidersFromDirectory(isS2G, directoryURI, null, null);
+    }
+
+    /**
+     * Retrieves the complete list of Providers available on the Directory
+     * service.
+     *
+     * @param isS2G If true, then the method will only request for SPP
+     * connections.
+     * @param directoryURI The Directory service URI
+     * @param authenticationId
+     * @param localNamePrefix
+     * @return The list of providers
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
+     */
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
+                                                                           final URI directoryURI, final Blob authenticationId, final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         // Starting the directory service consumer from static method.
         // The whole Common area should be registered to avoid errors during the initHelpers
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
@@ -228,13 +313,13 @@ public class NMFConsumer {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING,
-                    "The file " + HelperMisc.CONSUMER_PROPERTIES_FILE
-                    + " could not be found! This error can happen if the user "
-                    + "is trying to run the application from a different "
-                    + "folder other than the one where the file is.", ex);
+                                                              "The file " + HelperMisc.CONSUMER_PROPERTIES_FILE
+                                                              + " could not be found! This error can happen if the user "
+                                                              + "is trying to run the application from a different "
+                                                              + "folder other than the one where the file is.", ex);
         }
 
-        DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI);
+        DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI, authenticationId, localNamePrefix);
 
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
@@ -293,6 +378,15 @@ public class NMFConsumer {
         } catch (MALException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void setAuthenticationId(Blob authenticationId) {
+        this.comServices.setAuthenticationId(authenticationId);
+        this.connection.setAuthenticationId(authenticationId);
+        this.mcServices.setAuthenticationId(authenticationId);
+        this.platformServices.setAuthenticationId(authenticationId);
+        this.commonServices.setAuthenticationId(authenticationId);
+        this.smServices.setAuthenticationId(authenticationId);
     }
 
 }

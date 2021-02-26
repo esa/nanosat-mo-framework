@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.platform.powercontrol.PowerControlHelper;
 import org.ccsds.moims.mo.platform.powercontrol.consumer.PowerControlStub;
 
@@ -61,6 +62,12 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
 
     public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                           COMServicesConsumer comServices,
+                                           Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -77,7 +84,8 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                PowerControlHelper.POWERCONTROL_SERVICE);
+                PowerControlHelper.POWERCONTROL_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.powerControlStub = new PowerControlStub(tmConsumer);
     }

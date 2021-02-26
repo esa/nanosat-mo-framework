@@ -73,8 +73,7 @@ public class FastObjectType {
         // Get All the objectTypes available
         Query query = dbBackend.getEM().createQuery(QUERY_SELECT_OBJECTTYPE);
         List resultList = query.getResultList();
-        ArrayList<ObjectTypeHolderEntity> objectTypeHolderEntities = new ArrayList<ObjectTypeHolderEntity>();
-        objectTypeHolderEntities.addAll(resultList);
+        ArrayList<ObjectTypeHolderEntity> objectTypeHolderEntities = new ArrayList<ObjectTypeHolderEntity>(resultList);
 
         dbBackend.closeEntityManager();
 

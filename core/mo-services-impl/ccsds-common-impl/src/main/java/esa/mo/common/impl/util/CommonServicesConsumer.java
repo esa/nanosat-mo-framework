@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.common.directory.DirectoryHelper;
 import org.ccsds.moims.mo.common.login.LoginHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
  *
@@ -46,6 +47,11 @@ public class CommonServicesConsumer {
     private LoginConsumerServiceImpl loginService;
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
+        init(connectionConsumer, comServices, null, null);
+    }
+
+    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices,
+                     Blob authenticationId, String localNamePrefix) {
 
         SingleConnectionDetails details;
 
@@ -53,19 +59,19 @@ public class CommonServicesConsumer {
             // Initialize the Directory service
             details = connectionConsumer.getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
             if (details != null) {
-                directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI());
+                directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI(), authenticationId, localNamePrefix);
             }
 
             // Initialize the Configuration service
             details = connectionConsumer.getServicesDetails().get(ConfigurationHelper.CONFIGURATION_SERVICE_NAME);
             if (details != null) {
-                configurationService = new ConfigurationConsumerServiceImpl(details, comServices);
+                configurationService = new ConfigurationConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Login service
             details = connectionConsumer.getServicesDetails().get(LoginHelper.LOGIN_SERVICE_NAME);
             if (details != null) {
-                loginService = new LoginConsumerServiceImpl(details, comServices);
+                loginService = new LoginConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
         } catch (MALException ex) {
             Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
@@ -128,4 +134,17 @@ public class CommonServicesConsumer {
         }
     }
 
+    public void setAuthenticationId(Blob authenticationId) {
+        if (this.directoryService != null) {
+            this.directoryService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.configurationService != null) {
+            this.configurationService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.loginService != null) {
+            this.loginService.setAuthenticationId(authenticationId);
+        }
+    }
 }

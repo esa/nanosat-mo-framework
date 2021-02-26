@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
@@ -61,43 +62,57 @@ public class MCServicesConsumer {
      * @param comServices COM services
      */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
+        init(connectionConsumer, comServices, null, null);
+    }
+
+    /**
+     * Initializes the Monitor and Control services
+     *
+     * @param connectionConsumer Connection details
+     * @param comServices COM services
+     * @param authenticationId authenticationId of the logged in user
+     */
+    public void init(ConnectionConsumer connectionConsumer,
+                     COMServicesConsumer comServices,
+                     Blob authenticationId,
+                     String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
             // Initialize the Action service
             details = connectionConsumer.getServicesDetails().get(ActionHelper.ACTION_SERVICE_NAME);
             if (details != null) {
-                actionService = new ActionConsumerServiceImpl(details, comServices);
+                actionService = new ActionConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Parameter service
             details = connectionConsumer.getServicesDetails().get(ParameterHelper.PARAMETER_SERVICE_NAME);
             if (details != null) {
-                parameterService = new ParameterConsumerServiceImpl(details, comServices);
+                parameterService = new ParameterConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Alert service
             details = connectionConsumer.getServicesDetails().get(AlertHelper.ALERT_SERVICE_NAME);
             if (details != null) {
-                alertService = new AlertConsumerServiceImpl(details, comServices);
+                alertService = new AlertConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Check service
             details = connectionConsumer.getServicesDetails().get(CheckHelper.CHECK_SERVICE_NAME);
             if (details != null) {
-                checkService = new CheckConsumerServiceImpl(details, comServices);
+                checkService = new CheckConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Statistic service
             details = connectionConsumer.getServicesDetails().get(StatisticHelper.STATISTIC_SERVICE_NAME);
             if (details != null) {
-                statisticService = new StatisticConsumerServiceImpl(details, comServices);
+                statisticService = new StatisticConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Aggregation service
             details = connectionConsumer.getServicesDetails().get(AggregationHelper.AGGREGATION_SERVICE_NAME);
             if (details != null) {
-                aggregationService = new AggregationConsumerServiceImpl(details, comServices);
+                aggregationService = new AggregationConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
         } catch (MALException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
@@ -198,6 +213,32 @@ public class MCServicesConsumer {
 
         if (this.aggregationService != null) {
             this.aggregationService.closeConnection();
+        }
+    }
+
+    public void setAuthenticationId(Blob authenticationId) {
+        if (this.actionService != null) {
+            this.actionService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.parameterService != null) {
+            this.parameterService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.alertService != null) {
+            this.alertService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.checkService != null) {
+            this.checkService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.statisticService != null) {
+            this.statisticService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.aggregationService != null) {
+            this.aggregationService.setAuthenticationId(authenticationId);
         }
     }
 }

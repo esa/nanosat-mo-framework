@@ -54,7 +54,7 @@ public class DemoSetAndCommand
     gma.setParameter("A_Parameter", parameterValue);
 
     // Send a command with a Double argument
-    Double value = 1.35565;
+    double value = 1.35565;
     Double[] values = new Double[1];
     values[0] = value;
     gma.invokeAction("Go", values);

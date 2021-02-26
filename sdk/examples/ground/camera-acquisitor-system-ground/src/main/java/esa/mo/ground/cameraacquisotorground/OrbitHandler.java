@@ -128,7 +128,7 @@ public class OrbitHandler
           currentState.getPVCoordinates(earthFrame).getPosition(), earthFrame, currentDate);
       positionSeries.add(new PositionAndTime(currentDate, curreLocation));
     }
-    return positionSeries.toArray(new PositionAndTime[positionSeries.size()]);
+    return positionSeries.toArray(new PositionAndTime[0]);
   }
 
   public GeodeticPoint getPosition(AbsoluteDate endDate)

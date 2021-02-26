@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelper;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
@@ -61,6 +62,13 @@ public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl
 
     public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
             COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                                   COMServicesConsumer comServices,
+                                                   Blob authenticationId,
+                                                   String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -77,7 +85,8 @@ public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE);
+                SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.softwareDefinedRadioService = new SoftwareDefinedRadioStub(tmConsumer);
     }

@@ -65,7 +65,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
             }
         }
 
-        final Boolean success = this.actionArrivedSimple(identifier.getValue(), values, actionInstanceObjId);
+        final boolean success = this.actionArrivedSimple(identifier.getValue(), values, actionInstanceObjId);
 
         if (success) {
             return new UInteger(0);

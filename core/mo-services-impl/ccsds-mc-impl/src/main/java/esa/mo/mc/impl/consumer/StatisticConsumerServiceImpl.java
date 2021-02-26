@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.statistic.StatisticHelper;
 import org.ccsds.moims.mo.mc.statistic.consumer.StatisticStub;
@@ -64,6 +65,12 @@ public class StatisticConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public StatisticConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public StatisticConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
+                                        Blob authenticationId,
+                                        String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -82,7 +89,7 @@ public class StatisticConsumerServiceImpl extends ConsumerServiceImpl {
         } catch (MALException ex) {
             // nothing to be done..
         }
-        
+
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -99,7 +106,8 @@ public class StatisticConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                StatisticHelper.STATISTIC_SERVICE);
+                StatisticHelper.STATISTIC_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.statisticService = new StatisticStub(tmConsumer);
     }

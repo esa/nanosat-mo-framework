@@ -38,6 +38,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -67,6 +68,11 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
+        this(connectionDetails, null, null);
+    }
+
+    public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                          Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -95,7 +101,8 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
                 this.connectionDetails.getProviderURI(),
                 this.connectionDetails.getBrokerURI(),
                 this.connectionDetails.getDomain(),
-                ArchiveSyncHelper.ARCHIVESYNC_SERVICE);
+                ArchiveSyncHelper.ARCHIVESYNC_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.archiveSyncService = new ArchiveSyncStub(tmConsumer);
     }

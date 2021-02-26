@@ -95,8 +95,13 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
   private Quota quota;
 
   public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService) {
+    this(connectionToArchiveService, null, null);
+  }
+
+  public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService,
+                                        Blob authenticationId, String localNamePrefix) {
     try {
-      this.archive = new ArchiveConsumerServiceImpl(connectionToArchiveService);
+      this.archive = new ArchiveConsumerServiceImpl(connectionToArchiveService, authenticationId, localNamePrefix);
     } catch (MALException ex) {
       Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
     } catch (MalformedURLException ex) {
@@ -332,9 +337,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     public void addObjects(final ArrayList<COMObjectEntity> list) {
       // "addAll()" might not be thread-safe. "add" is for sure!
-      for (COMObjectEntity entity : list) {
-        tempQueue.add(entity);
-      }
+        tempQueue.addAll(list);
     }
 
     public void setQueriesAreDone(final boolean done) {

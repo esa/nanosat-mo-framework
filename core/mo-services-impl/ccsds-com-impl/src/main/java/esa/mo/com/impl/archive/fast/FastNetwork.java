@@ -65,8 +65,7 @@ public class FastNetwork {
         // Get All the networks available
         Query query = dbBackend.getEM().createQuery(QUERY_SELECT_NETWORK);
         List resultList = query.getResultList();
-        ArrayList<NetworkHolderEntity> networksHolderEntities = new ArrayList<NetworkHolderEntity>();
-        networksHolderEntities.addAll(resultList);
+        ArrayList<NetworkHolderEntity> networksHolderEntities = new ArrayList<NetworkHolderEntity>(resultList);
 
         dbBackend.closeEntityManager();
 
