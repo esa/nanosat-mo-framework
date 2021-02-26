@@ -234,7 +234,8 @@ public class OrekitCore
   private byte stateTarget = 0;
   private long delayPeriod = 2*60*1000; // 2 minutes delay expressed in milliseconds.
 
-  private final java.util.Timer changeAttitudeTimer = new java.util.Timer();
+  private final java.util.Timer stateTargetTimer = new java.util.Timer();
+  TimerTask stateTargetTask;
 
   public OrekitCore(double a, double e, double i, double omega, double raan, double lM,
       SimulatorHeader simulatorHeader, Logger logger, SimulatorNode simulatorNode)
@@ -808,9 +809,7 @@ public class OrekitCore
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     //attitudesSequence.resetActiveProvider(spinStabilized);
-    this.changeAttitudeTask.cancel();
-    this.stateTarget = 0;
-    this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
+    scheduleStateTargetTimer();
   }
 
   public void changeAttitudeTarget(double latitude, double longitude, double altitude)
@@ -827,9 +826,7 @@ public class OrekitCore
     }
     //attitudesSequence.resetActiveProvider(targetTracking);
     this.attitudeMode = ATTITUDE_MODE.TARGET_TRACKING;
-    this.changeAttitudeTask.cancel();
-    this.stateTarget = 0;
-    this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
+    scheduleStateTargetTimer();
   }
 
   public void changeAttitudeVectorTarget(float x, float y, float z, float margin)
@@ -840,9 +837,7 @@ public class OrekitCore
 
     this.vectorPointing.start(x, y, z, margin);
     this.attitudeMode = ATTITUDE_MODE.VECTOR_POINTING;
-    this.changeAttitudeTask.cancel();
-    this.stateTarget = 0;
-    this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
+    scheduleStateTargetTimer();
   }
 
   public void changeAttitude(ATTITUDE_MODE newAttitude)
@@ -863,9 +858,7 @@ public class OrekitCore
       logger.log(Level.SEVERE, "Attitude type lookup failed!");
     }
     this.attitudeMode = newAttitude;
-    this.changeAttitudeTask.cancel();
-    this.stateTarget = 0;
-    this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
+    scheduleStateTargetTimer();
   }
 
   private void appendIfExists(final StringBuffer path, final String directory)
@@ -1477,6 +1470,26 @@ public class OrekitCore
     }
     return null;
   }
+  private void scheduleStateTargetTimer()
+  {
+    if (stateTargetTask != null) {
+      this.stateTargetTask.cancel();
+    }
+    this.stateTarget = 0;
+    stateTargetTask = new java.util.TimerTask()
+    {
+      @Override
+      public void run() {
+          stateTarget = 1;
+      };
+    };
+    this.stateTargetTimer.schedule(stateTargetTask, delayPeriod);
+  }
+
+  public byte getStateTarget()
+  {
+    return stateTarget;
+  };
 
   /**
    * The database backend thread factory
@@ -1508,17 +1521,5 @@ public class OrekitCore
       return t;
     }
   }
-  TimerTask changeAttitudeTask = new java.util.TimerTask()
-  {
-    @Override
-    public void run() {
-        stateTarget = 1;
-    };
-  };
-
-  public byte getStateTarget()
-  {
-    return stateTarget;
-  };
 
 }
