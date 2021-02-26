@@ -105,7 +105,7 @@ public class AppsLauncherManager extends DefinitionsManager
       appsFolderPath = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
     } else {
       LOGGER.log(Level.INFO,
-          "Property {0} not set. Using default apps directory '{1}'",
+          "Property not set: {0} \nUsing default apps directory: {1}",
           new Object[]{FOLDER_LOCATION_PROPERTY, DEFAULT_APPS_FOLDER_PATH});
       appsFolderPath = new File(DEFAULT_APPS_FOLDER_PATH);
     }
