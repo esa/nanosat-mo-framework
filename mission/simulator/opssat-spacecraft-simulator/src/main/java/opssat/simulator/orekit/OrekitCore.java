@@ -231,6 +231,11 @@ public class OrekitCore
   private ExecutorService executor = Executors
       .newCachedThreadPool(new SimThreadFactory("SimProcessorOrekit"));
 
+  private byte stateTarget = 0;
+  private long delayPeriod = 2*60*1000; // 2 minutes delay expressed in milliseconds.
+
+  private final java.util.Timer changeAttitudeTimer = new java.util.Timer();
+
   public OrekitCore(double a, double e, double i, double omega, double raan, double lM,
       SimulatorHeader simulatorHeader, Logger logger, SimulatorNode simulatorNode)
       throws OrekitException
@@ -803,7 +808,7 @@ public class OrekitCore
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     //attitudesSequence.resetActiveProvider(spinStabilized);
-    this.changeAttitudeTimer.cancel();
+    this.changeAttitudeTask.cancel();
     this.stateTarget = 0;
     this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
   }
@@ -822,7 +827,7 @@ public class OrekitCore
     }
     //attitudesSequence.resetActiveProvider(targetTracking);
     this.attitudeMode = ATTITUDE_MODE.TARGET_TRACKING;
-    this.changeAttitudeTimer.cancel();
+    this.changeAttitudeTask.cancel();
     this.stateTarget = 0;
     this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
   }
@@ -835,7 +840,7 @@ public class OrekitCore
 
     this.vectorPointing.start(x, y, z, margin);
     this.attitudeMode = ATTITUDE_MODE.VECTOR_POINTING;
-    this.changeAttitudeTimer.cancel();
+    this.changeAttitudeTask.cancel();
     this.stateTarget = 0;
     this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
   }
@@ -858,7 +863,7 @@ public class OrekitCore
       logger.log(Level.SEVERE, "Attitude type lookup failed!");
     }
     this.attitudeMode = newAttitude;
-    this.changeAttitudeTimer.cancel();
+    this.changeAttitudeTask.cancel();
     this.stateTarget = 0;
     this.changeAttitudeTimer.schedule(changeAttitudeTask, delayPeriod);
   }
@@ -1503,10 +1508,6 @@ public class OrekitCore
       return t;
     }
   }
-  
-  private byte stateTarget = 0;
-  private long delayPeriod = 2*60*1000; // 2 minutes delay expressed in milliseconds.
-  
   TimerTask changeAttitudeTask = new java.util.TimerTask()
   {
     @Override
@@ -1514,11 +1515,10 @@ public class OrekitCore
         stateTarget = 1;
     };
   };
-  
+
   public byte getStateTarget()
   {
     return stateTarget;
   };
-  
-  private final java.util.Timer changeAttitudeTimer = new java.util.Timer();
+
 }
