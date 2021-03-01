@@ -82,6 +82,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>int.esa.nmf.sdk</groupId>
+      <artifactId>log-browser-tool</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>int.esa.nmf.sdk.examples.space</groupId>
       <artifactId>waveform</artifactId>
       <version>${project.version}</version>
@@ -301,6 +306,9 @@
                   </fileset>
                 </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/consumer-test-tool">
+                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/log-browser-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
                 </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/nanosat-mo-supervisor-sim">
