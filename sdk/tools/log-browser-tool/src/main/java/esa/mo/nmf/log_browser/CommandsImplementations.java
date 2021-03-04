@@ -12,12 +12,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 
 /**
  * Actual implementation of the available commands.
@@ -91,12 +95,43 @@ public class CommandsImplementations {
     }
   }
 
-  /**
-   * TODO dumpFormattedArchive
-   *
-   */
-  public void dumpFormattedArchive() {
-    LOGGER.log(Level.INFO, "COMING SOON");
+
+  public void dumpFormattedArchive(String centralDirectoryServiceURI, String providerName,
+      String jsonFile) {
+    ProviderSummary providerDetails =
+        Helpers.getProviderSummary(new URI(centralDirectoryServiceURI), providerName);
+    GroundMOAdapterImpl gma = new GroundMOAdapterImpl(providerDetails);
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+
+    }
+
+    gma.closeConnections();
   }
 
+  /**
+   * Lists the COM archive providers names found in the central directory.
+   *
+   * @param centralDirectoryServiceURI URI of the central directory to use
+   */
+  public void listArchiveProviders(String centralDirectoryServiceURI) {
+    ArrayList<String> archiveProvidersName =
+        Helpers.listCOMArchiveProviders(new URI(centralDirectoryServiceURI));
+
+    // No provider found warning
+    if (archiveProvidersName.size() <= 0) {
+      LOGGER.log(Level.WARNING, String.format(
+          "No COM archive provider found in central directory at %s", centralDirectoryServiceURI));
+      return;
+    }
+
+    // List providers found
+    System.out.println("Found the following COM archive providers: ");
+    for (String providerName : archiveProvidersName) {
+      System.out.println(String.format("\t- %s", providerName));
+    }
+  }
 }

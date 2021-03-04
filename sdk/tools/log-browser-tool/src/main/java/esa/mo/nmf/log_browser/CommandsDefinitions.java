@@ -34,19 +34,33 @@ public class CommandsDefinitions {
     this.cmdImpl = cmdImpl;
   }
 
-  @Command(name = "dump", description = "Dumps a COM archive to a JSON file")
-  private void dump(
-      @Option(names = {"-r", "--raw"},
-          description = "dumps the raw SQLite tables content") boolean rawDump,
+  @Command(name = "dump_raw_archive",
+      description = "Dumps to a JSON file the raw SQLite tables content of COM archive")
+  private void dumpRawArchive(
       @Parameters(arity = "1", paramLabel = "<databaseFile>",
           description = "source SQLite database file") String databaseFile,
       @Parameters(arity = "1", paramLabel = "<jsonFile>",
           description = "target JSON file") String jsonFile) {
-    if (rawDump) {
-      cmdImpl.dumpRawArchiveTables(databaseFile, jsonFile);
-    }
-    else {
-      cmdImpl.dumpFormattedArchive();
-    }
+    cmdImpl.dumpRawArchiveTables(databaseFile, jsonFile);
+  }
+
+  @Command(name = "dump_formatted_archive",
+      description = "Dumps to a JSON file the Java formatted content of COM archive from a specific provider")
+  private void dumpFormattedArchive(
+      @Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
+          description = "URI of the central directory to use") String centralDirectoryURI,
+      @Parameters(arity = "1", paramLabel = "<providerName>",
+          description = "Name of the COM archive provider (can be found using list_archive_providers command)") String providerName,
+      @Parameters(arity = "1", paramLabel = "<jsonFile>",
+          description = "target JSON file") String jsonFile) {
+
+    cmdImpl.dumpFormattedArchive(centralDirectoryURI, providerName, jsonFile);
+  }
+
+  @Command(name = "list_archive_providers",
+      description = "Lists the COM archive providers names found in the central directory")
+  private void listArchiveProviders(@Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
+      description = "URI of the central directory to use") String centralDirectoryURI) {
+    cmdImpl.listArchiveProviders(centralDirectoryURI);
   }
 }
