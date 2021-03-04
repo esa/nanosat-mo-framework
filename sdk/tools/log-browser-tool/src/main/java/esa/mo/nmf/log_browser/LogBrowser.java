@@ -4,8 +4,10 @@
 
 package esa.mo.nmf.log_browser;
 
+import picocli.CommandLine;
+
 /**
- * TODO LogBrowser
+ * Main entry point to start the LogBrowser tool.
  *
  * @author Tanguy Soto
  */
@@ -17,6 +19,10 @@ public class LogBrowser {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
-    System.out.println("COMING SOON");
+    CommandsImplementations cmdImpl = new CommandsImplementations();
+    CommandsDefinitions cmdDef = new CommandsDefinitions(cmdImpl);
+
+    int exitCode = new CommandLine(cmdDef).execute(args);
+    System.exit(exitCode);
   }
 }
