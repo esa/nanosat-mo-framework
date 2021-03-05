@@ -4,14 +4,14 @@
 
 package esa.mo.nmf.log_browser;
 
+import esa.mo.helpertools.misc.Const;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 /**
- * Defines the CLI commands available. We have one main command with no name that is composed of
- * sub-commands.
+ * Defines the CLI commands available. We have one main command that is composed of sub-commands.
  *
  * @author Tanguy Soto
  */
@@ -35,7 +35,7 @@ public class CommandsDefinitions {
   }
 
   @Command(name = "dump_raw_archive",
-      description = "Dumps to a JSON file the raw SQLite tables content of COM archive")
+      description = "Dumps to a JSON file the raw SQLite tables content of a COM archive")
   private void dumpRawArchive(
       @Parameters(arity = "1", paramLabel = "<databaseFile>",
           description = "source SQLite database file") String databaseFile,
@@ -44,16 +44,19 @@ public class CommandsDefinitions {
     cmdImpl.dumpRawArchiveTables(databaseFile, jsonFile);
   }
 
-  @Command(name = "dump_formatted_archive",
-      description = "Dumps to a JSON file the Java formatted content of COM archive from a specific provider")
+  @Command(name = "dump_archive",
+      description = "Dumps to a JSON file the formatted content of a COM archive provider")
   private void dumpFormattedArchive(
       @Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
           description = "URI of the central directory to use") String centralDirectoryURI,
-      @Parameters(arity = "1", paramLabel = "<providerName>",
-          description = "Name of the COM archive provider (can be found using list_archive_providers command)") String providerName,
+      @Option(names = {"-p", "--provider"}, paramLabel = "provider_name",
+          description = "Name of the COM archive provider, defaults to "
+              + Const.NANOSAT_MO_SUPERVISOR_NAME) String providerName,
       @Parameters(arity = "1", paramLabel = "<jsonFile>",
           description = "target JSON file") String jsonFile) {
-
+    if (providerName == null) {
+      providerName = Const.NANOSAT_MO_SUPERVISOR_NAME;
+    }
     cmdImpl.dumpFormattedArchive(centralDirectoryURI, providerName, jsonFile);
   }
 

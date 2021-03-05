@@ -15,12 +15,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
+import org.ccsds.moims.mo.com.archive.structures.QueryFilterList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UShort;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 
 /**
@@ -33,7 +42,7 @@ public class CommandsImplementations {
   private static final Logger LOGGER = Logger.getLogger(CommandsImplementations.class.getName());
 
   /**
-   * Dumps the raw SQLite tables content of a COM archive in a JSON file.
+   * Dumps to a JSON file the raw SQLite tables content of a COM archive.
    * 
    * @param databaseFile source SQLite database file
    * @param jsonFile target JSON file
@@ -96,17 +105,46 @@ public class CommandsImplementations {
   }
 
 
+  /**
+   * Dumps to a JSON file the formatted content of a COM archive provider.
+   *
+   * @param centralDirectoryServiceURI URI of the central directory to use
+   * @param providerName The name of the provider
+   * @param jsonFile target JSON file
+   */
   public void dumpFormattedArchive(String centralDirectoryServiceURI, String providerName,
       String jsonFile) {
-    ProviderSummary providerDetails =
-        Helpers.getProviderSummary(new URI(centralDirectoryServiceURI), providerName);
+    NMFConsumer.initHelpers();
+
+    ProviderSummary providerDetails = CentralDirectoryHelper
+        .getProviderSummary(new URI(centralDirectoryServiceURI), providerName);
     GroundMOAdapterImpl gma = new GroundMOAdapterImpl(providerDetails);
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
+    // prepare an entire archive query
+    boolean returnBody = true;
+    ObjectType allObjectsType =
+        new ObjectType(new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0));
+    ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+    archiveQueryList
+        .add(new ArchiveQuery(null, null, null, new Long(0), null, null, null, null, null));
+    QueryFilterList queryFilterList = null;
 
+    // execute the query
+    ToJsonArchiveAdapter toJsonArchiveAdapter = null;
+    try {
+      toJsonArchiveAdapter = new ToJsonArchiveAdapter(jsonFile);
+      gma.getCOMServices().getArchiveService().getArchiveStub().query(returnBody, allObjectsType,
+          archiveQueryList, queryFilterList, toJsonArchiveAdapter);
+    } catch (MALInteractionException | MALException e) {
+      LOGGER.log(Level.SEVERE, "Error when querying archive", e);
+    }
+
+    // wait for query to end
+    while (toJsonArchiveAdapter != null && !toJsonArchiveAdapter.isQueryOver()) {
+      try {
+        Thread.sleep(500);
+      } catch (InterruptedException e) {
+      }
     }
 
     gma.closeConnections();
@@ -119,7 +157,7 @@ public class CommandsImplementations {
    */
   public void listArchiveProviders(String centralDirectoryServiceURI) {
     ArrayList<String> archiveProvidersName =
-        Helpers.listCOMArchiveProviders(new URI(centralDirectoryServiceURI));
+        CentralDirectoryHelper.listCOMArchiveProviders(new URI(centralDirectoryServiceURI));
 
     // No provider found warning
     if (archiveProvidersName.size() <= 0) {

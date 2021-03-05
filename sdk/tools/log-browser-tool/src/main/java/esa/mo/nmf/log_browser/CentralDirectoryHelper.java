@@ -25,13 +25,13 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 
 /**
- * Bunch of help functions.
+ * Bunch of helper functions to query the central directory service.
  *
  * @author Tanguy Soto
  */
-public class Helpers {
+public class CentralDirectoryHelper {
 
-  private static final Logger LOGGER = Logger.getLogger(Helpers.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(CentralDirectoryHelper.class.getName());
 
   /**
    * Look up the central directory to find provider details of the given provider.
