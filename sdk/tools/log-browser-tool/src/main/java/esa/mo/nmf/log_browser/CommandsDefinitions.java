@@ -35,7 +35,7 @@ public class CommandsDefinitions {
   }
 
   @Command(name = "dump_raw_archive",
-      description = "Dumps to a JSON file the raw SQLite tables content of a COM archive")
+      description = "Dumps to a JSON file the raw tables content of a SQLite COM archive")
   private void dumpRawArchive(
       @Parameters(arity = "1", paramLabel = "<databaseFile>",
           description = "source SQLite database file") String databaseFile,
@@ -44,20 +44,38 @@ public class CommandsDefinitions {
     cmdImpl.dumpRawArchiveTables(databaseFile, jsonFile);
   }
 
-  @Command(name = "dump_archive",
+  @Command(sortOptions = false, name = "dump_archive",
       description = "Dumps to a JSON file the formatted content of a COM archive provider")
   private void dumpFormattedArchive(
       @Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
           description = "URI of the central directory to use") String centralDirectoryURI,
-      @Option(names = {"-p", "--provider"}, paramLabel = "provider_name",
-          description = "Name of the COM archive provider, defaults to "
+      @Option(order = 1, names = {"-p", "--provider"}, paramLabel = "<providerName>",
+          description = "Name of the COM archive provider to query\n" + "  - default: "
               + Const.NANOSAT_MO_SUPERVISOR_NAME) String providerName,
+      @Option(order = 2, names = {"-d", "--domain"}, paramLabel = "<domainId>",
+          description = "Restricts the dump to objects in a specific domain\n"
+              + "  - format: key1.key2.[...].keyN.\n"
+              + "  - example: esa.NMF_SDK.nanosat-mo-supervisor") String domain,
+      @Option(order = 3, names = {"-t", "--type"}, paramLabel = "<comType>",
+          description = "Restricts the dump to objects that are instances of <comType>\n"
+              + "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n"
+              + "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ") String comType,
+      @Option(order = 4, names = {"-s", "--start"}, paramLabel = "<startTime>",
+          description = "Restricts the dump to objects created after the given time\n"
+              + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+              + "  - example: \"2021-03-04 08:37:58.482\"") String startTime,
+      @Option(order = 5, names = {"-e", "--end"}, paramLabel = "<endTime>",
+          description = "Restricts the dump to objects created before the given time. "
+              + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
+              + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+              + "  - example: \"2021-03-05 12:05:45.271\"") String endTime,
       @Parameters(arity = "1", paramLabel = "<jsonFile>",
           description = "target JSON file") String jsonFile) {
     if (providerName == null) {
       providerName = Const.NANOSAT_MO_SUPERVISOR_NAME;
     }
-    cmdImpl.dumpFormattedArchive(centralDirectoryURI, providerName, jsonFile);
+    cmdImpl.dumpFormattedArchive(centralDirectoryURI, providerName, domain, comType, startTime,
+        endTime, jsonFile);
   }
 
   @Command(name = "list_archive_providers",

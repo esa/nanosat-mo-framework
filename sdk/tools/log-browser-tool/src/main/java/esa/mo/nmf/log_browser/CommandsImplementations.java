@@ -22,6 +22,8 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
@@ -29,6 +31,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 
@@ -110,30 +115,60 @@ public class CommandsImplementations {
    *
    * @param centralDirectoryServiceURI URI of the central directory to use
    * @param providerName The name of the provider
+   * @param domainId
+   * @param comType
+   * @param startTime
+   * @param endTime
    * @param jsonFile target JSON file
    */
   public void dumpFormattedArchive(String centralDirectoryServiceURI, String providerName,
-      String jsonFile) {
+      String domainId, String comType, String startTime, String endTime, String jsonFile) {
     NMFConsumer.initHelpers();
 
+    // connect to the provider
     ProviderSummary providerDetails = CentralDirectoryHelper
         .getProviderSummary(new URI(centralDirectoryServiceURI), providerName);
     GroundMOAdapterImpl gma = new GroundMOAdapterImpl(providerDetails);
 
-    // prepare an entire archive query
-    boolean returnBody = true;
-    ObjectType allObjectsType =
-        new ObjectType(new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0));
+    // prepare comType filter
+    int areaNumber = 0;
+    int serviceNumber = 0;
+    int areaVersion = 0;
+    int objectNumber = 0;
+
+    if (comType != null) {
+      String[] subTypes = comType.split("\\.");
+      if (subTypes.length == 4) {
+        areaNumber = Integer.parseInt(subTypes[0]);
+        serviceNumber = Integer.parseInt(subTypes[1]);
+        areaVersion = Integer.parseInt(subTypes[2]);
+        System.out.println(areaVersion);
+        objectNumber = Integer.parseInt(subTypes[3]);
+      } else {
+        LOGGER.log(Level.WARNING,
+            String.format("Error parsing comType \"%s\", filter will be ignored", comType));
+      }
+    }
+
+    ObjectType allObjectsType = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber),
+        new UOctet((short)areaVersion), new UShort(objectNumber));
+
+    // prepare domain and time filters
     ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-    archiveQueryList
-        .add(new ArchiveQuery(null, null, null, new Long(0), null, null, null, null, null));
+    IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+    FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
+    FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+    ArchiveQuery archiveQuery =
+        new ArchiveQuery(domain, null, null, new Long(0), null, startTimeF, endTimeF, null, null);
+    archiveQueryList.add(archiveQuery);
+
     QueryFilterList queryFilterList = null;
 
     // execute the query
     ToJsonArchiveAdapter toJsonArchiveAdapter = null;
     try {
       toJsonArchiveAdapter = new ToJsonArchiveAdapter(jsonFile);
-      gma.getCOMServices().getArchiveService().getArchiveStub().query(returnBody, allObjectsType,
+      gma.getCOMServices().getArchiveService().getArchiveStub().query(true, allObjectsType,
           archiveQueryList, queryFilterList, toJsonArchiveAdapter);
     } catch (MALInteractionException | MALException e) {
       LOGGER.log(Level.SEVERE, "Error when querying archive", e);

@@ -80,6 +80,12 @@ public class ToJsonArchiveAdapter extends ArchiveAdapter {
       return;
     }
 
+    // empty comType means query returned nothing
+    ObjectType comType = archiveObjectOutput.getObjectType();
+    if (comType == null) {
+      return;
+    }
+
     // Group objects by domain ...
     String domainKey = HelperMisc.domain2domainId(archiveObjectOutput.getDomain());
     if (!archiveObjects.containsKey(domainKey)) {
@@ -87,7 +93,6 @@ public class ToJsonArchiveAdapter extends ArchiveAdapter {
     }
 
     // ... and by COM object type
-    ObjectType comType = archiveObjectOutput.getObjectType();
     String comTypeKey = HelperCOM.objType2string(comType).replace(" - ", ".").replace(": ", ".");
     if (!archiveObjects.get(domainKey).containsKey(comTypeKey)) {
       archiveObjects.get(domainKey).put(comTypeKey, new ArrayList<CleanCOMArchiveObject>());
@@ -237,7 +242,8 @@ public class ToJsonArchiveAdapter extends ArchiveAdapter {
         Long instanceId;
 
         public CleanObjectId(ObjectId objectId) {
-          objectType = HelperCOM.objType2string(objectId.getType());
+          objectType =
+              HelperCOM.objType2string(objectId.getType()).replace(" - ", ".").replace(": ", ".");
           domain = HelperMisc.domain2domainId(objectId.getKey().getDomain());
           instanceId = objectId.getKey().getInstId();
         }
