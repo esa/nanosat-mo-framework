@@ -22,7 +22,10 @@ public class LogBrowser {
     CommandsImplementations cmdImpl = new CommandsImplementations();
     CommandsDefinitions cmdDef = new CommandsDefinitions(cmdImpl);
 
-    int exitCode = new CommandLine(cmdDef).execute(args);
-    System.exit(exitCode);
+    CommandLine cmd = new CommandLine(cmdDef);
+    cmd.setUsageHelpAutoWidth(true);
+    cmd.setUsageHelpLongOptionsMaxWidth(30);
+
+    System.exit(cmd.execute(args));
   }
 }
