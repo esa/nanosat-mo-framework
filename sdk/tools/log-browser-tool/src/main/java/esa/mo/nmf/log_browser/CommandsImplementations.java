@@ -15,9 +15,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
-import org.ccsds.moims.mo.com.archive.structures.QueryFilterList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
@@ -31,11 +31,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.log_browser.adapters.ArchiveToJsonAdapter;
+import esa.mo.nmf.log_browser.adapters.QueryStatusProvider;
 
 /**
  * Actual implementation of the available commands.
@@ -115,20 +116,17 @@ public class CommandsImplementations {
    *
    * @param centralDirectoryServiceURI URI of the central directory to use
    * @param providerName The name of the provider
-   * @param domainId
-   * @param comType
-   * @param startTime
-   * @param endTime
+   * @param domainId Restricts the dump to objects in a specific domain ID
+   * @param comType Restricts the dump to objects that are instances of comType
+   * @param startTime Restricts the dump to objects created after the given time
+   * @param endTime Restricts the dump to objects created before the given time. If this option is
+   *        provided without the -s option, returns the single object that has the closest time
+   *        stamp to, but not greater than endTime.
    * @param jsonFile target JSON file
    */
   public void dumpFormattedArchive(String centralDirectoryServiceURI, String providerName,
       String domainId, String comType, String startTime, String endTime, String jsonFile) {
     NMFConsumer.initHelpers();
-
-    // connect to the provider
-    ProviderSummary providerDetails = CentralDirectoryHelper
-        .getProviderSummary(new URI(centralDirectoryServiceURI), providerName);
-    GroundMOAdapterImpl gma = new GroundMOAdapterImpl(providerDetails);
 
     // prepare comType filter
     int areaNumber = 0;
@@ -142,7 +140,6 @@ public class CommandsImplementations {
         areaNumber = Integer.parseInt(subTypes[0]);
         serviceNumber = Integer.parseInt(subTypes[1]);
         areaVersion = Integer.parseInt(subTypes[2]);
-        System.out.println(areaVersion);
         objectNumber = Integer.parseInt(subTypes[3]);
       } else {
         LOGGER.log(Level.WARNING,
@@ -150,8 +147,8 @@ public class CommandsImplementations {
       }
     }
 
-    ObjectType allObjectsType = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber),
-        new UOctet((short)areaVersion), new UShort(objectNumber));
+    ObjectType objectsTypes = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber),
+        new UOctet((short) areaVersion), new UShort(objectNumber));
 
     // prepare domain and time filters
     ArchiveQueryList archiveQueryList = new ArchiveQueryList();
@@ -162,26 +159,62 @@ public class CommandsImplementations {
         new ArchiveQuery(domain, null, null, new Long(0), null, startTimeF, endTimeF, null, null);
     archiveQueryList.add(archiveQuery);
 
-    QueryFilterList queryFilterList = null;
+    // execute query
+    ArchiveToJsonAdapter adapter = new ArchiveToJsonAdapter(jsonFile);
+    queryArchive(centralDirectoryServiceURI, providerName, objectsTypes, archiveQueryList, adapter,
+        adapter);
+  }
 
-    // execute the query
-    ToJsonArchiveAdapter toJsonArchiveAdapter = null;
+  /**
+   * Dumps to a LOG file the logs of an NMF app using the content of a COM archive provider.
+   * 
+   * @param centralDirectoryServiceURI URI of the central directory to use
+   * @param appName Name of the NMF app we want the logs for
+   * @param providerName The name of the provider
+   * @param startTime Restricts the dump to objects created after the given time
+   * @param endTime Restricts the dump to objects created before the given time. If this option is
+   *        provided without the -s option, returns the single object that has the closest time
+   *        stamp to, but not greater than endTime.
+   * @param logFile target LOG file
+   */
+  public void getLogs(String centralDirectoryServiceURI, String appName, String providerName,
+      String startTime, String endTime, String logFile) {
+    System.out.println("COMING SOON");
+  }
+
+  /**
+   * TODO queryArchive
+   *
+   * @param centralDirectoryServiceURI
+   * @param providerName
+   * @param objectsTypes
+   * @param archiveQueryList
+   * @param adapter
+   * @param queryStatusProvider
+   */
+  private void queryArchive(String centralDirectoryServiceURI, String providerName,
+      ObjectType objectsTypes, ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
+      QueryStatusProvider queryStatusProvider) {
+    // connect to the provider
+    ProviderSummary providerDetails = CentralDirectoryHelper
+        .getProviderSummary(new URI(centralDirectoryServiceURI), providerName);
+    GroundMOAdapterImpl gma = new GroundMOAdapterImpl(providerDetails);
+
+    // run the query
     try {
-      toJsonArchiveAdapter = new ToJsonArchiveAdapter(jsonFile);
-      gma.getCOMServices().getArchiveService().getArchiveStub().query(true, allObjectsType,
-          archiveQueryList, queryFilterList, toJsonArchiveAdapter);
+      gma.getCOMServices().getArchiveService().getArchiveStub().query(true, objectsTypes,
+          archiveQueryList, null, adapter);
     } catch (MALInteractionException | MALException e) {
       LOGGER.log(Level.SEVERE, "Error when querying archive", e);
     }
 
     // wait for query to end
-    while (toJsonArchiveAdapter != null && !toJsonArchiveAdapter.isQueryOver()) {
+    while (!queryStatusProvider.isQueryOver()) {
       try {
         Thread.sleep(500);
       } catch (InterruptedException e) {
       }
     }
-
     gma.closeConnections();
   }
 

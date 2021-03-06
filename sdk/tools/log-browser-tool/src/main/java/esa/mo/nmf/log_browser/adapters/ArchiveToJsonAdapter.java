@@ -2,7 +2,7 @@
 // European Space Operations Centre
 // Darmstadt, Germany
 
-package esa.mo.nmf.log_browser;
+package esa.mo.nmf.log_browser.adapters;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,14 +33,19 @@ import esa.mo.helpertools.helpers.HelperTime;
  *
  * @author Tanguy Soto
  */
-public class ToJsonArchiveAdapter extends ArchiveAdapter {
+public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
-  private static final Logger LOGGER = Logger.getLogger(ToJsonArchiveAdapter.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(ArchiveToJsonAdapter.class.getName());
 
   /**
    * Google JSON Java parser
    */
   private Gson gson;
+
+  /**
+   * Path to the destination JSON file
+   */
+  private String jsonFilePath;
 
   /**
    * Destination JSON file
@@ -63,10 +68,10 @@ public class ToJsonArchiveAdapter extends ArchiveAdapter {
    * 
    * @param jsonFilePath Path of destination JSON file where we dump the MAL elements
    */
-  public ToJsonArchiveAdapter(String jsonFilePath) {
+  public ArchiveToJsonAdapter(String jsonFilePath) {
     gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     archiveObjects = new HashMap<String, HashMap<String, ArrayList<CleanCOMArchiveObject>>>();
-    openJsonFile(jsonFilePath);
+    this.jsonFilePath = jsonFilePath;
   }
 
   /**
@@ -75,11 +80,6 @@ public class ToJsonArchiveAdapter extends ArchiveAdapter {
    * @param archiveObjectOutput the archive objects outputs
    */
   private synchronized void dumpArchiveObjectsOutput(ArchiveCOMObjectsOutput archiveObjectOutput) {
-    if (jsonFile == null) {
-      LOGGER.log(Level.SEVERE, "Can't dump MAL elements to JSON file: file is null");
-      return;
-    }
-
     // empty comType means query returned nothing
     ObjectType comType = archiveObjectOutput.getObjectType();
     if (comType == null) {
@@ -108,31 +108,21 @@ public class ToJsonArchiveAdapter extends ArchiveAdapter {
   }
 
   /**
-   * Opens the JSON file.
+   * Dumps formatted archive objects to the JSON file.
    */
-  private void openJsonFile(String jsonFilePath) {
+  private synchronized void dumpToJSON() {
     try {
       jsonFile = new FileWriter(jsonFilePath);
-      LOGGER.log(Level.INFO, String.format("Opened JSON file %s", jsonFilePath));
+      gson.toJson(archiveObjects, jsonFile);
     } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Error opening the JSON file", e);
-      jsonFile = null;
-    }
-  }
-
-  /**
-   * Safely closes the JSON file.
-   */
-  private synchronized void dumpAndcloseJsonFile() {
-    gson.toJson(archiveObjects, jsonFile);
-
-    // close the JSON file
-    if (jsonFile != null) {
-      try {
-        jsonFile.close();
-        LOGGER.log(Level.INFO, "Closed JSON file");
-      } catch (IOException e) {
-        LOGGER.log(Level.SEVERE, "Error closing the JSON file", e);
+      LOGGER.log(Level.SEVERE, String.format("Error writting to JSON file %s", jsonFilePath), e);
+    } finally {
+      if (jsonFile != null) {
+        try {
+          jsonFile.close();
+        } catch (IOException e) {
+          LOGGER.log(Level.SEVERE, String.format("Error closing JSON file %s", jsonFilePath), e);
+        }
       }
     }
   }
@@ -173,17 +163,16 @@ public class ToJsonArchiveAdapter extends ArchiveAdapter {
     setIsQueryOver(true);
   }
 
-  /**
-   * @return True if the query is over (response or any error received).
-   */
+  /** {@inheritDoc} */
+  @Override
   public synchronized boolean isQueryOver() {
     return isQueryOver;
   }
 
   private synchronized void setIsQueryOver(boolean isQueryOver) {
     if (isQueryOver) {
-      // once response or error is received, we dump current content and close the JSON file
-      dumpAndcloseJsonFile();
+      // once response or error is received, we dump current content to JSON file
+      dumpToJSON();
     }
     this.isQueryOver = isQueryOver;
   }
