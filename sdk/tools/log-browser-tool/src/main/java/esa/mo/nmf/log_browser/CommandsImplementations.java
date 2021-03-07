@@ -36,6 +36,7 @@ import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.log_browser.adapters.ArchiveToJsonAdapter;
+import esa.mo.nmf.log_browser.adapters.ArchiveToLogAdapter;
 import esa.mo.nmf.log_browser.adapters.QueryStatusProvider;
 
 /**
@@ -179,18 +180,39 @@ public class CommandsImplementations {
    */
   public void getLogs(String centralDirectoryServiceURI, String appName, String providerName,
       String startTime, String endTime, String logFile) {
-    System.out.println("COMING SOON");
+    NMFConsumer.initHelpers();
+
+    // Query all objects from SoftwareManagement area and CommandExecutor service,
+    // filtering for StandardOutput and StandardError events is done in the query adapter
+    ObjectType objectsTypes =
+        new ObjectType(new UShort(7), new UShort(3), new UOctet((short) 1), new UShort(0));
+
+    // prepare time filters
+    ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+    IdentifierList domain = null;
+    FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
+    FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+    ArchiveQuery archiveQuery =
+        new ArchiveQuery(domain, null, null, new Long(0), null, startTimeF, endTimeF, null, null);
+    archiveQueryList.add(archiveQuery);
+
+    // TODO filter for specific appName
+
+    // execute query
+    ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile);
+    queryArchive(centralDirectoryServiceURI, providerName, objectsTypes, archiveQueryList, adapter,
+        adapter);
   }
 
   /**
-   * TODO queryArchive
+   * Queries object from the content of a COM archive provider.
    *
-   * @param centralDirectoryServiceURI
-   * @param providerName
-   * @param objectsTypes
-   * @param archiveQueryList
-   * @param adapter
-   * @param queryStatusProvider
+   * @param centralDirectoryServiceURI URI of the central directory to use
+   * @param providerName The name of the provider
+   * @param objectsTypes COM types of objects to query
+   * @param archiveQueryList Archive query object used for filtering
+   * @param adapter Archive adapter receiving the query answer messages
+   * @param queryStatusProvider Interface providing the status of the query
    */
   private void queryArchive(String centralDirectoryServiceURI, String providerName,
       ObjectType objectsTypes, ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
