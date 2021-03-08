@@ -19,9 +19,7 @@ public class LogBrowser {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
-    CommandsImplementations cmdImpl = new CommandsImplementations();
-    CommandsDefinitions cmdDef = new CommandsDefinitions(cmdImpl);
-
+    CommandsDefinitions cmdDef = new CommandsDefinitions();
     CommandLine cmd = new CommandLine(cmdDef);
     cmd.setUsageHelpAutoWidth(true);
     cmd.setUsageHelpLongOptionsMaxWidth(30);

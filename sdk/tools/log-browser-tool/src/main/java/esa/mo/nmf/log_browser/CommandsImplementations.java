@@ -32,6 +32,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
@@ -56,7 +57,7 @@ public class CommandsImplementations {
    * @param databaseFile source SQLite database file
    * @param jsonFile target JSON file
    */
-  public void dumpRawArchiveTables(String databaseFile, String jsonFile) {
+  public static void dumpRawArchiveTables(String databaseFile, String jsonFile) {
     // Test if DB file exists
     File temp = new File(databaseFile);
     if (!temp.exists() || temp.isDirectory()) {
@@ -127,7 +128,7 @@ public class CommandsImplementations {
    *        stamp to, but not greater than endTime.
    * @param jsonFile target JSON file
    */
-  public void dumpFormattedArchive(String centralDirectoryServiceURI, String providerName,
+  public static void dumpFormattedArchive(String centralDirectoryServiceURI, String providerName,
       String domainId, String comType, String startTime, String endTime, String jsonFile) {
     NMFConsumer.initHelpers();
 
@@ -181,7 +182,7 @@ public class CommandsImplementations {
    *        stamp to, but not greater than endTime.
    * @param logFile target LOG file
    */
-  public void getLogs(String centralDirectoryServiceURI, String appName, String providerName,
+  public static void getLogs(String centralDirectoryServiceURI, String appName, String providerName,
       String domainId, String startTime, String endTime, String logFile) {
     NMFConsumer.initHelpers();
 
@@ -226,7 +227,7 @@ public class CommandsImplementations {
    * @param domain Restricts the dump to objects in a specific domain ID
    * @return the ObjectId of the found App or null if not found
    */
-  private ObjectId getAppObjectId(String centralDirectoryServiceURI, String appName,
+  private static ObjectId getAppObjectId(String centralDirectoryServiceURI, String appName,
       String providerName, IdentifierList domain) {
     // SoftwareManagement.AppsLaunch.App object type
     ObjectType appType =
@@ -255,7 +256,7 @@ public class CommandsImplementations {
    * @param adapter Archive adapter receiving the query answer messages
    * @param queryStatusProvider Interface providing the status of the query
    */
-  private void queryArchive(String centralDirectoryServiceURI, String providerName,
+  private static void queryArchive(String centralDirectoryServiceURI, String providerName,
       ObjectType objectsTypes, ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
       QueryStatusProvider queryStatusProvider) {
     // connect to the provider
@@ -286,7 +287,7 @@ public class CommandsImplementations {
    *
    * @param centralDirectoryServiceURI URI of the central directory to use
    */
-  public void listArchiveProviders(String centralDirectoryServiceURI) {
+  public static void listArchiveProviders(String centralDirectoryServiceURI) {
     ArrayList<String> archiveProvidersName =
         CentralDirectoryHelper.listCOMArchiveProviders(new URI(centralDirectoryServiceURI));
 
