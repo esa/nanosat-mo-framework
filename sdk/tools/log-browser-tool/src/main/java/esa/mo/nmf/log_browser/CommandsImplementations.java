@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
@@ -35,6 +36,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.log_browser.adapters.ArchiveToAppAdapter;
 import esa.mo.nmf.log_browser.adapters.ArchiveToJsonAdapter;
 import esa.mo.nmf.log_browser.adapters.ArchiveToLogAdapter;
 import esa.mo.nmf.log_browser.adapters.QueryStatusProvider;
@@ -172,6 +174,7 @@ public class CommandsImplementations {
    * @param centralDirectoryServiceURI URI of the central directory to use
    * @param appName Name of the NMF app we want the logs for
    * @param providerName The name of the provider
+   * @param domainId Restricts the dump to objects in a specific domain ID
    * @param startTime Restricts the dump to objects created after the given time
    * @param endTime Restricts the dump to objects created before the given time. If this option is
    *        provided without the -s option, returns the single object that has the closest time
@@ -179,7 +182,7 @@ public class CommandsImplementations {
    * @param logFile target LOG file
    */
   public void getLogs(String centralDirectoryServiceURI, String appName, String providerName,
-      String startTime, String endTime, String logFile) {
+      String domainId, String startTime, String endTime, String logFile) {
     NMFConsumer.initHelpers();
 
     // Query all objects from SoftwareManagement area and CommandExecutor service,
@@ -187,21 +190,59 @@ public class CommandsImplementations {
     ObjectType objectsTypes =
         new ObjectType(new UShort(7), new UShort(3), new UOctet((short) 1), new UShort(0));
 
-    // prepare time filters
+    // Query archive for the App object id
+    IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+    ObjectId appObjectId =
+        getAppObjectId(centralDirectoryServiceURI, appName, providerName, domain);
+
+    if (appObjectId == null) {
+      LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in provider %s at %s",
+          appName, providerName, centralDirectoryServiceURI));
+      return;
+    }
+
+    // prepare domain, time and object id filters
     ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-    IdentifierList domain = null;
     FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
     FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-    ArchiveQuery archiveQuery =
-        new ArchiveQuery(domain, null, null, new Long(0), null, startTimeF, endTimeF, null, null);
+    ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, new Long(0), appObjectId,
+        startTimeF, endTimeF, null, null);
     archiveQueryList.add(archiveQuery);
-
-    // TODO filter for specific appName
 
     // execute query
     ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile);
     queryArchive(centralDirectoryServiceURI, providerName, objectsTypes, archiveQueryList, adapter,
         adapter);
+  }
+
+
+  /**
+   * Search a COM archive provider content to find the ObjectId of an App of the OPS-SAT
+   * CommandExecutor service of the SoftwareManagement.
+   *
+   * @param centralDirectoryServiceURI URI of the central directory to use
+   * @param appName Name of the NMF app we want the logs for
+   * @param providerName The name of the provider
+   * @param domain Restricts the dump to objects in a specific domain ID
+   * @return the ObjectId of the found App or null if not found
+   */
+  private ObjectId getAppObjectId(String centralDirectoryServiceURI, String appName,
+      String providerName, IdentifierList domain) {
+    // SoftwareManagement.AppsLaunch.App object type
+    ObjectType appType =
+        new ObjectType(new UShort(7), new UShort(5), new UOctet((short) 0), new UShort(1));
+
+    // prepare domain filter
+    ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+    ArchiveQuery archiveQuery =
+        new ArchiveQuery(domain, null, null, new Long(0), null, null, null, null, null);
+    archiveQueryList.add(archiveQuery);
+
+    // execute query
+    ArchiveToAppAdapter adapter = new ArchiveToAppAdapter(appName);
+    queryArchive(centralDirectoryServiceURI, providerName, appType, archiveQueryList, adapter,
+        adapter);
+    return adapter.getAppObjectId();
   }
 
   /**
