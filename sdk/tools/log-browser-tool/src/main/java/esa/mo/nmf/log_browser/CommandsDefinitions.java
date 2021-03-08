@@ -96,11 +96,16 @@ public class CommandsDefinitions {
       @Option(order = 2, names = {"-p", "--provider"}, paramLabel = "<providerName>",
           description = "Name of the COM archive provider to query\n" + "  - default: "
               + Const.NANOSAT_MO_SUPERVISOR_NAME) String providerName,
-      @Option(order = 3, names = {"-s", "--start"}, paramLabel = "<startTime>",
+      @Option(order = 3, names = {"-d", "--domain"}, paramLabel = "<domainId>",
+          description = "Domain of the NMF app we want the logs for\n"
+              + "  - default: search for app in all domains\n"
+              + "  - format: key1.key2.[...].keyN.\n"
+              + "  - example: esa.NMF_SDK.nanosat-mo-supervisor") String domain,
+      @Option(order = 4, names = {"-s", "--start"}, paramLabel = "<startTime>",
           description = "Restricts the dump to logs logged after the given time\n"
               + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
               + "  - example: \"2021-03-04 08:37:58.482\"") String startTime,
-      @Option(order = 4, names = {"-e", "--end"}, paramLabel = "<endTime>",
+      @Option(order = 5, names = {"-e", "--end"}, paramLabel = "<endTime>",
           description = "Restricts the dump to logs logged before the given time. "
               + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
               + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
@@ -110,7 +115,8 @@ public class CommandsDefinitions {
     if (providerName == null) {
       providerName = Const.NANOSAT_MO_SUPERVISOR_NAME;
     }
-    cmdImpl.getLogs(centralDirectoryURI, appName, providerName, startTime, endTime, logFile);
+    cmdImpl.getLogs(centralDirectoryURI, appName, providerName, domain, startTime, endTime,
+        logFile);
   }
 
   @Command(name = "list",
