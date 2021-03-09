@@ -77,7 +77,7 @@ public class EncodeDecode {
                 be.encodeNullableShort(null);
             } else {
                 IdentifierList sourceDomain = manager.getFastDomain().getDomain(entity.getSourceLink().getDomainId());
-                Integer wordId3 = dictionary.getWordId(sourceDomain.toString());
+                Integer wordId3 = dictionary.getWordId(HelperMisc.domain2domainId(sourceDomain));
                 be.encodeNullableShort(wordId3.shortValue());
             }
 
