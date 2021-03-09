@@ -42,11 +42,6 @@ import org.ccsds.moims.mo.mal.structures.Time;
 public class GenerateNMFPackageMojo extends AbstractMojo {
 
     private final static String SEPARATOR = File.separator;
-    /**
-     * The version of the NMF Package
-     */
-    @Parameter(property = "generate-nmf-package.version", defaultValue = "${project.version}")
-    private String version;
 
     /**
      * The App name of the NMF Package
@@ -55,16 +50,37 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     private String name;
 
     /**
-     * Defines if this App needs root permissions to execute
+     * The version of the NMF Package
      */
-    @Parameter(property = "generate-nmf-package.needsRoot", defaultValue = "false")
-    private boolean needsRoot;
-    
+    @Parameter(property = "generate-nmf-package.version", defaultValue = "${project.version}")
+    private String version;
+
+    /**
+     * The App main class
+     */
+    @Parameter(property = "generate-nmf-package.mainClass")
+    private String mainClass;
+
     /**
      * The set of libraries to be added to the .nmfpack
      */
-    @Parameter(property = "generate-nmf-package.libs")
+    @Parameter(property = "generate-nmf-package.libs", required = true)
     private String[] libs;
+    
+    /**
+     * The set of privileges that an App can have
+     */
+    public enum Privilege {
+      normal,
+      admin,
+      root
+    }
+
+    /**
+     * My Enum
+     */
+    @Parameter(property = "generate-nmf-package.privilege", defaultValue = "normal")
+    private Privilege privilege;
     
     @Override
     public void execute() throws MojoExecutionException {
@@ -72,7 +88,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
 
         ArrayList<String> inputFiles = new ArrayList<>();
         ArrayList<String> locations = new ArrayList<>();
-        
+
         try {
             File myAppFilename = this.findAppJarInTargetFolder();
             inputFiles.add(myAppFilename.getAbsolutePath());
@@ -81,23 +97,27 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
             Logger.getLogger(GenerateNMFPackageMojo.class.getName()).log(
                     Level.SEVERE, "The Jar file was not found!", ex);
         }
+
+        getLog().info("\n------------- NMF Package - Generator -------------\n");
+        getLog().info("Input values:");
+        getLog().info(">> name = " + name);
+        getLog().info(">> version = " + version);
+        getLog().info(">> mainClass = " + mainClass);
+        getLog().info(">> privilege = " + privilege);
+
+        if(mainClass == null){
+            throw new MojoExecutionException("The mainClass property needs to be defined!\n"
+                    + "Please use the <mainClass> tag inside the <configuration> tag!\n");
+        }
         
-        // Step 1: Fill in app details...
-        // App Name, Description, Category
-        // Step 2: Is it a NMF app?
-        // If No:s
-        // Select the binary inputFiles to be installed
-        // Additional libraries?
         final Time time = new Time(System.currentTimeMillis());
         final String timestamp = HelperTime.time2readableString(time);
-
-        getLog().info("\n------------- NMF Package Generation -------------\n");
-        getLog().info("needsRoot = " + needsRoot);
 
         // Package 1
         NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp);
         NMFPackageCreator.nmfPackageCreator(details,
                 inputFiles, locations, "target");
+        // Additional libraries?
     }
 
     private File findAppJarInTargetFolder() throws IOException {
