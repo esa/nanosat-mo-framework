@@ -22,7 +22,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 
 /**
- * Archive adapter that finds by name an App object of the OPS-SAT CommandExecutor service of the
+ * Archive adapter that finds by name an App object of the CommandExecutor service of the
  * SoftwareManagement from an archive query of all App objects.
  *
  * @author Tanguy Soto
