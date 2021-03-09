@@ -311,7 +311,7 @@ public class CommandsImplementations {
    *
    * @param centralDirectoryServiceURI URI of the central directory to use
    * @param appName Name of the NMF app we want the logs for
-   * @param domain Restricts the dump to objects in a specific domain ID
+   * @param domain Restricts the search to objects in a specific domain ID
    * @return the ObjectId of the found App or null if not found
    */
   private static ObjectId getAppObjectId(String providerURI, String appName,
