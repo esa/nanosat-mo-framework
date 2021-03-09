@@ -7,6 +7,7 @@ package esa.mo.nmf.log_browser;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -20,10 +21,10 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -32,11 +33,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
+import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.log_browser.adapters.ArchiveToAppAdapter;
 import esa.mo.nmf.log_browser.adapters.ArchiveToJsonAdapter;
 import esa.mo.nmf.log_browser.adapters.ArchiveToLogAdapter;
@@ -116,10 +118,10 @@ public class CommandsImplementations {
 
 
   /**
-   * Dumps to a JSON file the formatted content of a COM archive provider.
+   * Dumps to a JSON file the formatted content of a local or remote COM archive.
    *
-   * @param centralDirectoryServiceURI URI of the central directory to use
-   * @param providerName The name of the provider
+   * @param databaseFile Local SQLite database file
+   * @param providerURI The URI of the remote COM archive provider
    * @param domainId Restricts the dump to objects in a specific domain ID
    * @param comType Restricts the dump to objects that are instances of comType
    * @param startTime Restricts the dump to objects created after the given time
@@ -128,8 +130,8 @@ public class CommandsImplementations {
    *        stamp to, but not greater than endTime.
    * @param jsonFile target JSON file
    */
-  public static void dumpFormattedArchive(String centralDirectoryServiceURI, String providerName,
-      String domainId, String comType, String startTime, String endTime, String jsonFile) {
+  public static void dumpFormattedArchive(String databaseFile, String providerURI, String domainId,
+      String comType, String startTime, String endTime, String jsonFile) {
     NMFConsumer.initHelpers();
 
     // prepare comType filter
@@ -163,18 +165,30 @@ public class CommandsImplementations {
         new ArchiveQuery(domain, null, null, new Long(0), null, startTimeF, endTimeF, null, null);
     archiveQueryList.add(archiveQuery);
 
+    // spawn our local provider on top of the given database file if needed
+    ArchiveProviderServiceImpl localProvider = null;
+    if (providerURI == null) {
+      localProvider = spawnLocalArchiveProvider(databaseFile);
+      providerURI =
+          localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
+    }
+
     // execute query
     ArchiveToJsonAdapter adapter = new ArchiveToJsonAdapter(jsonFile);
-    queryArchive(centralDirectoryServiceURI, providerName, objectsTypes, archiveQueryList, adapter,
-        adapter);
+    queryArchive(providerURI, objectsTypes, archiveQueryList, adapter, adapter);
+
+    // shutdown local provider if used
+    if (localProvider != null) {
+      localProvider.close();
+    }
   }
 
   /**
-   * Dumps to a LOG file the logs of an NMF app using the content of a COM archive provider.
+   * Dumps to a LOG file an NMF app logs using the content of a local or remote COM archive.
    * 
-   * @param centralDirectoryServiceURI URI of the central directory to use
+   * @param databaseFile Local SQLite database file
+   * @param providerURI The URI of the remote COM archive provider
    * @param appName Name of the NMF app we want the logs for
-   * @param providerName The name of the provider
    * @param domainId Restricts the dump to objects in a specific domain ID
    * @param startTime Restricts the dump to objects created after the given time
    * @param endTime Restricts the dump to objects created before the given time. If this option is
@@ -182,7 +196,7 @@ public class CommandsImplementations {
    *        stamp to, but not greater than endTime.
    * @param logFile target LOG file
    */
-  public static void getLogs(String centralDirectoryServiceURI, String appName, String providerName,
+  public static void getLogs(String databaseFile, String providerURI, String appName,
       String domainId, String startTime, String endTime, String logFile) {
     NMFConsumer.initHelpers();
 
@@ -191,14 +205,26 @@ public class CommandsImplementations {
     ObjectType objectsTypes =
         new ObjectType(new UShort(7), new UShort(3), new UOctet((short) 1), new UShort(0));
 
+    // spawn our local provider on top of the given database file if needed
+    ArchiveProviderServiceImpl localProvider = null;
+    if (providerURI == null) {
+      localProvider = spawnLocalArchiveProvider(databaseFile);
+      providerURI =
+          localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
+    }
+
     // Query archive for the App object id
     IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
-    ObjectId appObjectId =
-        getAppObjectId(centralDirectoryServiceURI, appName, providerName, domain);
+    ObjectId appObjectId = getAppObjectId(providerURI, appName, domain);
 
     if (appObjectId == null) {
-      LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in provider %s at %s",
-          appName, providerName, centralDirectoryServiceURI));
+      if (databaseFile == null) {
+        LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in provider at %s",
+            appName, providerURI));
+      } else {
+        LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in database at %s",
+            appName, databaseFile));
+      }
       return;
     }
 
@@ -212,8 +238,12 @@ public class CommandsImplementations {
 
     // execute query
     ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile);
-    queryArchive(centralDirectoryServiceURI, providerName, objectsTypes, archiveQueryList, adapter,
-        adapter);
+    queryArchive(providerURI, objectsTypes, archiveQueryList, adapter, adapter);
+
+    // shutdown local provider if used
+    if (localProvider != null) {
+      localProvider.close();
+    }
   }
 
 
@@ -223,12 +253,11 @@ public class CommandsImplementations {
    *
    * @param centralDirectoryServiceURI URI of the central directory to use
    * @param appName Name of the NMF app we want the logs for
-   * @param providerName The name of the provider
    * @param domain Restricts the dump to objects in a specific domain ID
    * @return the ObjectId of the found App or null if not found
    */
-  private static ObjectId getAppObjectId(String centralDirectoryServiceURI, String appName,
-      String providerName, IdentifierList domain) {
+  private static ObjectId getAppObjectId(String providerURI, String appName,
+      IdentifierList domain) {
     // SoftwareManagement.AppsLaunch.App object type
     ObjectType appType =
         new ObjectType(new UShort(7), new UShort(5), new UOctet((short) 0), new UShort(1));
@@ -241,33 +270,41 @@ public class CommandsImplementations {
 
     // execute query
     ArchiveToAppAdapter adapter = new ArchiveToAppAdapter(appName);
-    queryArchive(centralDirectoryServiceURI, providerName, appType, archiveQueryList, adapter,
-        adapter);
+    queryArchive(providerURI, appType, archiveQueryList, adapter, adapter);
     return adapter.getAppObjectId();
   }
 
   /**
-   * Queries object from the content of a COM archive provider.
+   * Queries objects from a COM archive provider.
    *
-   * @param centralDirectoryServiceURI URI of the central directory to use
-   * @param providerName The name of the provider
+   * @param providerURI The URI of the remote COM archive provider
    * @param objectsTypes COM types of objects to query
    * @param archiveQueryList Archive query object used for filtering
    * @param adapter Archive adapter receiving the query answer messages
    * @param queryStatusProvider Interface providing the status of the query
    */
-  private static void queryArchive(String centralDirectoryServiceURI, String providerName,
-      ObjectType objectsTypes, ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
+  private static void queryArchive(String providerURI, ObjectType objectsTypes,
+      ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
       QueryStatusProvider queryStatusProvider) {
     // connect to the provider
-    ProviderSummary providerDetails = CentralDirectoryHelper
-        .getProviderSummary(new URI(centralDirectoryServiceURI), providerName);
-    GroundMOAdapterImpl gma = new GroundMOAdapterImpl(providerDetails);
+    SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
+    connectionDetails.setProviderURI(providerURI);
+    IdentifierList domain = new IdentifierList();
+    Identifier wildCard = new Identifier("*");
+    domain.add(wildCard);
+    connectionDetails.setDomain(domain);
+    ArchiveConsumerServiceImpl archiveConsumer = null;
+    try {
+      archiveConsumer = new ArchiveConsumerServiceImpl(connectionDetails);
+    } catch (MalformedURLException | MALException e) {
+      LOGGER.log(Level.SEVERE,
+          String.format("Error when connectiong to archive provider at %s", providerURI), e);
+      return;
+    }
 
     // run the query
     try {
-      gma.getCOMServices().getArchiveService().getArchiveStub().query(true, objectsTypes,
-          archiveQueryList, null, adapter);
+      archiveConsumer.getArchiveStub().query(true, objectsTypes, archiveQueryList, null, adapter);
     } catch (MALInteractionException | MALException e) {
       LOGGER.log(Level.SEVERE, "Error when querying archive", e);
     }
@@ -279,20 +316,49 @@ public class CommandsImplementations {
       } catch (InterruptedException e) {
       }
     }
-    gma.closeConnections();
+    archiveConsumer.closeConnection();
   }
 
   /**
-   * Lists the COM archive providers names found in the central directory.
+   * Instantiates a COM archive service provider using the given COM archive SQLite file.
+   *
+   * @param databaseFile Local SQLite database file
+   * @return the ArchiveProviderServiceImpl
+   */
+  private static ArchiveProviderServiceImpl spawnLocalArchiveProvider(String databaseFile) {
+    HelperMisc.loadPropertiesFile();
+    System.setProperty(HelperMisc.PROP_MO_APP_NAME, LogBrowser.APP_NAME);
+    System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite:" + databaseFile);
+
+    ArchiveProviderServiceImpl archiveProvider = new ArchiveProviderServiceImpl();
+    try {
+      archiveProvider.init(null);
+      LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s",
+          archiveProvider.getConnection().getConnectionDetails().getProviderURI(), databaseFile));
+    } catch (MALException e) {
+      LOGGER.log(Level.SEVERE, "Error initializing archiveProdiver", e);
+    }
+
+    // give it time to initialize
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+    }
+
+    return archiveProvider;
+  }
+
+  /**
+   * Lists the COM archive providers URIs found in the central directory.
    *
    * @param centralDirectoryServiceURI URI of the central directory to use
    */
   public static void listArchiveProviders(String centralDirectoryServiceURI) {
-    ArrayList<String> archiveProvidersName =
+    ArrayList<String> archiveProviderURIs =
         CentralDirectoryHelper.listCOMArchiveProviders(new URI(centralDirectoryServiceURI));
 
     // No provider found warning
-    if (archiveProvidersName.size() <= 0) {
+    if (archiveProviderURIs.size() <= 0) {
       LOGGER.log(Level.WARNING, String.format(
           "No COM archive provider found in central directory at %s", centralDirectoryServiceURI));
       return;
@@ -300,8 +366,8 @@ public class CommandsImplementations {
 
     // List providers found
     System.out.println("Found the following COM archive providers: ");
-    for (String providerName : archiveProvidersName) {
-      System.out.println(String.format("\t- %s", providerName));
+    for (String providerURI : archiveProviderURIs) {
+      System.out.println(String.format(" - %s", providerURI));
     }
   }
 }

@@ -73,7 +73,7 @@
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.core</groupId>
-      <artifactId>ground-mo-adapter</artifactId>
+      <artifactId>generic-composite-model</artifactId>
     </dependency>
     <dependency>
       <groupId>info.picocli</groupId>

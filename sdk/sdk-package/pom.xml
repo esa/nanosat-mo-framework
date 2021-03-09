@@ -310,6 +310,8 @@
                 </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/log-browser-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
                 </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/nanosat-mo-supervisor-sim">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>

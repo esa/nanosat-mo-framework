@@ -3,15 +3,22 @@ LOG Browser
 CLI tool to browse a COM archive to retrieve logs and more from it.
 
 # Usage
+
 ## Help
+
+Starting it with `-h` or `--help` like so:
+
+`/home/nmf/log-browser-tool/$ ./log-browser-tool.sh -h`
+
+Will display the following help message:
+
 ```
-/home/nmf/log-browser-tool/$ ./log-browser-tool.sh -h
 Usage: LogBrowser [-h] [COMMAND]
 Browses a COM archive to retrieve logs and more from it.
   -h, --help   display a help message
 Commands:
-  dump      Dumps to a JSON file the formatted content of a COM archive provider
-  dump_raw  Dumps to a JSON file the raw tables content of a SQLite COM archive
-  get_logs  Dumps to a LOG file the logs of an NMF app using the content of a COM archive provider
-  list      Lists the COM archive providers names found in a central directory
+  dump_raw  Dumps to a JSON file the raw tables content of a local COM archive
+  dump      Dumps to a JSON file the formatted content of a local or remote COM archive
+  get_logs  Dumps to a LOG file an NMF app logs using the content of a local or remote COM archive.
+  list      Lists the COM archive providers URIs found in a central directory
 ```

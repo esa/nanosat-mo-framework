@@ -13,6 +13,8 @@ import picocli.CommandLine;
  */
 public class LogBrowser {
 
+  public static final String APP_NAME = "log-browser-tool";
+
   /**
    * Main command line entry point.
    *

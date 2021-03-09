@@ -10,8 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
+import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
+import org.ccsds.moims.mo.common.directory.structures.ProviderDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
@@ -102,7 +105,22 @@ public class CentralDirectoryHelper {
       ProviderSummaryList providersSummaries =
           centralDirectory.getDirectoryStub().lookupProvider(sf2);
       for (ProviderSummary providerSummary : providersSummaries) {
-        archiveProviders.add(providerSummary.getProviderName().getValue());
+        String provider = providerSummary.getProviderName().getValue();
+
+        ProviderDetails providerDetails = providerSummary.getProviderDetails();
+
+        // dump provider addresses
+        for (AddressDetails addressDetails : providerDetails.getProviderAddresses()) {
+          provider += ("\n\t - " + addressDetails.getServiceURI().getValue());
+        }
+
+        // dump services capabilities addresses
+        for (ServiceCapability serviceCapability : providerDetails.getServiceCapabilities()) {
+          for (AddressDetails serviceAddressDetails : serviceCapability.getServiceAddresses()) {
+            provider += ("\n\t - " + serviceAddressDetails.getServiceURI().getValue());
+          }
+        }
+        archiveProviders.add(provider);
       }
     } catch (MALInteractionException | MALException | MalformedURLException e) {
       LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);

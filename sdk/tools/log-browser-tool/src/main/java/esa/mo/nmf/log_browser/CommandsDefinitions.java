@@ -4,7 +4,7 @@
 
 package esa.mo.nmf.log_browser;
 
-import esa.mo.helpertools.misc.Const;
+import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -27,13 +27,14 @@ public class CommandsDefinitions {
 
 
 @Command(name = "dump_raw",
-    description = "Dumps to a JSON file the raw tables content of a SQLite COM archive")
+    description = "Dumps to a JSON file the raw tables content of a local COM archive")
 class DumpRawArchive implements Runnable {
   @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
   boolean helpRequested;
 
   @Parameters(arity = "1", paramLabel = "<databaseFile>",
-      description = "source SQLite database file")
+      description = "Local SQLite database file\n"
+          + "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
   String databaseFile;
 
   @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
@@ -46,80 +47,90 @@ class DumpRawArchive implements Runnable {
 }
 
 
-@Command(sortOptions = false, name = "dump",
-    description = "Dumps to a JSON file the formatted content of a COM archive provider")
+@Command(name = "dump",
+    description = "Dumps to a JSON file the formatted content of a local or remote COM archive")
 class DumpFormattedArchive implements Runnable {
-  @Option(order = 1, names = {"-h", "--help"}, usageHelp = true,
-      description = "display a help message")
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
   boolean helpRequested;
 
-  @Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
-      description = "URI of the central directory to use")
-  String centralDirectoryURI;
+  @ArgGroup(exclusive = true, multiplicity = "1")
+  LocalOrRemote localOrRemote;
 
-  @Option(order = 2, names = {"-p", "--provider"}, paramLabel = "<providerName>",
-      description = "Name of the COM archive provider to query\n" + "  - default: "
-          + Const.NANOSAT_MO_SUPERVISOR_NAME)
-  String providerName;
+  static class LocalOrRemote {
+    @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>",
+        description = "Local SQLite database file\n"
+            + "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
+    String databaseFile;
 
-  @Option(order = 3, names = {"-d", "--domain"}, paramLabel = "<domainId>",
+    @Option(names = {"-r", "--remote"}, paramLabel = "<providerURI>",
+        description = "Remote COM archive provider URI\n"
+            + "  - example: maltcp://10.0.2.15:1024/nanosat-mo-supervisor-Archive")
+    String providerURI;
+  }
+
+  @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
+  String jsonFile;
+
+  @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
       description = "Restricts the dump to objects in a specific domain\n"
           + "  - format: key1.key2.[...].keyN.\n"
           + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
   String domain;
 
-  @Option(order = 4, names = {"-t", "--type"}, paramLabel = "<comType>",
+  @Option(names = {"-t", "--type"}, paramLabel = "<comType>",
       description = "Restricts the dump to objects that are instances of <comType>\n"
           + "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n"
           + "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
   String comType;
 
-  @Option(order = 5, names = {"-s", "--start"}, paramLabel = "<startTime>",
+  @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
       description = "Restricts the dump to objects created after the given time\n"
           + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
           + "  - example: \"2021-03-04 08:37:58.482\"")
   String startTime;
 
-  @Option(order = 6, names = {"-e", "--end"}, paramLabel = "<endTime>",
+  @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
       description = "Restricts the dump to objects created before the given time. "
           + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
           + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
           + "  - example: \"2021-03-05 12:05:45.271\"")
   String endTime;
 
-  @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
-  String jsonFile;
-
   @Override
   public void run() {
-    if (providerName == null) {
-      providerName = Const.NANOSAT_MO_SUPERVISOR_NAME;
-    }
-    CommandsImplementations.dumpFormattedArchive(centralDirectoryURI, providerName, domain, comType,
-        startTime, endTime, jsonFile);
+    CommandsImplementations.dumpFormattedArchive(localOrRemote.databaseFile,
+        localOrRemote.providerURI, domain, comType, startTime, endTime, jsonFile);
   }
 }
 
 
-@Command(sortOptions = false, name = "get_logs",
-    description = "Dumps to a LOG file the logs of an NMF app using the content of a COM archive provider")
+@Command(name = "get_logs",
+    description = "Dumps to a LOG file an NMF app logs using the content of a local or remote COM archive.")
 class GetLogs implements Runnable {
-  @Option(order = 1, names = {"-h", "--help"}, usageHelp = true,
-      description = "display a help message")
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
   boolean helpRequested;
 
-  @Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
-      description = "URI of the central directory to use")
-  String centralDirectoryURI;
+  @ArgGroup(exclusive = true, multiplicity = "1")
+  LocalOrRemote localOrRemote;
+
+  static class LocalOrRemote {
+    @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>",
+        description = "Local SQLite database file\n"
+            + "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
+    String databaseFile;
+
+    @Option(names = {"-r", "--remote"}, paramLabel = "<providerURI>",
+        description = "Remote COM archive provider URI\n"
+            + "  - example: maltcp://10.0.2.15:1024/nanosat-mo-supervisor-Archive")
+    String providerURI;
+  }
 
   @Parameters(arity = "1", paramLabel = "<appName>",
       description = "Name of the NMF app we want the logs for")
   String appName;
 
-  @Option(order = 2, names = {"-p", "--provider"}, paramLabel = "<providerName>",
-      description = "Name of the COM archive provider to query\n" + "  - default: "
-          + Const.NANOSAT_MO_SUPERVISOR_NAME)
-  String providerName;
+  @Parameters(arity = "1", paramLabel = "<logFile>", description = "target LOG file")
+  String logFile;
 
   @Option(order = 3, names = {"-d", "--domain"}, paramLabel = "<domainId>",
       description = "Domain of the NMF app we want the logs for\n"
@@ -140,22 +151,16 @@ class GetLogs implements Runnable {
           + "  - example: \"2021-03-05 12:05:45.271\"")
   String endTime;
 
-  @Parameters(arity = "1", paramLabel = "<logFile>", description = "target LOG file")
-  String logFile;
-
   @Override
   public void run() {
-    if (providerName == null) {
-      providerName = Const.NANOSAT_MO_SUPERVISOR_NAME;
-    }
-    CommandsImplementations.getLogs(centralDirectoryURI, appName, providerName, domain, startTime,
-        endTime, logFile);
+    CommandsImplementations.getLogs(localOrRemote.databaseFile, localOrRemote.providerURI, appName,
+        domain, startTime, endTime, logFile);
   }
 }
 
 
 @Command(name = "list",
-    description = "Lists the COM archive providers names found in a central directory")
+    description = "Lists the COM archive providers URIs found in a central directory")
 class ListArchiveProviders implements Runnable {
   @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
   boolean helpRequested;
