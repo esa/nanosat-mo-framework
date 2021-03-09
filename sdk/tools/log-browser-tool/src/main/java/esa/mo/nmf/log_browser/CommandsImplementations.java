@@ -40,6 +40,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.log_browser.adapters.ArchiveToAppAdapter;
+import esa.mo.nmf.log_browser.adapters.ArchiveToAppListAdapter;
 import esa.mo.nmf.log_browser.adapters.ArchiveToJsonAdapter;
 import esa.mo.nmf.log_browser.adapters.ArchiveToLogAdapter;
 import esa.mo.nmf.log_browser.adapters.QueryStatusProvider;
@@ -184,6 +185,64 @@ public class CommandsImplementations {
   }
 
   /**
+   * Lists NMF apps having logs in the content of a local or remote COM archive.
+   * 
+   * @param databaseFile Local SQLite database file
+   * @param providerURI The URI of the remote COM archive provider
+   * @param domainId Restricts the dump to objects in a specific domain ID
+   * @param startTime Restricts the dump to objects created after the given time
+   * @param endTime Restricts the dump to objects created before the given time. If this option is
+   *        provided without the -s option, returns the single object that has the closest time
+   *        stamp to, but not greater than endTime.
+   */
+  public static void listLogs(String databaseFile, String providerURI, String domainId,
+      String startTime, String endTime) {
+    NMFConsumer.initHelpers();
+
+    // Query all objects from SoftwareManagement area filtering for
+    // StandardOutput and StandardError events and App object is done in the query adapter
+    ObjectType objectsTypes =
+        new ObjectType(new UShort(7), new UShort(0), new UOctet((short) 1), new UShort(0));
+
+    // spawn our local provider on top of the given database file if needed
+    ArchiveProviderServiceImpl localProvider = null;
+    if (providerURI == null) {
+      localProvider = spawnLocalArchiveProvider(databaseFile);
+      providerURI =
+          localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
+    }
+
+    // prepare domain, time and object id filters
+    IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+    ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+    FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
+    FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+    ArchiveQuery archiveQuery =
+        new ArchiveQuery(domain, null, null, new Long(0), null, startTimeF, endTimeF, null, null);
+    archiveQueryList.add(archiveQuery);
+
+    // execute query
+    ArchiveToAppListAdapter adapter = new ArchiveToAppListAdapter();
+    queryArchive(providerURI, objectsTypes, archiveQueryList, adapter, adapter);
+
+    // shutdown local provider if used
+    if (localProvider != null) {
+      localProvider.close();
+    }
+
+    // Display list of NMF apps that have logs
+    ArrayList<String> appsWithLogs = adapter.getAppWithLogs();
+    if (appsWithLogs.size() <= 0) {
+      System.out.println("No NMF apps with logs found in the provided archive");
+    } else {
+      System.out.println("Found the following NMF apps with logs: ");
+      for (String appName : appsWithLogs) {
+        System.out.println("\t - " + appName);
+      }
+    }
+  }
+
+  /**
    * Dumps to a LOG file an NMF app logs using the content of a local or remote COM archive.
    * 
    * @param databaseFile Local SQLite database file
@@ -245,7 +304,6 @@ public class CommandsImplementations {
       localProvider.close();
     }
   }
-
 
   /**
    * Search a COM archive provider content to find the ObjectId of an App of the OPS-SAT

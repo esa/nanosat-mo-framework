@@ -155,7 +155,8 @@ class ListLogs implements Runnable {
   /** {@inheritDoc} */
   @Override
   public void run() {
-    System.out.println("COMING SOON");
+    CommandsImplementations.listLogs(localOrRemote.databaseFile, localOrRemote.providerURI, domain,
+        startTime, endTime);
   }
 }
 
