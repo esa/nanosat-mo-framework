@@ -77,7 +77,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     }
 
     /**
-     * My Enum
+     * The privilege that the App needs during runtime
      */
     @Parameter(property = "generate-nmf-package.privilege", defaultValue = "normal")
     private Privilege privilege;
