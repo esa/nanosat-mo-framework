@@ -16,7 +16,7 @@ import picocli.CommandLine.Parameters;
  */
 
 @Command(name = "LogBrowser",
-    subcommands = {DumpRawArchive.class, DumpFormattedArchive.class, GetLogs.class,
+    subcommands = {DumpRawArchive.class, DumpFormattedArchive.class, Logs.class,
         ListArchiveProviders.class},
     description = "Browses a COM archive to retrieve logs and more from it.")
 public class CommandsDefinitions {
@@ -104,7 +104,63 @@ class DumpFormattedArchive implements Runnable {
 }
 
 
-@Command(name = "get_logs",
+@Command(name = "log", subcommands = {ListLogs.class, GetLogs.class},
+    description = "Gets or lists NMF app logs using the content of a local or remote COM archive.")
+class Logs {
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
+  boolean helpRequested;
+}
+
+
+@Command(name = "list",
+    description = "Lists NMF apps having logs in the content of a local or remote COM archive.")
+class ListLogs implements Runnable {
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
+  boolean helpRequested;
+
+  @ArgGroup(exclusive = true, multiplicity = "1")
+  LocalOrRemote localOrRemote;
+
+  static class LocalOrRemote {
+    @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>",
+        description = "Local SQLite database file\n"
+            + "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
+    String databaseFile;
+
+    @Option(names = {"-r", "--remote"}, paramLabel = "<providerURI>",
+        description = "Remote COM archive provider URI\n"
+            + "  - example: maltcp://10.0.2.15:1024/nanosat-mo-supervisor-Archive")
+    String providerURI;
+  }
+
+  @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
+      description = "Restricts the list to NMF apps in a specific domain\n"
+          + "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n"
+          + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+  String domain;
+
+  @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
+      description = "Restricts the list to NMF apps having logs logged after the given time\n"
+          + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+          + "  - example: \"2021-03-04 08:37:58.482\"")
+  String startTime;
+
+  @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
+      description = "Restricts the list to NMF apps having logs logged before the given time. "
+          + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
+          + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+          + "  - example: \"2021-03-05 12:05:45.271\"")
+  String endTime;
+
+  /** {@inheritDoc} */
+  @Override
+  public void run() {
+    System.out.println("COMING SOON");
+  }
+}
+
+
+@Command(name = "get",
     description = "Dumps to a LOG file an NMF app logs using the content of a local or remote COM archive.")
 class GetLogs implements Runnable {
   @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
@@ -132,19 +188,19 @@ class GetLogs implements Runnable {
   @Parameters(arity = "1", paramLabel = "<logFile>", description = "target LOG file")
   String logFile;
 
-  @Option(order = 3, names = {"-d", "--domain"}, paramLabel = "<domainId>",
+  @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
       description = "Domain of the NMF app we want the logs for\n"
           + "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n"
           + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
   String domain;
 
-  @Option(order = 4, names = {"-s", "--start"}, paramLabel = "<startTime>",
+  @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
       description = "Restricts the dump to logs logged after the given time\n"
           + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
           + "  - example: \"2021-03-04 08:37:58.482\"")
   String startTime;
 
-  @Option(order = 5, names = {"-e", "--end"}, paramLabel = "<endTime>",
+  @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
       description = "Restricts the dump to logs logged before the given time. "
           + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
           + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
