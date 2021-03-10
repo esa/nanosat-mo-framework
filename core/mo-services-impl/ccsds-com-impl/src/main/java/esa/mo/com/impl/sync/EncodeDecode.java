@@ -50,11 +50,20 @@ import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
+ * Encodes and decodes COM objects to and from bytes.
  *
  * @author Cesar Coelho
  */
 public class EncodeDecode {
 
+    /**
+     * Encodes a database COM object to byte array.
+     *
+     * @param entity The object to encode
+     * @param manager The archive manager for fast object details retrieval
+     * @param dictionary Dictionary mapping strings to integers
+     * @return The byte array holding the encoded COM object
+     */
     public static byte[] encodeToByteArray(final COMObjectEntity entity,
             ArchiveManager manager, Dictionary dictionary) {
         try {
@@ -117,6 +126,15 @@ public class EncodeDecode {
         return new byte[0]; // Return an empty byte array
     }
 
+    /**
+     * Decodes a list of COM objects from a list of byte arrays.
+     *
+     * @param chunks The list of byte arrays
+     * @param dictionary Local dictionary mapping integers to strings
+     * @param archiveSyncService ArchiveSync provider to fetch strings missing in the local dictionary
+     * @param domain The domain of the COM objects to decode
+     * @return The list of decoded COM objects
+     */
     public static ArrayList<COMObjectStructure> decodeFromByteArrayList(ArrayList<byte[]> chunks,
             Dictionary dictionary, ArchiveSyncStub archiveSyncService, IdentifierList domain) {
         ArrayList<COMObjectStructure> objs = new ArrayList<COMObjectStructure>();
