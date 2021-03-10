@@ -23,10 +23,10 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.File;
 
 /**
- * The {@code AppStorage} class allows the retrieval of directory paths to 
- * store files by the Apps. The App developer should always use this class to
- * retrieve the directory paths to store files. Storing files somewhere else in
- * the system is not recommended.
+ * The {@code AppStorage} class allows the retrieval of directory paths to store
+ * files by the Apps. The App developer should always use this class to retrieve
+ * the directory paths to store files. Storing files somewhere else in the
+ * system is not recommended.
  * <p>
  * App developers are strongly recommended to use the following folders to store
  * their files:
@@ -34,7 +34,7 @@ import java.io.File;
  * <li>cache</li>
  * <li>user-data</li>
  * </ul>
- * 
+ *
  * The path to these directories can be retrieved using this class.
  *
  * @since 2.0.0
@@ -55,10 +55,10 @@ public class AppStorage {
     private final static String FOLDER_PACKAGES = "packages";
     private final static String FOLDER_USER_DATABASES = "databases";
     private final static String FOLDER_NMF = "nmf";
-    
+
     /**
      * Returns the absolute path to the main directory of this App. The use of
-     * this folder is discouraged. The developer should use the user-data
+     * this folder is discouraged. The developer should use the User Data
      * directory or the cache directory to store files.
      *
      * @return The main directory for this App.
@@ -69,18 +69,14 @@ public class AppStorage {
 
         // Create it if it does not exist...
         File directory = new File(path.toString());
-
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
+        AppStorage.mkDirAndSetPermissions(directory);
         return directory;
     }
 
     /**
-     * Returns the absolute path to the application-specific User Data 
+     * Returns the absolute path to the application-specific User Data
      * directory.
-     * 
+     *
      * The returned path may change over time if the calling app is moved to an
      * external storage device.
      *
@@ -95,21 +91,16 @@ public class AppStorage {
 
         // Create it if it does not exist...
         File directory = new File(path.toString());
-
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
+        AppStorage.mkDirAndSetPermissions(directory);
         return directory;
     }
 
     /**
      * Returns the absolute path to the application-specific Cache directory.
-     * 
-     * The system might automatically delete files in this directory as disk 
-     * space is needed elsewhere on the device.
-     * The returned path may change over time if the calling app is moved to an
-     * external storage device.
+     *
+     * The system might automatically delete files in this directory as disk
+     * space is needed elsewhere on the device. The returned path may change
+     * over time if the calling app is moved to an external storage device.
      *
      * Apps require no extra permissions to read or write to the returned path,
      * since this path lives in their private storage.
@@ -122,11 +113,7 @@ public class AppStorage {
 
         // Create it if it does not exist...
         File directory = new File(path.toString());
-
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
+        AppStorage.mkDirAndSetPermissions(directory);
         return directory;
     }
 
@@ -138,6 +125,22 @@ public class AppStorage {
         path.append(File.separator);
         path.append(System.getProperty(HelperMisc.PROP_MO_APP_NAME));
         path.append(File.separator);
+
+        // Create it if it does not exist...
+        File directory = new File(path.toString());
+        AppStorage.mkDirAndSetPermissions(directory);
         return path;
+    }
+
+    private static void mkDirAndSetPermissions(File directory) {
+        if (!directory.exists()) {
+            directory.mkdirs();
+            directory.setExecutable(false, false);
+            directory.setExecutable(true, true);
+            directory.setReadable(false, false);
+            directory.setReadable(true, true);
+            directory.setWritable(false, false);
+            directory.setWritable(true, true);
+        }
     }
 }
