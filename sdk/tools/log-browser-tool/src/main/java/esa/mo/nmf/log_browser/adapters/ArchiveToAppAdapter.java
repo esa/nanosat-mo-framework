@@ -16,9 +16,8 @@ import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 
@@ -50,8 +49,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
   /**
    * SoftwareManagement.AppsLaunch.App object type
    */
-  private ObjectType appType =
-      new ObjectType(new UShort(7), new UShort(5), new UOctet((short) 1), new UShort(1));
+  private ObjectType appType = AppsLauncherHelper.APP_OBJECT_TYPE;
 
 
   /**
