@@ -62,6 +62,12 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     private String mainClass;
 
     /**
+     * The version of the NMF that the App was developed against
+     */
+    @Parameter(property = "generate-nmf-package.nmfVersion", defaultValue = "${esa.nmf.version-qualifier}")
+    private String nmfVersion;
+    
+    /**
      * The set of libraries to be added to the .nmfpack
      */
     @Parameter(property = "generate-nmf-package.libs", required = true)
@@ -104,10 +110,16 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         getLog().info(">> version = " + version);
         getLog().info(">> mainClass = " + mainClass);
         getLog().info(">> privilege = " + privilege);
+        getLog().info(">> nmfVersion = " + nmfVersion);
 
         if(mainClass == null){
             throw new MojoExecutionException("The mainClass property needs to be defined!\n"
                     + "Please use the <mainClass> tag inside the <configuration> tag!\n");
+        }
+
+        if("${esa.nmf.version-qualifier}".equals(nmfVersion)){
+            throw new MojoExecutionException("The nmfVersion property needs to be defined!\n"
+                    + "Please use the <nmfVersion> tag inside the <configuration> tag!\n");
         }
         
         final Time time = new Time(System.currentTimeMillis());
