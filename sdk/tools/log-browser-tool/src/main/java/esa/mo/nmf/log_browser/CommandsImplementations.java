@@ -29,6 +29,9 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import com.google.gson.Gson;
@@ -202,7 +205,8 @@ public class CommandsImplementations {
     // Query all objects from SoftwareManagement area filtering for
     // StandardOutput and StandardError events and App object is done in the query adapter
     ObjectType objectsTypes =
-        new ObjectType(new UShort(7), new UShort(0), new UOctet((short) 1), new UShort(0));
+        new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER, new UShort(0),
+            SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
     // spawn our local provider on top of the given database file if needed
     ArchiveProviderServiceImpl localProvider = null;
@@ -262,7 +266,9 @@ public class CommandsImplementations {
     // Query all objects from SoftwareManagement area and CommandExecutor service,
     // filtering for StandardOutput and StandardError events is done in the query adapter
     ObjectType objectsTypes =
-        new ObjectType(new UShort(7), new UShort(3), new UOctet((short) 1), new UShort(0));
+        new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+            CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER,
+            SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
     // spawn our local provider on top of the given database file if needed
     ArchiveProviderServiceImpl localProvider = null;
@@ -306,7 +312,7 @@ public class CommandsImplementations {
   }
 
   /**
-   * Search a COM archive provider content to find the ObjectId of an App of the OPS-SAT
+   * Search a COM archive provider content to find the ObjectId of an App of the
    * CommandExecutor service of the SoftwareManagement.
    *
    * @param centralDirectoryServiceURI URI of the central directory to use
@@ -317,8 +323,9 @@ public class CommandsImplementations {
   private static ObjectId getAppObjectId(String providerURI, String appName,
       IdentifierList domain) {
     // SoftwareManagement.AppsLaunch.App object type
-    ObjectType appType =
-        new ObjectType(new UShort(7), new UShort(5), new UOctet((short) 0), new UShort(1));
+    ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+        AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+        AppsLauncherHelper.APP_OBJECT_NUMBER);
 
     // prepare domain filter
     ArchiveQueryList archiveQueryList = new ArchiveQueryList();

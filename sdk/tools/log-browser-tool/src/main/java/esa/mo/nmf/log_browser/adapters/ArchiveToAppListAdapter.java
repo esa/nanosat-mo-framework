@@ -4,8 +4,6 @@
 
 package esa.mo.nmf.log_browser.adapters;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,10 +19,10 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 
 /**
@@ -45,14 +43,12 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
   /**
    * SoftwareManagement.CommandExecutor.StandardOutput object type
    */
-  private ObjectType stdOutputType =
-      new ObjectType(new UShort(7), new UShort(3), new UOctet((short) 1), new UShort(2));
+  private ObjectType stdOutputType = CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE;
 
   /**
    * SoftwareManagement.CommandExecutor.StandardError object type
    */
-  private ObjectType stdErrorType =
-      new ObjectType(new UShort(7), new UShort(3), new UOctet((short) 1), new UShort(3));
+  private ObjectType stdErrorType = CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE;
 
   /**
    * List of App instance ids that are the source of logs object (StandardOutput and StandardError
@@ -63,8 +59,7 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
   /**
    * SoftwareManagement.AppsLaunch.App object type
    */
-  private ObjectType appType =
-      new ObjectType(new UShort(7), new UShort(5), new UOctet((short) 1), new UShort(1));
+  private ObjectType appType = AppsLauncherHelper.APP_OBJECT_TYPE;
 
   /**
    * Maps of App instance id to their AppDetails object.
