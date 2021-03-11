@@ -29,12 +29,14 @@ public class NMFPackageDetails {
     private final String packageName;
     private final String version;
     private final String timestamp;
+    private final String mainclass;
 
     public NMFPackageDetails(final String packageName, final String version,
-            final String timestamp) {
+            final String timestamp, final String mainclass) {
         this.packageName = packageName;
         this.version = version;
         this.timestamp = timestamp;
+        this.mainclass = mainclass;
     }
 
     public String getPackageName() {
@@ -47,6 +49,10 @@ public class NMFPackageDetails {
 
     public String getTimestamp() {
         return timestamp;
+    }
+
+    public String getMainclass() {
+        return mainclass;
     }
 
 }

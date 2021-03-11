@@ -126,7 +126,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         final String timestamp = HelperTime.time2readableString(time);
 
         // Package 1
-        NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp);
+        NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainClass);
         NMFPackageCreator.nmfPackageCreator(details,
                 inputFiles, locations, "target");
         // Additional libraries?

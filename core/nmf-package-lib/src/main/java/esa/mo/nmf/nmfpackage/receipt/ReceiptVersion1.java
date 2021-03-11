@@ -18,8 +18,11 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage.descriptor;
+package esa.mo.nmf.nmfpackage.receipt;
 
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -36,7 +39,7 @@ public class ReceiptVersion1 {
     private static final String FILE_PATH = "FilePath=";
     private static final String FILE_CRC = "FileCRC=";
 
-    public static NMFPackageDescriptor readReceiptVersion1(final BufferedReader br) throws IOException {
+    public static NMFPackageDescriptor readReceipt(final BufferedReader br) throws IOException {
         String name = null;
         String version = null;
         String timestamp = null;
@@ -66,7 +69,8 @@ public class ReceiptVersion1 {
             throw new IOException("Could not read the package timestamp!");
         }
 
-        final NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp);
+        final NMFPackageDetails details = new NMFPackageDetails(name, 
+                version, timestamp, "");
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
         long crc;
@@ -93,7 +97,7 @@ public class ReceiptVersion1 {
         return descriptor;
     }
 
-    public static void writeReceiptVersion1(final BufferedWriter bw, 
+    public static void writeReceipt(final BufferedWriter bw, 
             final NMFPackageDescriptor descriptor) throws IOException {
         bw.write(PACKAGE_NAME + descriptor.getDetails().getPackageName());
         bw.newLine();

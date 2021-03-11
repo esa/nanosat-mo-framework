@@ -24,7 +24,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
-import esa.mo.nmf.nmfpackage.descriptor.ReceiptVersion1;
+import esa.mo.nmf.nmfpackage.receipt.ReceiptVersion2;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -110,9 +110,9 @@ public class NMFPackageCreator {
         try { // Write down all the new paths
             FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.RECEIPT_FILENAME);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(sigfos));
-            bw.write(HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION + "1");
+            bw.write(HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION + "2");
             bw.newLine();
-            ReceiptVersion1.writeReceiptVersion1(bw, descriptor);
+            ReceiptVersion2.writeReceipt(bw, descriptor);
             bw.flush();
             sigfos.close();
         } catch (FileNotFoundException ex) {

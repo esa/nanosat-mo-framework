@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.nmfpackage.descriptor;
 
+import esa.mo.nmf.nmfpackage.receipt.ReceiptVersion1;
+import esa.mo.nmf.nmfpackage.receipt.ReceiptVersion2;
 import esa.mo.nmf.nmfpackage.HelperNMFPackage;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,7 +43,7 @@ public class NMFPackageDescriptor {
 
     public NMFPackageDescriptor(NMFPackageDetails details) {
         this.details = details;
-        this.files = new ArrayList<NMFPackageFile>();
+        this.files = new ArrayList<>();
     }
 
     public NMFPackageDetails getDetails() {
@@ -81,7 +83,11 @@ public class NMFPackageDescriptor {
                 }
 
                 if ("1".equals(version)) {
-                    newDescriptor = ReceiptVersion1.readReceiptVersion1(br);
+                    newDescriptor = ReceiptVersion1.readReceipt(br);
+                }
+                
+                if ("2".equals(version)) {
+                    newDescriptor = ReceiptVersion2.readReceipt(br);
                 } else {
                     throw new IOException("Unknown version: " + version);
                 }

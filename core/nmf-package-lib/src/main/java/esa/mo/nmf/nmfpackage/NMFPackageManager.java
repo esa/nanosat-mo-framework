@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -118,7 +119,7 @@ public class NMFPackageManager {
         fos.close();
         zis.close();
         // ---------------------------------------
-
+        
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, 
                 "Package successfully installed from location: {0}", packageLocation);
     }
@@ -394,6 +395,19 @@ public class NMFPackageManager {
             if (file.getCRC() != crc) {
                 throw new IOException("The CRC does not match!");
             }
+        }
+        
+        // Generate start_app.sh file...
+        String mainclass = descriptor.getDetails().getMainclass();
+        String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass);
+        String path = installationFolder.getAbsolutePath() + File.separator + "start_app.sh";
+        System.out.println(" >> Installing file: " + path);
+        
+        try(FileWriter writer = new FileWriter(path)) {
+            writer.write(content); 
+        }
+        catch(IOException e){
+            // Handle the exception
         }
     }
 
