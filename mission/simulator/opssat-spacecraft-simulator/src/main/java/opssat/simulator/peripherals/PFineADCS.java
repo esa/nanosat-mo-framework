@@ -9,14 +9,14 @@
  *  ----------------------------------------------------------------------------
  *  Licensed under the European Space Agency Public License, Version 2.0
  *  You may not use this file except in compliance with the License.
- * 
+ *
  *  Except as expressly set forth in this License, the Software is provided to
  *  You on an "as is" basis and without warranties of any kind, including without
  *  limitation merchantability, fitness for a particular purpose, absence of
  *  defects or errors, accuracy or non-infringement of intellectual property rights.
- *  
+ *
  *  See the License for the specific language governing permissions and
- *  limitations under the License. 
+ *  limitations under the License.
  *  ----------------------------------------------------------------------------
  */
 package opssat.simulator.peripherals;
@@ -57,12 +57,12 @@ import opssat.simulator.interfaces.InternalData;
         "float[3]:angularVelocity"
     })
 public class PFineADCS extends GenericPeripheral implements IFineADCS {
-    
+
     public static final int DOUBLE_BYTES = Double.SIZE / Byte.SIZE;
     public static final int FLOAT_BYTES = Float.SIZE / Byte.SIZE;
     public static final int INTEGER_BYTES = Integer.SIZE / Byte.SIZE;
     public static final int LONG_BYTES = Long.SIZE / Byte.SIZE;
-    
+
     public static class FWRefFineADCS {
         //Below are indexes to the fields in the resulting byte arrays
         public static class SENSORTM_IDX{
@@ -172,19 +172,19 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         }
         public static class POINTING_LOOP_IDX{
             //Byte offset
-            public final static int POINTING_LOOP_STATE              = 0*4;
+            public final static int POINTING_LOOP_STATE              = 0;
         }
-        
+
         public static byte [] long2ByteArray (long value)
         {
             return ByteBuffer.allocate(LONG_BYTES).putLong(value).array();
         }
         public static byte [] int2ByteArray (int value)
-        {  
+        {
              return ByteBuffer.allocate(INTEGER_BYTES).putInt(value).array();
         }
         public static byte [] int16_2ByteArray (int value)
-        {  
+        {
              byte[] temp=ByteBuffer.allocate(INTEGER_BYTES).putInt(value).array();
              byte[] result=new byte[2];
              result[0]=temp[2];
@@ -192,14 +192,14 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
              return result;
         }
         public static byte [] float2ByteArray (float value)
-        {  
+        {
              return ByteBuffer.allocate(FLOAT_BYTES).putFloat(value).array();
         }
         public static byte [] double2ByteArray (double value)
-        {  
+        {
              return ByteBuffer.allocate(DOUBLE_BYTES).putDouble(value).array();
         }
-        
+
         public static void putByteInByteArray(byte value, int byteOffset, byte[] target)
         {
             target[byteOffset]=value;
@@ -262,7 +262,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
         {
             return ByteBuffer.wrap(source,byteOffset,LONG_BYTES).order(ByteOrder.BIG_ENDIAN).getLong();
         }
-    
+
     }
     public PFineADCS(SimulatorNode simulatorNode,String name) {
         super(simulatorNode,name);

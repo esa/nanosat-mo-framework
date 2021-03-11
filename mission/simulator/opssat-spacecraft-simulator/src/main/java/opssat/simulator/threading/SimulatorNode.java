@@ -2048,8 +2048,12 @@ public class SimulatorNode extends TaskNode
         case 1017: {// Origin [IFineADCS] Method [byte[] GetAttitudeTelemetry();//1017//High level
           // command to interact with FineADCS]
           byte[] result = new byte[28];
-          FWRefFineADCS.putByteInByteArray(orekitCore.getStateTarget(),
-             FWRefFineADCS.POINTING_LOOP_IDX.POINTING_LOOP_STATE, result);
+          byte pointingLoopState = 1;
+          if (this.simulatorHeader.isUseOrekitPropagator()) {
+            pointingLoopState = orekitCore.getStateTarget();
+          }
+          FWRefFineADCS.putByteInByteArray(pointingLoopState,
+            FWRefFineADCS.POINTING_LOOP_IDX.POINTING_LOOP_STATE, result);
           globalResult = result;
           break;
         }
