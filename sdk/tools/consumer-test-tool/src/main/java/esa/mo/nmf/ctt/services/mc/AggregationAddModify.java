@@ -155,7 +155,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
 
         filterEnabledCB.setSelected(false);
 
-        Boolean curState = (aggregationTable.getValueAt(aggregationTable.getSelectedRow(), 4).toString().equals("true")); // String to Boolean conversion
+        boolean curState = (aggregationTable.getValueAt(aggregationTable.getSelectedRow(), 4).toString().equals("true")); // String to Boolean conversion
         generationEnabledCB.setSelected(curState);
         generationEnabledCB.setEnabled(true);
 
@@ -566,8 +566,8 @@ public class AggregationAddModify extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!", JOptionPane.PLAIN_MESSAGE);
             return;
         }
-        Float updateInterval;
-        Float filteredTimeout;
+        float updateInterval;
+        float filteredTimeout;
         try {
             updateInterval = Float.parseFloat(updateIntervalTF.getText());  // Check if it is a number
             filteredTimeout = Float.parseFloat(filteredTimeoutTF.getText());  // Check if it is a number

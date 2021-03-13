@@ -161,7 +161,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         validityExpressionCBActionPerformed(null);
 
         String str = parameterTable.getValueAt(parameterTable.getSelectedRow(), 5).toString();
-        Boolean curState = (str.equals("true")); // String to Boolean conversion
+        boolean curState = (str.equals("true")); // String to Boolean conversion
         generationEnabledCB.setSelected(curState);
         generationEnabledCB.setEnabled(true);
         isAddDef = false;

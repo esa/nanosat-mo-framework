@@ -105,7 +105,7 @@ public class HelperAttributes {
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.STRING_TYPE_SHORT_FORM)) { // 15
-        Double dou;
+        double dou;
         try {
           dou = Double.parseDouble(((Union) in).getStringValue());
         } catch (NumberFormatException ex) {

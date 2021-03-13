@@ -46,7 +46,7 @@ public class ArgumentDescriptor implements Serializable {
         
         this.name = name;
         if (type.equals("Boolean")) {
-            Boolean newData = false;
+            boolean newData = false;
             this.type = newData;
         } else if (type.equals("Integer") || type.equals("int")) {
             int newData = 0;

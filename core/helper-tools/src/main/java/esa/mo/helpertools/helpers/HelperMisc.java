@@ -438,9 +438,9 @@ public class HelperMisc {
     if (domain.isEmpty()) {
       return "";
     }
-    String domainId = "";
+    StringBuilder domainId = new StringBuilder();
     for (Identifier subdomain : domain) {
-      domainId += subdomain.getValue() + ".";
+      domainId.append(subdomain.getValue()).append(".");
     }
 
     // Remove the last dot and return the string

@@ -169,10 +169,7 @@ public class HelperIADCS100 {
         public static void putFloatInByteArray(float value, int byteOffset, byte[] target)
         {
             byte [] tempByte=float2ByteArray(value);
-            for (int i=0;i<=4-1;i++)
-            {
-                target[byteOffset+i]=tempByte[i];
-            }
+            System.arraycopy(tempByte, 0, target, byteOffset + 0, 4 - 1 + 1);
         }
         public static float getFloatFromByteArray(byte[] source, int byteOffset)
         {
@@ -181,10 +178,7 @@ public class HelperIADCS100 {
         public static void putDoubleInByteArray(double value, int byteOffset, byte[] target)
         {
             byte [] tempByte=double2ByteArray(value);
-            for (int i=0;i<=8-1;i++)
-            {
-                target[byteOffset+i]=tempByte[i];
-            }
+            System.arraycopy(tempByte, 0, target, byteOffset + 0, 8 - 1 + 1);
         }
         public static double getDoubleFromByteArray(byte[] source, int byteOffset)
         {
@@ -193,10 +187,7 @@ public class HelperIADCS100 {
         public static void putIntInByteArray(int value, int byteOffset, byte[] target)
         {
             byte [] tempByte=int2ByteArray(value);
-            for (int i=0;i<=4-1;i++)
-            {
-                target[byteOffset+i]=tempByte[i];
-            }
+            System.arraycopy(tempByte, 0, target, byteOffset + 0, 4 - 1 + 1);
         }
         public static int getIntFromByteArray(byte[] source, int byteOffset)
         {
@@ -209,10 +200,7 @@ public class HelperIADCS100 {
         public static void putLongInByteArray(long value, int byteOffset, byte[] target)
         {
             byte [] tempByte=long2ByteArray(value);
-            for (int i=0;i<=8-1;i++)
-            {
-                target[byteOffset+i]=tempByte[i];
-            }
+            System.arraycopy(tempByte, 0, target, byteOffset + 0, 8 - 1 + 1);
         }
         public static long getLongFromByteArray(byte[] source, int byteOffset)
         {

@@ -314,15 +314,14 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 return;
             }
 
-            String str = "Object instance identifiers on the provider: \n";
+            StringBuilder str = new StringBuilder("Object instance identifiers on the provider: \n");
             if (objIds != null) {
                 for (ObjectInstancePair objId : objIds) {
-                    str += "ObjId Def: " + objId.getObjDefInstanceId().toString()
-                            + " Identity: " + objId.getObjIdentityInstanceId().toString() + "\n";
+                    str.append("ObjId Def: ").append(objId.getObjDefInstanceId().toString()).append(" Identity: ").append(objId.getObjIdentityInstanceId().toString()).append("\n");
                 }
             }
 
-            JOptionPane.showMessageDialog(null, str, "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
 
         } catch (MALInteractionException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);

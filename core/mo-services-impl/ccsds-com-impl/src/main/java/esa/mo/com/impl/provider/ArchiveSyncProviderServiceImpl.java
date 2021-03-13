@@ -280,9 +280,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         public void addObjects(final ArrayList<COMObjectEntity> list) {
             // "addAll()" might not be thread-safe. "add" is for sure!
-            for (COMObjectEntity entity : list) {
-                tempQueue.add(entity);
-            }
+            tempQueue.addAll(list);
         }
 
         public void setQueriesAreDone(final boolean done) {

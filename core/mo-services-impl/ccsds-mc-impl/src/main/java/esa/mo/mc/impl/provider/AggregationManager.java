@@ -270,7 +270,7 @@ public final class AggregationManager extends MCManager {
         }
         final Double previousValueDouble = Double.parseDouble(previousValue.toString());
         final Double currentValueDouble = Double.parseDouble(currentValue.toString());
-        final Double thresholdValue = Double.parseDouble(filter.getThresholdValue().toString());
+        final double thresholdValue = Double.parseDouble(filter.getThresholdValue().toString());
 
         if (filter.getThresholdType() == ThresholdType.DELTA) // requirement: 3.7.3.l
         {
@@ -645,7 +645,7 @@ public final class AggregationManager extends MCManager {
                         || // Are the parameters valid?
                         (current.getValidityState().getValue() == 2 && previous.getValidityState().getValue() == 2)) { // 2 stands for the INVALID_RAW state
 
-                    Boolean filterisTriggered = false;
+                    boolean filterisTriggered = false;
                     if (current.getValidityState().getValue() == 0 && previous.getValidityState().getValue() == 0
                             && current.getConvertedValue() != null && previous.getConvertedValue() != null) // requirement: 3.7.2.6
                     {

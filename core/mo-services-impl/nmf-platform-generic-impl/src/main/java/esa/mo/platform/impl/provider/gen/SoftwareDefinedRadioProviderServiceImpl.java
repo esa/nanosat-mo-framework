@@ -150,7 +150,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
   private void streamRadioUpdate()
   {
     try {
-      final Long objId;
+      final long objId;
       final IQComponentsList iqComponentsList = new IQComponentsList(1);
 
       synchronized (lock) {

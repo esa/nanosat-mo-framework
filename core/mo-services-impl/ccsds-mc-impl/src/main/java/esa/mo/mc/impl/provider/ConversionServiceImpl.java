@@ -251,7 +251,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         final ArchiveDetailsList defarchiveDetailsListFromArchive = HelperArchive.getArchiveDetailsListFromArchive(archiveService, objType, domain, defIds);
         //look if there are conversionDetails, which reference the identity
         Long defId = null;
-        Long maxTimeStamp = 0L;
+        long maxTimeStamp = 0L;
         if (defarchiveDetailsListFromArchive == null)
             return null;
         //iterate through all entries to check for the given identity as the source object

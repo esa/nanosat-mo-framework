@@ -502,9 +502,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                 //TODO: sure? groupddefintion or identity-ids? -> issue #135, #179
                 //in the next for loop, ignore the other group definitions, they will be checked in other iterations.
                 LongList ignoreList = new LongList();
-                for (Long instance : resetInstances) {
-                    ignoreList.add(instance);
-                }
+                ignoreList.addAll(resetInstances);
                 //add all instances referenced in all groups to list of values to be enabled
                 for (int index = 0; index < resetInstances.size(); index++) {
                     //these are Group-Definition-ids req: 3.9.4.g,h
@@ -735,7 +733,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             }
 
             // Check that statistical function can be applied to type of parameter
-            Integer paramType;
+            int paramType;
             if (statDefDetail.getLinkDetails().getUseConverted()) {
                 if (parameterDef.getConversion() == null) {
                     invIndexList.add(new UInteger(index));

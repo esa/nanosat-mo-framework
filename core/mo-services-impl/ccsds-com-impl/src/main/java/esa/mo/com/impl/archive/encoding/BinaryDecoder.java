@@ -23,6 +23,7 @@ package esa.mo.com.impl.archive.encoding;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ import org.ccsds.moims.mo.mal.structures.*;
 public class BinaryDecoder extends GENDecoder
 {
   protected static final java.util.logging.Logger LOGGER = Logger.getLogger(BinaryDecoder.class.getName());
-  protected static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
+  protected static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
   protected static final int BLOCK_SIZE = 65536;
 
   /**
@@ -432,10 +433,8 @@ public class BinaryDecoder extends GENDecoder
 
             // this either shifts the existing contents to the start of the old buffer, or copies it into the new buffer
             // NOTE: this is faster than System.arraycopy, as that performs argument type checks
-            for (int i = 0; i < existingContentRemaining; ++i)
-            {
-              destBuf[i] = this.buf[this.offset + i];
-            }
+              if (existingContentRemaining >= 0)
+                  System.arraycopy(this.buf, this.offset + 0, destBuf, 0, existingContentRemaining);
 
             // the start of the data in the buffer has moved to zero now
             this.buf = destBuf;
