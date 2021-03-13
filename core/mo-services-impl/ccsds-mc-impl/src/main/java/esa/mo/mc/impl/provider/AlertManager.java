@@ -51,7 +51,7 @@ public final class AlertManager extends MCManager {
         super(comServices);
 
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
         } else {
 
         }

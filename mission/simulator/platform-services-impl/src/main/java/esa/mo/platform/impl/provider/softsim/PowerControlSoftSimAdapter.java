@@ -81,21 +81,21 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
 
   private void initDevices()
   {
-    addDevice(new Device(true, new Long(0), new Identifier(
+    addDevice(new Device(true, 0L, new Identifier(
         "Attitude Determination and Control System"), DeviceType.ADCS), SimPayloadDevice.FineADCS);
-    addDevice(new Device(true, new Long(10), new Identifier(
+    addDevice(new Device(true, 10L, new Identifier(
         "Satellite Experimental Processing Platform 1"), DeviceType.OBC), SimPayloadDevice.SEPP1);
-    addDevice(new Device(true, new Long(11), new Identifier(
+    addDevice(new Device(true, 11L, new Identifier(
         "Satellite Experimental Processing Platform 2"), DeviceType.OBC), SimPayloadDevice.SEPP2);
-    addDevice(new Device(false, new Long(2), new Identifier("S-Band Transceiver"), DeviceType.SBAND),
+    addDevice(new Device(false, 2L, new Identifier("S-Band Transceiver"), DeviceType.SBAND),
         SimPayloadDevice.SBandTRX);
-    addDevice(new Device(false, new Long(3), new Identifier("X-Band Transmitter"), DeviceType.XBAND),
+    addDevice(new Device(false, 3L, new Identifier("X-Band Transmitter"), DeviceType.XBAND),
         SimPayloadDevice.XBandTRX);
-    addDevice(new Device(false, new Long(4), new Identifier("Software Defined Radio"),
+    addDevice(new Device(false, 4L, new Identifier("Software Defined Radio"),
         DeviceType.SDR), SimPayloadDevice.SDR);
-    addDevice(new Device(false, new Long(5), new Identifier("Optical Receiver"), DeviceType.OPTRX),
+    addDevice(new Device(false, 5L, new Identifier("Optical Receiver"), DeviceType.OPTRX),
         SimPayloadDevice.OpticalRX);
-    addDevice(new Device(false, new Long(6), new Identifier("HD Camera"), DeviceType.CAMERA),
+    addDevice(new Device(false, 6L, new Identifier("HD Camera"), DeviceType.CAMERA),
         SimPayloadDevice.HDCamera);
   }
 

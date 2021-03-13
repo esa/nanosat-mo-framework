@@ -89,7 +89,7 @@ public class HelperAttributes {
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.OCTET_TYPE_SHORT_FORM)) { // 7
-        return new Double((short) ((Union) in).getOctetValue());
+        return (double) (short) ((Union) in).getOctetValue();
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.SHORT_TYPE_SHORT_FORM)) { // 9
@@ -303,40 +303,40 @@ public class HelperAttributes {
       return new Blob();
     }
     if (attributeName.equals("Boolean")) {
-      return new Boolean(false);
+      return Boolean.FALSE;
     }
     if (attributeName.equals("Duration")) {
       return new Duration();
     }
     if (attributeName.equals("Float")) {
-      return new Float(0);
+      return (float) 0;
     }
     if (attributeName.equals("Double")) {
-      return new Double(0);
+      return (double) 0;
     }
     if (attributeName.equals("Identifier")) {
       return new Identifier();
     }
     if (attributeName.equals("Octet")) {
-      return new Byte((byte) 0);
+      return (byte) 0;
     }
     if (attributeName.equals("UOctet")) {
       return new UOctet();
     }
     if (attributeName.equals("Short")) {
-      return new Short((short) 0);
+      return (short) 0;
     }
     if (attributeName.equals("UShort")) {
       return new UShort();
     }
     if (attributeName.equals("Integer")) {
-      return new Integer((int) 0);
+      return (int) 0;
     }
     if (attributeName.equals("UInteger")) {
       return new UInteger();
     }
     if (attributeName.equals("Long")) {
-      return new Long(0);
+      return 0L;
     }
     if (attributeName.equals("ULong")) {
       return new ULong();

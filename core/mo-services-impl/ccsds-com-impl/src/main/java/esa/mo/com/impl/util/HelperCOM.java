@@ -445,6 +445,6 @@ public class HelperCOM {
         final Random random = new Random();
         return ConnectionConsumer.subscriptionKeys(
                 new Identifier(identifier + random.nextInt()),
-                new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
+                new Identifier("*"), secondEntityKey, 0L, 0L);
     }
 }

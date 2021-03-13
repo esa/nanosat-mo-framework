@@ -180,10 +180,10 @@ public class FastObjectType {
         long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
         long numberVal = (objType.getNumber().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
 
-        return (new Long(areaVal << 48)
-                | new Long(serviceVal << 32)
-                | new Long(versionVal << 24)
-                | new Long(numberVal));
+        return (areaVal << 48
+                | serviceVal << 32
+                | versionVal << 24
+                | numberVal);
     }    
 
 }

@@ -389,12 +389,12 @@ public class SimulatorNode extends TaskNode {
     if (simulatorHeader.getKeplerElements() != null) {
       String[] list = simulatorHeader.getKeplerElements().split(";");
       if (list.length == 6) {
-        OPS_SAT_A = Double.valueOf(list[0]);
-        OPS_SAT_E = Double.valueOf(list[1]);
-        OPS_SAT_ORBIT_I = Double.valueOf(list[2]);
-        OPS_SAT_RAAN = Double.valueOf(list[3]);
-        OPS_SAT_ARG_PER = Double.valueOf(list[4]);
-        OPS_SAT_TRUE_ANOMALY = Double.valueOf(list[5]);
+        OPS_SAT_A = Double.parseDouble(list[0]);
+        OPS_SAT_E = Double.parseDouble(list[1]);
+        OPS_SAT_ORBIT_I = Double.parseDouble(list[2]);
+        OPS_SAT_RAAN = Double.parseDouble(list[3]);
+        OPS_SAT_ARG_PER = Double.parseDouble(list[4]);
+        OPS_SAT_TRUE_ANOMALY = Double.parseDouble(list[5]);
 
       } else {
         displayKeplerElementsWarning = true;
@@ -832,13 +832,13 @@ public class SimulatorNode extends TaskNode {
             fieldName = items.get(0);
             int test = 0;
             try {
-              test = Integer.valueOf(fieldName);
+              test = Integer.parseInt(fieldName);
             } catch (NumberFormatException ex) {
               this.logger.log(Level.SEVERE, ex.toString());
             }
             if (checkInternalIDExists(test)) {
               this.logger.log(Level.FINE, "Found valid command ID [" + fieldName + "]");
-              CommandDescriptor c = getCommandDescriptorForID(Integer.valueOf(fieldName));
+              CommandDescriptor c = getCommandDescriptorForID(Integer.parseInt(fieldName));
               c.setVisible(true);
             }
 
@@ -891,9 +891,9 @@ public class SimulatorNode extends TaskNode {
             fieldValue = items.get(1);
 
             if (fieldName.equals("startModels")) {
-              simulatorHeader.setAutoStartSystem(Boolean.valueOf(fieldValue));
+              simulatorHeader.setAutoStartSystem(Boolean.parseBoolean(fieldValue));
             } else if (fieldName.equals("startTime")) {
-              simulatorHeader.setAutoStartTime(Boolean.valueOf(fieldValue));
+              simulatorHeader.setAutoStartTime(Boolean.parseBoolean(fieldValue));
             } else if (fieldName.equals("timeFactor")) {
               int newTimeFactor = Integer.parseInt(fieldValue);
               if (simulatorHeader.validateTimeFactor(newTimeFactor)) {
@@ -924,7 +924,7 @@ public class SimulatorNode extends TaskNode {
             } else if (fieldName.equals("keplerElements")) {
               simulatorHeader.setKeplerElements(String.valueOf(fieldValue));
             } else if (fieldName.equals("orekit")) {
-              simulatorHeader.setUseOrekit(Boolean.valueOf(fieldValue));
+              simulatorHeader.setUseOrekit(Boolean.parseBoolean(fieldValue));
             } else if (fieldName.equals("orekitPropagator")) {
               simulatorHeader.setOrekitPropagator(String.valueOf(fieldValue));
             } else if (fieldName.equals("orekitTLE1")) {
@@ -934,11 +934,11 @@ public class SimulatorNode extends TaskNode {
               String tempResult = String.valueOf(fieldValue);
               simulatorHeader.setOrekitTLE2(tempResult.substring(1, tempResult.length() - 1));
             } else if (fieldName.equals("celestia")) {
-              simulatorHeader.setUseCelestia(Boolean.valueOf(fieldValue));
+              simulatorHeader.setUseCelestia(Boolean.parseBoolean(fieldValue));
             } else if (fieldName.equals("celestiaPort")) {
-              simulatorHeader.setCelestiaPort(Integer.valueOf(fieldValue));
+              simulatorHeader.setCelestiaPort(Integer.parseInt(fieldValue));
             } else if (fieldName.equals("updateFromInternet")) {
-              simulatorHeader.setUpdateInternet(Boolean.valueOf(fieldValue));
+              simulatorHeader.setUpdateInternet(Boolean.parseBoolean(fieldValue));
             }
           }
           // validate start is before after
@@ -1115,7 +1115,7 @@ public class SimulatorNode extends TaskNode {
               long def1Value = SimulatorSchedulerPiece.getMillisFromDDDDDHHMMSSmmm(items.get(0));
               long def2Value = -1;
               try {
-                def2Value = Long.valueOf(items.get(1));
+                def2Value = Long.parseLong(items.get(1));
               } catch (NumberFormatException ex) {
                 Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
               }
@@ -1404,7 +1404,7 @@ public class SimulatorNode extends TaskNode {
         simulatorData.toggleTimeRunning();
       } else if (data.startsWith("TimeFactor")) {
         String[] bits = data.split(":");
-        simulatorData.setTimeFactor(Integer.valueOf(bits[bits.length - 1]));
+        simulatorData.setTimeFactor(Integer.parseInt(bits[bits.length - 1]));
       }
     } else if (obj instanceof CommandDescriptor) {
       commandsQueue.offer((CommandDescriptor) obj);
@@ -1725,18 +1725,18 @@ public class SimulatorNode extends TaskNode {
 
           String[] quaternions = qData.split(" ");
           if (quaternions.length == 4) {
-            q[0] = Float.valueOf(quaternions[0]);
-            q[1] = Float.valueOf(quaternions[1]);
-            q[2] = Float.valueOf(quaternions[2]);
-            q[3] = Float.valueOf(quaternions[3]);
+            q[0] = Float.parseFloat(quaternions[0]);
+            q[1] = Float.parseFloat(quaternions[1]);
+            q[2] = Float.parseFloat(quaternions[2]);
+            q[3] = Float.parseFloat(quaternions[3]);
             data.setQ(q);
           } else if (quaternions.length == 3) {
             // 0 heading
             // 1 roll
             // 2 pitch
-            double yaw = Double.valueOf(quaternions[0]);
-            double pitch = Double.valueOf(quaternions[2]);
-            double roll = Double.valueOf(quaternions[1]);
+            double yaw = Double.parseDouble(quaternions[0]);
+            double pitch = Double.parseDouble(quaternions[2]);
+            double roll = Double.parseDouble(quaternions[1]);
             // System.out.println("yaw=["+yaw+"] pitch=["+pitch+"] roll=["+roll+"]");
             this.orekitCore.putQuaternionsInVectorFromYPR(yaw, pitch, roll, q);
             data.setQ(q);
@@ -3202,7 +3202,7 @@ public class SimulatorNode extends TaskNode {
                 if (this.quaternionTcpServer != null) {
                   this.quaternionTcpServer.setShouldClose(true);
                 }
-                this.quaternionTcpServer = new TCPServerReceiveOnly(Integer.valueOf(words[1]),
+                this.quaternionTcpServer = new TCPServerReceiveOnly(Integer.parseInt(words[1]),
                     this.logger);
                 this.quaternionTcpServer.start();
               } else if ("cameraScript".equals(words[0])) {

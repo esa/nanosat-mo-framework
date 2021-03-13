@@ -127,7 +127,7 @@ public class HelperArchive {
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final MALInteraction interaction) {
         final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
+        archiveDetails.setInstId(0L);
         archiveDetails.setDetails(new ObjectDetails(related, source));
         archiveDetails.setNetwork(interaction.getMessageHeader().getNetworkZone());
         archiveDetails.setTimestamp(HelperTime.getTimestamp());
@@ -151,7 +151,7 @@ public class HelperArchive {
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final SingleConnectionDetails connectionDetails) {
         final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
+        archiveDetails.setInstId(0L);
         archiveDetails.setDetails(new ObjectDetails(related, source));
         archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
         archiveDetails.setTimestamp(HelperTime.getTimestamp());
@@ -177,7 +177,7 @@ public class HelperArchive {
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final URI uri) {
         final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
+        archiveDetails.setInstId(0L);
         archiveDetails.setDetails(new ObjectDetails(related, source));
         archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
         archiveDetails.setTimestamp(HelperTime.getTimestamp());
@@ -203,7 +203,7 @@ public class HelperArchive {
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final Identifier network, final URI provider) {
         final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
+        archiveDetails.setInstId(0L);
         archiveDetails.setDetails(new ObjectDetails(related, source));
         archiveDetails.setNetwork(network);
         archiveDetails.setTimestamp(HelperTime.getTimestamp());

@@ -159,7 +159,7 @@ public class AppsLauncherManager extends DefinitionsManager
         // Look up for apid
         String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
         int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
-        objId = new Long(apid);
+        objId = (long) apid;
       } catch (MalformedURLException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
