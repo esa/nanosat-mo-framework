@@ -137,7 +137,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
     this.nmf = nmfProvider;
   }
 
-  private static enum AttitudeModeEnum
+  private enum AttitudeModeEnum
   {
     IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING
   }

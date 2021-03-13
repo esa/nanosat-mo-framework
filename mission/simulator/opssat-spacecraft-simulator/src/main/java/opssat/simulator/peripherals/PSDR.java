@@ -47,21 +47,23 @@ super(simulatorNode,name);
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(6001,argObject);
-    };
+    }
+
     @Override
     @InternalData (internalID=6002,commandIDs={"",""},argNames={"fileName"})
     public void simPreloadFile(String fileName) {
         ArrayList<Object> argObject = new ArrayList<Object>();
         argObject.add(fileName);
         super.getSimulatorNode().runGenericMethod(6002,argObject);
-    };
+    }
+
     @Override
     @InternalData (internalID=6003,commandIDs={"",""},argNames={"numberSamples"})
     public double[] readFromBuffer(int numberSamples) {
         ArrayList<Object> argObject = new ArrayList<Object>();
         argObject.add(numberSamples);
         return (double[]) super.getSimulatorNode().runGenericMethod(6003,argObject);
-    };
+    }
 
 }
 

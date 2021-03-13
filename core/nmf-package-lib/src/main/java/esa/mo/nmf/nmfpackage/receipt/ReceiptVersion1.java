@@ -110,7 +110,7 @@ public class ReceiptVersion1 {
         for (NMFPackageFile f : descriptor.getFiles()) {
             bw.write(FILE_PATH + f.getPath());
             bw.newLine();
-            bw.write(FILE_CRC + String.valueOf(f.getCRC()));
+            bw.write(FILE_CRC + f.getCRC());
             bw.newLine();
         }
     }

@@ -40,7 +40,7 @@ import javax.sound.sampled.AudioSystem;
 
 public class WavFile
 {
-	private enum IOState {READING, WRITING, CLOSED};
+	private enum IOState {READING, WRITING, CLOSED}
 	private final static int BUFFER_SIZE = 4096;
 
 	private final static int FMT_CHUNK_ID = 0x20746D66;

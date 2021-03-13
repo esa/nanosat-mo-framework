@@ -78,7 +78,8 @@ public class MCRegistration {
      */
     public enum RegistrationMode {
         UPDATE_IF_EXISTS, DONT_UPDATE_IF_EXISTS
-    };
+    }
+
     private RegistrationMode mode = RegistrationMode.DONT_UPDATE_IF_EXISTS; // default mode
 
     public final COMServicesProvider comServices;

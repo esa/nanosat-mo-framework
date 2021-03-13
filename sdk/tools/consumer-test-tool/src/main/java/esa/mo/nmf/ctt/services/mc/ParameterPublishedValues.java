@@ -112,7 +112,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5)) + objId % numberOfColumns);
 
                     if ((0 <= index) && (index < labels.length)) {
-                        String nameId = "(" + String.valueOf(objId) + ") " + updateHeader.getKey().getFirstSubKey().getValue();
+                        String nameId = "(" + objId + ") " + updateHeader.getKey().getFirstSubKey().getValue();
                         UOctet validityState = parameterValue.getValidityState();
                         String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
                         String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());

@@ -552,7 +552,7 @@ public class CommandDescriptor implements Serializable {
     String dataOk = "ParseOk";
 
     if (this.inputArgList.isEmpty()) {
-      ;// Do nothing, input parameters will be treated as void anyway
+      // Do nothing, input parameters will be treated as void anyway
     } else if (this.inputArgList.size() == 1) {
       dataOk = checkSingleArg(inputArgListString, 0);
     } else {

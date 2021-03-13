@@ -338,7 +338,7 @@ public class ConnectionConsumer {
      */
     public static Subscription subscriptionWildcardRandom() {
         final Random random = new Random();
-        final Identifier subscriptionId = new Identifier("SUB" + Integer.toString(random.nextInt()));
+        final Identifier subscriptionId = new Identifier("SUB" + random.nextInt());
         return ConnectionConsumer.subscriptionWildcard(subscriptionId);
     }
 

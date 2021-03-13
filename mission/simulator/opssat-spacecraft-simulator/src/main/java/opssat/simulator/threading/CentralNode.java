@@ -108,7 +108,6 @@ public class CentralNode extends TaskNode {
 
   @Override
   void coreRun() {
-    ;
   }
 
   @Override

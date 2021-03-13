@@ -43,6 +43,6 @@ public interface PMBackend {
     
     boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException;
 
-    public String getPublicKey(String value);
+    String getPublicKey(String value);
 
 }

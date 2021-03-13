@@ -41,7 +41,7 @@ super(simulatorNode,name);
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(8001,argObject);
-    };
+    }
 }
 
 

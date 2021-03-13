@@ -644,7 +644,7 @@ public class OrekitCore
       int minutes = seconds / 60;
       seconds = seconds % 60;
       String result1 = date.toString();
-      return result1.substring(5, result1.length() - 4) + "--ETA=>" + String.valueOf(hours) + "h"
+      return result1.substring(5, result1.length() - 4) + "--ETA=>" + hours + "h"
           + minutes + "m" + seconds + "s";
     } else {
       return "Passed";

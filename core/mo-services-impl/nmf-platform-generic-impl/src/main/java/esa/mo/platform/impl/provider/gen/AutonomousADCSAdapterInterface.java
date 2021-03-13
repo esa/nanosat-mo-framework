@@ -84,14 +84,14 @@ public interface AutonomousADCSAdapterInterface
    * @return null if attitude descriptor is valid. Human readable string with error message if
    * validation fails.
    */
-  public String validateAttitudeDescriptor(AttitudeMode attitude);
+  String validateAttitudeDescriptor(AttitudeMode attitude);
 
   /**
    * Get active attitude mode.
    *
    * @return Descriptor of the attitude currently set in the ADCS or NULL if none (IDLE)
    */
-  public AttitudeMode getActiveAttitudeMode();
+  AttitudeMode getActiveAttitudeMode();
 
   /**
    * Sets the Speeds for all Reaction wheels in rad/second

@@ -32,6 +32,6 @@ public interface AggregationTriggerListener {
      * 
      * @param name the name of the aggregation the update should be triggered of
      */
-    public void triggerAggregationUpdate(Identifier name);
+    void triggerAggregationUpdate(Identifier name);
 
 }
