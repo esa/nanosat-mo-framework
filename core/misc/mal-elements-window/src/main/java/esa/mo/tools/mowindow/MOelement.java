@@ -127,22 +127,14 @@ public abstract class MOelement extends javax.swing.JPanel {
         mainPanel.add(fieldType);
 
         fieldSelectableAttribute.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        fieldSelectableAttribute.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldSelectableAttributeActionPerformed(evt);
-            }
-        });
+        fieldSelectableAttribute.addActionListener(evt -> fieldSelectableAttributeActionPerformed(evt));
         mainPanel.add(fieldSelectableAttribute);
 
         middlePanel.setLayout(new java.awt.GridLayout(1, 0));
         mainPanel.add(middlePanel);
 
         nullCB.setText("null");
-        nullCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nullCBActionPerformed(evt);
-            }
-        });
+        nullCB.addActionListener(evt -> nullCBActionPerformed(evt));
         mainPanel.add(nullCB);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

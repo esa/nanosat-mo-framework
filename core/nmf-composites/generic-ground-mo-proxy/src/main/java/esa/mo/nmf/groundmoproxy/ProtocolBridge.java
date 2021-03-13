@@ -45,7 +45,7 @@ public class ProtocolBridge {
     private MALEndpoint epA;
     private MALEndpoint epB;
 
-    public void init(final String protocolA, final String protocolB, final Map properties) throws MALException, Exception {
+    public void init(final String protocolA, final String protocolB, final Map properties) throws Exception {
         transportA = createTransport(protocolA, properties);
         transportB = createTransport(protocolB, properties);
         epA = createEndpoint(protocolA, transportA);

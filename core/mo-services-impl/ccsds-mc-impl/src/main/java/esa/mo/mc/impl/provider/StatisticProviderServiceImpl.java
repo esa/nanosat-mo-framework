@@ -1065,14 +1065,12 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         private void startTimer(final Long identityId, final Duration interval, final boolean useConverted) {  // requirement: 3.6.2.g
-            sampleTimerList.get(identityId).scheduleTask(new Thread() {
-                @Override
-                public void run() { // Periodic sampling
-                    if (active) {
-                        sampleParamValue(identityId, useConverted);
-                    }
-                } // the time has to be converted to milliseconds by multiplying by 1000
-            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // requirement: 3.6.2.g
+            // the time has to be converted to milliseconds by multiplying by 1000
+            sampleTimerList.get(identityId).scheduleTask(new Thread(() -> { // Periodic sampling
+                if (active) {
+                    sampleParamValue(identityId, useConverted);
+                }
+            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // requirement: 3.6.2.g
         }
 
         private void sampleParamValue(final Long identityId, final boolean useConverted) {
@@ -1289,14 +1287,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         private void startReportingTimer(final Long statLinkId, final Duration interval, boolean immediateReport) {
-            updateTimerList.get(statLinkId).scheduleTask(new Thread() {
-                @Override
-                public void run() {  //requirement: 3.6.2.h, 3.6.3.b
-                    if (active) {
-                        reportStatistic(statLinkId);
-                    }
+            updateTimerList.get(statLinkId).scheduleTask(new Thread(() -> {  //requirement: 3.6.2.h, 3.6.3.b
+                if (active) {
+                    reportStatistic(statLinkId);
                 }
-            }, immediateReport ? 0 : (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000),
+            }), immediateReport ? 0 : (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000),
             TimeUnit.MILLISECONDS, true); //requirement: 3.6.2.h, 3.6.3.b
         }
 

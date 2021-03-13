@@ -49,7 +49,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
     private MALEndpoint epB;
     private VirtualSPPURIsManager virtualSPPURI;
 
-    public void init(final String protocol, final Map properties) throws MALException, Exception {
+    public void init(final String protocol, final Map properties) throws Exception {
         transportA = createTransport(PROTOCOL_SPP, properties);
         transportB = createTransport(protocol, properties);
 

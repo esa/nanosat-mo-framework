@@ -326,26 +326,23 @@ public class ActivityTrackingProviderServiceImpl {
         archiveDetails.get(0).setNetwork(interaction.getMessageHeader().getNetworkZone());  // RID raised to create this requirement!
         archiveDetails.get(0).setProvider(interaction.getMessageHeader().getURIFrom());     // RID raised to create this requirement!
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    archiveService.store(
-                            false,
-                            ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
-                            interaction.getMessageHeader().getDomain(),
-                            archiveDetails,
-                            opActivityList,
-                            interaction); // requirement: 3.5.2.3 & 3.5.2.5
-                } catch (MALException ex) {
+        executor.execute(() -> {
+            try {
+                archiveService.store(
+                        false,
+                        ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
+                        interaction.getMessageHeader().getDomain(),
+                        archiveDetails,
+                        opActivityList,
+                        interaction); // requirement: 3.5.2.3 & 3.5.2.5
+            } catch (MALException ex) {
+                Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                // A duplicate might happen if the the consumer stored the Operation Activity object
+                if(ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()){
                     Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALInteractionException ex) {
-                    // A duplicate might happen if the the consumer stored the Operation Activity object
-                    if(ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()){
-                        Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }else{
-                        // It's a Duplicate error, the object already exists... Do nothing!
-                    }
+                }else{
+                    // It's a Duplicate error, the object already exists... Do nothing!
                 }
             }
         });

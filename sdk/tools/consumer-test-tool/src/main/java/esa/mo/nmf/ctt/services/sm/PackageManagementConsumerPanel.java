@@ -123,35 +123,19 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(419, 23));
 
         installButton.setText("install");
-        installButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                installButtonActionPerformed(evt);
-            }
-        });
+        installButton.addActionListener(evt -> installButtonActionPerformed(evt));
         jPanel1.add(installButton);
 
         uninstallButton.setText("uninstall");
-        uninstallButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uninstallButtonActionPerformed(evt);
-            }
-        });
+        uninstallButton.addActionListener(evt -> uninstallButtonActionPerformed(evt));
         jPanel1.add(uninstallButton);
 
         upgradeButton.setText("upgrade");
-        upgradeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                upgradeButtonActionPerformed(evt);
-            }
-        });
+        upgradeButton.addActionListener(evt -> upgradeButtonActionPerformed(evt));
         jPanel1.add(upgradeButton);
 
         listAppAllButton.setText("listApp(\"*\")");
-        listAppAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listAppAllButtonActionPerformed(evt);
-            }
-        });
+        listAppAllButton.addActionListener(evt -> listAppAllButtonActionPerformed(evt));
         jPanel1.add(listAppAllButton);
 
         parameterTab.add(jPanel1);

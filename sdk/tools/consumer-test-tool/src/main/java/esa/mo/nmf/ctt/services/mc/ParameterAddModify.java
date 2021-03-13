@@ -291,21 +291,13 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         updateIntervalTF.setText("3");
         updateIntervalTF.setPreferredSize(new java.awt.Dimension(150, 20));
-        updateIntervalTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateIntervalTFActionPerformed(evt);
-            }
-        });
+        updateIntervalTF.addActionListener(evt -> updateIntervalTFActionPerformed(evt));
         jPanel4.add(updateIntervalTF);
 
         generationEnabledCB.setText("generationEnabled");
         generationEnabledCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         generationEnabledCB.setOpaque(false);
-        generationEnabledCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                generationEnabledCBActionPerformed(evt);
-            }
-        });
+        generationEnabledCB.addActionListener(evt -> generationEnabledCBActionPerformed(evt));
         jPanel4.add(generationEnabledCB);
 
         jSeparator7.setMaximumSize(new java.awt.Dimension(250, 10));
@@ -314,11 +306,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         jPanel4.add(jSeparator7);
 
         validityExpressionCB.setText("validityExpression");
-        validityExpressionCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validityExpressionCBActionPerformed(evt);
-            }
-        });
+        validityExpressionCB.addActionListener(evt -> validityExpressionCBActionPerformed(evt));
         jPanel4.add(validityExpressionCB);
 
         jPanel10.setMaximumSize(new java.awt.Dimension(280, 70));
@@ -346,11 +334,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         validity1.setMaximumSize(new java.awt.Dimension(100, 20));
         validity1.setMinimumSize(new java.awt.Dimension(100, 20));
         validity1.setPreferredSize(new java.awt.Dimension(100, 20));
-        validity1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validity1ActionPerformed(evt);
-            }
-        });
+        validity1.addActionListener(evt -> validity1ActionPerformed(evt));
         jPanel10.add(validity1);
 
         validity2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "=", "≠", ">", "≥", "<", "≤", "CONTAINS", "ICONTAINS" }));
@@ -358,20 +342,12 @@ public class ParameterAddModify extends javax.swing.JFrame {
         validity2.setMaximumSize(new java.awt.Dimension(90, 20));
         validity2.setMinimumSize(new java.awt.Dimension(90, 20));
         validity2.setPreferredSize(new java.awt.Dimension(90, 20));
-        validity2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validity2ActionPerformed(evt);
-            }
-        });
+        validity2.addActionListener(evt -> validity2ActionPerformed(evt));
         jPanel10.add(validity2);
 
         validity3.setEnabled(false);
         validity3.setPreferredSize(new java.awt.Dimension(60, 20));
-        validity3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validity3ActionPerformed(evt);
-            }
-        });
+        validity3.addActionListener(evt -> validity3ActionPerformed(evt));
         jPanel10.add(validity3);
 
         validity4.setText("useConverted");
@@ -379,11 +355,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         validity4.setMaximumSize(new java.awt.Dimension(180, 23));
         validity4.setMinimumSize(new java.awt.Dimension(180, 23));
         validity4.setPreferredSize(null);
-        validity4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validity4ActionPerformed(evt);
-            }
-        });
+        validity4.addActionListener(evt -> validity4ActionPerformed(evt));
         jPanel10.add(validity4);
 
         jPanel4.add(jPanel10);
@@ -395,11 +367,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         jPanel4.add(jSeparator4);
 
         conversionCB.setText("conversion");
-        conversionCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                conversionCBActionPerformed(evt);
-            }
-        });
+        conversionCB.addActionListener(evt -> conversionCBActionPerformed(evt));
         jPanel4.add(conversionCB);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -424,11 +392,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         objTypeCB.setMaximumSize(new java.awt.Dimension(150, 20));
         objTypeCB.setMinimumSize(new java.awt.Dimension(150, 20));
         objTypeCB.setPreferredSize(new java.awt.Dimension(150, 20));
-        objTypeCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                objTypeCBActionPerformed(evt);
-            }
-        });
+        objTypeCB.addActionListener(evt -> objTypeCBActionPerformed(evt));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -476,11 +440,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         jPanel4.add(jSeparator8);
 
         submitButton.setText("Submit");
-        submitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitButtonActionPerformed(evt);
-            }
-        });
+        submitButton.addActionListener(evt -> submitButtonActionPerformed(evt));
         jPanel4.add(submitButton);
 
         jPanel3.add(jPanel4);

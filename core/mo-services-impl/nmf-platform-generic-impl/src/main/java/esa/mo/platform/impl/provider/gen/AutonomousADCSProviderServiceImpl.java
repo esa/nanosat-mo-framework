@@ -331,16 +331,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     publishTimer.stopLast(); // is this really necessary?
     //publishTimer = new TaskScheduler(1);
     generationEnabled = true;
-    publishTimer.scheduleTask(new Thread()
-    {
-      @Override
-      public void run()
-      {
-        if (generationEnabled) {
-          publishCurrentAttitude();
-        }
+    publishTimer.scheduleTask(new Thread(() -> {
+      if (generationEnabled) {
+        publishCurrentAttitude();
       }
-    }, monitoringPeriod, monitoringPeriod, TimeUnit.MILLISECONDS, true);
+    }), monitoringPeriod, monitoringPeriod, TimeUnit.MILLISECONDS, true);
   }
 
   private void stopGeneration()
@@ -364,21 +359,16 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     final long remainingMillis = (long) (duration.getValue() * 1000);
     attitudeControlEndTime = System.currentTimeMillis() + remainingMillis;
     // Start auto-timer to unset
-    autoUnsetThread = new Thread()
-    {
-      @Override
-      public void run()
-      {
-        try {
-          Thread.sleep(remainingMillis);
-          attitudeControlEndTime = 0;
-          unsetAttitude();
-        } catch (InterruptedException ex) {
-          // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
-        }
-
+    autoUnsetThread = new Thread(() -> {
+      try {
+        Thread.sleep(remainingMillis);
+        attitudeControlEndTime = 0;
+        unsetAttitude();
+      } catch (InterruptedException ex) {
+        // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
       }
-    };
+
+    });
     autoUnsetThread.start();
 
   }

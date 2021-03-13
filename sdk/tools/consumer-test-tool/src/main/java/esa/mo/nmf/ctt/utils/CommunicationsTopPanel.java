@@ -53,11 +53,7 @@ public class CommunicationsTopPanel extends javax.swing.JPanel {
         jLabel2.setText("Directory service URI:");
 
         connect_button.setText("Connect");
-        connect_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                connect_buttonActionPerformed(evt);
-            }
-        });
+        connect_button.addActionListener(evt -> connect_buttonActionPerformed(evt));
 
         jButton1.setText("Manual Connection");
 

@@ -130,12 +130,7 @@ public final class MOWindow extends javax.swing.JDialog {
 
             }
 
-            java.awt.event.ActionListener actionListener = new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    buttonAddActionPerformed(evt);
-                }
-            };
+            java.awt.event.ActionListener actionListener = evt -> buttonAddActionPerformed(evt);
 
             MOelementListBlank moElementListBlank = new MOelementListBlank(actionListener, editable);
             componentsPanel.add(moElementListBlank);
@@ -295,11 +290,7 @@ public final class MOWindow extends javax.swing.JDialog {
         bottomPanel.setPreferredSize(new java.awt.Dimension(452, 40));
 
         button.setText("Submit");
-        button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonActionPerformed(evt);
-            }
-        });
+        button.addActionListener(evt -> buttonActionPerformed(evt));
 
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);

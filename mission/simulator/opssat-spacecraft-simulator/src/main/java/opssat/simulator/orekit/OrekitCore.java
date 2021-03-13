@@ -1084,57 +1084,52 @@ public class OrekitCore
     this.gpsExtrapDate = this.extrapDate;
     this.gpsCurrentSCState = this.spacecraftState;
 
-    executor.submit(new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        // logger.log(Level.INFO,"Propagating constellation..");
+    executor.submit(() -> {
+      // logger.log(Level.INFO,"Propagating constellation..");
 
-        GeodeticPoint opsSatGeoDPoint = getGeodeticPoint(gpsCurrentSCState);
-        TopocentricFrame opsSatCurrentFrame = new TopocentricFrame(earth, opsSatGeoDPoint,
-            "OPS-SAT");
+      GeodeticPoint opsSatGeoDPoint = getGeodeticPoint(gpsCurrentSCState);
+      TopocentricFrame opsSatCurrentFrame = new TopocentricFrame(earth, opsSatGeoDPoint,
+          "OPS-SAT");
 
-        LinkedList<GPSSatInView> tempSatsInView = new LinkedList<GPSSatInView>();
+      LinkedList<GPSSatInView> tempSatsInView = new LinkedList<GPSSatInView>();
 
-        for (GPSSatellite t : gpsConstellation) {
-          t.setState(t.propagator.propagate(gpsExtrapDate));
+      for (GPSSatellite t : gpsConstellation) {
+        t.setState(t.propagator.propagate(gpsExtrapDate));
 
-          //
-          double distance = Vector3D.distance(gpsCurrentSCState.getPVCoordinates().getPosition(),
-              t.getState().getPVCoordinates().getPosition());
+        //
+        double distance = Vector3D.distance(gpsCurrentSCState.getPVCoordinates().getPosition(),
+            t.getState().getPVCoordinates().getPosition());
 
-          GPSSatInView tempGPSSatInView = new GPSSatInView(t.name, distance);
-          double elevation = 0, azimuth = 0;
-          try {
-            elevation = opsSatCurrentFrame.getElevation(
-                t.getState().getPVCoordinates().getPosition(), t.getState().getFrame(),
-                t.getState().getDate());
-            azimuth = opsSatCurrentFrame.getAzimuth(t.getState().getPVCoordinates().getPosition(),
-                t.getState().getFrame(), t.getState().getDate());
-          } catch (OrekitException ex) {
-            Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
-          }
-          tempGPSSatInView.setElevation(FastMath.toDegrees(elevation));
-          tempGPSSatInView.setAzimuth(FastMath.toDegrees(azimuth));
-          if (distance < 25000000.0) {
-            tempSatsInView.add(tempGPSSatInView);
-            if (gpsOneShotDistances) {
-              System.out.println(tempGPSSatInView.toString());
-            }
+        GPSSatInView tempGPSSatInView = new GPSSatInView(t.name, distance);
+        double elevation = 0, azimuth = 0;
+        try {
+          elevation = opsSatCurrentFrame.getElevation(
+              t.getState().getPVCoordinates().getPosition(), t.getState().getFrame(),
+              t.getState().getDate());
+          azimuth = opsSatCurrentFrame.getAzimuth(t.getState().getPVCoordinates().getPosition(),
+              t.getState().getFrame(), t.getState().getDate());
+        } catch (OrekitException ex) {
+          Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tempGPSSatInView.setElevation(FastMath.toDegrees(elevation));
+        tempGPSSatInView.setAzimuth(FastMath.toDegrees(azimuth));
+        if (distance < 25000000.0) {
+          tempSatsInView.add(tempGPSSatInView);
+          if (gpsOneShotDistances) {
+            System.out.println(tempGPSSatInView.toString());
           }
         }
-
-        synchronized (gpsSatsInView) {
-          gpsSatsInView.clear();
-          gpsSatsInView.addAll(tempSatsInView);
-        }
-        synchronized (constellationPropagationCounterMutex) {
-          constellationPropagationCounter++;
-        }
-        gpsOneShotDistances = false;
-        propagatingConstellation = false;
       }
+
+      synchronized (gpsSatsInView) {
+        gpsSatsInView.clear();
+        gpsSatsInView.addAll(tempSatsInView);
+      }
+      synchronized (constellationPropagationCounterMutex) {
+        constellationPropagationCounter++;
+      }
+      gpsOneShotDistances = false;
+      propagatingConstellation = false;
     });
   }
 

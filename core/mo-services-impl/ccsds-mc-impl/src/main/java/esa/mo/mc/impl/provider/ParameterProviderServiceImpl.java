@@ -844,19 +844,16 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
          * @param interval
          */
         private void startTimer(final Long identityId, final Duration interval) {  // requirement: 3.3.3.c
-            timerList.get(identityId).scheduleTask(new Thread() {
-                @Override
-                public void run() {
-                    if (active) {
-                        if (identityId == -1) {
-                            return;
-                        }
-                        if (manager.getParameterDefinition(identityId).getGenerationEnabled()) {
-                            publishPeriodicParameterUpdate(identityId);
-                        }
+            timerList.get(identityId).scheduleTask(new Thread(() -> {
+                if (active) {
+                    if (identityId == -1) {
+                        return;
+                    }
+                    if (manager.getParameterDefinition(identityId).getGenerationEnabled()) {
+                        publishPeriodicParameterUpdate(identityId);
                     }
                 }
-            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
+            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
         }
 
         private void stopTimer(final Long identityId) {

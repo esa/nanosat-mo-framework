@@ -166,24 +166,12 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
     jPanel1.setPreferredSize(new java.awt.Dimension(419, 23));
 
     runAppButton.setText("runCommand");
-    runAppButton.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        runCommandButtonActionPerformed(evt);
-      }
-    });
+    runAppButton.addActionListener(evt -> runCommandButtonActionPerformed(evt));
     jPanel1.add(runAppButton);
 
     listAppAllButton.setText("List Recent Commands");
     listAppAllButton.setEnabled(false);
-    listAppAllButton.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        listRecentCommandsButtonActionPerformed(evt);
-      }
-    });
+    listAppAllButton.addActionListener(evt -> listRecentCommandsButtonActionPerformed(evt));
     jPanel1.add(listAppAllButton);
 
     parameterTab.add(jPanel1);
@@ -278,9 +266,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
 
     private synchronized void addCommandOutput(Long sourceObjId, String data)
     {
-      if (outputBuffers.get(sourceObjId) == null) {
-        outputBuffers.put(sourceObjId, new StringBuffer());
-      }
+      outputBuffers.computeIfAbsent(sourceObjId, k -> new StringBuffer());
       outputBuffers.get(sourceObjId).append(data);
       refreshOutputBufferWindow(sourceObjId);
     }

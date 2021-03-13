@@ -70,14 +70,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
     final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name);
     gui.insertDirectoryServiceTab("");
 
-    EventQueue.invokeLater(new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        gui.setVisible(true);
-      }
-    });
+    EventQueue.invokeLater(() -> gui.setVisible(true));
   }
 
   /**

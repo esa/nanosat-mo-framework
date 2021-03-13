@@ -166,12 +166,9 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
     tfName.setColumns(10);
 
     JButton btnSubmit = new JButton("Select");
-    btnSubmit.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        mainGui.setPathFromSFTP(sb.toString());
-        SFTPBrowser.this.dispose();
-      }
+    btnSubmit.addActionListener(arg0 -> {
+      mainGui.setPathFromSFTP(sb.toString());
+      SFTPBrowser.this.dispose();
     });
     springLayout.putConstraint(SpringLayout.NORTH, btnSubmit, 5, SpringLayout.SOUTH, tfName);
     springLayout.putConstraint(SpringLayout.EAST, btnSubmit, 0, SpringLayout.EAST, scrollPane);
