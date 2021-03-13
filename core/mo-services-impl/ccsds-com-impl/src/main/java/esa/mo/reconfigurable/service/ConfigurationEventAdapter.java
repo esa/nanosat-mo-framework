@@ -135,7 +135,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                 ObjectType objType = ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE;
 
                 ArchiveDetails archiveDetails = new ArchiveDetails();
-                archiveDetails.setInstId(new Long(0));
+                archiveDetails.setInstId(0L);
                 archiveDetails.setDetails(new ObjectDetails(updateHeaderList.get(i).getKey().getThirdSubKey(), null));  // Event objId
                 archiveDetails.setNetwork(msgHeader.getNetworkZone());
                 archiveDetails.setTimestamp(HelperTime.getTimestamp());

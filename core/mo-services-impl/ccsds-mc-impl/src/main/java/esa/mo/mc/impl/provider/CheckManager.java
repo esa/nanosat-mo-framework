@@ -96,10 +96,10 @@ public final class CheckManager extends CheckLinksManager {
         this.checkServiceEnabled = true;
         if (super.getArchiveService() == null) {  // No Archive?
             // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdIdentity = new Long(0);
-            this.uniqueObjIdActDef = new Long(0);
-            this.uniqueObjIdLink = new Long(0);
-            this.uniqueObjIdLinkDef = new Long(0);
+            this.uniqueObjIdIdentity = 0L;
+            this.uniqueObjIdActDef = 0L;
+            this.uniqueObjIdLink = 0L;
+            this.uniqueObjIdLinkDef = 0L;
         } else {
 
         }

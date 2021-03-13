@@ -64,7 +64,7 @@ public class GPSSatInView {
         this.distance = distance;
         String prn = name.substring(name.indexOf("(")+1,name.indexOf(")"));
         String[] prnWords=prn.split(" ");
-        this.prn=Integer.valueOf(prnWords[1]);
+        this.prn=Integer.parseInt(prnWords[1]);
     }
 
     public String getName() {

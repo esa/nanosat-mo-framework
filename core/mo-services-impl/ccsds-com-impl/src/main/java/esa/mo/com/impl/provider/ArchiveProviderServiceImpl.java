@@ -498,7 +498,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 }
             }
 
-            outLong.add(new Long(perObjs.size())); // requirement: 3.4.5.2.2
+            outLong.add((long) perObjs.size()); // requirement: 3.4.5.2.2
         }
 
         // Errors

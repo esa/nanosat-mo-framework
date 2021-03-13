@@ -134,7 +134,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null,  new Boolean(true), null},
+                {null, null, null, null, null, Boolean.TRUE, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
@@ -166,7 +166,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         actionDefinitionsTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null,  new Boolean(true), null},
+                {null, null, null, null, null, Boolean.TRUE, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
@@ -611,7 +611,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             
             details.setRelated(checkDefsTable.getSelectedCOMObject().getObjectId());
             details.setSource(new ObjectId(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, 
-                    new ObjectKey(serviceMCCheck.getConnectionDetails().getDomain(), new Long (1))));
+                    new ObjectKey(serviceMCCheck.getConnectionDetails().getDomain(), 1L)));
 
             MOWindow linksWindow = new MOWindow(details, true);
             ObjectDetailsList detailsList = new ObjectDetailsList();

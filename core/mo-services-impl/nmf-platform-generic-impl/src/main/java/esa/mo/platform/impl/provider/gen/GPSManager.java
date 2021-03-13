@@ -54,7 +54,7 @@ public final class GPSManager extends DefinitionsManager {
         this.previousIsInsideStatus = new HashMap<Long, Boolean>();
         
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
         }else{
             
         }
@@ -152,7 +152,7 @@ public final class GPSManager extends DefinitionsManager {
             return null;
         }
         
-        return new Long(0);
+        return 0L;
     }
 
 }

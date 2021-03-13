@@ -98,7 +98,7 @@ public class PersistProviderConfiguration {
             objIds = new LongList(reconfigurableServices.size());
 
             for (int i = 0; i < reconfigurableServices.size(); i++) {
-                Long confObjId = new Long(i + 1);
+                Long confObjId = (long) (i + 1);
                 final PersistLatestServiceConfigurationAdapter persistLatestConfig
                         = new PersistLatestServiceConfigurationAdapter(reconfigurableServices.get(i), confObjId, this.archiveService, this.executor);
 

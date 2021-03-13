@@ -42,7 +42,7 @@ public class MainClient {
         }
      
         if (args.length == 2) {
-            guiApp = new GuiApp(args[0], Integer.valueOf(args[1]));
+            guiApp = new GuiApp(args[0], Integer.parseInt(args[1]));
         } else {
             guiApp = new GuiApp("127.0.0.1", 11111);
         }
