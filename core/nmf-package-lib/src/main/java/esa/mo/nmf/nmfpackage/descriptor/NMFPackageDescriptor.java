@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -64,7 +65,7 @@ public class NMFPackageDescriptor {
      */
     public static NMFPackageDescriptor parseInputStream(final InputStream stream) throws IOException {
         NMFPackageDescriptor newDescriptor = null;
-        InputStreamReader isr = new InputStreamReader(stream, Charset.forName("UTF-8"));
+        InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
         BufferedReader br = new BufferedReader(isr);
 
             String line = br.readLine(); // Reads the first line!
