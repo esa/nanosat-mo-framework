@@ -62,17 +62,14 @@ public class PushClock {
     public PushClock() {
         connector.init(new MCAdapter());
 
-        this.timer.scheduleTask(new Thread() {
-            @Override
-            public void run() {
-                try {
-                    pushClock();
-                } catch (NMFException ex) {
-                    Logger.getLogger(PushClock.class.getName()).log(Level.SEVERE,
-                            "The Clock could not be pushed to the consumer!", ex);
-                }
+        this.timer.scheduleTask(new Thread(() -> {
+            try {
+                pushClock();
+            } catch (NMFException ex) {
+                Logger.getLogger(PushClock.class.getName()).log(Level.SEVERE,
+                        "The Clock could not be pushed to the consumer!", ex);
             }
-        }, 5, REFRESH_RATE, TimeUnit.SECONDS, true); // conversion to milliseconds
+        }), 5, REFRESH_RATE, TimeUnit.SECONDS, true); // conversion to milliseconds
     }
 
     public void pushClock() throws NMFException {

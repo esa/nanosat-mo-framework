@@ -285,18 +285,13 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
       int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
 
       //publishTimer = new TaskScheduler(1);
-      publishTimer.scheduleTask(new Thread()
-      {
-        @Override
-        public void run()
-        {
-          if (running) {
-            if (cameraInUse) {
-              streamPicturesUpdate(firstEntityKey, settings);
-            }
+      publishTimer.scheduleTask(new Thread(() -> {
+        if (running) {
+          if (cameraInUse) {
+            streamPicturesUpdate(firstEntityKey, settings);
           }
         }
-      }, period, period, TimeUnit.MILLISECONDS, true);
+      }), period, period, TimeUnit.MILLISECONDS, true);
     }
   }
 

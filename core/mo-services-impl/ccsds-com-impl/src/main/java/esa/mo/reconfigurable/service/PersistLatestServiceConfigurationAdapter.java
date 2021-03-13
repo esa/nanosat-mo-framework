@@ -79,48 +79,45 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
     @Override
     public void onConfigurationChanged(final ReconfigurableService serviceImpl) {
         // Submit the task to update the configuration in the COM Archive
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (configObjectsObjId == null) {
-                    // Retrieve the COM object of the service
-                    ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
-                            ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
-                            ConfigurationProviderSingleton.getDomain(), serviceConfigObjId);
+        executor.execute(() -> {
+            if (configObjectsObjId == null) {
+                // Retrieve the COM object of the service
+                ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
+                        ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(), serviceConfigObjId);
 
-                    if (comObject == null) {
-                        Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
-                                serviceImpl.getCOMService().getName()
-                                + " service: The service configuration object could not be found! objectId: "
-                                + serviceConfigObjId);
-
-                        // Todo: Maybe we can use storeDefaultServiceConfiguration() here!? To handle better the error...
-                        return;
-                    }
-
-                    configObjectsObjId = comObject.getArchiveDetails().getDetails().getRelated();
-                }
-
-                // Stuff to feed the update operation from the Archive...
-                ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
-                        ConfigurationProviderSingleton.getNetwork(), new URI(""), configObjectsObjId);
-                ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
-                confObjsList.add(serviceImpl.getCurrentConfiguration());
-
-                try {
-                    archiveService.update(
-                            ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                            ConfigurationProviderSingleton.getDomain(),
-                            details,
-                            confObjsList,
-                            null);
-                } catch (MALException ex) {
-                    Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALInteractionException ex) {
+                if (comObject == null) {
                     Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
                             serviceImpl.getCOMService().getName()
-                            + " service: The configuration could not be updated! objectId: " + serviceConfigObjId, ex);
+                            + " service: The service configuration object could not be found! objectId: "
+                            + serviceConfigObjId);
+
+                    // Todo: Maybe we can use storeDefaultServiceConfiguration() here!? To handle better the error...
+                    return;
                 }
+
+                configObjectsObjId = comObject.getArchiveDetails().getDetails().getRelated();
+            }
+
+            // Stuff to feed the update operation from the Archive...
+            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
+                    ConfigurationProviderSingleton.getNetwork(), new URI(""), configObjectsObjId);
+            ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
+            confObjsList.add(serviceImpl.getCurrentConfiguration());
+
+            try {
+                archiveService.update(
+                        ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        details,
+                        confObjsList,
+                        null);
+            } catch (MALException ex) {
+                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                        serviceImpl.getCOMService().getName()
+                        + " service: The configuration could not be updated! objectId: " + serviceConfigObjId, ex);
             }
         });
     }

@@ -398,7 +398,7 @@ public class HelperAttributes {
    * @throws java.lang.IllegalArgumentException If value == null
    */
   public static Object string2attribute(Object in, String value)
-      throws NumberFormatException, IllegalArgumentException {
+      throws IllegalArgumentException {
     if (value == null) {
       throw new IllegalArgumentException("The value must not be null.");
     }

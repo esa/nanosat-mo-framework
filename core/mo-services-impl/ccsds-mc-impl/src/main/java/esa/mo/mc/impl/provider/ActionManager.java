@@ -389,45 +389,42 @@ public final class ActionManager extends MCManager {
         //TODO: after issue I expect to get the identity-id here -> issue #179
         final Identifier name = getName(actionDetails.getDefInstId());
 
-        actionsExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
+        actionsExecutor.execute(() -> {
+            try {
+                final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
 
-                    URI uriTo = interaction.getMessageHeader().getURITo();
-                    URI uriNextDestination = null;
-                    String[] nodes = uriTo.toString().split("@");
+                URI uriTo = interaction.getMessageHeader().getURITo();
+                URI uriNextDestination = null;
+                String[] nodes = uriTo.toString().split("@");
 
-                    if (nodes.length > 1) { // Remove the first characters until the '@'; +1 below for the '@'
-                        uriNextDestination = new URI(uriTo.toString().substring(nodes[0].length() + 1));
-                    }
-
-                    // Reception
-                    ObjectId sourceRec = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                    getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]),
-                            interaction.getMessageHeader().getNetworkZone(), true, null, uriNextDestination, sourceRec);
-
-                    UInteger errorNumber;
-
-                    // Call the Action
-                    if (actions != null) {
-                        errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
-                                actionInstId, actionDetails.getStageProgressRequired(), interaction);
-                    } else {
-                        errorNumber = new UInteger(0);
-                    }
-
-                    // Publish forward success
-                    ObjectId sourceFor = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                    getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
-                            interaction.getMessageHeader().getNetworkZone(), (errorNumber == null),
-                            null, uriNextDestination, sourceFor);
-                } catch (MALInteractionException ex) {
-                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALException ex) {
-                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
+                if (nodes.length > 1) { // Remove the first characters until the '@'; +1 below for the '@'
+                    uriNextDestination = new URI(uriTo.toString().substring(nodes[0].length() + 1));
                 }
+
+                // Reception
+                ObjectId sourceRec = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
+                getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]),
+                        interaction.getMessageHeader().getNetworkZone(), true, null, uriNextDestination, sourceRec);
+
+                UInteger errorNumber;
+
+                // Call the Action
+                if (actions != null) {
+                    errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
+                            actionInstId, actionDetails.getStageProgressRequired(), interaction);
+                } else {
+                    errorNumber = new UInteger(0);
+                }
+
+                // Publish forward success
+                ObjectId sourceFor = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
+                getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
+                        interaction.getMessageHeader().getNetworkZone(), (errorNumber == null),
+                        null, uriNextDestination, sourceFor);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
@@ -438,47 +435,44 @@ public final class ActionManager extends MCManager {
         actionInstances.put(actionInstId, actionDetails);
         final Identifier name = this.getName(actionDetails.getDefInstId());
 
-        actionsExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                final ActionDefinitionDetails actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
+        actionsExecutor.execute(() -> {
+            final ActionDefinitionDetails actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
 
-                //from here on: requirement 3.2.8.b
-                // Publish Event stating that the execution was initialized
-                if (actionDetails.getStageStartedRequired()) {  // ActionInstanceDetails field requirement
-                    reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(),
-                            actionInstId, interaction, connectionDetails);
-                }
+            //from here on: requirement 3.2.8.b
+            // Publish Event stating that the execution was initialized
+            if (actionDetails.getStageStartedRequired()) {  // ActionInstanceDetails field requirement
+                reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(),
+                        actionInstId, interaction, connectionDetails);
+            }
 
-                UInteger errorNumber;
+            UInteger errorNumber;
 
-                // Call the Action
-                if (actions != null) {
-                    //requirement: 3.2.8.j, 3.2.5.a -> actionArrived will send the progress-events
-                    errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
-                            actionInstId, actionDetails.getStageProgressRequired(), interaction);
-                } else {
-                    errorNumber = new UInteger(0);
-                }
+            // Call the Action
+            if (actions != null) {
+                //requirement: 3.2.8.j, 3.2.5.a -> actionArrived will send the progress-events
+                errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
+                        actionInstId, actionDetails.getStageProgressRequired(), interaction);
+            } else {
+                errorNumber = new UInteger(0);
+            }
 
-                // Publish Event stating that the execution was finished
-                if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
-                    reportExecutionComplete((errorNumber == null), errorNumber,
-                            actionDefinition.getProgressStepCount().getValue(),
-                            actionInstId, interaction, connectionDetails);
-                }
+            // Publish Event stating that the execution was finished
+            if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
+                reportExecutionComplete((errorNumber == null), errorNumber,
+                        actionDefinition.getProgressStepCount().getValue(),
+                        actionInstId, interaction, connectionDetails);
+            }
 
-                actionInstances.remove(actionInstId);
+            actionInstances.remove(actionInstId);
 
-//                //TODO: i think the failure was published in actionArrived method and only if it wasnt, 
-                //the following completion event shall be published -> issue
+//                //TODO: i think the failure was published in actionArrived method and only if it wasnt,
+            //the following completion event shall be published -> issue
 //                // Publish Event stating that the execution was finished
 //				success = actions.getFailureStage() != actionDefinition.getProgressStepCount().getValue() + 2;
 //                if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
-//                    reportExecutionComplete(success, success ? null : actions.getFailureCode(), 
+//                    reportExecutionComplete(success, success ? null : actions.getFailureCode(),
 //                        actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
 //                }
-            }
         });
 
     }

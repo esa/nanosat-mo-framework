@@ -71,16 +71,14 @@ public class GuiSimulatorHeaderEdit {
     }
 
     public void dispose() {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    Thread.sleep(1000);
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            try {
+                Thread.sleep(1000);
 
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(GuiSimulatorHeaderEdit.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                frame.dispose();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GuiSimulatorHeaderEdit.class.getName()).log(Level.SEVERE, null, ex);
             }
+            frame.dispose();
         });
     }
 
@@ -253,33 +251,22 @@ public class GuiSimulatorHeaderEdit {
             localPanel.add(l);
             if (i == 0) {
                 chkSystemEnableDefault = new JCheckBox("", simulatorHeader.isAutoStartSystem());
-                chkSystemEnableDefault.addItemListener(new ItemListener() {
-                    public void itemStateChanged(ItemEvent e) {
-                        GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartSystem(e.getStateChange() == ItemEvent.SELECTED);
-                        submitButton.setEnabled(true);
-                    }
-
+                chkSystemEnableDefault.addItemListener(e -> {
+                    GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartSystem(e.getStateChange() == ItemEvent.SELECTED);
+                    submitButton.setEnabled(true);
                 });
                 localPanel.add(chkSystemEnableDefault);
             } else if (i == 1) {
                 chkTimeRunDefault = new JCheckBox("", simulatorHeader.isAutoStartTime());
-                chkTimeRunDefault.addItemListener(new ItemListener() {
-                    public void itemStateChanged(ItemEvent e) {
-                        GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartTime(e.getStateChange() == ItemEvent.SELECTED);
-                        submitButton.setEnabled(true);
-                    }
-
+                chkTimeRunDefault.addItemListener(e -> {
+                    GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartTime(e.getStateChange() == ItemEvent.SELECTED);
+                    submitButton.setEnabled(true);
                 });
                 localPanel.add(chkTimeRunDefault);
             } else if (i == 2) {
                 txtTimeFactor = new JTextField(String.valueOf(simulatorHeader.getTimeFactor()));
                 txtTimeFactor.setPreferredSize(new Dimension(35, 20));
-                txtTimeFactor.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        processTextFieldTimeFactorInput(txtTimeFactor);
-                    }
-
-                });
+                txtTimeFactor.addActionListener(e -> processTextFieldTimeFactorInput(txtTimeFactor));
                 txtTimeFactor.addFocusListener(new FocusListener() {
                     public void focusGained(FocusEvent e) {
                         processTextFieldFocusGained(txtTimeFactor);
@@ -295,14 +282,11 @@ public class GuiSimulatorHeaderEdit {
             } else if (i == 3) {
                 txtStartDate = new JTextField(simulatorHeader.getStartDateString());
                 txtStartDate.setPreferredSize(new Dimension(265, 20));
-                txtStartDate.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        Date newDateStart = processTextFieldDateInput(txtStartDate, txtEndDate, 1);
-                        if (newDateStart != null) {
-                            GuiSimulatorHeaderEdit.this.simulatorHeader.setStartDate(newDateStart);
-                        }
+                txtStartDate.addActionListener(e -> {
+                    Date newDateStart = processTextFieldDateInput(txtStartDate, txtEndDate, 1);
+                    if (newDateStart != null) {
+                        GuiSimulatorHeaderEdit.this.simulatorHeader.setStartDate(newDateStart);
                     }
-
                 });
                 txtStartDate.addFocusListener(new FocusListener() {
                     public void focusGained(FocusEvent e) {
@@ -322,14 +306,11 @@ public class GuiSimulatorHeaderEdit {
             } else if (i == 4) {
                 txtEndDate = new JTextField(simulatorHeader.getEndDateString());
                 txtEndDate.setPreferredSize(new Dimension(265, 20));
-                txtEndDate.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        Date newDate = processTextFieldDateInput(txtStartDate, txtEndDate, 2);
-                        if (newDate != null) {
-                            GuiSimulatorHeaderEdit.this.simulatorHeader.setEndDate(newDate);
-                        }
+                txtEndDate.addActionListener(e -> {
+                    Date newDate = processTextFieldDateInput(txtStartDate, txtEndDate, 2);
+                    if (newDate != null) {
+                        GuiSimulatorHeaderEdit.this.simulatorHeader.setEndDate(newDate);
                     }
-
                 });
                 txtEndDate.addFocusListener(new FocusListener() {
                     public void focusGained(FocusEvent e) {
@@ -354,18 +335,16 @@ public class GuiSimulatorHeaderEdit {
         p.add(submitButton);
         p.setBorder(new TitledBorder(new EtchedBorder(), "Default values"));
 
-        submitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (validateForm()) {
+        submitButton.addActionListener(e -> {
+            if (validateForm()) {
 
-                    submitButtonPressed();
+                submitButtonPressed();
 
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Data not ok!"
-                        + "\nTime factor:" + timeFactorOK
-                        + "\nStart date:" + startDateOK
-                        + "\nEnd date: " + endDateOK + ".");
-                }
+            } else {
+                JOptionPane.showMessageDialog(frame, "Data not ok!"
+                    + "\nTime factor:" + timeFactorOK
+                    + "\nStart date:" + startDateOK
+                    + "\nEnd date: " + endDateOK + ".");
             }
         });
 

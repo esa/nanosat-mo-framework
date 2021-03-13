@@ -162,11 +162,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel27);
 
         uriServiceEvent.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceEventActionPerformed(evt);
-            }
-        });
+        uriServiceEvent.addActionListener(evt -> uriServiceEventActionPerformed(evt));
         jPanel9.add(uriServiceEvent);
 
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -175,11 +171,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel28);
 
         uriBrokerEvent.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriBrokerEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriBrokerEventActionPerformed(evt);
-            }
-        });
+        uriBrokerEvent.addActionListener(evt -> uriBrokerEventActionPerformed(evt));
         jPanel9.add(uriBrokerEvent);
 
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -188,11 +180,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel25);
 
         uriServiceArchive.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceArchive.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceArchiveActionPerformed(evt);
-            }
-        });
+        uriServiceArchive.addActionListener(evt -> uriServiceArchiveActionPerformed(evt));
         jPanel9.add(uriServiceArchive);
 
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -201,11 +189,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel26);
 
         uriBrokerArchive.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriBrokerArchive.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriBrokerArchiveActionPerformed(evt);
-            }
-        });
+        uriBrokerArchive.addActionListener(evt -> uriBrokerArchiveActionPerformed(evt));
         jPanel9.add(uriBrokerArchive);
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -214,11 +198,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel10);
 
         uriServiceParameter.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceParameter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceParameterActionPerformed(evt);
-            }
-        });
+        uriServiceParameter.addActionListener(evt -> uriServiceParameterActionPerformed(evt));
         jPanel9.add(uriServiceParameter);
 
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -227,11 +207,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel12);
 
         uriBrokerParameter.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriBrokerParameter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriBrokerParameterActionPerformed(evt);
-            }
-        });
+        uriBrokerParameter.addActionListener(evt -> uriBrokerParameterActionPerformed(evt));
         jPanel9.add(uriBrokerParameter);
 
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -240,11 +216,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel13);
 
         uriServiceAggregation.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceAggregation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceAggregationActionPerformed(evt);
-            }
-        });
+        uriServiceAggregation.addActionListener(evt -> uriServiceAggregationActionPerformed(evt));
         jPanel9.add(uriServiceAggregation);
 
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -253,11 +225,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel14);
 
         uriBrokerAggregation.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriBrokerAggregation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriBrokerAggregationActionPerformed(evt);
-            }
-        });
+        uriBrokerAggregation.addActionListener(evt -> uriBrokerAggregationActionPerformed(evt));
         jPanel9.add(uriBrokerAggregation);
 
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -266,11 +234,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel15);
 
         uriServiceAction.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceActionActionPerformed(evt);
-            }
-        });
+        uriServiceAction.addActionListener(evt -> uriServiceActionActionPerformed(evt));
         jPanel9.add(uriServiceAction);
 
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -279,11 +243,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel16);
 
         uriBrokerAction.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriBrokerAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriBrokerActionActionPerformed(evt);
-            }
-        });
+        uriBrokerAction.addActionListener(evt -> uriBrokerActionActionPerformed(evt));
         jPanel9.add(uriBrokerAction);
 
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -292,11 +252,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel17);
 
         uriServiceAlert.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceAlert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceAlertActionPerformed(evt);
-            }
-        });
+        uriServiceAlert.addActionListener(evt -> uriServiceAlertActionPerformed(evt));
         jPanel9.add(uriServiceAlert);
 
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -305,11 +261,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel18);
 
         uriBrokerAlert.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriBrokerAlert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriBrokerAlertActionPerformed(evt);
-            }
-        });
+        uriBrokerAlert.addActionListener(evt -> uriBrokerAlertActionPerformed(evt));
         jPanel9.add(uriBrokerAlert);
 
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -318,11 +270,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel19);
 
         uriServiceCheck.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceCheckActionPerformed(evt);
-            }
-        });
+        uriServiceCheck.addActionListener(evt -> uriServiceCheckActionPerformed(evt));
         jPanel9.add(uriServiceCheck);
 
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -331,11 +279,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel20);
 
         uriBrokerCheck.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriBrokerCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriBrokerCheckActionPerformed(evt);
-            }
-        });
+        uriBrokerCheck.addActionListener(evt -> uriBrokerCheckActionPerformed(evt));
         jPanel9.add(uriBrokerCheck);
 
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -344,11 +288,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel21);
 
         uriServiceStatistic.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceStatistic.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceStatisticActionPerformed(evt);
-            }
-        });
+        uriServiceStatistic.addActionListener(evt -> uriServiceStatisticActionPerformed(evt));
         jPanel9.add(uriServiceStatistic);
 
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -357,11 +297,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         jPanel9.add(jLabel22);
 
         uriBrokerStatistic.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriBrokerStatistic.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriBrokerStatisticActionPerformed(evt);
-            }
-        });
+        uriBrokerStatistic.addActionListener(evt -> uriBrokerStatisticActionPerformed(evt));
         jPanel9.add(uriBrokerStatistic);
 
         homeTab.add(jPanel9);
@@ -371,37 +307,21 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         servicesPanel.setPreferredSize(new java.awt.Dimension(200, 340));
 
         load_URI_links.setText("Reload Links");
-        load_URI_links.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                load_URI_linksActionPerformed(evt);
-            }
-        });
+        load_URI_links.addActionListener(evt -> load_URI_linksActionPerformed(evt));
         servicesPanel.add(load_URI_links);
 
         load_links_file.setText("Load Links from File");
-        load_links_file.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                load_links_fileActionPerformed(evt);
-            }
-        });
+        load_links_file.addActionListener(evt -> load_links_fileActionPerformed(evt));
         servicesPanel.add(load_links_file);
 
         find_replace.setText("Find & Replace all");
-        find_replace.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                find_replaceActionPerformed(evt);
-            }
-        });
+        find_replace.addActionListener(evt -> find_replaceActionPerformed(evt));
         servicesPanel.add(find_replace);
 
         checkBoxEvent.setSelected(true);
         checkBoxEvent.setText("Event Service");
         checkBoxEvent.setPreferredSize(new java.awt.Dimension(160, 23));
-        checkBoxEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxEventActionPerformed(evt);
-            }
-        });
+        checkBoxEvent.addActionListener(evt -> checkBoxEventActionPerformed(evt));
         servicesPanel.add(checkBoxEvent);
 
         checkBoxArchive.setSelected(true);
@@ -417,59 +337,35 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         checkBoxAggregation.setSelected(true);
         checkBoxAggregation.setText("Aggregation Service");
         checkBoxAggregation.setPreferredSize(new java.awt.Dimension(160, 23));
-        checkBoxAggregation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxAggregationActionPerformed(evt);
-            }
-        });
+        checkBoxAggregation.addActionListener(evt -> checkBoxAggregationActionPerformed(evt));
         servicesPanel.add(checkBoxAggregation);
 
         checkBoxAction.setSelected(true);
         checkBoxAction.setText("Action Service");
         checkBoxAction.setPreferredSize(new java.awt.Dimension(160, 23));
-        checkBoxAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxActionActionPerformed(evt);
-            }
-        });
+        checkBoxAction.addActionListener(evt -> checkBoxActionActionPerformed(evt));
         servicesPanel.add(checkBoxAction);
 
         checkBoxAlert.setSelected(true);
         checkBoxAlert.setText("Alert Service");
         checkBoxAlert.setPreferredSize(new java.awt.Dimension(160, 23));
-        checkBoxAlert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxAlertActionPerformed(evt);
-            }
-        });
+        checkBoxAlert.addActionListener(evt -> checkBoxAlertActionPerformed(evt));
         servicesPanel.add(checkBoxAlert);
 
         checkBoxCheck.setSelected(true);
         checkBoxCheck.setText("Check Service");
         checkBoxCheck.setPreferredSize(new java.awt.Dimension(160, 23));
-        checkBoxCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxCheckActionPerformed(evt);
-            }
-        });
+        checkBoxCheck.addActionListener(evt -> checkBoxCheckActionPerformed(evt));
         servicesPanel.add(checkBoxCheck);
 
         checkBoxStatistic.setSelected(true);
         checkBoxStatistic.setText("Statistic Service");
         checkBoxStatistic.setPreferredSize(new java.awt.Dimension(160, 23));
-        checkBoxStatistic.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxStatisticActionPerformed(evt);
-            }
-        });
+        checkBoxStatistic.addActionListener(evt -> checkBoxStatisticActionPerformed(evt));
         servicesPanel.add(checkBoxStatistic);
 
         connectButton.setText("Connect to Provider");
-        connectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                connectButtonActionPerformed(evt);
-            }
-        });
+        connectButton.addActionListener(evt -> connectButtonActionPerformed(evt));
         servicesPanel.add(connectButton);
 
         homeTab.add(servicesPanel);

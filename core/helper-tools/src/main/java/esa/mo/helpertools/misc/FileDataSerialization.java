@@ -63,7 +63,7 @@ public class FileDataSerialization {
    * @throws java.lang.IllegalArgumentException If filename == null
    */
   public static Object serializeDataIn(String filename)
-      throws FileNotFoundException, IOException, ClassNotFoundException, IllegalArgumentException {
+      throws IOException, ClassNotFoundException, IllegalArgumentException {
     if (filename == null) {
       throw new IllegalArgumentException("Filename must not be null for deserialization.");
     }

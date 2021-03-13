@@ -1028,32 +1028,29 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         private void startUpdatesTimer(final Long identityId, final Duration interval) {
-            updateTimerList.get(identityId).scheduleTask(new Thread() {
+            // the time is being converted to milliseconds by multiplying by 1000
+            updateTimerList.get(identityId).scheduleTask(new Thread(() -> {  // requirement: 3.7.3.c
+                if (active) {
+                    AggregationDefinitionDetails def = manager.getAggregationDefinition(identityId);
+                    checkSampleIntervalAndSampleParam(identityId, true);
 
-                @Override
-                public void run() {  // requirement: 3.7.3.c
-                    if (active) {
-                        AggregationDefinitionDetails def = manager.getAggregationDefinition(identityId);
-                        checkSampleIntervalAndSampleParam(identityId, true);
-                        
-                        // To prevent race conditions with the other timer
-                        synchronized (lock) {
-                            if (!def.getFilterEnabled()) { // The Filter is not enabled? // requirement: 3.7.2.a.a, 
-                                publishPeriodicAggregationUpdate(identityId, 
+                    // To prevent race conditions with the other timer
+                    synchronized (lock) {
+                        if (!def.getFilterEnabled()) { // The Filter is not enabled? // requirement: 3.7.2.a.a,
+                            publishPeriodicAggregationUpdate(identityId,
+                                    manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
+                            manager.resetAggregationSampleHelperVariables(identityId);
+                        } else {  // requirement: 3.7.2.a.c,
+                            if (manager.isFilterTriggered(identityId) == true) { // The Filter is on and triggered? requirement: 3.7.2.6
+                                publishPeriodicAggregationUpdate(identityId,
                                         manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
                                 manager.resetAggregationSampleHelperVariables(identityId);
-                            } else {  // requirement: 3.7.2.a.c, 
-                                if (manager.isFilterTriggered(identityId) == true) { // The Filter is on and triggered? requirement: 3.7.2.6
-                                    publishPeriodicAggregationUpdate(identityId, 
-                                            manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
-                                    manager.resetAggregationSampleHelperVariables(identityId);
-                                    resetFilterTimeoutTimer(identityId);        // Reset the timer
-                                }
+                                resetFilterTimeoutTimer(identityId);        // Reset the timer
                             }
                         }
                     }
-                } // the time is being converted to milliseconds by multiplying by 1000 
-            }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000),
+                }
+            }), (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000),
             TimeUnit.MILLISECONDS, true); // requirement: 3.7.3.g
         }
 
@@ -1076,22 +1073,19 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         private void startFilterTimeoutTimer(final Long identityId, final Duration interval) {
-            filterTimeoutTimerList.get(identityId).scheduleTask(new Thread() {
-
-                @Override
-                public void run() {  // requirement: 3.7.2.a.c, 3.7.3.n
-                    if (active) {
-                        manager.setFilterTriggered(identityId, true);
-                        //get the new samples and update the aggregation in the internal list
-                        for (int index = 0; index < manager.getAggregationDefinition(identityId).getParameterSets().size(); index++) {
-                            manager.sampleParam(identityId, index);
-                        }
-                        //publish the values in the internal list
-                        publishPeriodicAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.FILTERED_TIMEOUT));
-                        manager.resetAggregationSampleHelperVariables(identityId);
+            // the time is being converted to milliseconds by multiplying by 1000
+            filterTimeoutTimerList.get(identityId).scheduleTask(new Thread(() -> {  // requirement: 3.7.2.a.c, 3.7.3.n
+                if (active) {
+                    manager.setFilterTriggered(identityId, true);
+                    //get the new samples and update the aggregation in the internal list
+                    for (int index = 0; index < manager.getAggregationDefinition(identityId).getParameterSets().size(); index++) {
+                        manager.sampleParam(identityId, index);
                     }
-                } // the time is being converted to milliseconds by multiplying by 1000
-            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true);
+                    //publish the values in the internal list
+                    publishPeriodicAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.FILTERED_TIMEOUT));
+                    manager.resetAggregationSampleHelperVariables(identityId);
+                }
+            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true);
         }
 
         private void stopFilterTimeoutTimer(final Long objId) {
@@ -1210,18 +1204,15 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             final Long identityId = aggregationObjIdList.get(index);
             final int indexOfparameterSet = parameterSetIndexList.get(index);
 
-            sampleTimerList.get(index).scheduleTask(new Thread() {
-                @Override
-                public void run() {
-                    if (active) {
-                        // To prevent race conditions with the other timer
-                        synchronized (lock) {
-                            //create the new paraemtersamples and set them if filter triggered or not enabled
-                            manager.sampleAndFilterParam(identityId, indexOfparameterSet);
-                        }
+            sampleTimerList.get(index).scheduleTask(new Thread(() -> {
+                if (active) {
+                    // To prevent race conditions with the other timer
+                    synchronized (lock) {
+                        //create the new paraemtersamples and set them if filter triggered or not enabled
+                        manager.sampleAndFilterParam(identityId, indexOfparameterSet);
                     }
                 }
-            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
+            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
         }
 
         private void stopTimer(int index) {

@@ -97,19 +97,14 @@ public class Waveform
     started = true;
     Logger.getLogger(Waveform.class.getName()).log(Level.FINE,
               "Starting wave");
-    this.tasker.scheduleTask(new Thread()
-    {
-      @Override
-      public void run()
-      {
-        try {
-          pushVal();
-        } catch (NMFException ex) {
-          Logger.getLogger(Waveform.class.getName()).log(Level.SEVERE,
-              "The sine value could not be pushed!", ex);
-        }
+    this.tasker.scheduleTask(new Thread(() -> {
+      try {
+        pushVal();
+      } catch (NMFException ex) {
+        Logger.getLogger(Waveform.class.getName()).log(Level.SEVERE,
+            "The sine value could not be pushed!", ex);
       }
-    }, 0, refresh, TimeUnit.MICROSECONDS, true); // conversion to milliseconds
+    }), 0, refresh, TimeUnit.MICROSECONDS, true); // conversion to milliseconds
   }
 
   public void stopWave()

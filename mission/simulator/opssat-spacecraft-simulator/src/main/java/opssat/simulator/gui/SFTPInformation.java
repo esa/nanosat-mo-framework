@@ -84,15 +84,12 @@ public class SFTPInformation extends JFrame implements UserInfo {
     springLayout.putConstraint(SpringLayout.NORTH, btnSubmit, 6, SpringLayout.SOUTH, passwordField);
     springLayout.putConstraint(SpringLayout.EAST, btnSubmit, -189, SpringLayout.EAST,
         getContentPane());
-    btnSubmit.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        username = tfUsername.getText();
-        password = new String(passwordField.getPassword());
-        knownHosts = tfKnownHosts.getText();
-        parent.connectStfp(window);
-        window.dispose();
-      }
+    btnSubmit.addActionListener(arg0 -> {
+      username = tfUsername.getText();
+      password = new String(passwordField.getPassword());
+      knownHosts = tfKnownHosts.getText();
+      parent.connectStfp(window);
+      window.dispose();
     });
     getContentPane().add(btnSubmit);
     this.getRootPane().setDefaultButton(btnSubmit);
@@ -117,16 +114,13 @@ public class SFTPInformation extends JFrame implements UserInfo {
     getContentPane().add(tfKnownHosts);
 
     JButton btnBrowse = new JButton("Browse");
-    btnBrowse.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
-        fc.setFileHidingEnabled(false);
-        int res = fc.showOpenDialog(SFTPInformation.this);
-        if (res == JFileChooser.APPROVE_OPTION) {
-          String chosenName = fc.getSelectedFile().getAbsolutePath();
-          tfKnownHosts.setText(chosenName);
-        }
+    btnBrowse.addActionListener(arg0 -> {
+      JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+      fc.setFileHidingEnabled(false);
+      int res = fc.showOpenDialog(SFTPInformation.this);
+      if (res == JFileChooser.APPROVE_OPTION) {
+        String chosenName = fc.getSelectedFile().getAbsolutePath();
+        tfKnownHosts.setText(chosenName);
       }
     });
     springLayout.putConstraint(SpringLayout.NORTH, btnBrowse, 0, SpringLayout.NORTH, tfKnownHosts);
