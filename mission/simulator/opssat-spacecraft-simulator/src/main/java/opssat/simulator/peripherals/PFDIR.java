@@ -43,8 +43,7 @@ public class PFDIR extends GenericPeripheral implements IFDIR{
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(5001,argObject);
-    };
+    }
 
 
-    
 }

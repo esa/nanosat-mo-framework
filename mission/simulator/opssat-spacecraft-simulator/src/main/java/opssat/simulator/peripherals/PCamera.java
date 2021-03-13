@@ -45,15 +45,15 @@ public class PCamera extends GenericPeripheral implements ICamera {
         argObject.add(width);
         argObject.add(height);
         return (byte[]) super.getSimulatorNode().runGenericMethod(3001,argObject);
-    };
+    }
+
     @Override
     @InternalData (internalID=3002,commandIDs={"",""},argNames={"fileName"})
     public void simPreloadPicture(String fileName) {
         ArrayList<Object> argObject = new ArrayList<Object>();
         argObject.add(fileName);
         super.getSimulatorNode().runGenericMethod(3002,argObject);
-    };
-
+    }
 
 
 }

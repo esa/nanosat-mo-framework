@@ -894,7 +894,7 @@ public class SimulatorNode extends TaskNode
         while ((line = in.readLine()) != null) {
           List<String> items = Arrays.asList(line.split(" "));
           if (line.startsWith("#")) {
-            ;// comment line
+            // comment line
           } else if (items.size() != 1) {
             this.logger.log(Level.SEVERE,
                 "Read from filter file: size of line [" + line + "]  was invalid!");
@@ -1187,7 +1187,6 @@ public class SimulatorNode extends TaskNode
         } catch (IOException ex) {
           Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ;
 
         String line;
         while ((line = in.readLine()) != null) {
@@ -1214,12 +1213,10 @@ public class SimulatorNode extends TaskNode
                   minorErrorsExist = true;
                 } else {
                   // both values are not valid, disregard this row
-                  ;
                 }
               }
               if (def1Value == def2Value) {
                 // time definition is consistent
-                ;
               } else {
                 // def2Value is not matching a valid def1Value, update it
                 def2Value = def1Value;
@@ -1399,7 +1396,6 @@ public class SimulatorNode extends TaskNode
     } catch (IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
-    ;
     try {
       outScheduler.write("#Simulator scheduler data file\n");
       outScheduler.write(
@@ -1444,7 +1440,6 @@ public class SimulatorNode extends TaskNode
     } catch (IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
-    ;
     if (obj != null) {
       LinkedList<CommandDescriptor> castedObj = (LinkedList<CommandDescriptor>) obj;
       for (CommandDescriptor c : castedObj) {

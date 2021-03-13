@@ -78,7 +78,7 @@ public class ESASimulator extends GenericSimulator {
           while ((line = in.readLine()) != null) {
 
             if (line.startsWith("#")) {
-              ;// comment line
+                // comment line
             } else {
               String split[] = line.split("=");
               if (split.length == 2) {

@@ -21,10 +21,8 @@
 package esa.mo.mc.impl.provider;
 
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
 
 /**
