@@ -15,6 +15,6 @@ public interface QueryStatusProvider {
    * @return true if the query is finished ((response or any error message received), false
    *         otherwise.
    */
-  public boolean isQueryOver();
+  boolean isQueryOver();
 
 }

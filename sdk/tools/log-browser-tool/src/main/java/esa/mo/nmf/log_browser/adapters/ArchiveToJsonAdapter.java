@@ -70,7 +70,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
    */
   public ArchiveToJsonAdapter(String jsonFilePath) {
     gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    archiveObjects = new HashMap<String, HashMap<String, ArrayList<CleanCOMArchiveObject>>>();
+    archiveObjects = new HashMap<>();
     this.jsonFilePath = jsonFilePath;
   }
 
@@ -88,15 +88,11 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
 
     // Group objects by domain ...
     String domainKey = HelperMisc.domain2domainId(archiveObjectOutput.getDomain());
-    if (!archiveObjects.containsKey(domainKey)) {
-      archiveObjects.put(domainKey, new HashMap<String, ArrayList<CleanCOMArchiveObject>>());
-    }
+    archiveObjects.computeIfAbsent(domainKey, k -> new HashMap<>());
 
     // ... and by COM object type
     String comTypeKey = HelperCOM.objType2string(comType).replace(" - ", ".").replace(": ", ".");
-    if (!archiveObjects.get(domainKey).containsKey(comTypeKey)) {
-      archiveObjects.get(domainKey).put(comTypeKey, new ArrayList<CleanCOMArchiveObject>());
-    }
+    archiveObjects.get(domainKey).computeIfAbsent(comTypeKey, k -> new ArrayList<>());
 
     for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
       Object malObject = archiveObjectOutput.getObjectBodies() == null ? null

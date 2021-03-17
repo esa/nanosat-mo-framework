@@ -120,7 +120,6 @@ public class CommandsImplementations {
     }
   }
 
-
   /**
    * Dumps to a JSON file the formatted content of a local or remote COM archive.
    *
@@ -312,8 +311,8 @@ public class CommandsImplementations {
   }
 
   /**
-   * Search a COM archive provider content to find the ObjectId of an App of the
-   * CommandExecutor service of the SoftwareManagement.
+   * Search a COM archive provider content to find the ObjectId of an App of the CommandExecutor
+   * service of the SoftwareManagement.
    *
    * @param centralDirectoryServiceURI URI of the central directory to use
    * @param appName Name of the NMF app we want the logs for
