@@ -70,7 +70,6 @@ public class CentralDirectoryHelper {
       }
     } catch (MALInteractionException | MALException | MalformedURLException e) {
       LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
-
     } finally {
       if (centralDirectory != null) {
         centralDirectory.closeConnection();
@@ -124,7 +123,6 @@ public class CentralDirectoryHelper {
       }
     } catch (MALInteractionException | MALException | MalformedURLException e) {
       LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
-
     } finally {
       if (centralDirectory != null) {
         centralDirectory.closeConnection();
