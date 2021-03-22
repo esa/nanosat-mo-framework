@@ -40,7 +40,8 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
   {
     String nmeaLog = "";
     try {
-      nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGGALONG\r\n").trim());
+      String fullNmeaResponse = this.getNMEASentence("LOG GPGGALONG\r\n");
+      nmeaLog = HelperGPS.sanitizeNMEALog(fullNmeaResponse.trim());
       if (!nmeaLog.startsWith("$GPGGA")) {
         LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
       } else {
@@ -50,8 +51,8 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
       LOGGER.log(Level.SEVERE,
           "Number format exception! The gpggalong string is: " + nmeaLog, ex1);
     } catch (IOException ex) {
-      LOGGER.log(Level.SEVERE,
-          "The current position could not be retrieved!", ex);
+      LOGGER.log(Level.FINE,
+          "The current position could not be retrieved! The receiver is likely offline.", ex);
     }
 
     return null;
