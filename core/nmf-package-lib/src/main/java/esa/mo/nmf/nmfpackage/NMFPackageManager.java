@@ -21,7 +21,9 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
+import esa.mo.sm.impl.util.OSValidator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -51,20 +53,21 @@ public class NMFPackageManager {
 
     private static final String DEFAULT_FOLDER_RECEIPT = "installation_receipts";
 
-    public static void install(final String packageLocation, 
-            final File installationFolder) throws FileNotFoundException, IOException {
+    public static void install(final String packageLocation,
+            final File nmfDir) throws FileNotFoundException, IOException {
         // Get the File to be installed
         ZipFile zipFile = new ZipFile(packageLocation);
         ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
 
         // Verify integrity of the file: Are all the declared files matching their CRCs?
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Reading the receipt file that includes the list of files to be installed...");
+        System.out.print("Reading the receipt file that "
+                + "includes the list of files to be installed...  ");
 
         // Get the text out of that file and parse it into a NMFPackageDescriptor object
         final InputStream stream = zipFile.getInputStream(receipt);
         final NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseInputStream(stream);
         stream.close();
+        System.out.println("Done!");
 
         // Safety check... should never happen...
         if (descriptor == null) {
@@ -72,8 +75,7 @@ public class NMFPackageManager {
         }
 
         // Verify integrity of the file: Are all the declared files matching their CRCs?
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Verifying the integrity of the files to be installed...");
+        System.out.print("Verifying the integrity of the files to be installed...  ");
 
         // Do the files actually match the descriptor?
         for (int i = 0; i < descriptor.getFiles().size(); i++) {
@@ -90,17 +92,57 @@ public class NMFPackageManager {
             }
         }
 
+        System.out.println("Done!");
+
         // Copy the files according to the NMF statement file
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Copying the files to the new locations...");
+                "Copying the files to the new locations...  ");
 
-        installFiles(descriptor, zipFile, installationFolder);
+        copyFiles(descriptor, zipFile, nmfDir);
 
+        boolean isUnix = (new OSValidator()).isUnix();
+        NMFPackageDetails details = descriptor.getDetails();
+        String mainclass = details.getMainclass();
+
+        if (isUnix) {
+            // If Unix, then generate start_app.sh file
+            String jarName = details.getPackageName() + "-" + details.getVersion() + ".jar";
+            String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass, jarName);
+            String path = nmfDir.getAbsolutePath()
+                    + File.separator + "apps"
+                    + File.separator + details.getPackageName()
+                    + File.separator + "start_app.sh";
+
+            NMFPackageManager.writeFile(path, content);
+
+            /*
+            this.System.out.println(" >> Creating file on: " + path);
+
+            try (FileWriter writer = new FileWriter(path)) {
+                writer.write(content);
+                writer.flush();
+                writer.close();
+            } catch (IOException e) {
+                // Handle the exception
+            }
+             */
+            // We need also to create the user+group for this app
+            // To be done...
+        }
+
+        String providerPath = nmfDir.getAbsolutePath()
+                + File.separator + "apps"
+                + File.separator + details.getPackageName()
+                + File.separator + "provider.properties";
+
+        String providerContent = HelperNMFPackage.generateProviderProperties();
+        NMFPackageManager.writeFile(providerPath, providerContent);
+        
         // ---------------------------------------
         // Store a copy of the receipt to know that it has been installed!
         // Default location of the folder
         File receiptsFolder = getReceiptsFolder();
-        String receiptFilename = descriptor.getDetails().getPackageName() + NMFPackageManager.RECEIPT_ENDING;
+        String receiptFilename = details.getPackageName() + NMFPackageManager.RECEIPT_ENDING;
         File receiptFile = new File(receiptsFolder.getCanonicalPath() + File.separator + receiptFilename);
 
         //create the file otherwise we get FileNotFoundException
@@ -119,12 +161,12 @@ public class NMFPackageManager {
         fos.close();
         zis.close();
         // ---------------------------------------
-        
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, 
+
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully installed from location: {0}", packageLocation);
     }
 
-    public static void uninstall(final String packageLocation, final boolean keepConfigurations) throws IOException {
+    public static void uninstall(final String packageLocation, final boolean keepUserData) throws IOException {
         // Get the Package to be uninstalled
         ZipFile zipFile = new ZipFile(packageLocation);
         ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
@@ -163,7 +205,7 @@ public class NMFPackageManager {
                 "Package successfully uninstalled from location: " + packageLocation);
     }
 
-    public static void upgrade(final String packageLocation, final File installationFolder) throws IOException {
+    public static void upgrade(final String packageLocation, final File nmfDir) throws IOException {
         // Get the Package to be uninstalled
         ZipFile zipFile = new ZipFile(packageLocation);
         ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
@@ -208,7 +250,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the new files to the locations...");
 
-        installFiles(descriptor, zipFile, installationFolder);
+        copyFiles(descriptor, zipFile, nmfDir);
 
         // ---------------------------------------
         // Store a copy of the receipt to know that it has been installed!
@@ -361,7 +403,7 @@ public class NMFPackageManager {
         return out2;
     }
 
-    private static void installFiles(final NMFPackageDescriptor descriptor,
+    private static void copyFiles(final NMFPackageDescriptor descriptor,
             final ZipFile zipFile, File installationFolder) throws IOException {
         File newFile;
         byte[] buffer = new byte[1024];
@@ -395,19 +437,6 @@ public class NMFPackageManager {
             if (file.getCRC() != crc) {
                 throw new IOException("The CRC does not match!");
             }
-        }
-        
-        // Generate start_app.sh file...
-        String mainclass = descriptor.getDetails().getMainclass();
-        String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass);
-        String path = installationFolder.getAbsolutePath() + File.separator + "start_app.sh";
-        System.out.println(" >> Installing file: " + path);
-        
-        try(FileWriter writer = new FileWriter(path)) {
-            writer.write(content); 
-        }
-        catch(IOException e){
-            // Handle the exception
         }
     }
 
@@ -459,4 +488,17 @@ public class NMFPackageManager {
 
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    private static void writeFile(String path, String content) {
+        System.out.println(" >> Creating file on: " + path);
+
+        try (FileWriter writer = new FileWriter(path)) {
+            writer.write(content);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            // Handle the exception
+        }
+    }
+
 }

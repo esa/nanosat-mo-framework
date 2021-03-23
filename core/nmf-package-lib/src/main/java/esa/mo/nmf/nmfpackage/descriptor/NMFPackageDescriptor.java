@@ -29,8 +29,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -64,12 +62,11 @@ public class NMFPackageDescriptor {
      * @param stream The input stream of the file.
      * @return The descriptor of the NMF Package.
      */
-    public static NMFPackageDescriptor parseInputStream(final InputStream stream) {
+    public static NMFPackageDescriptor parseInputStream(final InputStream stream) throws IOException {
         NMFPackageDescriptor newDescriptor = null;
         InputStreamReader isr = new InputStreamReader(stream, Charset.forName("UTF-8"));
         BufferedReader br = new BufferedReader(isr);
 
-        try {
             String line = br.readLine(); // Reads the first line!
 
             if (line != null) {
@@ -77,7 +74,7 @@ public class NMFPackageDescriptor {
                 // Check the version of the Installation procedure
                 if (line.startsWith(line)) {
                     int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
-                    version = line.substring(length);
+                    version = line.substring(length).trim();
                 } else {
                     throw new IOException("Could not read the NMF Package Descriptor version!");
                 }
@@ -96,10 +93,6 @@ public class NMFPackageDescriptor {
             }
 
             br.close();
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackageDescriptor.class.getName()).log(
-                    Level.SEVERE, "An error happened!", ex);
-        }
 
         return newDescriptor;
     }
