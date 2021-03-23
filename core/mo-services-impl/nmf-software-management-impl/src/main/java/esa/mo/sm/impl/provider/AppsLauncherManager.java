@@ -45,11 +45,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.exec.environment.EnvironmentUtils;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
@@ -584,19 +582,19 @@ public class AppsLauncherManager extends DefinitionsManager
         AppsLauncherHelper.APP_OBJECT_TYPE);
     try { // Subscribe to events
       EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnection);
-      Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.FINE,
+      Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.FINE,
           "Connected to: {0}", appConnection.toString());
       listener = new ClosingAppListener(interaction, eventServiceConsumer,
           appInstId);
       eventServiceConsumer.addEventReceivedListener(eventSub, listener);
     } catch (MalformedURLException ex) {
-      Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.SEVERE,
+      Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
           "Could not connect to the app!");
     }
 
     // Stop the app...
     ObjectType objType = AppsLauncherHelper.STOPAPP_OBJECT_TYPE;
-    Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO,
+    Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
         "Sending event to app: {0} (Name: ''{1}'')", new Object[]{appInstId, appDirectoryServiceName});
     this.setRunning(appInstId, false, interaction.getInteraction());
     ObjectId eventSource

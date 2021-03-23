@@ -35,7 +35,7 @@ public interface PMBackend {
 
     void install(final String packageName);
 
-    void uninstall(final String packageName, final boolean keepConfigurations);
+    void uninstall(final String packageName, final boolean keepUserData);
 
     void upgrade(final String packageName);
     
