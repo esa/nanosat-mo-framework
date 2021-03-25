@@ -47,7 +47,7 @@ In short, you will need to: clone a repository, change some configuration files,
 
 .. code-block:: xml
    :linenos:
-   :emphasize-lines: 11
+   :emphasize-lines: 6
 
    <target name="copyExp">
      <copy todir="${esa.nmf.mission.opssat.assembly.outputdir}/experimenter-package/home/exp${expId}/">
