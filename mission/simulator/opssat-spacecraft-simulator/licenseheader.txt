@@ -9,7 +9,7 @@ ${licensePrefix}                         Germany
 ${licensePrefix} ----------------------------------------------------------------------------
 ${licensePrefix} System                : ESA NanoSat MO Framework
 ${licensePrefix} ----------------------------------------------------------------------------
-${licensePrefix} Licensed under the European Space Agency Public License, Version 2.0
+${licensePrefix} Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
 ${licensePrefix} You may not use this file except in compliance with the License.
 ${licensePrefix}
 ${licensePrefix} Except as expressly set forth in this License, the Software is provided to
