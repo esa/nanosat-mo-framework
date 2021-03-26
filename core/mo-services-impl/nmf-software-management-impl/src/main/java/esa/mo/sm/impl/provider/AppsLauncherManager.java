@@ -494,7 +494,7 @@ public class AppsLauncherManager extends DefinitionsManager
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
     LOGGER.log(Level.INFO,
-        "Killing {0} app in.", app.getName().getValue());
+        "Killing app: {0}", app.getName().getValue());
     ProcessExecutionHandler handler = handlers.get(appInstId);
 
     if (handler == null) {
