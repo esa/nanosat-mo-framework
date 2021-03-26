@@ -32,6 +32,7 @@ import java.io.File;
  * their files:
  * <ul>
  * <li>cache</li>
+ * <li>nmf-internal</li>
  * <li>user-data</li>
  * </ul>
  *
@@ -44,28 +45,46 @@ public class AppStorage {
 
     private final static String FOLDER_APPS = "nmf-apps";
 
-    private final static String FOLDER_USERDATA = "user-data";
+    private final static String FOLDER_USER_NMF_DIR = "." + FOLDER_APPS;
 
     private final static String FOLDER_CACHE = "cache";
 
-    private final static String FOLDER_APP_INTERNAL = "app-internal";
+    private final static String FOLDER_NMF_INTERNAL = "nmf-internal";
 
-    private final static String FOLDER_USER_NMF_DIR = "." + FOLDER_APPS;
-
-    private final static String FOLDER_PACKAGES = "packages";
-    private final static String FOLDER_USER_DATABASES = "databases";
-    private final static String FOLDER_NMF = "nmf";
+    private final static String FOLDER_USERDATA = "user-data";
 
     /**
-     * Returns the absolute path to the main directory of this App. The use of
-     * this folder is discouraged. The developer should use the User Data
-     * directory or the cache directory to store files.
+     * Returns the absolute path to the application-specific Cache directory.
      *
-     * @return The main directory for this App.
+     * The system might automatically delete files in this directory as disk
+     * space is needed elsewhere on the device. The returned path may change
+     * over time if the calling app is moved to an external storage device.
+     *
+     * Apps require no extra permissions to read or write to the returned path,
+     * since this path lives in their private storage.
+     *
+     * @return The cache directory for this app.
      */
-    @Deprecated
-    public static File getAppMainDir() {
+    public static File getAppCacheDir() {
         StringBuilder path = pathToUserAppDir();
+        path.append(FOLDER_CACHE);
+
+        // Create it if it does not exist...
+        File directory = new File(path.toString());
+        AppStorage.mkDirAndSetPermissions(directory);
+        return directory;
+    }
+
+    /**
+     * Returns the absolute path to the application-specific NMF internal data
+     * directory. This directory is used my the NMF, App developers are advised
+     * to not touch the files in this directory.
+     *
+     * @return The NMF internal data directory for this app.
+     */
+    public static File getAppNMFInternalDir() {
+        StringBuilder path = pathToUserAppDir();
+        path.append(FOLDER_NMF_INTERNAL);
 
         // Create it if it does not exist...
         File directory = new File(path.toString());
@@ -88,28 +107,6 @@ public class AppStorage {
     public static File getAppUserdataDir() {
         StringBuilder path = pathToUserAppDir();
         path.append(FOLDER_USERDATA);
-
-        // Create it if it does not exist...
-        File directory = new File(path.toString());
-        AppStorage.mkDirAndSetPermissions(directory);
-        return directory;
-    }
-
-    /**
-     * Returns the absolute path to the application-specific Cache directory.
-     *
-     * The system might automatically delete files in this directory as disk
-     * space is needed elsewhere on the device. The returned path may change
-     * over time if the calling app is moved to an external storage device.
-     *
-     * Apps require no extra permissions to read or write to the returned path,
-     * since this path lives in their private storage.
-     *
-     * @return The cache directory for this app.
-     */
-    public static File getAppCacheDir() {
-        StringBuilder path = pathToUserAppDir();
-        path.append(FOLDER_CACHE);
 
         // Create it if it does not exist...
         File directory = new File(path.toString());
