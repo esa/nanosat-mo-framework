@@ -58,7 +58,6 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     private boolean initialiased = false;
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private COMServicesProvider comServices;
     private PMBackend backend;
 
     /**
@@ -86,7 +85,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, 
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -97,7 +97,6 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         }
 
-        this.comServices = comServices;
         this.backend = backend;
 
         // shut down old service transport
@@ -178,7 +177,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             outList.setBodyElement0(packages); // ObjIds
             outList.setBodyElement1(installed); // Installed?
         } catch (IOException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.SEVERE, "The list of packages could not be retrieved!", ex);
 
             // Just return empty lists
             outList.setBodyElement0(new IdentifierList());
@@ -272,32 +272,44 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     unkIndexList.add(new UInteger(i));
                 }
 
-                if (backend.isPackageInstalled(names.get(i).getValue())) {
+                if (!backend.isPackageInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
+                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                        Level.SEVERE, "The package is not installed!");
+                    continue;
                 }
 
                 // Throw error if already installed!
                 // Before installing, we need to check the package integrity!
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
 
-                // The installation cannot go forward here if the integrity is false!
+                if (!integrity) {
+                    invIndexList.add(new UInteger(i));
+                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                        Level.SEVERE, "The integrity of the package is bad!");
+                }
             }
         } catch (IOException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.SEVERE, "The list of packages could not be retrieved!", ex);
         }
 
         // Errors
         if (!unkIndexList.isEmpty()) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.SEVERE, "Unknown error triggered!");
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         if (!invIndexList.isEmpty()) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.SEVERE, "Invalid error triggered!");
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         for (Identifier packageName : names) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO,
-                    "Uninstalling: {0}", packageName.getValue());
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.INFO, "Uninstalling: {0}", packageName.getValue());
 
             backend.uninstall(packageName.getValue(), true);
         }
@@ -352,8 +364,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         for (Identifier packageName : names) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO,
-                    "Upgrading: {0}", packageName.getValue());
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.INFO, "Upgrading: {0}", packageName.getValue());
 
             backend.upgrade(packageName.getValue());
         }

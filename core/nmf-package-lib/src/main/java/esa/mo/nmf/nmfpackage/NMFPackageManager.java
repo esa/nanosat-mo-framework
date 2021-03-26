@@ -94,50 +94,55 @@ public class NMFPackageManager {
 
         System.out.println("Done!");
 
+        // We can do additional checks... for example: 
+        //      1. Are we trying to install more than one App?
+        //      2. Does the app name on the package matches the folder name?
+        // --------------------------------------------------------------------
+        NMFPackageDetails details = descriptor.getDetails();
+        String mainclass = details.getMainclass();
+
+        // This directory should be passed in the method signature:
+        File installationDir = new File(nmfDir.getAbsolutePath()
+                + File.separator + "apps"
+                + File.separator + details.getPackageName());
+
         // Copy the files according to the NMF statement file
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the files to the new locations...  ");
 
         copyFiles(descriptor, zipFile, nmfDir);
 
-        boolean isUnix = (new OSValidator()).isUnix();
-        NMFPackageDetails details = descriptor.getDetails();
-        String mainclass = details.getMainclass();
-
-        if (isUnix) {
-            // If Unix, then generate start_app.sh file
-            String jarName = details.getPackageName() + "-" + details.getVersion() + ".jar";
-            String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass, jarName);
-            String path = nmfDir.getAbsolutePath()
-                    + File.separator + "apps"
-                    + File.separator + details.getPackageName()
-                    + File.separator + "start_app.sh";
-
-            NMFPackageManager.writeFile(path, content);
-
-            /*
-            this.System.out.println(" >> Creating file on: " + path);
-
-            try (FileWriter writer = new FileWriter(path)) {
-                writer.write(content);
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                // Handle the exception
-            }
-             */
-            // We need also to create the user+group for this app
-            // To be done...
-        }
-
-        String providerPath = nmfDir.getAbsolutePath()
-                + File.separator + "apps"
-                + File.separator + details.getPackageName()
+        String providerPath = installationDir.getAbsolutePath()
                 + File.separator + "provider.properties";
 
         String providerContent = HelperNMFPackage.generateProviderProperties();
         NMFPackageManager.writeFile(providerPath, providerContent);
         
+        boolean isUnix = (new OSValidator()).isUnix();
+
+        if (isUnix) {
+            // Create the Group for this App
+            String userName = "app-" + details.getPackageName();
+            String password = "123456";
+            boolean withGroup = true;
+            LinuxUsersGroups.createUser(userName, password, withGroup);
+            String groupName = userName;
+            
+            // useradd $user_nmf_admin -m -s /bin/bash --user-group
+            // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
+
+            // ------------
+            String jarName = details.getPackageName() + "-" + details.getVersion() + ".jar";
+            String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass, jarName);
+            String path = installationDir.getAbsolutePath()
+                    + File.separator + "start_" + details.getPackageName() + ".sh";
+
+            NMFPackageManager.writeFile(path, content);
+            File startApp = new File(path);
+            startApp.setExecutable(true, true);
+            LinuxUsersGroups.setGroup(startApp, groupName);
+        }
+
         // ---------------------------------------
         // Store a copy of the receipt to know that it has been installed!
         // Default location of the folder
@@ -282,6 +287,8 @@ public class NMFPackageManager {
      * @return If it is installed or not.
      */
     public static boolean isPackageInstalled(final String packageLocation) {
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+            "Verifying if the package is installed...");
         // Find the receipt and get it out of the package
         ZipFile zipFile;
         try {
@@ -304,7 +311,8 @@ public class NMFPackageManager {
             crcDescriptorFromPackage = HelperNMFPackage.calculateCRCFromInputStream(zis);
             zis.close();
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, 
+                    "There was a problem while determining the CRCs!", ex);
             return false;
         }
 
@@ -314,7 +322,8 @@ public class NMFPackageManager {
         try {
             receiptFile = new File(temp.getCanonicalPath() + File.separator + receiptFilename);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, 
+                    "Something is wrong with the receipt file!", ex);
             return false;
         }
 
@@ -353,6 +362,8 @@ public class NMFPackageManager {
         // Compare the versions
         String version = descriptorFromExistingReceipt.getDetails().getVersion();
         if (!descriptorFromPackage.getDetails().getVersion().equals(version)) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "The version does not match!");
             return false;
         }
 
@@ -364,10 +375,10 @@ public class NMFPackageManager {
             return false;
         }
 
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "The package "
                 + descriptorFromPackage.getDetails().getPackageName()
-                + " is installed!");
+                + " installation folder was found!");
 
         return true;
     }
@@ -387,7 +398,8 @@ public class NMFPackageManager {
     @Deprecated
     private static File getInstallationFolder() {
         // Default location of the folder
-        File folder = new File(".." + File.separator + ".." + File.separator);
+//        File folder = new File(".." + File.separator + ".." + File.separator);
+        File folder = new File("");
 
         // Read the Property of the folder to install the packages
         if (System.getProperty(INSTALLATION_FOLDER_PROPERTY) != null) {
@@ -415,9 +427,13 @@ public class NMFPackageManager {
 
             final String path = generateFilePathForSystem(entry.getName());
             newFile = new File(installationFolder.getCanonicalPath() + File.separator + path);
-            new File(newFile.getParent()).mkdirs();
+            File parent = new File(newFile.getParent());
 
-            System.out.println(" >> Installing file: " + newFile.getCanonicalPath());
+            if(!parent.exists()){
+                new File(newFile.getParent()).mkdirs();
+            }
+
+            System.out.println("   >> Copying file to: " + newFile.getCanonicalPath());
 
             final FileOutputStream fos = new FileOutputStream(newFile);
 
@@ -450,12 +466,14 @@ public class NMFPackageManager {
 
             final String path = generateFilePathForSystem(packageFile.getPath());
             file = new File(folder.getCanonicalPath() + File.separator + path);
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
+                        "Removing the file: " + file.getCanonicalPath());
 
             if (!file.exists()) {
                 Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
                         "The file no longer exists: " + file.getCanonicalPath());
             } else {
-                // The file exists!
+                // The file exists...
 
                 // Check the CRC
                 long crc = HelperNMFPackage.calculateCRCFromFile(file.getCanonicalPath());
@@ -490,7 +508,7 @@ public class NMFPackageManager {
     }
 
     private static void writeFile(String path, String content) {
-        System.out.println(" >> Creating file on: " + path);
+        System.out.println("   >> Creating file on: " + path);
 
         try (FileWriter writer = new FileWriter(path)) {
             writer.write(content);
