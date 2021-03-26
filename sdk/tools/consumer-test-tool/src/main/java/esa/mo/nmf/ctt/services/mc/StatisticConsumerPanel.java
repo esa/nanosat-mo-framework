@@ -121,7 +121,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Statistic Service");
+        jLabel6.setText("Statistic Service - Definitions");
         jLabel6.setToolTipText("");
 
         jScrollPane2.setHorizontalScrollBar(null);
@@ -130,7 +130,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
         actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, Boolean.TRUE, null},
+                {null, null, null, null, null,  new Boolean(true), null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
