@@ -1,1 +1,1 @@
-java -classpath "target/adcs-eds-2.0.0-SNAPSHOT-jar-with-dependencies.jar;lib/*" esa.mo.nmf.apps.ADCSApp
+java -classpath "target/adcs-eds-2.1.0-SNAPSHOT-jar-with-dependencies.jar;lib/*" esa.mo.nmf.apps.ADCSApp
