@@ -27,7 +27,7 @@ In short, you will need to: clone a repository, change some configuration files,
      <isExp>true</isExp>
      <expId>000</expId>
      <expApid>1024</expApid>
-     <expVersion>2.0.0-SNAPSHOT</expVersion>
+     <expVersion>2.0.0</expVersion>
    </properties>
    <dependencies>
      <dependency>
