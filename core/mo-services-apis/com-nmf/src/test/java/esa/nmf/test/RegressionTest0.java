@@ -13316,7 +13316,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.com.COMObject[] cOMObjectArray67 = cOMService66.getObjects();
         int int68 = floatList24.indexOf((java.lang.Object) cOMService66);
         int int69 = longList2.lastIndexOf((java.lang.Object) floatList24);
-        org.ccsds.moims.mo.mal.structures.Blob blob71 = new org.ccsds.moims.mo.mal.structures.Blob("[]");
+        org.ccsds.moims.mo.mal.structures.Blob blob71 = new org.ccsds.moims.mo.mal.structures.Blob("[]".getBytes());
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = blob71.getServiceNumber();
         int int73 = longList2.lastIndexOf((java.lang.Object) uShort72);
         org.junit.Assert.assertNotNull(longArray1);

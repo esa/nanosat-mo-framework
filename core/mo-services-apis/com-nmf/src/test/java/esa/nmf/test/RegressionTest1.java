@@ -9291,7 +9291,7 @@ public class RegressionTest1 {
         int int76 = floatList32.indexOf((java.lang.Object) cOMService74);
         int int77 = longList10.lastIndexOf((java.lang.Object) floatList32);
         int int78 = floatList32.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob80 = new org.ccsds.moims.mo.mal.structures.Blob("[0, 1]");
+        org.ccsds.moims.mo.mal.structures.Blob blob80 = new org.ccsds.moims.mo.mal.structures.Blob("[0, 1]".getBytes());
         blob80.detach();
         boolean boolean82 = floatList32.contains((java.lang.Object) blob80);
         int int83 = floatList32.size();
@@ -12832,7 +12832,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.com.COMObject cOMObject44 = cOMService25.getObjectByName(identifier38);
         boolean boolean45 = byteList3.remove((java.lang.Object) cOMService25);
         org.ccsds.moims.mo.com.COMObject[] cOMObjectArray46 = cOMService25.getObjects();
-        org.ccsds.moims.mo.mal.structures.Blob blob48 = new org.ccsds.moims.mo.mal.structures.Blob("[1, 0, -1]");
+        org.ccsds.moims.mo.mal.structures.Blob blob48 = new org.ccsds.moims.mo.mal.structures.Blob("[1, 0, -1]".getBytes());
         org.ccsds.moims.mo.mal.structures.UShort uShort49 = blob48.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.StringList stringList50 = new org.ccsds.moims.mo.mal.structures.StringList();
         int int51 = stringList50.size();

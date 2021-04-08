@@ -11459,7 +11459,7 @@ public class RegressionTest2 {
         doubleList2.ensureCapacity((-1));
         doubleList2.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream15 = doubleList2.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob17 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob17 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int18 = doubleList2.lastIndexOf((java.lang.Object) blob17);
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = blob17.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort20 = blob17.getAreaNumber();
@@ -14498,7 +14498,7 @@ public class RegressionTest2 {
         doubleList16.ensureCapacity((-1));
         doubleList16.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream29 = doubleList16.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob31 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob31 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int32 = doubleList16.lastIndexOf((java.lang.Object) blob31);
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList34 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
@@ -14708,7 +14708,7 @@ public class RegressionTest2 {
         doubleList6.ensureCapacity((-1));
         doubleList6.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream19 = doubleList6.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob21 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob21 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int22 = doubleList6.lastIndexOf((java.lang.Object) blob21);
         org.ccsds.moims.mo.mal.structures.UShort uShort23 = blob21.getAreaNumber();
         try {
@@ -16841,7 +16841,7 @@ public class RegressionTest2 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();

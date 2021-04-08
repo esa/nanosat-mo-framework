@@ -13,3 +13,4 @@
 **/.vscode
 **/build/
 **/.factorypath
+**/centralDirectoryService.uri

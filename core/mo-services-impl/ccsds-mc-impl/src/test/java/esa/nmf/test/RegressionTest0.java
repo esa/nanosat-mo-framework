@@ -2787,7 +2787,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element1 = longList0.createElement();
         java.lang.Integer int2 = longList0.getTypeShortForm();
         int int3 = longList0.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double6 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob5);
         int int7 = longList0.lastIndexOf((java.lang.Object) blob5);
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = longList0.getServiceNumber();
@@ -4155,7 +4155,7 @@ public class RegressionTest0 {
         java.lang.String str20 = intList9.toString();
         int int21 = intList9.size();
         boolean boolean23 = intList9.add((java.lang.Integer) 18);
-        org.ccsds.moims.mo.mal.structures.Blob blob25 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob25 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double26 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob25);
         int int27 = intList9.lastIndexOf((java.lang.Object) double26);
         org.junit.Assert.assertNotNull(intArray8);
@@ -5883,7 +5883,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element1 = longList0.createElement();
         java.lang.Integer int2 = longList0.getTypeShortForm();
         int int3 = longList0.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double6 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob5);
         int int7 = longList0.lastIndexOf((java.lang.Object) blob5);
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = longList0.getServiceNumber();
@@ -7054,7 +7054,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element1 = longList0.createElement();
         java.lang.Integer int2 = longList0.getTypeShortForm();
         int int3 = longList0.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double6 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob5);
         int int7 = longList0.lastIndexOf((java.lang.Object) blob5);
         try {
@@ -7191,7 +7191,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element1 = longList0.createElement();
         java.lang.Integer int2 = longList0.getTypeShortForm();
         int int3 = longList0.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double6 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob5);
         int int7 = longList0.lastIndexOf((java.lang.Object) blob5);
         longList0.ensureCapacity(100);
@@ -12005,7 +12005,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element18 = longList17.createElement();
         java.lang.Integer int19 = longList17.getTypeShortForm();
         int int20 = longList17.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob22 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob22 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double23 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob22);
         int int24 = longList17.lastIndexOf((java.lang.Object) blob22);
         org.ccsds.moims.mo.mal.structures.UShort uShort25 = longList17.getServiceNumber();
@@ -12651,7 +12651,7 @@ public class RegressionTest0 {
     public void test393() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test393");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[4, 18, 18, 100, -18, 18, -18, -1]");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[4, 18, 18, 100, -18, 18, -18, -1]".getBytes());
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = blob1.getAreaVersion();
         double double3 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob1);
         org.junit.Assert.assertNotNull(uOctet2);
@@ -12674,7 +12674,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element1 = longList0.createElement();
         java.lang.Integer int2 = longList0.getTypeShortForm();
         int int3 = longList0.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double6 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob5);
         int int7 = longList0.lastIndexOf((java.lang.Object) blob5);
         boolean boolean8 = longList0.isEmpty();
@@ -12721,7 +12721,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element1 = longList0.createElement();
         java.lang.Integer int2 = longList0.getTypeShortForm();
         int int3 = longList0.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double6 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob5);
         int int7 = longList0.lastIndexOf((java.lang.Object) blob5);
         longList0.ensureCapacity(100);
@@ -13649,7 +13649,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element1 = longList0.createElement();
         java.lang.Integer int2 = longList0.getTypeShortForm();
         int int3 = longList0.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double6 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob5);
         int int7 = longList0.lastIndexOf((java.lang.Object) blob5);
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = longList0.getServiceNumber();
@@ -13904,7 +13904,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element1 = longList0.createElement();
         java.lang.Integer int2 = longList0.getTypeShortForm();
         int int3 = longList0.size();
-        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]");
+        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("[1.0, 1.0]".getBytes());
         double double6 = esa.mo.mc.impl.util.MCServicesHelper.getDouble((org.ccsds.moims.mo.mal.structures.Attribute) blob5);
         int int7 = longList0.lastIndexOf((java.lang.Object) blob5);
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = longList0.getServiceNumber();
