@@ -270,7 +270,7 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration combine.self="override">
           <skipAssembly>${esa.nmf.sdk.assembly.quickbuild}</skipAssembly>
-          <finalName>nmf-sdk-${project.version}</finalName>
+          <finalName>nmf-sdk-${git.commit.id.describe}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/zip.xml</descriptor>
@@ -355,6 +355,27 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>4.0.4</version>
+        <executions>
+            <execution>
+                <id>get-the-git-infos</id>
+                <goals>
+                    <goal>revision</goal>
+                </goals>
+                <phase>initialize</phase>
+            </execution>
+        </executions>
+        <configuration>
+            <commitIdGenerationMode>full</commitIdGenerationMode>
+            <gitDescribe>
+              <tags>true</tags>
+              <forceLongFormat>true</forceLongFormat>
+            </gitDescribe>
+        </configuration>
       </plugin>
     </plugins>
     <pluginManagement>
