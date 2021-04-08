@@ -7319,7 +7319,7 @@ public class RegressionTest5 {
     public void test2651() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2651");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("18446744073709551615");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("18446744073709551615".getBytes());
         org.ccsds.moims.mo.mal.structures.Element element2 = blob1.createElement();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = blob1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = blob1.getAreaNumber();
@@ -7344,7 +7344,7 @@ public class RegressionTest5 {
         org.junit.Assert.assertNotNull(uOctet3);
         org.junit.Assert.assertNotNull(uShort4);
         org.junit.Assert.assertNotNull(uShort5);
-        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 0 + "'", int6 == 0);
+        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 20 + "'", int6 == 20);
         org.junit.Assert.assertTrue("'" + int8 + "' != '" + (-18) + "'", int8.equals((-18)));
         org.junit.Assert.assertTrue("'" + int9 + "' != '" + (-18) + "'", int9.equals((-18)));
         org.junit.Assert.assertNotNull(obj10);
@@ -10731,7 +10731,7 @@ public class RegressionTest5 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -12415,7 +12415,7 @@ public class RegressionTest5 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -13627,7 +13627,7 @@ public class RegressionTest5 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();

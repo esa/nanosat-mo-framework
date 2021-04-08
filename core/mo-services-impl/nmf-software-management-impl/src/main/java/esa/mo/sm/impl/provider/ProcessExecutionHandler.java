@@ -132,10 +132,14 @@ public class ProcessExecutionHandler
       {
         try {
           int exitCode = process.waitFor();
-          cb.processStopped(objId, exitCode);
+          if (cb != null) {
+            cb.processStopped(objId, exitCode);
+          }
         } catch (InterruptedException ex) {
           // Thread interrupted, pretend the application exited succesfully
-          cb.processStopped(objId, 0);
+          if (cb != null) {
+            cb.processStopped(objId, 0);
+          }
         }
       }
     }.start();

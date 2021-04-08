@@ -5543,7 +5543,7 @@ public class RegressionTest3 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -8717,7 +8717,7 @@ public class RegressionTest3 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -12169,7 +12169,7 @@ public class RegressionTest3 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();

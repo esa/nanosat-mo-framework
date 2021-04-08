@@ -1214,7 +1214,7 @@ public class RegressionTest2 {
         org.ccsds.moims.mo.mal.structures.UShort uShort35 = octetList33.getAreaNumber();
         octetList33.clear();
         octetList33.ensureCapacity((int) 'a');
-        org.ccsds.moims.mo.mal.structures.Blob blob40 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid");
+        org.ccsds.moims.mo.mal.structures.Blob blob40 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid".getBytes());
         int int41 = blob40.getLength();
         int int42 = octetList33.indexOf((java.lang.Object) int41);
         java.lang.Integer int43 = octetList33.getTypeShortForm();
@@ -1262,7 +1262,7 @@ public class RegressionTest2 {
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
         org.junit.Assert.assertNotNull(byteStream34);
         org.junit.Assert.assertNotNull(uShort35);
-        org.junit.Assert.assertTrue("'" + int41 + "' != '" + 0 + "'", int41 == 0);
+        org.junit.Assert.assertTrue("'" + int41 + "' != '" + 30 + "'", int41 == 30);
         org.junit.Assert.assertTrue("'" + int42 + "' != '" + (-1) + "'", int42 == (-1));
         org.junit.Assert.assertTrue("'" + int43 + "' != '" + (-7) + "'", int43.equals((-7)));
         org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + false + "'", boolean44 == false);
@@ -5017,11 +5017,11 @@ public class RegressionTest2 {
     public void test1101() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest2.test1101");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[, _Domain, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[, _Domain, ]".getBytes());
         try {
             java.io.Serializable serializable2 = esa.mo.helpertools.helpers.HelperAttributes.blobAttribute2serialObject(blob1);
-            org.junit.Assert.fail("Expected exception of type java.io.EOFException; message: null");
-        } catch (java.io.EOFException e) {
+            org.junit.Assert.fail("Expected exception of type java.io.StreamCorruptedException");
+        } catch (java.io.StreamCorruptedException e) {
         }
     }
 
@@ -6723,15 +6723,10 @@ public class RegressionTest2 {
     public void test1137() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest2.test1137");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid".getBytes());
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = blob1.getAreaNumber();
         java.lang.Long long3 = blob1.getShortForm();
         java.lang.Integer int4 = blob1.getTypeShortForm();
-        try {
-            java.io.Serializable serializable5 = esa.mo.helpertools.helpers.HelperAttributes.blobAttribute2serialObject(blob1);
-            org.junit.Assert.fail("Expected exception of type java.io.EOFException; message: null");
-        } catch (java.io.EOFException e) {
-        }
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertTrue("'" + long3 + "' != '" + 281474993487873L + "'", long3.equals(281474993487873L));
         org.junit.Assert.assertTrue("'" + int4 + "' != '" + 1 + "'", int4.equals(1));

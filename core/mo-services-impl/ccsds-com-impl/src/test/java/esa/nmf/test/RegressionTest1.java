@@ -49,7 +49,7 @@ public class RegressionTest1 {
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) 10);
-        org.ccsds.moims.mo.mal.structures.Blob blob7 = new org.ccsds.moims.mo.mal.structures.Blob("0.0");
+        org.ccsds.moims.mo.mal.structures.Blob blob7 = new org.ccsds.moims.mo.mal.structures.Blob("0.0".getBytes());
         try {
             binaryEncoder1.encodeBlob(blob7);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
@@ -3992,7 +3992,7 @@ public class RegressionTest1 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -4709,7 +4709,7 @@ public class RegressionTest1 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -7936,7 +7936,7 @@ public class RegressionTest1 {
     public void test0737() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0737");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("".getBytes());
         java.io.OutputStream outputStream2 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder3 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream2);
         byte byte5 = binaryEncoder3.internalEncodeAttributeType((byte) 100);
@@ -18579,7 +18579,7 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
-        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("18446744073709551615");
+        org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob("18446744073709551615".getBytes());
         int int6 = blob5.getLength();
         try {
             binaryEncoder1.encodeNullableBlob(blob5);
@@ -18587,6 +18587,6 @@ public class RegressionTest1 {
         } catch (java.lang.NullPointerException e) {
         }
         org.junit.Assert.assertTrue("'" + byte3 + "' != '" + (byte) 100 + "'", byte3 == (byte) 100);
-        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 0 + "'", int6 == 0);
+        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 20 + "'", int6 == 20);
     }
 }

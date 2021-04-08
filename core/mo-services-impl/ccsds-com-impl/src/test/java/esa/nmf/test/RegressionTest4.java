@@ -754,7 +754,7 @@ public class RegressionTest4 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -2245,7 +2245,7 @@ public class RegressionTest4 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -4001,7 +4001,7 @@ public class RegressionTest4 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -6515,7 +6515,7 @@ public class RegressionTest4 {
         doubleList14.ensureCapacity((-1));
         doubleList14.ensureCapacity((int) (byte) 10);
         java.util.stream.Stream<java.lang.Double> doubleStream27 = doubleList14.parallelStream();
-        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]");
+        org.ccsds.moims.mo.mal.structures.Blob blob29 = new org.ccsds.moims.mo.mal.structures.Blob("[hi!, ]".getBytes());
         int int30 = doubleList14.lastIndexOf((java.lang.Object) blob29);
         boolean boolean31 = uRIList0.equals((java.lang.Object) doubleList14);
         java.lang.Object obj32 = uRIList0.clone();
@@ -15649,7 +15649,7 @@ public class RegressionTest4 {
     public void test2365() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest4.test2365");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("0.0");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("0.0".getBytes());
         int int2 = blob1.getOffset();
         org.ccsds.moims.mo.mal.structures.IntegerList integerList4 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         org.ccsds.moims.mo.mal.structures.Blob blob5 = new org.ccsds.moims.mo.mal.structures.Blob();
@@ -17011,7 +17011,7 @@ public class RegressionTest4 {
     public void test2396() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest4.test2396");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[]");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[]".getBytes());
         java.math.BigInteger bigInteger2 = org.ccsds.moims.mo.mal.structures.ULong.MAX_VALUE;
         org.ccsds.moims.mo.mal.structures.ULong uLong3 = new org.ccsds.moims.mo.mal.structures.ULong(bigInteger2);
         java.lang.Integer int4 = uLong3.getTypeShortForm();
@@ -18499,7 +18499,7 @@ public class RegressionTest4 {
     public void test2429() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest4.test2429");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[1, 100, 100, 1, 8, 8, 8]");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[1, 100, 100, 1, 8, 8, 8]".getBytes());
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = blob1.getAreaVersion();
         java.io.OutputStream outputStream3 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder4 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream3);
@@ -18660,7 +18660,7 @@ public class RegressionTest4 {
     public void test2432() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest4.test2432");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[]");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[]".getBytes());
         java.math.BigInteger bigInteger2 = org.ccsds.moims.mo.mal.structures.ULong.MAX_VALUE;
         org.ccsds.moims.mo.mal.structures.ULong uLong3 = new org.ccsds.moims.mo.mal.structures.ULong(bigInteger2);
         java.lang.Integer int4 = uLong3.getTypeShortForm();

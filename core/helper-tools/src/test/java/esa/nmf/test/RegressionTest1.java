@@ -9561,7 +9561,7 @@ public class RegressionTest1 {
     public void test0672() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0672");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid".getBytes());
         java.lang.Object obj2 = esa.mo.helpertools.helpers.HelperAttributes.javaType2Attribute((java.lang.Object) "org.ccsds.moims.mo.malspp.apid");
         org.ccsds.moims.mo.mal.structures.ElementList elementList3 = esa.mo.helpertools.helpers.HelperAttributes.generateElementListFromJavaType((java.lang.Object) "org.ccsds.moims.mo.malspp.apid");
         org.junit.Assert.assertNotNull(obj2);
@@ -9705,7 +9705,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = octetList9.getAreaNumber();
         octetList9.clear();
         octetList9.ensureCapacity((int) 'a');
-        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid");
+        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid".getBytes());
         int int17 = blob16.getLength();
         int int18 = octetList9.indexOf((java.lang.Object) int17);
         java.lang.Integer int19 = octetList9.getTypeShortForm();
@@ -9737,7 +9737,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
         org.junit.Assert.assertNotNull(byteStream10);
         org.junit.Assert.assertNotNull(uShort11);
-        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 0 + "'", int17 == 0);
+        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 30 + "'", int17 == 30);
         org.junit.Assert.assertTrue("'" + int18 + "' != '" + (-1) + "'", int18 == (-1));
         org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-7) + "'", int19.equals((-7)));
         org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + false + "'", boolean20 == false);
@@ -12912,7 +12912,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = octetList9.getAreaNumber();
         octetList9.clear();
         octetList9.ensureCapacity((int) 'a');
-        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid");
+        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid".getBytes());
         int int17 = blob16.getLength();
         int int18 = octetList9.indexOf((java.lang.Object) int17);
         java.lang.Short[] shortArray20 = new java.lang.Short[] { (short) 0 };
@@ -12968,7 +12968,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(objArray7);
         org.junit.Assert.assertNotNull(byteStream10);
         org.junit.Assert.assertNotNull(uShort11);
-        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 0 + "'", int17 == 0);
+        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 30 + "'", int17 == 30);
         org.junit.Assert.assertTrue("'" + int18 + "' != '" + (-1) + "'", int18 == (-1));
         org.junit.Assert.assertNotNull(shortArray20);
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
@@ -15211,7 +15211,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = octetList1.getAreaNumber();
         octetList1.clear();
         octetList1.ensureCapacity((int) 'a');
-        org.ccsds.moims.mo.mal.structures.Blob blob8 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid");
+        org.ccsds.moims.mo.mal.structures.Blob blob8 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid".getBytes());
         int int9 = blob8.getLength();
         int int10 = octetList1.indexOf((java.lang.Object) int9);
         java.lang.Short[] shortArray12 = new java.lang.Short[] { (short) 0 };
@@ -15257,7 +15257,7 @@ public class RegressionTest1 {
         boolean boolean65 = stringList18.add("1969-12-31 23:59:59.998");
         org.junit.Assert.assertNotNull(byteStream2);
         org.junit.Assert.assertNotNull(uShort3);
-        org.junit.Assert.assertTrue("'" + int9 + "' != '" + 0 + "'", int9 == 0);
+        org.junit.Assert.assertTrue("'" + int9 + "' != '" + 30 + "'", int9 == 30);
         org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-1) + "'", int10 == (-1));
         org.junit.Assert.assertNotNull(shortArray12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14 == true);
@@ -17312,7 +17312,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = octetList9.getAreaNumber();
         octetList9.clear();
         octetList9.ensureCapacity((int) 'a');
-        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid");
+        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid".getBytes());
         int int17 = blob16.getLength();
         int int18 = octetList9.indexOf((java.lang.Object) int17);
         java.lang.Integer int19 = octetList9.getTypeShortForm();
@@ -17348,7 +17348,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
         org.junit.Assert.assertNotNull(byteStream10);
         org.junit.Assert.assertNotNull(uShort11);
-        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 0 + "'", int17 == 0);
+        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 30 + "'", int17 == 30);
         org.junit.Assert.assertTrue("'" + int18 + "' != '" + (-1) + "'", int18 == (-1));
         org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-7) + "'", int19.equals((-7)));
         org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + false + "'", boolean20 == false);
@@ -18632,7 +18632,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort44 = stringList43.getServiceNumber();
         boolean boolean45 = doubleList27.containsAll((java.util.Collection<java.lang.String>) stringList43);
         boolean boolean46 = uShortList6.retainAll((java.util.Collection<java.lang.String>) stringList43);
-        org.ccsds.moims.mo.mal.structures.Blob blob48 = new org.ccsds.moims.mo.mal.structures.Blob("Duration");
+        org.ccsds.moims.mo.mal.structures.Blob blob48 = new org.ccsds.moims.mo.mal.structures.Blob("Duration".getBytes());
         org.ccsds.moims.mo.mal.structures.UShort uShort49 = blob48.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort50 = blob48.getServiceNumber();
         java.lang.Double double51 = esa.mo.helpertools.helpers.HelperAttributes.attribute2double((org.ccsds.moims.mo.mal.structures.Attribute) uShort50);
@@ -20506,12 +20506,12 @@ public class RegressionTest1 {
     public void test0885() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0885");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[0, 10, 1]");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("[0, 10, 1]".getBytes());
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = blob1.getServiceNumber();
         try {
             java.io.Serializable serializable3 = esa.mo.helpertools.helpers.HelperAttributes.blobAttribute2serialObject(blob1);
-            org.junit.Assert.fail("Expected exception of type java.io.EOFException; message: null");
-        } catch (java.io.EOFException e) {
+            org.junit.Assert.fail("Expected exception of type java.io.StreamCorruptedException");
+        } catch (java.io.StreamCorruptedException e) {
         }
         org.junit.Assert.assertNotNull(uShort2);
     }
@@ -25932,7 +25932,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = octetList11.getAreaNumber();
         octetList11.clear();
         octetList11.ensureCapacity((int) 'a');
-        org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid");
+        org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob("org.ccsds.moims.mo.malspp.apid".getBytes());
         int int19 = blob18.getLength();
         int int20 = octetList11.indexOf((java.lang.Object) int19);
         java.lang.Short[] shortArray22 = new java.lang.Short[] { (short) 0 };
@@ -25990,7 +25990,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + long8 + "' != '" + 281475010265075L + "'", long8.equals(281475010265075L));
         org.junit.Assert.assertNotNull(byteStream12);
         org.junit.Assert.assertNotNull(uShort13);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 0 + "'", int19 == 0);
+        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 30 + "'", int19 == 30);
         org.junit.Assert.assertTrue("'" + int20 + "' != '" + (-1) + "'", int20 == (-1));
         org.junit.Assert.assertNotNull(shortArray22);
         org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24 == true);

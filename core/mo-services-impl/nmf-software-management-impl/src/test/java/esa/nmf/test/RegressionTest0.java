@@ -6476,7 +6476,7 @@ public class RegressionTest0 {
     public void test146() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test146");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("18446744073709551615");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("18446744073709551615".getBytes());
         org.ccsds.moims.mo.mal.structures.UInteger uInteger3 = new org.ccsds.moims.mo.mal.structures.UInteger((long) 6);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList4 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Long long5 = uShortList4.getShortForm();
@@ -6538,7 +6538,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(processArray49);
         org.junit.Assert.assertNotNull(processArray50);
         org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", boolean51 == false);
-        org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + true + "'", boolean52 == true);
+        org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + false + "'", boolean52 == false);
     }
 
     @Test
@@ -6605,7 +6605,7 @@ public class RegressionTest0 {
         processExecutionHandler12.monitorProcess(process19);
         java.lang.Process process21 = processExecutionHandler12.getProcess();
         boolean boolean22 = booleanList2.remove((java.lang.Object) process21);
-        org.ccsds.moims.mo.mal.structures.Blob blob24 = new org.ccsds.moims.mo.mal.structures.Blob("hi!");
+        org.ccsds.moims.mo.mal.structures.Blob blob24 = new org.ccsds.moims.mo.mal.structures.Blob("hi!".getBytes());
         java.lang.Integer int25 = blob24.getTypeShortForm();
         blob24.detach();
         byte[] byteArray27 = blob24.getValue();
@@ -7107,7 +7107,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.OctetList octetList10 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (short) 0);
         java.lang.Object[] objArray11 = octetList10.toArray();
         java.util.Iterator<java.lang.Byte> byteItor12 = octetList10.iterator();
-        org.ccsds.moims.mo.mal.structures.Blob blob14 = new org.ccsds.moims.mo.mal.structures.Blob("");
+        org.ccsds.moims.mo.mal.structures.Blob blob14 = new org.ccsds.moims.mo.mal.structures.Blob("".getBytes());
         org.ccsds.moims.mo.mal.structures.UOctet uOctet15 = blob14.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.Element element16 = blob14.createElement();
         byte[] byteArray17 = blob14.getValue();
@@ -13961,7 +13961,7 @@ public class RegressionTest0 {
     public void test283() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test283");
-        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("18446744073709551615");
+        org.ccsds.moims.mo.mal.structures.Blob blob1 = new org.ccsds.moims.mo.mal.structures.Blob("18446744073709551615".getBytes());
         org.ccsds.moims.mo.mal.structures.UInteger uInteger3 = new org.ccsds.moims.mo.mal.structures.UInteger((long) 6);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList4 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Long long5 = uShortList4.getShortForm();
