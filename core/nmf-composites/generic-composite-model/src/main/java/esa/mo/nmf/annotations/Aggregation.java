@@ -12,8 +12,43 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Describes an Aggregation of MC Parameters exposed by an MC adapter.
+ * Multiple Aggregation annotations can be present for the same class.
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * <p>
+ * Example:
+ * <pre>
+ * <b>&#64;Aggregation(</b>
+ *   id = ExampleMCAdapter.AGGREGATION_MAG,
+ *   description = "Aggregates Magnetometer components: X, Y, Z.",
+ *   reportInterval = 10,
+ *   sendUnchanged = true,
+ *   sampleInterval = 3)
+ * public class ExampleMCAdapter extends MonitorAndControlNMFAdapter
+ * {
+ *   public static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
+ *   <b>&#64;Parameter(</b>
+ *       description = "The Magnetometer X component",
+ *       rawUnit = "microTesla",
+ *       generationEnabled = false,
+ *       onGetFunction = "onGetMagneticField_X",
+ *       readOnly = true,
+ *       reportIntervalSeconds = 2,
+ *       aggregations = {AGGREGATION_MAG})
+ *   Float MagneticField_X = 0.0f;
+ *   <b>&#64;Parameter(</b>
+ *       description = "The Magnetometer Y component",
+ *       rawUnit = "microTesla",
+ *       generationEnabled = false,
+ *       onGetFunction = "onGetMagneticField_Y",
+ *       readOnly = true,
+ *       reportIntervalSeconds = 2,
+ *       aggregations = {AGGREGATION_MAG})
+ *   Float MagneticField_Y = 0.0f;
+ * }
+ * </pre>
+ *
+ * @author Kevin Otto
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

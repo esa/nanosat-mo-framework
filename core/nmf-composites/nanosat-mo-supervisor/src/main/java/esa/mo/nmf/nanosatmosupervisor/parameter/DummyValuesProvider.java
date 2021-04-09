@@ -18,26 +18,37 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.groundmoadapter;
+package esa.mo.nmf.nanosatmosupervisor.parameter;
 
-import java.io.Serializable;
+import java.util.HashMap;
+import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import esa.mo.helpertools.helpers.HelperAttributes;
 
 /**
- * An abstract class that pushes the received data from the Parameter service 
- * coming via the monitorValue operation with the basic parameter data: name of 
- * the parameter and the content
+ * Provides dummy parameter values. It returns Attribute with default values of either 0 or null
+ * depending on the actual type.
  *
- * @author Cesar Coelho
+ * @author Tanguy Soto
  */
-public abstract class SimpleDataReceivedListener implements DataReceivedListener {
+public class DummyValuesProvider extends OBSWParameterValuesProvider {
 
-    /**
-     * This interface must be implemented in order to receive the parameter
-     * content from the Parameter service coming via the monitorValue operation
-     *
-     * @param parameterName Name of the Parameter
-     * @param data The content of the data
-     */
-    public abstract void onDataReceived (String parameterName, Serializable data);
-    
+  /**
+   * Creates a new instance of DummyValuesProvider.
+   * 
+   * @param parameterMap The map of OBSW parameters for which we have to provide values for
+   */
+  public DummyValuesProvider(HashMap<Identifier, OBSWParameter> parameterMap) {
+    super(parameterMap);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public Attribute getValue(Identifier identifier) {
+    if (!parameterMap.containsKey(identifier)) {
+      return null;
+    }
+    OBSWParameter param = parameterMap.get(identifier);
+    return HelperAttributes.attributeName2Attribute(param.getType());
+  }
 }

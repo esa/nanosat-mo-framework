@@ -53,8 +53,8 @@
     <module>generic-ground-mo-proxy</module>
     <module>generic-composite-model</module>
     <module>generic-nanosat-monolithic</module>
-    <module>ground-mo-adapter</module>
     <module>nanosat-mo-connector</module>
     <module>nanosat-mo-supervisor</module>
+    <module>nmf-mo-adapters</module>
   </modules>
 </project>

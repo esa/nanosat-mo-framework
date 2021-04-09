@@ -15,7 +15,7 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test001");
         org.ccsds.moims.mo.common.directory.structures.AddressDetailsList addressDetailsList0 = null;
         try {
-            int int1 = esa.mo.sm.impl.provider.AppsLauncherManager.getBestIPCServiceAddressIndex(addressDetailsList0);
+            int int1 = esa.mo.common.impl.util.HelperCommon.getBestIPCServiceAddressIndex(addressDetailsList0);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
         } catch (java.lang.NullPointerException e) {
         }

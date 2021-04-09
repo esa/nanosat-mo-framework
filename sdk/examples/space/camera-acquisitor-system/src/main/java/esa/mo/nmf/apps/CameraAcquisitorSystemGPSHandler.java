@@ -42,7 +42,7 @@ import org.orekit.propagation.analytical.tle.TLE;
 /**
  * Class handling communication with the navigation system (GPS)
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class CameraAcquisitorSystemGPSHandler extends GPSAdapter
 {

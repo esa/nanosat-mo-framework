@@ -613,10 +613,7 @@ public class ParameterManager extends MCManager
    */
   protected boolean delete(Long identityId)
   { // requirement: 3.3.2.d
-    if (this.deleteIdentity(identityId)) {
-      return true;
-    }
-    return false;
+    return this.deleteIdentity(identityId);
   }
 
   /**

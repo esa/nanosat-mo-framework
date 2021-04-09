@@ -100,22 +100,6 @@ public class ShellCommander {
                 return null;
             }
 
-//            StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
-//            StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
-//            int exitVal = 0;
-
-//            error.start();
-//            output.start();
-            
-//            System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
-
-//            error.join(DEATH_TIMEOUT);
-//            output.join(DEATH_TIMEOUT);
-//            proc.destroy();
-//            exitVal = proc.waitFor();
-
-//            System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
-            
             return proc;
         } catch (IOException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);

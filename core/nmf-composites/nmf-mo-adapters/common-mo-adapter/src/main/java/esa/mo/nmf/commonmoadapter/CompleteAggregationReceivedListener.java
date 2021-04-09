@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.groundmoadapter;
+package esa.mo.nmf.commonmoadapter;
 
 import esa.mo.mc.impl.provider.AggregationInstance;
 

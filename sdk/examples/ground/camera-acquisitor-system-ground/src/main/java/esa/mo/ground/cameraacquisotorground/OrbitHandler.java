@@ -48,7 +48,7 @@ import org.orekit.utils.PVCoordinatesProvider;
 /**
  * Class for calculating passes and propagating orbits.
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class OrbitHandler
 {

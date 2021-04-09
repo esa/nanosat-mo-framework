@@ -35,7 +35,7 @@ import org.orekit.utils.PVCoordinatesProvider;
  * Class for wrapping changing providers
  *
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class AttitudeProviderWrapper implements AttitudeProvider
 {

@@ -26,14 +26,32 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Declares a method as an action. Every action has to have the following arguments before the
- * parameters. (not to be declared as ActionParameters!)
- *
- * Long actionInstanceObjId boolean reportProgress MALInteraction interaction
- *
+ * Annotates a Java method as an MC Action.
+ * Every method annotated as an action has to have the following arguments before the
+ * parameters (not annotated with @ActionParameter):
+ * <p>
+ * <code>Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction</code>
+ * <p>
  * Every argument after these, has to be annotated with @ActionParameter
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * <p>
+ * Example:
+ * <pre>
+ * <b>&#64;Action(name = "Clock.setTimeUsingDeltaMilliseconds",
+ *   description = "Sets the clock using a diff between the on-board time and the desired time.")</b>
+ * public UInteger setTimeUsingDeltaMilliseconds(
+ *     Long actionInstanceObjId,
+ *     boolean reportProgress,
+ *     MALInteraction interaction,
+ *     <b>&#64;ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta</b>) {
+ *   String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));
+
+ *   ShellCommander shell = new ShellCommander();
+ *   shell.runCommand("date -s \"" + str + " UTC\" | hwclock --systohc");
+ *   return null;
+ * }
+ * </pre>
+ * @author Kevin Otto
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

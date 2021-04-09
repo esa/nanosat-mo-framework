@@ -52,7 +52,7 @@ import org.orekit.time.TimeScalesFactory;
 /**
  * Class handling acquisition of targets and the corresponding actions
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class CameraAcquisitorSystemCameraTargetHandler
 {

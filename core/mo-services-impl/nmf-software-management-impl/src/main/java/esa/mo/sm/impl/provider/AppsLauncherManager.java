@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -49,7 +50,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
@@ -61,7 +61,6 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
@@ -397,6 +396,7 @@ public class AppsLauncherManager extends DefinitionsManager
       ret.add(str.toString());
     } else {
       if (runAs != null) {
+        ret.add("sudo");
         ret.add("su");
         ret.add("-");
         ret.add(runAs);
@@ -729,74 +729,12 @@ public class AppsLauncherManager extends DefinitionsManager
 
     final AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
 
-    int bestIndex = AppsLauncherManager.getBestIPCServiceAddressIndex(addresses);
+    int bestIndex = HelperCommon.getBestIPCServiceAddressIndex(addresses);
     SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
     connectionDetails.setProviderURI(addresses.get(bestIndex).getServiceURI());
     connectionDetails.setBrokerURI(addresses.get(bestIndex).getBrokerURI());
     connectionDetails.setDomain(providersList.get(0).getProviderKey().getDomain());
     return connectionDetails;
-  }
-
-  public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws
-      IllegalArgumentException
-  {
-    if (addresses.isEmpty()) {
-      throw new IllegalArgumentException("The addresses argument cannot be null.");
-    }
-
-    if (addresses.size() == 1) { // Well, there is only one...
-      return 0;
-    }
-
-    // Well, if there are more than one, then it means we can pick...
-    // My preference would be, in order: tcp/ip, rmi, other, spp
-    // SPP is in last because usually this is the transport supposed
-    // to be used on the ground-to-space link and not internally.
-    StringList availableTransports = AppsLauncherManager.getAvailableTransports(addresses);
-
-    int index = AppsLauncherManager.getTransportIndex(availableTransports, "tcpip");
-    if (index != -1) {
-      return index;
-    }
-
-    index = AppsLauncherManager.getTransportIndex(availableTransports, "rmi");
-    if (index != -1) {
-      return index;
-    }
-
-    index = AppsLauncherManager.getTransportIndex(availableTransports, "malspp");
-
-    // If could not be found nor it is not the first one
-    if (index == -1 || index != 0) { // Then let's pick the first one
-      return 0;
-    } else {
-      // It was found and it is the first one (0)
-      // Then let's select the second (index == 1) transport available...
-      return 1;
-    }
-  }
-
-  private static StringList getAvailableTransports(AddressDetailsList addresses)
-  {
-    StringList transports = new StringList(); // List of transport names
-
-    for (AddressDetails address : addresses) {
-      // The name of the transport is always before ":"
-      String[] parts = address.getServiceURI().toString().split(":");
-      transports.add(parts[0]);
-    }
-
-    return transports;
-  }
-
-  private static int getTransportIndex(StringList transports, String findString)
-  {
-    for (int i = 0; i < transports.size(); i++) {
-      if (findString.equals(transports.get(i))) {
-        return i;  // match
-      }
-    }
-    return -1;
   }
 
   private static boolean isJustRunningStatusChange(final AppDetails previousAppDetails,

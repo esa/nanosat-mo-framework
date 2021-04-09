@@ -10,7 +10,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class UniqueIDTest
 {

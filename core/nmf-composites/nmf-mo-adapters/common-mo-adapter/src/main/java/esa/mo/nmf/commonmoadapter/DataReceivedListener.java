@@ -18,25 +18,16 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.groundmoadapter;
+package esa.mo.nmf.commonmoadapter;
 
-import java.util.List;
-import esa.mo.mc.impl.provider.ParameterInstance;
+import java.util.EventListener;
 
 /**
- * An abstract class that passes the received data from the Aggregation service
- * coming via the monitorValue operation with the complete parameter data
+ * An interface to receive data from the Parameter service via the monitorValue
+ * operation
  *
- * @author Phil Brabbin
+ * @author Cesar Coelho
  */
-public interface SimpleAggregationReceivedListener extends DataReceivedListener {
-
-    /**
-     * This interface must be implemented in order to receive the parameter
-     * content from the Aggregation service coming via the monitorValue operation
-     *
-     * @param parameterInstances The parameter instances
-     */
-    void onDataReceived(List<ParameterInstance> parameterInstances);
+public interface DataReceivedListener extends EventListener {
 
 }

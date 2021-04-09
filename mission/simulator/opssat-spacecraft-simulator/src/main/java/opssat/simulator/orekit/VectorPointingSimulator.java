@@ -41,7 +41,7 @@ import org.orekit.utils.PVCoordinatesProvider;
 /**
  * for more information see AutonomousADCSOPSSATAdapter VectorPointing Mode in NMF-OPSSAT
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class VectorPointingSimulator implements AttitudeProvider
 {
