@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
@@ -478,7 +479,20 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             
             StringBuilder str = new StringBuilder();
             for (int i = 0; i < values.size(); i++) {
-                str.append("The value for objId ").append(values.get(i).getParamId().toString()).append(" is:").append("\n").append(values.get(i).getValue().toString()).append("\n");
+                str.append("The value for objId ")
+                        .append(values.get(i).getParamId().toString())
+                        .append(" is:");
+                
+                UOctet validityState = values.get(i).getValue().getValidityState();
+                Attribute rawValue = values.get(i).getValue().getRawValue();
+                Attribute convertedValue = values.get(i).getValue().getConvertedValue();
+                str.append("\nvalidityState: ");
+                str.append(validityState == null ? "null" : validityState.toString());
+                str.append("\nrawValue: ");
+                str.append(rawValue == null ? "null" : rawValue.toString());
+                str.append("\nconvertedValue: ");
+                str.append(convertedValue == null ? "null" : convertedValue);
+                str.append("\n");
 
                 Attribute attribute = values.get(i).getValue().getRawValue();
                 if (attribute instanceof Blob){
