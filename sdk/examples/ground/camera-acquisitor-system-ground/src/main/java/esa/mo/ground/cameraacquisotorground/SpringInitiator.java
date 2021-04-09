@@ -26,7 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 @SpringBootApplication
 public class SpringInitiator

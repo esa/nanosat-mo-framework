@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Singleton class for generating Unique Object Instance IDs.
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class ObjectInstanceIdGenerator
 {

@@ -72,21 +72,21 @@ import org.ccsds.moims.mo.platform.structures.VectorF3D;
  */
 //add aggregations:
 @Aggregation(
-    id = "Magnetometer_Aggregation",
+    id = PayloadsTestMCAdapter.AGGREGATION_MAG,
     description = "Aggregates Magnetometer components: X, Y, Z.",
     reportInterval = 10,
     sendUnchanged = true,
     sampleInterval = 3)
 @Aggregation(
-    id = "GPS_Aggregation",
+    id = PayloadsTestMCAdapter.AGGREGATION_GPS,
     description = "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
     reportInterval = 10,
     sendUnchanged = true,
     sampleInterval = 3)
 public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 {
-  private static final String AGGREGATION_GPS = "GPS_Aggregation";
-  private static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
+  public static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
+  public static final String AGGREGATION_GPS = "GPS_Aggregation";
   private static final String PARAMETER_ADCS_MODE = "ADCS_ModeOperation";
   private static final String PARAMETER_ADCS_DURATION = "ADCS_RemainingControlDuration";
   private static final String PARAMETER_ANGULAR_VELOCITY_X = "AngularVelocity_X";

@@ -48,7 +48,7 @@ import org.orekit.bodies.GeodeticPoint;
 /**
  * Class for handling taking and saving of Photographs and everything else camera related
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class CameraAcquisitorSystemCameraHandler
 {

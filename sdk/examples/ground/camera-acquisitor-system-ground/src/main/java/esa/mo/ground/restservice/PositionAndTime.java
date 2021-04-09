@@ -27,7 +27,7 @@ import org.orekit.time.AbsoluteDate;
 /**
  * Class for containing geographical data and a corresponding date (used for ground track)
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 @JsonIgnoreProperties(value = {"orekitDate", "location"})
 public class PositionAndTime
