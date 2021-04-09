@@ -21,14 +21,7 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.sm.impl.util.ShellCommander;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.attribute.GroupPrincipal;
-import java.nio.file.attribute.PosixFileAttributeView;
-import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,54 +33,207 @@ import java.util.logging.Logger;
  */
 public class LinuxUsersGroups {
 
-    public static boolean setGroup(File file, String groupName) {
-        // Set the Group
-        UserPrincipalLookupService service = FileSystems.getDefault().getUserPrincipalLookupService();
+    private static final String NOT_FOUND = "not found";
 
-        try {
-            GroupPrincipal group = service.lookupPrincipalByGroupName(groupName);
-            Files.getFileAttributeView(file.toPath(),
-                    PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS).setGroup(group);
-        } catch (IOException ex) {
-            Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.SEVERE,
-                    "The group " + groupName + " does not exist!");
-            return false;
+    private static final String PERMISSION_DENIED = "Permission denied";
+
+    /**
+     * Creates a new Linux user account and sets its respective password. The
+     * account can be created without a password by passing null into the
+     * password field argument.
+     *
+     * @param username The username of the user account.
+     * @param password The Password of the user account. Can be null if no
+     * password is to be defined.
+     * @param withGroup Defines if a group with the same name must also be
+     * created during the user account creation.
+     * @param extraGroups The list of supplementary groups which the user will
+     * also be a member of. Each group is separated from the next by a comma,
+     * with no intervening whitespace.
+     * @throws IOException if the user could not be created.
+     */
+    public static void createUser(String username, String password,
+            boolean withGroup, String extraGroups) throws IOException {
+        ShellCommander shell = new ShellCommander();
+        final String defaultShell = "/bin/bash";
+
+        //--------------------------------------------------------------------
+        // First, we need to check if the "useradd" and "chpasswd" commands exist
+        String cmd1 = "useradd -h";
+        String out1 = shell.runCommandAndGetOutputMessageAndError(cmd1);
+
+        if (out1.contains(NOT_FOUND)) {
+            String msg = "The command " + cmd1 + " was not found! Message: " + out1;
+            throw new IOException(msg);
         }
-        
-        return true;
 
-        /* Example: Retrieve Group
-            File originalFile = new File("original.jpg"); // just as an example
-            GroupPrincipal group = Files.readAttributes(originalFile.toPath(), 
-        PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS).group();
-         */
-        // We need also to create the user+group for this app
-        // To be done...
+        String cmd2 = "chpasswd -h";
+        String out2 = shell.runCommandAndGetOutputMessageAndError(cmd2);
+
+        if (out2.contains(NOT_FOUND)) {
+            String msg = "The command " + cmd1 + " was not found! Message: " + out1;
+            throw new IOException(msg);
+        }
+
+        //--------------------------------------------------------------------
+        // Second, we need to check if we have permissions to run the commands
+        StringBuilder useradd = new StringBuilder();
+        useradd.append("sudo useradd ").append(username)
+                .append(" --create-home")
+                .append(" --shell ").append(defaultShell)
+                .append(withGroup ? " --user-group" : "")
+                .append(" --groups ").append(extraGroups);
+        //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
+        //String cmd = "useradd $user_nmf_admin --create-home --shell /bin/bash --user-group";
+
+        String cmd3 = useradd.toString();
+        String out3 = shell.runCommandAndGetOutputMessageAndError(cmd3);
+
+        if (out3.contains(PERMISSION_DENIED)) {
+            String msg = "Permission denied! For command:\n >> " + cmd3 + "\n" + out3;
+            throw new IOException(msg);
+        }
+
+        // It means the user does not have an associated password to the account
+        if (password != null) {
+            StringBuilder chpasswd = new StringBuilder();
+            chpasswd.append("echo ").append(username).append(":").append(password)
+                    .append(" | ")
+                    .append("chpasswd");
+            // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
+
+            String cmd4 = chpasswd.toString();
+            String out4 = shell.runCommandAndGetOutputMessageAndError(cmd4);
+
+            if (out4.contains(PERMISSION_DENIED)) {
+                String msg = "Permission denied! For command:\n >> " + cmd4 + "\n" + out4;
+                throw new IOException(msg);
+            }
+        }
+
+        // Change permissions on the home directories
+        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
+                " Running command: " + cmd3 + "\n" + out3);
     }
 
-    public static void createUser(String username, String password, boolean withGroup) {
-        // First, we need to check if the "useradd" and "chpasswd" commands exist
-        
-        // Second, we need to check if we have permissions to run the commands
-        
-        StringBuilder useradd = new StringBuilder();
-        useradd.append("useradd ").append(username);
-        useradd.append(" -m -s /bin/bash"); // -m CreatesHome dir || -s Sets the shell
-        useradd.append(withGroup ? " --user-group" : "");
-        //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
+    /**
+     * Deletes an existing Linux user account.
+     *
+     * @param username The username of the user account.
+     * @param removeHome Sets if the user's home directory will be removed.
+     * @throws IOException if the user could not be deleted.
+     */
+    public static void deleteUser(String username, boolean removeHome) throws IOException {
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("sudo userdel --force ");
+        if (removeHome) {
+            cmd.append(" --remove ");
+        }
+        cmd.append(username);
 
-        StringBuilder chpasswd = new StringBuilder();
-        chpasswd.append("echo ").append(username).append(":").append(password);
-        chpasswd.append(" | ");
-        chpasswd.append("chpasswd");
-        // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
-
-        String cmd = useradd.toString() + " ; " + chpasswd.toString();
         ShellCommander shell = new ShellCommander();
-        String output = shell.runCommandAndGetOutputMessage(cmd);
+        String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
+
+        if (out.contains(NOT_FOUND)) {
+            String msg = "The command " + cmd + " was not found! Message: " + out;
+            throw new IOException(msg);
+        }
+
+        if (out.contains(PERMISSION_DENIED)) {
+            String msg = "Permission denied! For command:\n >> " + cmd + "\n" + out;
+            throw new IOException(msg);
+        }
 
         Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
-                "The output is:\n" + output);
+                " Running command: " + cmd + "\n" + out);
     }
 
+    /**
+     * Changes the access permissions of file system objects (files and
+     * directories).
+     *
+     * @param path The path of the file or directory.
+     * @param mode The mode to be set.
+     * @param recursive Sets if the command is recursive.
+     * @throws IOException if the permissions could not be changed.
+     */
+    public static void chmod(boolean recursive, String mode, String path) throws IOException {
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("chmod ");
+        if (recursive) {
+            cmd.append("--recursive ");
+        }
+        cmd.append(mode);
+        cmd.append(" ");
+        cmd.append(path);
+
+        ShellCommander shell = new ShellCommander();
+        String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
+
+        if (out.contains(NOT_FOUND)) {
+            String msg = "The command " + cmd + " was not found! Message: " + out;
+            throw new IOException(msg);
+        }
+
+        if (out.contains(PERMISSION_DENIED)) {
+            String msg = "Permission denied! For command:\n >> " + cmd + "\n" + out;
+            throw new IOException(msg);
+        }
+
+        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
+                " Running command: " + cmd + "\n" + out);
+    }
+
+    public static void chgrp(boolean recursive, String newGroup, String path) throws IOException {
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("sudo chgrp ");
+        if (recursive) {
+            cmd.append("--recursive ");
+        }
+        cmd.append(newGroup);
+        cmd.append(" ");
+        cmd.append(path);
+
+        ShellCommander shell = new ShellCommander();
+        String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
+
+        if (out.contains(NOT_FOUND)) {
+            String msg = "The command " + cmd + " was not found! Message: " + out;
+            throw new IOException(msg);
+        }
+
+        if (out.contains(PERMISSION_DENIED)) {
+            String msg = "Permission denied! For command:\n >> " + cmd + "\n" + out;
+            throw new IOException(msg);
+        }
+
+        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
+                " Running command: " + cmd + "\n" + out);
+    }
+
+    static String findHomeDir(String username) throws IOException {
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("cat /etc/passwd | grep '");
+        cmd.append(username);
+        cmd.append("' | cut -d ':' -f6");
+
+        ShellCommander shell = new ShellCommander();
+        String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
+
+        if (out.contains(NOT_FOUND)) {
+            String msg = "The command " + cmd + " was not found! Message: " + out;
+            throw new IOException(msg);
+        }
+
+        if (out.contains(PERMISSION_DENIED)) {
+            String msg = "Permission denied! For command:\n >> " + cmd + "\n" + out;
+            throw new IOException(msg);
+        }
+
+        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
+                " Running command: " + cmd + "\n" + out);
+        
+        return out;
+    }
+    
 }

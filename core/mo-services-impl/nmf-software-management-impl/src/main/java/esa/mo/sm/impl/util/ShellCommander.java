@@ -56,9 +56,30 @@ public class ShellCommander {
             error.join(DEATH_TIMEOUT);
             output.join(DEATH_TIMEOUT);
             proc.destroyForcibly();
-//            String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
+            // String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
             
             return output.getMessage();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "";
+    }
+   
+    public String runCommandAndGetOutputMessageAndError(String cmd) {
+        try {
+            Process proc = this.runCommand(cmd, null);
+            StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
+            StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
+            error.start();
+            output.start();
+            
+            error.join(DEATH_TIMEOUT);
+            output.join(DEATH_TIMEOUT);
+            proc.destroyForcibly();
+            // String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
+            
+            return output.getMessage() + error.getMessage();
         } catch (InterruptedException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
         }
