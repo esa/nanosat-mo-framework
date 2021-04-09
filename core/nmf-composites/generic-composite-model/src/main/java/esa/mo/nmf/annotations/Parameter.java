@@ -26,9 +26,35 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Parameters are not allowed to be null on initialization!
+ * Declares a class field as a Parameter and exposes it on MC Parameter interface.
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * Parameters are not allowed to be null upon initialization.
+ *
+ * <p>
+ * Example:
+ * <pre>
+ * public class ExampleMCAdapter extends MonitorAndControlNMFAdapter
+ * {
+ *   <b>&#64;Parameter(</b>
+ *       description = "The Magnetometer X component",
+ *       rawUnit = "microTesla",
+ *       generationEnabled = false,
+ *       onGetFunction = "onGetMagneticField_X",
+ *       readOnly = true,
+ *       reportIntervalSeconds = 2)
+ *   Float MagneticField_X = 0.0f;
+ *   <b>&#64;Parameter(</b>
+ *       description = "The Magnetometer Y component",
+ *       rawUnit = "microTesla",
+ *       generationEnabled = false,
+ *       onGetFunction = "onGetMagneticField_Y",
+ *       readOnly = true,
+ *       reportIntervalSeconds = 2)
+ *   Float MagneticField_Y = 0.0f;
+ * }
+ * </pre>
+ *
+ * @author Kevin Otto
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

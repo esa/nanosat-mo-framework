@@ -30,7 +30,7 @@ import org.orekit.time.AbsoluteDate;
 /**
  * class for determining and containing information about a pass and listening to propagator events.
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class Pass implements EventHandler<BooleanDetector>
 {

@@ -25,7 +25,7 @@ import org.orekit.data.DataProvider;
 
 /**
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class OrekitResources
 {
