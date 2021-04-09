@@ -20,7 +20,7 @@ print("processing image ", imagePath )
 img = Image.open(imagePath)
 
 draw = ImageDraw.Draw(img)
-font = ImageFont.truetype("consolas.ttf", 120)
+font = ImageFont.truetype("Inconsolata-Regular.ttf", 120)
 
 timestamp = datetime.utcnow().strftime('%Y-%m-%d-%H-%M-%S-%f')
 draw.text((0, 0),timestamp,(255,255,255),font=font)
