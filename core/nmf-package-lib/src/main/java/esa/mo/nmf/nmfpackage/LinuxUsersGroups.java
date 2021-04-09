@@ -33,9 +33,11 @@ import java.util.logging.Logger;
  */
 public class LinuxUsersGroups {
 
-    private static final String NOT_FOUND = "not found";
-
+    private static final String NOT_FOUND = "command not found";
+    
     private static final String PERMISSION_DENIED = "Permission denied";
+
+    private static final String MSG_NOT_FOUND = "The command was not found.\n";
 
     /**
      * Creates a new Linux user account and sets its respective password. The
@@ -58,27 +60,20 @@ public class LinuxUsersGroups {
         final String defaultShell = "/bin/bash";
 
         //--------------------------------------------------------------------
-        // First, we need to check if the "useradd" and "chpasswd" commands exist
+        // First, we need to check if the "useradd" exist
         String cmd1 = "useradd -h";
         String out1 = shell.runCommandAndGetOutputMessageAndError(cmd1);
 
         if (out1.contains(NOT_FOUND)) {
-            String msg = "The command " + cmd1 + " was not found! Message: " + out1;
-            throw new IOException(msg);
-        }
-
-        String cmd2 = "chpasswd -h";
-        String out2 = shell.runCommandAndGetOutputMessageAndError(cmd2);
-
-        if (out2.contains(NOT_FOUND)) {
-            String msg = "The command " + cmd1 + " was not found! Message: " + out1;
+            String msg = MSG_NOT_FOUND + "\n >> " + cmd1 + "\n" + out1;
             throw new IOException(msg);
         }
 
         //--------------------------------------------------------------------
         // Second, we need to check if we have permissions to run the commands
         StringBuilder useradd = new StringBuilder();
-        useradd.append("sudo useradd ").append(username)
+        useradd.append("sudo ");
+        useradd.append("useradd ").append(username)
                 .append(" --create-home")
                 .append(" --shell ").append(defaultShell)
                 .append(withGroup ? " --user-group" : "")
@@ -94,10 +89,19 @@ public class LinuxUsersGroups {
             throw new IOException(msg);
         }
 
-        // It means the user does not have an associated password to the account
+        // Does the user account have a respective password?
         if (password != null) {
+            String cmd2 = "chpasswd -h";
+            String out2 = shell.runCommandAndGetOutputMessageAndError(cmd2);
+
+            if (out2.contains(NOT_FOUND)) {
+                String msg = MSG_NOT_FOUND + "\n >> " + cmd2 + "\n" + out2;
+                throw new IOException(msg);
+            }
+
             StringBuilder chpasswd = new StringBuilder();
-            chpasswd.append("echo ").append(username).append(":").append(password)
+            chpasswd.append("echo ")
+                    .append(username).append(":").append(password)
                     .append(" | ")
                     .append("chpasswd");
             // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
@@ -125,17 +129,16 @@ public class LinuxUsersGroups {
      */
     public static void deleteUser(String username, boolean removeHome) throws IOException {
         StringBuilder cmd = new StringBuilder();
-        cmd.append("sudo userdel --force ");
-        if (removeHome) {
-            cmd.append(" --remove ");
-        }
+        cmd.append("sudo ");
+        cmd.append("userdel --force ");
+        cmd.append(removeHome ? "--remove " : "");
         cmd.append(username);
 
         ShellCommander shell = new ShellCommander();
         String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
 
         if (out.contains(NOT_FOUND)) {
-            String msg = "The command " + cmd + " was not found! Message: " + out;
+            String msg = MSG_NOT_FOUND + "\n >> " + cmd + "\n" + out;
             throw new IOException(msg);
         }
 
@@ -157,12 +160,11 @@ public class LinuxUsersGroups {
      * @param recursive Sets if the command is recursive.
      * @throws IOException if the permissions could not be changed.
      */
-    public static void chmod(boolean recursive, String mode, String path) throws IOException {
+    public static void chmod(boolean sudo, boolean recursive, String mode, String path) throws IOException {
         StringBuilder cmd = new StringBuilder();
+        cmd.append(sudo ? "sudo " : "");
         cmd.append("chmod ");
-        if (recursive) {
-            cmd.append("--recursive ");
-        }
+        cmd.append(recursive ? "--recursive " : "");
         cmd.append(mode);
         cmd.append(" ");
         cmd.append(path);
@@ -171,7 +173,7 @@ public class LinuxUsersGroups {
         String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
 
         if (out.contains(NOT_FOUND)) {
-            String msg = "The command " + cmd + " was not found! Message: " + out;
+            String msg = MSG_NOT_FOUND + "\n >> " + cmd + "\n" + out;
             throw new IOException(msg);
         }
 
@@ -186,10 +188,9 @@ public class LinuxUsersGroups {
 
     public static void chgrp(boolean recursive, String newGroup, String path) throws IOException {
         StringBuilder cmd = new StringBuilder();
-        cmd.append("sudo chgrp ");
-        if (recursive) {
-            cmd.append("--recursive ");
-        }
+        cmd.append("sudo ");
+        cmd.append("chgrp ");
+        cmd.append(recursive ? "--recursive " : "");
         cmd.append(newGroup);
         cmd.append(" ");
         cmd.append(path);
@@ -198,7 +199,7 @@ public class LinuxUsersGroups {
         String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
 
         if (out.contains(NOT_FOUND)) {
-            String msg = "The command " + cmd + " was not found! Message: " + out;
+            String msg = MSG_NOT_FOUND + "\n >> " + cmd + "\n" + out;
             throw new IOException(msg);
         }
 
@@ -215,13 +216,13 @@ public class LinuxUsersGroups {
         StringBuilder cmd = new StringBuilder();
         cmd.append("cat /etc/passwd | grep '");
         cmd.append(username);
-        cmd.append("' | cut -d ':' -f6");
+        cmd.append(":' | cut -d ':' -f6");
 
         ShellCommander shell = new ShellCommander();
         String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
 
         if (out.contains(NOT_FOUND)) {
-            String msg = "The command " + cmd + " was not found! Message: " + out;
+            String msg = MSG_NOT_FOUND + "\n >> " + cmd + "\n" + out;
             throw new IOException(msg);
         }
 

@@ -56,7 +56,6 @@ public class ShellCommander {
             error.join(DEATH_TIMEOUT);
             output.join(DEATH_TIMEOUT);
             proc.destroyForcibly();
-            // String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
             
             return output.getMessage();
         } catch (InterruptedException ex) {
@@ -77,11 +76,11 @@ public class ShellCommander {
             error.join(DEATH_TIMEOUT);
             output.join(DEATH_TIMEOUT);
             proc.destroyForcibly();
-            // String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
             
             return output.getMessage() + error.getMessage();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
+                    "The command could not be executed!", ex);
         }
         
         return "";
@@ -96,13 +95,15 @@ public class ShellCommander {
             } else if (osValidator.isWindows()) {
                 proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
-                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, "Unknown OS");
+                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
+                        "The command could not executed due to an Unknown OS!");
                 return null;
             }
 
             return proc;
         } catch (IOException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
+                    "The command could not be executed!", ex);
         }
 
         return null;
@@ -123,10 +124,6 @@ public class ShellCommander {
             this.type = type;
         }
 
-        private String getOutput() {
-            return message;
-        }
-
         @Override
         public void run() {
             this.setName("ShellCommander_StreamWrapper");
@@ -140,8 +137,8 @@ public class ShellCommander {
                 }
                 message = buffer.toString();
             } catch (IOException ioe) {
-                Logger.getLogger(ShellCommander.class.getName()).log(Level.INFO, "Error: " + ioe);
-//                ioe.printStackTrace();
+                Logger.getLogger(ShellCommander.class.getName()).log(Level.INFO, 
+                        "Error: ", ioe);
             }
         }
     }
