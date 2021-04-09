@@ -260,6 +260,11 @@
         <artifactId>nmf-package-lib</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
       </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core</groupId>
+        <artifactId>nmf-package-maven-plugin</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>
