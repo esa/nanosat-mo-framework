@@ -560,7 +560,9 @@ public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommanding
     }
 
     if (this.smServices != null) {
-      this.smServices.getHeartbeatService().stopListening();
+      if (this.smServices.getHeartbeatService() != null) {
+        this.smServices.getHeartbeatService().stopListening();
+      }
       this.smServices.closeConnections();
     }
 
