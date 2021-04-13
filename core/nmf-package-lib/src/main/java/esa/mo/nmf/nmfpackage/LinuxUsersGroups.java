@@ -155,9 +155,10 @@ public class LinuxUsersGroups {
      * Changes the access permissions of file system objects (files and
      * directories).
      *
-     * @param path The path of the file or directory.
-     * @param mode The mode to be set.
+     * @param sudo Sets if the command needs sudo.
      * @param recursive Sets if the command is recursive.
+     * @param mode The mode to be set.
+     * @param path The path of the file or directory.
      * @throws IOException if the permissions could not be changed.
      */
     public static void chmod(boolean sudo, boolean recursive, String mode, String path) throws IOException {
