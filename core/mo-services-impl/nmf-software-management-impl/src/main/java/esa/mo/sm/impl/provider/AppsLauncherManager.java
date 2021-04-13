@@ -396,6 +396,7 @@ public class AppsLauncherManager extends DefinitionsManager
       ret.add(str.toString());
     } else {
       if (runAs != null) {
+        ret.add("sudo");
         ret.add("su");
         ret.add("-");
         ret.add(runAs);
