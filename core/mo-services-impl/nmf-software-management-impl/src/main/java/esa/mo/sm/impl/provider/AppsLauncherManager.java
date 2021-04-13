@@ -248,8 +248,39 @@ public class AppsLauncherManager extends DefinitionsManager {
             interaction);
     }
 
-    protected boolean delete(Long objId) {
-        return this.deleteDef(objId);
+    return this.get(appId).getRunning();
+  }
+
+  protected String[] assembleCommand(final String workDir, final String appName, final String runAs, final String prefix, final String[] env)
+  {
+    ArrayList<String> ret = new ArrayList<>();
+    String trimmedAppName = appName.replaceAll("space-app-", "");
+    if (osValidator.isWindows()) {
+      ret.add("cmd");
+      ret.add("/c");
+      StringBuilder str = new StringBuilder();
+      str.append(prefix);
+      str.append(trimmedAppName);
+      str.append(".bat");
+      ret.add(str.toString());
+    } else {
+      if (runAs != null) {
+        ret.add("sudo");
+        ret.add("su");
+        ret.add("-");
+        ret.add(runAs);
+        ret.add("-c");
+      } else {
+        ret.add("/bin/sh");
+        ret.add("-c");
+      }
+      StringBuilder envString = new StringBuilder();
+      for (String envVar : env) {
+        envString.append(envVar);
+        envString.append(" ");
+      }
+
+      ret.add("cd " + workDir + ";" + envString.toString() + "./" + prefix + trimmedAppName + ".sh");
     }
 
     protected boolean refreshAvailableAppsList(final URI providerURI) {
