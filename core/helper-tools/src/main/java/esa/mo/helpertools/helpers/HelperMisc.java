@@ -48,53 +48,74 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  */
 public class HelperMisc {
 
-    private static final Set LOADED_PROPERTIES = new TreeSet();
+  private static final Set LOADED_PROPERTIES = new TreeSet();
 
-    public static final String TRANSPORT_PROPERTIES_FILE = "transport.properties";
-    public static final String PROVIDER_PROPERTIES_FILE = "provider.properties";
-    public static final String CONSUMER_PROPERTIES_FILE = "consumer.properties";
-    public static final String SHARED_BROKER_PROPERTIES = "sharedBroker.properties";
-    public static final String SHARED_BROKER_URI = "sharedBrokerURI.properties";
-    public static final String PROVIDER_URIS_PROPERTIES_FILENAME = "providerURIs.properties";
-    public static final String PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME = "providerURIsSecondary.properties";
-    public static final String PROPERTY_SHARED_BROKER_URI = "esa.mo.helpertools.connections.SharedBrokerURI";
+  public static final String TRANSPORT_PROPERTIES_FILE = "transport.properties";
+  public static final String PROVIDER_PROPERTIES_FILE = "provider.properties";
+  public static final String CONSUMER_PROPERTIES_FILE = "consumer.properties";
+  public static final String SHARED_BROKER_PROPERTIES = "sharedBroker.properties";
+  public static final String SHARED_BROKER_URI = "sharedBrokerURI.properties";
+  public static final String PROVIDER_URIS_PROPERTIES_FILENAME = "providerURIs.properties";
+  public static final String PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME = "providerURIsSecondary.properties";
+  public static final String PROPERTY_SHARED_BROKER_URI = "esa.mo.helpertools.connections.SharedBrokerURI";
 
-    // These are used by the Apps Launcher service
-    public final static String APP_VERSION = "helpertools.configurations.provider.app.version";
-    public final static String APP_CATEGORY = "helpertools.configurations.provider.app.category";
-    public final static String APP_COPYRIGHT = "helpertools.configurations.provider.app.copyright";
-    public final static String APP_DESCRIPTION = "helpertools.configurations.provider.app.description";
-    public final static String APP_USER = "helpertools.configurations.provider.app.user";
+  // These are used by the Apps Launcher service
+  public final static String APP_VERSION = "helpertools.configurations.provider.app.version";
+  public final static String APP_CATEGORY = "helpertools.configurations.provider.app.category";
+  public final static String APP_COPYRIGHT = "helpertools.configurations.provider.app.copyright";
+  public final static String APP_DESCRIPTION = "helpertools.configurations.provider.app.description";
+  public final static String APP_USER = "helpertools.configurations.provider.app.user";
 
-    public static final String PROP_MO_APP_NAME = "helpertools.configurations.MOappName";
-    public static final String PROP_DOMAIN = "helpertools.configurations.provider.Domain";
-    public static final String PROP_NETWORK = "helpertools.configurations.Network";
+  public static final String PROP_MO_APP_NAME = "helpertools.configurations.MOappName";
+  public static final String PROP_DOMAIN = "helpertools.configurations.provider.Domain";
+  public static final String PROP_NETWORK = "helpertools.configurations.Network";
+  public static final String PROP_WORK_DIR_STORAGE_MODE = "helpertools.configurations.workdirstorage";
 
-    // Fine-tunning Network properties (only works if the NETWORK is not set)
-    public static final String PROP_ORGANIZATION_NAME = "helpertools.configurations.OrganizationName";
-    public static final String PROP_MISSION_NAME = "helpertools.configurations.MissionName";
-    public static final String PROP_NETWORK_ZONE = "helpertools.configurations.NetworkZone";
-    public static final String PROP_DEVICE_NAME = "helpertools.configurations.DeviceName";
+  // Fine-tunning Network properties (only works if the NETWORK is not set)
+  public static final String PROP_ORGANIZATION_NAME = "helpertools.configurations.OrganizationName";
+  public static final String PROP_MISSION_NAME = "helpertools.configurations.MissionName";
+  public static final String PROP_NETWORK_ZONE = "helpertools.configurations.NetworkZone";
+  public static final String PROP_DEVICE_NAME = "helpertools.configurations.DeviceName";
 
-    public static final String PROP_GPS_POLL_RATE_MS = "helpertools.configurations.gpspollrate";
-    public static final String PROP_GPS_POLLING_ACTIVE = "helpertools.configurations.pollgps";
+  public static final String PROP_GPS_POLL_RATE_MS = "helpertools.configurations.gpspollrate";
+  public static final String PROP_GPS_POLLING_ACTIVE = "helpertools.configurations.pollgps";
 
-    private static final String PROP_TRANSPORT_ID = "helpertools.configurations.provider.transportfilepath";
-    private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";
-    public static final String SECONDARY_PROTOCOL = "org.ccsds.moims.mo.mal.transport.secondary.protocol";
+  private static final String PROP_TRANSPORT_ID = "helpertools.configurations.provider.transportfilepath";
+  private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";
+  public static final String SECONDARY_PROTOCOL = "org.ccsds.moims.mo.mal.transport.secondary.protocol";
+  public static final String PROP_PROVIDERURIS_PATH = "helpertools.configurations.provider.providerurispath";
+  public static final String PROP_PROVIDERURIS_SEC_PATH = "helpertools.configurations.provider.providerurispathsecondary";
 
-    public static final String PROPERTY_APID_QUALIFIER = "org.ccsds.moims.mo.malspp.apidQualifier";
-    public static final String PROPERTY_APID = "org.ccsds.moims.mo.malspp.apid";
+  public static final String PROPERTY_APID_QUALIFIER = "org.ccsds.moims.mo.malspp.apidQualifier";
+  public static final String PROPERTY_APID = "org.ccsds.moims.mo.malspp.apid";
 
-    public static final String PROP_INIT_URI_FILES = "helpertools.initurifiles";
+  public static final String PROP_INIT_URI_FILES = "helpertools.initurifiles";
 
-    public static final Identifier SESSION_NAME = new Identifier("LIVE");
+  public static final Identifier SESSION_NAME = new Identifier("LIVE");
 
-    /**
-     * Clears the list of loaded property files.
-     */
-    public static void clearLoadedPropertiesList() {
-        LOADED_PROPERTIES.clear();
+  /**
+   * Clears the list of loaded property files.
+   */
+  public static void clearLoadedPropertiesList() {
+    LOADED_PROPERTIES.clear();
+  }
+
+  /**
+   * Loads in a property file and optionally searches for a contained property
+   * that contains the next file to load.
+   *
+   * @param configFile    The name of the property file to load. May be null, in
+   *                      which case nothing is loaded.
+   * @param chainProperty The property name that contains the name of the next
+   *                      file to load.
+   * @return The loaded properties or an empty list if no file loaded.
+   */
+  private static Properties loadProperties(final String configFile, final String chainProperty) {
+    Properties topProps = new Properties();
+
+    if (null != configFile) {
+      topProps = loadProperties(ClassLoader.getSystemClassLoader().getResource(configFile),
+          chainProperty);
     }
 
     /**

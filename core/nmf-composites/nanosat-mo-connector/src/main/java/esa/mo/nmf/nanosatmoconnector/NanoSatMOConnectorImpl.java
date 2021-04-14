@@ -130,9 +130,22 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
 
-        String location = AppStorage.getAppNMFInternalDir() + File.separator + "comArchive.db";
-        String url = "jdbc:sqlite:" + location;
-        System.setProperty("esa.nmf.archive.persistence.jdbc.url", url);
+        // Check if the new Home dir mode property is enabled:
+        int mode = Integer.parseInt(System.getProperty(HelperMisc.PROP_WORK_DIR_STORAGE_MODE, "0"));
+        
+        if(mode >= 2){
+            File nmfInternal = AppStorage.getAppNMFInternalDir();
+            String location = nmfInternal + File.separator + "comArchive.db";
+            String url = "jdbc:sqlite:" + location;
+            System.setProperty("esa.nmf.archive.persistence.jdbc.url", url);
+            
+            String urisPath = nmfInternal + File.separator + HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME;
+            System.setProperty(HelperMisc.PROP_PROVIDERURIS_PATH, urisPath);
+            String urisPath_sec = nmfInternal + File.separator + HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME;
+            System.setProperty(HelperMisc.PROP_PROVIDERURIS_SEC_PATH, urisPath_sec);
+        }
+        
+        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
         
         try {
             comServices.init();
