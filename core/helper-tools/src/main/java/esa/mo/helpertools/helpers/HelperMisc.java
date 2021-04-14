@@ -155,7 +155,8 @@ public class HelperMisc {
     final Properties topProps = new Properties();
     if (chainProperty == null) {
       throw new IllegalArgumentException(
-          "ChainProperty must not be null. Provide an empty String if you do not want to provide a chainProperty.");
+          "ChainProperty must not be null. "
+                  + "Provide an empty String if you do not want to provide a chainProperty.");
     }
 
     if (null != url) {
@@ -220,7 +221,6 @@ public class HelperMisc {
    *                        SHARED_BROKER_PROPERTIES file will be read
    */
   public static void loadPropertiesFile(Boolean useSharedBroker) {
-
     // Were they loaded already?
     String propAreLoaded = System.getProperty("PropertiesLoadedFlag");
     if (propAreLoaded != null) {
@@ -242,7 +242,8 @@ public class HelperMisc {
           sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
         } else {
           Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-              "The file provider.properties does not exist on the path: {}. Is the application working directory configured properly?", providerFile);
+              "The file provider.properties does not exist on the path: {0}\n"
+                      + "Is the application working directory configured properly?", providerFile);
         }
       }
 
@@ -254,7 +255,8 @@ public class HelperMisc {
           sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "settings.properties"));
         } else {
           Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-              "The file settings.properties does not exist on the path: {}. Is the application working directory configured properly?", settingsFile);
+              "The file settings.properties does not exist on the path: {0}\n"
+                      + "Is the application working directory configured properly?", settingsFile);
         }
       }
 
@@ -270,7 +272,8 @@ public class HelperMisc {
         sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "transport.properties"));
       } else {
         Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-            "The file transport.properties does not exist on the path: {}. Is the application working directory configured properly?", transport_file_path);
+            "The file transport.properties does not exist on the path: {0}\n"
+                    + "Is the application working directory configured properly?", transport_file_path);
       }
 
       if (useSharedBroker) {
@@ -402,7 +405,10 @@ public class HelperMisc {
 
     if (eleFact == null) {
       Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
-          "The element could not be found in the MAL ElementFactory! The object type is: ''{0}''. Maybe the service Helper for this object was not initialized. Try initializing the Service Helper of this object.",
+          "The element could not be found in the MAL ElementFactory! "
+                  + "The object type is: ''{0}''. "
+                  + "Maybe the service Helper for this object was not initialized. "
+                  + "Try initializing the Service Helper of this object.",
           obj.getClass().getSimpleName());
     }
 
