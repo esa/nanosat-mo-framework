@@ -135,7 +135,27 @@ public class HelperMisc {
             topProps = loadProperties(ClassLoader.getSystemClassLoader().getResource(configFile), chainProperty);
         }
 
-        return topProps;
+    System.setProperties(sysProps);
+  }
+
+  /**
+   * Loads in a property file and optionally searches for a contained property
+   * that contains the next file to load.
+   *
+   * @param url           The URL of the property file to load. May be null, in
+   *                      which case nothing is loaded.
+   * @param chainProperty The property name that contains the name of the next
+   *                      file to load.
+   * @return The loaded properties or an empty list if no file loaded.
+   * @throws java.lang.IllegalArgumentException If chainProperty == null.
+   */
+  public static Properties loadProperties(final java.net.URL url, final String chainProperty)
+      throws IllegalArgumentException {
+    final Properties topProps = new Properties();
+    if (chainProperty == null) {
+      throw new IllegalArgumentException(
+          "ChainProperty must not be null. "
+                  + "Provide an empty String if you do not want to provide a chainProperty.");
     }
 
     /**
@@ -149,11 +169,51 @@ public class HelperMisc {
         final Properties sysProps = System.getProperties();
         final File file = new File(System.getProperty("consumer.properties", CONSUMER_PROPERTIES_FILE));
 
-        if (file.exists()) {
-            sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "consumer.properties"));
-        } else {
-            throw new IOException("The file " + file.getName() + " does not exist.");
-        }
+    return topProps;
+  }
+
+  /**
+   * Loads in a property file.
+   *
+   * @param path The path of the property file to load.
+   * @return The loaded properties or an empty list if no file loaded.
+   * @throws IOException              The file could not be loaded.
+   * @throws IllegalArgumentException If path == null
+   */
+  public static Properties loadProperties(final String path)
+      throws IOException, IllegalArgumentException {
+    if (path == null) {
+      throw new IllegalArgumentException("Filepath must not be null.");
+    }
+    final File file = new File(path);
+    final FileInputStream inputStream = new FileInputStream(file);
+    final Properties ret = new Properties();
+    ret.load(inputStream);
+    inputStream.close();
+    return ret;
+  }
+
+  /**
+   * Loads the provider properties file
+   */
+  public static void loadPropertiesFile() {
+    HelperMisc.loadPropertiesFile(false);
+  }
+
+  /**
+   * Loads the provider properties file and the properties for the shared broker
+   *
+   * @param useSharedBroker Flag that determines if the properties in the
+   *                        SHARED_BROKER_PROPERTIES file will be read
+   */
+  public static void loadPropertiesFile(Boolean useSharedBroker) {
+    // Were they loaded already?
+    String propAreLoaded = System.getProperty("PropertiesLoadedFlag");
+    if (propAreLoaded != null) {
+      if (System.getProperty("PropertiesLoadedFlag").equals("true")) {
+        return;
+      }
+    }
 
         System.setProperties(sysProps);
     }
@@ -177,41 +237,27 @@ public class HelperMisc {
                 "ChainProperty must not be null. Provide an empty String if you do not want to provide a chainProperty.");
         }
 
-        if (null != url) {
-            try {
-                final Properties myProps = new Properties();
-                InputStream stream = url.openStream();
-                myProps.load(stream);
-                stream.close();
-
-                final Properties subProps = loadProperties(myProps.getProperty(chainProperty), chainProperty);
-
-                String loadingString = (LOADED_PROPERTIES.contains(url.toString())) ? "Reloading properties " + url
-                    .toString() : "Loading properties " + url.toString();
-
-                Logger.getLogger(HelperMisc.class.getName()).log(Level.INFO, loadingString);
-                topProps.putAll(subProps);
-                topProps.putAll(myProps);
-                LOADED_PROPERTIES.add(url.toString());
-            } catch (IOException ex) {
-                Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING, "Failed to load properties " + url, ex);
-            }
+      if (providerFile != null) {
+        file = new File(providerFile);
+        if (file.exists()) {
+          sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
+        } else {
+          Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
+              "The file provider.properties does not exist on the path: {0}\n"
+                      + "Is the application working directory configured properly?", providerFile);
         }
 
         return topProps;
     }
 
-    /**
-     * Loads in a property file.
-     *
-     * @param path The path of the property file to load.
-     * @return The loaded properties or an empty list if no file loaded.
-     * @throws IOException              The file could not be loaded.
-     * @throws IllegalArgumentException If path == null
-     */
-    public static Properties loadProperties(final String path) throws IOException, IllegalArgumentException {
-        if (path == null) {
-            throw new IllegalArgumentException("Filepath must not be null.");
+      if (settingsFile != null) {
+        file = new File(settingsFile);
+        if (file.exists()) {
+          sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "settings.properties"));
+        } else {
+          Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
+              "The file settings.properties does not exist on the path: {0}\n"
+                      + "Is the application working directory configured properly?", settingsFile);
         }
         final File file = new File(path);
         final FileInputStream inputStream = new FileInputStream(file);
@@ -244,70 +290,14 @@ public class HelperMisc {
             }
         }
 
-        try {
-            final java.util.Properties sysProps = System.getProperties();
-
-            File file;
-            final String providerFile = System.getProperty("provider.properties", PROVIDER_PROPERTIES_FILE);
-
-            if (providerFile != null) {
-                file = new File(providerFile);
-                if (file.exists()) {
-                    sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
-                } else {
-                    Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-                        "The file provider.properties does not exist on the path: {}. Is the application working directory configured properly?",
-                        providerFile);
-                }
-            }
-
-            final String settingsFile = System.getProperty(SETTINGS_PROPERTY, "settings.properties");
-
-            if (settingsFile != null) {
-                file = new File(settingsFile);
-                if (file.exists()) {
-                    sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "settings.properties"));
-                } else {
-                    Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-                        "The file settings.properties does not exist on the path: {}. Is the application working directory configured properly?",
-                        settingsFile);
-                }
-            }
-
-            String transport_file_path = TRANSPORT_PROPERTIES_FILE;
-            String trans_path_prop = System.getProperty(PROP_TRANSPORT_ID);
-
-            if (trans_path_prop != null) {
-                transport_file_path = trans_path_prop;
-            }
-
-            file = new File(System.getProperty("transport.properties", transport_file_path));
-            if (file.exists()) {
-                sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "transport.properties"));
-            } else {
-                Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
-                    "The file transport.properties does not exist on the path: {}. Is the application working directory configured properly?",
-                    transport_file_path);
-            }
-
-            if (useSharedBroker) {
-                file = new File(System.getProperty("sharedBroker.properties", SHARED_BROKER_PROPERTIES));
-                if (file.exists()) {
-                    sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "sharedBroker.properties"));
-                }
-
-                file = new File(System.getProperty("sharedBrokerURI.properties", SHARED_BROKER_URI));
-                if (file.exists()) {
-                    sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "sharedBrokerURI.properties"));
-                }
-            }
-
-            System.setProperties(sysProps);
-            System.setProperty("PropertiesLoadedFlag", "true");
-
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      file = new File(System.getProperty("transport.properties", transport_file_path));
+      if (file.exists()) {
+        sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "transport.properties"));
+      } else {
+        Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
+            "The file transport.properties does not exist on the path: {0}\n"
+                    + "Is the application working directory configured properly?", transport_file_path);
+      }
 
     }
 
@@ -416,7 +406,14 @@ public class HelperMisc {
                 obj.getClass().getSimpleName());
         }
 
-        return (Element) eleFact.createElement();
+    if (eleFact == null) {
+      Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
+          "The element could not be found in the MAL ElementFactory! "
+                  + "The object type is: ''{0}''. "
+                  + "Maybe the service Helper for this object was not initialized. "
+                  + "Try initializing the Service Helper of this object.",
+          obj.getClass().getSimpleName());
+    }
 
     }
 
