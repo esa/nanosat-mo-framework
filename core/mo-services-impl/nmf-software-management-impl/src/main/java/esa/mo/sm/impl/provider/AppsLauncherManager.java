@@ -32,6 +32,7 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.sm.impl.util.OSValidator;
+import esa.mo.sm.impl.util.ShellCommander;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -73,35 +74,29 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsL
  *
  * @author Cesar Coelho
  */
-public class AppsLauncherManager extends DefinitionsManager {
+public class AppsLauncherManager extends DefinitionsManager
+{
 
-    private static final int APP_STOP_TIMEOUT = 15000;
-    private static final Logger LOGGER = Logger.getLogger(AppsLauncherManager.class.getName());
+  private static final int APP_STOP_TIMEOUT = 15000;
 
-    private final OSValidator osValidator = new OSValidator();
+  private static final Logger LOGGER = Logger.getLogger(AppsLauncherManager.class.getName());
 
-    private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.sm.impl.provider.appslauncher.FolderLocation";
-    private static final String DEFAULT_APPS_FOLDER_PATH = ".." + File.separator + ".." + File.separator + "apps";
-    /**
-     * Location of the apps folder, relative to the MO Supervisor
-     */
-    private File appsFolderPath;
-    private final HashMap<Long, ProcessExecutionHandler> handlers = new HashMap<>();
+  private final OSValidator osValidator = new OSValidator();
 
-    private AtomicLong uniqueObjIdDef; // Counter
+  private boolean sudoAvailable = false;
+  
+  private static final String FOLDER_LOCATION_PROPERTY
+      = "esa.mo.sm.impl.provider.appslauncher.FolderLocation";
 
-    public AppsLauncherManager(COMServicesProvider comServices) {
-        super(comServices);
-
-        // If there is a property for that, then use it!!
-        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
-            appsFolderPath = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
-        } else {
-            LOGGER.log(Level.INFO, "Property not set: {0} \nUsing default apps directory: {1}", new Object[]{
-                                                                                                             FOLDER_LOCATION_PROPERTY,
-                                                                                                             DEFAULT_APPS_FOLDER_PATH});
-            appsFolderPath = new File(DEFAULT_APPS_FOLDER_PATH);
-        }
+  private static final String DEFAULT_APPS_FOLDER_PATH
+      = ".." + File.separator + ".." + File.separator + "apps";
+  
+  /**
+   * Location of the apps folder, relative to the MO Supervisor
+   */
+  private File appsFolderPath;
+  private final HashMap<Long, ProcessExecutionHandler> handlers
+      = new HashMap<>();
 
         if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
             SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) != null && MALContextFactory.lookupArea(
@@ -132,9 +127,46 @@ public class AppsLauncherManager extends DefinitionsManager {
         return this.get(objId).getName().equals(name);
     }
 
-    @Override
-    public ElementList newDefinitionList() {
-        return new AppDetailsList();
+    if(osValidator.isUnix()){
+        ShellCommander shell = new ShellCommander();
+        String out = shell.runCommandAndGetOutputMessageAndError("sudo --help");
+        sudoAvailable = !out.contains("command not found");
+    }
+  }
+
+  protected AppDetailsList getAll()
+  {
+    return (AppDetailsList) this.getAllDefs();
+  }
+
+  @Override
+  public Boolean compareName(Long objId, Identifier name)
+  {
+    return this.get(objId).getName().equals(name);
+  }
+
+  @Override
+  public ElementList newDefinitionList()
+  {
+    return new AppDetailsList();
+  }
+
+  public AppDetails get(Long input)
+  {
+    return (AppDetails) this.getDef(input);
+  }
+
+  protected Long addApp(final AppDetails definition, final ObjectId source, final URI uri)
+  {
+    Long objId = null;
+    Long related = null;
+
+    if (definition.getExtraInfo() != null) {
+      try { // Read the provider.properties of the app
+        objId = readAppObjectId(definition);
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      }
     }
 
     public AppDetails get(Long input) {
@@ -265,7 +297,9 @@ public class AppsLauncherManager extends DefinitionsManager {
       ret.add(str.toString());
     } else {
       if (runAs != null) {
-        ret.add("sudo");
+        if(sudoAvailable){
+          ret.add("sudo");
+        }
         ret.add("su");
         ret.add("-");
         ret.add(runAs);
