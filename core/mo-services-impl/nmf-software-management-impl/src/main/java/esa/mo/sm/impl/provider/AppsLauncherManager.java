@@ -32,6 +32,7 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.sm.impl.util.OSValidator;
+import esa.mo.sm.impl.util.ShellCommander;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -76,14 +77,19 @@ public class AppsLauncherManager extends DefinitionsManager
 {
 
   private static final int APP_STOP_TIMEOUT = 5000;
+
   private static final Logger LOGGER = Logger.getLogger(AppsLauncherManager.class.getName());
 
   private final OSValidator osValidator = new OSValidator();
 
+  private boolean sudoAvailable = false;
+  
   private static final String FOLDER_LOCATION_PROPERTY
       = "esa.mo.sm.impl.provider.appslauncher.FolderLocation";
+
   private static final String DEFAULT_APPS_FOLDER_PATH
       = ".." + File.separator + ".." + File.separator + "apps";
+  
   /**
    * Location of the apps folder, relative to the MO Supervisor
    */
@@ -119,6 +125,11 @@ public class AppsLauncherManager extends DefinitionsManager
       // With Archive...
     }
 
+    if(osValidator.isUnix()){
+        ShellCommander shell = new ShellCommander();
+        String out = shell.runCommandAndGetOutputMessageAndError("sudo --help");
+        sudoAvailable = !out.contains("command not found");
+    }
   }
 
   protected AppDetailsList getAll()
@@ -396,7 +407,9 @@ public class AppsLauncherManager extends DefinitionsManager
       ret.add(str.toString());
     } else {
       if (runAs != null) {
-        ret.add("sudo");
+        if(sudoAvailable){
+          ret.add("sudo");
+        }
         ret.add("su");
         ret.add("-");
         ret.add(runAs);
