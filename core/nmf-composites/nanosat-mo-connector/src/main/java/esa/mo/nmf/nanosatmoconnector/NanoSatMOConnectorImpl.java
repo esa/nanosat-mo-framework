@@ -34,6 +34,7 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
+import esa.mo.nmf.AppStorage;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MPRegistration;
 import esa.mo.nmf.MissionPlanningNMFAdapter;
@@ -47,6 +48,7 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
@@ -80,6 +82,9 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  * @author Cesar Coelho
  */
 public class NanoSatMOConnectorImpl extends NMFProvider {
+
+    private static final String SEPARATOR = "------------";
+
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOConnectorImpl.class.getName());
 
     private Long appDirectoryServiceId;
@@ -98,6 +103,26 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     @Override
     public void init(final MonitorAndControlNMFAdapter mcAdapter) {
         super.startTime = System.currentTimeMillis();
+
+        Properties p = System.getProperties();
+        StringBuilder java = new StringBuilder();
+        java.append(p.getProperty("java.runtime.name", "?"));
+        java.append(" (version: ");
+        java.append(p.getProperty("java.runtime.version", "?"));
+        java.append(")");
+        
+        StringBuilder os = new StringBuilder();
+        os.append(p.getProperty("os.name", "?"));
+        os.append(" (version: ");
+        os.append(p.getProperty("os.version", "?"));
+        os.append(")");
+        
+        System.out.println(SEPARATOR);
+        System.out.println("NanoSat MO Framework");
+        System.out.println("OS: " + os.toString());
+        System.out.println("Java: " + java.toString());
+        System.out.println(SEPARATOR);
+        
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinks();
 
