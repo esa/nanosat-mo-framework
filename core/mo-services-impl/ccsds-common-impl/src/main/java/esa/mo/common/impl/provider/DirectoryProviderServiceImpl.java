@@ -493,16 +493,25 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
     ServicesConnectionDetails primaryConnectionDetails = new ServicesConnectionDetails();
     ServicesConnectionDetails secondaryAddresses = new ServicesConnectionDetails();
 
+    String path = System.getProperty(
+            HelperMisc.PROP_PROVIDERURIS_PATH, 
+            HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME
+    );
+            
     try {
-      primaryConnectionDetails = primaryConnectionDetails.loadURIFromFiles();
+      primaryConnectionDetails = primaryConnectionDetails.loadURIFromFiles(path);
     } catch (MalformedURLException | FileNotFoundException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
 
     try {
+      String pathSec = System.getProperty(
+        HelperMisc.PROP_PROVIDERURIS_SEC_PATH, 
+        HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME
+      );
+        
       secondaryAddresses = (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null)
-          ? secondaryAddresses.loadURIFromFiles(
-              HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME)
+          ? secondaryAddresses.loadURIFromFiles(pathSec)
           : null;
     } catch (MalformedURLException | FileNotFoundException ex) {
       LOGGER.log(Level.SEVERE, null, ex);

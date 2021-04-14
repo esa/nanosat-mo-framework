@@ -69,6 +69,7 @@ public class HelperMisc {
   public static final String PROP_MO_APP_NAME = "helpertools.configurations.MOappName";
   public static final String PROP_DOMAIN = "helpertools.configurations.provider.Domain";
   public static final String PROP_NETWORK = "helpertools.configurations.Network";
+  public static final String PROP_WORK_DIR_STORAGE_MODE = "helpertools.configurations.workdirstorage";
 
   // Fine-tunning Network properties (only works if the NETWORK is not set)
   public static final String PROP_ORGANIZATION_NAME = "helpertools.configurations.OrganizationName";
@@ -82,6 +83,8 @@ public class HelperMisc {
   private static final String PROP_TRANSPORT_ID = "helpertools.configurations.provider.transportfilepath";
   private static final String SETTINGS_PROPERTY = "esa.mo.nanosatmoframework.provider.settings";
   public static final String SECONDARY_PROTOCOL = "org.ccsds.moims.mo.mal.transport.secondary.protocol";
+  public static final String PROP_PROVIDERURIS_PATH = "helpertools.configurations.provider.providerurispath";
+  public static final String PROP_PROVIDERURIS_SEC_PATH = "helpertools.configurations.provider.providerurispathsecondary";
 
   public static final String PROPERTY_APID_QUALIFIER = "org.ccsds.moims.mo.malspp.apidQualifier";
   public static final String PROPERTY_APID = "org.ccsds.moims.mo.malspp.apid";

@@ -17,7 +17,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  * ----------------------------------------------------------------------------
- */package esa.mo.nmf;
+ */
+package esa.mo.nmf;
 
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.File;

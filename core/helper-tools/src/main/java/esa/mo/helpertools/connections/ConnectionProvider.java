@@ -23,6 +23,7 @@ package esa.mo.helpertools.connections;
 import esa.mo.helpertools.helpers.HelperConnections;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
@@ -195,9 +196,14 @@ public class ConnectionProvider {
                     serviceKey
                 });
 
+        String path = System.getProperty(
+                HelperMisc.PROP_PROVIDERURIS_PATH, 
+                HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME
+        );
+        
         this.writeURIsOnFile(primaryConnectionDetails,
                 serviceName,
-                HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+                path);
 
         primaryMALServiceProvider = serviceProvider;
 
@@ -237,9 +243,14 @@ public class ConnectionProvider {
                         serviceKey
                     });
 
+            String pathSec = System.getProperty(
+                    HelperMisc.PROP_PROVIDERURIS_SEC_PATH, 
+                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME
+            );
+        
             this.writeURIsOnFile(secondaryConnectionDetails,
                     serviceName,
-                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
+                    pathSec);
 
             secondaryMALServiceProvider = serviceProvider2;
         }
@@ -303,9 +314,14 @@ public class ConnectionProvider {
      * Clears the URI links file of the provider
      */
     public static void resetURILinksFile() {
+        String path = System.getProperty(
+                HelperMisc.PROP_PROVIDERURIS_PATH, 
+                HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME
+        );
+        
         BufferedWriter wrt = null;
         try {
-            wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false));
+            wrt = new BufferedWriter(new FileWriter(path, false));
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
@@ -319,9 +335,14 @@ public class ConnectionProvider {
         }
 
         if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
+            String pathSec = System.getProperty(
+                    HelperMisc.PROP_PROVIDERURIS_SEC_PATH, 
+                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME
+            );
+        
             BufferedWriter wrt2 = null;
             try {
-                wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
+                wrt2 = new BufferedWriter(new FileWriter(pathSec, false));
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                         "Unable to reset URI information from properties file {0}", ex);
