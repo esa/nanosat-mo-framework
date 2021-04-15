@@ -1,11 +1,10 @@
-/*
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
  * ----------------------------------------------------------------------------
- * Copyright (C) 2021 European Space Agency
- * European Space Operations Centre
- * Darmstadt
- * Germany
- * ----------------------------------------------------------------------------
- * System : ESA NanoSat MO Framework
+ * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
  * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
@@ -14,9 +13,9 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- *
+ * 
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
 package esa.mo.nmf.apps.pictureprocessor.process;
@@ -37,7 +36,8 @@ public class LoggingExecuteResultHandler extends DefaultExecuteResultHandler {
     private final ProcessEventListener processEventListener;
     private final Long processRequestId;
 
-    public LoggingExecuteResultHandler(ProcessEventListener processEventListener, Long processRequestId, OutputStream processOutputStream) {
+    public LoggingExecuteResultHandler(ProcessEventListener processEventListener,
+            Long processRequestId, OutputStream processOutputStream) {
         this.processOutputStream = processOutputStream;
         this.processEventListener = processEventListener;
         this.processRequestId = processRequestId;
