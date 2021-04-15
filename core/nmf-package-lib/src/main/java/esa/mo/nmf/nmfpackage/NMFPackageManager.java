@@ -129,8 +129,10 @@ public class NMFPackageManager {
                 // Create the User for this App
                 username = generateUsername(appName);
                 boolean withGroup = true;
-                LinuxUsersGroups.createUser(username, password, withGroup, GROUP_NMF_APPS);
-
+                LinuxUsersGroups.adduser(username, password, withGroup);
+                LinuxUsersGroups.addUserToGroup(username, GROUP_NMF_APPS);
+                //LinuxUsersGroups.useradd(username, password, withGroup, GROUP_NMF_APPS);
+                
                 // Set the right Group and Permissions to the Home Directory
                 // The owner remains with the app, the group is nmf-admin
                 String homeDir = LinuxUsersGroups.findHomeDir(username);
@@ -203,8 +205,9 @@ public class NMFPackageManager {
 
         System.console().printf(SEPARATOR);
     }
-
-    public static void uninstall(final String packageLocation, final boolean keepUserData) throws IOException {
+    
+    public static void uninstall(final String packageLocation, 
+            final boolean keepUserData) throws IOException {
         System.console().printf(SEPARATOR);
 
         // Get the Package to be uninstalled
@@ -259,7 +262,8 @@ public class NMFPackageManager {
         // ---------------------------------------
 
         // We need to delete the respective user here!!
-        LinuxUsersGroups.deleteUser(generateUsername(appName), true);
+        //LinuxUsersGroups.userdel(generateUsername(appName), true);
+        LinuxUsersGroups.deluser(generateUsername(appName), true);
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, "Package successfully uninstalled from: " +
             packageLocation);
