@@ -1,11 +1,10 @@
-/*
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
  * ----------------------------------------------------------------------------
- * Copyright (C) 2021 European Space Agency
- * European Space Operations Centre
- * Darmstadt
- * Germany
- * ----------------------------------------------------------------------------
- * System : ESA NanoSat MO Framework
+ * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
  * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
@@ -14,9 +13,9 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- *
+ * 
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
 package esa.mo.nmf.apps.pictureprocessor.mo;
@@ -87,7 +86,6 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
         regiserActionTakeAndProcessPicture(actionDefs, actionNames);
         regiserActionDestroyProcess(actionDefs, actionNames);
-
         // ----
 
         registration.registerActions(actionNames, actionDefs);
@@ -119,12 +117,16 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
         {
             Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(new Identifier("min process duration"), "minimum picture processing duration",
+            arguments.add(new ArgumentDefinitionDetails(
+                    new Identifier("min process duration"),
+                    "minimum picture processing duration",
                     rawType, "seconds", null, null, null));
         }
         {
             Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(new Identifier("max process duration"), "max picture processing duration",
+            arguments.add(new ArgumentDefinitionDetails(
+                    new Identifier("max process duration"),
+                    "max picture processing duration",
                     rawType, "seconds", null, null, null));
         }
 
@@ -140,12 +142,14 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
         {
             Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(new Identifier("process id"), "process id",
+            arguments.add(new ArgumentDefinitionDetails(
+                    new Identifier("process id"),
+                    "process id",
                     rawType, "", null, null, null));
         }
 
         actionDefs.add(new ActionDefinitionDetails(
-                "Destryo a process",
+                "Destroy a process",
                 new UOctet((short) 0),
                 new UShort(1),
                 arguments));
@@ -153,7 +157,6 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
     }
 
     private void takeAndProcessPicture(Long actionInstanceObjId, AttributeValueList attributeValues) {
-
         int minProcessingDurationSeconds = getAs(attributeValues.get(0));
         int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
 
@@ -162,7 +165,8 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         LOG.info("Process Max duration " + maxProcessingDurationSeconds);
         LOG.info("Process Request Id " + actionInstanceObjId);
 
-        PictureReceivedAdapter adapter = new PictureReceivedAdapter(this,
+        PictureReceivedAdapter adapter = new PictureReceivedAdapter(
+                this,
                 actionInstanceObjId,
                 outputFolder,
                 minProcessingDurationSeconds,
@@ -193,7 +197,8 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
     private void publishParameter(String id, int exitCode) {
         try {
-            connector.pushParameterValue("Process Request ID: " + id + " exitCode: " + exitCode, exitCode);
+            connector.pushParameterValue("Process Request ID: " + id
+                    + " exitCode: " + exitCode, exitCode);
         } catch (NMFException e) {
             LOG.log(Level.SEVERE, "Failed to publish parameter", e);
         }
