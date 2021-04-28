@@ -340,9 +340,14 @@ public class NMFConsumer {
         filter.setRequiredCapabilities(new UIntegerList());
         filter.setServiceProviderName(new Identifier("*"));
 
+        ProviderSummaryList summaryList;
         // Do the lookup
-        final ProviderSummaryList summaryList = directoryService.getDirectoryStub().lookupProvider(filter);
-        directoryService.closeConnection();  // close the connection
+        try {
+            summaryList = directoryService.getDirectoryStub().lookupProvider(filter);
+        } catch (MALException | MALInteractionException e) {
+            directoryService.close();  // close the connection
+            throw e;
+        }
 
         return summaryList;
     }

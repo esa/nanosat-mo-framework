@@ -73,7 +73,7 @@ public class ClosingAppListener extends EventReceivedListener {
             }
 
             // If so, then close the connection to the service
-            eventService.closeConnection();
+            eventService.close();
 
             synchronized (semaphore) {
                 this.appClosed = true;

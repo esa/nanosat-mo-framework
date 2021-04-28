@@ -152,19 +152,19 @@ public class SMServicesConsumer
   public void closeConnections()
   {
     if (this.packageManagementService != null) {
-      this.packageManagementService.closeConnection();
+      this.packageManagementService.close();
     }
 
     if (this.appsLauncherService != null) {
-      this.appsLauncherService.closeConnection();
+      this.appsLauncherService.close();
     }
 
     if (this.commandExecutorService != null) {
-      this.commandExecutorService.closeConnection();
+      this.commandExecutorService.close();
     }
 
     if (this.heartbeatService != null) {
-      this.heartbeatService.closeConnection();
+      this.heartbeatService.close();
     }
   }
 

@@ -139,15 +139,15 @@ public class COMServicesConsumer {
      */
     public void closeConnections() {
         if (this.eventService != null) {
-            this.eventService.closeConnection();
+            this.eventService.close();
         }
 
         if (this.archiveService != null) {
-            this.archiveService.closeConnection();
+            this.archiveService.close();
         }
 
         if (this.archiveSyncService != null) {
-            this.archiveSyncService.closeConnection();
+            this.archiveSyncService.close();
         }
     }
 

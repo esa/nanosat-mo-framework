@@ -72,7 +72,7 @@ public class CentralDirectoryHelper {
       LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
     } finally {
       if (centralDirectory != null) {
-        centralDirectory.closeConnection();
+        centralDirectory.close();
       }
     }
 
@@ -125,7 +125,7 @@ public class CentralDirectoryHelper {
       LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
     } finally {
       if (centralDirectory != null) {
-        centralDirectory.closeConnection();
+        centralDirectory.close();
       }
     }
 

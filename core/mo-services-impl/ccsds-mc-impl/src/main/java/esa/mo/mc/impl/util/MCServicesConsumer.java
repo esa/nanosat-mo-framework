@@ -192,27 +192,27 @@ public class MCServicesConsumer {
      */
     public void closeConnections() {
         if (this.actionService != null) {
-            this.actionService.closeConnection();
+            this.actionService.close();
         }
 
         if (this.parameterService != null) {
-            this.parameterService.closeConnection();
+            this.parameterService.close();
         }
 
         if (this.alertService != null) {
-            this.alertService.closeConnection();
+            this.alertService.close();
         }
 
         if (this.checkService != null) {
-            this.checkService.closeConnection();
+            this.checkService.close();
         }
 
         if (this.statisticService != null) {
-            this.statisticService.closeConnection();
+            this.statisticService.close();
         }
 
         if (this.aggregationService != null) {
-            this.aggregationService.closeConnection();
+            this.aggregationService.close();
         }
     }
 

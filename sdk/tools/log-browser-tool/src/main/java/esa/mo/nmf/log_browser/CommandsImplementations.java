@@ -380,7 +380,7 @@ public class CommandsImplementations {
       } catch (InterruptedException e) {
       }
     }
-    archiveConsumer.closeConnection();
+    archiveConsumer.close();
   }
 
   /**

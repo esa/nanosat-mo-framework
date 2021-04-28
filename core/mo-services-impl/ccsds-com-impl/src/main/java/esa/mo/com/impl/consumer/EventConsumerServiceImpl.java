@@ -195,7 +195,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
      *
      */
     @Override
-    public void closeConnection() {
+    protected void closeConnection() {
         // Close old connection
         if (tmConsumer != null) {
             try {

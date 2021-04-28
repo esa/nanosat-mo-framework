@@ -122,15 +122,15 @@ public class CommonServicesConsumer {
      */
     public void closeConnections() {
         if (this.directoryService != null) {
-            this.directoryService.closeConnection();
+            this.directoryService.close();
         }
 
         if (this.configurationService != null) {
-            this.configurationService.closeConnection();
+            this.configurationService.close();
         }
 
         if (this.loginService != null) {
-            this.loginService.closeConnection();
+            this.loginService.close();
         }
     }
 

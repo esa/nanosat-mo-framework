@@ -36,7 +36,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 /**
  * An abstract class to be extended by specific service consumers.
  */
-public abstract class ConsumerServiceImpl
+public abstract class ConsumerServiceImpl implements AutoCloseable
 {
 
     protected ConnectionConsumer connection = new ConnectionConsumer();
@@ -62,10 +62,16 @@ public abstract class ConsumerServiceImpl
         return servicesMap;
     }
 
+    @Override
+    public void close()
+    {
+        closeConnection();
+    }
+
     /**
      * Closes the tmConsumer connection
      */
-    public void closeConnection()
+    protected void closeConnection()
     {
         // Close old connection
         if (tmConsumer != null)

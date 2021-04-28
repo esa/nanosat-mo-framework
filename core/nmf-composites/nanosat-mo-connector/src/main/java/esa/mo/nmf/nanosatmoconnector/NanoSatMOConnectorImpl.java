@@ -255,7 +255,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
                     final PublishProviderResponse response = centralDirectory.getDirectoryStub().publishProvider(publishDetails);
                     this.appDirectoryServiceId = response.getBodyElement0();
-                    centralDirectory.closeConnection(); // Close the connection to the Directory service
+                    centralDirectory.close(); // Close the connection to the Directory service
                     LOGGER.log(Level.INFO,
                             "Populated! And the connection to the Directory service has been successfully closed!");
                 }
@@ -327,7 +327,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             long time = System.currentTimeMillis();
 
             // We can close the connection to the Supervisor
-            this.serviceCOMEvent.closeConnection();
+            this.serviceCOMEvent.close();
 
             // Acknowledge the reception of the request to close (Closing...)
             Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
@@ -365,7 +365,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 try {
                     DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
                     directoryServiceConsumer.getDirectoryStub().withdrawProvider(this.getAppDirectoryId());
-                    directoryServiceConsumer.closeConnection();
+                    directoryServiceConsumer.close();
                 } catch (MALException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 } catch (MalformedURLException ex) {
