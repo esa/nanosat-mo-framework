@@ -98,7 +98,7 @@ import org.ccsds.moims.mo.platform.structures.VectorF3D;
 public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     implements ReconfigurableService
 {
-
+  private static final Logger LOGGER = Logger.getLogger(GPSProviderServiceImpl.class.getName());
   private MALProvider gpsServiceProvider;
   private boolean initialiased = false;
   private boolean running = false;
@@ -175,7 +175,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     initialiased = true;
       periodicCurrentPosition.start();
     }
-    Logger.getLogger(GPSProviderServiceImpl.class.getName()).info("GPS service READY");
+    LOGGER.info("GPS service READY");
   }
 
   /**
@@ -191,7 +191,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       connection.closeAll();
       running = false;
     } catch (MALException ex) {
-      Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING,
+      LOGGER.log(Level.WARNING,
           "Exception during close down of the provider {0}", ex);
     }
   }
@@ -208,7 +208,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
         }
       }
 
-      Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.FINER,
+      LOGGER.log(Level.FINER,
           "Generating GPS Nearby Position update for: {0} (Identifier: {1})",
           new Object[]{objId, new Identifier(manager.get(objId).getName().toString())});
 
@@ -228,7 +228,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       publisher.publish(hdrlst, bools);
 
     } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
-      Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING,
+      LOGGER.log(Level.WARNING,
           "Exception during publishing process on the provider {0}", ex);
     }
   }
@@ -248,6 +248,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       String nmeaSentence = adapter.getNMEASentence(sentenceIdentifier);
       interaction.sendResponse(nmeaSentence);
     } catch (IOException ex) {
+      LOGGER.log(Level.FINE, "getNMEASentence error", ex);
       throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
     }
   }
@@ -541,7 +542,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
         throws MALException
     {
-      Logger.getLogger(GPSProviderServiceImpl.class.getName())
+      LOGGER
           .fine("PublishInteractionListener::publishDeregisterAckReceived");
     }
 
@@ -549,7 +550,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
         final Map qosProperties) throws MALException
     {
-      Logger.getLogger(GPSProviderServiceImpl.class.getName())
+      LOGGER
           .warning("PublishInteractionListener::publishErrorReceived");
     }
 
@@ -557,7 +558,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
         throws MALException
     {
-      Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.INFO,
+      LOGGER.log(Level.INFO,
           "Registration Ack: {0}", header.toString());
     }
 
@@ -565,7 +566,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
         final Map qosProperties) throws MALException
     {
-      Logger.getLogger(GPSProviderServiceImpl.class.getName())
+      LOGGER
           .warning("PublishInteractionListener::publishRegisterErrorReceived");
     }
   }
@@ -694,7 +695,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
         {
           if (active) {
             if (!adapter.isUnitAvailable()) { // Is the unit available?
-              Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.WARNING,
+              LOGGER.log(Level.WARNING,
                   "GPS Unavailable");
               return;
             }
@@ -730,7 +731,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
                   manager.setPreviousStatus(objId, isInside);
                 }
               } catch (IOException ex) {
-                Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                LOGGER.log(Level.SEVERE,
                     ex.getMessage());
               }
             }
