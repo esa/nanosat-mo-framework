@@ -233,6 +233,18 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     }
   }
 
+  /**
+   * Ensures the NMEA request ends with a single endline
+   * @param in input NMEA request
+   * @return sanitized NMEA request
+   */
+  private String sanitizeNMEARequest(String in)
+  {
+    if(in.charAt(in.length() - 1) == '\n')
+      return in;
+    return in + "\n";
+  }
+
   @Override
   public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction)
       throws MALInteractionException, MALException
@@ -245,7 +257,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     interaction.sendAcknowledgement();
 
     try {
-      String nmeaSentence = adapter.getNMEASentence(sentenceIdentifier);
+      String nmeaSentence = adapter.getNMEASentence(sanitizeNMEARequest(sentenceIdentifier));
       interaction.sendResponse(nmeaSentence);
     } catch (IOException ex) {
       LOGGER.log(Level.FINE, "getNMEASentence error", ex);
