@@ -104,7 +104,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private FineTime latestSync;
 
-    private Quota quota;
+    private Quota stdQuota;
 
     public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService)
     {
@@ -137,9 +137,9 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
      * @param quota The same Quota object that is passed to the AppsLauncherProviderServiceImpl using its setStdPerApp
      *              method.
      */
-    public void setQuota(Quota quota)
+    public void setStdQuota(Quota quota)
     {
-        this.quota = quota;
+        this.stdQuota = quota;
     }
 
     /**
@@ -684,9 +684,9 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 {
                     Thread.sleep(1000);
                     LongList deleted = archive.getArchiveStub().delete(type, domain, objInstIds);
-                    if (quota != null)
+                    if (stdQuota != null)
                     {
-                        quota.clean(clearedIds);
+                        stdQuota.clean(clearedIds);
                     }
                 }
                 catch (MALInteractionException ex)

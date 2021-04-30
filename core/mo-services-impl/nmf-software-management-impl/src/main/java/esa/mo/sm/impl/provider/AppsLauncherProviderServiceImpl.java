@@ -34,6 +34,7 @@ import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -112,7 +113,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   private DirectoryProviderServiceImpl directoryService;
   private ConfigurationChangeListener configurationAdapter;
   private int stdLimit; // Limit of stdout/stderr to allow in the archive.
-  private Quota stdPerApp = new Quota(); // Default quota, existent if no ArchiveSync is used.
+  /**
+   * Object used to track archive usage by STD output of each app
+   */
+  private Quota stdQuota = new Quota();
 
   /**
    * Initializes the Event service provider
@@ -182,8 +186,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
    *
    * @param q The same Quota object passed to ArchiveSyncProviderServiceImpl.
    */
-  public void setStdPerApp(Quota q) {
-    this.stdPerApp = q;
+  public void setStdQuotaPerApp(Quota q) {
+    this.stdQuota = q;
   }
 
   private void publishExecutionMonitoring(final Long appObjId, final String outputText,
@@ -224,10 +228,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         if (Boolean.valueOf(System.getProperty(Const.APPSLAUNCHER_STD_STORE_PROPERTY,
             Const.APPSLAUNCHER_STD_STORE_DEFAULT))) {
           // Store in COM archive if the option is enabled and below limit
-          int currentStd = stdPerApp.retrieve(appObjId);
+          int currentStd = stdQuota.retrieve(appObjId);
           if (currentStd + segment.length() <= stdLimit) {
             Element eventBody = new Union(segment);
-            stdPerApp.increase(appObjId, segment.length());
+            stdQuota.increase(appObjId, segment.length());
             IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
             ObjectId source = new ObjectId(AppsLauncherHelper.APP_OBJECT_TYPE, new ObjectKey(domain,
                 appObjId));
@@ -391,7 +395,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     UIntegerList invIndexList = new UIntegerList();
     UIntegerList intIndexList = new UIntegerList();
     ArrayList<SingleConnectionDetails> appConnections = new ArrayList<>();
-
     if (null == appInstIds) { // Is the input null?
       throw new IllegalArgumentException("appInstIds argument must not be null");
     }
