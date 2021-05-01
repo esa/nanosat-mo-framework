@@ -75,7 +75,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsL
 public class AppsLauncherManager extends DefinitionsManager
 {
 
-  private static final int APP_STOP_TIMEOUT = 5000;
+  private static final int APP_STOP_TIMEOUT = 15000;
   private static final Logger LOGGER = Logger.getLogger(AppsLauncherManager.class.getName());
 
   private final OSValidator osValidator = new OSValidator();
@@ -487,8 +487,7 @@ public class AppsLauncherManager extends DefinitionsManager
     this.setRunning(handler.getObjId(), true, interaction); // Update the Archive
   }
 
-  protected boolean killAppProcess(final Long appInstId, MALInteraction interaction) throws
-      MALException, MALInteractionException
+  protected boolean killAppProcess(final Long appInstId, MALInteraction interaction)
   {
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
@@ -517,13 +516,12 @@ public class AppsLauncherManager extends DefinitionsManager
     return true;
   }
 
-  protected boolean stopNativeApp(final Long appInstId, StopAppInteraction interaction) throws
+  protected boolean stopNativeApp(final Long appInstId, StopAppInteraction interaction, boolean onlyNativeComponent) throws
       IOException, MALInteractionException, MALException
   {
-    ProcessExecutionHandler handler = handlers.get(appInstId);
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
-    // Go to the folder where the app are installed
+    // Go to the folder where the app is installed
     final File appFolder
         = new File(appsFolderPath + File.separator + app.getName().getValue());
     Map<String, String> env = new HashMap<>();
@@ -552,21 +550,10 @@ public class AppsLauncherManager extends DefinitionsManager
           new Object[]{app.getName().getValue(), APP_STOP_TIMEOUT});
       proc.destroyForcibly();
     }
-
-    if (handler == null) {
-      app.setRunning(false);
-      return false;
-    }
-
-    if (handler.getProcess() == null) {
-      app.setRunning(false);
+    if (onlyNativeComponent) {
       return true;
     }
-
-    handler.close();
-    this.setRunning(handler.getObjId(), false, interaction.getInteraction()); // Update the Archive
-    handlers.remove(appInstId); // Get rid of it!
-    return true;
+    return killAppProcess(appInstId, interaction.getInteraction());
   }
 
   protected void stopNMFApp(final Long appInstId, final Identifier appDirectoryServiceName,
@@ -607,13 +594,15 @@ public class AppsLauncherManager extends DefinitionsManager
 
     final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();
 
-    try {
-      IdentifierList eventBodies = new IdentifierList(1);
-      eventBodies.add(appDirectoryServiceName);
-      super.getCOMServices().getEventService().publishEvent(uri, objId, objType, appInstId,
-          eventSource, eventBodies);
-    } catch (IOException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+    if (appDirectoryServiceName != null) {
+      try {
+        IdentifierList eventBodies = new IdentifierList(1);
+        eventBodies.add(appDirectoryServiceName);
+        super.getCOMServices().getEventService().publishEvent(uri, objId, objType, appInstId,
+            eventSource, eventBodies);
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      }
     }
 
     if (listener != null) {
@@ -651,23 +640,23 @@ public class AppsLauncherManager extends DefinitionsManager
           + File.separator + "stop_" + curr.getName().getValue() + fileExt);
       boolean stopExists = stopScript.exists();
       if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
-        this.stopNMFApp(appInstId, appDirectoryServiceNames.get(i), appConnections.get(i), interaction);
+        if (appDirectoryServiceNames.get(i) == null) {
+          LOGGER.log(Level.WARNING, "appDirectoryServiceName null for ''{0}'' app, falling back to kill",
+            new Object[]{curr.getName().getValue()});
+            this.killAppProcess(appInstId, interaction.getInteraction());
+        } else if (appConnections.get(i) == null) {
+          LOGGER.log(Level.WARNING, "appConnection null for ''{0}'' app, falling back to kill",
+            new Object[]{curr.getName().getValue()});
+            this.killAppProcess(appInstId, interaction.getInteraction());
+        } else {
+          this.stopNMFApp(appInstId, appDirectoryServiceNames.get(i), appConnections.get(i), interaction);
+        }
         if (stopExists) {
-          Map<String, String> env = new HashMap<>();
-          assembleAppLauncherEnvironment("", env);
-          final File appFolder
-              = new File(appsFolderPath + File.separator + curr.getName().getValue());
-          final String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
-              curr.getName().getValue(), curr.getRunAs(), EnvironmentUtils.toStrings(env));
-          final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
-          pb.environment().clear();
-          pb.directory(appFolder);
           LOGGER.log(Level.INFO,
-              "Stopping native component of ''{0}'' app in dir: {1}, using launcher command: {2}",
-              new Object[]{curr.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
-                appLauncherCommand)});
+              "Stopping native component of ''{0}'' app",
+              new Object[]{curr.getName().getValue()});
           try {
-            final Process proc = pb.start();
+            this.stopNativeApp(appInstId, interaction, true);
           } catch (IOException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
                 "Stopping native component failed", ex);
@@ -677,11 +666,11 @@ public class AppsLauncherManager extends DefinitionsManager
         if (!stopExists) {
           LOGGER.log(Level.INFO, "No stop script present for app {0}. Killing the process.",
               curr.getName());
-          this.killAppProcess(appInstIds.get(i), interaction.getInteraction());
+          this.killAppProcess(appInstId, interaction.getInteraction());
         } else {
           try {
             LOGGER.log(Level.INFO, "Stop script present for app {0}. Invoking it.", curr.getName());
-            this.stopNativeApp(appInstIds.get(i), interaction);
+            this.stopNativeApp(appInstId, interaction, false);
           } catch (IOException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
                 "Stopping native app failed", ex);

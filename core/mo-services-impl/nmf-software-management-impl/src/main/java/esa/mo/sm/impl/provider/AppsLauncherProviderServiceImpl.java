@@ -34,7 +34,6 @@ import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -72,7 +71,6 @@ import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
@@ -269,6 +267,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     if (null == appInstIds) { // Is the input null?
       throw new IllegalArgumentException("appInstIds argument must not be null");
     }
+    LOGGER.log(Level.INFO, "runApp received with arguments: {0}", appInstIds);
 
     // Refresh the list of available Apps
     boolean anyChanges = this.manager.refreshAvailableAppsList(
@@ -342,6 +341,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     if (null == appInstIds) { // Is the input null?
       throw new IllegalArgumentException("appInstIds argument must not be null");
     }
+    LOGGER.log(Level.INFO, "killApp received with arguments: {0}", appInstIds);
 
     // Refresh the list of available Apps
     boolean anyChanges = this.manager.refreshAvailableAppsList(
@@ -398,6 +398,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     if (null == appInstIds) { // Is the input null?
       throw new IllegalArgumentException("appInstIds argument must not be null");
     }
+    LOGGER.log(Level.INFO, "stopApp received with arguments: {0}", appInstIds);
 
     // Refresh the list of available Apps
     boolean anyChanges = this.manager.refreshAvailableAppsList(
@@ -412,55 +413,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     IdentifierList appDirectoryServiceNames = new IdentifierList();
 
-    for (int i = 0; i < appInstIds.size(); i++) {
-      // Get it from the list of available apps
-      AppDetails app = (AppDetails) this.manager.get(appInstIds.get(i));
-
-      // The app id could not be identified?
-      if (app == null) {
-        unkIndexList.add(new UInteger(i)); // Throw an UNKNOWN error
-        continue;
-      }
-
-      // Is the app the app not running?
-      if (!manager.isAppRunning(appInstIds.get(i))) {
-        invIndexList.add(new UInteger(i)); // Throw an INVALID error
-        continue;
-      }
-
-      // Define the filter in order to get the Event service URI of the app
-      final Identifier serviceProviderName = new Identifier(PROVIDER_PREFIX_NAME + app.getName());
-      final IdentifierList domain = new IdentifierList();
-      domain.add(new Identifier("*"));
-      final COMService eventCOM = EventHelper.EVENT_SERVICE;
-      ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(),
-          eventCOM.getNumber(), eventCOM.getArea().getVersion());
-      ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"),
-          null, new Identifier("*"), serviceKey, new UIntegerList());
-      if (app.getCategory().getValue().equals("NMF_App")) {
-        // Do a lookup on the Central Drectory service for the app that we want
-        ProviderSummaryList providersList = this.directoryService.lookupProvider(sf,
-            interaction.getInteraction());
-        LOGGER.log(Level.FINER, "providersList object: {0}", providersList.toString());
-
-        try {
-          // Add here the filtering for the best IPC!!!
-
-          final SingleConnectionDetails connectionDetails
-              = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
-          appConnections.add(connectionDetails);
-
-          // Add to the list of Directory service Obj Ids
-          if (!providersList.isEmpty()) {
-            appDirectoryServiceNames.add(providersList.get(0).getProviderName());
-          } else {
-            appDirectoryServiceNames.add(null);
-          }
-        } catch (IOException ex) {
-          intIndexList.add(new UInteger(i)); // Throw an INTERNAL error
-        }
-      }
-    }
+    prepareStopApp(appInstIds, interaction, unkIndexList, invIndexList, intIndexList, appConnections,
+        appDirectoryServiceNames);
 
     // Errors
     if (!unkIndexList.isEmpty()) {
@@ -481,6 +435,65 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     interaction.sendAcknowledgement();
     manager.stopApps(appInstIds, appDirectoryServiceNames, appConnections, interaction);
     interaction.sendResponse();
+  }
+
+  private void prepareStopApp(final LongList appInstIds, final StopAppInteraction interaction, UIntegerList unkIndexList,
+      UIntegerList invIndexList, UIntegerList intIndexList, ArrayList<SingleConnectionDetails> appConnections,
+      IdentifierList appDirectoryServiceNames) throws MALInteractionException, MALException {
+    for (int i = 0; i < appInstIds.size(); i++) {
+      // Get it from the list of available apps
+      AppDetails app = this.manager.get(appInstIds.get(i));
+
+      if (app == null) {
+        // The app id could not be identified
+        unkIndexList.add(new UInteger(i)); // Throw an UNKNOWN error
+        LOGGER.log(Level.WARNING, "App with id {0} unknown", new Object[] {i});
+        continue;
+      } else if (!manager.isAppRunning(appInstIds.get(i))) {
+        // The app is not running
+        invIndexList.add(new UInteger(i)); // Throw an INVALID error
+        LOGGER.log(Level.WARNING, "App with id {0} not running", new Object[] {i});
+        continue;
+      }
+
+      // Define the filter in order to get the Event service URI of the app
+      final Identifier serviceProviderName = new Identifier(PROVIDER_PREFIX_NAME + app.getName());
+      final IdentifierList domain = new IdentifierList();
+      domain.add(new Identifier("*"));
+      final COMService eventCOM = EventHelper.EVENT_SERVICE;
+      ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(),
+          eventCOM.getNumber(), eventCOM.getArea().getVersion());
+      ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"),
+          null, new Identifier("*"), serviceKey, new UIntegerList());
+      if (app.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
+        // Do a lookup on the Central Drectory service for the app that we want
+        ProviderSummaryList providersList = this.directoryService.lookupProvider(sf,
+            interaction.getInteraction());
+        LOGGER.log(Level.FINER, "providersList object: {0}", providersList);
+
+        try {
+          // Add here the filtering for the best IPC!!!
+
+          final SingleConnectionDetails connectionDetails
+              = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
+          appConnections.add(connectionDetails);
+
+          // Add to the list of Directory service Obj Ids
+          if (!providersList.isEmpty()) {
+            appDirectoryServiceNames.add(providersList.get(0).getProviderName());
+          } else {
+            appDirectoryServiceNames.add(null);
+          }
+        } catch (IOException ex) {
+          LOGGER.log(Level.WARNING, "Exception while obtaining connection details", ex);
+          appConnections.add(null);
+        }
+      } else {
+        // Ensure the indexes of the lists are in-line
+        appConnections.add(null);
+        appDirectoryServiceNames.add(null);
+      }
+    }
   }
 
   @Override
