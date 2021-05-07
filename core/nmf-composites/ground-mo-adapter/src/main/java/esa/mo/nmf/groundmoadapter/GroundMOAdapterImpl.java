@@ -13,9 +13,9 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- *
+ * 
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
 package esa.mo.nmf.groundmoadapter;
@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
 import org.ccsds.moims.mo.com.activitytracking.structures.OperationActivity;
 import org.ccsds.moims.mo.com.activitytracking.structures.OperationActivityList;
@@ -95,679 +96,595 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 public class GroundMOAdapterImpl extends NMFConsumer implements SimpleCommandingInterface
 {
 
-    /* Logger */
-    private static final Logger LOGGER = Logger.getLogger(GroundMOAdapterImpl.class.getName());
+  /* Logger */
+  private static final Logger LOGGER = Logger.getLogger(GroundMOAdapterImpl.class.getName());
 
-    private Subscription parameterSubscription = null;
+  private Subscription parameterSubscription = null;
+  private Subscription aggregationSubscription = null;
 
-    private Subscription aggregationSubscription = null;
+  /**
+   * The constructor of this class
+   *
+   * @param connection The connection details of the provider
+   */
+  public GroundMOAdapterImpl(final ConnectionConsumer connection)
+  {
+    this(connection, null, null);
+  }
 
-    /**
-     * The constructor of this class
-     *
-     * @param connection The connection details of the provider
-     */
-    public GroundMOAdapterImpl(final ConnectionConsumer connection)
-    {
-        this(connection, null, null);
+  /**
+   * The constructor of this class
+   *
+   * @param connection The connection details of the provider
+   * @param authenticationId authenticationId of the logged in user
+   * @param localNamePrefix the prefix for the local name of the consumer
+   */
+  public GroundMOAdapterImpl(final ConnectionConsumer connection, final Blob authenticationId, final String localNamePrefix)
+  {
+    super(connection, authenticationId, localNamePrefix);
+    super.init();
+  }
+
+  /**
+   * The constructor of this class
+   *
+   * @param providerDetails The Provider details. This object can be obtained from the Directory
+   *                        service
+   */
+  public GroundMOAdapterImpl(final ProviderSummary providerDetails)
+  {
+    this(providerDetails, null, null);
+  }
+
+  /**
+   * The constructor of this class
+   *
+   * @param providerDetails The Provider details. This object can be obtained from the Directory
+   *                        service
+   * @param authenticationId authenticationId of the logged in user
+   * @param localNamePrefix the prefix for the local name of the consumer
+   */
+  public GroundMOAdapterImpl(final ProviderSummary providerDetails, final Blob authenticationId, final String localNamePrefix)
+  {
+    super(providerDetails, authenticationId, localNamePrefix);
+    super.init();
+  }
+
+  @Override
+  public void setParameter(final String parameterName, final Serializable content)
+  {
+    // Check if the parameter exists
+    IdentifierList parameters = new IdentifierList(1);
+    parameters.add(new Identifier(parameterName));
+
+    // If it is java type, then convert it to Attribute
+    Object midValue = HelperAttributes.javaType2Attribute(content);
+    Attribute rawValue;
+
+    if (midValue instanceof Attribute) { // Is the parameter MAL type or something else?
+      rawValue = (Attribute) midValue;
+    } else {
+      try {
+        // Well, if it is something else, then it will have to serialize it and put it inside a Blob
+        rawValue = HelperAttributes.serialObject2blobAttribute(content);
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+        return;
+      }
     }
 
-    /**
-     * The constructor of this class
-     *
-     * @param connection       The connection details of the provider
-     * @param authenticationId authenticationId of the logged in user
-     * @param localNamePrefix  the prefix for the local name of the consumer
-     */
-    public GroundMOAdapterImpl(final ConnectionConsumer connection,
-                               final Blob authenticationId,
-                               final String localNamePrefix)
+    ParameterStub parameterService = super.getMCServices().getParameterService().getParameterStub();
+
+    try {
+      ObjectInstancePairList objIds = parameterService.listDefinition(parameters);
+
+      if (objIds == null) {
+        return;  // something went wrong... Connection problem?
+      }
+
+      ObjectInstancePair objId = objIds.get(0);
+
+      // If the definition does not exist, then create it automatically for the user
+      if (objId == null) {
+        // Well, then let's create a new Parameter Definition and add it on the provider...
+        ParameterDefinitionDetails parameterDefinition = new ParameterDefinitionDetails();
+        parameterDefinition.setDescription(
+            "This Definition was automatically generated by: " + GroundMOAdapterImpl.class.getName());
+
+        if (rawValue instanceof Attribute) { // Is the parameter MAL type or something else?
+          parameterDefinition.setRawType(((Attribute) midValue).getTypeShortForm().byteValue());
+        } else {
+          parameterDefinition.setRawType(HelperAttributes.SERIAL_OBJECT_RAW_TYPE);
+        }
+
+        parameterDefinition.setRawUnit(null);
+        parameterDefinition.setGenerationEnabled(false);
+        parameterDefinition.setReportInterval(new Duration(0));
+        parameterDefinition.setValidityExpression(null);
+        parameterDefinition.setConversion(null);
+
+        ParameterCreationRequestList request = new ParameterCreationRequestList(1);
+        request.add(new ParameterCreationRequest(new Identifier(parameterName), parameterDefinition));
+
+        // Now, add the definition to the service provider
+        objIds = parameterService.addParameter(request);
+      }
+
+      // Continues here...
+      ParameterRawValueList raws = new ParameterRawValueList();
+      ParameterRawValue raw = new ParameterRawValue(objIds.get(0).getObjIdentityInstanceId(),
+          rawValue);
+      raws.add(raw);
+
+      // Ok, now, let's finally set the Value!
+      parameterService.setValue(raws);
+    } catch (MALInteractionException ex) {
+      LOGGER.log(Level.SEVERE, "The parameter could not be set!", ex);
+    } catch (MALException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+    }
+  }
+
+  @Override
+  public void addDataReceivedListener(final DataReceivedListener listener)
+  {
+    // Make the parameter adapter to call the receiveDataListener when there's a new object available
+    class DataReceivedParameterAdapter extends ParameterAdapter
     {
-        super(connection, authenticationId, localNamePrefix);
-        super.init();
+
+      @Override
+      public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,
+          final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+          final ObjectIdList lObjectIdList, final ParameterValueList lParameterValueList,
+          final Map qosp)
+      {
+
+        if (lParameterValueList.size() == lUpdateHeaderList.size()) {
+          for (int i = 0; i < lUpdateHeaderList.size(); i++) {
+            String parameterName = lUpdateHeaderList.get(i).getKey().getFirstSubKey().toString();
+            Attribute parameterValue = lParameterValueList.get(i).getRawValue();
+            Serializable object;
+
+            // Is it a Blob?
+            if (parameterValue instanceof Blob) {
+              // If so, try to unserialize it
+              try {
+                object = HelperAttributes.blobAttribute2serialObject((Blob) parameterValue);
+              } catch (IOException ex) {
+                // Didn't work? Well, maybe it is just a normal Blob...
+                object = (Serializable) HelperAttributes.attribute2JavaType(parameterValue);
+              }
+            } else {
+              // Not a Blob?
+              // Then make it a Java type if possible
+              object = (Serializable) HelperAttributes.attribute2JavaType(parameterValue);
+            }
+
+            // Push the data to the user interface
+            // Simple interface
+            if (listener instanceof SimpleDataReceivedListener) {
+              ((SimpleDataReceivedListener) listener).onDataReceived(parameterName, object);
+            }
+
+            // Complete interface
+            if (listener instanceof CompleteDataReceivedListener) {
+              ObjectId source = lObjectIdList.get(i);
+              Time timestamp = lUpdateHeaderList.get(i).getTimestamp();
+
+              ParameterInstance parameterInstance = new ParameterInstance(new Identifier(
+                  parameterName),
+                  lParameterValueList.get(i), source, timestamp);
+
+              ((CompleteDataReceivedListener) listener).onDataReceived(parameterInstance);
+            }
+          }
+        }
+      }
     }
 
-    /**
-     * The constructor of this class
-     *
-     * @param providerDetails The Provider details. This object can be obtained from the Directory service
-     */
-    public GroundMOAdapterImpl(final ProviderSummary providerDetails)
+    // Make the aggregation adapter to call the receiveDataListener when there's a new object available
+    class DataReceivedAggregationAdapter extends AggregationAdapter
     {
-        this(providerDetails, null, null);
+
+      @Override
+      public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,
+          final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+          final ObjectIdList lObjectIdList, final AggregationValueList lAggregationValueList,
+          final Map qosp)
+      {
+
+        if (lAggregationValueList.size() == lUpdateHeaderList.size()) {
+          for (int i = 0; i < lUpdateHeaderList.size(); i++) {
+
+            if (listener instanceof SimpleAggregationReceivedListener) {
+              List<ParameterInstance> parameterInstances = new LinkedList<ParameterInstance>();
+
+              AggregationValue aggregationValue = lAggregationValueList.get(i);
+
+              for (AggregationSetValue aggregationSetValue : aggregationValue.getParameterSetValues()) {
+                for (AggregationParameterValue aggregationParamValue : aggregationSetValue.getValues()) {
+
+                  Long paramDefInstId = aggregationParamValue.getParamDefInstId();
+                  Attribute parameterValue = aggregationParamValue.getValue().getRawValue();
+
+                  // TBD, not sure what to do with this now...
+                }
+              }
+
+              ((SimpleAggregationReceivedListener) listener).onDataReceived(parameterInstances);
+            }
+
+            if (listener instanceof CompleteAggregationReceivedListener) {
+              ObjectId source = lObjectIdList.get(i);
+              Time timestamp = lUpdateHeaderList.get(i).getTimestamp();
+              String aggregationName = lUpdateHeaderList.get(i).getKey().getFirstSubKey().toString();
+              AggregationValue aggregationValue = lAggregationValueList.get(i);
+
+              AggregationInstance aggregationInstance = new AggregationInstance(
+                  new Identifier(aggregationName), aggregationValue, source, timestamp);
+
+              ((CompleteAggregationReceivedListener) listener).onDataReceived(aggregationInstance);
+            }
+          }
+        }
+      }
     }
 
-    /**
-     * The constructor of this class
-     *
-     * @param providerDetails  The Provider details. This object can be obtained from the Directory service
-     * @param authenticationId authenticationId of the logged in user
-     * @param localNamePrefix  the prefix for the local name of the consumer
-     */
-    public GroundMOAdapterImpl(final ProviderSummary providerDetails,
-                               final Blob authenticationId,
-                               final String localNamePrefix)
-    {
-        super(providerDetails, authenticationId, localNamePrefix);
-        super.init();
+    if (listener instanceof SimpleDataReceivedListener || listener instanceof CompleteDataReceivedListener) {
+      // Subscribes to ALL Parameters
+      this.parameterSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+
+      try {
+        // Register for pub-sub of all parameters
+        super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(
+            this.parameterSubscription, new DataReceivedParameterAdapter());
+      } catch (MALInteractionException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      } catch (MALException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      } catch (NullPointerException ex) {
+        LOGGER.log(Level.SEVERE,
+            "Null pointer exception when trying to access the Parameter service. "
+            + "Check if the service consumer was initialized with a proper URI.",
+            ex);
+      }
     }
+    if (listener instanceof CompleteAggregationReceivedListener || listener instanceof CompleteAggregationReceivedListener) {
+      // Subscribes to ALL Aggregations
+      this.aggregationSubscription = ConnectionConsumer.subscriptionWildcardRandom();
 
-    @Override
-    public void setParameter(final String parameterName, final Serializable content)
-    {
-        // Check if the parameter exists
-        IdentifierList parameters = new IdentifierList(1);
-        parameters.add(new Identifier(parameterName));
+      try {
+        // Register for pub-sub of all aggregations
+        super.getMCServices().getAggregationService().getAggregationStub().monitorValueRegister(
+            this.aggregationSubscription, new DataReceivedAggregationAdapter());
+      } catch (MALInteractionException | MALException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      } catch (NullPointerException ex) {
+        LOGGER.log(Level.SEVERE,
+            "Null pointer exception when trying to access the Aggregation service. "
+            + "Check if the service consumer was initialized with a proper URI.",
+            ex);
+      }
+    }
+  }
 
-        // If it is java type, then convert it to Attribute
-        Object midValue = HelperAttributes.javaType2Attribute(content);
-        Attribute rawValue;
+  @Override
+  public Long invokeAction(final String actionName, final Serializable[] objects)
+  {
+    IdentifierList actionNames = new IdentifierList(1);
+    actionNames.add(new Identifier(actionName));
 
-        if (midValue instanceof Attribute)
-        { // Is the parameter MAL type or something else?
+    ActionStub actionService = super.getMCServices().getActionService().getActionStub();
+
+    try {
+      // Check if the action exists
+      ObjectInstancePairList objIds = actionService.listDefinition(actionNames);
+
+      if (objIds == null) {
+        return null;  // something went wrong...
+      }
+
+      ObjectInstancePair objId = objIds.get(0);
+
+      // If the definition does not exist, then create it automatically for the user
+      if (objId == null) {
+        // Well, then let's create a new Action Definition and add it on the provider...
+        ActionDefinitionDetails actionDefinition = new ActionDefinitionDetails();
+        actionDefinition.setDescription(
+            "This Definition was automatically generated by: " + GroundMOAdapterImpl.class.getName());
+        actionDefinition.setProgressStepCount(new UShort((short) 0));
+
+        ArgumentDefinitionDetailsList argList = new ArgumentDefinitionDetailsList(objects.length);
+
+        for (Serializable object : objects) {
+          ArgumentDefinitionDetails argDef = new ArgumentDefinitionDetails();
+          // If it is java type, then convert it to Attribute
+          Object midValue = HelperAttributes.javaType2Attribute(object);
+          Attribute rawValue;
+          if (midValue instanceof Attribute) {
+            // Is the parameter MAL type or something else?
+            argDef.setRawType(((Attribute) midValue).getTypeShortForm().byteValue());
             rawValue = (Attribute) midValue;
-        }
-        else
-        {
-            try
-            {
-                // Well, if it is something else, then it will have to serialize it and put it inside a Blob
-                rawValue = HelperAttributes.serialObject2blobAttribute(content);
+          } else {
+            try {
+              // Well, if it is something else, then it will have to serialize it and put it inside a Blob
+              rawValue = HelperAttributes.serialObject2blobAttribute(object);
+              argDef.setRawType(HelperAttributes.SERIAL_OBJECT_RAW_TYPE);
+            } catch (IOException ex) {
+              LOGGER.log(Level.SEVERE, null, ex);
+              return null;
             }
-            catch (IOException ex)
-            {
-                LOGGER.log(Level.SEVERE, null, ex);
-                return;
-            }
+          }
+          argDef.setRawUnit(null);
+          argDef.setConditionalConversions(null);
+          argDef.setConvertedType(null);
+          argDef.setConvertedUnit(null);
+          argDef.setRawType(null);
+          argDef.setArgId(null);
+          argList.add(argDef);
         }
 
-        ParameterStub parameterService = super.getMCServices().getParameterService().getParameterStub();
+        actionDefinition.setArguments(argList); // Change this...
 
-        try
-        {
-            ObjectInstancePairList objIds = parameterService.listDefinition(parameters);
+        ActionCreationRequestList acrl = new ActionCreationRequestList();
+        acrl.add(new ActionCreationRequest(new Identifier(actionName), actionDefinition));
 
-            if (objIds == null)
-            {
-                return;  // something went wrong... Connection problem?
-            }
+        objIds = actionService.addAction(acrl);
+        objId = objIds.get(0);
+      }
 
-            ObjectInstancePair objId = objIds.get(0);
+      // Fill-in the Action Instance object
+      ActionInstanceDetails action = new ActionInstanceDetails();
 
-            // If the definition does not exist, then create it automatically for the user
-            if (objId == null)
-            {
-                // Well, then let's create a new Parameter Definition and add it on the provider...
-                ParameterDefinitionDetails parameterDefinition = new ParameterDefinitionDetails();
-                parameterDefinition.setDescription(
-                        "This Definition was automatically generated by: " + GroundMOAdapterImpl.class.getName());
+      action.setDefInstId(objId.getObjDefInstanceId());
+      action.setStageStartedRequired(false);
+      action.setStageProgressRequired(false);
+      action.setStageCompletedRequired(false);
 
-                if (rawValue instanceof Attribute)
-                { // Is the parameter MAL type or something else?
-                    parameterDefinition.setRawType(((Attribute) midValue).getTypeShortForm().byteValue());
-                }
-                else
-                {
-                    parameterDefinition.setRawType(HelperAttributes.SERIAL_OBJECT_RAW_TYPE);
-                }
+      AttributeValueList argValues = new AttributeValueList();
 
-                parameterDefinition.setRawUnit(null);
-                parameterDefinition.setGenerationEnabled(false);
-                parameterDefinition.setReportInterval(new Duration(0));
-                parameterDefinition.setValidityExpression(null);
-                parameterDefinition.setConversion(null);
-
-                ParameterCreationRequestList request = new ParameterCreationRequestList(1);
-                request.add(new ParameterCreationRequest(new Identifier(parameterName), parameterDefinition));
-
-                // Now, add the definition to the service provider
-                objIds = parameterService.addParameter(request);
-            }
-
-            // Continues here...
-            ParameterRawValueList raws = new ParameterRawValueList();
-            ParameterRawValue raw = new ParameterRawValue(objIds.get(0).getObjIdentityInstanceId(), rawValue);
-            raws.add(raw);
-
-            // Ok, now, let's finally set the Value!
-            parameterService.setValue(raws);
-        }
-        catch (MALInteractionException ex)
-        {
-            LOGGER.log(Level.SEVERE, "The parameter could not be set!", ex);
-        }
-        catch (MALException ex)
-        {
+      // Fill-in the argument values
+      for (Serializable object : objects) {
+        AttributeValue argValue = new AttributeValue();
+        // If it is java type, then convert it to Attribute
+        Object midValue = HelperAttributes.javaType2Attribute(object);
+        Attribute rawValue;
+        if (midValue instanceof Attribute) {
+          // Is the parameter MAL type or something else?
+          rawValue = (Attribute) midValue;
+          argValue.setValue(rawValue);
+        } else {
+          try {
+            // Well, if it is something else, then it will have to
+            // serialize it and put it inside a Blob
+            rawValue = HelperAttributes.serialObject2blobAttribute(object);
+            argValue.setValue(rawValue);
+          } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
+            return null;
+          }
         }
+        argValues.add(argValue);
+      }
+
+      action.setArgumentValues(argValues);
+      action.setArgumentIds(null);
+      action.setIsRawValue(null);
+
+      // Use action service to submit the action
+      long actionID = ObjectInstanceIdGenerator.getInstance().generateObjectInstanceId();
+
+      actionService.submitAction(actionID, action);
+
+      return actionID;
+
+    } catch (MALInteractionException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+    } catch (MALException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
+    return null;
+  }
 
-    @Override
-    public void addDataReceivedListener(final DataReceivedListener listener)
-    {
-        // Make the parameter adapter to call the receiveDataListener when there's a new object available
-        class DataReceivedParameterAdapter extends ParameterAdapter
+  /**
+   * Closes the service consumer connections
+   *
+   */
+  public void closeConnections()
+  {
+    // Unregister the consumer from the broker
+    if (this.parameterSubscription != null) {
+      try {
+        IdentifierList idList = new IdentifierList();
+        idList.add(this.parameterSubscription.getSubscriptionId());
+
+        super.getMCServices().getParameterService().getParameterStub().asyncMonitorValueDeregister(
+            idList, new ParameterAdapter()
         {
-
-            @Override
-            public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,
-                                                   final Identifier lIdentifier,
-                                                   final UpdateHeaderList lUpdateHeaderList,
-                                                   final ObjectIdList lObjectIdList,
-                                                   final ParameterValueList lParameterValueList,
-                                                   final Map qosp)
-            {
-
-                if (lParameterValueList.size() == lUpdateHeaderList.size())
-                {
-                    for (int i = 0; i < lUpdateHeaderList.size(); i++)
-                    {
-                        String parameterName = lUpdateHeaderList.get(i).getKey().getFirstSubKey().toString();
-                        Attribute parameterValue = lParameterValueList.get(i).getRawValue();
-                        Serializable object;
-
-                        // Is it a Blob?
-                        if (parameterValue instanceof Blob)
-                        {
-                            // If so, try to unserialize it
-                            try
-                            {
-                                object = HelperAttributes.blobAttribute2serialObject((Blob) parameterValue);
-                            }
-                            catch (IOException ex)
-                            {
-                                // Didn't work? Well, maybe it is just a normal Blob...
-                                object = (Serializable) HelperAttributes.attribute2JavaType(parameterValue);
-                            }
-                        }
-                        else
-                        {
-                            // Not a Blob?
-                            // Then make it a Java type if possible
-                            object = (Serializable) HelperAttributes.attribute2JavaType(parameterValue);
-                        }
-
-                        // Push the data to the user interface
-                        // Simple interface
-                        if (listener instanceof SimpleDataReceivedListener)
-                        {
-                            ((SimpleDataReceivedListener) listener).onDataReceived(parameterName, object);
-                        }
-
-                        // Complete interface
-                        if (listener instanceof CompleteDataReceivedListener)
-                        {
-                            ObjectId source = lObjectIdList.get(i);
-                            Time timestamp = lUpdateHeaderList.get(i).getTimestamp();
-
-                            ParameterInstance parameterInstance = new ParameterInstance(new Identifier(parameterName),
-                                                                                        lParameterValueList.get(i),
-                                                                                        source,
-                                                                                        timestamp);
-
-                            ((CompleteDataReceivedListener) listener).onDataReceived(parameterInstance);
-                        }
-                    }
-                }
-            }
-        }
-
-        // Make the aggregation adapter to call the receiveDataListener when there's a new object available
-        class DataReceivedAggregationAdapter extends AggregationAdapter
-        {
-
-            @Override
-            public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,
-                                                   final Identifier lIdentifier,
-                                                   final UpdateHeaderList lUpdateHeaderList,
-                                                   final ObjectIdList lObjectIdList,
-                                                   final AggregationValueList lAggregationValueList,
-                                                   final Map qosp)
-            {
-
-                if (lAggregationValueList.size() == lUpdateHeaderList.size())
-                {
-                    for (int i = 0; i < lUpdateHeaderList.size(); i++)
-                    {
-
-                        if (listener instanceof SimpleAggregationReceivedListener)
-                        {
-                            List<ParameterInstance> parameterInstances = new LinkedList<ParameterInstance>();
-
-                            AggregationValue aggregationValue = lAggregationValueList.get(i);
-
-                            for (AggregationSetValue aggregationSetValue : aggregationValue.getParameterSetValues())
-                            {
-                                for (AggregationParameterValue aggregationParamValue : aggregationSetValue.getValues())
-                                {
-
-                                    Long paramDefInstId = aggregationParamValue.getParamDefInstId();
-                                    Attribute parameterValue = aggregationParamValue.getValue().getRawValue();
-
-                                    // TBD, not sure what to do with this now...
-                                }
-                            }
-
-                            ((SimpleAggregationReceivedListener) listener).onDataReceived(parameterInstances);
-                        }
-
-                        if (listener instanceof CompleteAggregationReceivedListener)
-                        {
-                            ObjectId source = lObjectIdList.get(i);
-                            Time timestamp = lUpdateHeaderList.get(i).getTimestamp();
-                            String aggregationName = lUpdateHeaderList.get(i).getKey().getFirstSubKey().toString();
-                            AggregationValue aggregationValue = lAggregationValueList.get(i);
-
-                            AggregationInstance aggregationInstance = new AggregationInstance(new Identifier(
-                                    aggregationName), aggregationValue, source, timestamp);
-
-                            ((CompleteAggregationReceivedListener) listener).onDataReceived(aggregationInstance);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (listener instanceof SimpleDataReceivedListener || listener instanceof CompleteDataReceivedListener)
-        {
-            // Subscribes to ALL Parameters
-            this.parameterSubscription = ConnectionConsumer.subscriptionWildcardRandom();
-
-            try
-            {
-                // Register for pub-sub of all parameters
-                super.getMCServices().getParameterService().getParameterStub()
-                        .monitorValueRegister(this.parameterSubscription, new DataReceivedParameterAdapter());
-            }
-            catch (MALInteractionException ex)
-            {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-            catch (MALException ex)
-            {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-            catch (NullPointerException ex)
-            {
-                LOGGER.log(Level.SEVERE,
-                           "Null pointer exception when trying to access the Parameter service. "
-                           + "Check if the service consumer was initialized with a proper URI.",
-                           ex);
-            }
-        }
-        if (listener instanceof CompleteAggregationReceivedListener
-            || listener instanceof CompleteAggregationReceivedListener)
-        {
-            // Subscribes to ALL Aggregations
-            this.aggregationSubscription = ConnectionConsumer.subscriptionWildcardRandom();
-
-            try
-            {
-                // Register for pub-sub of all aggregations
-                super.getMCServices().getAggregationService().getAggregationStub()
-                        .monitorValueRegister(this.aggregationSubscription, new DataReceivedAggregationAdapter());
-            }
-            catch (MALInteractionException | MALException ex)
-            {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-            catch (NullPointerException ex)
-            {
-                LOGGER.log(Level.SEVERE,
-                           "Null pointer exception when trying to access the Aggregation service. "
-                           + "Check if the service consumer was initialized with a proper URI.",
-                           ex);
-            }
-        }
-    }
-
-    @Override
-    public Long invokeAction(final String actionName, final Serializable[] objects)
-    {
-        IdentifierList actionNames = new IdentifierList(1);
-        actionNames.add(new Identifier(actionName));
-
-        ActionStub actionService = super.getMCServices().getActionService().getActionStub();
-
-        try
-        {
-            // Check if the action exists
-            ObjectInstancePairList objIds = actionService.listDefinition(actionNames);
-
-            if (objIds == null)
-            {
-                return null;  // something went wrong...
-            }
-
-            ObjectInstancePair objId = objIds.get(0);
-
-            // If the definition does not exist, then create it automatically for the user
-            if (objId == null)
-            {
-                // Well, then let's create a new Action Definition and add it on the provider...
-                ActionDefinitionDetails actionDefinition = new ActionDefinitionDetails();
-                actionDefinition.setDescription(
-                        "This Definition was automatically generated by: " + GroundMOAdapterImpl.class.getName());
-                actionDefinition.setProgressStepCount(new UShort((short) 0));
-
-                ArgumentDefinitionDetailsList argList = new ArgumentDefinitionDetailsList(objects.length);
-
-                for (Serializable object : objects)
-                {
-                    ArgumentDefinitionDetails argDef = new ArgumentDefinitionDetails();
-                    // If it is java type, then convert it to Attribute
-                    Object midValue = HelperAttributes.javaType2Attribute(object);
-                    Attribute rawValue;
-                    if (midValue instanceof Attribute)
-                    {
-                        // Is the parameter MAL type or something else?
-                        argDef.setRawType(((Attribute) midValue).getTypeShortForm().byteValue());
-                        rawValue = (Attribute) midValue;
-                    }
-                    else
-                    {
-                        try
-                        {
-                            // Well, if it is something else, then it will have to serialize it and put it inside a Blob
-                            rawValue = HelperAttributes.serialObject2blobAttribute(object);
-                            argDef.setRawType(HelperAttributes.SERIAL_OBJECT_RAW_TYPE);
-                        }
-                        catch (IOException ex)
-                        {
-                            LOGGER.log(Level.SEVERE, null, ex);
-                            return null;
-                        }
-                    }
-                    argDef.setRawUnit(null);
-                    argDef.setConditionalConversions(null);
-                    argDef.setConvertedType(null);
-                    argDef.setConvertedUnit(null);
-                    argDef.setRawType(null);
-                    argDef.setArgId(null);
-                    argList.add(argDef);
-                }
-
-                actionDefinition.setArguments(argList); // Change this...
-
-                ActionCreationRequestList acrl = new ActionCreationRequestList();
-                acrl.add(new ActionCreationRequest(new Identifier(actionName), actionDefinition));
-
-                objIds = actionService.addAction(acrl);
-                objId = objIds.get(0);
-            }
-
-            // Fill-in the Action Instance object
-            ActionInstanceDetails action = new ActionInstanceDetails();
-
-            action.setDefInstId(objId.getObjDefInstanceId());
-            action.setStageStartedRequired(false);
-            action.setStageProgressRequired(false);
-            action.setStageCompletedRequired(false);
-
-            AttributeValueList argValues = new AttributeValueList();
-
-            // Fill-in the argument values
-            for (Serializable object : objects)
-            {
-                AttributeValue argValue = new AttributeValue();
-                // If it is java type, then convert it to Attribute
-                Object midValue = HelperAttributes.javaType2Attribute(object);
-                Attribute rawValue;
-                if (midValue instanceof Attribute)
-                {
-                    // Is the parameter MAL type or something else?
-                    rawValue = (Attribute) midValue;
-                    argValue.setValue(rawValue);
-                }
-                else
-                {
-                    try
-                    {
-                        // Well, if it is something else, then it will have to
-                        // serialize it and put it inside a Blob
-                        rawValue = HelperAttributes.serialObject2blobAttribute(object);
-                        argValue.setValue(rawValue);
-                    }
-                    catch (IOException ex)
-                    {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                        return null;
-                    }
-                }
-                argValues.add(argValue);
-            }
-
-            action.setArgumentValues(argValues);
-            action.setArgumentIds(null);
-            action.setIsRawValue(null);
-
-            // Use action service to submit the action
-            long actionID = ObjectInstanceIdGenerator.getInstance().generateObjectInstanceId();
-
-            actionService.submitAction(actionID, action);
-
-            return actionID;
+          @Override
+          public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader,
+              Map qosProperties)
+          {
+            parameterSubscription = null;
+          }
 
         }
-        catch (MALInteractionException ex)
-        {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-        catch (MALException ex)
-        {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    /**
-     * Closes the service consumer connections
-     */
-    public void closeConnections()
-    {
-        // Unregister the consumer from the broker
-        if (this.parameterSubscription != null)
-        {
-            try
-            {
-                IdentifierList idList = new IdentifierList();
-                idList.add(this.parameterSubscription.getSubscriptionId());
-
-                super.getMCServices().getParameterService().getParameterStub()
-                        .asyncMonitorValueDeregister(idList, new ParameterAdapter()
-                        {
-                            @Override
-                            public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader, Map qosProperties)
-                            {
-                                parameterSubscription = null;
-                            }
-
-                        });
-            }
-            catch (MALInteractionException ex)
-            {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-            catch (MALException ex)
-            {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-        // Unregister the consumer from the broker
-        if (this.aggregationSubscription != null)
-        {
-            try
-            {
-                IdentifierList idList = new IdentifierList();
-                idList.add(this.aggregationSubscription.getSubscriptionId());
-
-                super.getMCServices().getAggregationService().getAggregationStub()
-                        .asyncMonitorValueDeregister(idList, new AggregationAdapter()
-                        {
-                            @Override
-                            public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader, Map qosProperties)
-                            {
-                                aggregationSubscription = null;
-                            }
-                        });
-            }
-            catch (MALInteractionException ex)
-            {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-            catch (MALException ex)
-            {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-        if (this.comServices != null)
-        {
-            this.comServices.closeConnections();
-        }
-
-        if (this.mcServices != null)
-        {
-            this.mcServices.closeConnections();
-        }
-
-        if (this.commonServices != null)
-        {
-            this.commonServices.closeConnections();
-        }
-
-        if (this.platformServices != null)
-        {
-            this.platformServices.closeConnections();
-        }
-
-        if (this.smServices != null)
-        {
-            if (this.smServices.getHeartbeatService() != null)
-            {
-                this.smServices.getHeartbeatService().stopListening();
-            }
-            this.smServices.closeConnections();
-        }
+        );
+      } catch (MALInteractionException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      } catch (MALException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      }
 
     }
 
-    @Override
-    public Long invokeAction(Long defInstId, AttributeValueList argumentValues) throws NMFException
-    {
-        Long instanceObjId = null;
+    // Unregister the consumer from the broker
+    if (this.aggregationSubscription != null) {
+      try {
+        IdentifierList idList = new IdentifierList();
+        idList.add(this.aggregationSubscription.getSubscriptionId());
 
-        // Create an ActionInstanceDetails object for the invocation of this action
-        Boolean stageStartedRequired = true;
-        Boolean stageProgressRequired = true;
-        Boolean stageCompletedRequired = true;
-        IdentifierList argumentIds = null;
-
-        try
+        super.getMCServices().getAggregationService().getAggregationStub().asyncMonitorValueDeregister(
+            idList, new AggregationAdapter()
         {
-            ActionInstanceDetails instanceDetails = new ActionInstanceDetails(defInstId,
-                                                                              stageStartedRequired,
-                                                                              stageProgressRequired,
-                                                                              stageCompletedRequired,
-                                                                              argumentValues,
-                                                                              argumentIds,
-                                                                              null);
-
-            // Store the Action Instance in the Archive and get an
-            // object instance identifier to use during the submit
-            Long related = defInstId;
-            ObjectId source = null; // TBD - should be the OperationActivity object
-            SingleConnectionDetails actionConnection = super.getMCServices().getActionService().getConnectionDetails();
-
-            ArchiveDetailsList archiveDetailsListActionInstance = HelperArchive
-                    .generateArchiveDetailsList(related, source, actionConnection.getProviderURI());
-
-            boolean returnObjInstIds = true;
-            ActionInstanceDetailsList instanceDetailsList = new ActionInstanceDetailsList();
-            instanceDetailsList.add(instanceDetails);
-
-            LongList objIdActionInstances = super.getCOMServices().getArchiveService().getArchiveStub().store(
-                    returnObjInstIds,
-                    ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
-                    actionConnection.getDomain(),
-                    archiveDetailsListActionInstance,
-                    instanceDetailsList);
-
-            if (objIdActionInstances.size() == 1)
-            {
-                instanceObjId = objIdActionInstances.get(0);
-                archiveDetailsListActionInstance.get(0).setInstId(instanceObjId);
-            }
-            else
-            {
-                throw new NMFException("Failed to store new Action Instance in COM Archive");
-            }
-
-            // Submit the action instance
-            // WORKAROUND: submit the action asynchronously so that we can find
-            // out the Transaction ID of the MAL message and include it in the
-            // corresponding OperationActivity
-            // actionService.submitAction(instanceObjId, instanceDetails);
-            MALMessage msg = super.getMCServices().getActionService().getActionStub()
-                    .asyncSubmitAction(instanceObjId, instanceDetails, new ActionAdapter()
-                    {
-                    });
-
-            // Store the corresponding OperationActivity object instance in the
-            // Archive and publish its release
-            OperationActivityList opActivityList = new OperationActivityList();
-            opActivityList.add(new OperationActivity(msg.getHeader().getInteractionType()));
-
-            related = null;
-            source = null;          // the object that caused this to be created
-
-            ArchiveDetailsList archiveDetailsListOp = HelperArchive
-                    .generateArchiveDetailsList(related, source, actionConnection.getProviderURI());
-
-            Long transId = msg.getHeader().getTransactionId();
-            archiveDetailsListOp.get(0).setInstId(transId); // requirement: 3.5.2.4
-
-            try
-            {
-                returnObjInstIds = false;
-                super.getCOMServices().getArchiveService().getArchiveStub().store(returnObjInstIds,
-                                                                                  ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
-                                                                                  actionConnection.getDomain(),
-                                                                                  archiveDetailsListOp,
-                                                                                  opActivityList);
-            }
-            catch (MALInteractionException | MALException ex)
-            {
-                LOGGER.warning("The storing of the Operation Activity failed. " + ex);
-            }
-
-            ObjectId source2 = new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
-                                            new ObjectKey(actionConnection.getDomain(), transId));
-            ObjectDetails details = new ObjectDetails(defInstId, source2);
-            archiveDetailsListActionInstance.get(0).setDetails(details);
-
-            try
-            {
-                super.getCOMServices().getArchiveService().getArchiveStub()
-                        .update(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
-                                actionConnection.getDomain(),
-                                archiveDetailsListActionInstance,
-                                instanceDetailsList);
-            }
-            catch (MALInteractionException | MALException ex)
-            {
-                LOGGER.warning("The updating of the Operation Activity failed. " + ex);
-            }
+          @Override
+          public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader,
+              Map qosProperties)
+          {
+            aggregationSubscription = null;
+          }
         }
-        catch (MALInteractionException | MALException | NMFException ex)
-        {
-            throw new NMFException("Failed to execute Action " + defInstId, ex);
-        }
+        );
+      } catch (MALInteractionException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      } catch (MALException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      }
 
-        return instanceObjId;
     }
+
+    if (this.comServices != null) {
+      this.comServices.closeConnections();
+    }
+
+    if (this.mcServices != null) {
+      this.mcServices.closeConnections();
+    }
+
+    if (this.commonServices != null) {
+      this.commonServices.closeConnections();
+    }
+
+    if (this.platformServices != null) {
+      this.platformServices.closeConnections();
+    }
+
+    if (this.smServices != null) {
+      if (this.smServices.getHeartbeatService() != null) {
+        this.smServices.getHeartbeatService().stopListening();
+      }
+      this.smServices.closeConnections();
+    }
+
+  }
+
+  @Override
+  public Long invokeAction(Long defInstId, AttributeValueList argumentValues) throws NMFException
+  {
+    Long instanceObjId = null;
+
+    // Create an ActionInstanceDetails object for the invocation of this action
+    Boolean stageStartedRequired = true;
+    Boolean stageProgressRequired = true;
+    Boolean stageCompletedRequired = true;
+    IdentifierList argumentIds = null;
+
+    try {
+      ActionInstanceDetails instanceDetails =
+          new ActionInstanceDetails(
+              defInstId,
+              stageStartedRequired,
+              stageProgressRequired,
+              stageCompletedRequired,
+              argumentValues,
+              argumentIds,
+              null);
+
+      // Store the Action Instance in the Archive and get an
+      // object instance identifier to use during the submit
+      Long related = defInstId;
+      ObjectId source = null; // TBD - should be the OperationActivity object
+      SingleConnectionDetails actionConnection =
+          super.getMCServices().getActionService().getConnectionDetails();
+
+      ArchiveDetailsList archiveDetailsListActionInstance =
+          HelperArchive.generateArchiveDetailsList(
+              related,
+              source,
+              actionConnection.getProviderURI());
+
+      boolean returnObjInstIds = true;
+      ActionInstanceDetailsList instanceDetailsList = new ActionInstanceDetailsList();
+      instanceDetailsList.add(instanceDetails);
+
+      LongList objIdActionInstances =
+          super.getCOMServices().getArchiveService().getArchiveStub().store(
+              returnObjInstIds,
+              ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
+              actionConnection.getDomain(),
+              archiveDetailsListActionInstance,
+              instanceDetailsList);
+
+      if (objIdActionInstances.size() == 1) {
+        instanceObjId = objIdActionInstances.get(0);
+        archiveDetailsListActionInstance.get(0).setInstId(instanceObjId);
+      } else {
+        throw new NMFException("Failed to store new Action Instance in COM Archive");
+      }
+
+      // Submit the action instance
+      // WORKAROUND: submit the action asynchronously so that we can find
+      // out the Transaction ID of the MAL message and include it in the
+      // corresponding OperationActivity
+      // actionService.submitAction(instanceObjId, instanceDetails);
+      MALMessage msg = super.getMCServices().getActionService().getActionStub().asyncSubmitAction(
+          instanceObjId,
+          instanceDetails,
+          new ActionAdapter()
+      {
+      }
+      );
+
+      // Store the corresponding OperationActivity object instance in the
+      // Archive and publish its release
+      OperationActivityList opActivityList = new OperationActivityList();
+      opActivityList.add(new OperationActivity(msg.getHeader().getInteractionType()));
+
+      related = null;
+      source = null;          // the object that caused this to be created
+
+      ArchiveDetailsList archiveDetailsListOp = HelperArchive.generateArchiveDetailsList(
+          related,
+          source,
+          actionConnection.getProviderURI());
+
+      Long transId = msg.getHeader().getTransactionId();
+      archiveDetailsListOp.get(0).setInstId(transId); // requirement: 3.5.2.4
+
+      try {
+        returnObjInstIds = false;
+        super.getCOMServices().getArchiveService().getArchiveStub().store(
+            returnObjInstIds,
+            ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
+            actionConnection.getDomain(),
+            archiveDetailsListOp,
+            opActivityList);
+      }
+      catch (MALInteractionException | MALException ex) {
+        LOGGER.warning("The storing of the Operation Activity failed. " + ex);
+      }
+
+      ObjectId source2 = new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE,
+          new ObjectKey(actionConnection.getDomain(), transId));
+      ObjectDetails details = new ObjectDetails(defInstId, source2);
+      archiveDetailsListActionInstance.get(0).setDetails(details);
+
+      try {
+        super.getCOMServices().getArchiveService().getArchiveStub()
+            .update(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
+            actionConnection.getDomain(),
+            archiveDetailsListActionInstance,
+            instanceDetailsList);
+      }
+      catch (MALInteractionException | MALException ex) {
+        LOGGER.warning("The updating of the Operation Activity failed. " + ex);
+      }
+    }
+    catch (MALInteractionException | MALException | NMFException ex) {
+      throw new NMFException("Failed to execute Action " + defInstId, ex);
+    }
+
+    return instanceObjId;
+  }
 
 }
