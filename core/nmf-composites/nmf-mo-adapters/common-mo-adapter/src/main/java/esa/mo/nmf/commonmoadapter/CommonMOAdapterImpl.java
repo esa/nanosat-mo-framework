@@ -351,7 +351,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             ex);
       }
     }
-    if (listener instanceof CompleteAggregationReceivedListener || listener instanceof CompleteAggregationReceivedListener) {
+    if (listener instanceof SimpleAggregationReceivedListener || listener instanceof CompleteAggregationReceivedListener) {
       // Subscribes to ALL Aggregations
       this.aggregationSubscription = ConnectionConsumer.subscriptionWildcardRandom();
 
