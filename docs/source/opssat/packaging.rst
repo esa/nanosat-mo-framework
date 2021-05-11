@@ -41,7 +41,7 @@ In short, you will need to: clone a repository, change some configuration files,
 
 .. code-block:: xml
    :linenos:
-   :emphasize-lines: 4,5,7,13,14,15,16,17,18,19,20,21
+   :emphasize-lines: 4,5,7,13,14,15,16,17,18,19,20
 
    <artifactItems>
       <artifactItem>
