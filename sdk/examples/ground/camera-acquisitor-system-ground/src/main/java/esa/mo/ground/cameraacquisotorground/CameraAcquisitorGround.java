@@ -331,7 +331,7 @@ public class CameraAcquisitorGround
         arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(longitude)));
         arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(timeStemp)));
 
-        Long actionID = gma.invokeAction(objIds.get(0).getObjDefInstanceId(), arguments);
+        Long actionID = gma.launchAction(objIds.get(0).getObjDefInstanceId(), arguments);
         if (actionID == null) {
           LOGGER.log(Level.SEVERE, "Action ID == null!");
         } else {
