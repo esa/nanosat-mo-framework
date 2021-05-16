@@ -149,7 +149,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             // MC
             if (services.getMCServices() != null) {
                 if (services.getMCServices().getActionService() != null) {
-                    ActionConsumerPanel panel = new ActionConsumerPanel(services.getMCServices().getActionService());
+                    ActionConsumerPanel panel = new ActionConsumerPanel(services);
                     int count = serviceTabs.getTabCount();
                     serviceTabs.insertTab("Action service", null, panel, "Action Tab", count);
                     panel.init();

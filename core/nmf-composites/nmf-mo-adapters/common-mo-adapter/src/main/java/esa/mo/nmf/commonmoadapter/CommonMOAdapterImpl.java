@@ -21,7 +21,6 @@
 package esa.mo.nmf.commonmoadapter;
 
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.com.impl.util.ObjectInstanceIdGenerator;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperAttributes;
@@ -371,8 +370,9 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
   }
 
   @Override
-  public Long invokeAction(final String actionName, final Serializable[] objects)
+  public Long launchAction(final String actionName, final Serializable[] objects)
   {
+    Long actionID = null;
     IdentifierList actionNames = new IdentifierList(1);
     actionNames.add(new Identifier(actionName));
 
@@ -435,14 +435,6 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         objId = objIds.get(0);
       }
 
-      // Fill-in the Action Instance object
-      ActionInstanceDetails action = new ActionInstanceDetails();
-
-      action.setDefInstId(objId.getObjDefInstanceId());
-      action.setStageStartedRequired(false);
-      action.setStageProgressRequired(false);
-      action.setStageCompletedRequired(false);
-
       AttributeValueList argValues = new AttributeValueList();
 
       // Fill-in the argument values
@@ -469,23 +461,17 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         argValues.add(argValue);
       }
 
-      action.setArgumentValues(argValues);
-      action.setArgumentIds(null);
-      action.setIsRawValue(null);
+      actionID = launchAction(objId.getObjDefInstanceId(), argValues);
 
-      // Use action service to submit the action
-      long actionID = ObjectInstanceIdGenerator.getInstance().generateObjectInstanceId();
-
-      actionService.submitAction(actionID, action);
-
-      return actionID;
-
-    } catch (MALInteractionException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    } catch (MALException ex) {
+    } catch (MALInteractionException | NMFException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
-    return null;
+    return actionID;
+  }
+
+  @Override
+  public Long launchAction(Long defInstId, AttributeValueList argumentValues) throws NMFException {
+    return launchAction(defInstId, argumentValues, new ActionAdapter() {});
   }
 
   /**
@@ -571,7 +557,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
   }
 
   @Override
-  public Long invokeAction(Long defInstId, AttributeValueList argumentValues) throws NMFException
+  public Long launchAction(Long defInstId, AttributeValueList argumentValues, ActionAdapter actionAdapter) throws NMFException
   {
     Long instanceObjId = null;
 
@@ -632,9 +618,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
       MALMessage msg = super.getMCServices().getActionService().getActionStub().asyncSubmitAction(
           instanceObjId,
           instanceDetails,
-          new ActionAdapter()
-      {
-      }
+          actionAdapter
       );
 
       // Store the corresponding OperationActivity object instance in the
@@ -683,11 +667,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
           actionConnection.getDomain(),
           archiveDetailsListActionInstance,
           instanceDetailsList);
-    } catch (MALInteractionException ex) {
-      throw new NMFException("Failed to execute Action " + defInstId, ex);
-    } catch (MALException ex) {
-      throw new NMFException("Failed to execute Action " + defInstId, ex);
-    } catch (NMFException ex) {
+    } catch (MALInteractionException | MALException | NMFException ex) {
       throw new NMFException("Failed to execute Action " + defInstId, ex);
     }
 
