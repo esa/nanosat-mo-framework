@@ -23,6 +23,8 @@ package esa.mo.nmf.commonmoadapter;
 import esa.mo.nmf.NMFException;
 import java.io.Serializable;
 import java.util.List;
+
+import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -72,8 +74,10 @@ public interface SimpleCommandingInterface
    *
    * @param actionName The name of the Action to be executed
    * @param objects Implementer-specific data necessary to execute the action
+   * @return The object instance identifier of the ActionInstance. This can be used to track the
+   *         action via the Activity Tracking service.
    */
-  Long invokeAction(String actionName, Serializable[] objects);
+  Long launchAction(String actionName, Serializable[] objects);
 
   /**
    * The invokeAction method allows an external software entity to invoke an action using the Action
@@ -87,6 +91,21 @@ public interface SimpleCommandingInterface
    *         action via the Activity Tracking service.
    * @throws NMFException in case something goes wrong
    */
-  Long invokeAction(Long defInstId, AttributeValueList argumentValues) throws NMFException;
+  Long launchAction(Long defInstId, AttributeValueList argumentValues) throws NMFException;
+
+  /**
+   * The invokeAction method allows an external software entity to invoke an action using the Action
+   * service by selecting the defInstId of the action and the respective argument values necessary
+   * for the execution of that action.
+   *
+   * @param defInstId The object instance identifier of the ActionDefinition
+   * @param argumentValues List containing the values of the arguments. The ordering of the list
+   *        matches that of the definition
+   * @param actionAdapter ActionAdapter to listen for responses.
+   * @return The object instance identifier of the ActionInstance. This can be used to track the
+   *         action via the Activity Tracking service.
+   * @throws NMFException in case something goes wrong
+   */
+  Long launchAction(Long defInstId, AttributeValueList argumentValues, ActionAdapter actionAdapter) throws NMFException;
 
 }

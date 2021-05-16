@@ -24,6 +24,8 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
+import esa.mo.nmf.NMFException;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.tools.mowindow.MOWindow;
 import java.io.InterruptedIOException;
 import java.util.Map;
@@ -62,16 +64,17 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
     private final ActionConsumerServiceImpl serviceMCAction;
     private final ActionTablePanel actionTable;
+    private GroundMOAdapterImpl gma;
 
     /**
      * Creates new formAddModifyParameter ConsumerPanelArchive
      *
-     * @param serviceMCAction
+     * @param groundMOAdapter
      */
-    public ActionConsumerPanel(ActionConsumerServiceImpl serviceMCAction) {
+    public ActionConsumerPanel(GroundMOAdapterImpl groundMOAdapter) {
         initComponents();
-
-        this.serviceMCAction = serviceMCAction;
+        this.gma = groundMOAdapter;
+        this.serviceMCAction = groundMOAdapter.getMCServices().getActionService();
         actionTable = new ActionTablePanel(serviceMCAction.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(actionTable);
     }
@@ -261,45 +264,26 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             }
         }
 
-        ActionInstanceDetails actionInstanceDetails = new ActionInstanceDetails();
-        actionInstanceDetails.setDefInstId(actionTable.getSelectedDefinitionObjId());
-
-        actionInstanceDetails.setStageStartedRequired(true);
-        actionInstanceDetails.setStageProgressRequired(true);
-        actionInstanceDetails.setStageCompletedRequired(true);
-        actionInstanceDetails.setArgumentValues(argumentValueList);
-        actionInstanceDetails.setArgumentIds(null);
-        actionInstanceDetails.setIsRawValue(null);
-
-        MOWindow genericObject = new MOWindow(actionInstanceDetails, true);
         try {
-            actionInstanceDetails = (ActionInstanceDetails) genericObject.getObject();
-        } catch (InterruptedIOException ex) {
-            return;
-        }
+            gma.launchAction(actionTable.getSelectedDefinitionObjId(), argumentValueList, new ActionAdapter() {
+                @Override
+                public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                    super.submitActionAckReceived(msgHeader, qosProperties);
+                    JOptionPane.showMessageDialog(null, "The action instance was successfully submitted.", "Success", JOptionPane.PLAIN_MESSAGE);
+                }
 
-        // Store the Action Instance in the Archive and get an object instance identifier to use during the submit
-        try {
-            /*
-            LongList objIdActionInstances = this.serviceMCAction.getCOMServices().getArchiveService().getArchiveStub().store(
-                    true,
-                    ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
-                    serviceMCAction.getConnectionDetails().getDomain(),
-                    HelperArchive.generateArchiveDetailsList(objIdDef, null, serviceMCAction.getConnectionDetails()),
-                    actionInstanceDetailsList);
+                @Override
+                public void submitActionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                    super.submitActionErrorReceived(msgHeader, error, qosProperties);
+                    JOptionPane.showMessageDialog(null, "The action submittal has failed.", "Error", JOptionPane.PLAIN_MESSAGE);
+                }
+            });
 
-             */
-
-//            this.serviceMCAction.getActionStub().submitAction(objIdActionInstances.get(0), actionInstanceDetails);
-            this.serviceMCAction.getActionStub().submitAction(System.currentTimeMillis(), actionInstanceDetails);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
+        } catch (NMFException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted action.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        JOptionPane.showMessageDialog(null, "The action instance was successfully submitted.", "Success", JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_submitActionActionPerformed
 
     private void listDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionButtonActionPerformed
@@ -517,7 +501,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        JOptionPane.showMessageDialog(null, "The action instance was successfully submitted.", "Success", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, "The action instance pre-check has passed successfully.", "Success", JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_preCheckActionButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
