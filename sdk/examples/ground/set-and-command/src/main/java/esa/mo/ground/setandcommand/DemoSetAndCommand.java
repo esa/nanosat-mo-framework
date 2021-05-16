@@ -74,7 +74,7 @@ public class DemoSetAndCommand
         double value = 1.35565;
         Double[] values = new Double[1];
         values[0] = value;
-        gma.invokeAction("Go", values);
+        gma.launchAction("Go", values);
       }
       else {
         LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
