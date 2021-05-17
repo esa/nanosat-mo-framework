@@ -428,7 +428,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         for (int i = 0; i < objectDetailsList.size(); i++) {
             ArchiveDetails archiveDetails = new ArchiveDetails();
             archiveDetails.setDetails(objectDetailsList.get(i));
-            archiveDetails.setInstId(new Long(0)); // no need to worry about objIds
+            archiveDetails.setInstId(0L); // no need to worry about objIds
             archiveDetails.setTimestamp(HelperTime.getTimestamp());
 
             if (network != null) {
@@ -512,7 +512,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         ArchiveDetails archiveDetails = new ArchiveDetails();
         archiveDetails.setDetails(objectDetailsList.get(0));
-        archiveDetails.setInstId(new Long(0)); // no need to worry about objIds
+        archiveDetails.setInstId(0L); // no need to worry about objIds
 
         if (network != null) {
             archiveDetails.setNetwork(network);

@@ -60,7 +60,7 @@ public class StoreAggregations {
             AggregationParameterSet aa = new AggregationParameterSet();
             aa.setDomain(null);
             LongList lissssst = new LongList();
-            lissssst.add(new Long(65));
+            lissssst.add(65L);
             aa.setParameters(lissssst);
             aa.setSampleInterval(new Duration(43));
             aa.setReportFilter(null);

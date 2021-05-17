@@ -231,7 +231,7 @@ public abstract class GroundMOProxy
               archiveService.getConnectionDetails().getDomain(),
               null,
               null,
-              new Long(0),
+                  0L,
               null,
               lastTime,
               currentOBT,

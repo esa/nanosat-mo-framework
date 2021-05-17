@@ -84,10 +84,9 @@ public class ParameterManager extends MCManager
     this.parametersMonitoring = parametersMonitoring;
 
     if (super.getArchiveService() == null) {  // No Archive?
-      this.uniqueObjIdIdentity = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-      this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-      this.uniqueObjIdPVal = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-//            this.load(); // Load the file
+      this.uniqueObjIdIdentity = 0L; // The zeroth value will not be used (reserved for the wildcard)
+      this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
+      this.uniqueObjIdPVal = 0L; // The zeroth value will not be used (reserved for the wildcard)
     } else {
       // With Archive...
 
@@ -222,7 +221,7 @@ public class ParameterManager extends MCManager
 
       for (int i = 0; i < relatedList.size(); i++) {
         ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
+        archiveDetails.setInstId(0L);
         archiveDetails.setDetails(new ObjectDetails(relatedList.get(i), sourcesList.get(i)));
         archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
         archiveDetails.setTimestamp(timestamps.get(i));

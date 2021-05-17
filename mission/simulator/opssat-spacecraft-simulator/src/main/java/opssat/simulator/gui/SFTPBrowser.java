@@ -138,7 +138,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
           String folder = (String) table.getValueAt(row, 0);
           sb.append("/").append(folder);
           tfName.setText(sb.toString());
-          Timer timer = new Timer(timerinterval.intValue(), new ActionListener() {
+          Timer timer = new Timer(timerinterval, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
               if (doubleClick) {

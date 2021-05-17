@@ -209,7 +209,7 @@ public class HelperArchive {
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final Identifier network, final URI provider, final FineTime timestamp) {
         final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(Long.valueOf(0));
+        archiveDetails.setInstId(0L);
         archiveDetails.setDetails(new ObjectDetails(related, source));
         archiveDetails.setNetwork(network);
         archiveDetails.setTimestamp(timestamp);

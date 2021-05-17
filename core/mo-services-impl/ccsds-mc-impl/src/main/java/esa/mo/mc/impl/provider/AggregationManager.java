@@ -89,9 +89,9 @@ public final class AggregationManager extends MCManager {
         this.sampleCountList = new HashMap<Long, ArrayList<Integer>>();
 
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdIdentity = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdAVal = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdIdentity = 0L; // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdAVal = 0L; // The zeroth value will not be used (reserved for the wildcard)
         }
     }
 

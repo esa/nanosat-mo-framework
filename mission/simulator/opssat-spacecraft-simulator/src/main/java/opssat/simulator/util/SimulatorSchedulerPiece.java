@@ -68,11 +68,11 @@ public class SimulatorSchedulerPiece implements Serializable {
             else
             {
                 try {
-                return Long.valueOf(words.get(0))*24*60*60*1000 +
-                       Long.valueOf(words.get(1))*60*60*1000 +
-                       Long.valueOf(words.get(2))*60*1000 +
-                       Long.valueOf(words.get(3))*1000 +
-                       Long.valueOf(words.get(4));
+                return Long.parseLong(words.get(0))*24*60*60*1000 +
+                       Long.parseLong(words.get(1))*60*60*1000 +
+                       Long.parseLong(words.get(2))*60*1000 +
+                       Long.parseLong(words.get(3))*1000 +
+                       Long.parseLong(words.get(4));
                 }
                 catch (NumberFormatException ex)
                 {

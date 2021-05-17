@@ -130,7 +130,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
         actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null,  new Boolean(true), null},
+                {null, null, null, null, null, Boolean.TRUE, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
@@ -273,14 +273,14 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         
         ObjectKey paramId = new ObjectKey();
         paramId.setDomain(serviceMCParameter.getConnectionDetails().getDomain());
-        paramId.setInstId(new Long(3));
+        paramId.setInstId(3L);
 //        statLink.setParameterId(paramId);
         
 
         StatisticCreationRequest request = new StatisticCreationRequest();
         request.setLinkDetails(statLinkDetails);
         request.setParameterId(paramId);
-        request.setStatFuncInstId(new Long(1));
+        request.setStatFuncInstId(1L);
         
         MOWindow statDefinitionWindow = new MOWindow(request, true);
         

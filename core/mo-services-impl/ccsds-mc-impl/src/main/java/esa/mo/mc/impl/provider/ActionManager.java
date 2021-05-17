@@ -83,9 +83,9 @@ public final class ActionManager extends MCManager {
         this.actions = actions;
 
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdIdentity = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdAIns = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdIdentity = 0L; // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdAIns = 0L; // The zeroth value will not be used (reserved for the wildcard)
 //            this.load(); // Load the file
         } else {
 

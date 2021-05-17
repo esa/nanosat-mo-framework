@@ -303,35 +303,17 @@ public class ConnectionProvider {
      * Clears the URI links file of the provider
      */
     public static void resetURILinksFile() {
-        BufferedWriter wrt = null;
-        try {
-            wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false));
+        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false))) {
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
-        } finally {
-            if (wrt != null) {
-                try {
-                    wrt.close();
-                } catch (IOException ex) {
-                }
-            }
         }
 
         if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
-            BufferedWriter wrt2 = null;
-            try {
-                wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false));
+            try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false))) {
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                         "Unable to reset URI information from properties file {0}", ex);
-            } finally {
-                if (wrt2 != null) {
-                    try {
-                        wrt2.close();
-                    } catch (IOException ex) {
-                    }
-                }
             }
         }
 
@@ -341,9 +323,7 @@ public class ConnectionProvider {
      * Writes the URIs on a text file
      */
     private void writeURIsOnFile(SingleConnectionDetails connectionDetails, String serviceName, String filename) {
-        BufferedWriter wrt = null;
-        try {
-            wrt = new BufferedWriter(new FileWriter(filename, true));
+        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, true))) {
             wrt.append(serviceName + HelperConnections.SUFFIX_URI + "=" + connectionDetails.getProviderURI());
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_BROKER + "=" + connectionDetails.getBrokerURI());
@@ -355,13 +335,6 @@ public class ConnectionProvider {
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Unable to write URI information to properties file {0}", ex);
-        } finally {
-            if (wrt != null) {
-                try {
-                    wrt.close();
-                } catch (IOException ex) {
-                }
-            }
         }
     }
 

@@ -134,7 +134,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         AggregationParameterSet aggParamSet = new AggregationParameterSet();
         aggParamSet.setSampleInterval(new Duration(1));
         LongList objIdParams = new LongList();
-        objIdParams.add(new Long(1));
+        objIdParams.add(1L);
         aggParamSet.setParameters(objIdParams);
         aggParamSetList.add(aggParamSet);
         aggDef.setParameterSets(aggParamSetList);
@@ -667,7 +667,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
         archiveQuery.setProvider(null);
-        archiveQuery.setRelated(new Long(0));
+        archiveQuery.setRelated(0L);
         archiveQuery.setSource(null);
         archiveQuery.setStartTime(null);
         archiveQuery.setEndTime(null);
@@ -960,7 +960,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
         archiveQuery.setProvider(null);
-        archiveQuery.setRelated(new Long(0));
+        archiveQuery.setRelated(0L);
         archiveQuery.setSource(null);
         archiveQuery.setStartTime(null);
         archiveQuery.setEndTime(null);
@@ -1085,9 +1085,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         group.setObjectType(objTypeParameterDef);
         group.setDomain(domain);
         LongList objIds = new LongList();
-        objIds.add(new Long(1));
-        objIds.add(new Long(2));
-        objIds.add(new Long(3));
+        objIds.add(1L);
+        objIds.add(2L);
+        objIds.add(3L);
 
         group.setInstanceIds(objIds);
 
@@ -1125,7 +1125,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
         archiveQuery.setProvider(null);
-        archiveQuery.setRelated(new Long(0));
+        archiveQuery.setRelated(0L);
         archiveQuery.setSource(null);
         archiveQuery.setStartTime(null);
         archiveQuery.setEndTime(null);
@@ -1151,7 +1151,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
         archiveQuery.setProvider(null);
-        archiveQuery.setRelated(new Long(0));
+        archiveQuery.setRelated(0L);
         archiveQuery.setSource(null);
         archiveQuery.setStartTime(null);
         archiveQuery.setEndTime(null);
