@@ -3,12 +3,12 @@ If you want to contribute to the NMF, follow these guidelines to get your code a
 
 ## Commit messages
 1. The title: Use present tense imperative to shortly (less than 50 characters) describe your changes. You may reference an issue to further clarify which problem(s) your commit addresses.
-Furthermore, do not end the title with a period, as titles do not end with periods. A valid title would be: `Bug #42: Fix camera API snapshot method`.
+Furthermore, do not end the title with a period, as titles do not end with periods. A valid title would be: `Bug #42 [api] Fix camera snapshot method`.
 2. Leave a blank line after your title.
 3. The body: Try to keep a column limit of around 50 characters to avoid horizontal scrolling. Use the body to further elaborate your changes using present tense imperative. You may name further TODOs if
 you referenced an issue and did not solve the problem completely. A fully valid commit message could look like this:
 ```
-Bug #42: Fix camera API snapshot method
+Bug #42 [api] Fix camera snapshot method
 
 Fix the method CameraAPI.snapshot() so the experimenter 
 can take single images. 
