@@ -29,7 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -74,7 +77,7 @@ public class OBSWParameterManager {
   private OBSWParameterValuesProvider valuesProvider;
 
   public OBSWParameterManager(InputStream datapool)
-      throws ParserConfigurationException, SAXException, IOException {
+          throws ParserConfigurationException, SAXException, IOException, JAXBException, XMLStreamException {
     // Read from provided inputstreams
     parameterLister = new ParameterLister(datapool);
 

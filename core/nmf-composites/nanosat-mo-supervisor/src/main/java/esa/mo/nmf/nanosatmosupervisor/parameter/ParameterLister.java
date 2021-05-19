@@ -27,9 +27,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.*;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -89,7 +95,7 @@ public class ParameterLister {
    * @throws IOException
    */
   public ParameterLister(InputStream datapool)
-      throws ParserConfigurationException, SAXException, IOException {
+          throws ParserConfigurationException, SAXException, IOException, JAXBException, XMLStreamException {
     LOGGER.log(Level.INFO, "Loading OBSW parameters from datapool");
     this.parameterMap = readParameters(datapool);
   }
@@ -114,30 +120,22 @@ public class ParameterLister {
    * @throws ParserConfigurationException
    */
   private HashMap<Identifier, OBSWParameter> readParameters(InputStream datapool)
-      throws IOException, SAXException, ParserConfigurationException {
+          throws IOException, SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
     HashMap<Identifier, OBSWParameter> map = new HashMap<>();
 
-    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-    Document document = documentBuilder.parse(datapool);
-
-    NodeList parameterNodeList = document.getElementsByTagName(TAG_PARAMETER);
-    for (int i = 0; i < parameterNodeList.getLength(); i++) {
-      Node parameterNode = parameterNodeList.item(i);
-      if (Node.ELEMENT_NODE == parameterNode.getNodeType()) {
-        Element parameterElement = (Element) parameterNode;
-
-        String name = parameterElement.getAttribute(ATTRIBUTE_NAME);
-        String malAttTypeName = parameterElement.getAttribute(ATTRIBUTE_TYPE);
-        String description = parameterElement.getAttribute(ATTRIBUTE_DESCRIPTION);
-        String id = parameterElement.getAttribute(ATTRIBUTE_ID);
-        String unit = parameterElement.getAttribute(ATTRIBUTE_UNIT);
-
-        OBSWParameter parameter =
-            new OBSWParameter(Long.parseLong(id), name, description, malAttTypeName, unit);
-        map.put(new Identifier(parameter.getName()), parameter);
-      }
+    XMLInputFactory xif = XMLInputFactory.newFactory();
+    XMLStreamReader xsr = xif.createXMLStreamReader(datapool);
+    xsr.nextTag();
+    while(!xsr.getLocalName().equals("parameter")) {
+      xsr.nextTag();
     }
+
+    JAXBContext jc = JAXBContext.newInstance(OBSWParameter.class);
+    Unmarshaller unmarshaller = jc.createUnmarshaller();
+    OBSWParameter parameter = unmarshaller.unmarshal(xsr, OBSWParameter.class).getValue();
+    xsr.close();
+
+    map.put(new Identifier(parameter.getName()), parameter);
 
     return map;
   }

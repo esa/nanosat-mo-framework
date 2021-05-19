@@ -20,35 +20,46 @@
  */
 package esa.mo.nmf.nanosatmosupervisor.parameter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Holds the information for an OBSW parameter defined in the datapool XML file.
  *
  * @author Tanguy Soto
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OBSWParameter {
   /**
    * Parameter ID (object instance id of the ParameterIdentity).
    */
+  @XmlAttribute
   private final Long id;
 
   /**
    * Parameter name (Identifier, body of the ParameterIdentity)
    */
+  @XmlAttribute
   private final String name;
 
   /**
    * Parameter description (description field of the ParameterDefinitionDetails)
    */
+  @XmlAttribute
   private final String description;
 
   /**
    * Parameter type (rawType field of the ParameterDefinitionDetails)
    */
+  @XmlAttribute(name = "attributeType")
   private final String type;
 
   /**
    * Parameter unit (rawUnit field of the ParameterDefinitionDetails)
    */
+  @XmlAttribute
   private final String unit;
 
   /**
@@ -56,9 +67,18 @@ public class OBSWParameter {
    */
   private OBSWAggregation aggregation;
 
+  public OBSWParameter() {
+    super();
+    this.id = null;
+    this.name = null;
+    this.description = null;
+    this.type = null;
+    this.unit = null;
+  }
+
   /**
    * Creates a new instance of OBSWParameter.
-   * 
+   *
    * @param id
    * @param name
    * @param description
