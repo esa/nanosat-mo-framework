@@ -27,7 +27,10 @@ import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
@@ -113,7 +116,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
       obswParameterManager =
           new OBSWParameterManager(getClass().getClassLoader().getResourceAsStream("Datapool.xml"));
       obswParameterManager.registerParametersProxies(registrationObject);
-    } catch (ParserConfigurationException | SAXException | IOException e) {
+    } catch (ParserConfigurationException | SAXException | IOException | JAXBException | XMLStreamException e) {
       LOGGER.log(Level.SEVERE, "Couldn't register OBSW parameters proxies", e);
     }
   }

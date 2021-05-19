@@ -641,16 +641,39 @@ public class SimulatorNode extends TaskNode
     }
   }
 
-  private ArrayList<String> getLinesFromInputStream(InputStream fileName)
+  private ArrayList<String> readLinesFromInputStream(InputStream fileName)
   {
 
     if (fileName != null) {
       ArrayList<String> result = new ArrayList<String>();
       try {
         BufferedReader in = new BufferedReader(new InputStreamReader(fileName));
+        String description = null;
+        boolean skipRead;
         String line;
         while ((line = in.readLine()) != null) {
-          result.add(line);
+          skipRead = false;
+          if (line.equals("/**")) {
+            description = "";
+            skipRead = true;
+          } else if (line.equals("*/")) {
+            skipRead = true;
+          } else {
+            String lineWords[] = line.split(" ");
+            if (lineWords.length > 1) {
+              if (lineWords[0].equals("void") || lineWords[0].equals("byte[]")) {
+                String lineWords2[] = line.split("//");
+                if (lineWords2.length > 1) {
+                  int internalID = Integer.parseInt(lineWords2[1]);
+                  putDescriptionIntoMethod(description, internalID);
+                }
+              }
+            }
+          }
+          if (!skipRead && !line.contains("<pre>") && !line.contains("</pre>")) {
+            description += line + "\n";
+
+          }
         }
 
       } catch (FileNotFoundException ex) {
@@ -670,39 +693,9 @@ public class SimulatorNode extends TaskNode
   {
     String fileName = "descriptions.txt";
     ClassLoader classLoader = getClass().getClassLoader();
-    InputStream result = classLoader.getResourceAsStream(fileName);
-    if (result != null) {
-      ArrayList<String> data = getLinesFromInputStream(result);
-      if (data != null) {
-        String description = null;
-        boolean skipRead;
-        boolean skipNewLine;
-        for (String line : data) {
-          skipRead = false;
-          if (line.equals("/**")) {
-            description = "";
-            skipRead = true;
-          } else if (line.equals("*/")) {
-            skipRead = true;
-          } else {
-            String lineWords[] = line.split(" ");
-            if (lineWords.length > 1) {
-              if (lineWords[0].equals("void") || lineWords[0].equals("byte[]")) {
-                String lineWords2[] = line.split("//");
-                if (lineWords2.length > 1) {
-                  int internalID = Integer.parseInt(lineWords2[1]);
-                  putDescriptionIntoMethod(description, internalID);
-                }
-              }
-            }
-
-          }
-          if (!skipRead && !line.contains("<pre>") && !line.contains("</pre>")) {
-            description += line + "\n";
-
-          }
-        }
-      }
+    InputStream istream = classLoader.getResourceAsStream(fileName);
+    if (istream != null) {
+      readLinesFromInputStream(istream);
     } else {
       this.logger.log(Level.WARNING, "Error reading resource file!");
     }
