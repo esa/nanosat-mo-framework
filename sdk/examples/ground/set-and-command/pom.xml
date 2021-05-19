@@ -23,7 +23,7 @@
   </parent>
 
   <groupId>int.esa.nmf.sdk.examples.ground</groupId>
-  <artifactId>parameter-and-action</artifactId>
+  <artifactId>set-and-command</artifactId>
   <packaging>jar</packaging>
 
   <name>ESA NMF SDK Ground Example - Set and Command</name>
