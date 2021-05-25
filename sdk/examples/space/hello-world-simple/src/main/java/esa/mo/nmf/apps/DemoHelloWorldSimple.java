@@ -25,12 +25,17 @@ import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.io.Serializable;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.Union;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
  * This class provides a simple Hello World demo cli provider
@@ -43,6 +48,7 @@ public class DemoHelloWorldSimple
   private static final String PARAMETER_NAME = "A_Parameter";
   private static final String PARAMETER_DESCRIPTION = "My first parameter!";
   private String var = "Hello World!";
+  private static final String ACTION_GO = "Go";
 
   public DemoHelloWorldSimple()
   {
@@ -83,6 +89,32 @@ public class DemoHelloWorldSimple
       ));
       names.add(new Identifier(PARAMETER_NAME));
       registrationObject.registerParameters(names, defs);
+
+      // ------------------ Actions ------------------
+      ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+      IdentifierList actionNames = new IdentifierList();
+
+      ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+      {
+        Byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
+        String rawUnit = "-";
+        ConditionalConversionList conditionalConversions = null;
+        Byte convertedType = null;
+        String convertedUnit = null;
+
+        arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), null,
+                rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+      }
+
+      actionDefs.add(new ActionDefinitionDetails(
+              "Simple Go action with double value.",
+              new UOctet((short) 0),
+              new UShort(3),
+              arguments1
+      ));
+      actionNames.add(new Identifier(ACTION_GO));
+
+      registrationObject.registerActions(actionNames, actionDefs);
     }
 
     @Override
@@ -110,6 +142,10 @@ public class DemoHelloWorldSimple
     public boolean actionArrivedSimple(String name, Serializable[] values,
         Long actionInstanceObjId)
     {
+      if (ACTION_GO.equals(name)) {
+        Logger.getLogger(DemoHelloWorldSimple.class.getName()).log(Level.INFO, "Action 'Go' activated. Success!");
+        return true; // Success!
+      }
       return false;
     }
   }
