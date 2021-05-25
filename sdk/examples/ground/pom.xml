@@ -66,6 +66,7 @@
   <modules>
     <module>simple-ground</module>
     <module>directory-consumer</module>
+    <module>echo</module>
     <module>set-and-command</module>
     <module>facebook</module>
     <module>camera-acquisitor-system-ground</module>

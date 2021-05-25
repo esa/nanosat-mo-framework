@@ -34,13 +34,14 @@ public class SpringInitiator
 
   /**
    * Main command line entry point.
-   *
-   * @param args the command line arguments
+   * This Demo should be used with Camera Acquisition System provider.
+   * @param args the command line arguments - directoryURI and port for tomcat
    */
   public static void main(final String args[])
   {
     if (args.length != 2) {
-      System.err.println("Please give directoryURI as first argument and Port as second argument!");
+      System.err.println("Please give directoryURI as first argument and an open port number for Tomcat as second argument!");
+      System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory 1050");
       System.exit(1);
     }
     SpringApplication app = new SpringApplication(CameraAcquisitorGround.class);

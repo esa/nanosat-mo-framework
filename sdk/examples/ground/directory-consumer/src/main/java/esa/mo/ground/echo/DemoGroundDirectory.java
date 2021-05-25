@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.ground.directory;
+package esa.mo.ground.echo;
 
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
@@ -41,17 +41,14 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class DemoGroundDirectory
 {
 
-  private final static URI DIRECTORY_URI
-      = new URI("maltcp://x:1024-nanosat-mo-supervisor-Directory");
-
   private GroundMOAdapterImpl gma;
   private static final Logger LOGGER = Logger.getLogger(DemoGroundDirectory.class.getName());
 
-  public DemoGroundDirectory()
+  public DemoGroundDirectory(String directoryURI)
   {
     try {
       ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
-          DIRECTORY_URI);
+          new URI(directoryURI));
 
       if (!providers.isEmpty()) {
         // Connect to provider on index 0
@@ -74,7 +71,13 @@ public class DemoGroundDirectory
    */
   public static void main(final String args[]) throws Exception
   {
-    DemoGroundDirectory demo = new DemoGroundDirectory();
+    if (args.length != 1) {
+      System.err.println("Please give supervisor directory URI as an argument!");
+      System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory");
+      System.exit(1);
+    }
+
+    DemoGroundDirectory demo = new DemoGroundDirectory(args[0]);
   }
 
   private class SimpleDataReceivedAdapter extends SimpleDataReceivedListener

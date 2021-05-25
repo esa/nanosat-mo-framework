@@ -64,22 +64,24 @@
   </properties>
 
   <modules>
+    <module>adcs-eds</module>
     <module>all-mc-services</module>
     <module>all-mc-services-with-sim</module>
-    <module>blank</module>
     <module>benchmark</module>
+    <module>blank</module>
     <module>camera</module>
+    <module>camera-acquisitor-system</module>
+    <module>echo</module>
     <module>gps</module>
-    <module>hello-world-simple</module>
     <module>hello-world-full</module>
+    <module>hello-world-simple</module>
     <module>multistage-action</module>
-    <module>periodic-alert</module>
-    <module>publish-clock</module>
     <module>payloads-test</module>
+    <module>periodic-alert</module>
+    <module>picture-processor</module>
+    <module>publish-clock</module>
     <module>serialized-object</module>
     <module>waveform</module>
-    <module>camera-acquisitor-system</module>
-    <module>picture-processor</module>
   </modules>
 
 </project>

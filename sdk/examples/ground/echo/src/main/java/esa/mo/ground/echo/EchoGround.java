@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.ground.directory;
+package esa.mo.ground.echo;
 
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
@@ -37,45 +37,55 @@ import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  * Demo application using the Directory service
+ * This demo should be used with the echo-space.
  *
  * @author Cesar Coelho
  */
 public class EchoGround
 {
 
-  private final static URI DIRECTORY_URI
-      = new URI("maltcp://172.17.0.1:1025/ground-mo-proxy-Directory");
-
-  private GroundMOAdapterImpl gma;
+  private static final String ECHO_SPACE_PROVIDER = "App: echo-space";
   private static final Logger LOGGER = Logger.getLogger(EchoGround.class.getName());
 
-  public EchoGround()
+  public EchoGround(String directoryURI)
   {
     try {
+      GroundMOAdapterImpl gma = null;
       ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
-          DIRECTORY_URI);
+          new URI(directoryURI));
 
       if (!providers.isEmpty()) {
-        // Connect to provider on index 0
         for(ProviderSummary provider : providers){
-          if(provider.getProviderName().getValue().toLowerCase().contains("exp")){
+          if(provider.getProviderName().toString().equals(ECHO_SPACE_PROVIDER)){
             gma = new GroundMOAdapterImpl(provider);
+            gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
             break;
           }
         }
-        
-        gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
       } else {
         LOGGER.log(Level.SEVERE,
             "The returned list of providers is empty!");
       }
-    } catch (MALException | MalformedURLException | MALInteractionException ex) {
+
+      if(gma != null)
+      {
+        StringBuilder sb = new StringBuilder("A");
+        for(int i = 0; i < 50; i++){
+          gma.setParameter("Data", new Blob(sb.toString().getBytes()));
+          sb.append("A");
+          Thread.sleep(5000);
+        }
+        gma.setParameter("Data", new Blob("Hello".getBytes()));
+        gma.setParameter("Data", new Blob("OPS-SAT".getBytes()));
+      }
+      else
+      {
+        LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
+                ECHO_SPACE_PROVIDER);
+      }
+    } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
-  }
-
-  public GroundMOAdapterImpl getGMA(){
-    return gma;
   }
 
   /**
@@ -86,16 +96,13 @@ public class EchoGround
    */
   public static void main(final String args[]) throws Exception
   {
-    EchoGround demo = new EchoGround();
-    GroundMOAdapterImpl gma = demo.getGMA();
-    StringBuilder sb = new StringBuilder("A");
-    for(int i = 0; i < 50; i++){
-      gma.setParameter("Data", new Blob(sb.toString().getBytes()));
-      sb.append("A");
-      Thread.sleep(5000);
+    if (args.length != 1) {
+      System.err.println("Please give supervisor directory URI as an argument!");
+      System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory");
+      System.exit(1);
     }
-    gma.setParameter("Data", new Blob("Hello".getBytes()));
-    gma.setParameter("Data", new Blob("OPS-SAT".getBytes()));
+
+    EchoGround demo = new EchoGround(args[0]);
     return;
   }
 

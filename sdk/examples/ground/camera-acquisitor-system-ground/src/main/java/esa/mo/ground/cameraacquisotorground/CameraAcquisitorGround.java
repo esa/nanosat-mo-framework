@@ -91,9 +91,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Set and Command demo application. This demo should be used with the Hello World demo provider.
  * Camera Acquisition System ground application. Handles communication between user front-end and
  * space application as well as all computationally expensive calculations.
+ * This Demo should be used with Camera Acquisition System provider.
  */
 @RestController
 @SpringBootApplication
@@ -104,6 +104,7 @@ public class CameraAcquisitorGround
 {
 
   private static final Logger LOGGER = Logger.getLogger(CameraAcquisitorGround.class.getName());
+  private static final String PROVIDER_CAMERA_APP = "App: camera-acquisitor-system";
 
   private GroundMOAdapterImpl gma;
   private final OrbitHandler orbitHandler;
@@ -150,17 +151,16 @@ public class CameraAcquisitorGround
    */
   private class Parameter
   {
-    private static final String GAIN_RED = "GainRed";
-    private static final String GAIN_GREEN = "GainGreen";
-    private static final String GAIN_BLUE = "GainBlue";
-    private static final String EXPOSURE_TYPE = "ExposureType";
-    private static final String CUSTOM_EXPOSURE_TIME = "CustomExposureTime";
-    private static final String WORST_CASE_ROTATION_TIME_MS = "WorstCaseRotationTimeMS";
-    private static final String ATTITUDE_SAFTY_MARGIN_MS = "AttitudeSaftyMarginMS";
-    private static final String MAX_RETRYS = "MaxRetrys";
-    private static final String PICTURE_WIDTH = "PictureWidth";
-    private static final String PICTURE_HEIGHT = "PictureHeight";
-    private static final String PICTURE_TYPE = "PictureType";
+    private static final String GAIN_RED = "gainRed";
+    private static final String GAIN_GREEN = "gainGreen";
+    private static final String GAIN_BLUE = "gainBlue";
+    private static final String EXPOSURE_TYPE = "exposureType";
+    private static final String CUSTOM_EXPOSURE_TIME = "exposureTime";
+    private static final String WORST_CASE_ROTATION_TIME_MS = "worstCaseRotationTimeMS";
+    private static final String ATTITUDE_SAFTY_MARGIN_MS = "attitudeSaftyMarginMS";
+    private static final String PICTURE_WIDTH = "pictureWidth";
+    private static final String PICTURE_HEIGHT = "pictureHeight";
+    private static final String PICTURE_TYPE = "pictureType";
   }
 
   /**
@@ -228,50 +228,49 @@ public class CameraAcquisitorGround
           GroundMOAdapterImpl.retrieveProvidersFromDirectory(
               directoryURI);
       System.out.println("retrive providers fin");
-      GroundMOAdapterImpl gmaTMP = null;
-      boolean providerFound = false;
       for (ProviderSummary provider : providers) {
         System.out.println("name : " + provider.getProviderName().getValue());
-        if (provider.getProviderName().getValue().equals("App: camera-acquisitor-system")) {
-          gmaTMP = new GroundMOAdapterImpl(provider);
-          providerFound = true;
+        if (provider.getProviderName().getValue().equals(PROVIDER_CAMERA_APP)) {
+          gma = new GroundMOAdapterImpl(provider);
           break;
         }
       }
 
-      gma = gmaTMP;
+      if(gma != null) {
+        Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
+                "ActivityTrackingListener",
+                ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
+        gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
+                new EventReceivedListenerAdapter());
 
-      Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
-          "ActivityTrackingListener",
-          ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
-      gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
-          new EventReceivedListenerAdapter());
+        setInitialParameters();
 
-      setInitialParameters();
+        // get previous requests
+        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+        ArchiveQuery archiveQuery = new ArchiveQuery();
 
-      // get previous requests
-      ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-      ArchiveQuery archiveQuery = new ArchiveQuery();
+        archiveQuery.setDomain(null);
+        archiveQuery.setNetwork(null);
+        archiveQuery.setProvider(null);
+        archiveQuery.setRelated(new Long(0));
+        archiveQuery.setSource(null);
+        archiveQuery.setStartTime(null);
+        archiveQuery.setEndTime(null);
+        archiveQuery.setSortFieldName(null);
 
-      archiveQuery.setDomain(null);
-      archiveQuery.setNetwork(null);
-      archiveQuery.setProvider(null);
-      archiveQuery.setRelated(new Long(0));
-      archiveQuery.setSource(null);
-      archiveQuery.setStartTime(null);
-      archiveQuery.setEndTime(null);
-      archiveQuery.setSortFieldName(null);
+        archiveQueryList.add(archiveQuery);
 
-      archiveQueryList.add(archiveQuery);
+        GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
 
-      GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
+        gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(
+                        new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
+                archiveQueryList, null, archiveAdapter);
 
-      gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(
-          new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
-          archiveQueryList, null, archiveAdapter);
-
-      System.out.println("------------------------------------------------------------------------");
-
+        System.out.println("------------------------------------------------------------------------");
+      }
+      else {
+        LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " + PROVIDER_CAMERA_APP);
+      }
     } catch (MALException | MalformedURLException | MALInteractionException ex) {
       Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -492,10 +491,9 @@ public class CameraAcquisitorGround
    */
   private void setInitialParameters()
   {
-    gma.setParameter(Parameter.ATTITUDE_SAFTY_MARGIN_MS, 1000000);
+    gma.setParameter(Parameter.ATTITUDE_SAFTY_MARGIN_MS, 1000000L);
     gma.setParameter(Parameter.CUSTOM_EXPOSURE_TIME, 1.0f);
-    gma.setParameter(Parameter.EXPOSURE_TYPE, 0);//CUSTOM = 0, AUTOMATIC = 1
-    gma.setParameter(Parameter.MAX_RETRYS, 5);
+    gma.setParameter(Parameter.EXPOSURE_TYPE, (byte) 0);//CUSTOM = 0, AUTOMATIC = 1
     gma.setParameter(Parameter.WORST_CASE_ROTATION_TIME_MS, DEFAULT_WORST_CASE_ROTATION_TIME_MS);
 
     gma.setParameter(Parameter.GAIN_RED, 1.0f);
