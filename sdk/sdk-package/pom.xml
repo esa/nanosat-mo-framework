@@ -370,6 +370,7 @@
             </execution>
         </executions>
         <configuration>
+            <failOnNoGitDirectory>false</failOnNoGitDirectory>
             <commitIdGenerationMode>full</commitIdGenerationMode>
             <gitDescribe>
               <tags>true</tags>
