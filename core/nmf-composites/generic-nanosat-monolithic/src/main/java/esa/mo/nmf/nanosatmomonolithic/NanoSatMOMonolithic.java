@@ -66,7 +66,6 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
-        HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
         super.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME) + PROVIDER_SUFFIX_NAME;

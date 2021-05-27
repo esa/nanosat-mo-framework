@@ -74,13 +74,6 @@ public class RegressionTest0 {
     }
 
     @Test
-    public void test0007() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test0007");
-        esa.mo.helpertools.helpers.HelperMisc.setInputProcessorsProperty();
-    }
-
-    @Test
     public void test0008() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0008");

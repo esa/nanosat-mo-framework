@@ -482,8 +482,4 @@ public class HelperMisc {
     return malSer.getName().toString();
   }
 
-  public static void setInputProcessorsProperty() {
-    System.setProperty("org.ccsds.moims.mo.mal.transport.gen.inputprocessors", "5");
-  }
-
 }
