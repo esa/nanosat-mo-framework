@@ -63,7 +63,7 @@
       <version>0.1</version>
       <systemPath>${basedir}/src/main/resources/iadcs_api.jar</systemPath>
       <scope>system</scope>
-    </dependency>    
+    </dependency>
   </dependencies>
   <build>
     <resources>
