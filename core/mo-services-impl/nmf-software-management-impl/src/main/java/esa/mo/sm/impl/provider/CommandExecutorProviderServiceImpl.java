@@ -29,7 +29,6 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.sm.impl.util.OSValidator;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -144,26 +143,6 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     return ret.toArray(new String[0]);
   }
 
-  public static synchronized long getProcessPid(Process p) throws IOException
-  {
-    long pid;
-
-    try {
-      if (p.getClass().getName().equals("java.lang.UNIXProcess")) {
-        Field f = p.getClass().getDeclaredField("pid");
-        f.setAccessible(true);
-        pid = f.getLong(p);
-        f.setAccessible(false);
-      } else {
-        throw new IOException("Trying to resolve PID on an unsupported platform");
-      }
-    } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
-        | SecurityException ex) {
-      throw new IOException("Exception when trying to resolve PID", ex);
-    }
-    return pid;
-  }
-
   @Override
   public Long runCommand(CommandDetails command, MALInteraction interaction) throws
       MALInteractionException, MALException
@@ -215,15 +194,15 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
       LOGGER.log(Level.SEVERE, null, ex);
       throw new MALException("Cannot start the process!", ex);
     }
-
+    long pid;
     try {
-          long pid = getProcessPid(proc);
-          command.setPid(new UInteger(pid));
-          updateCommandDetails(storedCommandObject, command);
-          return storedCommandObject;
-      } catch (IOException ex) {
-          throw new MALException("The process PID could not be determined!", ex);
-      }
+      pid = ProcessExecutionHandler.getProcessPid(proc);
+    } catch (IOException ex) {
+      pid = -1;
+    }
+    command.setPid(pid);
+    updateCommandDetails(storedCommandObject, command);
+    return storedCommandObject;
   }
 
   private void commandOutputEvent(final Long objId, final String outputText,
