@@ -615,7 +615,7 @@
           </mal:messages>
         </mal:pubsubIP>
       </mal:capabilitySet>
-      <mal:capabilitySet>
+      <mal:capabilitySet comment="" number="8">
         <mal:invokeIP
           comment="The getBestXYZSentence operation allows a consumer to request a GNSS BestXYZ sentence returning cartesian x-, y- and z-coordinates of the satellite."
           name="getBestXYZSentence" number="9" supportInReplay="false">
@@ -1447,7 +1447,6 @@
                 <mal:type area="MAL" list="false"
                           name="Float"/>
               </mal:field>
-              
             </mal:submit>
           </mal:messages>
           <mal:errors>
