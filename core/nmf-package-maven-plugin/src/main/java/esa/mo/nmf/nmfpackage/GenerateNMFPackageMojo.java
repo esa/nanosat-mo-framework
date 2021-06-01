@@ -25,6 +25,7 @@ import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.maven.plugin.AbstractMojo;
@@ -73,16 +74,16 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     /**
      * The set of libraries to be added to the .nmfpack
      */
-    @Parameter(property = "generate-nmf-package.libs", required = true)
-    private String[] libs;
-    
+    @Parameter(property = "generate-nmf-package.libs")
+    private List<String> libs;
+
     /**
      * The set of privileges that an App can have
      */
     public enum Privilege {
-      normal,
-      admin,
-      root
+        normal,
+        admin,
+        root
     }
 
     /**
@@ -90,24 +91,34 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
      */
     @Parameter(property = "generate-nmf-package.privilege", defaultValue = "normal")
     private Privilege privilege;
-    
+
+    final ArrayList<String> inputFiles = new ArrayList<>();
+    final ArrayList<String> locations = new ArrayList<>();
+    String appPath = "no-path";
+
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
-
-        ArrayList<String> inputFiles = new ArrayList<>();
-        ArrayList<String> locations = new ArrayList<>();
+        appPath = "apps" + SEPARATOR + name + SEPARATOR;
 
         try {
             File myAppFilename = this.findAppJarInTargetFolder();
             inputFiles.add(myAppFilename.getAbsolutePath());
-            locations.add("apps" + SEPARATOR + name + SEPARATOR + myAppFilename.getName());
+            locations.add(appPath + myAppFilename.getName());
+
+            // Add the external libs or files
+            if (libs != null) {
+                for (String lib : libs) {
+                    getLog().info(">> lib: " + lib);
+                    addFileOrDirectory(lib, "");
+                }
+            }
         } catch (IOException ex) {
             Logger.getLogger(GenerateNMFPackageMojo.class.getName()).log(
                     Level.SEVERE, "The Jar file was not found!", ex);
         }
 
-        getLog().info("\n------------- NMF Package - Generator -------------\n");
+        getLog().info("\n------------ NMF Package - Generator ------------\n");
         getLog().info("Input values:");
         getLog().info(">> name = " + name);
         getLog().info(">> version = " + version);
@@ -116,28 +127,40 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         getLog().info(">> nmfVersion = " + nmfVersion);
         getLog().info(">> maxHeap = " + maxHeap);
 
-        if(mainClass == null){
+        if (mainClass == null) {
             throw new MojoExecutionException("The mainClass property needs to be defined!\n"
                     + "Please use the <mainClass> tag inside the <configuration> tag!\n");
         }
 
-        if("${esa.nmf.version-qualifier}".equals(nmfVersion)){
+        if ("${esa.nmf.version-qualifier}".equals(nmfVersion)) {
             throw new MojoExecutionException("The nmfVersion property needs to be defined!\n"
                     + "Please use the <nmfVersion> tag inside the <configuration> tag!\n");
         }
-        
+
         final Time time = new Time(System.currentTimeMillis());
         final String timestamp = HelperTime.time2readableString(time);
 
         // Package 1
         NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainClass, maxHeap);
-        NMFPackageCreator.nmfPackageCreator(details,
-                inputFiles, locations, "target");
-        // Additional libraries?
+        NMFPackageCreator.nmfPackageCreator(details, inputFiles, locations, "target");
+    }
+
+    private void addFileOrDirectory(String path, String nest) {
+        File f = new File(path);
+
+        if (f.isDirectory()) {
+            nest += f.getName() + File.separator;
+
+            for (File n : f.listFiles()) {
+                addFileOrDirectory(n.getAbsolutePath(), nest);
+            }
+        } else {
+            inputFiles.add(f.getAbsolutePath());
+            locations.add(appPath + nest + f.getName());
+        }
     }
 
     private File findAppJarInTargetFolder() throws IOException {
-
         File targetFolder = new File("target");
         File[] fList = targetFolder.listFiles();
 
