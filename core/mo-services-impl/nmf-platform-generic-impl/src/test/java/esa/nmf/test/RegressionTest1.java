@@ -212,7 +212,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-4) + "'", int2.equals((-4)));
     org.junit.Assert.assertTrue("'" + int3 + "' != '" + (-4) + "'", int3.equals((-4)));
     org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-4) + "'", int4.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", !boolean6);
     org.junit.Assert.assertNotNull(byteArray8);
     org.junit.Assert.assertTrue("'" + int9 + "' != '" + (-1) + "'", int9 == (-1));
   }
@@ -360,7 +360,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-4) + "'", int2.equals((-4)));
     org.junit.Assert.assertTrue("'" + int3 + "' != '" + (-4) + "'", int3.equals((-4)));
     org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-4) + "'", int4.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", !boolean6);
     org.junit.Assert.assertNotNull(byteArray8);
     org.junit.Assert.assertTrue("'" + int9 + "' != '" + (-1) + "'", int9 == (-1));
   }
@@ -387,7 +387,7 @@ public class RegressionTest1
     }
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(byteArray4);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
   }
 
   @Test
@@ -800,7 +800,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int3 + "' != '" + 8 + "'", int3.equals(8));
     org.junit.Assert.assertNotNull(uShort4);
     org.junit.Assert.assertNotNull(byteArray6);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
   }
 
   @Test
@@ -972,7 +972,7 @@ public class RegressionTest1
     }
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(byteArray4);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
     org.junit.Assert.assertTrue("'" + long7 + "' != '" + 4823355201182236832L + "'",
         long7 == 4823355201182236832L);
   }
@@ -1485,7 +1485,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int3 + "' != '" + 8 + "'", int3.equals(8));
     org.junit.Assert.assertNotNull(uShort4);
     org.junit.Assert.assertNotNull(byteArray6);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
   }
 
   @Test
@@ -1569,27 +1569,27 @@ public class RegressionTest1
     } catch (java.lang.ArrayStoreException e) {
     }
     org.junit.Assert.assertNotNull(intArray4);
-    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
     org.junit.Assert.assertNotNull(uRIArray8);
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
     org.junit.Assert.assertNotNull(doubleArray14);
-    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16 == true);
+    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
     org.junit.Assert.assertNotNull(byteArray21);
-    org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23 == true);
+    org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
     org.junit.Assert.assertTrue("'" + str24 + "' != '" + "[100, 1, -1, 10]" + "'", str24.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25 == true);
-    org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
+    org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
+    org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", !boolean26);
     org.junit.Assert.assertNotNull(intArray39);
-    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41 == true);
+    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
     org.junit.Assert.assertNotNull(byteArray45);
-    org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47 == true);
-    org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49 == true);
+    org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47);
+    org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
     org.junit.Assert.assertNotNull(byteStream50);
     org.junit.Assert.assertTrue("'" + int52 + "' != '" + (-1) + "'", int52 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean53 + "' != '" + false + "'", boolean53 == false);
-    org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + false + "'", boolean54 == false);
+    org.junit.Assert.assertTrue("'" + boolean53 + "' != '" + false + "'", !boolean53);
+    org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + false + "'", !boolean54);
     org.junit.Assert.assertNotNull(uRISpliterator55);
     org.junit.Assert.assertNotNull(uRIStream56);
     org.junit.Assert.assertNotNull(helperGPSArray63);
@@ -1657,7 +1657,7 @@ public class RegressionTest1
     }
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(byteArray4);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
   }
 
   @Test
@@ -1969,11 +1969,11 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(uShort7);
     org.junit.Assert.assertNotNull(uShort8);
     org.junit.Assert.assertNotNull(uShortArray9);
-    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
+    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
     org.junit.Assert.assertTrue("'" + int12 + "' != '" + 1 + "'", int12 == 1);
     org.junit.Assert.assertNotNull(uShortSpliterator13);
     org.junit.Assert.assertNotNull(uShortStream14);
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
     org.junit.Assert.assertTrue("'" + int18 + "' != '" + (-4) + "'", int18.equals((-4)));
     org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-4) + "'", int19.equals((-4)));
     org.junit.Assert.assertNotNull(uShort20);
@@ -1982,28 +1982,28 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int25 + "' != '" + 0 + "'", int25 == 0);
     org.junit.Assert.assertNotNull(obj27);
     org.junit.Assert.assertNotNull(strArray32);
-    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34 == true);
+    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
     org.junit.Assert.assertTrue("'" + int38 + "' != '" + (-1) + "'", int38 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39 == true);
+    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
     org.junit.Assert.assertNotNull(obj40);
-    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42 == true);
+    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42);
     org.junit.Assert.assertNotNull(doubleArray46);
-    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48 == true);
+    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
     org.junit.Assert.assertNotNull(byteArray53);
-    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55 == true);
+    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
     org.junit.Assert.assertTrue("'" + str56 + "' != '" + "[100, 1, -1, 10]" + "'", str56.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57 == true);
+    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
     org.junit.Assert.assertNotNull(byteArray62);
-    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64 == true);
+    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
     org.junit.Assert.assertTrue("'" + str65 + "' != '" + "[100, 1, -1, 10]" + "'", str65.equals(
         "[100, 1, -1, 10]"));
     org.junit.Assert.assertTrue("'" + byte68 + "' != '" + (byte) 100 + "'",
         byte68.equals((byte) 100));
-    org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69 == true);
-    org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70 == true);
-    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + false + "'", boolean71 == false);
-    org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", boolean72 == false);
+    org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69);
+    org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
+    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + false + "'", !boolean71);
+    org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", !boolean72);
     org.junit.Assert.assertNotNull(element73);
     org.junit.Assert.assertNotNull(byteArray75);
     org.junit.Assert.assertTrue("'" + int76 + "' != '" + (-1) + "'", int76 == (-1));
@@ -2108,11 +2108,11 @@ public class RegressionTest1
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(longArray26);
-    org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
+    org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
     org.junit.Assert.assertTrue("'" + long30 + "' != '" + 281474993487884L + "'", long30.equals(
         281474993487884L));
     org.junit.Assert.assertNotNull(byteArray32);
-    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
+    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", !boolean33);
   }
 
   @Test
@@ -2282,24 +2282,24 @@ public class RegressionTest1
     esa.mo.platform.impl.util.HelperGPS[] helperGPSArray56 = uRIList1.toArray(helperGPSArray55);
     java.util.Iterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor57 = uRIList1.iterator();
     org.junit.Assert.assertNotNull(uRIArray0);
-    org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+    org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", !boolean2);
     org.junit.Assert.assertNotNull(doubleArray6);
-    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     org.junit.Assert.assertNotNull(byteArray13);
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[100, 1, -1, 10]" + "'", str16.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17 == true);
-    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", boolean18 == false);
+    org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17);
+    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", !boolean18);
     org.junit.Assert.assertNotNull(intArray31);
-    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + true + "'", boolean33 == true);
+    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + true + "'", boolean33);
     org.junit.Assert.assertNotNull(byteArray37);
-    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39 == true);
-    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41 == true);
+    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
+    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
     org.junit.Assert.assertNotNull(byteStream42);
     org.junit.Assert.assertTrue("'" + int44 + "' != '" + (-1) + "'", int44 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", boolean45 == false);
-    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + false + "'", boolean46 == false);
+    org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", !boolean45);
+    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + false + "'", !boolean46);
     org.junit.Assert.assertNotNull(uRISpliterator47);
     org.junit.Assert.assertNotNull(uRIStream48);
     org.junit.Assert.assertNotNull(helperGPSArray55);
@@ -2353,7 +2353,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
     org.junit.Assert.assertTrue("'" + int7 + "' != '" + (-4) + "'", int7.equals((-4)));
     org.junit.Assert.assertTrue("'" + int8 + "' != '" + (-4) + "'", int8.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
     org.junit.Assert.assertNotNull(byteArray12);
     org.junit.Assert.assertTrue("'" + int13 + "' != '" + (-1) + "'", int13 == (-1));
   }
@@ -2469,7 +2469,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int3 + "' != '" + 8 + "'", int3.equals(8));
     org.junit.Assert.assertNotNull(uShort4);
     org.junit.Assert.assertNotNull(byteArray6);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
     org.junit.Assert.assertTrue("'" + short9 + "' != '" + (short) 256 + "'", short9 == (short) 256);
   }
 
@@ -2777,40 +2777,40 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(uShortItor6);
     org.junit.Assert.assertNotNull(uShort7);
     org.junit.Assert.assertNotNull(uRIArray8);
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
     org.junit.Assert.assertNotNull(doubleArray14);
-    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16 == true);
+    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
     org.junit.Assert.assertNotNull(byteArray21);
-    org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23 == true);
+    org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
     org.junit.Assert.assertTrue("'" + str24 + "' != '" + "[100, 1, -1, 10]" + "'", str24.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25 == true);
-    org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
+    org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
+    org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", !boolean26);
     org.junit.Assert.assertNotNull(obj30);
     org.junit.Assert.assertNotNull(strArray35);
-    org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37 == true);
+    org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37);
     org.junit.Assert.assertTrue("'" + int41 + "' != '" + (-1) + "'", int41 == (-1));
     org.junit.Assert.assertNotNull(byteArray45);
-    org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47 == true);
-    org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49 == true);
+    org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47);
+    org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
     org.junit.Assert.assertNotNull(byteArray55);
-    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57 == true);
-    org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + true + "'", boolean58 == true);
-    org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + false + "'", boolean59 == false);
+    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
+    org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + true + "'", boolean58);
+    org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + false + "'", !boolean59);
     org.junit.Assert.assertNotNull(uOctet61);
-    org.junit.Assert.assertTrue("'" + boolean62 + "' != '" + false + "'", boolean62 == false);
-    org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + true + "'", boolean63 == true);
+    org.junit.Assert.assertTrue("'" + boolean62 + "' != '" + false + "'", !boolean62);
+    org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + true + "'", boolean63);
     org.junit.Assert.assertNotNull(element64);
     org.junit.Assert.assertTrue("'" + long65 + "' != '" + 281475010265081L + "'", long65.equals(
         281475010265081L));
     org.junit.Assert.assertNotNull(uShort66);
     org.junit.Assert.assertNotNull(byteStream67);
-    org.junit.Assert.assertTrue("'" + boolean68 + "' != '" + false + "'", boolean68 == false);
+    org.junit.Assert.assertTrue("'" + boolean68 + "' != '" + false + "'", !boolean68);
     org.junit.Assert.assertNotNull(uShortItor70);
     org.junit.Assert.assertNotNull(positionsCalculatorArray77);
     org.junit.Assert.assertNotNull(positionsCalculatorArray78);
     org.junit.Assert.assertNotNull(uShort81);
-    org.junit.Assert.assertTrue("'" + boolean82 + "' != '" + true + "'", boolean82 == true);
+    org.junit.Assert.assertTrue("'" + boolean82 + "' != '" + true + "'", boolean82);
   }
 
   @Test
@@ -2852,7 +2852,7 @@ public class RegressionTest1
     }
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(byteArray4);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
   }
 
   @Test
@@ -3178,7 +3178,7 @@ public class RegressionTest1
     }
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(byteArray4);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
     org.junit.Assert.assertTrue("'" + long7 + "' != '" + 4823355201182236832L + "'",
         long7 == 4823355201182236832L);
   }
@@ -3354,7 +3354,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int3 + "' != '" + 8 + "'", int3.equals(8));
     org.junit.Assert.assertNotNull(uShort4);
     org.junit.Assert.assertNotNull(byteArray6);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
   }
 
   @Test
@@ -3806,11 +3806,11 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(uShort7);
     org.junit.Assert.assertNotNull(uShort8);
     org.junit.Assert.assertNotNull(uShortArray9);
-    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
+    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
     org.junit.Assert.assertTrue("'" + int12 + "' != '" + 1 + "'", int12 == 1);
     org.junit.Assert.assertNotNull(uShortSpliterator13);
     org.junit.Assert.assertNotNull(uShortStream14);
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
     org.junit.Assert.assertTrue("'" + int18 + "' != '" + (-4) + "'", int18.equals((-4)));
     org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-4) + "'", int19.equals((-4)));
     org.junit.Assert.assertNotNull(uShort20);
@@ -3819,28 +3819,28 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int25 + "' != '" + 0 + "'", int25 == 0);
     org.junit.Assert.assertNotNull(obj27);
     org.junit.Assert.assertNotNull(strArray32);
-    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34 == true);
+    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
     org.junit.Assert.assertTrue("'" + int38 + "' != '" + (-1) + "'", int38 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39 == true);
+    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
     org.junit.Assert.assertNotNull(obj40);
-    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42 == true);
+    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42);
     org.junit.Assert.assertNotNull(doubleArray46);
-    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48 == true);
+    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
     org.junit.Assert.assertNotNull(byteArray53);
-    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55 == true);
+    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
     org.junit.Assert.assertTrue("'" + str56 + "' != '" + "[100, 1, -1, 10]" + "'", str56.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57 == true);
+    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
     org.junit.Assert.assertNotNull(byteArray62);
-    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64 == true);
+    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
     org.junit.Assert.assertTrue("'" + str65 + "' != '" + "[100, 1, -1, 10]" + "'", str65.equals(
         "[100, 1, -1, 10]"));
     org.junit.Assert.assertTrue("'" + byte68 + "' != '" + (byte) 100 + "'",
         byte68.equals((byte) 100));
-    org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69 == true);
-    org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70 == true);
-    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + false + "'", boolean71 == false);
-    org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", boolean72 == false);
+    org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69);
+    org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
+    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + false + "'", !boolean71);
+    org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", !boolean72);
     org.junit.Assert.assertNotNull(element73);
     org.junit.Assert.assertNotNull(byteArray75);
     org.junit.Assert.assertTrue("'" + int76 + "' != '" + (-1) + "'", int76 == (-1));
@@ -4115,7 +4115,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int3 + "' != '" + 8 + "'", int3.equals(8));
     org.junit.Assert.assertNotNull(uShort4);
     org.junit.Assert.assertNotNull(byteArray6);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
     org.junit.Assert.assertTrue("'" + short9 + "' != '" + (short) 256 + "'", short9 == (short) 256);
   }
 
@@ -4366,7 +4366,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-4) + "'", int4.equals((-4)));
     org.junit.Assert.assertTrue("'" + int5 + "' != '" + (-4) + "'", int5.equals((-4)));
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
+    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
     org.junit.Assert.assertNotNull(byteArray10);
     org.junit.Assert.assertTrue("'" + int11 + "' != '" + (-1) + "'", int11 == (-1));
   }
@@ -4598,7 +4598,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int3 + "' != '" + 8 + "'", int3.equals(8));
     org.junit.Assert.assertNotNull(uShort4);
     org.junit.Assert.assertNotNull(byteArray6);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
     org.junit.Assert.assertTrue("'" + short9 + "' != '" + (short) 256 + "'", short9 == (short) 256);
   }
 
@@ -4649,7 +4649,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
     org.junit.Assert.assertTrue("'" + int7 + "' != '" + (-4) + "'", int7.equals((-4)));
     org.junit.Assert.assertTrue("'" + int8 + "' != '" + (-4) + "'", int8.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
     org.junit.Assert.assertNotNull(byteArray12);
     org.junit.Assert.assertTrue("'" + int13 + "' != '" + (-1) + "'", int13 == (-1));
   }
@@ -4835,35 +4835,35 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(uShortItor10);
     org.junit.Assert.assertNotNull(uShort11);
     org.junit.Assert.assertNotNull(uRIArray12);
-    org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
+    org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
     org.junit.Assert.assertNotNull(doubleArray18);
-    org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20 == true);
+    org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
     org.junit.Assert.assertNotNull(byteArray25);
-    org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27 == true);
+    org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
     org.junit.Assert.assertTrue("'" + str28 + "' != '" + "[100, 1, -1, 10]" + "'", str28.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29 == true);
-    org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
+    org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
+    org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", !boolean30);
     org.junit.Assert.assertNotNull(obj34);
     org.junit.Assert.assertNotNull(strArray39);
-    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41 == true);
+    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
     org.junit.Assert.assertTrue("'" + int45 + "' != '" + (-1) + "'", int45 == (-1));
     org.junit.Assert.assertNotNull(byteArray49);
-    org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + true + "'", boolean51 == true);
-    org.junit.Assert.assertTrue("'" + boolean53 + "' != '" + true + "'", boolean53 == true);
+    org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + true + "'", boolean51);
+    org.junit.Assert.assertTrue("'" + boolean53 + "' != '" + true + "'", boolean53);
     org.junit.Assert.assertNotNull(byteArray59);
-    org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + true + "'", boolean61 == true);
-    org.junit.Assert.assertTrue("'" + boolean62 + "' != '" + true + "'", boolean62 == true);
-    org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + false + "'", boolean63 == false);
+    org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + true + "'", boolean61);
+    org.junit.Assert.assertTrue("'" + boolean62 + "' != '" + true + "'", boolean62);
+    org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + false + "'", !boolean63);
     org.junit.Assert.assertNotNull(uOctet65);
-    org.junit.Assert.assertTrue("'" + boolean66 + "' != '" + false + "'", boolean66 == false);
-    org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + true + "'", boolean67 == true);
+    org.junit.Assert.assertTrue("'" + boolean66 + "' != '" + false + "'", !boolean66);
+    org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + true + "'", boolean67);
     org.junit.Assert.assertNotNull(element68);
     org.junit.Assert.assertTrue("'" + long69 + "' != '" + 281475010265081L + "'", long69.equals(
         281475010265081L));
     org.junit.Assert.assertNotNull(uShort70);
     org.junit.Assert.assertNotNull(byteStream71);
-    org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", boolean72 == false);
+    org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", !boolean72);
     org.junit.Assert.assertNotNull(uShortItor74);
     org.junit.Assert.assertNotNull(positionsCalculatorArray81);
     org.junit.Assert.assertNotNull(positionsCalculatorArray82);
@@ -4928,7 +4928,7 @@ public class RegressionTest1
     }
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(byteArray4);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
   }
 
   @Test
@@ -5076,10 +5076,10 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + long3 + "' != '" + 281475010265075L + "'", long3.equals(
         281475010265075L));
     org.junit.Assert.assertNotNull(byteArray8);
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
     org.junit.Assert.assertTrue("'" + str11 + "' != '" + "[100, 1, -1, 10]" + "'", str11.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
     org.junit.Assert.assertNotNull(helperIADCS100Array17);
     org.junit.Assert.assertNotNull(helperIADCS100Array18);
   }
@@ -5133,11 +5133,11 @@ public class RegressionTest1
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(longArray26);
-    org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
+    org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
     org.junit.Assert.assertTrue("'" + long30 + "' != '" + 281474993487884L + "'", long30.equals(
         281474993487884L));
     org.junit.Assert.assertNotNull(byteArray32);
-    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
+    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", !boolean33);
   }
 
   @Test
@@ -5269,40 +5269,40 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(uOctet5);
     org.junit.Assert.assertNotNull(uOctet6);
     org.junit.Assert.assertNotNull(uRIArray7);
-    org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", boolean9 == false);
+    org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", !boolean9);
     org.junit.Assert.assertNotNull(doubleArray13);
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
     org.junit.Assert.assertNotNull(byteArray20);
-    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
+    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22);
     org.junit.Assert.assertTrue("'" + str23 + "' != '" + "[100, 1, -1, 10]" + "'", str23.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24 == true);
-    org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + false + "'", boolean25 == false);
+    org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24);
+    org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + false + "'", !boolean25);
     org.junit.Assert.assertNotNull(obj29);
     org.junit.Assert.assertNotNull(strArray34);
-    org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + true + "'", boolean36 == true);
+    org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + true + "'", boolean36);
     org.junit.Assert.assertTrue("'" + int40 + "' != '" + (-1) + "'", int40 == (-1));
     org.junit.Assert.assertNotNull(byteArray44);
-    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46 == true);
-    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48 == true);
+    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
+    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
     org.junit.Assert.assertNotNull(byteArray54);
-    org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + true + "'", boolean56 == true);
-    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57 == true);
-    org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + false + "'", boolean58 == false);
+    org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + true + "'", boolean56);
+    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
+    org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + false + "'", !boolean58);
     org.junit.Assert.assertNotNull(uOctet60);
-    org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + false + "'", boolean61 == false);
-    org.junit.Assert.assertTrue("'" + boolean62 + "' != '" + true + "'", boolean62 == true);
-    org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + true + "'", boolean63 == true);
-    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64 == true);
+    org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + false + "'", !boolean61);
+    org.junit.Assert.assertTrue("'" + boolean62 + "' != '" + true + "'", boolean62);
+    org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + true + "'", boolean63);
+    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
     org.junit.Assert.assertNotNull(intArray77);
-    org.junit.Assert.assertTrue("'" + boolean79 + "' != '" + true + "'", boolean79 == true);
+    org.junit.Assert.assertTrue("'" + boolean79 + "' != '" + true + "'", boolean79);
     org.junit.Assert.assertNotNull(byteArray83);
-    org.junit.Assert.assertTrue("'" + boolean85 + "' != '" + true + "'", boolean85 == true);
-    org.junit.Assert.assertTrue("'" + boolean87 + "' != '" + true + "'", boolean87 == true);
+    org.junit.Assert.assertTrue("'" + boolean85 + "' != '" + true + "'", boolean85);
+    org.junit.Assert.assertTrue("'" + boolean87 + "' != '" + true + "'", boolean87);
     org.junit.Assert.assertNotNull(byteStream88);
     org.junit.Assert.assertTrue("'" + int90 + "' != '" + (-1) + "'", int90 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean91 + "' != '" + false + "'", boolean91 == false);
-    org.junit.Assert.assertTrue("'" + boolean92 + "' != '" + false + "'", boolean92 == false);
+    org.junit.Assert.assertTrue("'" + boolean91 + "' != '" + false + "'", !boolean91);
+    org.junit.Assert.assertTrue("'" + boolean92 + "' != '" + false + "'", !boolean92);
     org.junit.Assert.assertNotNull(byteArray94);
     org.junit.Assert.assertTrue("'" + int95 + "' != '" + (-1) + "'", int95 == (-1));
   }
@@ -5389,7 +5389,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-4) + "'", int4.equals((-4)));
     org.junit.Assert.assertTrue("'" + int5 + "' != '" + (-4) + "'", int5.equals((-4)));
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
+    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
     org.junit.Assert.assertNotNull(byteArray10);
     org.junit.Assert.assertTrue("'" + int11 + "' != '" + (-1) + "'", int11 == (-1));
   }
@@ -5548,26 +5548,26 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(element3);
     org.junit.Assert.assertNotNull(floatItor4);
     org.junit.Assert.assertNotNull(shortArray10);
-    org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12 == true);
+    org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
     org.junit.Assert.assertNotNull(shortItor13);
     org.junit.Assert.assertNotNull(byteArray17);
-    org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19 == true);
-    org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21 == true);
-    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", boolean22 == false);
+    org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
+    org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21);
+    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", !boolean22);
     org.junit.Assert.assertNotNull(byteArray27);
-    org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29 == true);
+    org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
     org.junit.Assert.assertTrue("'" + str30 + "' != '" + "[100, 1, -1, 10]" + "'", str30.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31 == true);
+    org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
     org.junit.Assert.assertTrue("'" + long34 + "' != '" + 281474993487890L + "'", long34.equals(
         281474993487890L));
     org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", boolean36 == false);
+    org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
     org.junit.Assert.assertNotNull(uShort39);
     org.junit.Assert.assertTrue("'" + long40 + "' != '" + 281474993487890L + "'", long40.equals(
         281474993487890L));
-    org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + false + "'", boolean44 == false);
-    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + false + "'", boolean48 == false);
+    org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + false + "'", !boolean44);
+    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + false + "'", !boolean48);
     org.junit.Assert.assertTrue("'" + int49 + "' != '" + 18 + "'", int49.equals(18));
     org.junit.Assert.assertNotNull(uShort52);
     org.junit.Assert.assertTrue("'" + int53 + "' != '" + 18 + "'", int53.equals(18));
@@ -5577,25 +5577,25 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + str58 + "' != '" + "hi!" + "'", str58.equals("hi!"));
     org.junit.Assert.assertNotNull(uShort61);
     org.junit.Assert.assertNotNull(uRIArray62);
-    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64 == true);
+    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
     org.junit.Assert.assertNotNull(byteArray69);
-    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + true + "'", boolean71 == true);
+    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + true + "'", boolean71);
     org.junit.Assert.assertTrue("'" + str72 + "' != '" + "[100, 1, -1, 10]" + "'", str72.equals(
         "[100, 1, -1, 10]"));
     org.junit.Assert.assertNotNull(byteArray76);
-    org.junit.Assert.assertTrue("'" + boolean78 + "' != '" + true + "'", boolean78 == true);
-    org.junit.Assert.assertTrue("'" + boolean80 + "' != '" + true + "'", boolean80 == true);
+    org.junit.Assert.assertTrue("'" + boolean78 + "' != '" + true + "'", boolean78);
+    org.junit.Assert.assertTrue("'" + boolean80 + "' != '" + true + "'", boolean80);
     org.junit.Assert.assertNotNull(uOctet81);
     org.junit.Assert.assertNotNull(uShort82);
     org.junit.Assert.assertTrue("'" + int83 + "' != '" + (-1) + "'", int83 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean84 + "' != '" + false + "'", boolean84 == false);
-    org.junit.Assert.assertTrue("'" + boolean85 + "' != '" + false + "'", boolean85 == false);
+    org.junit.Assert.assertTrue("'" + boolean84 + "' != '" + false + "'", !boolean84);
+    org.junit.Assert.assertTrue("'" + boolean85 + "' != '" + false + "'", !boolean85);
     org.junit.Assert.assertNotNull(uRIArray86);
-    org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", boolean88 == false);
+    org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", !boolean88);
     org.junit.Assert.assertTrue("'" + int90 + "' != '" + (-1) + "'", int90 == (-1));
     org.junit.Assert.assertTrue("'" + int91 + "' != '" + (-1) + "'", int91 == (-1));
     org.junit.Assert.assertNotNull(byteArray93);
-    org.junit.Assert.assertTrue("'" + boolean94 + "' != '" + false + "'", boolean94 == false);
+    org.junit.Assert.assertTrue("'" + boolean94 + "' != '" + false + "'", !boolean94);
   }
 
   @Test
@@ -6556,7 +6556,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
     org.junit.Assert.assertTrue("'" + int7 + "' != '" + (-4) + "'", int7.equals((-4)));
     org.junit.Assert.assertTrue("'" + int8 + "' != '" + (-4) + "'", int8.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
     org.junit.Assert.assertNotNull(byteArray12);
     org.junit.Assert.assertTrue("'" + int13 + "' != '" + (-1) + "'", int13 == (-1));
   }
@@ -7007,7 +7007,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-4) + "'", int4.equals((-4)));
     org.junit.Assert.assertTrue("'" + int5 + "' != '" + (-4) + "'", int5.equals((-4)));
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
+    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
     org.junit.Assert.assertNotNull(byteArray10);
     org.junit.Assert.assertTrue("'" + int11 + "' != '" + (-1) + "'", int11 == (-1));
   }
@@ -7162,7 +7162,7 @@ public class RegressionTest1
     }
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(byteArray4);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
     org.junit.Assert.assertTrue("'" + long7 + "' != '" + 4823355201182236832L + "'",
         long7 == 4823355201182236832L);
   }
@@ -7232,22 +7232,22 @@ public class RegressionTest1
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(shortArray5);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     org.junit.Assert.assertNotNull(shortItor8);
     org.junit.Assert.assertNotNull(byteArray12);
-    org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14 == true);
-    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16 == true);
-    org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
+    org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
+    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
+    org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", !boolean17);
     org.junit.Assert.assertNotNull(byteArray22);
-    org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24 == true);
+    org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24);
     org.junit.Assert.assertTrue("'" + str25 + "' != '" + "[100, 1, -1, 10]" + "'", str25.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26 == true);
+    org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26);
     org.junit.Assert.assertNotNull(shortSpliterator27);
     org.junit.Assert.assertNotNull(uOctet29);
     org.junit.Assert.assertNotNull(byteSpliterator30);
     org.junit.Assert.assertNotNull(uShort31);
-    org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", boolean32 == false);
+    org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", !boolean32);
     org.junit.Assert.assertNotNull(byteArray34);
     org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
   }
@@ -7447,7 +7447,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
     org.junit.Assert.assertTrue("'" + int7 + "' != '" + (-4) + "'", int7.equals((-4)));
     org.junit.Assert.assertTrue("'" + int8 + "' != '" + (-4) + "'", int8.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
     org.junit.Assert.assertNotNull(byteArray12);
     org.junit.Assert.assertTrue("'" + int13 + "' != '" + (-1) + "'", int13 == (-1));
   }
@@ -7603,7 +7603,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
     org.junit.Assert.assertTrue("'" + int7 + "' != '" + (-4) + "'", int7.equals((-4)));
     org.junit.Assert.assertTrue("'" + int8 + "' != '" + (-4) + "'", int8.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
     org.junit.Assert.assertNotNull(byteArray12);
     org.junit.Assert.assertTrue("'" + int13 + "' != '" + (-1) + "'", int13 == (-1));
   }
@@ -7653,11 +7653,11 @@ public class RegressionTest1
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(longArray26);
-    org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
+    org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
     org.junit.Assert.assertTrue("'" + long30 + "' != '" + 281474993487884L + "'", long30.equals(
         281474993487884L));
     org.junit.Assert.assertNotNull(byteArray32);
-    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
+    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", !boolean33);
   }
 
   @Test
@@ -7806,32 +7806,32 @@ public class RegressionTest1
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(shortArray2);
-    org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
     org.junit.Assert.assertNotNull(shortStream8);
     org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-4) + "'", int10.equals((-4)));
     org.junit.Assert.assertNotNull(element11);
     org.junit.Assert.assertNotNull(element12);
     org.junit.Assert.assertTrue("'" + str13 + "' != '" + "[]" + "'", str13.equals("[]"));
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[0.0]" + "'", str16.equals("[0.0]"));
-    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18 == true);
+    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
     org.junit.Assert.assertNotNull(booleanArray20);
-    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
+    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22);
     org.junit.Assert.assertNotNull(booleanStream23);
     org.junit.Assert.assertNotNull(booleanStream24);
     org.junit.Assert.assertNotNull(byteArray29);
-    org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31 == true);
+    org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
     org.junit.Assert.assertTrue("'" + str32 + "' != '" + "[100, 1, -1, 10]" + "'", str32.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
-    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", boolean34 == false);
+    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", !boolean33);
+    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", !boolean34);
     org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
     org.junit.Assert.assertTrue("'" + int36 + "' != '" + 0 + "'", int36 == 0);
-    org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38 == true);
+    org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
     org.junit.Assert.assertNotNull(shortSpliterator39);
     org.junit.Assert.assertNotNull(byteArray41);
-    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + false + "'", boolean42 == false);
+    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + false + "'", !boolean42);
   }
 
   @Test
@@ -8128,13 +8128,13 @@ public class RegressionTest1
     boolean boolean96 = booleanList0.remove((java.lang.Object) positionsCalculatorArray95);
     boolean boolean98 = booleanList0.add((java.lang.Boolean) false);
     org.junit.Assert.assertNotNull(strArray4);
-    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
     org.junit.Assert.assertTrue("'" + int8 + "' != '" + (-1) + "'", int8 == (-1));
     org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-1) + "'", int10 == (-1));
     org.junit.Assert.assertNotNull(uShort11);
     org.junit.Assert.assertNotNull(uShort12);
-    org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13 == true);
+    org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
     org.junit.Assert.assertTrue("'" + str14 + "' != '" + "[]" + "'", str14.equals("[]"));
     org.junit.Assert.assertNotNull(booleanItor15);
     org.junit.Assert.assertTrue("'" + int16 + "' != '" + (-2) + "'", int16.equals((-2)));
@@ -8146,40 +8146,40 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(uShortItor23);
     org.junit.Assert.assertNotNull(uShort24);
     org.junit.Assert.assertNotNull(uRIArray25);
-    org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
+    org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", !boolean27);
     org.junit.Assert.assertNotNull(doubleArray31);
-    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + true + "'", boolean33 == true);
+    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + true + "'", boolean33);
     org.junit.Assert.assertNotNull(byteArray38);
-    org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + true + "'", boolean40 == true);
+    org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + true + "'", boolean40);
     org.junit.Assert.assertTrue("'" + str41 + "' != '" + "[100, 1, -1, 10]" + "'", str41.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42 == true);
-    org.junit.Assert.assertTrue("'" + boolean43 + "' != '" + false + "'", boolean43 == false);
+    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42);
+    org.junit.Assert.assertTrue("'" + boolean43 + "' != '" + false + "'", !boolean43);
     org.junit.Assert.assertNotNull(obj47);
     org.junit.Assert.assertNotNull(strArray52);
-    org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + true + "'", boolean54 == true);
+    org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + true + "'", boolean54);
     org.junit.Assert.assertTrue("'" + int58 + "' != '" + (-1) + "'", int58 == (-1));
     org.junit.Assert.assertNotNull(byteArray62);
-    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64 == true);
-    org.junit.Assert.assertTrue("'" + boolean66 + "' != '" + true + "'", boolean66 == true);
+    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
+    org.junit.Assert.assertTrue("'" + boolean66 + "' != '" + true + "'", boolean66);
     org.junit.Assert.assertNotNull(byteArray72);
-    org.junit.Assert.assertTrue("'" + boolean74 + "' != '" + true + "'", boolean74 == true);
-    org.junit.Assert.assertTrue("'" + boolean75 + "' != '" + true + "'", boolean75 == true);
-    org.junit.Assert.assertTrue("'" + boolean76 + "' != '" + false + "'", boolean76 == false);
+    org.junit.Assert.assertTrue("'" + boolean74 + "' != '" + true + "'", boolean74);
+    org.junit.Assert.assertTrue("'" + boolean75 + "' != '" + true + "'", boolean75);
+    org.junit.Assert.assertTrue("'" + boolean76 + "' != '" + false + "'", !boolean76);
     org.junit.Assert.assertNotNull(uOctet78);
-    org.junit.Assert.assertTrue("'" + boolean79 + "' != '" + false + "'", boolean79 == false);
-    org.junit.Assert.assertTrue("'" + boolean80 + "' != '" + true + "'", boolean80 == true);
+    org.junit.Assert.assertTrue("'" + boolean79 + "' != '" + false + "'", !boolean79);
+    org.junit.Assert.assertTrue("'" + boolean80 + "' != '" + true + "'", boolean80);
     org.junit.Assert.assertNotNull(element81);
     org.junit.Assert.assertTrue("'" + long82 + "' != '" + 281475010265081L + "'", long82.equals(
         281475010265081L));
     org.junit.Assert.assertNotNull(uShort83);
     org.junit.Assert.assertNotNull(byteStream84);
-    org.junit.Assert.assertTrue("'" + boolean85 + "' != '" + false + "'", boolean85 == false);
+    org.junit.Assert.assertTrue("'" + boolean85 + "' != '" + false + "'", !boolean85);
     org.junit.Assert.assertNotNull(uShortItor87);
     org.junit.Assert.assertNotNull(positionsCalculatorArray94);
     org.junit.Assert.assertNotNull(positionsCalculatorArray95);
-    org.junit.Assert.assertTrue("'" + boolean96 + "' != '" + false + "'", boolean96 == false);
-    org.junit.Assert.assertTrue("'" + boolean98 + "' != '" + true + "'", boolean98 == true);
+    org.junit.Assert.assertTrue("'" + boolean96 + "' != '" + false + "'", !boolean96);
+    org.junit.Assert.assertTrue("'" + boolean98 + "' != '" + true + "'", boolean98);
   }
 
   @Test
@@ -8550,7 +8550,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int8 + "' != '" + (-4) + "'", int8.equals((-4)));
     org.junit.Assert.assertTrue("'" + int9 + "' != '" + (-4) + "'", int9.equals((-4)));
     org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-4) + "'", int10.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
+    org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
     org.junit.Assert.assertNotNull(byteArray14);
     org.junit.Assert.assertTrue("'" + int15 + "' != '" + (-1) + "'", int15 == (-1));
   }
@@ -8738,19 +8738,19 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(obj4);
     org.junit.Assert.assertNotNull(strArray9);
-    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
+    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
     org.junit.Assert.assertTrue("'" + int15 + "' != '" + (-1) + "'", int15 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
+    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", !boolean16);
     org.junit.Assert.assertNotNull(element17);
     org.junit.Assert.assertNotNull(longArray44);
-    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46 == true);
+    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
     org.junit.Assert.assertTrue("'" + long48 + "' != '" + 281474993487884L + "'", long48.equals(
         281474993487884L));
     org.junit.Assert.assertNotNull(longItor51);
     org.junit.Assert.assertTrue("'" + int52 + "' != '" + (-1) + "'", int52 == (-1));
     org.junit.Assert.assertNotNull(doubleSpliterator53);
     org.junit.Assert.assertNotNull(byteArray55);
-    org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + false + "'", boolean56 == false);
+    org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + false + "'", !boolean56);
   }
 
   @Test
@@ -8799,7 +8799,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-4) + "'", int4.equals((-4)));
     org.junit.Assert.assertTrue("'" + int5 + "' != '" + (-4) + "'", int5.equals((-4)));
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
+    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
     org.junit.Assert.assertNotNull(byteArray10);
     org.junit.Assert.assertTrue("'" + int11 + "' != '" + (-1) + "'", int11 == (-1));
   }
@@ -8911,49 +8911,49 @@ public class RegressionTest1
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(uRIArray0);
-    org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+    org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", !boolean2);
     org.junit.Assert.assertNotNull(doubleArray6);
-    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     org.junit.Assert.assertNotNull(byteArray13);
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[100, 1, -1, 10]" + "'", str16.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17 == true);
-    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", boolean18 == false);
+    org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17);
+    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", !boolean18);
     org.junit.Assert.assertNotNull(obj22);
     org.junit.Assert.assertNotNull(strArray27);
-    org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29 == true);
+    org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
     org.junit.Assert.assertTrue("'" + int33 + "' != '" + (-1) + "'", int33 == (-1));
     org.junit.Assert.assertNotNull(byteArray37);
-    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39 == true);
-    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41 == true);
+    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
+    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
     org.junit.Assert.assertNotNull(byteArray47);
-    org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49 == true);
-    org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50 == true);
-    org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", boolean51 == false);
+    org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
+    org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50);
+    org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", !boolean51);
     org.junit.Assert.assertNotNull(uOctet53);
-    org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + false + "'", boolean54 == false);
-    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55 == true);
+    org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + false + "'", !boolean54);
+    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
     org.junit.Assert.assertTrue("'" + int57 + "' != '" + (-1) + "'", int57 == (-1));
     org.junit.Assert.assertNotNull(obj59);
     org.junit.Assert.assertNotNull(strArray64);
-    org.junit.Assert.assertTrue("'" + boolean66 + "' != '" + true + "'", boolean66 == true);
+    org.junit.Assert.assertTrue("'" + boolean66 + "' != '" + true + "'", boolean66);
     org.junit.Assert.assertTrue("'" + int70 + "' != '" + (-1) + "'", int70 == (-1));
     org.junit.Assert.assertNotNull(strItor71);
-    org.junit.Assert.assertTrue("'" + boolean73 + "' != '" + true + "'", boolean73 == true);
+    org.junit.Assert.assertTrue("'" + boolean73 + "' != '" + true + "'", boolean73);
     org.junit.Assert.assertNotNull(doubleArray77);
-    org.junit.Assert.assertTrue("'" + boolean79 + "' != '" + true + "'", boolean79 == true);
+    org.junit.Assert.assertTrue("'" + boolean79 + "' != '" + true + "'", boolean79);
     org.junit.Assert.assertNotNull(byteArray84);
-    org.junit.Assert.assertTrue("'" + boolean86 + "' != '" + true + "'", boolean86 == true);
+    org.junit.Assert.assertTrue("'" + boolean86 + "' != '" + true + "'", boolean86);
     org.junit.Assert.assertTrue("'" + str87 + "' != '" + "[100, 1, -1, 10]" + "'", str87.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + true + "'", boolean88 == true);
-    org.junit.Assert.assertTrue("'" + boolean89 + "' != '" + false + "'", boolean89 == false);
-    org.junit.Assert.assertTrue("'" + boolean90 + "' != '" + false + "'", boolean90 == false);
+    org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + true + "'", boolean88);
+    org.junit.Assert.assertTrue("'" + boolean89 + "' != '" + false + "'", !boolean89);
+    org.junit.Assert.assertTrue("'" + boolean90 + "' != '" + false + "'", !boolean90);
     org.junit.Assert.assertNotNull(objArray91);
     org.junit.Assert.assertNotNull(uRIItor92);
     org.junit.Assert.assertNotNull(byteArray94);
-    org.junit.Assert.assertTrue("'" + boolean95 + "' != '" + false + "'", boolean95 == false);
+    org.junit.Assert.assertTrue("'" + boolean95 + "' != '" + false + "'", !boolean95);
   }
 
   @Test
@@ -9114,7 +9114,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-4) + "'", int6.equals((-4)));
     org.junit.Assert.assertTrue("'" + int7 + "' != '" + (-4) + "'", int7.equals((-4)));
     org.junit.Assert.assertTrue("'" + int8 + "' != '" + (-4) + "'", int8.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
     org.junit.Assert.assertNotNull(byteArray12);
     org.junit.Assert.assertTrue("'" + int13 + "' != '" + (-1) + "'", int13 == (-1));
   }
@@ -9225,32 +9225,32 @@ public class RegressionTest1
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(shortArray2);
-    org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
     org.junit.Assert.assertNotNull(shortStream8);
     org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-4) + "'", int10.equals((-4)));
     org.junit.Assert.assertNotNull(element11);
     org.junit.Assert.assertNotNull(element12);
     org.junit.Assert.assertTrue("'" + str13 + "' != '" + "[]" + "'", str13.equals("[]"));
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[0.0]" + "'", str16.equals("[0.0]"));
-    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18 == true);
+    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
     org.junit.Assert.assertNotNull(booleanArray20);
-    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
+    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22);
     org.junit.Assert.assertNotNull(booleanStream23);
     org.junit.Assert.assertNotNull(booleanStream24);
     org.junit.Assert.assertNotNull(byteArray29);
-    org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31 == true);
+    org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
     org.junit.Assert.assertTrue("'" + str32 + "' != '" + "[100, 1, -1, 10]" + "'", str32.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
-    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", boolean34 == false);
+    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", !boolean33);
+    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", !boolean34);
     org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
     org.junit.Assert.assertTrue("'" + int36 + "' != '" + 0 + "'", int36 == 0);
-    org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38 == true);
+    org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
     org.junit.Assert.assertNotNull(shortSpliterator39);
     org.junit.Assert.assertNotNull(byteArray41);
-    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + false + "'", boolean42 == false);
+    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + false + "'", !boolean42);
   }
 
   @Test
@@ -9486,7 +9486,7 @@ public class RegressionTest1
     }
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(byteArray4);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
   }
 
   @Test
@@ -9566,7 +9566,7 @@ public class RegressionTest1
     }
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(byteArray4);
-    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+    org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
     org.junit.Assert.assertTrue("'" + long7 + "' != '" + 4823355201182236832L + "'",
         long7 == 4823355201182236832L);
   }
@@ -9652,7 +9652,7 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-4) + "'", int2.equals((-4)));
     org.junit.Assert.assertTrue("'" + int3 + "' != '" + (-4) + "'", int3.equals((-4)));
     org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-4) + "'", int4.equals((-4)));
-    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+    org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", !boolean6);
     org.junit.Assert.assertNotNull(byteArray8);
     org.junit.Assert.assertTrue("'" + int9 + "' != '" + (-1) + "'", int9 == (-1));
   }
@@ -9902,29 +9902,29 @@ public class RegressionTest1
         new esa.mo.platform.impl.util.HelperGPS[][][]{helperGPSArray78};
     esa.mo.platform.impl.util.HelperGPS[][][] helperGPSArray80 = uRIList1.toArray(helperGPSArray79);
     org.junit.Assert.assertNotNull(uRIArray0);
-    org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+    org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", !boolean2);
     org.junit.Assert.assertNotNull(doubleArray6);
-    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+    org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     org.junit.Assert.assertNotNull(byteArray13);
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[100, 1, -1, 10]" + "'", str16.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17 == true);
-    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", boolean18 == false);
+    org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17);
+    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", !boolean18);
     org.junit.Assert.assertNotNull(obj22);
     org.junit.Assert.assertNotNull(strArray27);
-    org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29 == true);
+    org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
     org.junit.Assert.assertTrue("'" + int33 + "' != '" + (-1) + "'", int33 == (-1));
     org.junit.Assert.assertNotNull(byteArray37);
-    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39 == true);
-    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41 == true);
+    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
+    org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
     org.junit.Assert.assertNotNull(byteArray47);
-    org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49 == true);
-    org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50 == true);
-    org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", boolean51 == false);
+    org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
+    org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50);
+    org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", !boolean51);
     org.junit.Assert.assertNotNull(uOctet53);
-    org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + false + "'", boolean54 == false);
-    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55 == true);
+    org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + false + "'", !boolean54);
+    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
     org.junit.Assert.assertNotNull(uRIItor56);
     org.junit.Assert.assertNotNull(obj57);
     org.junit.Assert.assertNotNull(helperGPSArray61);
@@ -10006,32 +10006,32 @@ public class RegressionTest1
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(shortArray2);
-    org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+    org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
     org.junit.Assert.assertNotNull(shortStream8);
     org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-4) + "'", int10.equals((-4)));
     org.junit.Assert.assertNotNull(element11);
     org.junit.Assert.assertNotNull(element12);
     org.junit.Assert.assertTrue("'" + str13 + "' != '" + "[]" + "'", str13.equals("[]"));
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
     org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[0.0]" + "'", str16.equals("[0.0]"));
-    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18 == true);
+    org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
     org.junit.Assert.assertNotNull(booleanArray20);
-    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
+    org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22);
     org.junit.Assert.assertNotNull(booleanStream23);
     org.junit.Assert.assertNotNull(booleanStream24);
     org.junit.Assert.assertNotNull(byteArray29);
-    org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31 == true);
+    org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
     org.junit.Assert.assertTrue("'" + str32 + "' != '" + "[100, 1, -1, 10]" + "'", str32.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
-    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", boolean34 == false);
+    org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", !boolean33);
+    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", !boolean34);
     org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
     org.junit.Assert.assertTrue("'" + int36 + "' != '" + 0 + "'", int36 == 0);
-    org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38 == true);
+    org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
     org.junit.Assert.assertNotNull(shortSpliterator39);
     org.junit.Assert.assertNotNull(byteArray41);
-    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + false + "'", boolean42 == false);
+    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + false + "'", !boolean42);
   }
 
   @Test
@@ -10310,11 +10310,11 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(uShort7);
     org.junit.Assert.assertNotNull(uShort8);
     org.junit.Assert.assertNotNull(uShortArray9);
-    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
+    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
     org.junit.Assert.assertTrue("'" + int12 + "' != '" + 1 + "'", int12 == 1);
     org.junit.Assert.assertNotNull(uShortSpliterator13);
     org.junit.Assert.assertNotNull(uShortStream14);
-    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
+    org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
     org.junit.Assert.assertTrue("'" + int18 + "' != '" + (-4) + "'", int18.equals((-4)));
     org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-4) + "'", int19.equals((-4)));
     org.junit.Assert.assertNotNull(uShort20);
@@ -10323,28 +10323,28 @@ public class RegressionTest1
     org.junit.Assert.assertTrue("'" + int25 + "' != '" + 0 + "'", int25 == 0);
     org.junit.Assert.assertNotNull(obj27);
     org.junit.Assert.assertNotNull(strArray32);
-    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34 == true);
+    org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
     org.junit.Assert.assertTrue("'" + int38 + "' != '" + (-1) + "'", int38 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39 == true);
+    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
     org.junit.Assert.assertNotNull(obj40);
-    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42 == true);
+    org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42);
     org.junit.Assert.assertNotNull(doubleArray46);
-    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48 == true);
+    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
     org.junit.Assert.assertNotNull(byteArray53);
-    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55 == true);
+    org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
     org.junit.Assert.assertTrue("'" + str56 + "' != '" + "[100, 1, -1, 10]" + "'", str56.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57 == true);
+    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
     org.junit.Assert.assertNotNull(byteArray62);
-    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64 == true);
+    org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
     org.junit.Assert.assertTrue("'" + str65 + "' != '" + "[100, 1, -1, 10]" + "'", str65.equals(
         "[100, 1, -1, 10]"));
     org.junit.Assert.assertTrue("'" + byte68 + "' != '" + (byte) 100 + "'",
         byte68.equals((byte) 100));
-    org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69 == true);
-    org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70 == true);
-    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + false + "'", boolean71 == false);
-    org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", boolean72 == false);
+    org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69);
+    org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
+    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + false + "'", !boolean71);
+    org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", !boolean72);
     org.junit.Assert.assertNotNull(element73);
     org.junit.Assert.assertNotNull(byteArray75);
     org.junit.Assert.assertTrue("'" + int76 + "' != '" + (-1) + "'", int76 == (-1));
@@ -10463,55 +10463,55 @@ public class RegressionTest1
     } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(floatArray1);
-    org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
+    org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
     org.junit.Assert.assertTrue("'" + int5 + "' != '" + (-1) + "'", int5 == (-1));
     org.junit.Assert.assertNotNull(floatItor6);
     org.junit.Assert.assertNotNull(uShort7);
     org.junit.Assert.assertNotNull(uShortArray8);
-    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
+    org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
     org.junit.Assert.assertTrue("'" + int11 + "' != '" + 1 + "'", int11 == 1);
     org.junit.Assert.assertNotNull(uShort12);
-    org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13 == true);
-    org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
+    org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
+    org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
     org.junit.Assert.assertNotNull(obj16);
     org.junit.Assert.assertNotNull(strArray21);
-    org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23 == true);
+    org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
     org.junit.Assert.assertTrue("'" + int27 + "' != '" + (-1) + "'", int27 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
+    org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
     org.junit.Assert.assertNotNull(obj29);
     org.junit.Assert.assertNotNull(uRIArray30);
-    org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", boolean32 == false);
+    org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", !boolean32);
     org.junit.Assert.assertNotNull(obj33);
     org.junit.Assert.assertNotNull(doubleArray37);
-    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39 == true);
+    org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
     org.junit.Assert.assertNotNull(byteArray44);
-    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46 == true);
+    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
     org.junit.Assert.assertTrue("'" + str47 + "' != '" + "[100, 1, -1, 10]" + "'", str47.equals(
         "[100, 1, -1, 10]"));
-    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48 == true);
+    org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
     org.junit.Assert.assertNotNull(byteItor49);
-    org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + false + "'", boolean50 == false);
-    org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", boolean51 == false);
-    org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + false + "'", boolean52 == false);
+    org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + false + "'", !boolean50);
+    org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", !boolean51);
+    org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + false + "'", !boolean52);
     org.junit.Assert.assertNotNull(booleanArray55);
-    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57 == true);
+    org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
     org.junit.Assert.assertNotNull(booleanStream58);
     org.junit.Assert.assertNotNull(booleanSpliterator59);
     org.junit.Assert.assertTrue("'" + int60 + "' != '" + (-1) + "'", int60 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + false + "'", boolean61 == false);
+    org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + false + "'", !boolean61);
     org.junit.Assert.assertNotNull(longArray69);
-    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + true + "'", boolean71 == true);
+    org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + true + "'", boolean71);
     org.junit.Assert.assertNotNull(byteArray79);
-    org.junit.Assert.assertTrue("'" + boolean81 + "' != '" + true + "'", boolean81 == true);
+    org.junit.Assert.assertTrue("'" + boolean81 + "' != '" + true + "'", boolean81);
     org.junit.Assert.assertTrue("'" + str82 + "' != '" + "[100, 1, -1, 10]" + "'", str82.equals(
         "[100, 1, -1, 10]"));
     org.junit.Assert.assertTrue("'" + byte85 + "' != '" + (byte) 100 + "'",
         byte85.equals((byte) 100));
-    org.junit.Assert.assertTrue("'" + boolean86 + "' != '" + false + "'", boolean86 == false);
-    org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", boolean88 == false);
-    org.junit.Assert.assertTrue("'" + boolean89 + "' != '" + true + "'", boolean89 == true);
+    org.junit.Assert.assertTrue("'" + boolean86 + "' != '" + false + "'", !boolean86);
+    org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", !boolean88);
+    org.junit.Assert.assertTrue("'" + boolean89 + "' != '" + true + "'", boolean89);
     org.junit.Assert.assertNotNull(byteArray91);
-    org.junit.Assert.assertTrue("'" + boolean92 + "' != '" + false + "'", boolean92 == false);
+    org.junit.Assert.assertTrue("'" + boolean92 + "' != '" + false + "'", !boolean92);
   }
 
   @Test
@@ -10697,18 +10697,18 @@ public class RegressionTest1
     org.junit.Assert.assertNotNull(uOctet2);
     org.junit.Assert.assertNotNull(obj4);
     org.junit.Assert.assertNotNull(strArray9);
-    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
+    org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
     org.junit.Assert.assertTrue("'" + int15 + "' != '" + (-1) + "'", int15 == (-1));
-    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
+    org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", !boolean16);
     org.junit.Assert.assertNotNull(element17);
     org.junit.Assert.assertNotNull(longArray44);
-    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46 == true);
+    org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
     org.junit.Assert.assertTrue("'" + long48 + "' != '" + 281474993487884L + "'", long48.equals(
         281474993487884L));
     org.junit.Assert.assertNotNull(longItor51);
     org.junit.Assert.assertTrue("'" + int52 + "' != '" + (-1) + "'", int52 == (-1));
     org.junit.Assert.assertNotNull(doubleSpliterator53);
     org.junit.Assert.assertNotNull(byteArray55);
-    org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + false + "'", boolean56 == false);
+    org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + false + "'", !boolean56);
   }
 }

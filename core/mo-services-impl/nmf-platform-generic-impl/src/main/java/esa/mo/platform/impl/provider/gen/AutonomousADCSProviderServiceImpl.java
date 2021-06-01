@@ -228,7 +228,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   public void enableMonitoring(Boolean enableGeneration, Duration monitoringInterval,
       MALInteraction interaction) throws MALInteractionException, MALException
   {
-    if (enableGeneration == false) {
+    if (!enableGeneration) {
       stopGeneration();
       return;
     }

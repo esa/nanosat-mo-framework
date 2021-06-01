@@ -123,7 +123,7 @@ public class CheckEvaluation {
         }
 
         newEvaluationResult.setCheckedValue(value);
-        newEvaluationResult.setEvaluationResult(eval == true ? null : false);
+        newEvaluationResult.setEvaluationResult(eval ? null : false);
         return newEvaluationResult;
     }
 
@@ -218,7 +218,7 @@ public class CheckEvaluation {
         {
             result = countChecksViolate < minChecksViolate.getValue();
         }
-        newEvaluationResult.setEvaluationResult(result == true ? null : false);
+        newEvaluationResult.setEvaluationResult(result ? null : false);
         //fill the checkedValue-field with the number of violating checks
         newEvaluationResult.setCheckedValue(new Union(countChecksViolate));
         return newEvaluationResult;

@@ -79,7 +79,7 @@ public class MOelementList extends MOelement{
             super.middlePanel.add(buttonEdit);
 
             // Set the text
-            if (editable == true) {
+            if (editable) {
                 this.buttonEdit.setText("Edit");
             } else {
                 this.buttonEdit.setText("View");
@@ -119,7 +119,7 @@ public class MOelementList extends MOelement{
         }
 
         // Set text
-        if (editable == true) {
+        if (editable) {
             this.buttonEdit.setText("Edit");
         }
     }                                      

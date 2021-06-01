@@ -436,7 +436,7 @@ public class ParameterManager extends MCManager
     final ParameterConversion conversion = pDef.getConversion();
 
     //expression didnt fail 
-    if (validityExpression == null || evalExpression == true) {
+    if (validityExpression == null || evalExpression) {
       //conversions didnt fail
       if (conversion == null || convertedValue != null) { // requirement: 3.3.3.k
         return getAsUOctet(ValidityState.VALID);

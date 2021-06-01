@@ -354,7 +354,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     ArchiveDetailsList outArchDetLst = new ArchiveDetailsList();
                     outArchDetLst.add(perObjs.get(j).getArchiveDetails());
 
-                    if (returnObjBody == true) {
+                    if (returnObjBody) {
                         // requirement: 3.4.4.2.1
                         try {  // Let's try to generate the list...
                             outObjectList = HelperMisc.element2elementList(perObjs.get(j).getObject());
@@ -389,7 +389,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 ArchiveDetailsList outArchiveDetailsList = new ArchiveDetailsList();
                 ElementList outObjectList = null;
 
-                if (returnObjBody == true && !perObjs.isEmpty()) { // requirement: 3.4.4.2.24
+                if (returnObjBody && !perObjs.isEmpty()) { // requirement: 3.4.4.2.24
                     try {
                         outObjectList = HelperMisc.element2elementList(perObjs.get(0).getObject());
                     } catch (Exception ex) {
@@ -593,7 +593,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // The errors have to be before the store operation to fulfil requirement: 3.4.6.2.13
-            if (returnObjId == true) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
+            if (returnObjId) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
                 // Execute the store operation (objType, domain, archiveDetails, objs)
                 LongList outLongLst = manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
                 // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)

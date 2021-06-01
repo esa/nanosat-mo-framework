@@ -59,7 +59,7 @@ public class TCPServerReceiveOnly extends Thread {
         Thread.currentThread().setName("sim-" + this.getClass().getSimpleName() + "-" + port);
         String clientSentence = null;
         ServerSocket welcomeSocket = null;
-        while (true && !shouldClose) {
+        while (!shouldClose) {
             try {
                 welcomeSocket = new ServerSocket(port);
                 this.logger.log(Level.INFO,"Created ServerSocket on port [" + port + "]");
@@ -75,7 +75,7 @@ public class TCPServerReceiveOnly extends Thread {
                 BufferedReader inFromClient;
                 try {
                     inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                    while (true && !shouldClose) {
+                    while (!shouldClose) {
                         try {
                             clientSentence = inFromClient.readLine();
                             if (clientSentence == null) {

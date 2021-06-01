@@ -42,7 +42,7 @@ public class MOcomposite extends MOelement{
 
         
         // Set the text
-        if (editable == true) {
+        if (editable) {
             this.button.setText("Edit");
         } else {
             this.button.setText("View");
@@ -75,7 +75,7 @@ public class MOcomposite extends MOelement{
         }
 
         // Set text
-        if (editable == true) {
+        if (editable) {
             this.button.setText("Edit");
         }
         
