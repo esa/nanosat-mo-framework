@@ -251,7 +251,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
       final CameraSettings settings, MALInteraction interaction) throws MALInteractionException,
       MALException
   {
-    if (enable == false) {
+    if (!enable) {
       cameraInUse = false;
       publishTimer.stopLast();
     } else {

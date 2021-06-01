@@ -1136,7 +1136,7 @@ public class SimulatorNode extends TaskNode
             break;
           }
         }
-        if (found == true) {
+        if (found) {
           break;
         }
 

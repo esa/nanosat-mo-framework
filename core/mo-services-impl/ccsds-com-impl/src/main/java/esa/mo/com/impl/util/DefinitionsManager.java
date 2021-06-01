@@ -156,7 +156,7 @@ public abstract class DefinitionsManager {
      * not exist in the manager, in this case, the definition is not added.
      */
     public synchronized boolean updateDef(Long objId, Element definition) {
-        return (this.deleteDef(objId) == true) ? this.addDef(objId, definition) : false;
+        return (this.deleteDef(objId)) ? this.addDef(objId, definition) : false;
     }
 
     /**

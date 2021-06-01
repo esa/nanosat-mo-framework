@@ -1041,7 +1041,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                                     manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
                             manager.resetAggregationSampleHelperVariables(identityId);
                         } else {  // requirement: 3.7.2.a.c,
-                            if (manager.isFilterTriggered(identityId) == true) { // The Filter is on and triggered? requirement: 3.7.2.6
+                            if (manager.isFilterTriggered(identityId)) { // The Filter is on and triggered? requirement: 3.7.2.6
                                 publishPeriodicAggregationUpdate(identityId,
                                         manager.getAggregationValue(identityId, GenerationMode.PERIODIC)); //requirement: 3.7.3.h
                                 manager.resetAggregationSampleHelperVariables(identityId);
