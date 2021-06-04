@@ -233,7 +233,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         }
 
         // Allow the user to specify the arguments
-        MOWindow moWindow = new MOWindow(argumentValueList, true);
+        MOWindow moWindow = new MOWindow(argumentValueList, true, "Action arguments list");
         try {
             argumentValueList = (AttributeValueList) moWindow.getObject();
         } catch (InterruptedIOException ex) {

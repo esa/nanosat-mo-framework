@@ -49,17 +49,31 @@ public final class MOWindow extends javax.swing.JDialog {
     /**
      * Creates new form MOWindow
      *
-     * @param obj
-     * @param editable
+     * @param obj MAL Object to visualise in the window.
+     * @param editable Should the object be editable.
      */
     public MOWindow(Object obj, boolean editable) {
+        this(obj, editable, null);
+    }
+    /**
+     * Creates new form MOWindow
+     *
+     * @param obj MAL Object to visualise in the window.
+     * @param editable Should the object be editable.
+     * @param title Title of the window. Will use class name if empty or null.
+     */
+    public MOWindow(Object obj, boolean editable, String title) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setModal(true);
         componentsPanel.setLayout(new BoxLayout(componentsPanel, BoxLayout.PAGE_AXIS));
 
-        String className = obj.getClass().getSimpleName();
-        this.setTitle(className);  // Set Title
+        if (title != null && !title.trim().isEmpty()) {
+            this.setTitle(title);
+        } else {
+            String className = obj.getClass().getSimpleName();
+            this.setTitle(className);
+        }
         this.receivedObj = obj;
         this.editable = editable;
 
