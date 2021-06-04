@@ -213,7 +213,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         ActionDefinitionDetails actDef = (ActionDefinitionDetails) comObject.getObject();
         AttributeValueList argumentValueList = new AttributeValueList();
         ArgumentDefinitionDetailsList arguments = actDef.getArguments();
-        
+
         if (arguments != null){
             for (int i = 0; i < arguments.size(); i++) {
                 if (arguments.get(i) == null) {  // If the argument is null, then please jump over it
@@ -230,6 +230,14 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
                 argumentValueList.add(argumentValue);
             }
+        }
+
+        // Allow the user to specify the arguments
+        MOWindow moWindow = new MOWindow(argumentValueList, true);
+        try {
+            argumentValueList = (AttributeValueList) moWindow.getObject();
+        } catch (InterruptedIOException ex) {
+            return;
         }
 
         try {
