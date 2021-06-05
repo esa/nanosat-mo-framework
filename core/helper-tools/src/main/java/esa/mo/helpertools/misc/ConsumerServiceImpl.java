@@ -41,7 +41,7 @@ public abstract class ConsumerServiceImpl implements AutoCloseable
 
     protected ConnectionConsumer connection = new ConnectionConsumer();
 
-    protected HashMap<Identifier, Object> servicesMap = new HashMap<Identifier, Object>();
+    protected HashMap<Identifier, Object> servicesMap = new HashMap<>();
 
     protected MALConsumer tmConsumer;
 

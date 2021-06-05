@@ -43,16 +43,16 @@ public class TaskScheduler
   public TaskScheduler(int corePoolSize)
   {
     scheduler = new ScheduledThreadPoolExecutor(corePoolSize);
-    scheduled = new HashMap<Integer, ScheduledFuture<?>>();
-    ids = new ArrayList<Integer>();
+    scheduled = new HashMap<>();
+    ids = new ArrayList<>();
     nextId = 0;
     daemon = false;
   }
 
   public TaskScheduler(int corePoolSize, boolean isDaemon){
     scheduler = new ScheduledThreadPoolExecutor(corePoolSize);
-    scheduled = new HashMap<Integer, ScheduledFuture<?>>();
-    ids = new ArrayList<Integer>();
+    scheduled = new HashMap<>();
+    ids = new ArrayList<>();
     nextId = 0;
     daemon = isDaemon;
   }

@@ -74,7 +74,7 @@ public class MOelementList extends MOelement{
         }else{
             // Make a button and put it in the middle Panel
             buttonEdit = new javax.swing.JToggleButton();
-            buttonEdit.addActionListener(evt -> buttonEditActionPerformed(evt));
+            buttonEdit.addActionListener(this::buttonEditActionPerformed);
         
             super.middlePanel.add(buttonEdit);
 

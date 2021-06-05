@@ -165,12 +165,12 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
     jPanel1.setPreferredSize(new java.awt.Dimension(419, 23));
 
     runAppButton.setText("runCommand");
-    runAppButton.addActionListener(evt -> runCommandButtonActionPerformed(evt));
+    runAppButton.addActionListener(this::runCommandButtonActionPerformed);
     jPanel1.add(runAppButton);
 
     listAppAllButton.setText("List Recent Commands");
     listAppAllButton.setEnabled(false);
-    listAppAllButton.addActionListener(evt -> listRecentCommandsButtonActionPerformed(evt));
+    listAppAllButton.addActionListener(this::listRecentCommandsButtonActionPerformed);
     jPanel1.add(listAppAllButton);
 
     parameterTab.add(jPanel1);

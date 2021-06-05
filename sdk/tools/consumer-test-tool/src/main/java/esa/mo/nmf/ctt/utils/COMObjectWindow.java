@@ -249,7 +249,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         tfObjectType1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tfObjectType2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfObjectType2.addActionListener(evt -> tfObjectType2ActionPerformed(evt));
+        tfObjectType2.addActionListener(this::tfObjectType2ActionPerformed);
 
         tfObjectType3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
@@ -313,13 +313,13 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         componentsPanel.setPreferredSize(new java.awt.Dimension(550, 200));
 
         objectBodyButton.setText("View Object Body");
-        objectBodyButton.addActionListener(evt -> objectBodyButtonActionPerformed(evt));
+        objectBodyButton.addActionListener(this::objectBodyButtonActionPerformed);
 
         relatedButton.setText("Retrieve Related");
-        relatedButton.addActionListener(evt -> relatedButtonActionPerformed(evt));
+        relatedButton.addActionListener(this::relatedButtonActionPerformed);
 
         sourceButton.setText("Retrieve Source");
-        sourceButton.addActionListener(evt -> sourceButtonActionPerformed(evt));
+        sourceButton.addActionListener(this::sourceButtonActionPerformed);
 
         jLabel1.setText("Object Body Type:");
 
@@ -329,7 +329,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Related");
 
-        sourceType.addActionListener(evt -> sourceTypeActionPerformed(evt));
+        sourceType.addActionListener(this::sourceTypeActionPerformed);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -373,7 +373,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
 
         relatedType4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        relatedType.addActionListener(evt -> relatedTypeActionPerformed(evt));
+        relatedType.addActionListener(this::relatedTypeActionPerformed);
 
         javax.swing.GroupLayout componentsPanelLayout = new javax.swing.GroupLayout(componentsPanel);
         componentsPanel.setLayout(componentsPanelLayout);
@@ -524,7 +524,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         bottomPanel.setPreferredSize(new java.awt.Dimension(452, 40));
 
         button.setText("Submit");
-        button.addActionListener(evt -> buttonActionPerformed(evt));
+        button.addActionListener(this::buttonActionPerformed);
 
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);

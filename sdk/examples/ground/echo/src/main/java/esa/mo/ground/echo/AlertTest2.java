@@ -97,7 +97,7 @@ public class AlertTest2 {
         //Get all object numbers from the Activity Tracking Service Events
         final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
         this.subscriptionId = new Identifier("AlertEvent" + random.nextInt());  // Add some randomness in the subscriptionId to avoid collisions
-        Subscription eventSub = ConnectionConsumer.subscriptionKeys(this.subscriptionId, new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
+        Subscription eventSub = ConnectionConsumer.subscriptionKeys(this.subscriptionId, new Identifier("*"), secondEntityKey, 0L, 0L);
 
         eventConsumer.addEventReceivedListener(eventSub, new EventConsumerAdapter());
     }

@@ -848,7 +848,7 @@ public class TestHelperAttributes {
 
   @Test
   public void testString2Attribute20() {
-    Long attribute = new Long(0);
+    Long attribute = 0L;
     Long result = (Long) HelperAttributes.string2attribute(attribute, "133742");
     assertTrue(result instanceof Long);
     assertEquals(133742L, (long) result);
@@ -856,7 +856,7 @@ public class TestHelperAttributes {
 
   @Test
   public void testString2Attribute21() {
-    Boolean b = new Boolean(false);
+    Boolean b = Boolean.FALSE;
     Boolean result = (Boolean) HelperAttributes.string2attribute(b, "true");
     assertTrue(result instanceof Boolean);
     assertEquals(true, result);
