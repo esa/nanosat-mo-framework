@@ -36,7 +36,7 @@ public class MOcomposite extends MOelement{
         
         // Make a button and put it in the middle Panel
         button = new javax.swing.JToggleButton();
-        button.addActionListener(evt -> buttonActionPerformed(evt));
+        button.addActionListener(this::buttonActionPerformed);
         
         super.middlePanel.add(button);
 

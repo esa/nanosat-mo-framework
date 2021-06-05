@@ -29,6 +29,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
@@ -64,7 +65,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         initComponents();
         this.archiveService = archiveService;
 
-        comObjects = new ArrayList<ArchivePersistenceObject>();
+        comObjects = new ArrayList<>();
         this.defineTableContent();
 
         table.addMouseListener(new MouseAdapter() {
@@ -96,7 +97,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         LongList identities = new LongList();
 
         // Sort by Identity id
-        pairs.sort((ObjectInstancePair p1, ObjectInstancePair p2)->p1.getObjIdentityInstanceId().compareTo(p2.getObjIdentityInstanceId()));
+        pairs.sort(Comparator.comparing(ObjectInstancePair::getObjIdentityInstanceId));
 
         for (ObjectInstancePair pair : pairs) {
             objIds.add(pair.getObjDefInstanceId());

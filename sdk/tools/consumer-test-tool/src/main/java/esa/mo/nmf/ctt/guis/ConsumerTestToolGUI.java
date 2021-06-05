@@ -59,9 +59,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
     try {
       // Set cross-platform Java L&F (also called "Metal")
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    } catch (UnsupportedLookAndFeelException e) {
-    } catch (ClassNotFoundException e) {
-    } catch (InstantiationException e) {
+    } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException e) {
     } catch (IllegalAccessException e) {
       // handle exception
     }

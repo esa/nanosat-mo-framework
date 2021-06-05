@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ServicesConnectionDetails {
 
-    private HashMap<String, SingleConnectionDetails> services = new HashMap<String, SingleConnectionDetails>();
+    private HashMap<String, SingleConnectionDetails> services = new HashMap<>();
 
     public HashMap<String, SingleConnectionDetails> getServices() {
         return this.services;

@@ -511,7 +511,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       @ActionParameter(name = "margin", rawUnit = "degree") float margin)
   {
     return actionsHandler.executeAdcsModeAction(holdDuration,
-        new AttitudeModeVectorPointing(new VectorF3D(x, y, z), new Float(margin)), this);
+        new AttitudeModeVectorPointing(new VectorF3D(x, y, z), margin), this);
   }
 
   @Action(description = "Unsets the spacecraft's attitude.")
