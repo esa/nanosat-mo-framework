@@ -48,6 +48,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
 import org.orekit.time.AbsoluteDate;
 import org.orekit.time.TimeScalesFactory;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeDeterminationMode;
 
 /**
  * Class handling acquisition of targets and the corresponding actions
@@ -80,24 +81,24 @@ public class CameraAcquisitorSystemCameraTargetHandler
   UInteger photographLocation(
       AttributeValueList attributeValues,
       Long actionInstanceObjId,
-      boolean reportProgress, MALInteraction interaction)
+      boolean reportProgress, MALInteraction interaction, AttitudeDeterminationMode determinationMode)
   {
     // get parameters
     Double longitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
     Double latitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
-    String timeStemp =
+    String timeStamp =
         HelperAttributes.attribute2JavaType(attributeValues.get(2).getValue()).toString();
     //
     return photographLocation(
-        longitude, latitude, timeStemp, actionInstanceObjId, reportProgress, interaction);
+        longitude, latitude, timeStamp, actionInstanceObjId, reportProgress, interaction, determinationMode);
   }
 
 
-  UInteger photographLocation(double longitude, double latitude, String timeStemp,
+  UInteger photographLocation(double longitude, double latitude, String timeStamp,
       Long actionInstanceObjId,
-      boolean reportProgress, MALInteraction interaction)
+      boolean reportProgress, MALInteraction interaction, AttitudeDeterminationMode determinationMode)
   {
-    AbsoluteDate targetDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
+    AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
     double seconds = targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow());
 
@@ -122,7 +123,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
             targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()));
 
         // set desired attitude using target latitude and longitude
-        AttitudeMode desiredAttitude = new AttitudeModeTargetTracking(
+        AttitudeMode desiredAttitude = new AttitudeModeTargetTracking(determinationMode,
             (float) longitude,
             (float) latitude);
 
@@ -257,9 +258,9 @@ public class CameraAcquisitorSystemCameraTargetHandler
           if (objBody instanceof ActionInstanceDetails) {
             ActionInstanceDetails instance = ((ActionInstanceDetails) objBody);
             if (instance.getArgumentValues().size() == 3) {
-              String timeStemp = instance.getArgumentValues().get(2).getValue().toString();
+              String timeStamp = instance.getArgumentValues().get(2).getValue().toString();
               try {
-                AbsoluteDate targetDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
+                AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
                 if (targetDate.compareTo(CameraAcquisitorSystemMCAdapter.getNow()) > 0) {
                   photographLocation(instance.getArgumentValues(), objDetails.get(
@@ -267,7 +268,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
                       null);
                   Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
                       Level.INFO, "recovered action: {0} longitude:{1} latitude:{2}", new Object[]{
-                        timeStemp,
+                        timeStamp,
                         instance.getArgumentValues().get(0).getValue().toString(),
                         instance.getArgumentValues().get(
                             2).getValue().toString()});
