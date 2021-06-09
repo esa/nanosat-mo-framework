@@ -99,6 +99,7 @@ public class CommandDescriptor implements Serializable {
     for (ArgumentTemplate t : templateList) {
       if (t.getDescription().equals(description)) {
         found = true;
+        break;
       }
     }
     if (!found) {

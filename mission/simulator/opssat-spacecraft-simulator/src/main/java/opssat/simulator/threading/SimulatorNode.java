@@ -1110,6 +1110,7 @@ public class SimulatorNode extends TaskNode
     for (CommandDescriptor c : commandsList) {
       if (c.getInternalID() == internalID) {
         found = true;
+        break;
       }
     }
     return found;

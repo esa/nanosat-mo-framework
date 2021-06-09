@@ -325,6 +325,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
             for (UInteger proCap : filter.getRequiredCapabilities()) {
               if (cap.equals(proCap)) {
                 capExists = true;
+                break;
               }
             }
           }
