@@ -62,7 +62,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     this.cameraTargetHandler.recoverLastState();
   }
 
-  public static enum ExposureTypeModeEnum
+  public enum ExposureTypeModeEnum
   {
     CUSTOM, AUTOMATIC // maybe implement hdr?
   }

@@ -21,15 +21,10 @@
 package esa.mo.nmf.nanosatmosupervisor.parameter;
 
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.*;

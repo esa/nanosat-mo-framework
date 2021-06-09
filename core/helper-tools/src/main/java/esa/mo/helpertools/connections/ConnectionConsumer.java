@@ -22,7 +22,6 @@ package esa.mo.helpertools.connections;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.security.SecureRandom;
 import java.util.Properties;
 import java.util.Random;
 import org.ccsds.moims.mo.mal.MALContext;

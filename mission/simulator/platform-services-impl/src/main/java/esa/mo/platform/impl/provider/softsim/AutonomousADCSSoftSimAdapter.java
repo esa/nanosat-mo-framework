@@ -20,11 +20,9 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
-import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface;
 import esa.mo.platform.impl.util.HelperIADCS100;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;

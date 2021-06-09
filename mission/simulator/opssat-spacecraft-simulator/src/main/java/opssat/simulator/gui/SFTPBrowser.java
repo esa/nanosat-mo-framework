@@ -201,8 +201,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
         predicate = x -> x.getAttrs().isDir();
       }
       List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate)
-          .collect(Collectors.toList());
-      Collections.sort(filteredFiles, (Comparator<ChannelSftp.LsEntry>) this);
+              .sorted((Comparator<ChannelSftp.LsEntry>) this).collect(Collectors.toList());
       for (ChannelSftp.LsEntry e : filteredFiles) {
         String key = e.getFilename();
         dtm.addRow(new String[] { key });

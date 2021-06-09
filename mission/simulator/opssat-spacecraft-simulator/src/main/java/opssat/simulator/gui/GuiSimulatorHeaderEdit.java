@@ -23,12 +23,9 @@ package opssat.simulator.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -167,7 +164,6 @@ public class GuiSimulatorHeaderEdit {
         try {
             newValue = Integer.parseInt(data);
         } catch (NumberFormatException ex) {
-            ;
         }
         dataOk = (newValue >= 1 && newValue <= 1000);
         if (dataOk) {
@@ -202,18 +198,10 @@ public class GuiSimulatorHeaderEdit {
         textFieldStart.setForeground(Color.black);
         textFieldEnd.setForeground(Color.black);
         if (origin == 1) {
-            if (newDateStart == null) {
-                startDateOK = false;
-            } else {
-                startDateOK = true;
-            }
+            startDateOK = newDateStart != null;
             return newDateStart;
         } else if (origin == 2) {
-            if (newDateEnd == null) {
-                endDateOK = false;
-            } else {
-                endDateOK = true;
-            }
+            endDateOK = true;
             return newDateEnd;
 
         } else {

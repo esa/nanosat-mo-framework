@@ -20,10 +20,8 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -31,13 +29,11 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 import org.orekit.bodies.GeodeticPoint;
-import org.orekit.propagation.analytical.tle.TLE;
 
 /**
  * Class handling communication with the navigation system (GPS)

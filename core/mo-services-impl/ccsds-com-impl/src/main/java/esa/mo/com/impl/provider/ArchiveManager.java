@@ -34,7 +34,6 @@ import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastObjectType;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
