@@ -70,9 +70,7 @@ public class CentralDirectoryHelper {
         null, new Identifier("*"), sk, new UIntegerList());
 
     // Query directory service with filter
-    DirectoryConsumerServiceImpl centralDirectory = null;
-    try {
-      centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI);
+    try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI)) {
       ProviderSummaryList providersSummaries =
           centralDirectory.getDirectoryStub().lookupProvider(sf2);
       if (providersSummaries.size() == 1) {
@@ -87,10 +85,6 @@ public class CentralDirectoryHelper {
       }
     } catch (MALInteractionException | MALException | MalformedURLException e) {
       LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
-    } finally {
-      if (centralDirectory != null) {
-        centralDirectory.close();
-      }
     }
 
     return null;
@@ -115,9 +109,7 @@ public class CentralDirectoryHelper {
         new Identifier("*"), sk, new UIntegerList());
 
     // Query directory service with filter
-    DirectoryConsumerServiceImpl centralDirectory = null;
-    try {
-      centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI);
+    try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI)) {
       ProviderSummaryList providersSummaries =
           centralDirectory.getDirectoryStub().lookupProvider(sf2);
       for (ProviderSummary providerSummary : providersSummaries) {
@@ -140,10 +132,6 @@ public class CentralDirectoryHelper {
       }
     } catch (MALInteractionException | MALException | MalformedURLException e) {
       LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
-    } finally {
-      if (centralDirectory != null) {
-        centralDirectory.close();
-      }
     }
 
     return archiveProviders;
