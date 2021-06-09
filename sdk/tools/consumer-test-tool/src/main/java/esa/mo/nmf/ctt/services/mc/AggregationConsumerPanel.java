@@ -177,57 +177,57 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         getValueButtonAgg1.setText("getValue");
-        getValueButtonAgg1.addActionListener(evt -> getValueButtonAgg1ActionPerformed(evt));
+        getValueButtonAgg1.addActionListener(this::getValueButtonAgg1ActionPerformed);
         jPanel1.add(getValueButtonAgg1);
 
         getValueAllButtonAgg.setText("getValue(0)");
-        getValueAllButtonAgg.addActionListener(evt -> getValueAllButtonAggActionPerformed(evt));
+        getValueAllButtonAgg.addActionListener(this::getValueAllButtonAggActionPerformed);
         jPanel1.add(getValueAllButtonAgg);
 
         enableDefinitionButtonAgg.setText("enableGeneration");
-        enableDefinitionButtonAgg.addActionListener(evt -> enableDefinitionButtonAggActionPerformed(evt));
+        enableDefinitionButtonAgg.addActionListener(this::enableDefinitionButtonAggActionPerformed);
         jPanel1.add(enableDefinitionButtonAgg);
 
         enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
-        enableDefinitionAllAgg.addActionListener(evt -> enableDefinitionAllAggActionPerformed(evt));
+        enableDefinitionAllAgg.addActionListener(this::enableDefinitionAllAggActionPerformed);
         jPanel1.add(enableDefinitionAllAgg);
 
         enableFilterButtonAgg.setText("enableFilter");
-        enableFilterButtonAgg.addActionListener(evt -> enableFilterButtonAggActionPerformed(evt));
+        enableFilterButtonAgg.addActionListener(this::enableFilterButtonAggActionPerformed);
         jPanel1.add(enableFilterButtonAgg);
 
         enableFilterAllAgg.setText("enableFilter(group=false, 0)");
-        enableFilterAllAgg.addActionListener(evt -> enableFilterAllAggActionPerformed(evt));
+        enableFilterAllAgg.addActionListener(this::enableFilterAllAggActionPerformed);
         jPanel1.add(enableFilterAllAgg);
 
         parameterTab.add(jPanel1);
 
         addDefinitionButton.setText("addDefinition");
-        addDefinitionButton.addActionListener(evt -> addDefinitionButtonActionPerformed(evt));
+        addDefinitionButton.addActionListener(this::addDefinitionButtonActionPerformed);
         jPanel5.add(addDefinitionButton);
 
         updateDefinitionButton.setText("updateDefinition");
-        updateDefinitionButton.addActionListener(evt -> updateDefinitionButtonActionPerformed(evt));
+        updateDefinitionButton.addActionListener(this::updateDefinitionButtonActionPerformed);
         jPanel5.add(updateDefinitionButton);
 
         removeDefinitionButton.setText("removeDefinition");
-        removeDefinitionButton.addActionListener(evt -> removeDefinitionButtonActionPerformed(evt));
+        removeDefinitionButton.addActionListener(this::removeDefinitionButtonActionPerformed);
         jPanel5.add(removeDefinitionButton);
 
         listDefinitionButton.setText("listDefinition()");
-        listDefinitionButton.addActionListener(evt -> listDefinitionButtonActionPerformed(evt));
+        listDefinitionButton.addActionListener(this::listDefinitionButtonActionPerformed);
         jPanel5.add(listDefinitionButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
+        listDefinitionAllButton.addActionListener(this::listDefinitionAllButtonActionPerformed);
         jPanel5.add(listDefinitionAllButton);
 
         removeDefinitionAllButton.setText("removeDefinition(0)");
-        removeDefinitionAllButton.addActionListener(evt -> removeDefinitionAllButtonActionPerformed(evt));
+        removeDefinitionAllButton.addActionListener(this::removeDefinitionAllButtonActionPerformed);
         jPanel5.add(removeDefinitionAllButton);
 
         msgBoxOn.setText("Display Published AggregationValues");
-        msgBoxOn.addActionListener(evt -> msgBoxOnActionPerformed(evt));
+        msgBoxOn.addActionListener(this::msgBoxOnActionPerformed);
         jPanel5.add(msgBoxOn);
 
         parameterTab.add(jPanel5);

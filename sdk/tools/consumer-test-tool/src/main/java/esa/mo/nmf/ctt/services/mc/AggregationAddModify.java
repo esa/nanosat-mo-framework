@@ -298,7 +298,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
 
         updateIntervalTF.setText("3");
         updateIntervalTF.setPreferredSize(new java.awt.Dimension(150, 20));
-        updateIntervalTF.addActionListener(evt -> updateIntervalTFActionPerformed(evt));
+        updateIntervalTF.addActionListener(this::updateIntervalTFActionPerformed);
         jPanel14.add(updateIntervalTF);
 
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -313,13 +313,13 @@ public class AggregationAddModify extends javax.swing.JFrame {
         generationEnabledCB.setText("generationEnabled");
         generationEnabledCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         generationEnabledCB.setOpaque(false);
-        generationEnabledCB.addActionListener(evt -> generationEnabledCBActionPerformed(evt));
+        generationEnabledCB.addActionListener(this::generationEnabledCBActionPerformed);
         jPanel14.add(generationEnabledCB);
 
         filterEnabledCB.setText("filterEnabled");
         filterEnabledCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         filterEnabledCB.setOpaque(false);
-        filterEnabledCB.addActionListener(evt -> filterEnabledCBActionPerformed(evt));
+        filterEnabledCB.addActionListener(this::filterEnabledCBActionPerformed);
         jPanel14.add(filterEnabledCB);
 
         jSeparator10.setMaximumSize(new java.awt.Dimension(250, 10));
@@ -346,11 +346,11 @@ public class AggregationAddModify extends javax.swing.JFrame {
         parameterCB.setMaximumSize(new java.awt.Dimension(100, 20));
         parameterCB.setMinimumSize(new java.awt.Dimension(100, 20));
         parameterCB.setPreferredSize(new java.awt.Dimension(130, 20));
-        parameterCB.addActionListener(evt -> parameterCBActionPerformed(evt));
+        parameterCB.addActionListener(this::parameterCBActionPerformed);
         jPanel15.add(parameterCB);
 
         sampleIntervalTB.setPreferredSize(new java.awt.Dimension(100, 20));
-        sampleIntervalTB.addActionListener(evt -> sampleIntervalTBActionPerformed(evt));
+        sampleIntervalTB.addActionListener(this::sampleIntervalTBActionPerformed);
         jPanel15.add(sampleIntervalTB);
 
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -370,11 +370,11 @@ public class AggregationAddModify extends javax.swing.JFrame {
         jPanel15.add(thresholdTypeCB);
 
         thresholdValueTB.setPreferredSize(new java.awt.Dimension(100, 20));
-        thresholdValueTB.addActionListener(evt -> thresholdValueTBActionPerformed(evt));
+        thresholdValueTB.addActionListener(this::thresholdValueTBActionPerformed);
         jPanel15.add(thresholdValueTB);
 
         aggregateParameterButton.setText("Aggregate Parameter");
-        aggregateParameterButton.addActionListener(evt -> aggregateParameterButtonActionPerformed(evt));
+        aggregateParameterButton.addActionListener(this::aggregateParameterButtonActionPerformed);
         jPanel15.add(aggregateParameterButton);
 
         jPanel14.add(jPanel15);
@@ -414,7 +414,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         jPanel14.add(jScrollPane1);
 
         removeParameter.setText("Remove Parameter");
-        removeParameter.addActionListener(evt -> removeParameterActionPerformed(evt));
+        removeParameter.addActionListener(this::removeParameterActionPerformed);
         jPanel14.add(removeParameter);
 
         jSeparator13.setMaximumSize(new java.awt.Dimension(250, 10));
@@ -423,7 +423,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         jPanel14.add(jSeparator13);
 
         submitButton1.setText("Submit");
-        submitButton1.addActionListener(evt -> submitButton1ActionPerformed(evt));
+        submitButton1.addActionListener(this::submitButton1ActionPerformed);
         jPanel14.add(submitButton1);
 
         jPanel13.add(jPanel14);

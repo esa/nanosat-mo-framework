@@ -137,45 +137,45 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         activateButton.setText("activate");
-        activateButton.addActionListener(evt -> activateButtonActionPerformed(evt));
+        activateButton.addActionListener(this::activateButtonActionPerformed);
         jPanel1.add(activateButton);
 
         getCurrentButton.setText("getCurrent");
-        getCurrentButton.addActionListener(evt -> getCurrentButtonActionPerformed(evt));
+        getCurrentButton.addActionListener(this::getCurrentButtonActionPerformed);
         jPanel1.add(getCurrentButton);
 
         storeCurrentButton.setText("storeCurrent");
-        storeCurrentButton.addActionListener(evt -> storeCurrentButtonActionPerformed(evt));
+        storeCurrentButton.addActionListener(this::storeCurrentButtonActionPerformed);
         jPanel1.add(storeCurrentButton);
 
         exportXMLButton.setText("exportXML");
-        exportXMLButton.addActionListener(evt -> exportXMLButtonActionPerformed(evt));
+        exportXMLButton.addActionListener(this::exportXMLButtonActionPerformed);
         jPanel1.add(exportXMLButton);
 
         importXMLButton.setText("importXML");
-        importXMLButton.addActionListener(evt -> importXMLButtonActionPerformed(evt));
+        importXMLButton.addActionListener(this::importXMLButtonActionPerformed);
         jPanel1.add(importXMLButton);
 
         parameterTab.add(jPanel1);
 
         addButton.setText("add");
-        addButton.addActionListener(evt -> addButtonActionPerformed(evt));
+        addButton.addActionListener(this::addButtonActionPerformed);
         jPanel5.add(addButton);
 
         updateButton.setText("update");
-        updateButton.addActionListener(evt -> updateButtonActionPerformed(evt));
+        updateButton.addActionListener(this::updateButtonActionPerformed);
         jPanel5.add(updateButton);
 
         removeButton.setText("remove");
-        removeButton.addActionListener(evt -> removeButtonActionPerformed(evt));
+        removeButton.addActionListener(this::removeButtonActionPerformed);
         jPanel5.add(removeButton);
 
         listAllButton.setText("list(\"*\")");
-        listAllButton.addActionListener(evt -> listAllButtonActionPerformed(evt));
+        listAllButton.addActionListener(this::listAllButtonActionPerformed);
         jPanel5.add(listAllButton);
 
         removeAllButton.setText("remove(0)");
-        removeAllButton.addActionListener(evt -> removeAllButtonActionPerformed(evt));
+        removeAllButton.addActionListener(this::removeAllButtonActionPerformed);
         jPanel5.add(removeAllButton);
 
         parameterTab.add(jPanel5);
