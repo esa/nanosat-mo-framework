@@ -42,8 +42,7 @@ public class AttitudeDetector extends AbstractDetector<AttitudeDetector>
   @Override
   public double g(SpacecraftState ss)
   {
-    double additional = ss.getAdditionalState("attitude")[position]; // 0 holds sun
-    return additional;
+    return ss.getAdditionalState("attitude")[position];
   }
 
   @Override

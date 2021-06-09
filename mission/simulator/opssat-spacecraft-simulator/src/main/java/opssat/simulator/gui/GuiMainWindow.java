@@ -240,8 +240,7 @@ public class GuiMainWindow implements Runnable {
     if (interfacesFile.exists()) {
       try {
         Image image = ImageIO.read(interfacesFile);
-        ImageIcon result = new ImageIcon(image);
-        return result;
+        return new ImageIcon(image);
       } catch (IOException ex) {
         Logger.getLogger(GuiMainWindow.class.getName()).log(Level.SEVERE, null, ex);
       }
