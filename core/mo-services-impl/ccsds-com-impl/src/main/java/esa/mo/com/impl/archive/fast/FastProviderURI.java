@@ -45,14 +45,14 @@ public class FastProviderURI {
     private HashMap<Integer, String> fastIDreverse;
 
     public FastProviderURI(final DatabaseBackend dbBackend) {
-        this.fastID = new HashMap<String, Integer>();
-        this.fastIDreverse = new HashMap<Integer, String>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         this.dbBackend = dbBackend;
     }
 
     public synchronized void resetFastProviderURI() {
-        this.fastID = new HashMap<String, Integer>();
-        this.fastIDreverse = new HashMap<Integer, String>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         uniqueId = new AtomicInteger(0);
         
         // To Do: Erase it from the table

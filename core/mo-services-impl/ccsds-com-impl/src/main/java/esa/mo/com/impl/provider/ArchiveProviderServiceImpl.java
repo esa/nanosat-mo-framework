@@ -309,7 +309,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
-                perObjs = new ArrayList<ArchivePersistenceObject>();
+                perObjs = new ArrayList<>();
                 perObjs.add(latestPerObj);
             }
 
@@ -484,7 +484,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
-                perObjs = new ArrayList<ArchivePersistenceObject>();
+                perObjs = new ArrayList<>();
                 perObjs.add(latestPerObj);
             }
 

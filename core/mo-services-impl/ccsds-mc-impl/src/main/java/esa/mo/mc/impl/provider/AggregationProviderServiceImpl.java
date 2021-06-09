@@ -923,8 +923,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingManager() {
-            updateTimerList = new HashMap<Long, TaskScheduler>();
-            filterTimeoutTimerList = new HashMap<Long, TaskScheduler>();
+            updateTimerList = new HashMap<>();
+            filterTimeoutTimerList = new HashMap<>();
         }
 
         public void refreshAll() {
@@ -1117,9 +1117,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicSamplingManager() {
-            sampleTimerList = new ArrayList<TaskScheduler>();
+            sampleTimerList = new ArrayList<>();
             aggregationObjIdList = new LongList();
-            parameterSetIndexList = new ArrayList<Integer>();
+            parameterSetIndexList = new ArrayList<>();
         }
 
         public void refreshAll() {

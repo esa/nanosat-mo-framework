@@ -57,7 +57,7 @@ public class SimulatorData implements Serializable {
        long diffInMillies = date1;
         List<TimeUnit> units = new ArrayList<TimeUnit>(EnumSet.allOf(TimeUnit.class));
         Collections.reverse(units);
-        Map<TimeUnit,Long> result = new LinkedHashMap<TimeUnit,Long>();
+        Map<TimeUnit,Long> result = new LinkedHashMap<>();
         long milliesRest = diffInMillies;
         for ( TimeUnit unit : units ) {
             long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
@@ -69,9 +69,9 @@ public class SimulatorData implements Serializable {
     }
     public static Map<TimeUnit,Long> computeDiff(Date date1, Date date2) {
         long diffInMillies = date2.getTime() - date1.getTime();
-        List<TimeUnit> units = new ArrayList<TimeUnit>(EnumSet.allOf(TimeUnit.class));
+        List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
         Collections.reverse(units);
-        Map<TimeUnit,Long> result = new LinkedHashMap<TimeUnit,Long>();
+        Map<TimeUnit,Long> result = new LinkedHashMap<>();
         long milliesRest = diffInMillies;
         for ( TimeUnit unit : units ) {
             long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);

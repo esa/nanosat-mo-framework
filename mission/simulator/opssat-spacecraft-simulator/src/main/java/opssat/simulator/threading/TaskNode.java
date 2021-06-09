@@ -120,7 +120,7 @@ public abstract class TaskNode implements Runnable {
         this.name = name;
         initLogging(logLevel,consoleLogLevel);
         
-        this.timers = new Hashtable<String, SimulatorTimer>();
+        this.timers = new Hashtable<>();
         
         this.timers.put(TIMER_ALIVE, new SimulatorTimer(TIMER_ALIVE, TIMER_ALIVE_INTERVAL));
         

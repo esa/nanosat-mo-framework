@@ -137,7 +137,7 @@ public class EncodeDecode {
      */
     public static ArrayList<COMObjectStructure> decodeFromByteArrayList(ArrayList<byte[]> chunks,
             Dictionary dictionary, ArchiveSyncStub archiveSyncService, IdentifierList domain) {
-        ArrayList<COMObjectStructure> objs = new ArrayList<COMObjectStructure>();
+        ArrayList<COMObjectStructure> objs = new ArrayList<>();
 
         if (chunks.isEmpty()) {
             return null;

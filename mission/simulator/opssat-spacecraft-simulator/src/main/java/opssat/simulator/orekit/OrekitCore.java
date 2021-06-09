@@ -552,8 +552,8 @@ public class OrekitCore
         }
       }
     }
-    gpsConstellation = new LinkedList<GPSSatellite>();
-    gpsSatsInView = new LinkedList<GPSSatInView>();
+    gpsConstellation = new LinkedList<>();
+    gpsSatsInView = new LinkedList<>();
     try {
       in = new BufferedReader(new FileReader(simulatorNode.getGPSOpsFile()));
       String line;
@@ -1091,7 +1091,7 @@ public class OrekitCore
       TopocentricFrame opsSatCurrentFrame = new TopocentricFrame(earth, opsSatGeoDPoint,
           "OPS-SAT");
 
-      LinkedList<GPSSatInView> tempSatsInView = new LinkedList<GPSSatInView>();
+      LinkedList<GPSSatInView> tempSatsInView = new LinkedList<>();
 
       for (GPSSatellite t : gpsConstellation) {
         t.setState(t.propagator.propagate(gpsExtrapDate));
@@ -1137,7 +1137,7 @@ public class OrekitCore
   {
     LinkedList<GPSSatInView> result;
     synchronized (gpsSatsInView) {
-      result = new LinkedList<GPSSatInView>(gpsSatsInView);
+      result = new LinkedList<>(gpsSatsInView);
     }
     return result;
   }
@@ -1159,7 +1159,7 @@ public class OrekitCore
   {
     LinkedList<GPSSatInView> result;
     synchronized (gpsSatsInView) {
-      result = new LinkedList<GPSSatInView>(gpsSatsInView);
+      result = new LinkedList<>(gpsSatsInView);
     }
     double minDistance = 0;
     double maxDistance = 0;

@@ -125,8 +125,8 @@ public class ESASimulator extends GenericSimulator {
   // Entry stub for lightweight component
   public ESASimulator() {
     initProperties();
-    ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<Object>();
-    ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<Object>();
+    ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<>();
+    ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<>();
     simulatorNode = new SimulatorNode(qGUIToSim, qSimToGUI, "Sim", 10, this.simulatorLoggingLevel,
         this.consoleLoggingLevel);
     initDevices();
@@ -138,8 +138,8 @@ public class ESASimulator extends GenericSimulator {
     initProperties();
     final CentralNode centralNode;
 
-    ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<Object>();
-    ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<Object>();
+    ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<>();
+    ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<>();
 
     simulatorNode = new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 100,
         this.simulatorLoggingLevel, this.consoleLoggingLevel);

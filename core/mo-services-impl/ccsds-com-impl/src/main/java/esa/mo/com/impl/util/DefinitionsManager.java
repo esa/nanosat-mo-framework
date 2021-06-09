@@ -45,7 +45,7 @@ public abstract class DefinitionsManager {
     private final COMServicesProvider comServices;
 
     public DefinitionsManager(COMServicesProvider comServices) {
-        this.defs = new HashMap<Long, Element>();
+        this.defs = new HashMap<>();
 
         if (comServices != null) {
             this.eventService = comServices.getEventService();

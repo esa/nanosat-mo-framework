@@ -63,22 +63,22 @@ public class ParameterMonitoringManager {
      * Current list of checks for one parameter Key: Parameter Identity Id that is
      * monitored; Value: List of CheckLinks ids that are checked changes.
      */
-    private final HashMap<Long, List<Long>> parameterChecks = new HashMap<Long, List<Long>>();
+    private final HashMap<Long, List<Long>> parameterChecks = new HashMap<>();
     /**
      * Current list of parameterValues
      */
-    private final HashMap<Long, List<ParameterValueEntry>> parameterValues = new HashMap<Long, List<ParameterValueEntry>>();
+    private final HashMap<Long, List<ParameterValueEntry>> parameterValues = new HashMap<>();
 
     /**
      * key: the parameter-identity-Id; value: the checkLinkId
      */
-    private final HashMap<Long, List<Long>> parameterReferences = new HashMap<Long, List<Long>>();
+    private final HashMap<Long, List<Long>> parameterReferences = new HashMap<>();
     /**
      * Key: Parameter Identity Id that is monitored; Value: List of CheckLinks ids
      * that will be notified (a check will be executed) if parameterValue
      * changes.
      */
-    private final HashMap<Long, List<Long>> onChangeNotifierList = new HashMap<Long, List<Long>>();
+    private final HashMap<Long, List<Long>> onChangeNotifierList = new HashMap<>();
 
     public ParameterMonitoringManager(CheckManager manager, MCServicesConsumer mcServicesConsumer, ParameterManager paramManager) {
         this.manager = manager;
@@ -177,7 +177,7 @@ public class ParameterMonitoringManager {
 
         final List<Long> currentRefCheckLinks = parameterReferences.get(paramIdentityId);
         if (currentRefCheckLinks == null) {
-            final List<Long> newCheckLinks = new ArrayList<Long>();
+            final List<Long> newCheckLinks = new ArrayList<>();
             newCheckLinks.add(checkLinkId);
             parameterReferences.put(paramIdentityId, newCheckLinks);
         } else {
@@ -194,7 +194,7 @@ public class ParameterMonitoringManager {
 
     private void addToParameterValuesListAndRegister(Long paramIdentityId) throws MALException, MALInteractionException {
         //add to list of monitored parameterValues
-        List<ParameterValueEntry> values = new ArrayList<ParameterValueEntry>();
+        List<ParameterValueEntry> values = new ArrayList<>();
         //get the first Values
         values.add(new ParameterValueEntry(paramManager.getParameterValue(paramIdentityId), new Time(System.currentTimeMillis())));
         parameterValues.put(paramIdentityId, values);
@@ -213,7 +213,7 @@ public class ParameterMonitoringManager {
     private void addToOnChangeNotifierList(Long paramIdentityId, Long checkLinkId) {
         final List<Long> currentCheckLinks = onChangeNotifierList.get(paramIdentityId);
         if (currentCheckLinks == null) {
-            final List<Long> newCheckLinks = new ArrayList<Long>();
+            final List<Long> newCheckLinks = new ArrayList<>();
             newCheckLinks.add(checkLinkId);
             onChangeNotifierList.put(paramIdentityId, newCheckLinks);
         } else {
@@ -235,7 +235,7 @@ public class ParameterMonitoringManager {
     private void addToParameterCheckList(Long paramIdentityId, Long checkLinkId) {
         final List<Long> currentCheckLinks = parameterChecks.get(paramIdentityId);
         if (currentCheckLinks == null) {
-            final List<Long> newCheckLinks = new ArrayList<Long>();
+            final List<Long> newCheckLinks = new ArrayList<>();
             newCheckLinks.add(checkLinkId);
             parameterChecks.put(paramIdentityId, newCheckLinks);
         } else {

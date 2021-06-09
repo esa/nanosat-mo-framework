@@ -105,7 +105,7 @@ public class OBSWParameterManager {
   public void registerParametersProxies(MCRegistration registrationObject) {
     // Sort parameters by id
     List<OBSWParameter> parameters =
-        new ArrayList<OBSWParameter>(parameterLister.getParameters().values());
+            new ArrayList<>(parameterLister.getParameters().values());
     parameters.sort((OBSWParameter p1, OBSWParameter p2) -> p1.getId().compareTo(p2.getId()));
 
     // Create the parameter proxies definitions

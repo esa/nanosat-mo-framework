@@ -201,7 +201,7 @@ public class DatabaseBackend {
     private void createEMFactory() {
         // Is the status of the dropTable flag on?
         boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));
-        Map<String, String> persistenceMap = new HashMap<String, String>();
+        Map<String, String> persistenceMap = new HashMap<>();
 
         // Add the url property of the connection to the database
         persistenceMap.put("javax.persistence.jdbc.url", this.url);

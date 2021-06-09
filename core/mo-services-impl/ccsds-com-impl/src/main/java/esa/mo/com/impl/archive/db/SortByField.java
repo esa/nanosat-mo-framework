@@ -235,7 +235,7 @@ public class SortByField implements Comparator {
         ObjectType tmpObjType;
         ArrayList<ArchivePersistenceObject> stackA = perObjs;
         ArrayList<ArchivePersistenceObject> stackB;
-        ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<ArchivePersistenceObject>();
+        ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<>();
 
         // Requirement 3.4.4.2.27: 
         // "Each domain/object type pair shall be sorted separately from other domain/object type 
@@ -244,7 +244,7 @@ public class SortByField implements Comparator {
             // What is the current zeroth pair?
             tmpDomain = stackA.get(0).getDomain();
             tmpObjType = stackA.get(0).getObjectType();
-            stackB = new ArrayList<ArchivePersistenceObject>();
+            stackB = new ArrayList<>();
 
             // Make a stack B with all the equal pairs domain+objType
             for (int index = 0; index < stackA.size(); index++) { // Let's cycle the complete stack A

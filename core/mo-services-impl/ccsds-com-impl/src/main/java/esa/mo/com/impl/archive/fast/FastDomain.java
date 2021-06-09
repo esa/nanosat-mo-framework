@@ -49,14 +49,14 @@ public class FastDomain {
     private HashMap<Integer, IdentifierList> fastIDreverse;
 
     public FastDomain(final DatabaseBackend dbBackend) {
-        this.fastID = new HashMap<IdentifierList, Integer>();
-        this.fastIDreverse = new HashMap<Integer, IdentifierList>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         this.dbBackend = dbBackend;
     }
 
     public synchronized void resetFastDomain() {
-        this.fastID = new HashMap<IdentifierList, Integer>();
-        this.fastIDreverse = new HashMap<Integer, IdentifierList>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         uniqueId = new AtomicInteger(0);
 
         dbBackend.getEM().getTransaction().begin();

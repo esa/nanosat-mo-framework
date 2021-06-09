@@ -350,7 +350,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
   @Override
   @InternalData(internalID = 2001, commandIDs = { "", "" }, argNames = { "inputSentence" })
   public String getNMEASentence(String inputSentence) {
-    ArrayList<Object> argObject = new ArrayList<Object>();
+    ArrayList<Object> argObject = new ArrayList<>();
     argObject.add(inputSentence);
     return (String) super.getSimulatorNode().runGenericMethod(2001, argObject);
   }

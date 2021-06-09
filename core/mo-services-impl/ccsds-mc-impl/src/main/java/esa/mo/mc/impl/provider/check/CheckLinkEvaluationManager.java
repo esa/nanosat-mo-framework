@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 
 public class CheckLinkEvaluationManager {
 
-    private final HashMap<Long, CheckLinkEvaluation> checkLinkEvaluations = new HashMap<Long, CheckLinkEvaluation>(); //contains fields belonging the evaluations (CheckLinkEvaluation) of a checkLink (Long)
+    private final HashMap<Long, CheckLinkEvaluation> checkLinkEvaluations = new HashMap<>(); //contains fields belonging the evaluations (CheckLinkEvaluation) of a checkLink (Long)
     private ParameterManager parameterManager;
 
     public CheckLinkEvaluationManager(ParameterManager parameterManager) {
@@ -246,7 +246,7 @@ public class CheckLinkEvaluationManager {
         }
         if (actCheckDefinition instanceof CompoundCheckDefinition) {
             //get the last results of the referenced check links
-            List<CheckLinkEvaluation> currCheckLinkEvaluations = new ArrayList<CheckLinkEvaluation>();
+            List<CheckLinkEvaluation> currCheckLinkEvaluations = new ArrayList<>();
             final CompoundCheckDefinition compoundCheckDef = (CompoundCheckDefinition) actCheckDefinition;
             for (Long refCheckLinkId : compoundCheckDef.getCheckLinkIds()) {
                 currCheckLinkEvaluations.add(this.get(refCheckLinkId));

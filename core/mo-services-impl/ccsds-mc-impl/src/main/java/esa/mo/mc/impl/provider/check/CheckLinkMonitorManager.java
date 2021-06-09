@@ -59,7 +59,7 @@ public class CheckLinkMonitorManager {
         this.adapter = new CheckLinkMonitorAdapter(this);
         this.eventService = eventService;
         this.checkManager = checkManager;
-        this.notifyList = new HashMap<Long, List<Long>>();
+        this.notifyList = new HashMap<>();
     }
 
     /**
@@ -76,7 +76,7 @@ public class CheckLinkMonitorManager {
         for (Long compoundedCheckLink : compoundedCheckLinks) {
             List<Long> currentChecksToNotify = notifyList.get(compoundedCheckLink);
             if (currentChecksToNotify == null) {
-                currentChecksToNotify = new ArrayList<Long>();
+                currentChecksToNotify = new ArrayList<>();
             }
             currentChecksToNotify.add(checkLinkId);
             notifyList.put(compoundedCheckLink, currentChecksToNotify);

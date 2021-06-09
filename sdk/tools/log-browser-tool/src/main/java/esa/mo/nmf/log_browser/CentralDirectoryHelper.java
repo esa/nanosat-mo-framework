@@ -104,7 +104,7 @@ public class CentralDirectoryHelper {
    * @return The list of providers
    */
   public static ArrayList<String> listCOMArchiveProviders(URI centralDirectoryServiceURI) {
-    ArrayList<String> archiveProviders = new ArrayList<String>();
+    ArrayList<String> archiveProviders = new ArrayList<>();
 
     // Create archive provider filter
     IdentifierList domain = new IdentifierList();

@@ -291,7 +291,7 @@ public class SimulatorNode extends TaskNode
 
   private LinkedList<GPSSatInView> getSatsInView()
   {
-    LinkedList<GPSSatInView> tempResult = new LinkedList<GPSSatInView>();
+    LinkedList<GPSSatInView> tempResult = new LinkedList<>();
     if (this.simulatorHeader.isUseOrekitPropagator()) {
       tempResult = this.orekitCore.getSatsInViewAsList();
     } else {
@@ -343,7 +343,7 @@ public class SimulatorNode extends TaskNode
 
   private void makeSimulatorDeviceBindings()
   {
-    hMapSDData = new HashMap<DevDatPBind, ArgumentDescriptor>();
+    hMapSDData = new HashMap<>();
     int i = 0;
     this.hMapSDData.put(DevDatPBind.Camera_CameraBuffer,
         simulatorDevices.get(INTERFACE_CAMERA).getDataList().get(i++));
@@ -532,11 +532,11 @@ public class SimulatorNode extends TaskNode
         new SimulatorTimer(TIMER_CELESTIA_DATA, TIMER_CELESTIA_INTERVAL));
     // super.getTimers().put(TIMER_SCIENCE1_DATA, new
     // SimulatorTimer(TIMER_SCIENCE1_DATA, TIMER_SCIENCE1_DATA_INTERVAL));
-    interfaceFilesList = new LinkedList<File>();
-    simulatorDevices = new LinkedList<SimulatorDeviceData>();
-    commandsList = new LinkedList<CommandDescriptor>();
-    commandsQueue = new LinkedList<CommandDescriptor>();
-    commandsResults = new LinkedList<CommandResult>();
+    interfaceFilesList = new LinkedList<>();
+    simulatorDevices = new LinkedList<>();
+    commandsList = new LinkedList<>();
+    commandsQueue = new LinkedList<>();
+    commandsResults = new LinkedList<>();
     String workingdir = System.getProperty("user.dir");
     this.logger.log(Level.ALL, "Workingdir is [" + workingdir + "]");
     File interfacesFolderCheck = new File(workingdir);
@@ -645,7 +645,7 @@ public class SimulatorNode extends TaskNode
   {
 
     if (fileName != null) {
-      ArrayList<String> result = new ArrayList<String>();
+      ArrayList<String> result = new ArrayList<>();
       try {
         BufferedReader in = new BufferedReader(new InputStreamReader(fileName));
         String description = null;
@@ -1164,7 +1164,7 @@ public class SimulatorNode extends TaskNode
   {
     BufferedWriter outScheduler = null;
     File schedulerFile = null;
-    schedulerData = new LinkedList<SimulatorSchedulerPiece>();
+    schedulerData = new LinkedList<>();
     boolean errorsExist = false;
     boolean minorErrorsExist = false;
     boolean sortingRequired = false;
@@ -1700,7 +1700,7 @@ public class SimulatorNode extends TaskNode
     }
     if (sendList) {
       sendList = false;
-      LinkedList<Object> newDataOut = new LinkedList<Object>();
+      LinkedList<Object> newDataOut = new LinkedList<>();
       newDataOut.addAll(commandsList);
       newDataOut.addAll(simulatorDevices);
       return newDataOut;

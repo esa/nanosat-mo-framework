@@ -43,14 +43,14 @@ public class FastNetwork {
     private HashMap<Integer, String> fastIDreverse;
 
     public FastNetwork(final DatabaseBackend dbBackend) {
-        this.fastID = new HashMap<String, Integer>();
-        this.fastIDreverse = new HashMap<Integer, String>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         this.dbBackend = dbBackend;
     }
 
     public synchronized void resetFastNetwork() {
-        this.fastID = new HashMap<String, Integer>();
-        this.fastIDreverse = new HashMap<Integer, String>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         uniqueId = new AtomicInteger(0);
 
         dbBackend.getEM().getTransaction().begin();

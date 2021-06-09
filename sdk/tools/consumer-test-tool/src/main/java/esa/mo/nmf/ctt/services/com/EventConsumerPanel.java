@@ -65,7 +65,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
     public EventConsumerPanel(EventConsumerServiceImpl eventService, final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         serviceCOMEvent = eventService;
-        comObjects = new ArrayList<ArchivePersistenceObject>();
+        comObjects = new ArrayList<>();
 
         String[] parameterTableCol = new String[]{
             "Timestamp", "Source URI", "From Service", "Event name", "Domain",

@@ -34,13 +34,13 @@ public class Dictionary {
     private HashMap<Integer, String> fastIDreverse;
 
     public Dictionary() {
-        this.fastID = new HashMap<String, Integer>();
-        this.fastIDreverse = new HashMap<Integer, String>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
     }
 
     public synchronized void resetFastNetwork() {
-        this.fastID = new HashMap<String, Integer>();
-        this.fastIDreverse = new HashMap<Integer, String>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         uniqueId = new AtomicInteger(0);
     }
 

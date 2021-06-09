@@ -76,7 +76,7 @@ public class TransactionsProcessor {
 
   public TransactionsProcessor(DatabaseBackend dbBackend) {
     this.dbBackend = dbBackend;
-    this.storeQueue = new LinkedBlockingQueue<StoreCOMObjectsContainer>();
+    this.storeQueue = new LinkedBlockingQueue<>();
     this.sequencialStoring = new AtomicBoolean(false);
   }
 
@@ -412,7 +412,7 @@ public class TransactionsProcessor {
 
       // FYI: SELECT objectTypeId, objId, domainId, network, OBJ, providerURI, relatedLink,
       // sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails FROM COMObjectEntity
-      final ArrayList<COMObjectEntity> perObjs = new ArrayList<COMObjectEntity>(resultList.size());
+      final ArrayList<COMObjectEntity> perObjs = new ArrayList<>(resultList.size());
 
       // Conversion from the raw SQL response into a COMObjectEntity
       for (Object obj : resultList) {

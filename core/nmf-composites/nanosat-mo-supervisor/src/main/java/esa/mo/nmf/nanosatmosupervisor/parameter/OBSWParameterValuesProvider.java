@@ -53,7 +53,7 @@ public abstract class OBSWParameterValuesProvider {
     if (parameterMap == null) {
       LOGGER.log(Level.SEVERE,
           "Parameters map provided is null, initilazing with empty parameters map");
-      parameterMap = new HashMap<Identifier, OBSWParameter>();
+      parameterMap = new HashMap<>();
     }
     this.parameterMap = parameterMap;
   }

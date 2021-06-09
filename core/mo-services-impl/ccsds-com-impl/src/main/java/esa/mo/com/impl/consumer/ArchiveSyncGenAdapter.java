@@ -183,7 +183,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
     }
 
     public ArrayList<byte[]> getReceivedChunks() {
-        return new ArrayList<byte[]>(receivedChunks.values());
+        return new ArrayList<>(receivedChunks.values());
     }
 
 }

@@ -435,7 +435,7 @@ public class HelperArchive {
                     return null;
                 }
 
-                List<ArchivePersistenceObject> all = new ArrayList<ArchivePersistenceObject>();
+                List<ArchivePersistenceObject> all = new ArrayList<>();
 
                 for (int i = 0; i < objDetails.size(); i++) {
                     ArchivePersistenceObject tmp = new ArchivePersistenceObject(
@@ -521,7 +521,7 @@ public class HelperArchive {
                     return null;
                 }
 
-                List<ArchivePersistenceObject> all = new ArrayList<ArchivePersistenceObject>();
+                List<ArchivePersistenceObject> all = new ArrayList<>();
 
                 for (int i = 0; i < objDetails.size(); i++) {
                     Element objBody = null;

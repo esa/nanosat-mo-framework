@@ -272,7 +272,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1001,commandIDs={"",""},argNames={"cmdID","data","iAD"})
     public byte[] runRawCommand(int cmdID,byte[] data,int iAD) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
         argObject.add(iAD);
@@ -303,7 +303,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1005,commandIDs={"0xAA","0x05"},argNames={"seconds","subseconds"})
     public void SetDateTime(long seconds,int subseconds) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(seconds);
         argObject.add(subseconds);
         super.getSimulatorNode().runGenericMethod(1005,argObject);
@@ -319,7 +319,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1007,commandIDs={"0xAA","0x07"},argNames={"onoff","register"})
     public void iADCSPowerCycle(byte onoff,byte register) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(onoff);
         argObject.add(register);
         super.getSimulatorNode().runGenericMethod(1007,argObject);
@@ -328,7 +328,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1008,commandIDs={"0xAA","0x10"},argNames={"opmode"})
     public void SetOperationMode(byte opmode) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(opmode);
         super.getSimulatorNode().runGenericMethod(1008,argObject);
     }
@@ -336,7 +336,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1009,commandIDs={"0xAA","0x20"},argNames={"miliseconds"})
     public void SetPowerUpdateInterval(long miliseconds) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(miliseconds);
         super.getSimulatorNode().runGenericMethod(1009,argObject);
     }
@@ -344,7 +344,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1010,commandIDs={"0xAA","0x21"},argNames={"miliseconds"})
     public void SetTemperatureUpdateInterval(long miliseconds) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(miliseconds);
         super.getSimulatorNode().runGenericMethod(1010,argObject);
     }
@@ -436,7 +436,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1023,commandIDs={"0xAA","0x3D"},argNames={"value"})
     public void SetThresholdValueForMagEmulation(int value) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(value);
         super.getSimulatorNode().runGenericMethod(1023,argObject);
     }
@@ -458,7 +458,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1026,commandIDs={"0xAA","0x42"},argNames={"register"})
     public byte[] GetSystemRegisters(byte register) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(register);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1026,argObject);
     }
@@ -466,7 +466,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1027,commandIDs={"0xAA","0x42"},argNames={"register"})
     public byte[] GetControlRegisters(byte register) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(register);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1027,argObject);
     }
@@ -474,7 +474,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1028,commandIDs={"0xAA","0x43"},argNames={"data"})
     public void SetSystemRegister(byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         super.getSimulatorNode().runGenericMethod(1028,argObject);
     }
@@ -482,7 +482,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1029,commandIDs={"0xAA","0x44"},argNames={"data"})
     public void ResetSystemRegister(byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         super.getSimulatorNode().runGenericMethod(1029,argObject);
     }
@@ -490,7 +490,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1030,commandIDs={"0xAA","0x45"},argNames={"memberID","interval"})
     public void SetMemberUpdateInterval(byte memberID,long interval) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(memberID);
         argObject.add(interval);
         super.getSimulatorNode().runGenericMethod(1030,argObject);
@@ -499,7 +499,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1031,commandIDs={"0xAA","0x46"},argNames={"memberID"})
     public byte[] GetMemberUpdateInterval(byte memberID) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(memberID);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1031,argObject);
     }
@@ -507,7 +507,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1032,commandIDs={"0xAA","0x50"},argNames={"HILStatusRegister"})
     public void SetHILStatus(byte[] HILStatusRegister) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(HILStatusRegister);
         super.getSimulatorNode().runGenericMethod(1032,argObject);
     }
@@ -522,7 +522,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1034,commandIDs={"0xAA","0x80"},argNames={"interval"})
     public void SetUpdateInterval(int interval) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(interval);
         super.getSimulatorNode().runGenericMethod(1034,argObject);
     }
@@ -530,7 +530,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1035,commandIDs={"0xAA","0x81"},argNames={"values"})
     public void SetValuesToAllSensors(int[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1035,argObject);
     }
@@ -545,7 +545,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1037,commandIDs={"0xAA","0x83"},argNames={"values"})
     public void SetCalibrationParametersAllSensors(int[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1037,argObject);
     }
@@ -574,7 +574,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1041,commandIDs={"0xAA","0x88"},argNames={"interval"})
     public void SetUpdateIntervalRW(int interval) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(interval);
         super.getSimulatorNode().runGenericMethod(1041,argObject);
     }
@@ -582,7 +582,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1042,commandIDs={"0xAA","0x89"},argNames={"values"})
     public void SetSpeedToAllRWs(int[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1042,argObject);
     }
@@ -597,7 +597,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1044,commandIDs={"0xAA","0x8C"},argNames={"values"})
     public byte[] SetAccAllRWs(int[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1044,argObject);
     }
@@ -605,7 +605,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1045,commandIDs={"0xAA","0x8D"},argNames={"sleepMode"})
     public void SetSleepAllRWs(byte sleepMode) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(sleepMode);
         super.getSimulatorNode().runGenericMethod(1045,argObject);
     }
@@ -613,7 +613,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1046,commandIDs={"0xAA","0x90"},argNames={"values"})
     public void SetDipoleMomentAllMTQs(int[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1046,argObject);
     }
@@ -656,7 +656,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1052,commandIDs={"0xAA","0x96"},argNames={"relaxtime"})
     public void SetMTQRelaxTime(int relaxtime) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(relaxtime);
         super.getSimulatorNode().runGenericMethod(1052,argObject);
     }
@@ -671,7 +671,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1054,commandIDs={"0xA0","0x01"},argNames={"dipoleValue"})
     public void MTQXSetDipoleMoment(int dipoleValue) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(dipoleValue);
         super.getSimulatorNode().runGenericMethod(1054,argObject);
     }
@@ -721,7 +721,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1061,commandIDs={"0xA1","0x01"},argNames={"dipoleValue"})
     public void MTQYSetDipoleMoment(int dipoleValue) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(dipoleValue);
         super.getSimulatorNode().runGenericMethod(1061,argObject);
     }
@@ -771,7 +771,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1068,commandIDs={"0xA2","0x01"},argNames={"dipoleValue"})
     public void MTQZSetDipoleMoment(int dipoleValue) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(dipoleValue);
         super.getSimulatorNode().runGenericMethod(1068,argObject);
     }
@@ -821,7 +821,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1075,commandIDs={"0xA3","0x01"},argNames={"speedValue"})
     public void SetRWXSpeed(int speedValue) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(speedValue);
         super.getSimulatorNode().runGenericMethod(1075,argObject);
     }
@@ -836,7 +836,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1077,commandIDs={"0xA3","0x03"},argNames={"accelerationValue"})
     public void SetRWXAcceleration(int accelerationValue) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(accelerationValue);
         super.getSimulatorNode().runGenericMethod(1077,argObject);
     }
@@ -844,7 +844,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1078,commandIDs={"0xA3","0x08"},argNames={"sleepMode"})
     public void SetRWXSleep(byte sleepMode) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(sleepMode);
         super.getSimulatorNode().runGenericMethod(1078,argObject);
     }
@@ -859,7 +859,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1080,commandIDs={"0xA4","0x01"},argNames={"speedValue"})
     public void SetRWYSpeed(int speedValue) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(speedValue);
         super.getSimulatorNode().runGenericMethod(1080,argObject);
     }
@@ -874,7 +874,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1082,commandIDs={"0xA4","0x03"},argNames={"accelerationValue"})
     public void SetRWYAcceleration(int accelerationValue) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(accelerationValue);
         super.getSimulatorNode().runGenericMethod(1082,argObject);
     }
@@ -882,7 +882,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1083,commandIDs={"0xA4","0x08"},argNames={"sleepMode"})
     public void SetRWYSleep(byte sleepMode) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(sleepMode);
         super.getSimulatorNode().runGenericMethod(1083,argObject);
     }
@@ -897,7 +897,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1085,commandIDs={"0xA4","0x01"},argNames={"speedValue"})
     public void SetRWZSpeed(int speedValue) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(speedValue);
         super.getSimulatorNode().runGenericMethod(1085,argObject);
     }
@@ -912,7 +912,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1087,commandIDs={"0xA4","0x03"},argNames={"accelerationValue"})
     public void SetRWZAcceleration(int accelerationValue) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(accelerationValue);
         super.getSimulatorNode().runGenericMethod(1087,argObject);
     }
@@ -920,7 +920,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1088,commandIDs={"0xA4","0x08"},argNames={"sleepMode"})
     public void SetRWZSleep(byte sleepMode) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(sleepMode);
         super.getSimulatorNode().runGenericMethod(1088,argObject);
     }
@@ -935,7 +935,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1090,commandIDs={"0xAB","0x01"},argNames={"values"})
     public void ST200SetQuaternion(int[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1090,argObject);
     }
@@ -943,7 +943,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1091,commandIDs={"0xAB","0x10"},argNames={"interval"})
     public void ST200UpdateInterval(long interval) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(interval);
         super.getSimulatorNode().runGenericMethod(1091,argObject);
     }
@@ -951,7 +951,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1092,commandIDs={"0xB0","0x01"},argNames={"values"})
     public void SunSensor1SetValue(int[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1092,argObject);
     }
@@ -966,7 +966,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1094,commandIDs={"0xB0","0x11"},argNames={"values"})
     public void SunSensor1SetValueQuaternion(int[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1094,argObject);
     }
@@ -981,7 +981,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1096,commandIDs={"0xC0","0x01"},argNames={"values"})
     public void Gyro1SetRate(float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1096,argObject);
     }
@@ -996,7 +996,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1098,commandIDs={"0xC0","0x10"},argNames={"updateRate"})
     public void Gyro1SetUpdateInterval(int updateRate) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(updateRate);
         super.getSimulatorNode().runGenericMethod(1098,argObject);
     }
@@ -1018,7 +1018,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1101,commandIDs={"0xC0","0x22"},argNames={"updateRate","allowedDeviation"})
     public void Gyro1SetFilter1(byte updateRate,int allowedDeviation) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(updateRate);
         argObject.add(allowedDeviation);
         super.getSimulatorNode().runGenericMethod(1101,argObject);
@@ -1027,7 +1027,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1102,commandIDs={"0xC0","0x23"},argNames={"calibrationValues"})
     public void Gyro1SetCalibrationParameters(int[] calibrationValues) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(calibrationValues);
         super.getSimulatorNode().runGenericMethod(1102,argObject);
     }
@@ -1056,7 +1056,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1106,commandIDs={"0xC0","0x27"},argNames={"quaternionValues"})
     public void Gyro1SetQuaternionFromSunSensor(float[] quaternionValues) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(quaternionValues);
         super.getSimulatorNode().runGenericMethod(1106,argObject);
     }
@@ -1071,7 +1071,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1108,commandIDs={"0xC3","0x01"},argNames={"values"})
     public void accelerometerSetValues(float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1108,argObject);
     }
@@ -1086,7 +1086,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1110,commandIDs={"0xC3","0x10"},argNames={"interval"})
     public void accelerometerReadInterval(int interval) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(interval);
         super.getSimulatorNode().runGenericMethod(1110,argObject);
     }
@@ -1094,7 +1094,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1111,commandIDs={"0xC6","0x01"},argNames={"values"})
     public void magnetometerSetMagneticField(float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1111,argObject);
     }
@@ -1109,7 +1109,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1113,commandIDs={"0xC6","0x10"},argNames={"interval"})
     public void magnetometerSetUpdateInterval(int interval) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(interval);
         super.getSimulatorNode().runGenericMethod(1113,argObject);
     }
@@ -1117,7 +1117,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1114,commandIDs={"0xC6","0x23"},argNames={"values"})
     public void accelerometerSetCalibrationParams(float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1114,argObject);
     }
@@ -1146,7 +1146,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1118,commandIDs={"0xC6","0x27"},argNames={"quaternionValues"})
     public void accelerometerSetQuaternionFromSunSensor(float[] quaternionValues) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(quaternionValues);
         super.getSimulatorNode().runGenericMethod(1118,argObject);
     }
@@ -1161,7 +1161,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1120,commandIDs={"0x30","0x02"},argNames={"requestRegister"})
     public byte[] kalman2FilterGetTelemetry(int requestRegister) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(requestRegister);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1120,argObject);
     }
@@ -1169,7 +1169,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1121,commandIDs={"0x30","0x03"},argNames={"selectGyro"})
     public void kalman2FilterSelectGyro(byte selectGyro) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(selectGyro);
         super.getSimulatorNode().runGenericMethod(1121,argObject);
     }
@@ -1191,7 +1191,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1124,commandIDs={"0x30","0x22"},argNames={"requestRegister"})
     public byte[] kalman4FilterGetTelemetry(int requestRegister) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(requestRegister);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1124,argObject);
     }
@@ -1199,7 +1199,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1125,commandIDs={"0x30","0x23"},argNames={"selectGyro"})
     public void kalman4FilterSelectGyro(byte selectGyro) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(selectGyro);
         super.getSimulatorNode().runGenericMethod(1125,argObject);
     }
@@ -1221,7 +1221,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1128,commandIDs={"0x31","0x10"},argNames={"interval"})
     public void controlLoopsSetUpdateInterval(int interval) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(interval);
         super.getSimulatorNode().runGenericMethod(1128,argObject);
     }
@@ -1254,7 +1254,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1132,commandIDs={"0x31","0x20"},argNames={"axis","controlRegister","values"})
     public void controlLoopsSetAntiWindup(byte axis,int controlRegister,float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(axis);
         argObject.add(controlRegister);
         argObject.add(values);
@@ -1264,7 +1264,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1133,commandIDs={"0x31","0x21"},argNames={"axis","controlRegister"})
     public byte[] controlLoopsGetAntiWindup(byte axis,int controlRegister) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(axis);
         argObject.add(controlRegister);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1133,argObject);
@@ -1273,7 +1273,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1134,commandIDs={"0x31","0x60"},argNames={"axis","controlRegister","targetAngle"})
     public void singleAxisStartControlLoop(byte axis,int controlRegister,float[] targetAngle) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(axis);
         argObject.add(controlRegister);
         argObject.add(targetAngle);
@@ -1283,7 +1283,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1135,commandIDs={"0x31","0x61"},argNames={"axis"})
     public void singleAxisStopControlLoop(byte axis) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(axis);
         super.getSimulatorNode().runGenericMethod(1135,argObject);
     }
@@ -1291,7 +1291,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1136,commandIDs={"0x31","0x62"},argNames={"axis","controlRegister","values"})
     public void singleAxisSetParameter(byte axis,int controlRegister,float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(axis);
         argObject.add(controlRegister);
         argObject.add(values);
@@ -1301,7 +1301,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1137,commandIDs={"0x31","0x63"},argNames={"axis","controlRegister"})
     public byte[] singleAxisGetParameter(byte axis,int controlRegister) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(axis);
         argObject.add(controlRegister);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1137,argObject);
@@ -1310,7 +1310,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1138,commandIDs={"0x31","0x64"},argNames={"axis","controlRegister"})
     public void singleAxisResetParameter(byte axis,int controlRegister) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(axis);
         argObject.add(controlRegister);
         super.getSimulatorNode().runGenericMethod(1138,argObject);
@@ -1319,7 +1319,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1139,commandIDs={"0x31","0x70"},argNames={"targetSunVector"})
     public void sunPointingStartControlLoop(float[] targetSunVector) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(targetSunVector);
         super.getSimulatorNode().runGenericMethod(1139,argObject);
     }
@@ -1334,7 +1334,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1141,commandIDs={"0x31","0x72"},argNames={"values"})
     public void sunPointingSetParameter(float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1141,argObject);
     }
@@ -1356,7 +1356,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1144,commandIDs={"0x31","0x80"},argNames={"controller"})
     public void bdotStartControlLoop(byte controller) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(controller);
         super.getSimulatorNode().runGenericMethod(1144,argObject);
     }
@@ -1371,7 +1371,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1146,commandIDs={"0x31","0x82"},argNames={"gain"})
     public void bdotSetParameter(float gain) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(gain);
         super.getSimulatorNode().runGenericMethod(1146,argObject);
     }
@@ -1393,7 +1393,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1149,commandIDs={"0x31","0x90"},argNames={"targetBodyAxis","targetAngularVelocityMagnitude","inertialTargetVector"})
     public void singleSpinningStartControlLoop(float[] targetBodyAxis,float targetAngularVelocityMagnitude,float[] inertialTargetVector) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(targetBodyAxis);
         argObject.add(targetAngularVelocityMagnitude);
         argObject.add(inertialTargetVector);
@@ -1410,7 +1410,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1151,commandIDs={"0x31","0x92"},argNames={"values"})
     public void singleSpinningSetParameter(float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1151,argObject);
     }
@@ -1425,7 +1425,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1153,commandIDs={"0x31","0xA0"},argNames={"modeType","values","times"})
     public void targetTrackingStartModeConstantVel(byte modeType,float[] values,long[] times) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(modeType);
         argObject.add(values);
         argObject.add(times);
@@ -1435,7 +1435,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1154,commandIDs={"0x31","0xA0"},argNames={"modeType","values","times"})
     public void targetTrackingStartModeGeneral(byte modeType,float[] values,long[] times) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(modeType);
         argObject.add(values);
         argObject.add(times);
@@ -1445,7 +1445,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1155,commandIDs={"0x31","0xA0"},argNames={"modeType","values","times"})
     public void targetTrackingStartModeWGS84(byte modeType,float[] values,long[] times) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(modeType);
         argObject.add(values);
         argObject.add(times);
@@ -1462,7 +1462,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1157,commandIDs={"0x31","0xA2"},argNames={"values"})
     public void targetTrackingSetParameters(float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1157,argObject);
     }
@@ -1498,7 +1498,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1162,commandIDs={"0x32","0x03"},argNames={"tleData"})
     public void orbitSetTLE(byte[] tleData) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(tleData);
         super.getSimulatorNode().runGenericMethod(1162,argObject);
     }
@@ -1506,7 +1506,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1163,commandIDs={"0x32","0x10"},argNames={"updateInterval"})
     public byte[] orbitSetUpdateInterval(int updateInterval) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(updateInterval);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1163,argObject);
     }
@@ -1535,7 +1535,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1167,commandIDs={"0x36","0x04"},argNames={"start","times"})
     public void opModeDetumble(byte start,long[] times) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(start);
         argObject.add(times);
         super.getSimulatorNode().runGenericMethod(1167,argObject);
@@ -1544,7 +1544,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1168,commandIDs={"0x36","0x05"},argNames={"mode","times","targetSunVector"})
     public void opModeSunPointing(byte[] mode,long[] times,float[] targetSunVector) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(mode);
         argObject.add(times);
         argObject.add(targetSunVector);
@@ -1561,7 +1561,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1170,commandIDs={"0x36","0x07"},argNames={"mode","times","targetVector"})
     public void opModeSetModeSpin(byte mode,long[] times,float[] targetVector) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(mode);
         argObject.add(times);
         argObject.add(targetVector);
@@ -1578,7 +1578,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1172,commandIDs={"0x36","0x09"},argNames={"mode","times","targetVector"})
     public void opModeSetTargetTrackingCVelocity(byte mode,long[] times,float[] targetVector) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(mode);
         argObject.add(times);
         argObject.add(targetVector);
@@ -1595,7 +1595,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1174,commandIDs={"0x36","0x0B"},argNames={"mode","times"})
     public void opModeSetNadirTargetTracking(byte mode,long[] times) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(mode);
         argObject.add(times);
         super.getSimulatorNode().runGenericMethod(1174,argObject);
@@ -1611,7 +1611,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1176,commandIDs={"0x36","0x0D"},argNames={"mode","times","quaternionCoefficients"})
     public void opModeSetStandardTargetTracking(byte mode,long[] times,float[] quaternionCoefficients) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(mode);
         argObject.add(times);
         argObject.add(quaternionCoefficients);
@@ -1628,7 +1628,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1178,commandIDs={"0x36","0x0F"},argNames={"mode","times","latitudeLongitude"})
     public void opModeSetFixWGS84TargetTracking(byte mode,long[] times,float[] latitudeLongitude) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(mode);
         argObject.add(times);
         argObject.add(latitudeLongitude);
@@ -1645,7 +1645,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1180,commandIDs={"0x36","0x11"},argNames={"mode","startTime","data"})
     public void opModeSetTargetCapture1(byte mode,long startTime,float[] data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(mode);
         argObject.add(startTime);
         argObject.add(data);
@@ -1662,7 +1662,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1182,commandIDs={"",""},argNames={"tleLine1","tleLine2"})
     public byte[] simGetOrbitTLEBytesFromString(String tleLine1,String tleLine2) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(tleLine1);
         argObject.add(tleLine2);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1182,argObject);
@@ -1671,7 +1671,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1183,commandIDs={"",""},argNames={"data","byteOffset"})
     public float simGetFloatFromByteArray(byte[] data,int byteOffset) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         argObject.add(byteOffset);
         return (Float) super.getSimulatorNode().runGenericMethod(1183,argObject);
@@ -1680,7 +1680,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1184,commandIDs={"",""},argNames={"data"})
     public byte[] simGetByteArrayFromFloat(float data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1184,argObject);
     }
@@ -1688,7 +1688,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1185,commandIDs={"",""},argNames={"data","byteOffset"})
     public double simGetDoubleFromByteArray(byte[] data,int byteOffset) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         argObject.add(byteOffset);
         return (Double) super.getSimulatorNode().runGenericMethod(1185,argObject);
@@ -1697,7 +1697,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1186,commandIDs={"",""},argNames={"data"})
     public byte[] simGetByteArrayFromDouble(double data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1186,argObject);
     }
@@ -1705,7 +1705,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1187,commandIDs={"",""},argNames={"data","byteOffset"})
     public int simGetIntFromByteArray(byte[] data,int byteOffset) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         argObject.add(byteOffset);
         return (Integer) super.getSimulatorNode().runGenericMethod(1187,argObject);
@@ -1714,7 +1714,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1188,commandIDs={"",""},argNames={"data"})
     public byte[] simGetByteArrayFromInt(int data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1188,argObject);
     }
@@ -1722,7 +1722,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1189,commandIDs={"",""},argNames={"data","byteOffset"})
     public long simGetLongFromByteArray(byte[] data,int byteOffset) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         argObject.add(byteOffset);
         return (Long) super.getSimulatorNode().runGenericMethod(1189,argObject);
@@ -1731,7 +1731,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1190,commandIDs={"",""},argNames={"data"})
     public byte[] simGetByteArrayFromLong(long data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(1190,argObject);
     }
@@ -1739,7 +1739,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1191,commandIDs={"0xC0","0x01"},argNames={"values"})
     public void Gyro2SetRate(float[] values) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(values);
         super.getSimulatorNode().runGenericMethod(1191,argObject);
     }
@@ -1754,7 +1754,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1193,commandIDs={"0xC0","0x10"},argNames={"updateRate"})
     public void Gyro2SetUpdateInterval(int updateRate) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(updateRate);
         super.getSimulatorNode().runGenericMethod(1193,argObject);
     }
@@ -1776,7 +1776,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1196,commandIDs={"0xC0","0x22"},argNames={"updateRate","allowedDeviation"})
     public void Gyro2SetFilter1(byte updateRate,int allowedDeviation) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(updateRate);
         argObject.add(allowedDeviation);
         super.getSimulatorNode().runGenericMethod(1196,argObject);
@@ -1785,7 +1785,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1197,commandIDs={"0xC0","0x23"},argNames={"calibrationValues"})
     public void Gyro2SetCalibrationParameters(int[] calibrationValues) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(calibrationValues);
         super.getSimulatorNode().runGenericMethod(1197,argObject);
     }
@@ -1814,7 +1814,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1201,commandIDs={"0xC0","0x27"},argNames={"quaternionValues"})
     public void Gyro2SetQuaternionFromSunSensor(float[] quaternionValues) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(quaternionValues);
         super.getSimulatorNode().runGenericMethod(1201,argObject);
     }
@@ -1829,7 +1829,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1203,commandIDs={"",""},argNames={"data","byteOffset"})
     public int simGetInt16FromByteArray(byte[] data,int byteOffset) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         argObject.add(byteOffset);
         return (Integer) super.getSimulatorNode().runGenericMethod(1203,argObject);
@@ -1838,7 +1838,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     @Override
     @InternalData (internalID=1204,commandIDs={"",""},argNames={"data"})
     public void simRunDeviceCommand(String data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(data);
         super.getSimulatorNode().runGenericMethod(1204,argObject);
     }

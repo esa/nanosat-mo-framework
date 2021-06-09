@@ -50,14 +50,14 @@ public class FastObjectType {
     private HashMap<Integer, Long> fastIDreverse;
 
     public FastObjectType(final DatabaseBackend dbBackend) {
-        this.fastID = new HashMap<Long, Integer>();
-        this.fastIDreverse = new HashMap<Integer, Long>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         this.dbBackend = dbBackend;
     }
 
     public synchronized void resetFastObjectType() {
-        this.fastID = new HashMap<Long, Integer>();
-        this.fastIDreverse = new HashMap<Integer, Long>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         uniqueId = new AtomicInteger(0);
 
         // To Do: Erase it from the table

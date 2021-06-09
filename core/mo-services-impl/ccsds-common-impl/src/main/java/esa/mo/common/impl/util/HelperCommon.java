@@ -58,7 +58,7 @@ public class HelperCommon {
         final ConnectionConsumer connection = new ConnectionConsumer();
 
         final ServicesConnectionDetails serviceDetails = new ServicesConnectionDetails();
-        final HashMap<String, SingleConnectionDetails> services = new HashMap<String, SingleConnectionDetails>();
+        final HashMap<String, SingleConnectionDetails> services = new HashMap<>();
 
         // Cycle all the services in the provider and put them in the serviceDetails object
         for (ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {
