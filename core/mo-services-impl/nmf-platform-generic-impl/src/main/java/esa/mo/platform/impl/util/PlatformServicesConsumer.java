@@ -115,11 +115,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
       if (details != null) {
         powerControlService = new PowerControlConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
       }
-    } catch (MALException ex) {
-      Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (MalformedURLException ex) {
-      Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (MALInteractionException ex) {
+    } catch (MALException | MALInteractionException | MalformedURLException ex) {
       Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
     }
   }

@@ -57,9 +57,7 @@ public class MOenumeration extends MOelement {
             // Set the selected index;
             this.comboBox.setSelectedItem(enumeration.toString());
 
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -86,9 +84,7 @@ public class MOenumeration extends MOelement {
 
         try {
             return field.get(object);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
         }
 

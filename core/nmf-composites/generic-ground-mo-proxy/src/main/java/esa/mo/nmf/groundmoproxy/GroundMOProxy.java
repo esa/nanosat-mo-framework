@@ -257,11 +257,7 @@ public abstract class GroundMOProxy
                   localDirectoryService.syncLocalDirectoryServiceWithCentral(
                       centralDirectoryServiceURI, routedURI);
                   additionalHandling();
-                } catch (MALException ex) {
-                  LOGGER.log(Level.SEVERE, null, ex);
-                } catch (MalformedURLException ex) {
-                  LOGGER.log(Level.SEVERE, null, ex);
-                } catch (MALInteractionException ex) {
+                } catch (MALException | MALInteractionException | MalformedURLException ex) {
                   LOGGER.log(Level.SEVERE, null, ex);
                 }
               }

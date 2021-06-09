@@ -124,9 +124,7 @@ public final class ActionManager extends MCManager {
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -182,9 +180,7 @@ public final class ActionManager extends MCManager {
                         null);
 
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -216,9 +212,7 @@ public final class ActionManager extends MCManager {
                         null);
 
                 newDefId = defIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -421,9 +415,7 @@ public final class ActionManager extends MCManager {
                 getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
                         interaction.getMessageHeader().getNetworkZone(), (errorNumber == null),
                         null, uriNextDestination, sourceFor);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         });

@@ -132,9 +132,7 @@ public class SortByField implements Comparator {
                 obj1 = this.field.get(((ArchivePersistenceObject) in1).getArchiveDetails());
                 obj2 = this.field.get(((ArchivePersistenceObject) in2).getArchiveDetails());
             }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new RuntimeException(e);
         } catch (SecurityException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);

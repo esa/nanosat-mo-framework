@@ -244,9 +244,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCConfiguration.getConfigurationStub().remove(oil);
             configurationTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -270,11 +268,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         try {
             output = this.serviceMCConfiguration.getConfigurationStub().list(prov, ConfigurationType.SERVICE);
 //            configurationTable.refreshTableWithIds(output, serviceMCConfiguration.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -299,9 +293,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCConfiguration.getConfigurationStub().remove(oil);
             configurationTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -342,9 +334,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         try {
             this.serviceMCConfiguration.getConfigurationStub().storeCurrent(prov, ConfigurationType.SERVICE, true, new ConfigAdapter());
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -357,9 +347,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         try {
             file = this.serviceMCConfiguration.getConfigurationStub().exportXML(confObjId, Boolean.TRUE);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_exportXMLButtonActionPerformed
@@ -368,9 +356,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         try {
             this.serviceMCConfiguration.getConfigurationStub().importXML(file);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_importXMLButtonActionPerformed

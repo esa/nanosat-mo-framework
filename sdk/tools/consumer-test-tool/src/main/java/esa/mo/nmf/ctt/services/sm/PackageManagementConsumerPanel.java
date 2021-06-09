@@ -188,9 +188,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_listAppAllButtonActionPerformed
@@ -235,9 +233,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_upgradeButtonActionPerformed
@@ -282,9 +278,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_uninstallButtonActionPerformed
@@ -328,9 +322,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_installButtonActionPerformed

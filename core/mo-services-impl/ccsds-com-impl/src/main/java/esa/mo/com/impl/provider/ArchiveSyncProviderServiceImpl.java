@@ -121,11 +121,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                                                           authenticationId,
                                                           localNamePrefix);
         }
-        catch (MALException ex)
-        {
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (MalformedURLException ex)
+        catch (MALException | MalformedURLException ex)
         {
             Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -518,11 +514,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             {
                 interaction.sendUpdate(new Blob(aChunk), new UInteger(index));
             }
-            catch (MALInteractionException ex)
-            {
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            catch (MALException ex)
+            catch (MALInteractionException | MALException ex)
             {
                 Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -689,15 +681,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                         stdQuota.clean(clearedIds);
                     }
                 }
-                catch (MALInteractionException ex)
-                {
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (MALException ex)
-                {
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (InterruptedException ex)
+                catch (MALInteractionException | InterruptedException | MALException ex)
                 {
                     Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }

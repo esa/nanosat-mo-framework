@@ -110,9 +110,7 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -143,9 +141,7 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 

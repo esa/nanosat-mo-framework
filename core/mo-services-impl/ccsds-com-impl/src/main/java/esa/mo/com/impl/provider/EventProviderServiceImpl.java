@@ -449,9 +449,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         try {
             // requirement 3.3.4.2.8
             return this.archiveService.store(true, objType, domain, archiveDetailsList, events, null);
-        } catch (MALException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -534,9 +532,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         try {
             // requirement 3.3.4.2.8
             return this.archiveService.store(true, objType, domain, archiveDetailsList, events, null).get(0);
-        } catch (MALException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

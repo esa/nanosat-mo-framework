@@ -245,13 +245,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             aValLst.add(aVal); //requirement 3.7.7.2.h
 
             publisher.publish(hdrlst, objectIdlst, aValLst);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALException ex) {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALInteractionException ex) {
+        } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
             return false;
         }

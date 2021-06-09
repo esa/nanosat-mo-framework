@@ -193,9 +193,7 @@ public final class StatisticManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -298,10 +296,7 @@ public final class StatisticManager {
 
                 newLinkDefId = linkDefIds.get(0);
 
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -331,10 +326,7 @@ public final class StatisticManager {
                         null);
 
                 newLinkDefId = linkDefIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }

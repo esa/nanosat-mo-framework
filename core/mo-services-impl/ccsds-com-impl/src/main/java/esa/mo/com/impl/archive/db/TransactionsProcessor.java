@@ -125,9 +125,7 @@ public class TransactionsProcessor {
 
     try {
       return future.get();
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -148,9 +146,7 @@ public class TransactionsProcessor {
 
     try {
       return future.get();
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -177,9 +173,7 @@ public class TransactionsProcessor {
 
     try {
       return future.get();
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -474,9 +468,7 @@ public class TransactionsProcessor {
 
     try {
       return future.get();
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -491,9 +483,7 @@ public class TransactionsProcessor {
     try {
       Integer dummyInt = nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
       Logger.getLogger(TransactionsProcessor.class.getName()).info("Reset table callback!");
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
@@ -504,9 +494,7 @@ public class TransactionsProcessor {
 
     try {
       nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
   }

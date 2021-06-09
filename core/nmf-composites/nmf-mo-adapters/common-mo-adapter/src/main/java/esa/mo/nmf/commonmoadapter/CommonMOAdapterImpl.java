@@ -339,9 +339,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         // Register for pub-sub of all parameters
         super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(
             this.parameterSubscription, new DataReceivedParameterAdapter());
-      } catch (MALInteractionException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      } catch (MALException ex) {
+      } catch (MALInteractionException | MALException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
       } catch (NullPointerException ex) {
         LOGGER.log(Level.SEVERE,
@@ -498,9 +496,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
         }
         );
-      } catch (MALInteractionException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      } catch (MALException ex) {
+      } catch (MALInteractionException | MALException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
       }
 
@@ -523,9 +519,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
           }
         }
         );
-      } catch (MALInteractionException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      } catch (MALException ex) {
+      } catch (MALInteractionException | MALException ex) {
         LOGGER.log(Level.SEVERE, null, ex);
       }
 

@@ -142,9 +142,7 @@ public class PersistProviderConfiguration {
                     details,
                     providerNameList,
                     null);
-        } catch (MALException ex) {
-            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

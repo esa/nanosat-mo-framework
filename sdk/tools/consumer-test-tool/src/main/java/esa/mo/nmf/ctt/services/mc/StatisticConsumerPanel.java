@@ -86,12 +86,10 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         Subscription subscription = ConnectionConsumer.subscriptionWildcard();
         try {
             serviceMCStatistic.getStatisticStub().monitorStatisticsRegister(subscription, new StatisticConsumerAdapter());
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
 
     /**
@@ -272,10 +270,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
             // Add the Statistic Link to the table
             statisticTable.addEntry(new Identifier("MyStat!"), comObject);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted statistic link.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted statistic link.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -305,12 +300,10 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().updateParameterEvaluation(objIds, links);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_updateLinkButtonActionPerformed
 
     private void removeLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLinkButtonActionPerformed
@@ -325,9 +318,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().removeParameterEvaluation(longlist);
             statisticTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -350,9 +341,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().removeParameterEvaluation(longlist);
             statisticTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -383,9 +372,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
@@ -402,9 +389,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed

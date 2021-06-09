@@ -216,9 +216,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             "The NanoSat MO Connector was expecting a single NMF Platform services provider!"
                             + " Instead it found {0}.", supervisorConnections.size());
                 }
-            } catch (MALException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
+            } catch (MALException | MalformedURLException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE,
@@ -365,9 +363,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
                     directoryServiceConsumer.getDirectoryStub().withdrawProvider(this.getAppDirectoryId());
                     directoryServiceConsumer.close();
-                } catch (MALException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
-                } catch (MalformedURLException ex) {
+                } catch (MALException | MalformedURLException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 } catch (MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,

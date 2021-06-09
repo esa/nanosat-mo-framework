@@ -178,13 +178,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
       publisher.publish(hdrlst, iqComponentsList);
 
-    } catch (IllegalArgumentException ex) {
-      Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALException ex) {
-      Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALInteractionException ex) {
+    } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
       Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
           "Exception during publishing process on the provider {0}", ex);
     }

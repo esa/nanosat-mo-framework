@@ -243,8 +243,6 @@ public class EncodeDecode {
                 objs.add(new COMObjectStructure(domain, objType, archDetails, elem));
             } catch (ArrayIndexOutOfBoundsException ex) {
                 stillDecoding = false;
-            } catch (MALException ex) {
-                Logger.getLogger(EncodeDecode.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(EncodeDecode.class.getName()).log(Level.SEVERE, null, ex);
             }

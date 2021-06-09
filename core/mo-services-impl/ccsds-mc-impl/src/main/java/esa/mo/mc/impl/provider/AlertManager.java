@@ -109,9 +109,7 @@ public final class AlertManager extends MCManager {
 
                 //add to providers local list
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -141,9 +139,7 @@ public final class AlertManager extends MCManager {
                         null);
 
                 newDefId = defIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

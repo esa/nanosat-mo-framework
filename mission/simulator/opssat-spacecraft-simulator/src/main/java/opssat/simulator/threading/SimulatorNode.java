@@ -676,8 +676,6 @@ public class SimulatorNode extends TaskNode
           }
         }
 
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -913,8 +911,6 @@ public class SimulatorNode extends TaskNode
         }
 
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1017,8 +1013,6 @@ public class SimulatorNode extends TaskNode
 
         }
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1256,8 +1250,6 @@ public class SimulatorNode extends TaskNode
           }
         }
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1354,8 +1346,6 @@ public class SimulatorNode extends TaskNode
           }
         }
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1371,9 +1361,7 @@ public class SimulatorNode extends TaskNode
   {
     try {
       Integer.parseInt(s);
-    } catch (NumberFormatException e) {
-      return false;
-    } catch (NullPointerException e) {
+    } catch (NumberFormatException | NullPointerException e) {
       return false;
     }
     // only got here if we didn't return false
@@ -3951,15 +3939,7 @@ public class SimulatorNode extends TaskNode
           globalResult = "CommandID [" + c.getInternalID() + "] unknown";
           commandResult.setCommandFailed(true);
       }
-    } catch (ClassCastException e) {
-      String errorString = e.toString();
-      commandResult.setOutput(errorString);
-      commandResult.setCommandFailed(true);
-    } catch (IndexOutOfBoundsException e) {
-      String errorString = e.toString();
-      commandResult.setOutput(errorString);
-      commandResult.setCommandFailed(true);
-    } catch (IOException e) {
+    } catch (IndexOutOfBoundsException | IOException e) {
       String errorString = e.toString();
       commandResult.setOutput(errorString);
       commandResult.setCommandFailed(true);
