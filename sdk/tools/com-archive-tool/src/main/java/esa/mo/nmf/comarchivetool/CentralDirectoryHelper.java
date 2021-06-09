@@ -113,7 +113,7 @@ public class CentralDirectoryHelper {
       ProviderSummaryList providersSummaries =
           centralDirectory.getDirectoryStub().lookupProvider(sf2);
       for (ProviderSummary providerSummary : providersSummaries) {
-        StringBuilder provider = new StringBuilder(providerSummary.getProviderName().getValue());
+        final StringBuilder provider = new StringBuilder(providerSummary.getProviderName().getValue());
 
         ProviderDetails providerDetails = providerSummary.getProviderDetails();
 
