@@ -258,7 +258,6 @@ public class MultiThreadedSocketServer extends Thread {
           }
             if (clientCommand != null) {
             if (clientCommand instanceof Integer) {
-              ;
             } else {
               logger.log(Level.ALL, "Received data");
               if (clientCommand != null) {

@@ -196,11 +196,8 @@ public class CheckLinkEvaluationManager {
         //hack start
 //        details.getCondition().setParameterId(new ObjectKey(domain, parameterManager.getDefinitionId(conParamIdentityId)));
         //hack end
-        if (!conditionEvaluation) {
-            // Does the condition evaluate to TRUE?
-            return true;
-        }
-        return false;
+        // Does the condition evaluate to TRUE?
+        return !conditionEvaluation;
     }
 
     private boolean isParameterValueValid(ParameterValue pVal, boolean usingRaw) {
@@ -310,11 +307,8 @@ public class CheckLinkEvaluationManager {
         }
 
         //check if a new check result shall be calculated
-        if (maxNominalCount >= actCheckDef.getNominalCount().getValue()
-                || maxViolationCount >= actCheckDef.getViolationCount().getValue()) {
-            return true;
-        }
-        return false;
+        return maxNominalCount >= actCheckDef.getNominalCount().getValue()
+                || maxViolationCount >= actCheckDef.getViolationCount().getValue();
 
     }
 

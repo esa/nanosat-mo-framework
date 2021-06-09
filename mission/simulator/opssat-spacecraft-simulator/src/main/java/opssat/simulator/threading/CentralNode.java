@@ -91,7 +91,6 @@ public class CentralNode extends TaskNode {
     if (obj instanceof CelestiaData && this.celestiaInterfaceServer != null) {
       this.celestiaInterfaceServer.putDataInBuffer(obj);
     } else if (this.multiThreadedSocketServer == null) {
-      ;
     } else {
       if (obj instanceof SimulatorHeader && !this.celestiaInitDone) {
         SimulatorHeader centralHeader = (SimulatorHeader) obj;

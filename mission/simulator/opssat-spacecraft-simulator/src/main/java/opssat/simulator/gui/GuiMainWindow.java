@@ -509,7 +509,6 @@ public class GuiMainWindow implements Runnable {
           newCommandsList.addAll(commandsList);
           parent.addGUIInteraction(newCommandsList);
         } else {
-          ;
         }
       }
     });
@@ -1144,7 +1143,6 @@ public class GuiMainWindow implements Runnable {
           frame.getContentPane().add(panelLoader);
         } else {
           frame.getContentPane().add(panelTop, BorderLayout.NORTH);
-          ;
           frame.getContentPane().add(panelTabbed);
           GuiMainWindow.this.refreshPlatformProperties();
         }
@@ -1229,11 +1227,7 @@ public class GuiMainWindow implements Runnable {
                 visibleItems++;
               }
             }
-            if (visibleItems > 0) {
-              putManualCommandsInCombo(false);
-            } else {
-              putManualCommandsInCombo(true);
-            }
+            putManualCommandsInCombo(visibleItems <= 0);
             showMessageConsole(
                 preamble + ";Received commands list with [" + commandsList.size() + "] methods");
             LinkedList<SimulatorDeviceData> devicesList = new LinkedList<>();// (LinkedList<CommandDescriptor>)

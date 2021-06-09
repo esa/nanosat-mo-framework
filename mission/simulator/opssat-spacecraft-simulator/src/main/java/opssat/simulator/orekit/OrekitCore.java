@@ -38,7 +38,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Timer;
 import java.util.TimerTask;
 import opssat.simulator.threading.SimulatorNode;
 import opssat.simulator.util.SimulatorHeader;
@@ -51,7 +50,6 @@ import org.orekit.attitudes.Attitude;
 import org.orekit.attitudes.AttitudeProvider;
 import org.orekit.attitudes.AttitudesSequence;
 import org.orekit.attitudes.CelestialBodyPointed;
-import org.orekit.attitudes.InertialProvider;
 import org.orekit.attitudes.LofOffset;
 import org.orekit.attitudes.NadirPointing;
 import org.orekit.attitudes.SpinStabilized;
@@ -1476,7 +1474,7 @@ public class OrekitCore
       @Override
       public void run() {
           stateTarget = 1;
-      };
+      }
     };
     this.stateTargetTimer.schedule(stateTargetTask, delayPeriod);
   }
@@ -1484,7 +1482,7 @@ public class OrekitCore
   public byte getStateTarget()
   {
     return stateTarget;
-  };
+  }
 
   /**
    * The database backend thread factory

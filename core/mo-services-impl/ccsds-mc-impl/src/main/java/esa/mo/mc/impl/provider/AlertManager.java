@@ -149,10 +149,7 @@ public final class AlertManager extends MCManager {
     }
 
     public boolean delete(Long objId) {
-        if (this.deleteIdentity(objId)) {
-            return true;
-        }
-        return false;
+        return this.deleteIdentity(objId);
     }
 
     public Long setGenerationEnabled(final Long identityId, final Boolean bool,
