@@ -125,18 +125,18 @@ public class AlertTest2 {
                 AlertDefinitionDetails details = null;  // TBD - look this up in list of 
                 //Severity severity = details.getSeverity();
                 //String messageToDisplay = details.getName().getValue() + " ";
-                String messageToDisplay = "<TEST-MSG>" + " ";
+                final StringBuilder messageToDisplay = new StringBuilder("<TEST-MSG>" + " ");
 
                 AttributeValueList attValues = receivedAlert.getArgumentValues();
 
                 if (attValues != null) {
                     if (attValues.size() == 1) {
-                        messageToDisplay += attValues.get(0).getValue().toString();
+                        messageToDisplay.append(attValues.get(0).getValue().toString());
                     }
                     if (attValues.size() > 1) {
                         for (int i = 0; i < attValues.size(); i++) {
                             AttributeValue attValue = attValues.get(i);
-                            messageToDisplay += "[" + i + "] " + attValue.getValue().toString() + "\n";
+                            messageToDisplay.append("[").append(i).append("] ").append(attValue.getValue().toString()).append("\n");
                         }
                     }
                 }
