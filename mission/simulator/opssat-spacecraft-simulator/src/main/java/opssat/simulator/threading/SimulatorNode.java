@@ -725,32 +725,42 @@ public class SimulatorNode extends TaskNode
       for (String test : bodyWords) {
         this.logger.log(Level.FINEST, "Processing [+" + test + "+]");
         String returnString = "";
-        if (test.equals("java.lang.String")) {
-          foundData = true;
-          returnString = "String";
-        } else if (test.equals("byte[]")) {
-          foundData = true;
-          returnString = "byte[]";
-        } else if (test.equals("float")) {
-          foundData = true;
-          returnString = "float";
-        } else if (test.equals("void")) {
-          foundData = true;
-          returnString = "void";
-        } else if (test.equals("double")) {
-          foundData = true;
-          returnString = "double";
-        } else if (test.equals("double[]")) {
-          foundData = true;
-          returnString = "double[]";
-        } else if (test.equals("int")) {
-          foundData = true;
-          returnString = "int";
-        } else if (test.equals("long")) {
-          foundData = true;
-          returnString = "long";
-        } else {
-          foundData = false;
+        switch (test) {
+          case "java.lang.String":
+            foundData = true;
+            returnString = "String";
+            break;
+          case "byte[]":
+            foundData = true;
+            returnString = "byte[]";
+            break;
+          case "float":
+            foundData = true;
+            returnString = "float";
+            break;
+          case "void":
+            foundData = true;
+            returnString = "void";
+            break;
+          case "double":
+            foundData = true;
+            returnString = "double";
+            break;
+          case "double[]":
+            foundData = true;
+            returnString = "double[]";
+            break;
+          case "int":
+            foundData = true;
+            returnString = "int";
+            break;
+          case "long":
+            foundData = true;
+            returnString = "long";
+            break;
+          default:
+            foundData = false;
+            break;
         }
         j++;
         if (foundData) {
@@ -938,6 +948,7 @@ public class SimulatorNode extends TaskNode
       try {
         BufferedReader in = new BufferedReader(new FileReader(headerFile.getAbsolutePath()));
         String line;
+        label:
         while ((line = in.readLine()) != null) {
 
           List<String> items = Arrays.asList(line.split("="));
@@ -953,55 +964,71 @@ public class SimulatorNode extends TaskNode
             fieldName = items.get(0);
             fieldValue = items.get(1);
 
-            if (fieldName.equals("startModels")) {
-              simulatorHeader.setAutoStartSystem(Boolean.parseBoolean(fieldValue));
-            } else if (fieldName.equals("startTime")) {
-              simulatorHeader.setAutoStartTime(Boolean.parseBoolean(fieldValue));
-            } else if (fieldName.equals("timeFactor")) {
-              int newTimeFactor = Integer.parseInt(fieldValue);
-              if (simulatorHeader.validateTimeFactor(newTimeFactor)) {
-                simulatorHeader.setTimeFactor(newTimeFactor);
-              } else {
-                this.logger.log(Level.SEVERE, "Read from header file: timeFactor is invalid!");
-                dataOk = false;
+            switch (fieldName) {
+              case "startModels":
+                simulatorHeader.setAutoStartSystem(Boolean.parseBoolean(fieldValue));
+                break;
+              case "startTime":
+                simulatorHeader.setAutoStartTime(Boolean.parseBoolean(fieldValue));
+                break;
+              case "timeFactor":
+                int newTimeFactor = Integer.parseInt(fieldValue);
+                if (simulatorHeader.validateTimeFactor(newTimeFactor)) {
+                  simulatorHeader.setTimeFactor(newTimeFactor);
+                } else {
+                  this.logger.log(Level.SEVERE, "Read from header file: timeFactor is invalid!");
+                  dataOk = false;
+                  break label;
+                }
+                break;
+              case "startDate":
+                Date startDate = simulatorHeader.parseStringIntoDate(fieldValue);
+                if (startDate != null) {
+                  simulatorHeader.setStartDate(startDate);
+                } else {
+                  this.logger.log(Level.SEVERE, "Read from header file: startDate is invalid!");
+                  dataOk = false;
+                  break label;
+                }
+                break;
+              case "endDate":
+                Date endDate = simulatorHeader.parseStringIntoDate(fieldValue);
+                if (endDate != null) {
+                  simulatorHeader.setEndDate(endDate);
+                } else {
+                  this.logger.log(Level.SEVERE, "Read from header file: endDate is invalid!");
+                  dataOk = false;
+                  break label;
+                }
+                break;
+              case "keplerElements":
+                simulatorHeader.setKeplerElements(String.valueOf(fieldValue));
+                break;
+              case "orekit":
+                simulatorHeader.setUseOrekitPropagator(Boolean.parseBoolean(fieldValue));
+                break;
+              case "orekitPropagator":
+                simulatorHeader.setOrekitPropagator(String.valueOf(fieldValue));
+                break;
+              case "orekitTLE1": {
+                String tempResult = String.valueOf(fieldValue);
+                simulatorHeader.setOrekitTLE1(tempResult.substring(1, tempResult.length() - 1));
                 break;
               }
-            } else if (fieldName.equals("startDate")) {
-              Date startDate = simulatorHeader.parseStringIntoDate(fieldValue);
-              if (startDate != null) {
-                simulatorHeader.setStartDate(startDate);
-              } else {
-                this.logger.log(Level.SEVERE, "Read from header file: startDate is invalid!");
-                dataOk = false;
+              case "orekitTLE2": {
+                String tempResult = String.valueOf(fieldValue);
+                simulatorHeader.setOrekitTLE2(tempResult.substring(1, tempResult.length() - 1));
                 break;
               }
-            } else if (fieldName.equals("endDate")) {
-              Date endDate = simulatorHeader.parseStringIntoDate(fieldValue);
-              if (endDate != null) {
-                simulatorHeader.setEndDate(endDate);
-              } else {
-                this.logger.log(Level.SEVERE, "Read from header file: endDate is invalid!");
-                dataOk = false;
+              case "celestia":
+                simulatorHeader.setUseCelestia(Boolean.parseBoolean(fieldValue));
                 break;
-              }
-            } else if (fieldName.equals("keplerElements")) {
-              simulatorHeader.setKeplerElements(String.valueOf(fieldValue));
-            } else if (fieldName.equals("orekit")) {
-              simulatorHeader.setUseOrekitPropagator(Boolean.parseBoolean(fieldValue));
-            } else if (fieldName.equals("orekitPropagator")) {
-              simulatorHeader.setOrekitPropagator(String.valueOf(fieldValue));
-            } else if (fieldName.equals("orekitTLE1")) {
-              String tempResult = String.valueOf(fieldValue);
-              simulatorHeader.setOrekitTLE1(tempResult.substring(1, tempResult.length() - 1));
-            } else if (fieldName.equals("orekitTLE2")) {
-              String tempResult = String.valueOf(fieldValue);
-              simulatorHeader.setOrekitTLE2(tempResult.substring(1, tempResult.length() - 1));
-            } else if (fieldName.equals("celestia")) {
-              simulatorHeader.setUseCelestia(Boolean.parseBoolean(fieldValue));
-            } else if (fieldName.equals("celestiaPort")) {
-              simulatorHeader.setCelestiaPort(Integer.parseInt(fieldValue));
-            } else if (fieldName.equals("updateFromInternet")) {
-              simulatorHeader.setUpdateInternet(Boolean.parseBoolean(fieldValue));
+              case "celestiaPort":
+                simulatorHeader.setCelestiaPort(Integer.parseInt(fieldValue));
+                break;
+              case "updateFromInternet":
+                simulatorHeader.setUpdateInternet(Boolean.parseBoolean(fieldValue));
+                break;
             }
           }
           // validate start is before after
