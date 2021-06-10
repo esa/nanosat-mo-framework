@@ -21,15 +21,9 @@
 package esa.mo.nmf.nanosatmosupervisor.parameter;
 
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter;
-
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.*;
@@ -51,40 +45,9 @@ public class ParameterLister {
   private static final Logger LOGGER = Logger.getLogger(MCSupervisorBasicAdapter.class.getName());
 
   /**
-   * Tag to read elements
-   */
-  private static final String TAG_PARAMETER = "parameter";
-
-  /**
-   * XML attribute name
-   */
-  private static final String ATTRIBUTE_NAME = "name";
-
-  /**
-   * XML attribute name
-   */
-  private static final String ATTRIBUTE_TYPE = "attributeType";
-
-  /**
-   * XML attribute name
-   */
-  private static final String ATTRIBUTE_DESCRIPTION = "description";
-
-  /**
-   * XML attribute name
-   */
-  private static final String ATTRIBUTE_ID = "id";
-
-  /**
-   * XML attribute name
-   */
-  private static final String ATTRIBUTE_UNIT = "unit";
-
-  /**
    * The map of OBSW parameters defined in datapool so they can be accessed by parameter name.
    */
   private final HashMap<Identifier, OBSWParameter> parameterMap;
-
 
   /**
    * Initializes this object using the contents of the provided datapool XML file.
@@ -95,7 +58,7 @@ public class ParameterLister {
    * @throws IOException
    */
   public ParameterLister(InputStream datapool)
-          throws ParserConfigurationException, SAXException, IOException, JAXBException, XMLStreamException {
+      throws IOException, JAXBException, XMLStreamException {
     LOGGER.log(Level.INFO, "Loading OBSW parameters from datapool");
     this.parameterMap = readParameters(datapool);
   }
@@ -120,22 +83,25 @@ public class ParameterLister {
    * @throws ParserConfigurationException
    */
   private HashMap<Identifier, OBSWParameter> readParameters(InputStream datapool)
-          throws IOException, SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
+      throws IOException, JAXBException, XMLStreamException {
     HashMap<Identifier, OBSWParameter> map = new HashMap<>();
 
     XMLInputFactory xif = XMLInputFactory.newFactory();
     XMLStreamReader xsr = xif.createXMLStreamReader(datapool);
-    xsr.nextTag();
-    while(!xsr.getLocalName().equals("parameter")) {
-      xsr.nextTag();
-    }
 
     JAXBContext jc = JAXBContext.newInstance(OBSWParameter.class);
     Unmarshaller unmarshaller = jc.createUnmarshaller();
-    OBSWParameter parameter = unmarshaller.unmarshal(xsr, OBSWParameter.class).getValue();
-    xsr.close();
 
-    map.put(new Identifier(parameter.getName()), parameter);
+    xsr.nextTag();
+    while (xsr.hasNext()) {
+      xsr.next();
+
+      if (xsr.isStartElement() && xsr.getLocalName().equals("parameter")) {
+        OBSWParameter parameter = unmarshaller.unmarshal(xsr, OBSWParameter.class).getValue();
+        map.put(new Identifier(parameter.getName()), parameter);
+      }
+    }
+    xsr.close();
 
     return map;
   }
