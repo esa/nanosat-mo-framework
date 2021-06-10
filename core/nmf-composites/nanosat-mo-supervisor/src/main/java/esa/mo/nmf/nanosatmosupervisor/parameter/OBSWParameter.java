@@ -23,7 +23,6 @@ package esa.mo.nmf.nanosatmosupervisor.parameter;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Holds the information for an OBSW parameter defined in the datapool XML file.
@@ -57,12 +56,6 @@ public class OBSWParameter {
   private final String type;
 
   /**
-   * Parameter unit (rawUnit field of the ParameterDefinitionDetails)
-   */
-  @XmlAttribute
-  private final String unit;
-
-  /**
    * The OBSW aggregation that includes this parameter.
    */
   private OBSWAggregation aggregation;
@@ -73,7 +66,6 @@ public class OBSWParameter {
     this.name = null;
     this.description = null;
     this.type = null;
-    this.unit = null;
   }
 
   /**
@@ -83,15 +75,13 @@ public class OBSWParameter {
    * @param name
    * @param description
    * @param type
-   * @param unit
    */
-  public OBSWParameter(Long id, String name, String description, String type, String unit) {
+  public OBSWParameter(Long id, String name, String description, String type) {
     super();
     this.id = id;
     this.name = name;
     this.description = description;
     this.type = type;
-    this.unit = unit;
   }
 
   /**
@@ -110,15 +100,6 @@ public class OBSWParameter {
    */
   public String getDescription() {
     return description;
-  }
-
-  /**
-   * Returns the unit.
-   *
-   * @return The unit.
-   */
-  public String getUnit() {
-    return unit;
   }
 
   /**
@@ -162,7 +143,7 @@ public class OBSWParameter {
    */
   @Override
   public String toString() {
-    return String.format("OBSWParameter[id=%s, name=%s, description=%s, type=%s, unit=%s]", id,
-        name, description, type, unit);
+    return String.format("OBSWParameter[id=%s, name=%s, description=%s, type=%s]", id, name,
+        description, type);
   }
 }

@@ -30,9 +30,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
-
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -40,7 +38,6 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
-import org.xml.sax.SAXException;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
 
@@ -77,7 +74,7 @@ public class OBSWParameterManager {
   private OBSWParameterValuesProvider valuesProvider;
 
   public OBSWParameterManager(InputStream datapool)
-          throws ParserConfigurationException, SAXException, IOException, JAXBException, XMLStreamException {
+      throws IOException, JAXBException, XMLStreamException {
     // Read from provided inputstreams
     parameterLister = new ParameterLister(datapool);
 

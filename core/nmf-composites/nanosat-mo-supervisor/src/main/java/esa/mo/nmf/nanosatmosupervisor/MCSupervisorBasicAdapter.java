@@ -28,9 +28,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
-
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
@@ -38,7 +36,6 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
-import org.xml.sax.SAXException;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -116,7 +113,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     try {
       obswParameterManager = new OBSWParameterManager(getClass().getClassLoader().getResourceAsStream("Datapool.xml"));
       obswParameterManager.registerParametersProxies(registrationObject);
-    } catch (ParserConfigurationException | SAXException | IOException | JAXBException | XMLStreamException e) {
+    } catch (IOException | JAXBException | XMLStreamException e) {
       LOGGER.log(Level.SEVERE, "Couldn't register OBSW parameters proxies", e);
     }
   }
