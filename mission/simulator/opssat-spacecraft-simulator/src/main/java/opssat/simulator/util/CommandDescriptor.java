@@ -149,50 +149,74 @@ public class CommandDescriptor implements Serializable {
         String[] splitArgs = s.split(" ");
 
         this.logger.log(Level.ALL, "arg type [" + splitArgs[0] + "]");
-        if (splitArgs[0].equals("byte")) {
-          byte data = 0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("long")) {
-          long data = 0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("int")) {
-          int data = 0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("String")) {
-          String data = "String";
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("byte[]")) {
-          byte[] data = new byte[] { (byte) 0x00, 0x00 };
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("float")) {
-          float data = (float) 0.0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("int[]")) {
-          int[] data = new int[] { 0, 0 };
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("long[]")) {
-          long[] data = new long[] { 0, 0 };
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("double")) {
-          double data = 0.0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("double[]")) {
-          double[] data = new double[] { 0, 0 };
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("float[]")) {
-          float[] data = new float[] { (float) 0.0, (float) 0.0 };// (float) 0.0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
+        switch (splitArgs[0]) {
+          case "byte": {
+            byte data = 0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "long": {
+            long data = 0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "int": {
+            int data = 0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "String": {
+            String data = "String";
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "byte[]": {
+            byte[] data = new byte[]{(byte) 0x00, 0x00};
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "float": {
+            float data = (float) 0.0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "int[]": {
+            int[] data = new int[]{0, 0};
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "long[]": {
+            long[] data = new long[]{0, 0};
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "double": {
+            double data = 0.0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "double[]": {
+            double[] data = new double[]{0, 0};
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "float[]": {
+            float[] data = new float[]{(float) 0.0, (float) 0.0};// (float) 0.0;
+
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
         }
       }
     }
