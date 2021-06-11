@@ -276,6 +276,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         for (Long funcObjInstId : funcObjInstIds) {
             if (funcObjInstId == 0) { //requirement: 3.6.7.2.b
                 foundStatFuncWildcard = true;
+                break;
             }
         }
 
