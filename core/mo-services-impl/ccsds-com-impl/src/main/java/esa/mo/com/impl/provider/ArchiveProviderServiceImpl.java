@@ -292,9 +292,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
                             perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
                         }
-                    } catch (SecurityException ex) {
-                        invIndexList.add(new UInteger(index));
-                    } catch (IllegalArgumentException ex) {
+                    } catch (SecurityException | IllegalArgumentException ex) {
                         invIndexList.add(new UInteger(index));
                     }
                 }
@@ -467,9 +465,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
                             perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
                         }
-                    } catch (SecurityException ex) {
-                        invIndexList.add(new UInteger(index));
-                    } catch (IllegalArgumentException ex) {
+                    } catch (SecurityException | IllegalArgumentException ex) {
                         invIndexList.add(new UInteger(index));
                     }
                 }

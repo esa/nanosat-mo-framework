@@ -158,10 +158,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
 
                     // Publish event: Success with the objId of the Configuration stored
                     this.publishConfigurationStoredSuccess(objId, updateHeaderList.get(i).getKey().getThirdSubKey());
-                } catch (MALException ex) {
-                    // Publish event: Failure with the objId of the Configuration stored
-                    this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
-                } catch (MALInteractionException ex) {
+                } catch (MALException | MALInteractionException ex) {
                     // Publish event: Failure with the objId of the Configuration stored
                     this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
                 }

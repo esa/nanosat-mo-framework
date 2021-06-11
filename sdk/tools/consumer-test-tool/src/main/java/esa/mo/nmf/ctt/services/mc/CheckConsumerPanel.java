@@ -405,9 +405,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeCheck(longlist);
             checkDefsTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefButtonActionPerformed
@@ -426,11 +424,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             }
                     
             checkDefsTable.refreshTableWithIds(objIds, serviceMCCheck.getConnectionDetails().getDomain(), objTypeCheckDefinition);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -447,9 +441,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeCheck(longlist);
             checkDefsTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefAllButtonActionPerformed
@@ -492,12 +484,10 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_enableCheckAllButtonActionPerformed
 
     private void enableCheckButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableCheckButtonActionPerformed
@@ -520,9 +510,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableCheckButtonActionPerformed
@@ -596,9 +584,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeParameterCheck(longlist);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 

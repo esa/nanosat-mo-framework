@@ -114,11 +114,7 @@ public class MCServicesConsumer {
             if (details != null) {
                 aggregationService = new AggregationConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
-        } catch (MALException ex) {
-            Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

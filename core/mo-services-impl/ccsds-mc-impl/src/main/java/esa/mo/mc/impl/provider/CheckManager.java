@@ -269,9 +269,6 @@ public final class CheckManager extends CheckLinksManager {
                         null);
                 newIdPair = new ObjectInstancePair(identityId, actDefIds.get(0));
 
-            } catch (MALException ex) {
-                Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
             } catch (MALInteractionException ex) {
                 Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -309,8 +306,6 @@ public final class CheckManager extends CheckLinksManager {
                         defs,
                         null);
                 actDefId = actDefIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
@@ -349,9 +344,7 @@ public final class CheckManager extends CheckLinksManager {
                     null);
             newCheckLinkDefId = checkLinkDefIds.get(0);
 
-        } catch (MALException ex) {
-            Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -392,9 +385,7 @@ public final class CheckManager extends CheckLinksManager {
                         null);
                 checkLinkDefId = checkLinkDefIds.get(0);
 
-            } catch (MALException ex) {
-                Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

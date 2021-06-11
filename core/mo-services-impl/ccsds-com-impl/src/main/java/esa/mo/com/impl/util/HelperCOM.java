@@ -407,9 +407,7 @@ public class HelperCOM {
 //                            obj = ((Enumeration) obj).getNumericValue();
                 }
             }
-        } catch (IllegalArgumentException ex) {
-            throw new NoSuchFieldException();
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             throw new NoSuchFieldException();
         }
 

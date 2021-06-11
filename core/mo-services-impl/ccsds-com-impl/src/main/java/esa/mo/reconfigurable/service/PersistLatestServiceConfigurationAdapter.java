@@ -150,9 +150,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                             ConfigurationProviderSingleton.getNetwork(), new URI(""), defaultObjId),
                     serviceKeyList,
                     null);
-        } catch (MALException ex) {
-            Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -25,6 +25,7 @@ package opssat.simulator.tcp;
  *
  * @author Cezar Suteu
  */
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -250,16 +251,12 @@ public class MultiThreadedSocketServer extends Thread {
           try {
             // read incoming stream
             clientCommand = in.readObject();
-          } catch (java.io.EOFException ex) {
-            logger.log(Level.INFO,
-                "Disconnected Client Address - " + myClientSocket.getInetAddress().getHostName());
-            m_bRunThread = false;
-          } catch (SocketException ex) {
+          } catch (EOFException | SocketException ex) {
             logger.log(Level.INFO,
                 "Disconnected Client Address - " + myClientSocket.getInetAddress().getHostName());
             m_bRunThread = false;
           }
-          if (clientCommand != null) {
+            if (clientCommand != null) {
             if (clientCommand instanceof Integer) {
               ;
             } else {

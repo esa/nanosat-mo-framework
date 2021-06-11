@@ -586,9 +586,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 //            InstanceBooleanPairList ids = new InstanceBooleanPairList();
 //            ids.add(new InstanceBooleanPair(identityId, true));
 //            this.enableGeneration(true, ids, interaction); // Enable the reporting for this Alert Definition
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return identityId;

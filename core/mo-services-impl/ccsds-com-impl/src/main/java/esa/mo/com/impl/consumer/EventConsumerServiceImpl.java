@@ -113,9 +113,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
                 subs = new SubscriptionList();
                 tmConsumer.close();
-            } catch (MALException ex) {
-                Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -183,9 +181,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         try {  // Register with the subscription key provided
             this.getEventStub().monitorEventRegister(subscription, new EventReceivedAdapter());
             subs.add(subscription);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

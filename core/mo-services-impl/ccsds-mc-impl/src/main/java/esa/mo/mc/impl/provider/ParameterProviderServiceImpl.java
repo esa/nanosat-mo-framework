@@ -989,10 +989,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     try {
                         ObjectInstancePairList returnedObjIds = this.addParameter(pDefCreationReqs, null); // Enable the reporting for this Alert Definition 
                         objId = returnedObjIds.get(0);
-                    } catch (MALInteractionException ex) {
-                        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                        return false;
-                    } catch (MALException ex) {
+                    } catch (MALInteractionException | MALException ex) {
                         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     }
@@ -1068,15 +1065,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
             publisher.publish(hdrlst, objectIdlst, pVallst);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
-            return false;
-        } catch (MALInteractionException ex) {
+        } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
             return false;
@@ -1103,10 +1092,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1);
             parameters.add(new ParameterInstance(name, parameterValue, null, HelperTime.getTimestampMillis()));
             this.pushMultipleParameterValues(parameters);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during publishing process on the provider {0}", ex);
-        } catch (MALInteractionException ex) {
+        } catch (IllegalArgumentException | MALInteractionException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         }

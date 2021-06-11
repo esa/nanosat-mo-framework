@@ -115,8 +115,6 @@ public class NMFPackageCreator {
             ReceiptVersion2.writeReceipt(bw, descriptor);
             bw.flush();
             sigfos.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
         }

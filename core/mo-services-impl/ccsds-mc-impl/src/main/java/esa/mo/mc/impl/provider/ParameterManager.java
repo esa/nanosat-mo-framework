@@ -190,9 +190,7 @@ public class ParameterManager extends MCManager
         if (objIds.size() == 1) {
           return objIds.get(0);
         }
-      } catch (MALException ex) {
-        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (MALInteractionException ex) {
+      } catch (MALException | MALInteractionException ex) {
         Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
       }
       return null;
@@ -242,9 +240,7 @@ public class ParameterManager extends MCManager
         if (objIds.size() == pVals.size()) {
           return objIds;
         }
-      } catch (MALException ex) {
-        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (MALInteractionException ex) {
+      } catch (MALException | MALInteractionException ex) {
         Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
@@ -543,10 +539,7 @@ public class ParameterManager extends MCManager
         //add to providers local list
         newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
 
-      } catch (MALException ex) {
-        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-        return null;
-      } catch (MALInteractionException ex) {
+      } catch (MALException | MALInteractionException ex) {
         Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         return null;
       }
@@ -592,9 +585,7 @@ public class ParameterManager extends MCManager
 
         newDefId = defIds.get(0);
 
-      } catch (MALException ex) {
-        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (MALInteractionException ex) {
+      } catch (MALException | MALInteractionException ex) {
         Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
@@ -685,8 +676,7 @@ public class ParameterManager extends MCManager
       if (cla == ParameterStatusListener.class) {
         Boolean setSuccessful = parametersMonitoring.onSetValue(newRawValues);
       }
-    } catch (NoSuchMethodException ex) {
-    } catch (SecurityException ex) {
+    } catch (NoSuchMethodException | SecurityException ex) {
     }
     // else use old procedure:
 

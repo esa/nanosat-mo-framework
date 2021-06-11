@@ -608,9 +608,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                             rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef.getRawUnit(),
                             Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()}
                 );
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -627,9 +625,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                             Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()}
                 );
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

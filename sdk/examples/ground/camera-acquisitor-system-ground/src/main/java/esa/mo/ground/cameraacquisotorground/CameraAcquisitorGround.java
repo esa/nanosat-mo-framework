@@ -458,14 +458,11 @@ public class CameraAcquisitorGround
       lastTLEUpdate = Instant.now();
       cachedTLE = new TLE(line1, line2);
       return cachedTLE;
-    } catch (MalformedURLException ex) {
-      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, "loadTLE {0}",
-          ex.getMessage());
     } catch (IOException ex) {
       Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, "loadTLE {0}",
           ex.getMessage());
     }
-    return null;
+      return null;
   }
 
   /**

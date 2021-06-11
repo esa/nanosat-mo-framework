@@ -66,9 +66,7 @@ public class ClosingAppListener extends EventReceivedListener {
 
             try { // Send update to consumer stating that the app is stopped
                 interaction.sendUpdate(objId);
-            } catch (MALInteractionException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
 

@@ -128,9 +128,7 @@ public class CheckLinkMonitorManager {
     private synchronized void registerForCheckTranisitionEvents() {
         try {
             eventService.monitorEventRegister(subscriptionKeys(new Identifier("AllCheckTransitions"), new Identifier("4"), 0L, 0L, 0L), adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -143,9 +141,7 @@ public class CheckLinkMonitorManager {
             IdentifierList subIdentifiers = new IdentifierList();
             subIdentifiers.add(new Identifier("AllCheckTransitions"));
             eventService.monitorEventDeregister(subIdentifiers);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
