@@ -314,7 +314,7 @@ public class ArchiveManager {
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         final int domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
-        final ArrayList<COMObjectEntity> newObjs = new ArrayList<COMObjectEntity>();
+        final ArrayList<COMObjectEntity> newObjs = new ArrayList<>();
         final LongList objIds = new LongList();
 
         // Generate the object Ids if needed and the persistence objects to be stored
@@ -365,7 +365,7 @@ public class ArchiveManager {
         final ArrayList<COMObjectEntity> perObjs = this.queryCOMObjectEntity(objType, archiveQuery, filter);
 
         // Convert COMObjectEntity to ArchivePersistenceObject
-        final ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>(perObjs.size());
+        final ArrayList<ArchivePersistenceObject> outs = new ArrayList<>(perObjs.size());
         IdentifierList domain;
 
         for (COMObjectEntity perObj : perObjs) {
@@ -422,7 +422,7 @@ public class ArchiveManager {
 
         // Cycle the Filters
         for (CompositeFilter compositeFilter : compositeFilterList) {
-            tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
+            tmpPerObjs = new ArrayList<>();
 
             if (compositeFilter == null) {
                 continue;

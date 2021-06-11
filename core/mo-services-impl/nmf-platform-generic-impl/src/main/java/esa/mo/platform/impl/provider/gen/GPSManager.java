@@ -51,7 +51,7 @@ public final class GPSManager extends DefinitionsManager {
     public GPSManager(COMServicesProvider comServices){
         super(comServices);
 
-        this.previousIsInsideStatus = new HashMap<Long, Boolean>();
+        this.previousIsInsideStatus = new HashMap<>();
         
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)

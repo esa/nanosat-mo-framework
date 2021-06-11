@@ -43,7 +43,7 @@ super(simulatorNode,name);
     @Override
     @InternalData (internalID=6001,commandIDs={"",""},argNames={"cmdID","data"})
     public byte[] runRawCommand(int cmdID,byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(6001,argObject);
@@ -52,7 +52,7 @@ super(simulatorNode,name);
     @Override
     @InternalData (internalID=6002,commandIDs={"",""},argNames={"fileName"})
     public void simPreloadFile(String fileName) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(fileName);
         super.getSimulatorNode().runGenericMethod(6002,argObject);
     }
@@ -60,7 +60,7 @@ super(simulatorNode,name);
     @Override
     @InternalData (internalID=6003,commandIDs={"",""},argNames={"numberSamples"})
     public double[] readFromBuffer(int numberSamples) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(numberSamples);
         return (double[]) super.getSimulatorNode().runGenericMethod(6003,argObject);
     }

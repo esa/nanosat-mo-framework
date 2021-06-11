@@ -75,8 +75,8 @@ public class MultiThreadedSocketServer extends Thread {
     this.listenURL = listenURL;
     this.parent = centralNode;
     this.listenPort = listenPort;
-    this.clientSockets = new LinkedList<ClientServiceThreadSender>();
-    this.hMapManualCommandsList = new HashMap<ClientServiceThreadSender, LinkedList<String>>();
+    this.clientSockets = new LinkedList<>();
+    this.hMapManualCommandsList = new HashMap<>();
 
   }
 
@@ -223,8 +223,8 @@ public class MultiThreadedSocketServer extends Thread {
       this.parent = parent;
       this.logger = parent.getLogger();
       logger.log(Level.FINE, "Created ClientServiceThreadReceiver");
-      toClient = new ConcurrentLinkedQueue<Object>();
-      listCommands = new LinkedList<String>();
+      toClient = new ConcurrentLinkedQueue<>();
+      listCommands = new LinkedList<>();
     }
 
     public void run() {
@@ -351,7 +351,7 @@ public class MultiThreadedSocketServer extends Thread {
       this.parent = parent;
       this.logger = parent.getLogger();
       logger.log(Level.FINE, "Created ClientServiceThread");
-      toClient = new ConcurrentLinkedQueue<Object>();
+      toClient = new ConcurrentLinkedQueue<>();
       toClient.add("PWD:" + System.getProperty("user.dir"));
     }
 

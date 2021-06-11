@@ -66,7 +66,7 @@ public final class ActionManager extends MCManager {
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private Long uniqueObjIdAIns;
     private final ActionInvocationListener actions;
-    private final HashMap<Long, ActionInstanceDetails> actionInstances = new HashMap<Long, ActionInstanceDetails>();
+    private final HashMap<Long, ActionInstanceDetails> actionInstances = new HashMap<>();
 
     private final static int MINIMUM_THREADS_IN_POOL = 2;
     private final static int MAXIMUM_THREADS_IN_POOL = 100;
@@ -75,7 +75,7 @@ public final class ActionManager extends MCManager {
 
     private final ExecutorService actionsExecutor = new ThreadPoolExecutor(MINIMUM_THREADS_IN_POOL,
             MAXIMUM_THREADS_IN_POOL, KEEP_ALIVE_TIME_THREADS_IN_POOL, TimeUnit.SECONDS,
-            new ArrayBlockingQueue<Runnable>(MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true),
+            new ArrayBlockingQueue<>(MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true),
             new ActionThreadFactory("ActionsExecutor"));
 
     public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {

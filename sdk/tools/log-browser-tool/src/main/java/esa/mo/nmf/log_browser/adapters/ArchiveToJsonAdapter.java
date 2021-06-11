@@ -222,7 +222,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
       providerURI = archiveDetails.getProvider().getValue();
 
       // pair MAL object ot its MAL type name
-      this.object = new HashMap<String, Object>();
+      this.object = new HashMap<>();
       if (object != null) {
         this.object.put(object.getClass().getName(), object);
       }

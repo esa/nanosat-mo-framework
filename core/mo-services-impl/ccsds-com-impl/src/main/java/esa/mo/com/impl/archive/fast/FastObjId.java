@@ -38,11 +38,11 @@ public class FastObjId {
 
     public FastObjId(final DatabaseBackend dbBackend) {
         this.dbBackend = dbBackend;
-        this.fastID = new HashMap<Key, Long>();
+        this.fastID = new HashMap<>();
     }
 
     public synchronized void resetFastIDs() {
-        this.fastID = new HashMap<Key, Long>();
+        this.fastID = new HashMap<>();
     }
 
     private Long newUniqueID(final Integer objectTypeId, final Integer domain) {

@@ -952,7 +952,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicCheckingManager() {
-            sampleTimerList = new HashMap<Long, TaskScheduler>();
+            sampleTimerList = new HashMap<>();
 
         }
 
@@ -1049,7 +1049,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingMaxManager() {
-            updateTimerList = new HashMap<Long, TaskScheduler>();
+            updateTimerList = new HashMap<>();
         }
 
         public void refreshAll() {

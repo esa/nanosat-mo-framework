@@ -37,7 +37,7 @@ super(simulatorNode,name);
     @Override
     @InternalData (internalID=9001,commandIDs={"",""},argNames={"cmdID","data"})
     public byte[] runRawCommand(int cmdID,byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(9001,argObject);

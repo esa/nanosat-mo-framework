@@ -76,7 +76,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     protected long startTime;
 
     protected PersistProviderConfiguration providerConfiguration;
-    protected final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<ReconfigurableService>();
+    protected final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<>();
 
     /**
      * Initializes the NMF provider using a monitoring and control adapter that
@@ -164,7 +164,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
 
         ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null, null);
-        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1); // We just add 1 element
+        ArrayList<ParameterInstance> parameters = new ArrayList<>(1); // We just add 1 element
         parameters.add(instance);
 
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);

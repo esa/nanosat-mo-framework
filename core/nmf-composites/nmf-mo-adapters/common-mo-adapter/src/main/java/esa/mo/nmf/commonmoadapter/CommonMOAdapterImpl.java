@@ -298,7 +298,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
           for (int i = 0; i < lUpdateHeaderList.size(); i++) {
 
             if (listener instanceof SimpleAggregationReceivedListener) {
-              List<ParameterInstance> parameterInstances = new LinkedList<ParameterInstance>();
+              List<ParameterInstance> parameterInstances = new LinkedList<>();
 
               AggregationValue aggregationValue = lAggregationValueList.get(i);
 

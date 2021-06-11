@@ -82,11 +82,11 @@ public final class AggregationManager extends MCManager {
         super(comServices);
         this.parameterManager = parameterManager;
 
-        this.isFilterTriggered = new HashMap<Long, Boolean>();
-        this.periodicAggregationValuesLast = new HashMap<Long, AggregationValue>();
-        this.periodicAggregationValuesCurrent = new HashMap<Long, AggregationValue>();
-        this.latestSampleTimeList = new HashMap<Long, TimeList>();
-        this.sampleCountList = new HashMap<Long, ArrayList<Integer>>();
+        this.isFilterTriggered = new HashMap<>();
+        this.periodicAggregationValuesLast = new HashMap<>();
+        this.periodicAggregationValuesCurrent = new HashMap<>();
+        this.latestSampleTimeList = new HashMap<>();
+        this.sampleCountList = new HashMap<>();
 
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdIdentity = 0L; // The zeroth value will not be used (reserved for the wildcard)
@@ -114,7 +114,7 @@ public final class AggregationManager extends MCManager {
             //initialize timList with the amount of parameterSets
             //final int parameterSetsCount = getAggregationDefinition(identityId).getParameterSets().size();
             latestSampleTimeList.put(identityId, new TimeList());
-            sampleCountList.put(identityId, new ArrayList<Integer>());
+            sampleCountList.put(identityId, new ArrayList<>());
 
             this.populateAggregationValues(identityId);
         }

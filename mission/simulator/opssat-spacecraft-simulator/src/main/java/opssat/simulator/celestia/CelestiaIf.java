@@ -158,7 +158,7 @@ public class CelestiaIf implements Runnable {
      */
     private void init() {
 
-        this.SPACECRAFT_ID = new ArrayList<String>();
+        this.SPACECRAFT_ID = new ArrayList<>();
 
         if (MISSION_ID.equals("OPS-SAT")) {
             this.SPACECRAFT_ID.add("OPSSAT");

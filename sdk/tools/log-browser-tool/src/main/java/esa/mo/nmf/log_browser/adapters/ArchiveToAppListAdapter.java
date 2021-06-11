@@ -71,7 +71,7 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
    * List of App instance ids that are the source of logs object (StandardOutput and StandardError
    * events)
    */
-  private ArrayList<Long> sourceAppInstanceIds = new ArrayList<Long>();
+  private ArrayList<Long> sourceAppInstanceIds = new ArrayList<>();
 
   /**
    * SoftwareManagement.AppsLaunch.App object type
@@ -81,12 +81,12 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
   /**
    * Maps of App instance id to their AppDetails object.
    */
-  private HashMap<Long, AppDetails> appsDetails = new HashMap<Long, AppDetails>();
+  private HashMap<Long, AppDetails> appsDetails = new HashMap<>();
 
   /**
    * Set of App names that have logs associated to them.
    */
-  private HashSet<String> appWithLogs = new HashSet<String>();
+  private HashSet<String> appWithLogs = new HashSet<>();
 
   /**
    * Dumps an archive objects output received from an archive query answer (update or response).
@@ -193,6 +193,6 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
    * @return Returns the list of App names with logs.
    */
   public ArrayList<String> getAppWithLogs() {
-    return new ArrayList<String>(appWithLogs);
+    return new ArrayList<>(appWithLogs);
   }
 }

@@ -229,7 +229,7 @@ public class GuiSimulatorHeaderEdit {
             "Start date: ",
             "End date: "};
         ArrayList<Object> data;
-        data = new ArrayList<Object>();
+        data = new ArrayList<>();
 
         int timeFactor = simulatorHeader.getTimeFactor();
         data.add(timeFactor);
@@ -239,7 +239,7 @@ public class GuiSimulatorHeaderEdit {
         data.add(endDate);
 
         int labelsLength = labels.length;
-        final List<JTextField> textFields = new ArrayList<JTextField>();
+        final List<JTextField> textFields = new ArrayList<>();
 
         // Create and populate the panel.
         JPanel p = new JPanel();

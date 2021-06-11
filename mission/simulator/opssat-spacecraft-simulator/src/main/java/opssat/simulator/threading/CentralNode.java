@@ -51,8 +51,8 @@ public class CentralNode extends TaskNode {
   public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut,
       String name, int delay, Level logLevel, Level consoleLogLevel, ESASimulator sim) {
     super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
-    this.qFromGUI = new ConcurrentLinkedQueue<Object>();
-    this.qToCelestia = new ConcurrentLinkedQueue<Object>();
+    this.qFromGUI = new ConcurrentLinkedQueue<>();
+    this.qToCelestia = new ConcurrentLinkedQueue<>();
     this.parent = sim;
   }
 
@@ -69,8 +69,8 @@ public class CentralNode extends TaskNode {
       String listenURL, String name, int delay, Level logLevel, Level consoleLogLevel,
       ESASimulator sim) {
     super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
-    this.qFromGUI = new ConcurrentLinkedQueue<Object>();
-    this.qToCelestia = new ConcurrentLinkedQueue<Object>();
+    this.qFromGUI = new ConcurrentLinkedQueue<>();
+    this.qToCelestia = new ConcurrentLinkedQueue<>();
     super.getLogObject().log(Level.FINE, "Creating listener on URL [" + listenURL + "]..");
     this.multiThreadedSocketServer = new MultiThreadedSocketServer(listenURL, this,
         MultiThreadedSocketServer.DEFAULT_SOCKET_PORT, super.getLogObject());

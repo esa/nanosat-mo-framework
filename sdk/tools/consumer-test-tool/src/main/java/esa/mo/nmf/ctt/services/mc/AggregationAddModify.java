@@ -186,7 +186,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         thresholdValueTB.setText("");
 
         parameterSetsTableData = new DefaultTableModel();
-        parameterSetsTableData.setColumnIdentifiers(new Vector<String>(Arrays.asList(parameterSetsTableCol)));
+        parameterSetsTableData.setColumnIdentifiers(new Vector<>(Arrays.asList(parameterSetsTableCol)));
         parameterSetsTable.setModel(parameterSetsTableData);
 
         refreshParametersComboBox();

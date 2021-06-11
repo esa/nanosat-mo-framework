@@ -73,9 +73,9 @@ public abstract class MCManager {
 
     protected MCManager(COMServicesProvider comServices) {
 
-        this.identitiesToNamesMap = new HashMap<Long, Identifier>();
-        this.namesToPairsMap = new HashMap<Identifier, ObjectInstancePair>();
-        this.objIdToDefMap = new HashMap<Long, Element>();
+        this.identitiesToNamesMap = new HashMap<>();
+        this.namesToPairsMap = new HashMap<>();
+        this.objIdToDefMap = new HashMap<>();
         this.storedNamesToIdMap = null;
 
         if (comServices != null) {
@@ -438,7 +438,7 @@ public abstract class MCManager {
                     = HelperArchive.getArchiveCOMObjectList(archive, identitysObjectType, domain, identityIds);
 
             // Build the Identifier to id map
-            storedNamesToIdMap = new HashMap<Identifier, Long>();
+            storedNamesToIdMap = new HashMap<>();
 
             if (identityArchiveObjs != null) {
                 for (ArchivePersistenceObject identityArchiveObj : identityArchiveObjs) {

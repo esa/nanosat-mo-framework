@@ -34,8 +34,8 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  */
 public class COMService extends MALService
 {
-  private final Map<Integer, COMObject> objectsByNumber = new HashMap<Integer, COMObject>();
-  private final Map<String, COMObject> objectsByName = new HashMap<String, COMObject>();
+  private final Map<Integer, COMObject> objectsByNumber = new HashMap<>();
+  private final Map<String, COMObject> objectsByName = new HashMap<>();
   
   public COMService(UShort number, Identifier name)
   {
@@ -95,7 +95,7 @@ public class COMService extends MALService
    */
   public COMObject[] getObjects()
   {
-    List<COMObject> lst = new ArrayList<COMObject>(objectsByName.values());
+    List<COMObject> lst = new ArrayList<>(objectsByName.values());
     COMObject[] result = new COMObject[lst.size()];
     lst.toArray(result);
     return result;

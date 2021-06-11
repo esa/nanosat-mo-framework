@@ -96,7 +96,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
-    private static final Set<Integer> TYPES_ALLOWED_FOR_STATISTIC_EVALUATION = new HashSet<Integer>();
+    private static final Set<Integer> TYPES_ALLOWED_FOR_STATISTIC_EVALUATION = new HashSet<>();
     private MALProvider statisticServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
@@ -972,7 +972,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicSamplingManager() {
-            sampleTimerList = new HashMap<Long, TaskScheduler>();
+            sampleTimerList = new HashMap<>();
         }
 
         public void refreshAll() {
@@ -1100,7 +1100,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicCollectionManager() {
-            collectionTimerList = new HashMap<Long, TaskScheduler>();
+            collectionTimerList = new HashMap<>();
         }
 
         public void refreshAll() {
@@ -1212,7 +1212,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingManager() {
-            updateTimerList = new HashMap<Long, TaskScheduler>();
+            updateTimerList = new HashMap<>();
         }
 
         public void refreshAll() {
