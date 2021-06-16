@@ -2,6 +2,32 @@
 Taking a look at the main class
 ===============================
 In this chapter we will take a look at the behavior of the main class of our Sobel app. As said before, the main purpose of the main class (:java:type:`~esa.mo.nmf.apps.SobelApp`.java) is to setup the communication with the NMF and its services and to make sure everything is running.
+As said in the previous part, be sure to copy the snapNMF class. All that left to do is replace ``SnapNMF`` by ``SobelApp`` and ``MCSnapNMFAdapter`` by ``SobelMCAdapter`` :
+
+.. code-block:: java
+   :linenos:
+
+    public class SobelApp
+    {
+        private final NanoSatMOConnectorImpl connector;
+
+        public SobelApp()
+        {
+            SobelMCAdapter adapter = new SobelMCAdapter();
+            connector = new NanoSatMOConnectorImpl();
+            adapter.setNMF(connector);
+            connector.init(adapter);
+        }
+        /*
+        Main command line entry point.
+        @param args the command line arguments
+        @throws java.lang.Exception If there is an error
+        */
+        public static void main(final String args[]) throws Exception
+        {
+            SobelApp demo = new SobelApp();
+        }
+    }
 
 .. contents:: Table of contents
 
