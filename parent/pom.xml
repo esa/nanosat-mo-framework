@@ -69,9 +69,9 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- NMF general properties -->
     <esa.nmf.version>2.1.0-SNAPSHOT</esa.nmf.version>
-    <esa.nmf.next-version>2.1.100</esa.nmf.next-version>
+    <esa.nmf.maximum-version>2.1.100</esa.nmf.maximum-version>
     <!-- Automatically use the latest patch of each component for the current major.minor version -->
-    <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.next-version})</esa.nmf.version-qualifier>
+    <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.maximum-version}]</esa.nmf.version-qualifier>
     <!-- NMF Artifacts -->
     <esa.nmf.artifact.global.folder>${esa.nmf.artifact.global.folderpath}</esa.nmf.artifact.global.folder>
     <esa.nmf.artifact.app.folder>${esa.nmf.artifact.global.folder}/apps/${esa.nmf.artifact.app.artifactid}
