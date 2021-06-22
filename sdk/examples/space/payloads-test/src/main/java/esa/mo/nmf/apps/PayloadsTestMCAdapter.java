@@ -64,6 +64,8 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.*;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
+import org.ccsds.moims.mo.platform.gps.structures.Position;
+import org.ccsds.moims.mo.platform.gps.structures.PositionList;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
@@ -416,9 +418,22 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   public void onGetAltitude()
   {
     try {
-      GPS_Altitude =
-          nmf.getPlatformServices().getGPSService().getLastKnownPosition().getBodyElement0().getAltitude();
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+      final Semaphore sem = new Semaphore(0);
+      final PositionList pos = new PositionList();
+      class AdapterImpl extends GPSAdapter {
+
+        @Override
+        public void getPositionResponseReceived(MALMessageHeader msgHeader, Position position,
+                Map qosProperties) {
+                  pos.add(position);
+                  sem.release();
+        }
+    }
+        nmf.getPlatformServices().getGPSService().getPosition(new AdapterImpl());
+
+        sem.acquire();
+        GPS_Altitude = pos.get(0).getAltitude();
+    } catch (NMFException | IOException | MALInteractionException | MALException | InterruptedException ex){
       LOGGER.log(Level.SEVERE, null, ex);
       GPS_Altitude = null;
     }

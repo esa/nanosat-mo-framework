@@ -47,12 +47,9 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
       } else {
         return HelperGPS.gpggalong2Position(nmeaLog);
       }
-    } catch (NumberFormatException ex1) {
-      LOGGER.log(Level.SEVERE,
-          "Number format exception! The gpggalong string is: " + nmeaLog, ex1);
     } catch (IOException ex) {
       LOGGER.log(Level.FINE,
-          "The current position could not be retrieved! The receiver is likely offline.", ex);
+          "The current position could not be retrieved! The receiver is likely offline or not returning proper position.", ex);
     }
 
     return null;

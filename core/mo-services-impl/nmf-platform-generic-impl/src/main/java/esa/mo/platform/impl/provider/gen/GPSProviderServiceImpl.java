@@ -32,6 +32,7 @@ import esa.mo.platform.impl.util.PositionsCalculator;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -527,7 +528,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
       interaction.sendResponse(position, positionDeviation, velocity, velocityDeviation);
 
-    } catch (IOException e) {
+    } catch (IOException | NumberFormatException e) {
       interaction
           .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
       e.printStackTrace();
