@@ -66,6 +66,9 @@ The supervisor outputs a URI on the console. This URI follows the pattern
 ``maltcp://SOME_ADDRESS:PORT/nanosat-mo-supervisor-Directory``
 Paste this URI into the field in the **Communication Settings** tab of the CTT and click the button **Fetch information**. In the *Providers List*, the supervisor should show up. The table on the right side should list some services. Now click the button **Connect to Selected Provider** which results in a new tab appearing next to the **Communication Settings**. You now have a working connection to the supervisor and are able to start apps and check messages.
 
+.. image:: C:\Users\LIMOUZIN\Desktop\CESI\Mission ESA - Substitution\ESA\NMF/CTT_presentation.png
+   :width: 600
+
 Running and connecting to an App
 --------------------------------
 The nanosat-mo-supervisor tab offers you several sub-tabs. One of these tabs controls the **Apps Launcher Service**. By selecting this tab, you see a list of every app that is currently registered on the Supervisor.
