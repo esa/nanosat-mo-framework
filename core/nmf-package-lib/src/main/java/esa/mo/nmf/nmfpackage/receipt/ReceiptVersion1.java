@@ -70,7 +70,7 @@ public class ReceiptVersion1 {
         }
 
         final NMFPackageDetails details = new NMFPackageDetails(name, 
-                version, timestamp, "");
+                version, timestamp, "", "96m");
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
         long crc;

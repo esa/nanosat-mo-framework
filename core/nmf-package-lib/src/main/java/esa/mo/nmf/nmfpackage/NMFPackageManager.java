@@ -112,6 +112,7 @@ public class NMFPackageManager {
         NMFPackageDetails details = descriptor.getDetails();
         String mainclass = details.getMainclass();
         String appName = details.getPackageName();
+        String maxHeap = details.getMaxHeap();
 
         // This directory should be passed in the method signature:
         File installationDir = new File(nmfDir.getAbsolutePath()
@@ -148,7 +149,7 @@ public class NMFPackageManager {
             // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
             // ------------
             String jarName = appName + "-" + details.getVersion() + ".jar";
-            String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass, jarName);
+            String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass, jarName, maxHeap);
             String path = installationDir.getAbsolutePath()
                     + File.separator + "start_" + appName + ".sh";
 
