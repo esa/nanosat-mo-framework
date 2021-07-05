@@ -2351,8 +2351,8 @@ public class RegressionTest0
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position(
               "[[100, 1, -1, 10], , , [100, 1, -1, 10], ]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.NumberFormatException; message: For input string: \"10]\"");
-    } catch (java.lang.NumberFormatException e) {
+          "Expected exception of type java.lang.NumberFormatException wrapped in IOException; message: For input string: \"10]\"");
+    } catch (java.io.IOException e) {
     }
   }
 
