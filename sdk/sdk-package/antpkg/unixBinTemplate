@@ -9,9 +9,11 @@ if [ -z "$NMF_HOME" ] ; then
     NMF_HOME=@NMF_HOME@
 fi
 
-if [ -z "$JAVA_OPTS" ] ; then
-    JAVA_OPTS="-Xms32m -Xmx256m"
+if [ -z "$MAX_HEAP" ] ; then
+    MAX_HEAP=@MAX_HEAP@
 fi
+
+JAVA_OPTS="-Xms32m -Xmx$MAX_HEAP $JAVA_OPTS"
 
 LOCAL_LIB_PATH=`readlink -f lib`
 LD_LIBRARY_PATH=$LOCAL_LIB_PATH:@NMF_LIB@:$LD_LIBRARY_PATH

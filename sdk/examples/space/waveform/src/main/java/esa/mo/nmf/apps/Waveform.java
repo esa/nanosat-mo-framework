@@ -62,7 +62,7 @@ public class Waveform
   private TaskScheduler tasker = null;
   private double amplitude = 1.0;
   private double frequency = 1.0;
-  private long refresh = 100;
+  private long refresh = 1000;
   private boolean started = false;
 
   public Waveform()
@@ -240,7 +240,6 @@ public class Waveform
         while(loggers.hasMoreElements())
           sb.append("- "+loggers.nextElement()+"\n");
         Logger.getLogger(Waveform.class.getName()).log(Level.INFO, sb.toString());
-        Logger.getLogger(Waveform.class.getName()).log(Level.INFO, Logger.getLogger(Waveform.class.getName()).getLevel().toString());
         return new UInteger(0);
       }
       if (idntfr.getValue().equals("stop")) {

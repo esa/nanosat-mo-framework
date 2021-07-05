@@ -66,7 +66,10 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
      */
     @Parameter(property = "generate-nmf-package.nmfVersion", defaultValue = "${esa.nmf.version-qualifier}")
     private String nmfVersion;
-    
+
+    @Parameter(property = "generate-nmf-package.maxHeap")
+    private String maxHeap;
+
     /**
      * The set of libraries to be added to the .nmfpack
      */
@@ -111,6 +114,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         getLog().info(">> mainClass = " + mainClass);
         getLog().info(">> privilege = " + privilege);
         getLog().info(">> nmfVersion = " + nmfVersion);
+        getLog().info(">> maxHeap = " + maxHeap);
 
         if(mainClass == null){
             throw new MojoExecutionException("The mainClass property needs to be defined!\n"
@@ -126,7 +130,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         final String timestamp = HelperTime.time2readableString(time);
 
         // Package 1
-        NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainClass);
+        NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainClass, maxHeap);
         NMFPackageCreator.nmfPackageCreator(details,
                 inputFiles, locations, "target");
         // Additional libraries?

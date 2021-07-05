@@ -56,7 +56,7 @@ public class HelperNMFPackage {
         return crc.getValue();
     }
 
-    public static String generateLinuxStartAppScript(String mainclass, String jarFilename) throws IOException {
+    public static String generateLinuxStartAppScript(String mainclass, String jarFilename, String maxHeap) throws IOException {
         StringBuilder str = new StringBuilder();
         str.append("#!/bin/sh\n");
         str.append("#########################################################\n");
@@ -73,13 +73,12 @@ public class HelperNMFPackage {
         str.append("JAVA_CMD=java\n");
         str.append("MAIN_JAR_NAME=").append(jarFilename).append("\n");
         str.append("MAIN_CLASS_NAME=").append(mainclass).append("\n");
+        str.append("MAX_HEAP=").append(maxHeap).append("\n");
         // The NMF_LIB must be also hard-coded! The following code must be changed:
         str.append("NMF_LIB=").append("`cd ../../libs > /dev/null; pwd`").append("\n");
         str.append("\n");
 
-        str.append("if [ -z \"$JAVA_OPTS\" ] ; then\n");
-        str.append("    JAVA_OPTS=\"-Xms32m -Xmx256m\"\n");
-        str.append("fi\n");
+        str.append("JAVA_OPTS=\"-Xms32m -Xmx$MAX_HEAP $JAVA_OPTS\"\n");
         str.append("\n");
 
         str.append("export JAVA_OPTS\n");

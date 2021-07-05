@@ -30,13 +30,15 @@ public class NMFPackageDetails {
     private final String version;
     private final String timestamp;
     private final String mainclass;
+    private final String maxHeap;
 
     public NMFPackageDetails(final String packageName, final String version,
-            final String timestamp, final String mainclass) {
+                             final String timestamp, final String mainclass, final String maxHeap) {
         this.packageName = packageName;
         this.version = version;
         this.timestamp = timestamp;
         this.mainclass = mainclass;
+        this.maxHeap = maxHeap;
     }
 
     public String getPackageName() {
@@ -55,4 +57,5 @@ public class NMFPackageDetails {
         return mainclass;
     }
 
+    public String getMaxHeap() { return maxHeap; }
 }
