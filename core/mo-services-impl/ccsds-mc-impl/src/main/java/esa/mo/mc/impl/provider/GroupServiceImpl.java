@@ -115,8 +115,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         }
 
         //return the latest group-definitions id
-        long latestGroupDefId = groupDefsReferencingGroupIdentity.get(latestDefIndex).getInstId();
-        return latestGroupDefId;
+        return groupDefsReferencingGroupIdentity.get(latestDefIndex).getInstId();
     }
 
     /**

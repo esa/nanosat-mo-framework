@@ -76,8 +76,7 @@ public class HelperAttributes {
 
     if (in instanceof Union) {
       if (((Union) in).getTypeShortForm().equals(Union.BOOLEAN_TYPE_SHORT_FORM)) { // 2
-        double dou = ((Union) in).getBooleanValue() ? 1 : 0;
-        return dou;
+        return (double) (((Union) in).getBooleanValue() ? 1 : 0);
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.FLOAT_TYPE_SHORT_FORM)) { // 4
@@ -189,8 +188,7 @@ public class HelperAttributes {
         if (((Union) in).getBooleanValue() == null) {
           return "";
         }
-        String dou = ((Union) in).getBooleanValue() ? "true" : "false";
-        return dou;
+        return ((Union) in).getBooleanValue() ? "true" : "false";
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.FLOAT_TYPE_SHORT_FORM)) {

@@ -325,9 +325,8 @@ public class OrekitCore
     if ("kepler".equals(simulatorHeader.getOrekitPropagator())) {
       this.runningPropagator = this.kepler;
     } else if ("tle".equals(simulatorHeader.getOrekitPropagator())) {
-      TLEPropagator tlePropagator = TLEPropagator.selectExtrapolator(initialTLE, attitudesSequence,
-          6.0);
-      this.runningPropagator = tlePropagator;
+      this.runningPropagator = TLEPropagator.selectExtrapolator(initialTLE, attitudesSequence,
+            6.0);
 
     } else {
       this.runningPropagator = this.kepler;
@@ -715,9 +714,8 @@ public class OrekitCore
       // logger.log(Level.INFO,simulatorHeader.getOrekitTLE2());
       this.initialTLE = new TLE(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2());
       // logger.log(Level.INFO,this.initialTLE.toString());
-      TLEPropagator tlePropagator = TLEPropagator.selectExtrapolator(initialTLE, attitudesSequence,
-          6.0);
-      this.runningPropagator = tlePropagator;
+      this.runningPropagator = TLEPropagator.selectExtrapolator(initialTLE, attitudesSequence,
+            6.0);
     } catch (OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -1435,9 +1433,8 @@ public class OrekitCore
   public GeodeticPoint getGeodeticPoint(SpacecraftState state)
   {
     try {
-      GeodeticPoint point = this.earth.transform(state.getOrbit().getPVCoordinates().getPosition(),
-          inertialFrame, this.initialDate.shiftedBy(timeElapsed));
-      return point;
+      return this.earth.transform(state.getOrbit().getPVCoordinates().getPosition(),
+              inertialFrame, this.initialDate.shiftedBy(timeElapsed));
     } catch (OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }

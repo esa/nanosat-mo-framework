@@ -231,25 +231,24 @@ public class SortByField implements Comparator {
 
         IdentifierList tmpDomain;
         ObjectType tmpObjType;
-        ArrayList<ArchivePersistenceObject> stackA = perObjs;
         ArrayList<ArchivePersistenceObject> stackB;
         ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<>();
 
         // Requirement 3.4.4.2.27: 
         // "Each domain/object type pair shall be sorted separately from other domain/object type 
         //  pairs; there is no requirement for sorting to be applied across domain/object type pairs"
-        while (!stackA.isEmpty()) { // We will sweep stackA
+        while (!perObjs.isEmpty()) { // We will sweep stackA
             // What is the current zeroth pair?
-            tmpDomain = stackA.get(0).getDomain();
-            tmpObjType = stackA.get(0).getObjectType();
-            stackB = new ArrayList<>();
+            tmpDomain = perObjs.get(0).getDomain();
+            tmpObjType = perObjs.get(0).getObjectType();
+            stackB = new ArrayList<ArchivePersistenceObject>();
 
             // Make a stack B with all the equal pairs domain+objType
-            for (int index = 0; index < stackA.size(); index++) { // Let's cycle the complete stack A
-                if (stackA.get(index).getDomain().equals(tmpDomain)
-                        && stackA.get(index).getObjectType().equals(tmpObjType)) { // if the pair is the same...
-                    stackB.add(stackA.get(index));
-                    stackA.remove(index);
+            for (int index = 0; index < perObjs.size(); index++) { // Let's cycle the complete stack A
+                if (perObjs.get(index).getDomain().equals(tmpDomain)
+                        && perObjs.get(index).getObjectType().equals(tmpObjType)) { // if the pair is the same...
+                    stackB.add(perObjs.get(index));
+                    perObjs.remove(index);
                     index--; // index has to be the same on next iteration; counter the index++
                 }
             }

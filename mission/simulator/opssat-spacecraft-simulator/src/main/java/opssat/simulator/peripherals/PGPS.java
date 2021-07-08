@@ -366,8 +366,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
   @InternalData(internalID = 2003, commandIDs = { "", "" }, argNames = { "" })
   public String getBestXYZSentence() {
     ArrayList<Object> argObject = null;
-    String res = (String) super.getSimulatorNode().runGenericMethod(2003, argObject);
-    return res;
+    return (String) super.getSimulatorNode().runGenericMethod(2003, argObject);
   }
 
   @Override

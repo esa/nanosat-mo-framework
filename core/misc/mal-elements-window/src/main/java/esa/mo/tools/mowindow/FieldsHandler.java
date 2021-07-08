@@ -121,8 +121,7 @@ public class FieldsHandler {
                 Constructor constructor = constructors[0];  // Use the first constructor
                 constructor.setAccessible(true);
                 try {
-                    Enumeration ctor = (Enumeration) constructor.newInstance(0);
-                    return ctor;
+                    return (Enumeration) constructor.newInstance(0);
                 } catch (InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
                     Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }

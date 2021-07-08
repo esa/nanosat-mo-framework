@@ -95,8 +95,7 @@ public class Debayer_Image implements PlugInFilter {
     obj.setImage(IJ.getImage());
     obj.run("");
 
-    ImagePlus output = IJ.getImage();
-    imp = output;
+    imp = IJ.getImage();
 //                output.show();
 
     /*

@@ -454,8 +454,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             values.addAll(valuesArr);
         }
         // Generate the Statistic Report
-        StatisticValue statValue = manager.generateStatisticValue(link.getStatFuncInstId(), link.getParameterId().getInstId(), times, values);
-        return statValue;
+        return manager.generateStatisticValue(link.getStatFuncInstId(), link.getParameterId().getInstId(), times, values);
     }
 
     @Override

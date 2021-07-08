@@ -130,13 +130,12 @@ public class GPS {
 
         // The values are divided by 3 to represent a 3 sigma confidence interval
         // The meters need to be converted to kilometers ("/ 1000")
-        OrbitParameters error = new OrbitParameters(
+
+        return new OrbitParameters(
                 factor * k / 3 * randomno.nextGaussian(),
                 factor * k / 3 * randomno.nextGaussian(),
                 k / 1000 / 3 * randomno.nextGaussian(),
                 new Vector(0, 0, 0),
                 this.Position.gettime());
-
-        return error;
     }
 }

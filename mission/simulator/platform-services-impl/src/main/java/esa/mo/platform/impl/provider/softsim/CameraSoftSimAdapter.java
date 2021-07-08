@@ -97,9 +97,8 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
     pictureSettings.setResolution(resolution);
     pictureSettings.setFormat(PictureFormat.RAW);
     pictureSettings.setExposureTime(exposureTime);
-    Picture picture = new Picture(timestamp, pictureSettings, new Blob(data));
 
-    return picture;
+    return new Picture(timestamp, pictureSettings, new Blob(data));
   }
 
   @Override
@@ -121,8 +120,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
     pictureSettings.setGainRed(settings.getGainRed());
     pictureSettings.setGainGreen(settings.getGainGreen());
     pictureSettings.setGainBlue(settings.getGainBlue());
-    Picture picture = new Picture(timestamp, pictureSettings, new Blob(data));
-    return picture;
+    return new Picture(timestamp, pictureSettings, new Blob(data));
   }
 
   @Override

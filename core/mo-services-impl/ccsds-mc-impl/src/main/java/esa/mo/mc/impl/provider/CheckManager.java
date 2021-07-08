@@ -501,8 +501,7 @@ public final class CheckManager extends CheckLinksManager {
         final ObjectDetails checkLinkLinks = super.getCheckLinkLinks(checkLinkId);
         if (checkLinkLinks != null) {
             final Long identityId = checkLinkLinks.getRelated();
-            final CheckDefinitionDetails checkDef = this.getActualCheckDefinition(identityId);
-            return checkDef;
+            return this.getActualCheckDefinition(identityId);
         }
         //for continuing using the checklink after the Definition had been removed, the COM-Archive must be used instead of the internal lists
         //TODO: is this still necessary? after we always get reference-errors if we still reference the Check?

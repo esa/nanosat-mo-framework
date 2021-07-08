@@ -717,8 +717,7 @@ public final class AggregationManager extends MCManager {
             return null;
         }
 
-        AggregationParameterValueList currentPValLst = this.periodicAggregationValuesLast.get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
-        return currentPValLst;
+        return this.periodicAggregationValuesLast.get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
 
     }
 
@@ -740,8 +739,7 @@ public final class AggregationManager extends MCManager {
             return null;
         }
 
-        AggregationParameterValueList currentPValLst = this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
-        return currentPValLst;
+        return this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
 
     }
 

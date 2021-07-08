@@ -112,8 +112,7 @@ public class MOelementList extends MOelement{
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {                                       
         MOWindow genericObj = new MOWindow(this.object, this.editable);
         try {
-            Object obj = genericObj.getObject();
-            this.object = obj;
+            this.object = genericObj.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }

@@ -182,33 +182,30 @@ public class Orbit {
         double lat = Math.asin(this.r.z() / this.r.length());
         double lon = this.normalizeAngle(Math.atan2(this.r.y(), this.r.x()) - delta_lst);
         //System.out.println("lat:["+lat+"] lon:["+lon+"]");
-        OrbitParameters orbitParameters = new OrbitParameters(lat * (180 / Math.PI), lon * (180 / Math.PI),
-            this.r.length(), this.v, this.time);
 
-        return orbitParameters;
+        return new OrbitParameters(lat * (180 / Math.PI), lon * (180 / Math.PI),
+            this.r.length(), this.v, this.time);
     }
 
     // Calculates ascending node change (RAAN)
     private double calculateRAANPrecession(double time_int) {
         // time_int: interval of time passed
         double J2 = 1.08262668E-3;
-        double delta_Omega = -3 * Math.PI * J2 * (R_e * R_e)
+
+        return -3 * Math.PI * J2 * (R_e * R_e)
             / (Math.pow(a * (1 - e * e), 2))
             * Math.cos(i)
             * (time_int / this.Period);
-
-        return delta_Omega;
     }
 
     // Calculates Nodal Precession
     private double calculatePerigeePrecession(double time_int) {
         // time_int: interval of time passed
         double J2 = 1.08262668E-3;
-        double delta_omega = -(3 * Math.PI * J2 * R_e * R_e / (2 * Math.pow(a * (1 - e * e), 2)))
+
+        return -(3 * Math.PI * J2 * R_e * R_e / (2 * Math.pow(a * (1 - e * e), 2)))
             * (5 * Math.pow(Math.sin(i), 2) - 4)
             * (time_int / this.Period);
-
-        return delta_omega;
     }
 
     // Calculates Mean Anomaly: M

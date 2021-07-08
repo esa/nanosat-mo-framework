@@ -489,9 +489,8 @@ public class ParameterManager extends MCManager
       return getAsUOctet(ValidityState.INVALID_RAW);
     }
     final ParameterDefinitionDetails expPDef = getParameterDefinition(expPIdentityId);
-    final UOctet expPValState = generateValidityState(this.getParameterDefinition(expPIdentityId),
-        expParamValue, getConvertedValue(expParamValue, expPDef), aggrExpired);
-    return expPValState;
+    return generateValidityState(this.getParameterDefinition(expPIdentityId),
+          expParamValue, getConvertedValue(expParamValue, expPDef), aggrExpired);
   }
 
   protected ObjectInstancePair add(Identifier name, ParameterDefinitionDetails definition,

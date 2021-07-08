@@ -385,9 +385,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
                 try
                 {
-                    int chunkSizePramInt = Integer.parseInt(chunkSizeParam);
 
-                    this.chunkSize = chunkSizePramInt;
+                    this.chunkSize = Integer.parseInt(chunkSizeParam);
                 }
                 catch (NumberFormatException e)
                 {
@@ -408,9 +407,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
                 try
                 {
-                    int queuePollTimeoutInt = Integer.parseInt(queuePollTimeout);
 
-                    this.pollTiemout = queuePollTimeoutInt;
+                    this.pollTiemout = Integer.parseInt(queuePollTimeout);
                 }
                 catch (NumberFormatException e)
                 {

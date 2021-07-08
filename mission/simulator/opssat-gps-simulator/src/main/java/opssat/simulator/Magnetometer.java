@@ -44,8 +44,7 @@ public class Magnetometer {
         // From: http://en.wikipedia.org/wiki/Dipole_model_of_the_Earth%27s_magnetic_field
         Orbit.OrbitParameters param = orbit.getParameters();
         double theta = Math.PI - param.getlatitude() * Math.PI / 180;
-        double B_r = -2 * B_0 * Math.pow(R_e / param.geta(), 3) * Math.cos(theta);
-        return B_r;
+        return -2 * B_0 * Math.pow(R_e / param.geta(), 3) * Math.cos(theta);
     }
 
     /**
@@ -57,8 +56,7 @@ public class Magnetometer {
         // From: http://en.wikipedia.org/wiki/Dipole_model_of_the_Earth%27s_magnetic_field
         Orbit.OrbitParameters param = orbit.getParameters();
         double theta = Math.PI - param.getlatitude() * Math.PI / 180;
-        double B_theta = -B_0 * Math.pow(R_e / param.geta(), 3) * Math.sin(theta);
-        return B_theta;
+        return -B_0 * Math.pow(R_e / param.geta(), 3) * Math.sin(theta);
     }
 
 }

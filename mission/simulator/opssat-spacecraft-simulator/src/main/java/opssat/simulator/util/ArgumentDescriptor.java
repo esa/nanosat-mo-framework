@@ -46,56 +46,41 @@ public class ArgumentDescriptor implements Serializable {
         
         this.name = name;
         if (type.equals("Boolean")) {
-            boolean newData = false;
-            this.type = newData;
+            this.type = false;
         } else if (type.equals("Integer") || type.equals("int")) {
-            int newData = 0;
-            this.type = newData;
+            this.type = 0;
         } else if (type.equals("Float")) {
-            float newData = (float) 0.0;
-            this.type = newData;
+            this.type = (float) 0.0;
         } else if (type.equals("String")) {
-            String newData = "";
-            this.type = newData;
+            this.type = "";
         } else if (type.equals("byte[]")) {
-            byte[] newData = new byte[0];
-            this.type = newData;
+            this.type = new byte[0];
         } else if (type.equals("float")) {
-            float newData = (float) 0.0;
-            this.type = newData;
+            this.type = (float) 0.0;
         } else if (type.equals("float[]")) {
-            float newData[] = new float[0];
-            this.type = newData;
+            this.type = new float[0];
         } else if (type.equals("long")) {
-            float newData = (long) 0.0;
-            this.type = newData;
+            this.type = (float) (long) 0.0;
         } else if (type.equals("long[]")) {
-            long newData[] = new long[0];
-            this.type = newData;
+            this.type = new long[0];
         } else if (type.equals("int[]")) {
-            int newData[] = new int[0];
-            this.type = newData;
+            this.type = new int[0];
         } else if (type.startsWith("int[")) {
             String partial=type.substring(4);
             partial=partial.substring(0,partial.length()-1);
-            int newData[] = new int[Integer.parseInt(partial)];
-            this.type = newData;
+            this.type = new int[Integer.parseInt(partial)];
         } else if (type.startsWith("float[")) {
             String partial=type.substring(6);
             partial=partial.substring(0,partial.length()-1);
-            float newData[] = new float[Integer.parseInt(partial)];
-            this.type = newData;
+            this.type = new float[Integer.parseInt(partial)];
         } else if (type.equals("double")) {
-            double newData = (double) 0.0;
-            this.type = newData;
+            this.type = (double) 0.0;
         } else if (type.equals("double[]")) {
-            double newData[] = new double[0];
-            this.type = newData;
+            this.type = new double[0];
         } else {
             //logger.info("Error on ArgumentDescriptor(String type, String name) with ArgumentDescriptor(["+type+"],["+name+"])");
             this.name = "UnknownDeviceDataTypeString{" + type + "}";
-            Object newObject=null;
-            this.type= newObject;
+            this.type= null;
         }
         this.defaultType = this.type;
         this.defaultName = this.name;
