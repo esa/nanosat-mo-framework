@@ -113,22 +113,22 @@ public class CentralDirectoryHelper {
       ProviderSummaryList providersSummaries =
           centralDirectory.getDirectoryStub().lookupProvider(sf2);
       for (ProviderSummary providerSummary : providersSummaries) {
-        String provider = providerSummary.getProviderName().getValue();
+        final StringBuilder provider = new StringBuilder(providerSummary.getProviderName().getValue());
 
         ProviderDetails providerDetails = providerSummary.getProviderDetails();
 
         // dump provider addresses
         for (AddressDetails addressDetails : providerDetails.getProviderAddresses()) {
-          provider += ("\n\t - " + addressDetails.getServiceURI().getValue());
+          provider.append("\n\t - ").append(addressDetails.getServiceURI().getValue());
         }
 
         // dump services capabilities addresses
         for (ServiceCapability serviceCapability : providerDetails.getServiceCapabilities()) {
           for (AddressDetails serviceAddressDetails : serviceCapability.getServiceAddresses()) {
-            provider += ("\n\t - " + serviceAddressDetails.getServiceURI().getValue());
+            provider.append("\n\t - ").append(serviceAddressDetails.getServiceURI().getValue());
           }
         }
-        archiveProviders.add(provider);
+        archiveProviders.add(provider.toString());
       }
     } catch (MALInteractionException | MALException | MalformedURLException e) {
       LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);

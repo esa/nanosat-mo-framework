@@ -685,11 +685,11 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
     ParameterStub parameterService = super.getMCServices().getParameterService().getParameterStub();
 
     // Create identifier list and parameters names string for error reporting
-    String paramNames = "";
+    final StringBuilder paramNames = new StringBuilder();
     IdentifierList parameters = new IdentifierList(1);
     for (String parameterName : parameterNames) {
       parameters.add(new Identifier(parameterName));
-      paramNames += (parameterName + ",");
+      paramNames.append(parameterName).append(",");
     }
 
     try {
@@ -699,7 +699,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
       if (objIds == null) {
         throw new NMFException(String.format(
             "Error while toggling parameters generation, couldn't get parameters instance IDs (unknown error) for parameters names: %s",
-            paramNames));
+           paramNames));
       }
 
       // Check how many we got back
@@ -707,11 +707,11 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         if (objIds.size() <= 0) {
           throw new NMFException(String.format(
               "Error while toggling parameters generation, 0 parameters instance IDs found for parameters names: %s",
-              paramNames));
+             paramNames));
         } else {
           LOGGER.log(Level.WARNING, String.format(
               "Couldn't get some parameters instance IDs, for parameters names: %s",
-              paramNames));
+             paramNames));
         }
       }
 
