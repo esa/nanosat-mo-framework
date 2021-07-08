@@ -175,16 +175,13 @@ public class GuiMainWindow implements Runnable {
     this.targetPort = targetPort;
     window = this;
 
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        createAndShowGUI();
-        parent.startSocket();
-        try {
-          Thread.sleep(2000);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      createAndShowGUI();
+      parent.startSocket();
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
       }
     });
   }
@@ -269,23 +266,17 @@ public class GuiMainWindow implements Runnable {
             new WholeTextAreaObject(wholeField, true));
         final Boolean updateValues = true;
         final String targetDevice = simulatorDeviceData.getName();
-        checkBox.addItemListener(new ItemListener() {
-          @Override
-          public void itemStateChanged(ItemEvent e) {
-            hashTableDataOutAgregate.get(targetDevice)
-                .setUpdateValues(e.getStateChange() == ItemEvent.SELECTED);
-            // updateValues = (e.getStateChange() == ItemEvent.SELECTED);
-          }
+        checkBox.addItemListener(e -> {
+          hashTableDataOutAgregate.get(targetDevice)
+              .setUpdateValues(e.getStateChange() == ItemEvent.SELECTED);
+          // updateValues = (e.getStateChange() == ItemEvent.SELECTED);
         });
 
-        copyToClipBoard.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-            StringSelection stringSelection = new StringSelection(
-                hashTableDataOutAgregate.get(targetDevice).getTextArea().getText());
-            clpbrd.setContents(stringSelection, null);
-          }
+        copyToClipBoard.addActionListener(e -> {
+          Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+          StringSelection stringSelection = new StringSelection(
+              hashTableDataOutAgregate.get(targetDevice).getTextArea().getText());
+          clpbrd.setContents(stringSelection, null);
         });
 
         JPanel linePanel = new JPanel();
@@ -386,156 +377,110 @@ public class GuiMainWindow implements Runnable {
     this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     txtTimeFactor.setPreferredSize(new Dimension(35, 20));
-    txtTimeFactor.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        String newFactor = txtTimeFactor.getText();
-        int newTimeFactor = Integer.parseInt(newFactor);
-        if (newTimeFactor < 1) {
-          newTimeFactor = 1;
-        }
-        if (newTimeFactor > 1000) {
-          newTimeFactor = 1000;
-        }
-        parent.addGUIInteraction("TimeFactor:" + String.valueOf(newTimeFactor));
+    txtTimeFactor.addActionListener(e -> {
+      String newFactor = txtTimeFactor.getText();
+      int newTimeFactor = Integer.parseInt(newFactor);
+      if (newTimeFactor < 1) {
+        newTimeFactor = 1;
+      }
+      if (newTimeFactor > 1000) {
+        newTimeFactor = 1000;
+      }
+      parent.addGUIInteraction("TimeFactor:" + String.valueOf(newTimeFactor));
+    });
+    chkBoxShowAll.addItemListener(e -> putManualCommandsInCombo(e.getStateChange() == ItemEvent.SELECTED));
+    chkBoxPeriodicSending.addItemListener(e -> isEnduranceTest = (e.getStateChange() == ItemEvent.SELECTED));
+    startStopButton.addActionListener(e -> parent.addGUIInteraction("ToggleStartStop"));
+    editHeaderButton.addActionListener(e -> editForm = new GuiSimulatorHeaderEdit(simulatorHeader, GuiMainWindow.this));
+
+    pauseResumeButton.addActionListener(e -> parent.addGUIInteraction("TogglePauseResume"));
+
+    sendManualButton.addActionListener(e -> {
+      Object c = comboCommands.getSelectedItem();
+      if (c instanceof CommandDescriptor) {
+        sendManualCommand((CommandDescriptor) c, true);
       }
     });
-    chkBoxShowAll.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        putManualCommandsInCombo(e.getStateChange() == ItemEvent.SELECTED);
-      }
-    });
-    chkBoxPeriodicSending.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        isEnduranceTest = (e.getStateChange() == ItemEvent.SELECTED);
-      }
-    });
-    startStopButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        parent.addGUIInteraction("ToggleStartStop");
-      }
-    });
-    editHeaderButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        editForm = new GuiSimulatorHeaderEdit(simulatorHeader, GuiMainWindow.this);
+    resetInputArgsButton.addActionListener(e -> {
+      Object c = comboCommands.getSelectedItem();
+      if (c instanceof CommandDescriptor) {
+        ((CommandDescriptor) c).resetInputArgs();
+        displayManualMethod(((CommandDescriptor) c));
       }
     });
 
-    pauseResumeButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        parent.addGUIInteraction("TogglePauseResume");
-      }
-    });
-
-    sendManualButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        Object c = comboCommands.getSelectedItem();
-        if (c instanceof CommandDescriptor) {
-          sendManualCommand((CommandDescriptor) c, true);
-        }
-      }
-    });
-    resetInputArgsButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        Object c = comboCommands.getSelectedItem();
-        if (c instanceof CommandDescriptor) {
-          ((CommandDescriptor) c).resetInputArgs();
+    btnNewTemplate.addActionListener(e -> {
+      String test1 = JOptionPane.showInputDialog("Input description for new template: ");
+      Object c = comboCommands.getSelectedItem();
+      if (test1 != null && c instanceof CommandDescriptor) {
+        if (test1.isEmpty()) {
+          JOptionPane.showMessageDialog(frame, "The description cannot be empty");
+        } else if (!test1.matches("^[a-zA-Z0-9]*$")) {
+          JOptionPane.showMessageDialog(frame, "Template name must be alphanumeric.");
+        } else if (((CommandDescriptor) c).addNewEmptyTemplate(test1)) {
           displayManualMethod(((CommandDescriptor) c));
-        }
-      }
-    });
-
-    btnNewTemplate.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        String test1 = JOptionPane.showInputDialog("Input description for new template: ");
-        Object c = comboCommands.getSelectedItem();
-        if (test1 != null && c instanceof CommandDescriptor) {
-          if (test1.isEmpty()) {
-            JOptionPane.showMessageDialog(frame, "The description cannot be empty");
-          } else if (!test1.matches("^[a-zA-Z0-9]*$")) {
-            JOptionPane.showMessageDialog(frame, "Template name must be alphanumeric.");
-          } else if (((CommandDescriptor) c).addNewEmptyTemplate(test1)) {
-            displayManualMethod(((CommandDescriptor) c));
-            showMessageConsole("User;Local;AddNewTemplate;"
-                + ((CommandDescriptor) c).getMethodBody() + "" + test1);
-          } else {
-            JOptionPane.showMessageDialog(frame, "The description entered is not unique");
-          }
-        }
-      }
-    });
-    btnSaveTemplate.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        // String test1= JOptionPane.showInputDialog("Input description for new
-        // template: ");
-        Object c = comboCommands.getSelectedItem();
-        String cTemplateDescription = (String) comboTemplates.getSelectedItem();
-        if (c instanceof CommandDescriptor) {
-          boolean dataOk = sendManualCommand((CommandDescriptor) c, false);
-          if (dataOk) {
-            if (cTemplateDescription.equals(CommandDescriptor.KEYWORD_DEFAULT)) {
-              JOptionPane.showMessageDialog(frame,
-                  "Default template edit cannot be saved, create a new one or edit another one.");
-            } else if (((CommandDescriptor) c).updateTemplate(cTemplateDescription,
-                txtInputArguments.getText())) {
-              templateChanged = false;
-            } else {
-              JOptionPane.showMessageDialog(frame,
-                  "Could not find template [" + cTemplateDescription + "] in command ["
-                      + ((CommandDescriptor) c).getMethodBody() + "]!");
-            }
-          }
-        }
-      }
-    });
-    btnUpdateServer.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        int resultConfirm = JOptionPane.showConfirmDialog(frame,
-            "Server will be updated with local copy of commands & templates. Do you want to continue?",
-            "Update server", JOptionPane.YES_NO_OPTION);
-        if (resultConfirm == JOptionPane.YES_OPTION) {
-          showMessageConsole("User;Local;UpdateServer;");
-          LinkedList<CommandDescriptor> newCommandsList = new LinkedList<CommandDescriptor>();
-          newCommandsList.addAll(commandsList);
-          parent.addGUIInteraction(newCommandsList);
+          showMessageConsole("User;Local;AddNewTemplate;"
+              + ((CommandDescriptor) c).getMethodBody() + "" + test1);
         } else {
+          JOptionPane.showMessageDialog(frame, "The description entered is not unique");
         }
+      }
+    });
+    btnSaveTemplate.addActionListener(e -> {
+      // String test1= JOptionPane.showInputDialog("Input description for new
+      // template: ");
+      Object c = comboCommands.getSelectedItem();
+      String cTemplateDescription = (String) comboTemplates.getSelectedItem();
+      if (c instanceof CommandDescriptor) {
+        boolean dataOk = sendManualCommand((CommandDescriptor) c, false);
+        if (dataOk) {
+          if (cTemplateDescription.equals(CommandDescriptor.KEYWORD_DEFAULT)) {
+            JOptionPane.showMessageDialog(frame,
+                "Default template edit cannot be saved, create a new one or edit another one.");
+          } else if (((CommandDescriptor) c).updateTemplate(cTemplateDescription,
+              txtInputArguments.getText())) {
+            templateChanged = false;
+          } else {
+            JOptionPane.showMessageDialog(frame,
+                "Could not find template [" + cTemplateDescription + "] in command ["
+                    + ((CommandDescriptor) c).getMethodBody() + "]!");
+          }
+        }
+      }
+    });
+    btnUpdateServer.addActionListener(e -> {
+      int resultConfirm = JOptionPane.showConfirmDialog(frame,
+          "Server will be updated with local copy of commands & templates. Do you want to continue?",
+          "Update server", JOptionPane.YES_NO_OPTION);
+      if (resultConfirm == JOptionPane.YES_OPTION) {
+        showMessageConsole("User;Local;UpdateServer;");
+        LinkedList<CommandDescriptor> newCommandsList = new LinkedList<CommandDescriptor>();
+        newCommandsList.addAll(commandsList);
+        parent.addGUIInteraction(newCommandsList);
+      } else {
+        ;
       }
     });
 
     txtLoaderPrompt.setBackground(Color.orange);
 
-    txtLoaderPrompt.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        String targetConnection = txtLoaderPrompt.getText();
-        List<String> items = Arrays.asList(targetConnection.split(":"));
-        boolean dataOk = items.size() == 2;
-        if (dataOk) {
-          targetURL = items.get(0);
-          targetPort = Integer.parseInt(items.get(1));
-          parent.setTargetConnection(targetURL, targetPort);
-          // SFTP
-          SFTPInformation ui = new SFTPInformation(GuiMainWindow.this);
-          ui.setBounds(100, 100, 496, 145);
-          ui.setVisible(true);
-          GuiMainWindow.this.frame.setEnabled(false);
-        } else {
-          txtLoaderPrompt.setText(targetURL + ":" + targetPort);
-        }
-
+    txtLoaderPrompt.addActionListener(e -> {
+      String targetConnection = txtLoaderPrompt.getText();
+      List<String> items = Arrays.asList(targetConnection.split(":"));
+      boolean dataOk = items.size() == 2;
+      if (dataOk) {
+        targetURL = items.get(0);
+        targetPort = Integer.parseInt(items.get(1));
+        parent.setTargetConnection(targetURL, targetPort);
+        // SFTP
+        SFTPInformation ui = new SFTPInformation(GuiMainWindow.this);
+        ui.setBounds(100, 100, 496, 145);
+        ui.setVisible(true);
+        GuiMainWindow.this.frame.setEnabled(false);
+      } else {
+        txtLoaderPrompt.setText(targetURL + ":" + targetPort);
       }
+
     });
 
     this.panelLoader.setLayout(new BoxLayout(panelLoader, BoxLayout.Y_AXIS));
@@ -558,30 +503,24 @@ public class GuiMainWindow implements Runnable {
     comboCommands.setMaximumSize(new Dimension(Integer.MAX_VALUE, 10));
     // chkCommands.setPrototypeDisplayValue(" ");
     comboCommands.addItem("Select");
-    comboCommands.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent arg0) {
-        if (arg0.getStateChange() == ItemEvent.SELECTED) {
-          Object item = arg0.getItem();
-          if (item instanceof CommandDescriptor) {
-            displayManualMethod(((CommandDescriptor) item));
-          }
+    comboCommands.addItemListener(arg0 -> {
+      if (arg0.getStateChange() == ItemEvent.SELECTED) {
+        Object item = arg0.getItem();
+        if (item instanceof CommandDescriptor) {
+          displayManualMethod(((CommandDescriptor) item));
         }
       }
     });
-    comboTemplates.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent arg0) {
-        if (arg0.getStateChange() == ItemEvent.SELECTED) {
-          Object item = arg0.getItem();
-          Object commandDescriptorItem = comboCommands.getItemAt(comboCommands.getSelectedIndex());
-          if (item instanceof String && commandDescriptorItem instanceof CommandDescriptor) {
-            logger.log(Level.FINE, "Looking up " + ((String) item));
-            if (((CommandDescriptor) commandDescriptorItem).templateSelected((String) item)) {
-              displayManualMethodTemplate(((CommandDescriptor) commandDescriptorItem));
-            } else {
-              JOptionPane.showMessageDialog(frame, "Unable to select input template");
-            }
+    comboTemplates.addItemListener(arg0 -> {
+      if (arg0.getStateChange() == ItemEvent.SELECTED) {
+        Object item = arg0.getItem();
+        Object commandDescriptorItem = comboCommands.getItemAt(comboCommands.getSelectedIndex());
+        if (item instanceof String && commandDescriptorItem instanceof CommandDescriptor) {
+          logger.log(Level.FINE, "Looking up " + ((String) item));
+          if (((CommandDescriptor) commandDescriptorItem).templateSelected((String) item)) {
+            displayManualMethodTemplate(((CommandDescriptor) commandDescriptorItem));
+          } else {
+            JOptionPane.showMessageDialog(frame, "Unable to select input template");
           }
         }
       }
@@ -658,14 +597,9 @@ public class GuiMainWindow implements Runnable {
 
     JLabel lblMode = new JLabel("Image selection mode:");
 
-    final JComboBox<String> selectMode = new JComboBox<>();
-    selectMode.setModel(new DefaultComboBoxModel<>(new String[]{"Fixed", "Random"}));
-    selectMode.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent arg0) {
-        textFieldPath.setText("");
-      }
-    });
+    final JComboBox<String> selectMode = new JComboBox<String>();
+    selectMode.setModel(new DefaultComboBoxModel<String>(new String[] { "Fixed", "Random" }));
+    selectMode.addItemListener(arg0 -> textFieldPath.setText(""));
     SpringLayout sl_panelCameraSettings = new SpringLayout();
     sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, lblMode, 10, SpringLayout.NORTH,
         panelCameraSettings);
@@ -692,31 +626,28 @@ public class GuiMainWindow implements Runnable {
     textFieldPath.setColumns(10);
 
     JButton btnOpenTargetSelect = new JButton("Browse");
-    btnOpenTargetSelect.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        if (targetURL.equals("127.0.0.1")) { // browse locally
-          JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
-          if (selectMode.getSelectedItem().equals("Fixed")) {
-            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            fc.removeChoosableFileFilter(fc.getChoosableFileFilters()[0]);
-            fc.setFileFilter(
-                new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "bmp", "raw"));
-          } else {
-            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-          }
-          int res = fc.showOpenDialog(panelCameraSettings);
-          if (res == JFileChooser.APPROVE_OPTION) {
-            String chosenName = fc.getSelectedFile().getAbsolutePath();
-            textFieldPath.setText(chosenName);
-          }
-        } else { // use SFTP browser
-          SFTPBrowser browser = new SFTPBrowser(sftpChannel, (String) selectMode.getSelectedItem(),
-              window);
-          browser.setBounds(100, 100, 400, 300);
-          browser.setVisible(true);
-          frame.setEnabled(false);
+    btnOpenTargetSelect.addActionListener(arg0 -> {
+      if (targetURL.equals("127.0.0.1")) { // browse locally
+        JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+        if (selectMode.getSelectedItem().equals("Fixed")) {
+          fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+          fc.removeChoosableFileFilter(fc.getChoosableFileFilters()[0]);
+          fc.setFileFilter(
+              new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "bmp", "raw"));
+        } else {
+          fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         }
+        int res = fc.showOpenDialog(panelCameraSettings);
+        if (res == JFileChooser.APPROVE_OPTION) {
+          String chosenName = fc.getSelectedFile().getAbsolutePath();
+          textFieldPath.setText(chosenName);
+        }
+      } else { // use SFTP browser
+        SFTPBrowser browser = new SFTPBrowser(sftpChannel, (String) selectMode.getSelectedItem(),
+            window);
+        browser.setBounds(100, 100, 400, 300);
+        browser.setVisible(true);
+        frame.setEnabled(false);
       }
     });
     sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, btnOpenTargetSelect, 0,
@@ -728,28 +659,25 @@ public class GuiMainWindow implements Runnable {
     panelCameraSettings.add(btnOpenTargetSelect);
 
     JButton btnApplyCamSettings = new JButton("Apply");
-    btnApplyCamSettings.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        ArrayList<PlatformMessage> updates = new ArrayList<PlatformMessage>();
-        String path = textFieldPath.getText();
-        String mode = (String) selectMode.getSelectedItem();
-        updates.add(new PlatformMessage("camerasim.imagemode", mode));
-        if (!path.equals("")) {
-          if (mode.equals("Fixed")) {
-            updates.add(new PlatformMessage("camerasim.imagefile", path));
-          } else if (mode.equals("Random")) {
-            updates.add(new PlatformMessage("camerasim.imagedirectory", path));
-          }
+    btnApplyCamSettings.addActionListener(arg0 -> {
+      ArrayList<PlatformMessage> updates = new ArrayList<PlatformMessage>();
+      String path = textFieldPath.getText();
+      String mode = (String) selectMode.getSelectedItem();
+      updates.add(new PlatformMessage("camerasim.imagemode", mode));
+      if (!path.equals("")) {
+        if (mode.equals("Fixed")) {
+          updates.add(new PlatformMessage("camerasim.imagefile", path));
+        } else if (mode.equals("Random")) {
+          updates.add(new PlatformMessage("camerasim.imagedirectory", path));
         }
-        // Send updates to server
-        for (PlatformMessage p : updates) {
-          parent.addGUIInteraction(p);
-        }
-
-        parent.getToServerQueue().add("refreshConfig");
-        GuiMainWindow.this.refreshPlatformProperties();
       }
+      // Send updates to server
+      for (PlatformMessage p : updates) {
+        parent.addGUIInteraction(p);
+      }
+
+      parent.getToServerQueue().add("refreshConfig");
+      GuiMainWindow.this.refreshPlatformProperties();
     });
     sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, btnApplyCamSettings, 5,
         SpringLayout.SOUTH, textFieldPath);
@@ -904,68 +832,56 @@ public class GuiMainWindow implements Runnable {
     if (dataOk.equals("ParseOk")) {
       if (doRun) {
         parent.addGUIInteraction(c);
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-          @Override
-          public void run() {
-            txtInputArguments.setBackground(colorCommandsSent);
-            txtInputArguments.setForeground(Color.BLACK);
-            txtInputArguments.setCaretColor(Color.BLACK);
-            txtOutputArguments.setText("Waiting for result..");
-            lblCommandResult.setText("");
-            txtOutputArguments.setBackground(Color.LIGHT_GRAY);
-          }
+        javax.swing.SwingUtilities.invokeLater(() -> {
+          txtInputArguments.setBackground(colorCommandsSent);
+          txtInputArguments.setForeground(Color.BLACK);
+          txtInputArguments.setCaretColor(Color.BLACK);
+          txtOutputArguments.setText("Waiting for result..");
+          lblCommandResult.setText("");
+          txtOutputArguments.setBackground(Color.LIGHT_GRAY);
         });
       }
       return true;
     } else {
-      javax.swing.SwingUtilities.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-          txtInputArguments.setBackground(Color.RED);
-          txtInputArguments.setForeground(Color.WHITE);
-          txtInputArguments.setCaretColor(Color.WHITE);
-          lblCommandResult.setText(dataOk);
-          txtOutputArguments.setText("");
-          txtOutputArguments.setBackground(Color.LIGHT_GRAY);
-        }
+      javax.swing.SwingUtilities.invokeLater(() -> {
+        txtInputArguments.setBackground(Color.RED);
+        txtInputArguments.setForeground(Color.WHITE);
+        txtInputArguments.setCaretColor(Color.WHITE);
+        lblCommandResult.setText(dataOk);
+        txtOutputArguments.setText("");
+        txtOutputArguments.setBackground(Color.LIGHT_GRAY);
       });
       return false;
     }
   }
 
   private void handleSchedulerList(final LinkedList<SimulatorSchedulerPiece> data) {
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        txtScheduler.setText("");
-        StringBuilder schedulerDataStr = new StringBuilder();
-        for (SimulatorSchedulerPiece piece : data) {
-          CommandDescriptor c = getCommandDescriptorForID(piece.getInternalID());
-          ArgumentTemplate t = getArgTemplateForString(c, piece.getArgumentTemplateDescription());
-          schedulerDataStr.append(piece.getSchedulerOutput()).append(c.getMethodBody()).append(CommandDescriptor.SEPARATOR_DATAFILES).append(t.getArgContent()).append("\n");
-        }
-        txtScheduler.setText(schedulerDataStr.toString());
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      txtScheduler.setText("");
+      StringBuilder schedulerDataStr = new StringBuilder();
+      for (SimulatorSchedulerPiece piece : data) {
+        CommandDescriptor c = getCommandDescriptorForID(piece.getInternalID());
+        ArgumentTemplate t = getArgTemplateForString(c, piece.getArgumentTemplateDescription());
+        schedulerDataStr.append(piece.getSchedulerOutput()).append(c.getMethodBody()).append(CommandDescriptor.SEPARATOR_DATAFILES).append(t.getArgContent()).append("\n");
       }
+      txtScheduler.setText(schedulerDataStr.toString());
     });
   }
 
   public void showMessageConsole(final String data) {
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd;HH:mm:ss");
-        Date date = new Date();
-        txtConsole.append(dateFormat.format(date) + ";" + data + "\n");
-        while (txtConsole.getLineCount() > 500) {
-          try {
-            int end = txtConsole.getLineEndOffset(0);
-            txtConsole.replaceRange("", 0, end);
-          } catch (BadLocationException ex) {
-            Logger.getLogger(GuiMainWindow.class.getName()).log(Level.SEVERE, null, ex);
-          }
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd;HH:mm:ss");
+      Date date = new Date();
+      txtConsole.append(dateFormat.format(date) + ";" + data + "\n");
+      while (txtConsole.getLineCount() > 500) {
+        try {
+          int end = txtConsole.getLineEndOffset(0);
+          txtConsole.replaceRange("", 0, end);
+        } catch (BadLocationException ex) {
+          Logger.getLogger(GuiMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-
       }
+
     });
 
   }
@@ -979,18 +895,15 @@ public class GuiMainWindow implements Runnable {
       final LinkedList<SimulatorDeviceData> linkedSimulatorDeviceData) {
     this.logger.log(Level.ALL, "Received list of SimulatorDeviceData with ["
         + linkedSimulatorDeviceData.size() + "] items");
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        for (SimulatorDeviceData simulatorDeviceData : linkedSimulatorDeviceData) {
-          if (hashTableDataOutAgregate.get(simulatorDeviceData.getName()).isUpdateValues()) {
-            StringBuilder composite = new StringBuilder();
-            for (ArgumentDescriptor simulatorDeviceDataPiece : simulatorDeviceData.getDataList()) {
-              composite.append(simulatorDeviceDataPiece.toString()).append("\n\n");
-            }
-            hashTableDataOutAgregate.get(simulatorDeviceData.getName()).getTextArea()
-                .setText(composite.toString());
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      for (SimulatorDeviceData simulatorDeviceData : linkedSimulatorDeviceData) {
+        if (hashTableDataOutAgregate.get(simulatorDeviceData.getName()).isUpdateValues()) {
+          StringBuilder composite = new StringBuilder();
+          for (ArgumentDescriptor simulatorDeviceDataPiece : simulatorDeviceData.getDataList()) {
+            composite.append(simulatorDeviceDataPiece.toString()).append("\n\n");
           }
+          hashTableDataOutAgregate.get(simulatorDeviceData.getName()).getTextArea()
+              .setText(composite.toString());
         }
       }
     });
@@ -998,39 +911,33 @@ public class GuiMainWindow implements Runnable {
 
   public void showCommandResult(final CommandResult data) {
 
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        lblCommandResult.setText(data.toExtString());
-        Object obj = data.getOutput();
-        txtOutputArguments.setText(data.getOutputAsString());
-        txtOutputArguments.setBackground(data.isCommandFailed() ? colorOutputKO : colorOutputOK);
-        txtInputArguments.setBackground(colorInputCommand);
-        txtInputArguments.setForeground(Color.WHITE);
-        txtInputArguments.setCaretColor(Color.WHITE);
-      }
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      lblCommandResult.setText(data.toExtString());
+      Object obj = data.getOutput();
+      txtOutputArguments.setText(data.getOutputAsString());
+      txtOutputArguments.setBackground(data.isCommandFailed() ? colorOutputKO : colorOutputOK);
+      txtInputArguments.setBackground(colorInputCommand);
+      txtInputArguments.setForeground(Color.WHITE);
+      txtInputArguments.setCaretColor(Color.WHITE);
     });
 
   }
 
   public void displayManualMethod(final CommandDescriptor data) {
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        lblMethodDescriptor.setText(data.getComment());
-        displayManualMethodTemplate(data);
-        lblCommandResult.setText("[Output]");
-        txtOutputArguments.setText("[Result]");
-        txtInputArguments.setBackground(colorInputCommand);
-        txtInputArguments.setCaretColor(Color.WHITE);
-        txtOutputArguments.setBackground(Color.LIGHT_GRAY);
-        comboTemplates.removeAllItems();
-        for (ArgumentTemplate t : data.getTemplateList()) {
-          comboTemplates.addItem(t.getDescription());
-        }
-        if (isEnduranceTest) {
-          sendManualCommand(data, true);
-        }
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      lblMethodDescriptor.setText(data.getComment());
+      displayManualMethodTemplate(data);
+      lblCommandResult.setText("[Output]");
+      txtOutputArguments.setText("[Result]");
+      txtInputArguments.setBackground(colorInputCommand);
+      txtInputArguments.setCaretColor(Color.WHITE);
+      txtOutputArguments.setBackground(Color.LIGHT_GRAY);
+      comboTemplates.removeAllItems();
+      for (ArgumentTemplate t : data.getTemplateList()) {
+        comboTemplates.addItem(t.getDescription());
+      }
+      if (isEnduranceTest) {
+        sendManualCommand(data, true);
       }
     });
 
@@ -1042,24 +949,12 @@ public class GuiMainWindow implements Runnable {
   }
 
   private void clearManualCommands() {
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        comboCommands.removeAllItems();
-      }
-    });
+    javax.swing.SwingUtilities.invokeLater(() -> comboCommands.removeAllItems());
   }
 
   private void addManualCommandsItem(final CommandDescriptor data) {
 
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-
-        comboCommands.addItem(data);
-
-      }
-    });
+    javax.swing.SwingUtilities.invokeLater(() -> comboCommands.addItem(data));
   }
 
   public void editHeaderReady() {
@@ -1074,58 +969,52 @@ public class GuiMainWindow implements Runnable {
   }
 
   public void processSimulatorData(final SimulatorData data) {
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        lblSimulatorData.setText(data.toString());
-        Map<TimeUnit, Long> computedDiff;
-        if (simulatorHeader != null) {
-          computedDiff = SimulatorData.computeDiff(simulatorHeader.getStartDate(),
-              data.getCurrentTime());
-          String localMinutes = String.format(simulatorHeader.FROM_START_FORMAT,
-              computedDiff.get(TimeUnit.DAYS), computedDiff.get(TimeUnit.HOURS),
-              computedDiff.get(TimeUnit.MINUTES), computedDiff.get(TimeUnit.SECONDS),
-              computedDiff.get(TimeUnit.MILLISECONDS));
-          lblSimulatorTimeRunning.setText(localMinutes.toString());
-        }
-        if (!txtTimeFactor.isFocusOwner()
-            && !txtTimeFactor.getText().equals(String.valueOf(data.getTimeFactor()))) {
-          txtTimeFactor.setText(String.valueOf(data.getTimeFactor()));
-        }
-        if (data.isTimeRunning()) {
-          pauseResumeButton.setText("Time");
-          pauseResumeButton.setBackground(Color.GREEN);
-        } else {
-          pauseResumeButton.setText("Time");
-          pauseResumeButton.setBackground(Color.RED);
-        }
-        if (data.isSimulatorRunning()) {
-          startStopButton.setText("Enable");
-          startStopButton.setBackground(Color.GREEN);
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      lblSimulatorData.setText(data.toString());
+      Map<TimeUnit, Long> computedDiff;
+      if (simulatorHeader != null) {
+        computedDiff = SimulatorData.computeDiff(simulatorHeader.getStartDate(),
+            data.getCurrentTime());
+        String localMinutes = String.format(simulatorHeader.FROM_START_FORMAT,
+            computedDiff.get(TimeUnit.DAYS), computedDiff.get(TimeUnit.HOURS),
+            computedDiff.get(TimeUnit.MINUTES), computedDiff.get(TimeUnit.SECONDS),
+            computedDiff.get(TimeUnit.MILLISECONDS));
+        lblSimulatorTimeRunning.setText(localMinutes.toString());
+      }
+      if (!txtTimeFactor.isFocusOwner()
+          && !txtTimeFactor.getText().equals(String.valueOf(data.getTimeFactor()))) {
+        txtTimeFactor.setText(String.valueOf(data.getTimeFactor()));
+      }
+      if (data.isTimeRunning()) {
+        pauseResumeButton.setText("Time");
+        pauseResumeButton.setBackground(Color.GREEN);
+      } else {
+        pauseResumeButton.setText("Time");
+        pauseResumeButton.setBackground(Color.RED);
+      }
+      if (data.isSimulatorRunning()) {
+        startStopButton.setText("Enable");
+        startStopButton.setBackground(Color.GREEN);
 
-        } else {
-          startStopButton.setText("Enable");
-          startStopButton.setBackground(Color.RED);
-        }
+      } else {
+        startStopButton.setText("Enable");
+        startStopButton.setBackground(Color.RED);
       }
     });
 
   }
 
   public void makeEnduranceTest() {
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        int newIndex = comboCommands.getSelectedIndex();
-        newIndex++;
-        if (newIndex >= comboCommands.getItemCount()) {
-          newIndex = 0;
-        }
-        if (comboCommands.getItemCount() == 1) {
-          sendManualCommand((CommandDescriptor) comboCommands.getSelectedItem(), true);
-        } else {
-          comboCommands.setSelectedIndex(newIndex);
-        }
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      int newIndex = comboCommands.getSelectedIndex();
+      newIndex++;
+      if (newIndex >= comboCommands.getItemCount()) {
+        newIndex = 0;
+      }
+      if (comboCommands.getItemCount() == 1) {
+        sendManualCommand((CommandDescriptor) comboCommands.getSelectedItem(), true);
+      } else {
+        comboCommands.setSelectedIndex(newIndex);
       }
     });
   }
@@ -1133,34 +1022,26 @@ public class GuiMainWindow implements Runnable {
   public void showConnectedInfo(final boolean isConnected) {
     this.isConnected = isConnected;
     this.showMessageConsole("showConnectedInfo [" + isConnected + "].");
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        frame.getContentPane().removeAll();
-        frame.getContentPane().repaint();
-        if (!isConnected) {
-          clearManualCommands();
-          frame.getContentPane().add(panelLoader);
-        } else {
-          frame.getContentPane().add(panelTop, BorderLayout.NORTH);
-          frame.getContentPane().add(panelTabbed);
-          GuiMainWindow.this.refreshPlatformProperties();
-        }
-        frame.getContentPane().add(panelBottom, BorderLayout.PAGE_END);
-        frame.getContentPane().validate();
-
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      frame.getContentPane().removeAll();
+      frame.getContentPane().repaint();
+      if (!isConnected) {
+        clearManualCommands();
+        frame.getContentPane().add(panelLoader);
+      } else {
+        frame.getContentPane().add(panelTop, BorderLayout.NORTH);
+        ;
+        frame.getContentPane().add(panelTabbed);
+        GuiMainWindow.this.refreshPlatformProperties();
       }
+      frame.getContentPane().add(panelBottom, BorderLayout.PAGE_END);
+      frame.getContentPane().validate();
+
     });
   }
 
   public void putManualCommandsInCombo(final boolean showAll) {
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        chkBoxShowAll.setSelected(showAll);
-
-      }
-    });
+    javax.swing.SwingUtilities.invokeLater(() -> chkBoxShowAll.setSelected(showAll));
     clearManualCommands();
     for (CommandDescriptor c : commandsList) {
       if (c.isVisible() || showAll) {
@@ -1227,7 +1108,11 @@ public class GuiMainWindow implements Runnable {
                 visibleItems++;
               }
             }
-            putManualCommandsInCombo(visibleItems <= 0);
+            if (visibleItems > 0) {
+              putManualCommandsInCombo(false);
+            } else {
+              putManualCommandsInCombo(true);
+            }
             showMessageConsole(
                 preamble + ";Received commands list with [" + commandsList.size() + "] methods");
             LinkedList<SimulatorDeviceData> devicesList = new LinkedList<>();// (LinkedList<CommandDescriptor>)

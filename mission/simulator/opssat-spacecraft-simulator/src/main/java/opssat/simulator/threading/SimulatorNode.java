@@ -571,14 +571,7 @@ public class SimulatorNode extends TaskNode
     reflectObjectGetMethods(new POpticalReceiver(null, "OpticalReceiver"));
     reflectObjectGetMethods(new PSDR(null, "SDR"));
 
-    Collections.sort(commandsList, new Comparator<CommandDescriptor>()
-    {
-      @Override
-      public int compare(CommandDescriptor o1, CommandDescriptor o2)
-      {
-        return o1.getInternalID() - o2.getInternalID();
-      }
-    });
+    Collections.sort(commandsList, (o1, o2) -> o1.getInternalID() - o2.getInternalID());
     loadMethodsDescriptionFromResources();
   }
 
@@ -1302,18 +1295,13 @@ public class SimulatorNode extends TaskNode
        * else if (o1.getTime() == o2.getTime()) { return 0; } else { return -1; } }
        * });
        */
-      java.util.Collections.sort(schedulerData, new Comparator<SimulatorSchedulerPiece>()
-      {
-        @Override
-        public int compare(SimulatorSchedulerPiece o1, SimulatorSchedulerPiece o2)
-        {
-          if (o1.getTime() > o2.getTime()) {
-            return 1;
-          } else if (o1.getTime() == o2.getTime()) {
-            return 0;
-          } else {
-            return -1;
-          }
+      java.util.Collections.sort(schedulerData, (o1, o2) -> {
+        if (o1.getTime() > o2.getTime()) {
+          return 1;
+        } else if (o1.getTime() == o2.getTime()) {
+          return 0;
+        } else {
+          return -1;
         }
       });
 

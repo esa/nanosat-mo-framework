@@ -106,56 +106,51 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
 
     jTable1.setModel(tableData);
 
-    ListSelectionListener listSelectionListener = new ListSelectionListener()
-    {
-      @Override
-      public void valueChanged(ListSelectionEvent listSelectionEvent)
-      {
-        // Update the jTable according to the selection of the index
-        cleanTableData();
+    ListSelectionListener listSelectionListener = listSelectionEvent -> {
+      // Update the jTable according to the selection of the index
+      cleanTableData();
 
-        int index = providersList.getSelectedIndex();
+      int index = providersList.getSelectedIndex();
 
-        if (index == -1) {
-          index = 0;
+      if (index == -1) {
+        index = 0;
+      }
+
+      ServiceCapabilityList services
+          = summaryList.get(index).getProviderDetails().getServiceCapabilities();
+
+      // And then add the new stuff
+      for (int i = 0; i < services.size(); i++) {
+        ServiceCapability service = services.get(i);
+
+        String serviceName;
+        try {
+          serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(),
+              service.getServiceKey().getVersion(), service.getServiceKey().getService());
+        } catch (MALException ex) {
+          serviceName = "<Unknown service>";
         }
 
-        ServiceCapabilityList services
-            = summaryList.get(index).getProviderDetails().getServiceCapabilities();
+        String serviceURI = "";
+        String brokerURI = "";
 
-        // And then add the new stuff
-        for (int i = 0; i < services.size(); i++) {
-          ServiceCapability service = services.get(i);
-
-          String serviceName;
-          try {
-            serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getArea(),
-                service.getServiceKey().getVersion(), service.getServiceKey().getService());
-          } catch (MALException ex) {
-            serviceName = "<Unknown service>";
-          }
-
-          String serviceURI = "";
-          String brokerURI = "";
-
-          if (service.getServiceAddresses().size() > 0) {
-            serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
-            // To avoid null pointers here...
-            brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null)
-                ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
-          }
-
-          String supportedCapabilities = (service.getSupportedCapabilities() == null)
-              ? "All Supported" : service.getSupportedCapabilities().toString();
-
-          tableData.addRow(new Object[]{
-            serviceName,
-            supportedCapabilities,
-            service.getServiceProperties().toString(),
-            serviceURI,
-            brokerURI
-          });
+        if (service.getServiceAddresses().size() > 0) {
+          serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
+          // To avoid null pointers here...
+          brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null)
+              ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
         }
+
+        String supportedCapabilities = (service.getSupportedCapabilities() == null)
+            ? "All Supported" : service.getSupportedCapabilities().toString();
+
+        tableData.addRow(new Object[]{
+          serviceName,
+          supportedCapabilities,
+          service.getServiceProperties().toString(),
+          serviceURI,
+          brokerURI
+        });
       }
     };
 
@@ -219,25 +214,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         jLabel29.setPreferredSize(new java.awt.Dimension(150, 14));
 
         uriServiceDirectory.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceDirectory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uriServiceDirectoryActionPerformed(evt);
-            }
-        });
+        uriServiceDirectory.addActionListener(evt -> uriServiceDirectoryActionPerformed(evt));
 
         load_URI_links1.setText("Fetch Information");
-        load_URI_links1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                load_URI_links1ActionPerformed(evt);
-            }
-        });
+        load_URI_links1.addActionListener(evt -> load_URI_links1ActionPerformed(evt));
 
         connectButton.setText("Connect to Selected Provider");
-        connectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                connectButtonActionPerformed(evt);
-            }
-        });
+        connectButton.addActionListener(evt -> connectButtonActionPerformed(evt));
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);

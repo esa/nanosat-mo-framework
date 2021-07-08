@@ -460,50 +460,45 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         public Runnable getProcessingRunnable()
         {
-            return new Runnable()
-            {
-                @Override
-                public void run()
+            return () -> {
+                int counter = 0;
+
+                try
                 {
-                    int counter = 0;
+                    boolean exit = false;
 
-                    try
+                    while (!exit)
                     {
-                        boolean exit = false;
+                        boolean done = queriesAreDone;
+                        COMObjectEntity entity = tempQueue.poll(pollTiemout, TimeUnit.MILLISECONDS);
 
-                        while (!exit)
+                        if (entity != null)
                         {
-                            boolean done = queriesAreDone;
-                            COMObjectEntity entity = tempQueue.poll(pollTiemout, TimeUnit.MILLISECONDS);
-
-                            if (entity != null)
+                            byte[] objAsByteArray = EncodeDecode.encodeToByteArray(entity, manager, dictionary);
+                            // Compress here?
+                            // compression algorithm can go here!
+                            dataToFlush.add(objAsByteArray);
+                            counter++;
+                        }
+                        else
+                        {
+                            if (done)
                             {
-                                byte[] objAsByteArray = EncodeDecode.encodeToByteArray(entity, manager, dictionary);
-                                // Compress here?
-                                // compression algorithm can go here!
-                                dataToFlush.add(objAsByteArray);
-                                counter++;
-                            }
-                            else
-                            {
-                                if (done)
-                                {
-                                    exit = true;
-                                }
+                                exit = true;
                             }
                         }
                     }
-                    catch (InterruptedException ex)
-                    {
-                        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    processingIsDone = true;
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
-                                                                                         "Stage 2: The objects were all successfully processed! "
-                                                                                         + counter
-                                                                                         + " objects in total!");
                 }
+                catch (InterruptedException ex)
+                {
+                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                processingIsDone = true;
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
+                                                                                     "Stage 2: The objects were all successfully processed! "
+                                                                                     + counter
+                                                                                     + " objects in total!");
             };
         }
 
@@ -522,58 +517,91 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         public Runnable getFlushingRunnable()
         {
-            return new Runnable()
-            {
-                @Override
-                public void run()
+            return () -> {
+                try
                 {
-                    try
+                    boolean exit = false;
+                    int index = 0;
+                    byte[] aChunk = new byte[chunkSize];
+                    int pos = 0;
+
+                    while (!exit)
                     {
-                        boolean exit = false;
-                        int index = 0;
-                        byte[] aChunk = new byte[chunkSize];
-                        int pos = 0;
+                        boolean done = processingIsDone;
+                        byte[] data = dataToFlush.poll(pollTiemout, TimeUnit.MILLISECONDS);
 
-                        while (!exit)
+                        if (data != null)
                         {
-                            boolean done = processingIsDone;
-                            byte[] data = dataToFlush.poll(pollTiemout, TimeUnit.MILLISECONDS);
-
-                            if (data != null)
+                            for (int i = 0; i < data.length; i++)
                             {
-                                for (int i = 0; i < data.length; i++)
+                                aChunk[pos] = data[i];
+                                pos++;
+
+                                if (pos == chunkSize)
                                 {
-                                    aChunk[pos] = data[i];
-                                    pos++;
-
-                                    if (pos == chunkSize)
-                                    {
-                                        sendUpdateToConsumer(index, aChunk);
-                                        index++;
-                                        pos = 0;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (done)
-                                {
-                                    exit = true;
-
-                                    // Flush the last byte array!
-                                    byte[] lastChunk = new byte[pos]; // We need to trim to fit!
-                                    System.arraycopy(aChunk, 0, lastChunk, 0, pos);
-
-                                    sendUpdateToConsumer(index, lastChunk);
+                                    sendUpdateToConsumer(index, aChunk);
                                     index++;
+                                    pos = 0;
                                 }
                             }
                         }
+                        else
+                        {
+                            if (done)
+                            {
+                                exit = true;
 
+                                // Flush the last byte array!
+                                byte[] lastChunk = new byte[pos]; // We need to trim to fit!
+                                System.arraycopy(aChunk, 0, lastChunk, 0, pos);
+
+                                sendUpdateToConsumer(index, lastChunk);
+                                index++;
+                            }
+                        }
+                    }
+
+                    try
+                    {
+                        interaction.sendResponse(new UInteger(index));
+                        numberOfChunks = index;
+                    }
+                    catch (MALInteractionException ex)
+                    {
+                        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
+                                .log(Level.SEVERE, null, ex);
+                    }
+                    catch (MALException ex)
+                    {
+                        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
+                                .log(Level.SEVERE, null, ex);
+                    }
+                }
+                catch (InterruptedException ex)
+                {
+                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
+                                                                                     "Stage 3: The objects were all successfully flushed! "
+                                                                                     + numberOfChunks
+                                                                                     + " chunks in total!");
+                boolean purge = Boolean.valueOf(System.getProperty(Const.ARCHIVESYNC_PURGE_ARCHIVE_PROPERTY,
+                                                                   Const.ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT));
+                if (purge)
+                { // This block cleans up the archive after sync if the option is enabled
+                    ArchiveQueryList aql = new ArchiveQueryList();
+                    aql.add(new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null, null));
+
+                    for (ToDelete type : ToDelete.values())
+                    {
                         try
                         {
-                            interaction.sendResponse(new UInteger(index));
-                            numberOfChunks = index;
+                            archive.getArchiveStub().query(false,
+                                                           type.getType(),
+                                                           aql,
+                                                           null,
+                                                           new ObjectsReceivedAdapter(archive, type.getType()));
                         }
                         catch (MALInteractionException ex)
                         {
@@ -584,44 +612,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                         {
                             Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
                                     .log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    catch (InterruptedException ex)
-                    {
-                        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO,
-                                                                                         "Stage 3: The objects were all successfully flushed! "
-                                                                                         + numberOfChunks
-                                                                                         + " chunks in total!");
-                    boolean purge = Boolean.valueOf(System.getProperty(Const.ARCHIVESYNC_PURGE_ARCHIVE_PROPERTY,
-                                                                       Const.ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT));
-                    if (purge)
-                    { // This block cleans up the archive after sync if the option is enabled
-                        ArchiveQueryList aql = new ArchiveQueryList();
-                        aql.add(new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null, null));
-
-                        for (ToDelete type : ToDelete.values())
-                        {
-                            try
-                            {
-                                archive.getArchiveStub().query(false,
-                                                               type.getType(),
-                                                               aql,
-                                                               null,
-                                                               new ObjectsReceivedAdapter(archive, type.getType()));
-                            }
-                            catch (MALInteractionException ex)
-                            {
-                                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                                        .log(Level.SEVERE, null, ex);
-                            }
-                            catch (MALException ex)
-                            {
-                                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                                        .log(Level.SEVERE, null, ex);
-                            }
                         }
                     }
                 }
