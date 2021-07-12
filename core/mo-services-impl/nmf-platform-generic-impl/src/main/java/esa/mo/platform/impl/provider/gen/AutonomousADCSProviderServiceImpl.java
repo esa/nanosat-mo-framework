@@ -25,6 +25,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.TaskScheduler;
 import java.io.IOException;
 import java.util.Map;
@@ -78,6 +79,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   private final static Logger LOGGER = Logger.getLogger(
       AutonomousADCSProviderServiceImpl.class.getName());
   private final static Duration MINIMUM_MONITORING_PERIOD = new Duration(0.1); // 100 Milliseconds
+  private int resultCacheValidityMs;
   private MALProvider autonomousADCSServiceProvider;
   private boolean initialiased = false;
   private boolean generationEnabled = false;
@@ -91,6 +93,12 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   private Thread autoUnsetThread = null;
   private long attitudeControlEndTime = 0;
   private int monitoringPeriod = 5000; // Default value: 5 seconds
+  private AttitudeTelemetry lastAttitudeTm = null;
+  private ActuatorsTelemetry lastActuatorsTm = null;
+  private IOException lastAttitudeTmException = null;
+  private IOException lastActuatorsTmException = null;
+  private long lastAttitudeTmTime = 0;
+  private long lastActuatorsTmTime = 0;
 
   /**
    * creates the MAL objects, the publisher used to create updates and starts the publishing thread
@@ -122,6 +130,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       } catch (MALException ex) { // nothing to be done..
       }
     }
+    resultCacheValidityMs = Integer.valueOf(System.getProperty(Const.PLATFORM_IADCS_CACHING_PERIOD, "1000"));
 
     publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
         ConfigurationProviderSingleton.getNetwork(),
@@ -186,17 +195,17 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     try {
-      final AttitudeTelemetry attitudeTelemetry = adapter.getAttitudeTelemetry();
+      final AttitudeTelemetry attitudeTelemetry = getAttitudeTelemetry();
       final AttitudeTelemetryList attitudeTelemetryList =
           (AttitudeTelemetryList) HelperMisc.element2elementList(attitudeTelemetry);
       attitudeTelemetryList.add(attitudeTelemetry);
 
-      final ActuatorsTelemetry actuatorsTelemetry = adapter.getActuatorsTelemetry();
+      final ActuatorsTelemetry actuatorsTelemetry = getActuatorsTelemetry();
       final ActuatorsTelemetryList actuatorsTelemetryList =
           (ActuatorsTelemetryList) HelperMisc.element2elementList(actuatorsTelemetry);
       actuatorsTelemetryList.add(actuatorsTelemetry);
 
-      final AttitudeMode activeAttitudeMode = adapter.getActiveAttitudeMode();
+      final AttitudeMode activeAttitudeMode = getActiveAttitudeMode();
 
       AttitudeModeList attitudeModeList;
       if (activeAttitudeMode == null) {
@@ -254,9 +263,9 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
           PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
     try {
-      final AttitudeTelemetry attitudeTelemetry = adapter.getAttitudeTelemetry();
-      final ActuatorsTelemetry actuatorsTelemetry = adapter.getActuatorsTelemetry();
-      final AttitudeMode activeAttitudeMode = adapter.getActiveAttitudeMode();
+      final AttitudeTelemetry attitudeTelemetry = getAttitudeTelemetry();
+      final ActuatorsTelemetry actuatorsTelemetry = getActuatorsTelemetry();
+      final AttitudeMode activeAttitudeMode = getActiveAttitudeMode();
       return new GetStatusResponse(attitudeTelemetry, actuatorsTelemetry,
           getAttitudeControlRemainingDuration(),
           generationEnabled, new Duration(monitoringPeriod / 1000.f), activeAttitudeMode);
@@ -267,6 +276,51 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
           PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
 
+  }
+
+  private AttitudeTelemetry getAttitudeTelemetry() throws IOException {
+    if (System.currentTimeMillis() - lastAttitudeTmTime < resultCacheValidityMs) {
+      if (lastAttitudeTm != null)
+        return lastAttitudeTm;
+      else
+        throw lastAttitudeTmException;
+    }
+    try {
+      lastAttitudeTm = adapter.getAttitudeTelemetry();
+    } catch (IOException e) {
+      // Cache the exception
+      lastAttitudeTm = null;
+      lastAttitudeTmException = e;
+      lastAttitudeTmTime = System.currentTimeMillis();
+      throw e;
+    }
+    lastAttitudeTmTime = System.currentTimeMillis();
+    return lastAttitudeTm;
+  }
+
+  private ActuatorsTelemetry getActuatorsTelemetry() throws IOException {
+    if (System.currentTimeMillis() - lastActuatorsTmTime < resultCacheValidityMs) {
+      if (lastActuatorsTm != null)
+        return lastActuatorsTm;
+      else
+        throw lastActuatorsTmException;
+    }
+    try {
+      lastActuatorsTm = adapter.getActuatorsTelemetry();
+    } catch (IOException e) {
+      // Cache the exception
+      lastActuatorsTm = null;
+      lastActuatorsTmException = e;
+      lastActuatorsTmTime = System.currentTimeMillis();
+      throw e;
+    }
+    lastActuatorsTmTime = System.currentTimeMillis();
+    return lastActuatorsTm;
+  }
+
+  private AttitudeMode getActiveAttitudeMode() {
+    final AttitudeMode activeAttitudeMode = adapter.getActiveAttitudeMode();
+    return activeAttitudeMode;
   }
 
   @Override

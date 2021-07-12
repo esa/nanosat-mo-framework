@@ -42,4 +42,6 @@ public class Const
   public static final String NANOSAT_MO_SUPERVISOR_NAME = "nanosat-mo-supervisor";
   public final static String NANOSAT_MO_GROUND_PROXY_NAME = "ground-mo-proxy";
   public final static String NMF_PACKAGE_SUFFIX = "nmfpack";
+  public final static String PLATFORM_IADCS_CACHING_PERIOD = "esa.mo.nmf.platform.iadcs.caching.period";
+  public final static String PLATFORM_GNSS_CACHING_PERIOD = "esa.mo.nmf.platform.gnss.caching.period";
 }
