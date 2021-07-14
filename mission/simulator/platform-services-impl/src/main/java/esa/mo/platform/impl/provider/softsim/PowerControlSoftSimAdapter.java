@@ -20,13 +20,12 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;
@@ -44,18 +43,23 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
 
   enum SimPayloadDevice
   {
-    FineADCS,
-    SEPP1,
-    SEPP2,
-    SBandTRX,
-    XBandTRX,
-    SDR,
-    OpticalRX,
-    HDCamera,
+    FineADCS("Attitude Determination and Control System"),
+    SEPP1("Satellite Experimental Processing Platform 1"),
+    SEPP2("Satellite Experimental Processing Platform 2"),
+    SBandTRX("S-Band Transceiver"),
+    XBandTRX("X-Band Transmitter"),
+    SDR("Software Defined Radio"),
+    OpticalRX("Optical Receiver"),
+    HDCamera("HD Camera"),
+    GPS("GPS");
+
+    private Identifier identifier;
+    SimPayloadDevice(String name){
+      identifier = new Identifier(name);
+    }
   }
-  private final List<Device> devices;
-  private final Map<Identifier, Device> deviceByName;
-  private final Map<Long, Device> deviceByObjInstId;
+
+  private final ConcurrentHashMap<SimPayloadDevice, Device> deviceByType;
   private final Map<Long, SimPayloadDevice> payloadIdByObjInstId;
   private static final Logger LOGGER = Logger.getLogger(PowerControlSoftSimAdapter.class.getName());
   private final ESASimulator instrumentsSimulator;
@@ -63,51 +67,48 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
   public PowerControlSoftSimAdapter(ESASimulator instrumentsSimulator)
   {
     LOGGER.log(Level.INFO, "Initialisation");
-    this.instrumentsSimulator = instrumentsSimulator;
-    devices = new ArrayList<>();
-    deviceByName = new HashMap<>();
-    deviceByObjInstId = new HashMap<>();
+    this.instrumentsSimulator = instrumentsSimulator; //TODO this is never used?
+    deviceByType = new ConcurrentHashMap<>();
     payloadIdByObjInstId = new HashMap<>();
     initDevices();
   }
 
   private void initDevices()
   {
-    addDevice(new Device(true, 0L, new Identifier(
-        "Attitude Determination and Control System"), DeviceType.ADCS), SimPayloadDevice.FineADCS);
-    addDevice(new Device(true, 10L, new Identifier(
-        "Satellite Experimental Processing Platform 1"), DeviceType.OBC), SimPayloadDevice.SEPP1);
-    addDevice(new Device(true, 11L, new Identifier(
-        "Satellite Experimental Processing Platform 2"), DeviceType.OBC), SimPayloadDevice.SEPP2);
-    addDevice(new Device(false, 2L, new Identifier("S-Band Transceiver"), DeviceType.SBAND),
-        SimPayloadDevice.SBandTRX);
-    addDevice(new Device(false, 3L, new Identifier("X-Band Transmitter"), DeviceType.XBAND),
-        SimPayloadDevice.XBandTRX);
-    addDevice(new Device(false, 4L, new Identifier("Software Defined Radio"),
-        DeviceType.SDR), SimPayloadDevice.SDR);
-    addDevice(new Device(false, 5L, new Identifier("Optical Receiver"), DeviceType.OPTRX),
-        SimPayloadDevice.OpticalRX);
-    addDevice(new Device(false, 6L, new Identifier("HD Camera"), DeviceType.CAMERA),
-        SimPayloadDevice.HDCamera);
+    addDevice(new Device(false, 0L, SimPayloadDevice.FineADCS.identifier, DeviceType.ADCS), SimPayloadDevice.FineADCS);
+    addDevice(new Device(true, 10L, SimPayloadDevice.SEPP1.identifier, DeviceType.OBC), SimPayloadDevice.SEPP1);
+    addDevice(new Device(true, 11L, SimPayloadDevice.SEPP2.identifier, DeviceType.OBC), SimPayloadDevice.SEPP2);
+    addDevice(new Device(false, 2L, SimPayloadDevice.SBandTRX.identifier, DeviceType.SBAND),
+            SimPayloadDevice.SBandTRX);
+    addDevice(new Device(false, 3L, SimPayloadDevice.XBandTRX.identifier, DeviceType.XBAND),
+            SimPayloadDevice.XBandTRX);
+    addDevice(new Device(false, 4L, SimPayloadDevice.SDR.identifier,
+            DeviceType.SDR), SimPayloadDevice.SDR);
+    addDevice(new Device(false, 5L, SimPayloadDevice.OpticalRX.identifier, DeviceType.OPTRX),
+            SimPayloadDevice.OpticalRX);
+    addDevice(new Device(false, 6L, SimPayloadDevice.HDCamera.identifier, DeviceType.CAMERA),
+            SimPayloadDevice.HDCamera);
+    addDevice(new Device(false, 7L, SimPayloadDevice.GPS.identifier, DeviceType.GNSS),
+            SimPayloadDevice.GPS);
   }
 
-  private void addDevice(Device device, SimPayloadDevice payloadId)
+  private void addDevice(Device device, SimPayloadDevice payload)
   {
-    devices.add(device);
-    deviceByName.put(device.getName(), device);
-    deviceByObjInstId.put(device.getUnitObjInstId(), device);
-    payloadIdByObjInstId.put(device.getUnitObjInstId(), payloadId);
+    deviceByType.put(payload, device);
+    payloadIdByObjInstId.put(device.getUnitObjInstId(), payload);
   }
 
   @Override
   public Map<Identifier, Device> getDeviceMap()
   {
-    return Collections.unmodifiableMap(deviceByName);
+    Map<Identifier, Device> mapByName = new HashMap<>();
+    deviceByType.forEach((k,device) -> mapByName.put(device.getName(), device));
+    return mapByName;
   }
 
   private Device findByType(DeviceType type)
   {
-    for (Device device : devices) {
+    for (Device device : deviceByType.values()) {
       if (device.getDeviceType() == type) {
         return device;
       }
@@ -139,9 +140,23 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
     }
   }
 
+  @Override
+  public boolean isDeviceEnabled(DeviceType deviceType) {
+
+    Device device = findByType(deviceType);
+    return device == null ? false : device.getEnabled();
+  }
+
+  @Override
+  public void startStatusTracking(ConnectionConsumer connection) {
+      // In simulator we do nothing here. Otherwise subscribe to the status parameter.
+  }
+
   private void switchDevice(SimPayloadDevice device, Boolean enabled) throws IOException
   {
     LOGGER.log(Level.INFO, "Switching device {0} to enabled: {1}", new Object[]{device, enabled});
-    // TODO interact with simulator core and track the device status locally
+    deviceByType.get(device).setEnabled(enabled);
   }
+
+
 }

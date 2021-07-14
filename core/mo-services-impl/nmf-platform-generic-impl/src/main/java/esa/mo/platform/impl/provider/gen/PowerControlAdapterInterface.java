@@ -22,9 +22,12 @@ package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
 import java.util.Map;
+
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
 public interface PowerControlAdapterInterface
 {
@@ -33,4 +36,7 @@ public interface PowerControlAdapterInterface
 
   void enableDevices(DeviceList devices) throws IOException;
 
+  boolean isDeviceEnabled(DeviceType deviceType);
+
+  void startStatusTracking(ConnectionConsumer connection);
 }

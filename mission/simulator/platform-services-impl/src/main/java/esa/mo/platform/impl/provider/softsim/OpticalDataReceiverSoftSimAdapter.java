@@ -21,8 +21,10 @@
 package esa.mo.platform.impl.provider.softsim;
 
 import esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface;
+import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
 /**
  *
@@ -32,16 +34,18 @@ public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAda
 {
 
   private final ESASimulator instrumentsSimulator;
+  private PowerControlAdapterInterface pcAdapter;
 
-  public OpticalDataReceiverSoftSimAdapter(ESASimulator instrumentsSimulator)
+  public OpticalDataReceiverSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
   {
     this.instrumentsSimulator = instrumentsSimulator;
+    this.pcAdapter = pcAdapter;
   }
 
   @Override
   public boolean isUnitAvailable()
   {
-    return true;
+    return pcAdapter.isDeviceEnabled(DeviceType.OPTRX);
   }
 
   @Override

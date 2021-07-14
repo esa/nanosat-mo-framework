@@ -45,6 +45,7 @@ import org.ccsds.moims.mo.mal.MALException;
 public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
   private static final Logger LOGGER = Logger.getLogger(NanosatMOSupervisorBasicImpl.class.getName());
   private PlatformServicesProviderInterface platformServicesProvider;
+  private ConnectionConsumer connectionConsumer;
 
   @Override
   public void initPlatformServices(COMServicesProvider comServices) {
@@ -65,13 +66,18 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
       LOGGER.log(Level.SEVERE, null, ex);
     }
     // Now connect the platform services consumer loopback to it
-    ConnectionConsumer connectionConsumer = new ConnectionConsumer();
+    connectionConsumer = new ConnectionConsumer();
     try {
       connectionConsumer.loadURIs();
       super.getPlatformServices().init(connectionConsumer, null);
     } catch (MalformedURLException | NMFException | FileNotFoundException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
+  }
+
+  @Override
+  protected void startStatusTracking() {
+    platformServicesProvider.startStatusTracking(connectionConsumer);
   }
 
   @Override
