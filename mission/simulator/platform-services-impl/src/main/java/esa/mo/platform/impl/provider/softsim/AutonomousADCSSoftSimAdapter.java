@@ -21,6 +21,7 @@
 package esa.mo.platform.impl.provider.softsim;
 
 import esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface;
+import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import esa.mo.platform.impl.util.HelperIADCS100;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -38,6 +39,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.MagnetorquersState;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelParameters;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
 /**
@@ -55,15 +57,18 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   private final static byte MODE_STOP = 0;  // Zero means stop; One means start
   private final static byte MODE_START = 1;  // Zero means stop; One means start
 
-  public AutonomousADCSSoftSimAdapter(ESASimulator instrumentsSimulator)
+  private PowerControlAdapterInterface pcAdapter;
+
+  public AutonomousADCSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
   {
     this.instrumentsSimulator = instrumentsSimulator;
+    this.pcAdapter = pcAdapter;
   }
 
   @Override
   public synchronized boolean isUnitAvailable()
   {
-    return true;
+    return pcAdapter.isDeviceEnabled(DeviceType.ADCS);
   }
 
   @Override

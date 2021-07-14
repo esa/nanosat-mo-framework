@@ -45,7 +45,12 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 
 /**
@@ -56,6 +61,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  */
 public abstract class NanoSatMOSupervisor extends NMFProvider {
 
+  private static final String PDU_CHANNEL_PARAMETER = "PDU1952";
   private final PackageManagementProviderServiceImpl packageManagementService
       = new PackageManagementProviderServiceImpl();
   private final AppsLauncherProviderServiceImpl appsLauncherService
@@ -156,6 +162,32 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.INFO,
         "URI: {0}\n", primaryURI);
 
+    //Once all services are loaded and configured, subscribe to status parameter
+    Identifier identifier = new Identifier(PDU_CHANNEL_PARAMETER);
+    IdentifierList identifierList = new IdentifierList();
+    identifierList.add(identifier);
+    ParameterDefinitionDetails details = new ParameterDefinitionDetails("PowerStatusChecks",
+            Union.USHORT_SHORT_FORM.byteValue(), "N/A", true, new Duration(1),
+            null, null);
+
+    ParameterCreationRequest request = new ParameterCreationRequest(identifier, details);
+    ParameterCreationRequestList reqList = new ParameterCreationRequestList();
+    reqList.add(request);
+
+    try {
+      ObjectInstancePairList objInstPairList = mcServices.getParameterService().addParameter(reqList, null);
+      // check that the parameter was added successfully
+      if (objInstPairList.size() < 0
+              || objInstPairList.get(0).getObjIdentityInstanceId() == null) {
+        Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
+                "Error creating request with parameter to fetch in the supervisor");
+      }
+    } catch (MALInteractionException | MALException e) {
+      Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(Level.SEVERE,
+              "Error creating request with parameter to fetch in the supervisor", e);
+    }
+    this.startStatusTracking();
+
     // We just loaded everything, it is a good time to
     // hint the garbage collector and clean up some memory
     // NanoSatMOFrameworkProvider.hintGC();
@@ -236,5 +268,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
   }
 
   public abstract void initPlatformServices(COMServicesProvider comServices);
+
+  protected abstract void startStatusTracking();
 
 }

@@ -23,8 +23,10 @@ package esa.mo.platform.impl.provider.softsim;
 import java.io.IOException;
 
 import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
+import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 import org.orekit.propagation.analytical.tle.TLE;
 
 /**
@@ -35,10 +37,12 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter
 {
 
   private final ESASimulator instrumentsSimulator;
+  private PowerControlAdapterInterface pcAdapter;
 
-  public GPSSoftSimAdapter(ESASimulator instrumentsSimulator)
+  public GPSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
   {
     this.instrumentsSimulator = instrumentsSimulator;
+    this.pcAdapter = pcAdapter;
   }
 
   @Override
@@ -80,7 +84,7 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter
   @Override
   public boolean isUnitAvailable()
   {
-    return true;
+    return pcAdapter.isDeviceEnabled(DeviceType.GNSS);
   }
 
   @Override

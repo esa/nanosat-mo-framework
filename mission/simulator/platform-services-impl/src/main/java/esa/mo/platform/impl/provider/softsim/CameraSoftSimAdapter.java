@@ -24,6 +24,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Time;
@@ -39,6 +41,7 @@ import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
 import esa.opssat.camera.processing.OPSSATCameraDebayering;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
 /**
  *
@@ -54,8 +57,9 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
   private final static int PREVIEW_HEIGHT = 600;
   private final ESASimulator instrumentsSimulator;
   private final PictureFormatList supportedFormats = new PictureFormatList();
+  private PowerControlAdapterInterface pcAdapter;
 
-  public CameraSoftSimAdapter(ESASimulator instrumentsSimulator)
+  public CameraSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
   {
     supportedFormats.add(PictureFormat.RAW);
     supportedFormats.add(PictureFormat.RGB24);
@@ -63,6 +67,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
     supportedFormats.add(PictureFormat.PNG);
     supportedFormats.add(PictureFormat.JPG);
     this.instrumentsSimulator = instrumentsSimulator;
+    this.pcAdapter = pcAdapter;
   }
 
   @Override
@@ -186,7 +191,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
   @Override
   public boolean isUnitAvailable()
   {
-    return true;
+    return pcAdapter.isDeviceEnabled(DeviceType.CAMERA);
   }
 
 }

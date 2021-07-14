@@ -20,9 +20,11 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
+import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.structures.FloatList;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
@@ -34,16 +36,18 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
 {
 
   private final ESASimulator instrumentsSimulator;
+  private PowerControlAdapterInterface pcAdapter;
 
-  public SoftwareDefinedRadioSoftSimAdapter(ESASimulator instrumentsSimulator)
+  public SoftwareDefinedRadioSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
   {
     this.instrumentsSimulator = instrumentsSimulator;
+    this.pcAdapter = pcAdapter;
   }
 
   @Override
   public boolean isUnitAvailable()
   {
-    return true;
+    return pcAdapter.isDeviceEnabled(DeviceType.SDR);
   }
 
   @Override

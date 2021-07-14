@@ -22,10 +22,13 @@ package esa.mo.platform.impl.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
@@ -67,6 +70,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
   private final OpticalDataReceiverProviderServiceImpl opticalDataReceiverService = new OpticalDataReceiverProviderServiceImpl();
   private final SoftwareDefinedRadioProviderServiceImpl sdrService = new SoftwareDefinedRadioProviderServiceImpl();
   private final PowerControlProviderServiceImpl powerService = new PowerControlProviderServiceImpl();
+  private PowerControlAdapterInterface pcAdapter;
 
   public void init(COMServicesProvider comServices) throws MALException {
     // Check if hybrid setup is used
@@ -75,82 +79,96 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     GPSAdapterInterface gpsAdapter;
     OpticalDataReceiverAdapterInterface optRxAdapter;
     SoftwareDefinedRadioAdapterInterface sdrAdapter;
-    PowerControlAdapterInterface pcAdapter;
 
     Properties platformProperties = new Properties();
     try {
       platformProperties
           .load(new FileInputStream("platformsim.properties"));
       if (platformProperties.getProperty("platform.mode").equals("hybrid")) {
+        String pcAdapterName = platformProperties.getProperty("pc.adapter");
         String camAdapterName = platformProperties.getProperty("camera.adapter");
         String adcsAdapterName = platformProperties.getProperty("adcs.adapter");
         String gpsAdapterName = platformProperties.getProperty("gps.adapter");
         String optRxAdapterName = platformProperties.getProperty("optrx.adapter");
         String sdrAdapterName = platformProperties.getProperty("sdr.adapter");
-        String pcAdapterName = platformProperties.getProperty("pc.adapter");
-        try {
-          camAdapter = (CameraAdapterInterface) Class.forName(camAdapterName).newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the camera adapter.", e);
-          camAdapter = new CameraSoftSimAdapter(instrumentsSimulator);
-        }
-        try {
-          adcsAdapter = (AutonomousADCSAdapterInterface) Class.forName(adcsAdapterName)
-              .newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the iADCS adapter.", e);
-          adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator);
-        }
-        try {
-          gpsAdapter = (GPSAdapterInterface) Class.forName(gpsAdapterName).newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the GPS adapter.", e);
-          gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator);
-        }
-        try {
-          optRxAdapter = (OpticalDataReceiverAdapterInterface) Class.forName(optRxAdapterName)
-              .newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the optRX adapter.", e);
-          optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator);
-        }
-        try {
-          sdrAdapter = (SoftwareDefinedRadioAdapterInterface) Class.forName(sdrAdapterName)
-              .newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the SDR adapter.", e);
-          sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator);
-        }
+
+        // PowerControl adapter
         try {
           pcAdapter = (PowerControlAdapterInterface) Class.forName(pcAdapterName).newInstance();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
           Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the power control adapter.", e);
+                  "Failed to instantiate the power control adapter.", e);
           pcAdapter = new PowerControlSoftSimAdapter(instrumentsSimulator);
         }
+        // Camera adapter
+        try {
+          Constructor constructor = Class.forName(camAdapterName).getConstructor(PowerControlAdapterInterface.class);
+          camAdapter = (CameraAdapterInterface) constructor.newInstance(pcAdapter);
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
+                | InvocationTargetException e) {
+          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
+              "Failed to instantiate the camera adapter.", e);
+          camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        }
+        // ADCS adapter
+        try {
+          Constructor constructor = Class.forName(adcsAdapterName).getConstructor(PowerControlAdapterInterface.class);
+          adcsAdapter = (AutonomousADCSAdapterInterface) constructor.newInstance(pcAdapter);
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
+                | InvocationTargetException e) {
+          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
+                  "Failed to instantiate the iADCS adapter.", e);
+          adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        }
+        // GPS adapter
+        try {
+          Constructor constructor =
+                  Class.forName(gpsAdapterName).getConstructor(PowerControlAdapterInterface.class);
+          gpsAdapter = (GPSAdapterInterface) constructor.newInstance(pcAdapter);
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
+                | InvocationTargetException e) {
+          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
+              "Failed to instantiate the GPS adapter.", e);
+          gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        }
+        // Optical Data Receiver adapter
+        try {
+          Constructor constructor = Class.forName(optRxAdapterName).getConstructor(PowerControlAdapterInterface.class);
+          optRxAdapter = (OpticalDataReceiverAdapterInterface) constructor.newInstance(pcAdapter);
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
+                | InvocationTargetException e) {
+          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
+              "Failed to instantiate the optRX adapter.", e);
+          optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        }
+        // Radio adapter
+        try {
+          Constructor constructor = Class.forName(sdrAdapterName).getConstructor(PowerControlAdapterInterface.class);
+          sdrAdapter = (SoftwareDefinedRadioAdapterInterface) constructor.newInstance(pcAdapter);
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
+                | InvocationTargetException e) {
+          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
+              "Failed to instantiate the SDR adapter.", e);
+          sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        }
       } else {
-        camAdapter = new CameraSoftSimAdapter(instrumentsSimulator);
-        adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator);
-        gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator);
-        optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator);
-        sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator);
         pcAdapter = new PowerControlSoftSimAdapter(instrumentsSimulator);
+        camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
       }
     } catch (IOException e) {
       // Assume simulated environment by default
       Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
           "Platform config file not found. Using simulated environment.");
-      camAdapter = new CameraSoftSimAdapter(instrumentsSimulator);
-      adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator);
-      gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator);
-      optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator);
-      sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator);
       pcAdapter = new PowerControlSoftSimAdapter(instrumentsSimulator);
+      camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
+      adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+      gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+      optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
+      sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
     }
 
     autonomousADCSService.init(comServices, adcsAdapter);
@@ -159,6 +177,11 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     opticalDataReceiverService.init(optRxAdapter);
     sdrService.init(sdrAdapter);
     powerService.init(pcAdapter);
+  }
+
+  @Override
+  public void startStatusTracking(ConnectionConsumer connection) {
+    pcAdapter.startStatusTracking(connection);
   }
 
   @Override

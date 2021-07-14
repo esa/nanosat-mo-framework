@@ -2038,6 +2038,8 @@
                     value="OPTRX" />
           <mal:item comment="Imaging subsystem" nvalue="7"
                     value="CAMERA" />
+          <mal:item comment="GNSS subsystem" nvalue="8"
+                    value="GNSS" />
           <mal:item comment="Other device" nvalue="100"
                     value="OTHER" />
         </mal:enumeration>
