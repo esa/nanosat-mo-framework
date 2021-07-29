@@ -44,17 +44,10 @@
   </scm>
   <dependencies>
     <dependency>
-      <groupId>gov.nih.imagej</groupId>
-      <artifactId>imagej</artifactId>
-      <version>1.47</version>
-    </dependency>
-    <!--
-    <dependency>
         <groupId>net.imagej</groupId>
         <artifactId>ij</artifactId>
-        <version>1.51h</version>
+        <version>1.53j</version>
     </dependency>
-    -->
   </dependencies>
   <distributionManagement>
     <site>
