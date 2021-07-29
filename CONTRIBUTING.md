@@ -8,10 +8,12 @@ If you want to contribute to the NMF, follow these guidelines to get your code a
 
 Furthermore, do not end the title with a period, as titles do not end with periods. A valid title would be: `Bug #42 [api] Fix camera snapshot method`.
 2. Leave a blank line after your title.
-3. The body: Try to keep a column limit of around 72 characters to avoid horizontal scrolling. Use the body to further elaborate your changes using present tense imperative. You may name further TODOs if
-you referenced an issue and did not solve the problem completely. A fully valid commit message could look like this:
+3. Include a full link to the issue.
+4. The body: Try to keep a column limit of around 72 characters to avoid horizontal scrolling. Use the body to further elaborate your changes using present tense imperative. You may name further TODOs if you referenced an issue and did not solve the problem completely. A fully valid commit message could look like this:
 ```
 Bug #42 [api] Fix camera snapshot method
+
+https://gitlab.com/esa/NMF/nmf-issues/issues/42
 
 Fix the method CameraAPI.snapshot() so the experimenter
 can take single images.
@@ -19,7 +21,7 @@ TODO:
 * Implement the CameraAPI.getImageStream() method
 * Document the API and write tests
 ```
-4. Remember to keep your commit messages as precise as possible.
+5. Remember to keep your commit messages as precise as possible.
 
 ## Coding style
 
