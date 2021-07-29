@@ -67,7 +67,7 @@
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
       <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
-      <property name="max_heap" value="256m"/>
+      <property name="max_heap" value="384m"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl"/>
