@@ -30,6 +30,7 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -296,10 +297,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         LOGGER.log(Level.INFO,
                 "URI: {0}\n", uri);
-
-        // We just loaded everything, it is a good time to 
-        // hint the garbage collector and clean up some memory
-        // NMFProvider.hintGC();
     }
 
     /**
@@ -321,6 +318,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     @Override
     public final void closeGracefully(final ObjectId source) {
         try {
+            AppShutdownGuard.start();
             long time = System.currentTimeMillis();
 
             // We can close the connection to the Supervisor
