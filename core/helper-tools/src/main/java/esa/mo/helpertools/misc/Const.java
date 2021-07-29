@@ -26,7 +26,7 @@ package esa.mo.helpertools.misc;
 public class Const
 {
 
-  public final static String CENTRAL_DIRECTORY_URI_PROPERTY = "esa.mo.nmf.centralDirectoryURI";
+  public static final String CENTRAL_DIRECTORY_URI_PROPERTY = "esa.mo.nmf.centralDirectoryURI";
   public static final String FILENAME_CENTRAL_DIRECTORY_SERVICE = "centralDirectoryService.uri";
   public static final String DYNAMIC_CHANGES_PROPERTY
       = "esa.mo.nanosatmoframework.provider.dynamicchanges";
@@ -40,8 +40,9 @@ public class Const
       = "esa.mo.nanosatmoframework.archivesync.purgearchive";
   public static final String ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT = "true";
   public static final String NANOSAT_MO_SUPERVISOR_NAME = "nanosat-mo-supervisor";
-  public final static String NANOSAT_MO_GROUND_PROXY_NAME = "ground-mo-proxy";
-  public final static String NMF_PACKAGE_SUFFIX = "nmfpack";
-  public final static String PLATFORM_IADCS_CACHING_PERIOD = "esa.mo.nmf.platform.iadcs.caching.period";
-  public final static String PLATFORM_GNSS_CACHING_PERIOD = "esa.mo.nmf.platform.gnss.caching.period";
+  public static final String NANOSAT_MO_GROUND_PROXY_NAME = "ground-mo-proxy";
+  public static final String NMF_PACKAGE_SUFFIX = "nmfpack";
+  public static final String PLATFORM_IADCS_CACHING_PERIOD = "esa.mo.nmf.platform.iadcs.caching.period";
+  public static final String PLATFORM_GNSS_CACHING_PERIOD = "esa.mo.nmf.platform.gnss.caching.period";
+  public static final long APP_SHUTDOWN_GUARD_MS = 5000;
 }
